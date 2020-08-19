@@ -1,0 +1,45 @@
+.route-enter
+{
+	opacity: 0;
+}
+
+.route-enter-active
+{
+	opacity: 1;
+	transition: 300ms;
+	z-index:1;
+}
+
+.route-exit
+{
+	opacity: 1;
+}
+
+.route-exit-active
+{
+	opacity: 0;
+	transition: 300ms;
+}
+
+.inner-route-enter
+{
+	transform: translate(100%);
+}
+
+.inner-route-enter-active
+{
+	transform: translate(0%);
+	transition: 300ms;
+	z-index:1;
+}
+
+.inner-route-exit
+{
+	transform: translate(0%);
+}
+
+.inner-route-exit-active
+{
+	transform: translate(-100%);
+	transition: 300ms;
+}

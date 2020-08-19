@@ -1,0 +1,71 @@
+:root
+{
+	/********** Mapped colour values **********/
+	--primary-ui: var(--khaki-web);
+	--primary-ui-light: var(--khaki-web-light);
+	--primary-ui-dark: var(--khaki-web-dark);
+
+	--secondary-ui: var(--caput-mortuum);
+	--secondary-ui-light: var(--caput-mortuum-light);
+	--secondary-ui-dark: var(--caput-mortuum-dark);
+
+	--text-light: var(--white);
+	--text-dark: var(--dark-grey);
+
+	--primary-highlight: var(--bdazzled-blue);
+	--primary-highlight-light: var(--bdazzled-blue-light);
+	--primary-highlight-dark: var(--bdazzled-blue-dark);
+
+	--secondary-highlight: var(--mystic);
+	--secondary-highlight-light: var(--mystic-light);
+	--secondary-highlight-dark: var(--mystic-dark);
+
+	--background: var(--shadow-light);
+	--background-light: var(--shadow-light-light);
+	--background-dark: var(--shadow-light-dark);
+
+	--primary-gradient: linear-gradient(to right, var(--caput-mortuum) 0%, var(--khaki-web) 50%, var(--caput-mortuum) 51%, var(--shadow) 100%);
+	--primary-gradient-inverted: linear-gradient(to right, var(--khaki-web) 0%, var(--caput-mortuum) 50%, var(--shadow) 51%, var(--caput-mortuum) 100%);
+
+	--primary-gradient-light: linear-gradient(to right, var(--caput-mortuum-light) 0%, var(--khaki-web-light) 50%, var(--caput-mortuum-light) 51%, var(--shadow-light) 100%);
+	--primary-gradient-light-inverted: linear-gradient(to right, var(--khaki-web-light) 0%, var(--caput-mortuum-light) 50%, var(--shadow-light 51%), var(--caput-mortuum-light) 100%);
+
+	--primary-gradient-dark: linear-gradient(to right, var(--caput-mortuum-dark) 0%, var(--khaki-web-dark) 50%, var(--caput-mortuum-dark) 51%, var(--shadow-dark) 100%);
+	--primary-gradient-dark-inverted: linear-gradient(to right, var(--khaki-web-dark) 0%, var(--caput-mortuum-dark) 50%, var(--shadow-dark) 51%, var(--caput-mortuum-dark) 100%);
+
+	/********** Mapped font values **********/
+	--title-font: var(--font2);
+	--title-size: var(--font-size-huge);
+	--title-margin: var(--comfortable-margin) 0;
+	--title-padding: var(--comfortable-padding) 0;
+
+	--smallTitle-font: var(--font2);
+	--smallTitle-size: var(--font-size-large);
+	--smallTitle-margin: var(--tight-margin) 0;
+	--smallTitle-padding: var(--tight-padding) 0;
+
+	--body-font: var(--font1);
+	--body-size: var(--font-size-medium);
+	--body-margin: var(--standard-margin);
+	--body-padding: var(--standard-padding);
+
+	--prompt-font: var(--font1);
+	--prompt-size: var(--font-size-medium);
+	--prompt-margin: var(--standard-margin);
+	--prompt-padding: var(--standard-padding);
+
+	--button-font: var(--font1);
+	--button-size: var(--font-size-medium);
+	--button-margin: var(--tight-margin);
+	--button-padding: var(--tight-padding);
+
+	--dialogue-margin: var(--standard-margin);
+	--dialogue-padding: var(--standard-padding);
+
+	--border-radius: 5px;
+	--border-width: 2px;
+
+	/********** Mapped animation values **********/
+	--primary-transition: var(--short-animation) var(--ease1);
+	--secondary-transition: var(--long-animation) var(--ease1);
+}

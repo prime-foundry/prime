@@ -1,0 +1,52 @@
+:root
+{
+	--white: hsl(0, 0%, 100%);
+	--dark-grey: hsl(0, 0%, 10%);
+
+	--caput-mortuum: hsla(7, 57%, 22%, 1);
+	--shadow: hsla(41, 13%, 44%, 1);
+	--khaki-web: hsla(47, 17%, 73%, 1);
+	--bdazzled-blue: hsla(211, 50%, 35%, 1);
+	--mystic: hsla(344, 60%, 57%, 1);
+
+	/********** +10 lightness **********/
+	--caput-mortuum-light: hsla(7, 57%, 42%, 1);
+	--shadow-light-light: hsla(41, 13%, 54%, 1);
+	--khaki-web-light: hsla(47, 17%, 83%, 1);
+	--bdazzled-blue-light: hsla(211, 50%, 45%, 1);
+	--mystic-light: hsla(344, 60%, 67%, 1);
+
+	/********** -10 lightness **********/
+	--caput-mortuum-dark: hsla(7, 57%, 12%, 1);
+	--shadow-dark: hsla(41, 13%, 34%, 1);
+	--khaki-web-dark: hsla(47, 17%, 63%, 1);
+	--bdazzled-blue-dark: hsla(211, 50%, 25%, 1);
+	--mystic-dark: hsla(344, 60%, 47%, 1);
+
+    /********** Base font values **********/
+    --font1: 'Manrope', sans-serif;
+    --font2: 'MuseoModerno', cursive;
+
+    --font-size-small: 8px;
+    --font-size-medium: 14px;
+    --font-size-large: 18px;
+    --font-size-huge: 34px;
+
+    /********** Base margins and padding **********/
+    --tight-padding: 3px;
+    --standard-padding: 10px;
+    --comfortable-padding: 15px;
+
+    --tight-margin: 3px;
+    --standard-margin: 10px;
+    --comfortable-margin: 15px;
+
+    /********** Base animations **********/
+    --short-duration: 0.2s;
+    --medium-duration: 0.5s;
+    --long-duration: 1.5s;
+
+    --ease1: ease-out;
+    --ease2: ease-in;
+    --ease3: cubic-bezier(0.1, 0.7, 1.0, 0.1);
+}

@@ -1,0 +1,10 @@
+@import url('vars/base_values.css');
+@import url('vars/mappings.css');
+
+@import url('fonts/font-awesome/css/font-awesome.min.css');
+@import url('fonts/fonts_imports.css');
+
+@import url('tags.css');
+@import url('transitions.css');
+
+@import url('dialogues/dialogues.css');
