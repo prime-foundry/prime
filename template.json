@@ -42,7 +42,27 @@
         "cha": {
           "value": 10
         }
-      }
+	  },
+	  "primes": {
+		"str": {
+		  "value": 10
+		},
+		"dex": {
+		  "value": 10
+		},
+		"con": {
+		  "value": 10
+		},
+		"int": {
+		  "value": 10
+		},
+		"wis": {
+		  "value": 10
+		},
+		"cha": {
+		  "value": 10
+		}
+	  }
     }
   },
   "Item": {
