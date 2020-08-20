@@ -27,11 +27,21 @@ export class BoilerplateActor extends Actor {
 
     // Make modifications to data here. For example:
 
+    var soulCost = 0;
     // Loop through ability scores, and add their modifiers to our sheet output.
     for (let [key, prime] of Object.entries(data.primes)) {
 		// Calculate the modifier using d20 rules.
-		prime.mod = Math.floor((prime.value - 10) / 2);
+		// prime.mod = Math.floor((prime.value - 10) / 2);
+		prime.cost = BoilerplateActor.primeCost(prime.value);
+        soulCost += prime.cost;
+		// mod will go but lets see what we get
+        prime.mod = prime.cost;
 	}
+    data.soul.value = 100 - soulCost;
   }
 
+  static primeCost(num) {
+    if (num === 0) return 0;
+    return (num * (num + 1))/2;
+  }
 }

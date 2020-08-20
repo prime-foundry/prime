@@ -12,6 +12,11 @@
           "value": 5,
           "min": 0,
           "max": 5
+        },
+        "soul": {
+          "value": 100,
+          "min": 0,
+          "max": 100
         }
       }
     },
@@ -25,34 +30,34 @@
       },
 	  "primes": {
 		"end": {
-		  "value": 10
+		  "value": 1
 		},
 		"itr": {
-		  "value": 10
+		  "value": 1
 		},
 		"mov": {
-		  "value": 10
+		  "value": 1
 		},
 		"str": {
-		  "value": 10
+		  "value": 1
 		},
 		"int": {
-		  "value": 10
+		  "value": 1
 		},
 		"man": {
-		  "value": 10
+		  "value": 1
 		},
 		"per": {
-		  "value": 10
+		  "value": 1
 		},
 		"res": {
-		  "value": 10
+		  "value": 1
 		},
 		"att": {
-		  "value": 10
+		  "value": 1
 		},
 		"por": {
-		  "value": 10
+		  "value": 1
 		}
 	  }
     }
