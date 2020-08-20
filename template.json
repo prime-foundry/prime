@@ -23,43 +23,35 @@
           "value": 1
         }
       },
-      "abilities": {
-        "str": {
-          "value": 10
-        },
-        "dex": {
-          "value": 10
-        },
-        "con": {
-          "value": 10
-        },
-        "int": {
-          "value": 10
-        },
-        "wis": {
-          "value": 10
-        },
-        "cha": {
-          "value": 10
-        }
-	  },
 	  "primes": {
+		"end": {
+		  "value": 10
+		},
+		"itr": {
+		  "value": 10
+		},
+		"mov": {
+		  "value": 10
+		},
 		"str": {
-		  "value": 10
-		},
-		"dex": {
-		  "value": 10
-		},
-		"con": {
 		  "value": 10
 		},
 		"int": {
 		  "value": 10
 		},
-		"wis": {
+		"man": {
 		  "value": 10
 		},
-		"cha": {
+		"per": {
+		  "value": 10
+		},
+		"res": {
+		  "value": 10
+		},
+		"att": {
+		  "value": 10
+		},
+		"por": {
 		  "value": 10
 		}
 	  }

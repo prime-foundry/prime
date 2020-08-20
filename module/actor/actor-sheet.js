@@ -21,8 +21,9 @@ export class BoilerplateActorSheet extends ActorSheet {
   getData() {
     const data = super.getData();
     data.dtypes = ["String", "Number", "Boolean"];
-    for (let attr of Object.values(data.data.attributes)) {
-      attr.isCheckbox = attr.dtype === "Boolean";
+    for (let [attr, entry] of Object.entries(data.data.primes)) {
+		entry.isCheckbox = attr.dtype === "Boolean";
+		entry.title = game.i18n.localize("PRIME.Prime" + attr.charAt(0).toUpperCase() + attr.slice(1));
     }
 
     // Prepare items.

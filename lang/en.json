@@ -1,1 +1,27 @@
-{}
+{
+	"PRIME.title": "PRIME / PossessionGame System",
+	"PRIME.Prime": "Prime",
+
+	"PRIME.PrimeEnd": "Endurance",
+	"PRIME.PrimeEndAbbr": "endL",
+	"PRIME.PrimeItr": "Intricate",
+	"PRIME.PrimeItrAbbr": "itrL",
+	"PRIME.PrimeMov": "Manoeuvre",
+	"PRIME.PrimeMovAbbr": "movL",
+	"PRIME.PrimeStr": "Strength",
+	"PRIME.PrimeStrAbbr": "strL",
+
+	"PRIME.PrimeInt": "Intellect",
+	"PRIME.PrimeIntAbbr": "inte",
+	"PRIME.PrimeMan": "Manipulation",
+	"PRIME.PrimeManAbbr": "mani",
+	"PRIME.PrimePer": "Perception",
+	"PRIME.PrimePerAbbr": "per",
+	"PRIME.PrimeRes": "Resolve",
+	"PRIME.PrimeResAbbr": "res",
+
+	"PRIME.PrimeAtt": "Attune",
+	"PRIME.PrimeAttAbbr": "att",
+	"PRIME.PrimePor": "Portent",
+	"PRIME.PrimePorAbbr": "por"
+}

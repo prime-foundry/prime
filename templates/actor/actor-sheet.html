@@ -32,20 +32,10 @@
           {{!-- The grid classes are defined in scss/global/_grid.scss. To use,
           use both the "grid" and "grid-Ncol" class where "N" can be any number
           from 1 to 12 and will create that number of columns.  --}}
-          <div class="abilities grid grid-3col">
-            {{#each data.abilities as |ability key|}}
-              <div class="ability flexrow flex-group-center">
-                <label for="data.abilities.{{key}}.value" class="resource-label">{{key}}</label>
-                <input type="text" name="data.abilities.{{key}}.value" value="{{ability.value}}" data-dtype="Number"/>
-                <span class="ability-mod rollable" data-roll="d20+@abilities.{{key}}.mod" data-label="{{key}}">{{numberFormat ability.mod decimals=0 sign=true}}</span>
-              </div>
-            {{/each}}
-		  </div>
-		  
           <div class="primes grid grid-3col">
             {{#each data.primes as |prime key|}}
               <div class="ability flexrow flex-group-center">
-                <label for="data.primes.{{key}}.value" class="resource-label">{{key}}</label>
+                <label for="data.primes.{{key}}.value" class="resource-label">{{prime.title}}</label>
                 <input type="text" name="data.primes.{{key}}.value" value="{{prime.value}}" data-dtype="Number"/>
                 <span class="prime-mod rollable" data-roll="d20+@primes.{{key}}.mod" data-label="{{key}}">{{numberFormat prime.mod decimals=0 sign=true}}</span>
               </div>
