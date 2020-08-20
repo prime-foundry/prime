@@ -22,7 +22,6 @@
   "gridUnits": "ft",
   "primaryTokenAttribute": "health",
   "secondaryTokenAttribute": "power",
-  "tertiaryTokenAttribute": "soul",
   "url": "http://localhost/prime/",
   "manifest": "http://localhost/prime/system.json",
   "download": "http://localhost/prime/prime.zip",
