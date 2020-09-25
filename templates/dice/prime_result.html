@@ -1,0 +1,20 @@
+<!--
+			diceRolls: [{roll:1-20, prime: +/-X}...],
+			total: +/- X
+-->
+<div>
+	<div class="primeDiceWrapper">
+		{{#each diceRolls}}
+		<div class="primeDieWrapper {{primeDiceClass this.roll}}">
+			<div class="primeDie">
+				<i class="fas fa-dice-d20"></i>
+				<span class="primeDieModifierOuter">
+					<span class="primeDieModifierInner">{{this.primeModifier}}</span>
+				</span>
+			</div>
+			<div class="primeResultRaw">({{this.roll}})</div>
+		</div>
+		{{/each}}
+	</div>
+	<div class="primeDiceModiferTotal {{primeDiceModiferClass total}}">Total: <span class="value">{{total}}</span></div>
+</div>

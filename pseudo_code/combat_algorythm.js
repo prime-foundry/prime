@@ -54,7 +54,6 @@ function hitThing()
 				{
 					DEFENDER_RESILIENCE--;
 				}
-				
 			}
 		}
 	}

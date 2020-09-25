@@ -1,0 +1,41 @@
+<div class="primeDiceRollDialog">
+    <div class="primeDiceTitle">
+        <span>{{localize "PRIME_DICE.Title"}}</span>
+	</div>
+
+	<div class="primeDiceRollWrapper">
+		<div class="primeDiceRollOptions">
+			<label>Character: </label>
+			<select id="primeDiceRollerActorSelect">
+				{{#each actors}}
+					<option value="{{this.id}}">{{this.data.name}}</option>
+				{{/each}}
+			</select>
+			<label>Prime: </label>
+			<select>
+				{{#each primes}}
+					<option value="{{this.name}}">{{this.title}}</option>
+				{{/each}}
+			</select>
+			<label>Refinement: </label>
+			<select>
+				{{#each refinements}}
+					<option value="{{this.name}}">{{this.title}}</option>
+				{{/each}}
+			</select>
+		</div>
+		<button class="rollPrimeDice">Roll!</button>
+	</div>
+	
+    <div class="primeDiceRollerHelp">
+        <span>{{localize "PRIME_DICE.RollerHelp"}}</span>
+	</div>
+	
+	<!--
+    {{#if message}}
+    <div class="lmrtfy-reason">
+        <span><strong>{{localize "LMRTFY.Reason"}}</strong> {{message}}</span>
+    </div>
+	{{/if}}
+	-->
+</div>
