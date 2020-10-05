@@ -1,30 +1,135 @@
 {
-	"PRIME.title": "PRIME / PossessionGame System",
-	"PRIME.Prime": "Prime",
+	"PRIME.title": "PRIME / Possession Game System",
+	"PRIME.prime": "Prime",
 
-	"PRIME.Prime_end": "Endurance",
-	"PRIME.PrimeEndAbbr": "end",
-	"PRIME.Prime_itr": "Intricate",
-	"PRIME.PrimeItrAbbr": "itr",
-	"PRIME.Prime_mov": "Manoeuvre",
-	"PRIME.PrimeMovAbbr": "mov",
-	"PRIME.Prime_str": "Strength",
-	"PRIME.PrimeStrAbbr": "str",
 
-	"PRIME.Prime_int": "Intellect",
-	"PRIME.PrimeIntAbbr": "inte",
-	"PRIME.Prime_man": "Manipulation",
-	"PRIME.PrimeManAbbr": "mani",
-	"PRIME.Prime_per": "Perception",
-	"PRIME.PrimePerAbbr": "per",
-	"PRIME.Prime_res": "Resolve",
-	"PRIME.PrimeResAbbr": "res",
+	"PRIME.prime_title_end": "Endurance",
+	"PRIME.prime_abbreviation_end": "end",
+	"PRIME.prime_description_end": "Endurance marks how tough you are, how long you can keep going and how long you're likely to keep you entrails from becoming your extrails.",
 
-	"PRIME.Prime_att": "Attune",
-	"PRIME.PrimeAttAbbr": "att",
-	"PRIME.Prime_por": "Portent",
-	"PRIME.PrimePorAbbr": "por",
+	"PRIME.prime_title_itr": "Intricate",
+	"PRIME.prime_abbreviation_itr": "itr",
+	"PRIME.prime_description_itr": "Intricate measures how well your abile to make fine adjustments and apply carefully measured amounts of force. For example, origami. Unless it's people origami.",
 
-	"PRIME.Title" : "Prime Dice",
-	"PRIME.RollerHelp" : "Select a Prime, a Prime + Refinement, add a base value or simply press Roll!"
+	"PRIME.prime_title_mov": "Manoeuvre",
+	"PRIME.prime_abbreviation_mov": "mov",
+	"PRIME.prime_description_mov": "Manoeuvre is your ability to duck, dodge and weave. The 'weaving through crowds' weaving as opposed to actual weaving, that's Intricate.",
+
+	"PRIME.prime_title_str": "Strength",
+	"PRIME.prime_abbreviation_str": "str",
+	"PRIME.prime_description_str": "Strength is the sum of the raw physical force you're able to generate and apply to a problem. If it doesn't solve it, you aren't using enough of it.",
+
+
+	"PRIME.prime_title_int": "Intellect",
+	"PRIME.prime_abbreviation_int": "inte",
+	"PRIME.prime_description_int": "Intellect defines your ability to process, recall, hypothesise and comprehend about given subject you're familiar with. Or on occassion, ones you aren't.",
+
+	"PRIME.prime_title_man": "Manipulation",
+	"PRIME.prime_abbreviation_man": "man",
+	"PRIME.prime_description_man": "Manipulation is your innate abilty to persuade those around you and understand the social world. A favourite of charismatic wannabe dictators everywhere.",
+
+	"PRIME.prime_title_per": "Perception",
+	"PRIME.prime_abbreviation_per": "per",
+	"PRIME.prime_description_per": "Perception outlines your ability to sense the world around you. Whether you wanted to or not...",
+
+	"PRIME.prime_title_res": "Resolve",
+	"PRIME.prime_abbreviation_res": "res",
+	"PRIME.prime_description_res": "Resolve is a measure of how strong your mind is. And how clean your undergarments.",
+
+
+	"PRIME.prime_title_att": "Attune",
+	"PRIME.prime_abbreviation_att": "att",
+	"PRIME.prime_description_att": "Attune marks your ability to manipulate the arcane, an entirely risk free activity.",
+
+	"PRIME.prime_title_por": "Portent",
+	"PRIME.prime_abbreviation_por": "por",
+	"PRIME.prime_description_por": "Portent is your inner demon. God put them there. They're your friend. Probably.",
+
+	
+	"PRIME.refinment_title_survival" : "Survival",
+	"PRIME.refinment_description_survival" : "Survival - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
+	
+	"PRIME.refinment_title_crafting" : "Crafting",
+	"PRIME.refinment_description_crafting" : "Crafting - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
+	
+	"PRIME.refinment_title_physique" : "Physique",
+	"PRIME.refinment_description_physique" : "Physique - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
+	
+	"PRIME.refinment_title_melee" : "Melee",
+	"PRIME.refinment_description_melee" : "Melee - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
+	
+	"PRIME.refinment_title_ranged" : "Ranged",
+	"PRIME.refinment_description_ranged" : "Ranged - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
+
+	"PRIME.refinment_title_athletics" : "Athletics",
+	"PRIME.refinment_description_athletics" : "Athletics - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
+
+	"PRIME.refinment_title_handle" : "Handle",
+	"PRIME.refinment_description_handle" : "Handle - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
+	
+	"PRIME.refinment_title_pilot" : "Pilot",
+	"PRIME.refinment_description_pilot" : "Pilot - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
+	
+	"PRIME.refinment_title_skulldugery" : "Skulldugery",
+	"PRIME.refinment_description_skulldugery" : "Skulldugery - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
+
+
+	"PRIME.refinment_title_artistry" : "Artistry",
+	"PRIME.refinment_description_artistry" : "Artistry - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
+	
+	"PRIME.refinment_title_observation" : "Observation",
+	"PRIME.refinment_description_observation" : "Observation - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
+	
+	"PRIME.refinment_title_influence" : "Influence",
+	"PRIME.refinment_description_influence" : "Influence - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
+	
+	"PRIME.refinment_title_discern" : "Discern",
+	"PRIME.refinment_description_discern" : "Discern - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
+	
+	"PRIME.refinment_title_knowledge" : "Knowledge",
+	"PRIME.refinment_description_knowledge" : "Knowledge - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
+	
+	"PRIME.refinment_title_fortitude" : "Fortitude",
+	"PRIME.refinment_description_fortitude" : "Fortitude - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
+	
+	"PRIME.refinment_title_culture" : "Culture",
+	"PRIME.refinment_description_culture" : "Culture - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
+	
+	"PRIME.refinment_title_medicine" : "Medicine",
+	"PRIME.refinment_description_medicine" : "Medicine - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
+	
+	"PRIME.refinment_title_metaphysics" : "Metaphysics",
+	"PRIME.refinment_description_metaphysics" : "Metaphysics - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
+	
+	"PRIME.refinment_title_doctrines" : "Doctrines",
+	"PRIME.refinment_description_doctrines" : "Doctrines - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
+	
+	"PRIME.refinment_title_sciences" : "Sciences",
+	"PRIME.refinment_description_sciences" : "Sciences - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
+	
+
+	"PRIME.refinment_title_fury" : "Fury",
+	"PRIME.refinment_description_fury" : "Fury - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
+	
+	"PRIME.refinment_title_premonition" : "Premonition",
+	"PRIME.refinment_description_premonition" : "Premonition - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
+	
+	"PRIME.refinment_title_threads" : "Threads",
+	"PRIME.refinment_description_threads" : "Threads - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
+	
+	"PRIME.refinment_title_regeneration" : "Regeneration",
+	"PRIME.refinment_description_regeneration" : "Regeneration - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
+	
+	"PRIME.refinment_title_tap" : "Tap",
+	"PRIME.refinment_description_tap" : "Tap",
+	
+	"PRIME.refinment_title_release" : "Release",
+	"PRIME.refinment_description_release" : "Release - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
+	
+	"PRIME.refinment_title_manifest" : "Manifest",
+	"PRIME.refinment_description_manifest" : "Manifest - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
+
+
+	"PRIME.diceRoller.title" : "Prime Dice",
+	"PRIME.diceRoller.help" : "Select a Prime, a Prime + Refinement, add a base value or simply press Roll!"
 }
