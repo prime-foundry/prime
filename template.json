@@ -1,85 +1,108 @@
 {
-  "Actor": {
-    "types": ["character"],
-    "templates": {
-      "base": {
-        "health": {
-          "value": 10,
-          "min": 0,
-          "max": 10
-        },
-        "power": {
-          "value": 5,
-          "min": 0,
-          "max": 5
-        },
-        "soul": {
-          "value": 100,
-          "min": 0,
-          "max": 100
-        }
-      }
-    },
-    "character": {
-      "templates": ["base"],
-      "biography": "",
-      "attributes": {
-        "level": {
-          "value": 1
-        }
-      },
-	  "primes": {
-		"end": {
-		  "value": 1
+	"Actor":{
+		"types":[
+			"character"
+		],
+		"templates":{
+			"base":{
+				"health":{
+					"value":10,
+					"min":0,
+					"max":10
+				},
+				"power":{
+					"value":5,
+					"min":0,
+					"max":5
+				},
+				"soul":{
+					"value":100,
+					"min":0,
+					"max":100
+				}
+			}
 		},
-		"itr": {
-		  "value": 1
-		},
-		"mov": {
-		  "value": 1
-		},
-		"str": {
-		  "value": 1
-		},
-		"int": {
-		  "value": 1
-		},
-		"man": {
-		  "value": 1
-		},
-		"per": {
-		  "value": 1
-		},
-		"res": {
-		  "value": 1
-		},
-		"att": {
-		  "value": 1
-		},
-		"por": {
-		  "value": 1
+		"character":{
+			"templates":[
+				"base"
+			],
+			"biography":"",
+			"attributes":{
+				"level":{
+					"value":1
+				}
+			},
+			"primes":{
+				"end":{
+					"value":1
+				},
+				"itr":{
+					"value":1
+				},
+				"mov":{
+					"value":1
+				},
+				"str":{
+					"value":1
+				},
+				"int":{
+					"value":1
+				},
+				"man":{
+					"value":1
+				},
+				"per":{
+					"value":1
+				},
+				"res":{
+					"value":1
+				},
+				"att":{
+					"value":1
+				},
+				"por":{
+					"value":1
+				}
+			},
+			"refinements":
+			{
+				"survival" :
+				{
+					"value": 0,
+					"related" : ["end", "per", "int"],
+					"type" : "physical"
+				}
+			}
 		}
-	  }
-    }
-  },
-  "Item": {
-    "types": ["item", "feature", "spell"],
-    "templates": {
-      "base": {
-        "description": ""
-      }
-    },
-    "item": {
-      "templates": ["base"],
-      "quantity": 1,
-      "weight": 0
-    },
-    "feature": {
-      "templates": ["base"]
-    },
-    "spell": {
-      "templates": ["base"],
-      "spellLevel": 1
-    }
-  }
+	},
+	"Item":{
+		"types":[
+			"item",
+			"feature",
+			"spell"
+		],
+		"templates":{
+			"base":{
+				"description":""
+			}
+		},
+		"item":{
+			"templates":[
+				"base"
+			],
+			"quantity":1,
+			"weight":0
+		},
+		"feature":{
+			"templates":[
+				"base"
+			]
+		},
+		"spell":{
+			"templates":[
+				"base"
+			],
+			"spellLevel":1
+		}
+	}
 }
