@@ -13,7 +13,7 @@ export class PRIME_DICE_POPUP extends FormApplication
 	static get defaultOptions()
 	{
         const options = super.defaultOptions;
-        options.title = game.i18n.localize("PRIME_DICE.Title");
+        options.title = game.i18n.localize("PRIME.diceRoller.title");
         options.id = "primeDiceRoller";
         options.template = "systems/prime/templates/dice/roller.html";
         options.closeOnSubmit = true;
