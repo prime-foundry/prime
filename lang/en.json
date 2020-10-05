@@ -23,5 +23,8 @@
 	"PRIME.Prime_att": "Attune",
 	"PRIME.PrimeAttAbbr": "att",
 	"PRIME.Prime_por": "Portent",
-	"PRIME.PrimePorAbbr": "por"
+	"PRIME.PrimePorAbbr": "por",
+
+	"PRIME.Title" : "Prime Dice",
+	"PRIME.RollerHelp" : "Select a Prime, a Prime + Refinement, add a base value or simply press Roll!"
 }
