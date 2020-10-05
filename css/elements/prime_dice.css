@@ -70,7 +70,7 @@
 {
     position:relative;
 	border-radius: 100%;
-	background: url(../../../ui/denim075.png) repeat;
+	background: url(../../../../ui/denim075.png) repeat;
 	border: 1px solid #000000;
     margin:0.1em;
 }
