@@ -12,15 +12,15 @@
 				{{/each}}
 			</select>
 			<label>Prime: </label>
-			<select>
+			<select id="primeSelect">
 				{{#each primes}}
 					<option value="{{this.name}}">{{this.title}}</option>
 				{{/each}}
 			</select>
 			<label>Refinement: </label>
-			<select>
+			<select id="refinementSelect">
 				{{#each refinements}}
-					<option value="{{this.name}}">{{this.title}}</option>
+					<option value="{{this.name}}">{{{this.title}}}</option>
 				{{/each}}
 			</select>
 		</div>
