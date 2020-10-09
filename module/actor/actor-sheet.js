@@ -2,177 +2,250 @@
  * Extend the basic ActorSheet with some very simple modifications
  * @extends {ActorSheet}
  */
-export class BoilerplateActorSheet extends ActorSheet {
+export class BoilerplateActorSheet extends ActorSheet
+{
+	/** @override */
+	static get defaultOptions()
+	{
+		var superOptions = super.defaultOptions;
+		return mergeObject(superOptions, {
+			classes: ["primeCharacterSheet", "sheet", "actor"],
+			template: "systems/prime/templates/actor/actor-sheet.html",
+			width: 950,
+			height: 750,
+			tabs: [
+				{
+					navSelector: ".sheet-tabs",
+					contentSelector: ".sheet-body",
+					initial: "description"
+				}
+			],
+		});
+	}
 
-  /** @override */
-  static get defaultOptions() {
-    return mergeObject(super.defaultOptions, {
-      classes: ["boilerplate", "sheet", "actor"],
-      template: "systems/prime/templates/actor/actor-sheet.html",
-      width: 600,
-      height: 600,
-      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
-    });
-  }
+	/* -------------------------------------------- */
 
-  /* -------------------------------------------- */
+	/** @override */
+	getData()
+	{
+		const data = super.getData();
+		data.dtypes = ["String", "Number", "Boolean"];
+		for (let [key, entry] of Object.entries(data.data.primes))
+		{
+			entry.title = game.i18n.localize(entry.title);
+		}
+		for (let [key, entry] of Object.entries(data.data.refinements))
+		{
+			entry.title = game.i18n.localize(entry.title);
+		}
 
-  /** @override */
-  getData() {
-    const data = super.getData();
-    data.dtypes = ["String", "Number", "Boolean"];
-    for (let [attr, entry] of Object.entries(data.data.primes)) {
-		entry.isCheckbox = attr.dtype === "Boolean";
-		entry.title = game.i18n.localize("PRIME.prime_title_" + attr);
-    }
+		data.currentOwners = this.getCurrentOwners(data.actor.permission);
+		
+		data.data.typeSorted = this.getTypeSortedPrimesAndRefinements(data);
 
-    // Prepare items.
-    if (this.actor.data.type == 'character') {
-      this._prepareCharacterItems(data);
-    }
+		// Prepare items.
+		if (this.actor.data.type == "character")
+		{
+			this._prepareCharacterItems(data);
+		}
 
-    return data;
-  }
+		return data;
+	}
 
-  /**
-   * Organize and classify Items for Character sheets.
-   *
-   * @param {Object} actorData The actor to prepare.
-   *
-   * @return {undefined}
-   */
-  _prepareCharacterItems(sheetData) {
-    const actorData = sheetData.actor;
+	getTypeSortedPrimesAndRefinements(sourceData)
+	{
+		var sortedData = {};
+		var currEntry = null;
+		for (var key in sourceData.data.primes)
+		{
+			currEntry = sourceData.data.primes[key];
+			if (!sortedData[currEntry.type])
+			{
+				let localisedTitle = game.i18n.localize("PRIME.refinment_type_" + currEntry.type);
+				sortedData[currEntry.type] =
+				{
+					primes: {},
+					refinements: {},
+					title: localisedTitle
+				}
+			}
+			sortedData[currEntry.type].primes[key] = currEntry;
+		}
+		for (var key in sourceData.data.refinements)
+		{
+			currEntry = sourceData.data.refinements[key];
+			sortedData[currEntry.type].refinements[key] = currEntry;
+		}
+		return sortedData;
+	}
 
-    // Initialize containers.
-    const gear = [];
-	const features = [];
-	
-    const spells = {
-      0: [],
-      1: [],
-      2: [],
-      3: [],
-      4: [],
-      5: [],
-      6: [],
-      7: [],
-      8: [],
-      9: []
-    };
+	getCurrentOwners(whatPermissions)
+	{
+		let ownerNames = [];
+		let currUser;
+		for (var key in whatPermissions)
+		{
+			currUser = game.users.get(key)
+			if (key != "default" && whatPermissions[key] == 3 && !currUser.isGM)
+			{
+				ownerNames.push(currUser.name);
+			}
+		}
+		return ownerNames.join(", ");
+	}
 
-    // Iterate through items, allocating to containers
-    // let totalWeight = 0;
-    for (let i of sheetData.items) {
-      let item = i.data;
-      i.img = i.img || DEFAULT_TOKEN;
-      // Append to gear.
-      if (i.type === 'item') {
-        gear.push(i);
-      }
-      // Append to features.
-      else if (i.type === 'feature') {
-        features.push(i);
-      }
-      // Append to spells.
-      else if (i.type === 'spell') {
-        if (i.data.spellLevel != undefined) {
-          spells[i.data.spellLevel].push(i);
-        }
-      }
-    }
+	/**
+	 * Organize and classify Items for Character sheets.
+	 *
+	 * @param {Object} actorData The actor to prepare.
+	 *
+	 * @return {undefined}
+	 */
+	_prepareCharacterItems(sheetData)
+	{
+		const actorData = sheetData.actor;
 
-    // Assign and return
-    actorData.gear = gear;
-    actorData.features = features;
-    actorData.spells = spells;
-  }
+		// Initialize containers.
+		const gear = [];
+		const features = [];
 
-  /* -------------------------------------------- */
+		const spells = {
+			0: [],
+			1: [],
+			2: [],
+			3: [],
+			4: [],
+			5: [],
+			6: [],
+			7: [],
+			8: [],
+			9: [],
+		};
 
-  /** @override */
-  activateListeners(html) {
-    super.activateListeners(html);
+		// Iterate through items, allocating to containers
+		// let totalWeight = 0;
+		for (let i of sheetData.items)
+		{
+			let item = i.data;
+			i.img = i.img || DEFAULT_TOKEN;
+			// Append to gear.
+			if (i.type === "item")
+			{
+				gear.push(i);
+			}
+			// Append to features.
+			else if (i.type === "feature")
+			{
+				features.push(i);
+			}
+			// Append to spells.
+			else if (i.type === "spell")
+			{
+				if (i.data.spellLevel != undefined)
+				{
+					spells[i.data.spellLevel].push(i);
+				}
+			}
+		}
 
-    // Everything below here is only needed if the sheet is editable
-    if (!this.options.editable) return;
+		// Assign and return
+		actorData.gear = gear;
+		actorData.features = features;
+		actorData.spells = spells;
+	}
 
-    // Add Inventory Item
-    html.find('.item-create').click(this._onItemCreate.bind(this));
+	/* -------------------------------------------- */
 
-    // Update Inventory Item
-    html.find('.item-edit').click(ev => {
-      const li = $(ev.currentTarget).parents(".item");
-      const item = this.actor.getOwnedItem(li.data("itemId"));
-      item.sheet.render(true);
-    });
+	/** @override */
+	activateListeners(html)
+	{
+		super.activateListeners(html);
 
-    // Delete Inventory Item
-    html.find('.item-delete').click(ev => {
-      const li = $(ev.currentTarget).parents(".item");
-      this.actor.deleteOwnedItem(li.data("itemId"));
-      li.slideUp(200, () => this.render(false));
-    });
+		// Everything below here is only needed if the sheet is editable
+		if (!this.options.editable) return;
 
-    // Rollable abilities.
-    html.find('.rollable').click(this._onRoll.bind(this));
+		// Add Inventory Item
+		html.find(".item-create").click(this._onItemCreate.bind(this));
 
-    // Drag events for macros.
-    if (this.actor.owner) {
-      let handler = ev => this._onDragItemStart(ev);
-      html.find('li.item').each((i, li) => {
-        if (li.classList.contains("inventory-header")) return;
-        li.setAttribute("draggable", true);
-        li.addEventListener("dragstart", handler, false);
-      });
-    }
-  }
+		// Update Inventory Item
+		html.find(".item-edit").click((ev) =>
+		{
+			const li = $(ev.currentTarget).parents(".item");
+			const item = this.actor.getOwnedItem(li.data("itemId"));
+			item.sheet.render(true);
+		});
 
-  /**
-   * Handle creating a new Owned Item for the actor using initial data defined in the HTML dataset
-   * @param {Event} event   The originating click event
-   * @private
-   */
-  _onItemCreate(event) {
-    event.preventDefault();
-    const header = event.currentTarget;
-    // Get the type of item to create.
-    const type = header.dataset.type;
-    // Grab any data associated with this control.
-    const data = duplicate(header.dataset);
-    // Initialize a default name.
-    const name = `New ${type.capitalize()}`;
-    // Prepare the item object.
-    const itemData = {
-      name: name,
-      type: type,
-      data: data
-    };
-    // Remove the type from the dataset since it's in the itemData.type prop.
-    delete itemData.data["type"];
+		// Delete Inventory Item
+		html.find(".item-delete").click((ev) =>
+		{
+			const li = $(ev.currentTarget).parents(".item");
+			this.actor.deleteOwnedItem(li.data("itemId"));
+			li.slideUp(200, () => this.render(false));
+		});
 
-    // Finally, create the item!
-    return this.actor.createOwnedItem(itemData);
-  }
+		// Rollable abilities.
+		html.find(".rollable").click(this._onRoll.bind(this));
 
-  /**
-   * Handle clickable rolls.
-   * @param {Event} event   The originating click event
-   * @private
-   */
-  _onRoll(event) {
-    event.preventDefault();
-    const element = event.currentTarget;
-    const dataset = element.dataset;
+		// Drag events for macros.
+		if (this.actor.owner)
+		{
+			let handler = (ev) => this._onDragItemStart(ev);
+			html.find("li.item").each((i, li) =>
+			{
+				if (li.classList.contains("inventory-header")) return;
+				li.setAttribute("draggable", true);
+				li.addEventListener("dragstart", handler, false);
+			});
+		}
+	}
 
-    if (dataset.roll) {
-      let roll = new Roll(dataset.roll, this.actor.data.data);
-      let label = dataset.label ? `Rolling ${dataset.label}` : '';
-      roll.roll().toMessage({
-        speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-        flavor: label
-      });
-    }
-  }
+	/**
+	 * Handle creating a new Owned Item for the actor using initial data defined in the HTML dataset
+	 * @param {Event} event   The originating click event
+	 * @private
+	 */
+	_onItemCreate(event)
+	{
+		event.preventDefault();
+		const header = event.currentTarget;
+		// Get the type of item to create.
+		const type = header.dataset.type;
+		// Grab any data associated with this control.
+		const data = duplicate(header.dataset);
+		// Initialize a default name.
+		const name = `New ${type.capitalize()}`;
+		// Prepare the item object.
+		const itemData = {
+			name: name,
+			type: type,
+			data: data,
+		};
+		// Remove the type from the dataset since it's in the itemData.type prop.
+		delete itemData.data["type"];
 
+		// Finally, create the item!
+		return this.actor.createOwnedItem(itemData);
+	}
+
+	/**
+	 * Handle clickable rolls.
+	 * @param {Event} event   The originating click event
+	 * @private
+	 */
+	_onRoll(event)
+	{
+		event.preventDefault();
+		const element = event.currentTarget;
+		const dataset = element.dataset;
+
+		if (dataset.roll)
+		{
+			let roll = new Roll(dataset.roll, this.actor.data.data);
+			let label = dataset.label ? `Rolling ${dataset.label}` : "";
+			roll.roll().toMessage({
+				speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+				flavor: label,
+			});
+		}
+	}
 }
