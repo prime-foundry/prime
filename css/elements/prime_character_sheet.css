@@ -1,0 +1,78 @@
+.primeCharacterSheet
+{
+	min-width:500px;
+}
+
+.primeCharacterSheet input
+{
+	width:auto;
+}
+
+.metaDataContent
+{
+	display: flex;
+}
+
+.metaDataContentInner
+{
+	flex-grow: 1;
+}
+
+.statsContent
+{
+	margin:0.2em;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.statsContent .primesGroup
+{
+	width:33%;
+}
+
+.statsContent .primesGroup .primeWrapper
+{
+	display: flex;
+	
+}
+
+.statsContent .primesGroup .primeWrapper label
+{
+	
+}
+.statsContent .primesGroup .primeWrapper input
+{
+	width:25px;
+	text-align: center;
+}
+.statsContent .primesGroup .primeWrapper .primeValue
+{
+	
+}
+
+.statsContent .refinementsGroup
+{
+	width:67%;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.statsContent .refinementsGroup .refinementWrapper
+{
+	display: flex;
+	width:33%;
+}
+
+.statsContent .refinementsGroup .refinementWrapper label
+{
+	
+}
+.statsContent .refinementsGroup .refinementWrapper input
+{
+	width:25px;
+	text-align: center;
+}
+.statsContent .refinementsGroup .refinementWrapper .refinementValue
+{
+	
+}
