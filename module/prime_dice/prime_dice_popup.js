@@ -31,14 +31,8 @@ export class PRIME_DICE_POPUP extends FormApplication
         const actors = game.actors.entities;
 		const users = game.users.entities;
 
-		const primes = this.getPrimes()
-		const refinements =
-		[
-			{name: "ventriloquism", title: "Ventriloquism"},
-			{name: "torture", title: "Torture"},
-			{name: "divination", title: "Divination - NO."},
-			{name: "bureaucracy", title: "Bureaucracy"}
-		];
+		const primes = this.getPrimes();
+		const refinements = this.getRefinements();
 		
         return {
             actors,
@@ -59,14 +53,67 @@ export class PRIME_DICE_POPUP extends FormApplication
 		if (game.system.template.Actor.character.primes)
 		{
 			let primes = [];
-			for (let currAbbrevation in game.system.template.Actor.character.primes)
+			let currPrime = null;
+			let primesSource = game.system.template.Actor.character.primes
+			for (let currAbbrevation in primesSource)
 			{
-				primes.push({name: currAbbrevation, title: game.i18n.localize("PRIME.Prime_" + currAbbrevation)});
+				currPrime = primesSource[currAbbrevation];
+				primes.push({name: currAbbrevation, title: game.i18n.localize(currPrime.title)});
 			}
 			return primes;
 		}
-		console.error("Unable to find primes data.");
+		console.error("Unable to find Primes data.");
 		return [];	
+	}
+
+	getRefinements()
+	{
+		var refinementData = game.system.template.Actor.character.refinements;
+		if (refinementData)
+		{
+			var localisedRefinments = this.getLocalisedRefinments(refinementData);
+			var catergorisedRefinementsList = [];
+
+			for (var _currType in localisedRefinments)
+			{
+				catergorisedRefinementsList.push({
+					name: "null",
+					title: game.i18n.localize("PRIME.refinment_type_" + _currType)
+				});
+
+				catergorisedRefinementsList = catergorisedRefinementsList.concat(localisedRefinments[_currType]);
+			}
+
+			return catergorisedRefinementsList;
+		}
+		console.error("Unable to find Refinements data.");
+		return [];
+	}
+
+	getLocalisedRefinments(refinementData)
+	{
+		let refinementGroups = {}
+		let currGroupType = "";
+		let currRefinement = null;
+		for (let key in refinementData)
+		{
+			currRefinement = refinementData[key];
+			currGroupType = currRefinement.type;
+
+			if (!refinementGroups[currGroupType])
+			{
+				refinementGroups[currGroupType] = [];
+			}
+
+			refinementGroups[currGroupType].push(
+			{
+				name: key,
+				title: "&nbsp;&nbsp;" + game.i18n.localize(currRefinement.title)
+			});
+
+			refinementGroups[currGroupType].sort();
+		}
+		return refinementGroups;
 	}
 
 	render(force, context={})
