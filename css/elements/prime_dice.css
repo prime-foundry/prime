@@ -44,6 +44,11 @@
     font-family: 'New Rocker', cursive;
 }
 
+.primeDiceRollWrapper #refinementSelect option[value="null"]
+{
+	font-weight: bold;
+}
+
 
 /*
 	<div class="primeDiceWrapper">
@@ -69,10 +74,15 @@
 .primeDiceWrapper .primeDieWrapper .primeDie
 {
     position:relative;
-	border-radius: 100%;
-	background: url(../../../../ui/denim075.png) repeat;
-	border: 1px solid #000000;
+    border-radius: 100%;
+    background: url(../../../../ui/denim075.png) repeat;
+    border: 1px solid #000000;
     margin:0.1em;
+    width: 2.6em;
+    height: 2.6em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .primeDiceWrapper .primeDieWrapper .primeDie .fas.fa-dice-d20
@@ -80,6 +90,7 @@
 	margin:0.1em;
 	color:white;
 	font-size: 2em;
+	margin-top: 4px;
 }
 
 .primeDiceWrapper .primeDieWrapper .primeDie .primeDieModifierOuter
