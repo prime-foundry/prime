@@ -20,7 +20,7 @@ export class PRIME_DICE_ROLLER extends FormApplication
 			content: messageContent
 		};
 		let options = {};
-		ChatMessage.create(data, options)
+		ChatMessage.create(data, options);
 
 		//this.testDiceRolling(10000);
 
