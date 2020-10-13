@@ -11,7 +11,7 @@ export class BoilerplateActorSheet extends ActorSheet
 		return mergeObject(superOptions, {
 			classes: ["primeCharacterSheet", "sheet", "actor"],
 			template: "systems/prime/templates/actor/actor-sheet.html",
-			width: 950,
+			width: 750,
 			height: 750,
 			tabs: [
 				{
@@ -94,6 +94,77 @@ export class BoilerplateActorSheet extends ActorSheet
 		return ownerNames.join(", ");
 	}
 
+	toggleSheetEditMode()
+	{
+		this.element.toggleClass("sheetEditable");
+	}
+
+	toggleValueEditMode(event)
+	{
+		var valueWrapper = $(event.delegateTarget);
+		if (!valueWrapper.hasClass("valueEditable"))
+		{
+			var input = valueWrapper.find("input")
+			input.focus();
+			input.select();
+			input.data("lastValue", input.val());
+		}
+		valueWrapper.toggleClass("valueEditable");
+		//this.element.toggleClass("sheetEditable");
+	}
+
+	checkPreventClose(event)
+	{
+		var valueWrapper = $(event.delegateTarget);
+		if (valueWrapper.hasClass("valueEditable"))
+		{
+			event.stopPropagation();
+		}
+	}
+
+	validateNumber(event)
+	{
+		var input = $(event.delegateTarget);
+		var value = input.val();
+		var parsed = parseInt(value);
+		if (!isNaN(parsed))
+		{
+			var min = parseInt(input.data("min"));
+			var max = parseInt(input.data("max"));
+			if ((min || min === 0) && parsed < min)
+			{
+				parsed = min;
+			}
+			if ((max || max === 0) && parsed > max)
+			{
+				parsed = max;
+			}
+			if (parsed != value)
+			{
+				console.log("Trimmed noise, initial: '" + value + "', parsed:'" + parsed + "'");
+				input.val(parsed);
+			}
+		}
+		else if (input.data("lastValue"))
+		{
+			input.val(input.data("lastValue"));
+		}
+		else
+		{
+			input.val(input.data("min"));
+		}
+
+	}
+
+	clearValueEditMode(event)
+	{
+		var valueWrappers = $(".valueEditable");
+		valueWrappers.toggleClass("valueEditable");
+		//this.element.toggleClass("sheetEditable");
+	}
+
+	
+
 	/**
 	 * Organize and classify Items for Character sheets.
 	 *
@@ -163,6 +234,19 @@ export class BoilerplateActorSheet extends ActorSheet
 
 		// Everything below here is only needed if the sheet is editable
 		if (!this.options.editable) return;
+
+		html.find(".toggleCharacterEditing").click(this.toggleSheetEditMode.bind(this));
+		html.find(".toggleCharacterLocked").click(this.toggleSheetEditMode.bind(this));
+
+		html.find(".valueWrapper").dblclick(this.toggleValueEditMode.bind(this));
+		html.find(".valueWrapper").click(this.checkPreventClose.bind(this));
+		
+		html.find("input[data-dtype='Number']").change(this.validateNumber.bind(this));
+
+		html.click(this.clearValueEditMode.bind(this));
+		
+
+		// Previous event listeners below here
 
 		// Add Inventory Item
 		html.find(".item-create").click(this._onItemCreate.bind(this));
