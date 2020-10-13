@@ -8,9 +8,14 @@
 				<h1 class="charname">
 					<label for="charName">Character name:</label> <input name="charName" type="text" value="{{actor.name}}" placeholder="Name"/>
 				</h1>
-				<a class="toggleCharacterEditing" title="Toggle editing">
-					<i class="fas fa-edit"></i>
-				</a>
+				<div class="toggleEditableWrapper">
+					<a class="toggleCharacterEditing" title="Toggle to editable">
+						<i class="fas fa-edit fa-lg"></i>
+					</a>
+					<a class="toggleCharacterLocked" title="Toggle to locked">
+						<i class="fas fa-lock fa-lg"></i>
+					</a>
+				</div>
 			</div>
 			<h2 class="charname"><label for="charName">Owner(s): {{currentOwners}}</h2>
 			<div class="metaValues">
@@ -48,21 +53,25 @@
 
 	<div class="statsContent">
 		{{#each data.typeSorted as |typeGroup key|}}
-		<div class="primesGroup">
+		<div class="primesGroup primeGroup_{{key}}">
 			{{#each typeGroup.primes as |prime key|}}
 			<div class="primeWrapper">
 				<label for="data.primes.{{key}}.value">{{prime.title}}</label>
-				<input type="text" name="data.primes.{{key}}.value" value="{{prime.value}}" data-dtype="Number"/>
-				<span class="primeValue">{{prime.value}}</span>
+				<div class="valueWrapper">
+					<input type="text" name="data.primes.{{key}}.value" value="{{prime.value}}" data-dtype="Number" data-min="1" data-max="10" data-lastValue="{{prime.value}}"/>
+					<span class="primeValue">{{prime.value}}</span>
+				</div>
 			</div>
 			{{/each}}
 		</div>
-		<div class="refinementsGroup">
+		<div class="refinementsGroup refinementGroup_{{key}}">
 			{{#each typeGroup.refinements as |refinement key|}}
 			<div class="refinementWrapper">
 				<label for="data.refinements.{{key}}.value">{{refinement.title}}</label>
-				<input type="text" name="data.refinements.{{key}}.value" value="{{refinement.value}}" data-dtype="Number"/>
-				<span class="refinementValue">{{refinement.value}}</span>
+				<div class="valueWrapper">
+					<input type="text" name="data.refinements.{{key}}.value" value="{{refinement.value}}" data-dtype="Number" data-min="0" data-max="10" data-lastValue="{{refinement.value}}"/>
+					<span class="refinementValue">{{refinement.value}}</span>
+				</div>
 			</div>
 			{{/each}}
 		</div>
