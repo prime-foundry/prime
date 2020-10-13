@@ -8,6 +8,19 @@
 	width:auto;
 }
 
+.primeCharacterSheet.sheetEditable .toggleCharacterEditing,
+.primeCharacterSheet .toggleCharacterLocked
+{
+	display:none;
+}
+.primeCharacterSheet.sheetEditable .toggleCharacterLocked,
+.primeCharacterSheet .toggleCharacterEditing
+{
+	display:block;
+}
+
+
+
 .metaDataContent
 {
 	display: flex;
@@ -25,54 +38,150 @@
 	flex-wrap: wrap;
 }
 
-.statsContent .primesGroup
+.statsContent .primesGroup,
+.statsContent .refinementsGroup
 {
-	width:33%;
+	width:28%;
+	padding:1%;
+	margin-right:3%;
+	border-radius: 5px;
+	border:1px solid grey;
+}
+
+.statsContent .primesGroup.primeGroup_physical,
+.statsContent .refinementsGroup.refinementGroup_physical
+{
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+	border-bottom-width: 0;
+}
+
+.statsContent .primesGroup.primeGroup_mental,
+.statsContent .refinementsGroup.refinementGroup_mental
+{
+	border-top-width: 0;
+	border-bottom-width: 0;
+	border-radius: 0;
+}
+
+.statsContent .primesGroup.primeGroup_supernaturual,
+.statsContent .refinementsGroup.refinementGroup_supernaturual
+{
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	border-top-width: 0;
 }
 
 .statsContent .primesGroup .primeWrapper
 {
 	display: flex;
+	justify-content: flex-end;
+    align-items: center;
 	
 }
 
 .statsContent .primesGroup .primeWrapper label
 {
-	
+	margin-right:5px;
 }
+
 .statsContent .primesGroup .primeWrapper input
 {
+	position: relative;
 	width:25px;
+	height:25px;
 	text-align: center;
 }
 .statsContent .primesGroup .primeWrapper .primeValue
 {
-	
+	width:25px;
+	height:25px;
+	text-align: center;
 }
 
 .statsContent .refinementsGroup
 {
-	width:67%;
+	width:62%;
 	display: flex;
 	flex-wrap: wrap;
+	align-content: flex-start;
 }
 
 .statsContent .refinementsGroup .refinementWrapper
 {
 	display: flex;
-	width:33%;
+	justify-content: flex-end;
+    align-items: center;
+	min-width:100px;
+	width:30%;
+	margin:0 1.5%
 }
 
 .statsContent .refinementsGroup .refinementWrapper label
 {
-	
+	margin-right:5px;	
 }
 .statsContent .refinementsGroup .refinementWrapper input
 {
+	position: relative;
 	width:25px;
+	height:25px;
 	text-align: center;
 }
 .statsContent .refinementsGroup .refinementWrapper .refinementValue
 {
-	
+	width:25px;
+	height:25px;
+	text-align: center;
+}
+
+.statsContent .primesGroup .primeWrapper .valueWrapper,
+.statsContent .refinementsGroup .refinementWrapper .valueWrapper
+{
+	position: relative;
+	width:25px;
+	height:25px;
+}
+
+.primeCharacterSheet .statsContent .refinementsGroup .refinementWrapper .refinementValue,
+.primeCharacterSheet .statsContent .primesGroup .primeWrapper .primeValue
+{
+	position: absolute;
+	top:0px;
+	left: 0px;
+	bottom: 0px;
+	right: 0px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.primeCharacterSheet .statsContent .refinementsGroup .refinementWrapper .refinementValue,
+.primeCharacterSheet .statsContent .primesGroup .primeWrapper .primeValue,
+.primeCharacterSheet .statsContent .refinementsGroup .refinementWrapper input,
+.primeCharacterSheet .statsContent .primesGroup .primeWrapper input
+{
+	transition: opacity ease-in 0.2s;
+}
+
+.primeCharacterSheet.sheetEditable .statsContent .refinementsGroup .refinementWrapper input,
+.primeCharacterSheet.sheetEditable .statsContent .primesGroup .primeWrapper input,
+.primeCharacterSheet .statsContent .refinementsGroup .refinementWrapper .refinementValue,
+.primeCharacterSheet .statsContent .primesGroup .primeWrapper .primeValue,
+.primeCharacterSheet .statsContent .refinementsGroup .refinementWrapper .valueEditable input,
+.primeCharacterSheet .statsContent .primesGroup .primeWrapper .valueEditable input
+{
+	opacity: 1;
+	z-index: 1;
+}
+
+.primeCharacterSheet .statsContent .refinementsGroup .refinementWrapper input,
+.primeCharacterSheet .statsContent .primesGroup .primeWrapper input,
+.primeCharacterSheet.sheetEditable .statsContent .refinementsGroup .refinementWrapper .refinementValue,
+.primeCharacterSheet.sheetEditable .statsContent .primesGroup .primeWrapper .primeValue,
+.primeCharacterSheet .statsContent .refinementsGroup .refinementWrapper .valueEditable .refinementValue,
+.primeCharacterSheet .statsContent .primesGroup .primeWrapper .valueEditable .primeValue
+{
+	opacity: 0;
+	z-index: 0;
 }
