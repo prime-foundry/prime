@@ -1,4 +1,22 @@
-
 Remove non-schema data from the template.json.
 
-Create a parse language push on RPG system load.
+Global edit mode
+
+Item edit mode
+
+Improve layout
+
+Review items:
+- Weapons
+- Armour
+- Other?
+
+Ship sheet
+- Crew 
+- Combat 
+- Resources 
+- Rooms
+- Upgrades
+- Weapons
+
+
