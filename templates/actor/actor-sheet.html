@@ -6,7 +6,8 @@
 		<div class="metaDataContentInner">
 			<div class="firstRow">
 				<h1 class="charname">
-					<label for="actor.name">Character name:</label> <input name="actor.name" type="text" value="{{actor.name}}" placeholder="Name"/>
+					<label for="name">Character name:</label>
+					<input name="name" type="text" value="{{actor.name}}" placeholder="Name"/>
 				</h1>
 				<div class="toggleEditableWrapper">
 					<a class="toggleCharacterEditing" title="Toggle to editable">
@@ -27,10 +28,12 @@
 				</div>
 				<div class="metaValue">
 					<div>Action points</div>
-					<div class="metaValueContent">
-						{{data.actionPoints.max}}
-						{{#for 1 data.actionPoints.max 1}}
-							<span>{{this}}</span>
+					<div class="metaValueContent actionPointsWrapper">
+						{{#for 0 data.actionPoints.max 1}}
+						<div class='actionPointWrapper{{actionStateClasses this ../data.actionPoints}}'>
+							<input id="actionPoint{{this}}" value="{{this}}" class="actionPointCheckbox" type="checkbox" name="actionPoints" {{actionSelected this ../data.actionPoints.current}}/>
+							<label for="actionPoint{{this}}">{{this}}</label>
+						</div>
 						{{/for}}
 					</div>
 				</div>
