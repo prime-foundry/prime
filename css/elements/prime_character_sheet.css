@@ -20,7 +20,6 @@
 }
 
 
-
 .metaDataContent
 {
 	display: flex;
@@ -29,6 +28,77 @@
 .metaDataContentInner
 {
 	flex-grow: 1;
+}
+
+.primeCharacterSheet .metaDataContent .metaDataContentInner .metaValues
+{
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+}
+
+.primeCharacterSheet .metaDataContent .metaDataContentInner .metaValues .metaValue
+{
+	width: 48%;
+	margin: 1%;
+}
+
+.metaValueContent.actionPointsWrapper
+{
+	display: flex;
+	justify-content: space-between;
+}
+
+.metaValueContent .actionPointWrapper,
+.metaValueContent .actionPointWrapper.activeActionPoint.fillAnimation
+{
+	position: relative;
+	border: 1px solid #444444;
+	border-radius: 100%;
+	width: 11.28%;
+	margin: 1.5%;
+	text-shadow: none;
+	box-shadow: none;
+	transition: text-shadow 0.3s ease-in, box-shadow 0.3s ease-in;
+	cursor: pointer;
+}
+
+.metaValueContent .actionPointWrapper:after {
+	content: "";
+	display: block;
+	padding-bottom: 100%;
+  }
+
+.metaValueContent .actionPointWrapper.activeActionPoint,
+.metaValueContent .actionPointWrapper.emptyAnimation
+{
+    border: 1px solid red;
+    border-bottom: none;
+    box-shadow: 0 0 6px inset #ff6400, 0 0 6px #ff6400;
+    text-shadow: 0 0 3px #ff6400;
+}
+
+.metaValueContent .actionPointWrapper input
+{
+	opacity: 0;
+	width: 0;
+	height: 0;
+	margin: 0;
+	float: left;
+}
+
+.metaValueContent .actionPointWrapper label
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	border-radius: 100%;
 }
 
 .statsContent
