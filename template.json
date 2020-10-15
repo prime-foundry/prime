@@ -4,16 +4,23 @@
 			"character"
 		],
 		"templates":{
-			"base":{
-				"health":{
-					"value":10,
-					"min":0,
-					"max":10
+			"base":
+			{
+				"name" : "",
+				"actionPoints":
+				{
+					"current": 0,
+					"max": 6
 				},
-				"power":{
-					"value":5,
-					"min":0,
-					"max":5
+				"wounds":
+				{
+					"current":0,
+					"max":0
+				},
+				"resilience":
+				{
+					"current":0,
+					"max":0
 				},
 				"soul":
 				{
@@ -32,7 +39,8 @@
 			}
 		},
 		"character":{
-			"templates":[
+			"templates":
+			[
 				"base"
 			],
 			"biography":"",
@@ -321,8 +329,16 @@
 			"spell"
 		],
 		"templates":{
-			"base":{
-				"description":""
+			"base":
+			{
+				"title": "",
+				"description":"",
+				"cost":"",
+				"rarity": ""
+			},
+			"mastercraft":
+			{
+				"traits": []
 			}
 		},
 		"item":{
@@ -336,12 +352,6 @@
 			"templates":[
 				"base"
 			]
-		},
-		"spell":{
-			"templates":[
-				"base"
-			],
-			"spellLevel":1
 		}
 	}
 }
