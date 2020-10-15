@@ -8,6 +8,9 @@ export class BoilerplateActorSheet extends ActorSheet
 	static get defaultOptions()
 	{
 		var superOptions = super.defaultOptions;
+
+		this.addHooks();
+
 		return mergeObject(superOptions, {
 			classes: ["primeCharacterSheet", "sheet", "actor"],
 			template: "systems/prime/templates/actor/actor-sheet.html",
@@ -22,6 +25,23 @@ export class BoilerplateActorSheet extends ActorSheet
 			],
 		});
 	}
+	
+	static addHooks()
+	{
+		Hooks.on("preUpdateActor", function(actorData, changeData, options, maybeUpdateID)
+		{
+			if (changeData.data && changeData.data.actionPoints && changeData.data.actionPoints.lastTotal && !changeData.data.actionPoints.current && changeData.data.actionPoints.current !== 0)
+			{
+				return false;
+			}
+			if (changeData.actionPoints && Array.isArray(changeData.actionPoints) && !changeData.data)
+			{
+				return false;
+			}
+			return true;			
+		});
+	}
+	  
 
 	/* -------------------------------------------- */
 
@@ -104,7 +124,7 @@ export class BoilerplateActorSheet extends ActorSheet
 		var valueWrapper = $(event.delegateTarget);
 		if (!valueWrapper.hasClass("valueEditable"))
 		{
-			var input = valueWrapper.find("input")
+			var input = valueWrapper.find("input");
 			input.focus();
 			input.select();
 			input.data("lastValue", input.val());
@@ -153,14 +173,39 @@ export class BoilerplateActorSheet extends ActorSheet
 		{
 			input.val(input.data("min"));
 		}
+	}
 
+	async updateActionPoints(event)
+	{
+		const input = $(event.delegateTarget);
+		const value = input.val();
+		const data = super.getData();
+		const checked = input.prop("checked");
+		const inputParent = input.parent();
+		data.data.actionPoints.lastTotal = data.data.actionPoints.current;
+
+		if (checked || (!checked && !inputParent.hasClass("currentActionPointTotal")))
+		{
+			data.data.actionPoints.current = parseInt(value);
+		}
+		else
+		{
+			data.data.actionPoints.current = parseInt(value) - 1;
+		}
+
+		if (data.data.actionPoints.current < 0)
+		{
+			data.data.actionPoints.current = 0;
+		}
+
+		var result = await this.actor.update(data.actor);
+		console.log(result);
 	}
 
 	clearValueEditMode(event)
 	{
 		var valueWrappers = $(".valueEditable");
 		valueWrappers.toggleClass("valueEditable");
-		//this.element.toggleClass("sheetEditable");
 	}
 
 	
@@ -244,7 +289,9 @@ export class BoilerplateActorSheet extends ActorSheet
 		html.find("input[data-dtype='Number']").change(this.validateNumber.bind(this));
 
 		html.click(this.clearValueEditMode.bind(this));
-		
+
+		html.find(".actionPointCheckbox").change(this.updateActionPoints.bind(this));
+
 
 		// Previous event listeners below here
 
@@ -278,7 +325,20 @@ export class BoilerplateActorSheet extends ActorSheet
 				li.addEventListener("dragstart", handler, false);
 			});
 		}
+
+		this.postActivateListeners(html);
 	}
+
+	async postActivateListeners(html)
+	{
+		html.find(".fillAnimation").removeClass("fillAnimation");
+		html.find(".emptyAnimation").removeClass("emptyAnimation");
+
+		const data = super.getData();
+		data.data.actionPoints.lastTotal = data.data.actionPoints.current;
+		var result = await this.actor.update(data.actor, {render: false});
+	}
+
 
 	/**
 	 * Handle creating a new Owned Item for the actor using initial data defined in the HTML dataset
@@ -336,4 +396,79 @@ Handlebars.registerHelper('for', function(from, to, incr, block) {
     for(var i = from; i <= to; i += incr)
         accum += block.fn(i);
     return accum;
+});
+
+Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
+
+    switch (operator) {
+        case '==':
+            return (v1 == v2) ? options.fn(this) : options.inverse(this);
+        case '===':
+            return (v1 === v2) ? options.fn(this) : options.inverse(this);
+        case '!=':
+            return (v1 != v2) ? options.fn(this) : options.inverse(this);
+        case '!==':
+            return (v1 !== v2) ? options.fn(this) : options.inverse(this);
+        case '<':
+            return (v1 < v2) ? options.fn(this) : options.inverse(this);
+        case '<=':
+            return (v1 <= v2) ? options.fn(this) : options.inverse(this);
+        case '>':
+            return (v1 > v2) ? options.fn(this) : options.inverse(this);
+        case '>=':
+            return (v1 >= v2) ? options.fn(this) : options.inverse(this);
+        case '&&':
+            return (v1 && v2) ? options.fn(this) : options.inverse(this);
+        case '||':
+            return (v1 || v2) ? options.fn(this) : options.inverse(this);
+        default:
+            return options.inverse(this);
+    }
+});
+
+
+Handlebars.registerHelper('actionSelected', function (pointIndex, currentPoints)
+{
+	if (pointIndex <= currentPoints)
+	{
+		return "checked";
+	}
+	return "";
+});
+
+Handlebars.registerHelper('actionStateClasses', function (pointIndex, actionPointData)
+{
+	const current = actionPointData.current;
+	const lastTotal = actionPointData.lastTotal;
+	var classes = []
+
+	if (pointIndex <= current)
+	{
+		classes.push("activeActionPoint");
+	}
+	if (pointIndex == current)
+	{
+		classes.push("currentActionPointTotal");
+	}
+
+
+	if (lastTotal > current)
+	{
+		if (pointIndex > current && pointIndex <= lastTotal)
+		{
+			classes.push("emptyAnimation");
+		}
+	}
+	else if (lastTotal < current)
+	{
+		if (pointIndex > lastTotal && pointIndex <= current)
+		{
+			classes.push("fillAnimation");
+		}
+	}
+	if (classes.length > 0)
+	{
+		return " " + classes.join(" ");
+	}
+	return "";
 });
