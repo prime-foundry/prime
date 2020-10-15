@@ -6,10 +6,10 @@
 		"templates":{
 			"base":
 			{
-				"name" : "",
 				"actionPoints":
 				{
-					"current": 0,
+					"lastTotal": 3,
+					"current": 3,
 					"max": 6
 				},
 				"wounds":
