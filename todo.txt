@@ -20,3 +20,27 @@ Ship sheet
 - Weapons
 
 
+Stats to add:
+=============
+
+Characters
+
+- Action points
+- Resilience
+
+Weapons
+- Weapon damage
+- Armour penetration
+
+Armour
+- Coverage
+- Resilience
+
+
+Outstanding questions:
+======================
+
+- Resolving sequence within a turn
+- Ranged combat
+- Number of dodges/parries/blocks
+- Wound conditions - do these have stats e.g. "broken arm, -2 to actions"
