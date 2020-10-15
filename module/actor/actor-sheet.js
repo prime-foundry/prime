@@ -267,9 +267,6 @@ export class BoilerplateActorSheet extends ActorSheet
 			li.slideUp(200, () => this.render(false));
 		});
 
-		// Rollable abilities.
-		html.find(".rollable").click(this._onRoll.bind(this));
-
 		// Drag events for macros.
 		if (this.actor.owner)
 		{
@@ -333,3 +330,10 @@ export class BoilerplateActorSheet extends ActorSheet
 		}
 	}
 }
+
+Handlebars.registerHelper('for', function(from, to, incr, block) {
+    var accum = '';
+    for(var i = from; i <= to; i += incr)
+        accum += block.fn(i);
+    return accum;
+});
