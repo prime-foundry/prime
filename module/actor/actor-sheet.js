@@ -4,6 +4,10 @@
  */
 export class BoilerplateActorSheet extends ActorSheet
 {
+	resizeOccuring = false;
+	actorSheetMeasureTimer = false;
+	updateWidthClassInterval = 50;
+
 	/** @override */
 	static get defaultOptions()
 	{
@@ -41,7 +45,7 @@ export class BoilerplateActorSheet extends ActorSheet
 			return true;			
 		});
 	}
-	  
+
 
 	/* -------------------------------------------- */
 
@@ -111,6 +115,12 @@ export class BoilerplateActorSheet extends ActorSheet
 				ownerNames.push(currUser.name);
 			}
 		}
+
+		if (ownerNames.length == 0)
+		{
+			ownerNames.push("Not assigned");
+		}
+
 		return ownerNames.join(", ");
 	}
 
@@ -202,13 +212,69 @@ export class BoilerplateActorSheet extends ActorSheet
 		console.log(result);
 	}
 
+	resizeUpdateStart(event)
+	{
+		this.resizeOccuring = true;
+		this.createWidthUpdateTimer();
+	}
+
+	createWidthUpdateTimer()
+	{
+		if (this.resizeOccuring)
+		{
+			this.actorSheetMeasureTimer = window.setTimeout(this.updateWidthClasses.bind(this), this.updateWidthClassInterval);
+		}
+		else
+		{
+			this.clearMeasureTimer();
+		}
+	}
+
+	updateWidthClasses()
+	{
+		//console.log(this.position.width);
+		if (this.position.width <= 665)
+		{
+			this.element.addClass("narrowWidth");
+			this.element.removeClass("mediumWidth");
+			this.element.removeClass("wideWidth");
+		}
+		else if (this.position.width > 665 && this.position.width <= 995)
+		{
+			this.element.removeClass("narrowWidth");
+			this.element.addClass("mediumWidth");
+			this.element.removeClass("wideWidth");
+		}
+		else
+		{
+			this.element.removeClass("narrowWidth");
+			this.element.removeClass("mediumWidth");
+			this.element.addClass("wideWidth");
+		}
+		this.createWidthUpdateTimer();
+	}
+
+	resizeUpdateEnd(event)
+	{
+		this.resizeOccuring = false;
+		//console.log("Ending...")
+		this.updateWidthClasses()
+	}
+
+	clearMeasureTimer()
+	{
+		if (this.actorSheetMeasureTimer)
+		{
+			window.clearInterval(this.actorSheetMeasureTimer);
+			this.actorSheetMeasureTimer = false;
+		}
+	}
+
 	clearValueEditMode(event)
 	{
 		var valueWrappers = $(".valueEditable");
 		valueWrappers.toggleClass("valueEditable");
 	}
-
-	
 
 	/**
 	 * Organize and classify Items for Character sheets.
@@ -292,6 +358,11 @@ export class BoilerplateActorSheet extends ActorSheet
 
 		html.find(".actionPointCheckbox").change(this.updateActionPoints.bind(this));
 
+		var resizeHandle = html.parent().parent().find(".window-resizable-handle");
+		
+		resizeHandle.mousedown(this.resizeUpdateStart.bind(this));
+		$(document).mouseup(this.resizeUpdateEnd.bind(this));
+		resizeHandle.click(this.resizeUpdateEnd.bind(this));
 
 		// Previous event listeners below here
 
