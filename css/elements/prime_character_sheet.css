@@ -1,11 +1,59 @@
+
+
+/* 665 or lower */
+.narrowWidth
+{
+	
+}
+
+/* 666 to 995 */
+.mediumWidth
+{
+	
+}
+
+/* 996 or greater */
+.wideWidth
+{
+
+}
+
 .primeCharacterSheet
 {
 	min-width:500px;
 }
 
+.primeCharacterSheet h1,
+.primeCharacterSheet h2,
+.primeCharacterSheet h3,
+.primeCharacterSheet h4,
+.primeCharacterSheet h5,
+.primeCharacterSheet h6
+{
+	border-width: 0px;
+}
+
 .primeCharacterSheet input
 {
 	width:auto;
+}
+
+.characterName
+{
+	font-size: 14px;
+}
+
+.characterName input
+{
+	width: 100%;
+	height: auto;
+	padding: 5px;
+	font-size: 24px;
+}
+
+.characterOwners
+{
+	font-size: 14px;
 }
 
 .primeCharacterSheet.sheetEditable .toggleCharacterEditing,
@@ -19,25 +67,124 @@
 	display:block;
 }
 
+.primeCharacterSheet .systemTitle,
+.primeCharacterSheet .campaignTitle
+{
+	margin: 5px;
+	text-align: center;
+	line-height: 90%;
+	transition: font-size ease-in 0.2s;
+}
+
+.primeCharacterSheet .systemTitle
+{
+	font-family: 'Calistoga', cursive;
+	font-size: 40px;
+}
+
+.primeCharacterSheet.narrowWidth .systemTitle
+{
+	font-size: 25px;
+}
+
+.primeCharacterSheet .campaignTitle
+{
+	font-family: 'Viaoda Libre', cursive;
+	font-size: 35px;
+}
+
+.primeCharacterSheet.narrowWidth .campaignTitle
+{
+	font-size: 20px;
+}
+
+.bigCaps
+{
+	font-size: 125%;
+}
 
 .metaDataContent
 {
-	display: flex;
 }
 
-.metaDataContentInner
+.flexColumn
 {
-	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
 }
 
-.primeCharacterSheet .metaDataContent .metaDataContentInner .metaValues
+.flexRow
+{
+	display: flex;
+	/* border:1px solid red; */
+	justify-content: space-between;
+}
+
+.flexColumn .verticalCenter
+{
+	justify-content: center;
+}
+.flexRow .verticalCenter
+{
+	align-items: center;
+}
+
+.cell33
+{
+	width:32%;
+}
+
+.cell40
+{
+	width:39%;
+}
+
+.cell50
+{
+	width:49%;
+}
+
+.cell60
+{
+	width:59%;
+}
+
+.cell66
+{
+	width:65%;
+}
+
+.block
+{
+	position: relative;
+	border-radius: 5px;
+	padding: 11px 5px 5px 5px;
+	margin: 10px;
+	border:1px solid grey;
+}
+
+.block .blockTitle
+{
+	position: absolute;
+	top:-7.5px;
+	height: 15px;
+	left: 25%;
+	right: 25%;
+	text-align: center;
+	font-size:10px;
+	background: url(../../../../ui/parchment.jpg) repeat;
+	border:1px solid grey;
+	border-radius: 3px;
+}
+
+.primeCharacterSheet .metaDataContent .metaValues
 {
 	display: flex;
 	justify-content: space-between;
 	flex-wrap: wrap;
 }
 
-.primeCharacterSheet .metaDataContent .metaDataContentInner .metaValues .metaValue
+.primeCharacterSheet .metaDataContent .metaValues .metaValue
 {
 	width: 48%;
 	margin: 1%;
@@ -111,7 +258,7 @@
 .statsContent .primesGroup,
 .statsContent .refinementsGroup
 {
-	width:28%;
+	width: 30%;
 	padding:1%;
 	margin-right:3%;
 	border-radius: 5px;
@@ -171,7 +318,8 @@
 
 .statsContent .refinementsGroup
 {
-	width:62%;
+	width: 66%;
+	margin-right:0%;
 	display: flex;
 	flex-wrap: wrap;
 	align-content: flex-start;
