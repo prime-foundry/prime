@@ -1,33 +1,43 @@
 <form class="{{cssClass}} flexcol {{#if editable}}isEditable{{/if}}" autocomplete="off">
 
 	{{!-- Sheet Header --}}
-	<div class="metaDataContent">
-		<img class="profileImg" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
-		<div class="metaDataContentInner">
-			<div class="firstRow">
-				<h1 class="charname">
-					<label for="name">Character name:</label>
-					<input name="name" type="text" value="{{actor.name}}" placeholder="Name"/>
-				</h1>
-				<div class="toggleEditableWrapper">
-					<a class="toggleCharacterEditing" title="Toggle to editable">
-						<i class="fas fa-edit fa-lg"></i>
-					</a>
-					<a class="toggleCharacterLocked" title="Toggle to locked">
-						<i class="fas fa-lock fa-lg"></i>
-					</a>
+	<div class="metaDataContent flexColumn">
+		<div class="metaDataContentInner flexRow">
+			<img class="profileImg" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
+			<div class="flexColumn cell40">
+				<div class="flexRow">
+					<h1 class="characterName">
+						<label for="name">Character name:</label>
+						<input name="name" type="text" value="{{actor.name}}" placeholder="Name"/>
+					</h1>
+				</div>
+				<h2 class="characterOwners"><label for="charName">Owner(s): {{currentOwners}}</h2>
+			</div>
+			<div class="flexColumn cell40 verticalCenter">
+				<h2 class="systemTitle"><span class="bigCaps">P</span>OSSESSIO<span class="bigCaps">N</span></h2>
+				<h3 class="campaignTitle"><span class="bigCaps">A</span>ETHERNAUTS</h2>
+			</div>
+			<div class="toggleEditableWrapper">
+				<a class="toggleCharacterEditing" title="Toggle to editable">
+					<i class="fas fa-edit fa-lg"></i>
+				</a>
+				<a class="toggleCharacterLocked" title="Toggle to locked">
+					<i class="fas fa-lock fa-lg"></i>
+				</a>
+			</div>
+		</div>
+
+		
+		<div class="metaDataContentInner flexRow">
+			<div class="cell50">
+				<label for="data.wounds.current">Wounds</label>
+				<div class="metaValueContent">
+					<input type="text" name="data.wounds.current" value="{{data.wounds.current}}" data-dtype="Number" data-min="0" data-max="6" data-lastValue="{{data.wounds.current}}"/>
 				</div>
 			</div>
-			<h2 class="charname"><label for="charName">Owner(s): {{currentOwners}}</h2>
-			<div class="metaValues">
-				<div class="metaValue">
-					<label for="data.wounds.current">Wounds</label>
-					<div class="metaValueContent">
-						<input type="text" name="data.wounds.current" value="{{data.wounds.current}}" data-dtype="Number" data-min="0" data-max="6" data-lastValue="{{data.wounds.current}}"/>
-					</div>
-				</div>
-				<div class="metaValue">
-					<div>Action points</div>
+			<div class="cell50 flexColumn">
+				<div class="actionPoints block">
+					<div class="blockTitle">Action points</div>
 					<div class="metaValueContent actionPointsWrapper">
 						{{#for 0 data.actionPoints.max 1}}
 						<div class='actionPointWrapper{{actionStateClasses this ../data.actionPoints}}'>
@@ -37,16 +47,18 @@
 						{{/for}}
 					</div>
 				</div>
-				<div class="metaValue">
-					<label for="data.soul.value">Soul</label>
-					<div class="metaValueContent">
-						<span title="Initial: {{data.soul.initial}}, Awarded: {{data.soul.awarded}}, Spent: {{data.soul.spent}}">{{data.soul.current}}</span>
+				<div class="soulAndXP flexRow">
+					<div class="cell50">
+						<label for="data.soul.value">Soul</label>
+						<div class="metaValueContent">
+							<span title="Initial: {{data.soul.initial}}, Awarded: {{data.soul.awarded}}, Spent: {{data.soul.spent}}">{{data.soul.current}}</span>
+						</div>
 					</div>
-				</div>
-				<div class="metaValue">
-					<label for="data.xp.value">XP</label>
-					<div class="metaValueContent">
-						<span title="Initial: {{data.xp.initial}}, Awarded: {{data.xp.awarded}}, Spent: {{data.xp.spent}}">{{data.xp.current}}</span>
+					<div class="cell50">
+						<label for="data.xp.value">XP</label>
+						<div class="metaValueContent">
+							<span title="Initial: {{data.xp.initial}}, Awarded: {{data.xp.awarded}}, Spent: {{data.xp.spent}}">{{data.xp.current}}</span>
+						</div>
 					</div>
 				</div>
 			</div>
