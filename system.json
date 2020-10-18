@@ -22,8 +22,8 @@
   "gridUnits": "ft",
   "primaryTokenAttribute": "health",
   "secondaryTokenAttribute": "power",
-  "url": "http://localhost/prime/",
-  "manifest": "http://localhost/prime/system.json",
-  "download": "http://localhost/prime/prime.zip",
+  "url": "https://github.com/johnc303/prime/",
+  "manifest": "https://raw.githubusercontent.com/johnc303/prime/master/system.json",
+  "download": "https://github.com/johnc303/prime/blob/master/prime.zip?raw=true",
   "license": "LICENSE.txt"
 }
