@@ -38,6 +38,11 @@
 	width:auto;
 }
 
+.metaDataContentInner
+{
+	position: relative;
+}
+
 .characterName
 {
 	font-size: 14px;
@@ -107,87 +112,19 @@
 {
 }
 
-.flexColumn
-{
-	display: flex;
-	flex-direction: column;
-}
-
-.flexRow
-{
-	display: flex;
-	/* border:1px solid red; */
-	justify-content: space-between;
-}
-
-.flexColumn .verticalCenter
-{
-	justify-content: center;
-}
-.flexRow .verticalCenter
-{
-	align-items: center;
-}
-
-.cell33
-{
-	width:32%;
-}
-
-.cell40
-{
-	width:39%;
-}
-
-.cell50
-{
-	width:49%;
-}
-
-.cell60
-{
-	width:59%;
-}
-
-.cell66
-{
-	width:65%;
-}
-
-.block
-{
-	position: relative;
-	border-radius: 5px;
-	padding: 11px 5px 5px 5px;
-	margin: 10px;
-	border:1px solid grey;
-}
-
-.block .blockTitle
+.toggleEditableWrapper
 {
 	position: absolute;
-	top:-7.5px;
-	height: 15px;
-	left: 25%;
-	right: 25%;
-	text-align: center;
-	font-size:10px;
-	background: url(../../../../ui/parchment.jpg) repeat;
-	border:1px solid grey;
-	border-radius: 3px;
+	top:0px;
+	right:0px;
 }
+
 
 .primeCharacterSheet .metaDataContent .metaValues
 {
 	display: flex;
 	justify-content: space-between;
 	flex-wrap: wrap;
-}
-
-.primeCharacterSheet .metaDataContent .metaValues .metaValue
-{
-	width: 48%;
-	margin: 1%;
 }
 
 .metaValueContent.actionPointsWrapper
@@ -207,6 +144,7 @@
 	text-shadow: none;
 	box-shadow: none;
 	transition: text-shadow 0.3s ease-in, box-shadow 0.3s ease-in;
+	/* transition: text-shadow var(--primary-transition), box-shadow var(--primary-transition); */
 	cursor: pointer;
 }
 

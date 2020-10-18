@@ -1,5 +1,5 @@
-
-@import url('boilerplate.css');
+/* @import url('boilerplate.css'); */
+@import url('layout_classes.css');
 
 @import url('vars/base_values.css');
 @import url('vars/mappings.css');
@@ -7,4 +7,5 @@
 @import url('fonts/fonts_imports.css');
 
 @import url('elements/prime_dice.css');
-@import url('elements/prime_character_sheet.css');
+
+@import url('elements/character_sheet/prime_character_sheet.css');
