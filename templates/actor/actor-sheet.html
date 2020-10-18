@@ -3,17 +3,24 @@
 	{{!-- Sheet Header --}}
 	<div class="metaDataContent flexColumn">
 		<div class="metaDataContentInner flexRow">
-			<img class="profileImg" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
-			<div class="flexColumn cell40">
+			<div class="flexColumn cell50">
 				<div class="flexRow">
-					<h1 class="characterName">
-						<label for="name">Character name:</label>
-						<input name="name" type="text" value="{{actor.name}}" placeholder="Name"/>
-					</h1>
+					<div class="cell33">
+						<img class="profileImg" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100%" width="100%"/>
+					</div>
+					<div class="cell66 flexColumn">
+						<h1 class="characterName">
+							<label for="name">Name:</label>
+							<div class="valueWrapper">
+								<input name="name" type="text" value="{{actor.name}}" placeholder="Name"/>
+								<span class="primeValue">{{actor.name}}</span>
+							</div>
+						</h1>
+						<h2 class="characterOwners"><label for="charName">Player: {{currentOwners}}</h2>
+					</div>
 				</div>
-				<h2 class="characterOwners"><label for="charName">Owner(s): {{currentOwners}}</h2>
 			</div>
-			<div class="flexColumn cell40 verticalCenter">
+			<div class="flexColumn cell50 verticalCenter">
 				<h2 class="systemTitle"><span class="bigCaps">P</span>OSSESSIO<span class="bigCaps">N</span></h2>
 				<h3 class="campaignTitle"><span class="bigCaps">A</span>ETHERNAUTS</h2>
 			</div>

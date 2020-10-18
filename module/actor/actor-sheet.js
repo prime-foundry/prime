@@ -209,7 +209,7 @@ export class BoilerplateActorSheet extends ActorSheet
 		}
 
 		var result = await this.actor.update(data.actor);
-		console.log(result);
+		//console.log(result);
 	}
 
 	resizeUpdateStart(event)

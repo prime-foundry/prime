@@ -6,6 +6,13 @@ Item edit mode
 
 Improve layout
 
+Character sheet
+- Meta data like faction, race, height, weight, hair colour etc. (maybe optional, only showing what's filled in)
+- Perks
+- Actions
+- Roll dice based on prime/refinement highlight.
+
+
 Review items:
 - Weapons
 - Armour
@@ -18,6 +25,7 @@ Ship sheet
 - Rooms
 - Upgrades
 - Weapons
+
 
 
 Stats to add:
@@ -44,3 +52,7 @@ Outstanding questions:
 - Ranged combat
 - Number of dodges/parries/blocks
 - Wound conditions - do these have stats e.g. "broken arm, -2 to actions"
+
+
+
+
