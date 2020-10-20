@@ -146,6 +146,7 @@
 	transition: text-shadow 0.3s ease-in, box-shadow 0.3s ease-in;
 	/* transition: text-shadow var(--primary-transition), box-shadow var(--primary-transition); */
 	cursor: pointer;
+	background: rgba(255,255,255,0.5);
 }
 
 .metaValueContent .actionPointWrapper:after {
@@ -185,6 +186,103 @@
 	cursor: pointer;
 	border-radius: 100%;
 }
+
+.primeCharacterSheet .healthAndArmourOuter
+{
+	position: relative;
+}
+
+.primeCharacterSheet .healthAndArmourOuter .topHalfBlock.block .blockTitle,
+.primeCharacterSheet .healthAndArmourOuter .bottomHalfBlock.block .blockTitle
+{
+	left: 45%;
+	right: 5%;
+}
+
+.primeCharacterSheet .resilienceBlock
+{
+	margin-left: 1%;
+}
+
+.primeCharacterSheet input.bigNumberInput,
+.primeCharacterSheet div.bigNumberText
+{
+	width:100%;
+	height:50px;
+	font-size: var(--title-size);
+	text-align: center;
+	background: rgba(255,255,255,0.5);
+}
+
+.primeCharacterSheet div.bigNumberText
+{
+	background: transparent;
+	display: flex;
+	align-items: center;
+}
+
+
+
+.primeCharacterSheet.narrowWidth input.bigNumberInput
+{
+	font-size: var(--smallTitle-size);
+	height:30px;
+}
+
+.primeCharacterSheet .resilienceBlock input.bigNumberInput
+{
+	width:84%;
+}
+
+.primeCharacterSheet .combinedResilienceBlock,
+.primeCharacterSheet .injuriesBlock
+{
+	position: absolute;
+	top: 16%;
+	right: -14px;
+	width: 15.5%;
+	bottom: 18%;
+	z-index: 20;
+	background: rgb(232, 232, 232);
+	border-radius: 100% 5px 5px 100%;
+	font-size: var(--title-size);
+}
+
+.primeCharacterSheet.narrowWidth .combinedResilienceBlock,
+.primeCharacterSheet.narrowWidth .injuriesBlock
+{
+	top: 20%;
+	bottom: 21%;
+	font-size: var(--smallTitle-size);
+}
+
+.primeCharacterSheet .injuriesBlock 
+{
+	top: 2%;
+	left: -8px;
+	right: auto;
+	width: 33%;
+	bottom: 2%;
+	border-radius: 5px;
+	justify-content: space-evenly;
+}
+
+.primeCharacterSheet.narrowWidth .injuriesBlock
+{
+	top: 2%;
+	bottom: 2%;
+}
+
+.primeCharacterSheet .injuriesBlock .injuryRow input
+{
+	width: 20%;
+}
+
+.primeCharacterSheet .injuriesBlock .injuryRow select
+{
+	width: 70%;
+}
+
 
 .statsContent
 {
