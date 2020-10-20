@@ -12,10 +12,39 @@
 	justify-content: space-between;
 }
 
+.flexRow.flexStart,
+.flexColumn.flexStart
+{
+	justify-content: flex-start;
+}
+.flexRow.flexBetween,
+.flexColumn.flexBetween
+{
+	justify-content: space-between;
+}
+
+.flexRow.flexEnd,
+.flexColumn.flexEnd
+{
+	justify-content: flex-end;
+}
+
+
+.flexRow.flexCenter
+{
+	justify-content: center;
+}
+
+.flexColumn.flexCenter
+{
+	align-items: center;
+}
+
 .flexColumn .verticalCenter
 {
 	justify-content: center;
 }
+
 .flexRow .verticalCenter
 {
 	align-items: center;
@@ -51,8 +80,27 @@
 	position: relative;
 	border-radius: 5px;
 	padding: 11px 5px 5px 5px;
-	margin: 10px;
+	margin: 11px 5px 5px 5px;
 	border:1px solid grey;
+	background: rgba(0,0,0,0.05);
+}
+
+.block.bottomBlockTitle
+{
+	padding: 5px 5px 14px 5px;
+	margin: 5px 5px 11px 5px;
+}
+
+.block.leftBlockTitle
+{
+	padding: 5px 5px 5px 11px;
+	margin: 5px 5px 5px 11px;
+}
+
+.block.rigthBlockTitle
+{
+	padding: 5px 11px 5px 5px;
+	margin: 5px 11px 5px 5px;
 }
 
 .block .blockTitle
@@ -62,9 +110,63 @@
 	height: 15px;
 	left: 25%;
 	right: 25%;
-	text-align: center;
 	font-size:10px;
 	background: url(../../../../ui/parchment.jpg) repeat;
 	border:1px solid grey;
 	border-radius: 3px;
+	display:flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.block.bottomBlockTitle .blockTitle
+{
+	top:auto;
+	bottom:-8.5px;
+}
+
+.block.rigthBlockTitle .blockTitle
+{
+	top: 5%;
+	bottom: 5%;
+	left: auto;
+	right: -7.5px;
+	width: 15px;
+	height: auto;
+}
+.block.leftBlockTitle .blockTitle
+{
+	top: 5%;
+	bottom: 5%;
+	left: -7.5px;
+	right: auto;
+	width: 15px;
+	height: auto;
+}
+
+
+.block.rigthBlockTitle .blockTitle span
+{
+	transform-origin: 50% 50%;
+	transform: rotate(90deg);
+}
+
+.block.leftBlockTitle .blockTitle span
+{
+	transform-origin: 50% 50%;
+	transform: rotate(270deg);
+}
+
+.block.topHalfBlock
+{
+	border-radius: 5px 5px 0px 0px;
+	border-bottom-width: 0px;
+	margin-bottom: 0px;
+}
+
+.block.bottomHalfBlock
+{
+	border-radius: 0px 0px 5px 5px;
+	border-top-width: 0px;
+	margin-top: 0px;
 }
