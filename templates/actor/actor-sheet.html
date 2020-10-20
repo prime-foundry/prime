@@ -1,4 +1,4 @@
-<form class="{{cssClass}} flexcol {{#if editable}}isEditable{{/if}}" autocomplete="off">
+<form class="{{cssClass}} {{#if editable}}isEditable{{/if}}" autocomplete="off">
 
 	{{!-- Sheet Header --}}
 	<div class="metaDataContent flexColumn">
@@ -34,12 +34,64 @@
 			</div>
 		</div>
 
-		
 		<div class="metaDataContentInner flexRow">
-			<div class="cell50">
-				<label for="data.wounds.current">Wounds</label>
-				<div class="metaValueContent">
-					<input type="text" name="data.wounds.current" value="{{data.wounds.current}}" data-dtype="Number" data-min="0" data-max="6" data-lastValue="{{data.wounds.current}}"/>
+			<div class="cell50 flexColumn healthAndArmourOuter">
+				<div class="flexRow flexEnd block topHalfBlock">
+					<div class="blockTitle">Health</div>
+					<div class="cell33 flexColumn flexCenter">
+						<label for="data.wounds.current">Wounds</label>
+						<div class="metaValueContent flexRow flexCenter">
+							<div class="bigNumberText">{{data.health.wounds.current}} / {{data.health.wounds.max}}</div>
+						</div>
+					</div>
+					<div class="cell33 flexColumn resilienceBlock">
+						<label for="data.wounds.current">Resilience</label>
+						<div class="metaValueContent flexRow">
+							<input type="text" class="bigNumberInput" name="data.health.resilience.current" value="{{data.health.resilience.current}}" data-dtype="Number" data-min="0" data-max="{{data.health.resilience.max}}" data-lastValue="{{data.health.resilience.current}}"/>
+						</div>
+					</div>
+				</div>
+				<div class="combinedResilienceBlock block rigthBlockTitle flexRow flexCenter verticalCenter">
+					<div class="blockTitle"><span>Combined</span></div>
+					<div>{{combinedResilience}}</div>
+				</div>
+				<div class="injuriesBlock block leftBlockTitle flex flexColumn">
+					<div class="blockTitle"><span>Wounds</span></div>
+
+					{{#for 1 data.health.wounds.max 1}}
+					
+					<div class="flexRow injuryRow">
+						<input type="checkbox" name="injuryCheckbox{{this}}" class="injuryCheckbox" value="{{this}}" {{itemSelected this ../data.health.wounds.current}}/>
+						<select name="injurySelect{{this}}" class="injurySelect" {{itemEnabled this ../data.health.wounds.current}} data-injury-index="{{this}}">
+							<option value="0" ></option>
+							<option value="1">Bleeding</option>
+							<option value="2">Pierced</option>
+							<option value="3">Hooked</option>
+							<option value="4">Non-lethal</option>
+							<option value="5">Staggered</option>
+							<option value="6">Stunned</option>
+							<option value="7">Crushed</option>
+							<option value="8">Battered</option>
+							<option value="9">Slowed</option>
+							<option value="10">Special</option>
+						</select>
+					</div>
+					{{/for}}
+				</div>
+				<div class="flexRow flexEnd block bottomBlockTitle bottomHalfBlock">
+					<div class="blockTitle">Armour</div>
+					<div class="cell33 flexColumn flexCenter">
+						<div class="metaValueContent flexRow flexCenter">
+							<input type="text" class="bigNumberInput" name="data.armour.coverage.current" value="{{data.armour.coverage.current}}" data-dtype="Number" data-min="0" data-max="{{data.armour.coverage.max}}" data-lastValue="{{data.armour.coverage.current}}"/>
+						</div>
+						<label for="data.wounds.current">Coverage</label>
+					</div>
+					<div class="cell33 flexColumn resilienceBlock">
+						<div class="metaValueContent flexRow">
+							<input type="text" class="bigNumberInput" name="data.armour.resilience.current" value="{{data.armour.resilience.current}}" data-dtype="Number" data-min="0" data-max="{{data.armour.resilience.max}}" data-lastValue="{{data.armour.resilience.current}}"/>
+						</div>
+						<label for="data.wounds.current">Resilience</label>
+					</div>
 				</div>
 			</div>
 			<div class="cell50 flexColumn">
@@ -48,7 +100,7 @@
 					<div class="metaValueContent actionPointsWrapper">
 						{{#for 0 data.actionPoints.max 1}}
 						<div class='actionPointWrapper{{actionStateClasses this ../data.actionPoints}}'>
-							<input id="actionPoint{{this}}" value="{{this}}" class="actionPointCheckbox" type="checkbox" name="actionPoints" {{actionSelected this ../data.actionPoints.current}}/>
+							<input id="actionPoint{{this}}" value="{{this}}" class="actionPointCheckbox" type="checkbox" name="actionPoints" {{itemSelected this ../data.actionPoints.current}}/>
 							<label for="actionPoint{{this}}">{{this}}</label>
 						</div>
 						{{/for}}
