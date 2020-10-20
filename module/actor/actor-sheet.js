@@ -38,7 +38,7 @@ export class BoilerplateActorSheet extends ActorSheet
 			{
 				return false;
 			}
-			if (changeData.actionPoints && Array.isArray(changeData.actionPoints) && !changeData.data)
+			if (changeData.actionPoints && Array.isArray(changeData.actionPoints) && !changeData.data && !changeData.name && !changeData.img && (changeData.token && !changeData.token.img))
 			{
 				return false;
 			}
@@ -64,6 +64,8 @@ export class BoilerplateActorSheet extends ActorSheet
 		}
 
 		data.currentOwners = this.getCurrentOwners(data.actor.permission);
+
+		data.combinedResilience = data.data.health.resilience.current + data.data.armour.resilience.current;
 		
 		data.data.typeSorted = this.getTypeSortedPrimesAndRefinements(data);
 
@@ -212,6 +214,44 @@ export class BoilerplateActorSheet extends ActorSheet
 		//console.log(result);
 	}
 
+	async updateInjuryTotal(event)
+	{
+		const input = $(event.delegateTarget);
+		const value = input.val();
+		const data = super.getData();
+		const checked = input.prop("checked");
+		const inputParent = input.parent();
+		data.data.health.wounds.lastTotal = data.data.health.wounds.current;
+
+		if (checked || (!checked && !inputParent.hasClass("currentActionPointTotal")))
+		{
+			data.data.health.wounds.current = parseInt(value);
+		}
+		else
+		{
+			data.data.health.wounds.current = parseInt(value) - 1;
+		}
+
+		if (data.data.health.wounds.current < 0)
+		{
+			data.data.health.wounds.current = 0;
+		}
+
+		var result = await this.actor.update(data.actor);
+	}
+
+	async updateInjuryDetail(event)
+	{
+		const select = $(event.delegateTarget);
+		const value = select.val();
+		const injuryIndex = select.data("injury-index");
+				
+		const data = super.getData();
+		data.data.wounds["wound" + (injuryIndex - 1)] = value;
+
+		var result = await this.actor.update(data.actor);
+	}
+
 	resizeUpdateStart(event)
 	{
 		this.resizeOccuring = true;
@@ -357,6 +397,9 @@ export class BoilerplateActorSheet extends ActorSheet
 		html.click(this.clearValueEditMode.bind(this));
 
 		html.find(".actionPointCheckbox").change(this.updateActionPoints.bind(this));
+		
+		html.find(".injuryCheckbox").change(this.updateInjuryTotal.bind(this));
+		html.find(".injurySelect").change(this.updateInjuryDetail.bind(this));
 
 		var resizeHandle = html.parent().parent().find(".window-resizable-handle");
 		
@@ -402,10 +445,16 @@ export class BoilerplateActorSheet extends ActorSheet
 
 	async postActivateListeners(html)
 	{
+		const data = super.getData();
+
+		html.find(".injurySelect").each(function(index, element)
+		{
+			$(element).val(data.data.wounds["wound" + index]);
+		});
+
 		html.find(".fillAnimation").removeClass("fillAnimation");
 		html.find(".emptyAnimation").removeClass("emptyAnimation");
 
-		const data = super.getData();
 		data.data.actionPoints.lastTotal = data.data.actionPoints.current;
 		var result = await this.actor.update(data.actor, {render: false});
 	}
@@ -498,13 +547,22 @@ Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
 });
 
 
-Handlebars.registerHelper('actionSelected', function (pointIndex, currentPoints)
+Handlebars.registerHelper('itemSelected', function (pointIndex, currentPoints)
 {
 	if (pointIndex <= currentPoints)
 	{
 		return "checked";
 	}
 	return "";
+});
+
+Handlebars.registerHelper('itemEnabled', function (pointIndex, currentPoints)
+{
+	if (pointIndex <= currentPoints)
+	{
+		return "";
+	}
+	return "disabled";
 });
 
 Handlebars.registerHelper('actionStateClasses', function (pointIndex, actionPointData)
