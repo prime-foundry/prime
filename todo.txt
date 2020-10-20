@@ -12,6 +12,11 @@ Character sheet
 - Actions
 - Roll dice based on prime/refinement highlight.
 
+Fix name field
+
+Investigate initiative rolling
+
+Lithic Lane FB page
 
 Review items:
 - Weapons
@@ -52,7 +57,3 @@ Outstanding questions:
 - Ranged combat
 - Number of dodges/parries/blocks
 - Wound conditions - do these have stats e.g. "broken arm, -2 to actions"
-
-
-
-
