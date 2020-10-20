@@ -68,7 +68,7 @@ export class PRIME_DICE_ROLLER extends FormApplication
 
 	async createContent(diceResult)
 	{
-		var handlebarsTemplate = await getTemplate("modules/PrimeDice/templates/prime_result.html");
+		var handlebarsTemplate = await getTemplate("systems/prime/templates/dice/prime_result.html");
 		var messageContent = handlebarsTemplate(diceResult);
 		return messageContent
 	}

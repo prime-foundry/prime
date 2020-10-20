@@ -50,11 +50,12 @@ export class PRIME_DICE_POPUP extends FormApplication
 
 	getPrimes()
 	{
-		if (game.system.template.Actor.character.primes)
+		
+		if (game.system.template.Actor.templates.base.primes)
 		{
 			let primes = [];
 			let currPrime = null;
-			let primesSource = game.system.template.Actor.character.primes
+			let primesSource = game.system.template.Actor.templates.base.primes;
 			for (let currAbbrevation in primesSource)
 			{
 				currPrime = primesSource[currAbbrevation];
@@ -68,7 +69,7 @@ export class PRIME_DICE_POPUP extends FormApplication
 
 	getRefinements()
 	{
-		var refinementData = game.system.template.Actor.character.refinements;
+		var refinementData = game.system.template.Actor.templates.base.refinements;
 		if (refinementData)
 		{
 			var localisedRefinments = this.getLocalisedRefinments(refinementData);
