@@ -34,6 +34,8 @@ Ship sheet
 
 Convert text in template to lang file.
 
+Update armour > coverage to armour > protection
+
 Stats to add:
 =============
 
