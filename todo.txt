@@ -6,17 +6,18 @@ Item edit mode
 
 Improve layout
 
+//Fix name field
+
+Investigate initiative rolling
+- https://foundryvtt.com/packages/group-initiative/
+
+Lithic Lane FB page
+
 Character sheet
 - Meta data like faction, race, height, weight, hair colour etc. (maybe optional, only showing what's filled in)
 - Perks
 - Actions
 - Roll dice based on prime/refinement highlight.
-
-Fix name field
-
-Investigate initiative rolling
-
-Lithic Lane FB page
 
 Review items:
 - Weapons
@@ -31,7 +32,7 @@ Ship sheet
 - Upgrades
 - Weapons
 
-
+Convert text in template to lang file.
 
 Stats to add:
 =============
