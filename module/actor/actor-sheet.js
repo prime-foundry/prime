@@ -196,7 +196,7 @@ export class BoilerplateActorSheet extends ActorSheet
 		const inputParent = input.parent();
 		data.data.actionPoints.lastTotal = data.data.actionPoints.current;
 
-		if (checked || (!checked && !inputParent.hasClass("currentActionPointTotal")))
+		if (checked || (!checked && !inputParent.hasClass("currentPointTotal")))
 		{
 			data.data.actionPoints.current = parseInt(value);
 		}
@@ -223,7 +223,7 @@ export class BoilerplateActorSheet extends ActorSheet
 		const inputParent = input.parent();
 		data.data.health.wounds.lastTotal = data.data.health.wounds.current;
 
-		if (checked || (!checked && !inputParent.hasClass("currentActionPointTotal")))
+		if (checked || (!checked && !inputParent.hasClass("currentPointTotal")))
 		{
 			data.data.health.wounds.current = parseInt(value);
 		}
@@ -248,6 +248,48 @@ export class BoilerplateActorSheet extends ActorSheet
 				
 		const data = super.getData();
 		data.data.wounds["wound" + (injuryIndex - 1)] = value;
+
+		var result = await this.actor.update(data.actor);
+	}
+
+	// checkEnableInjury(event)
+	// {
+	// 	const injuryRow = $(event.delegateTarget);
+	// 	const siblingCheckbox = injuryRow.find(".injuryCheckbox");
+	// 	const checkBoxState = siblingCheckbox.val();
+	// 	if (siblingCheckbox.prop( "checked" ) == false)
+	// 	{
+	// 		siblingCheckbox.prop( "checked", true );
+	// 	}
+	// }
+
+	async healInjury(event)
+	{
+		const anchor = $(event.delegateTarget);
+		const injuryIndex = anchor.data("injury-index");
+				
+		const data = super.getData();
+
+		var count = injuryIndex - 1;
+		while (count <= data.data.health.wounds.max)
+		{
+			var _nextInjury = data.data.wounds["wound" + (count + 1)]
+			if (_nextInjury)
+			{
+				data.data.wounds["wound" + count] = _nextInjury;
+			}
+			else
+			{
+				data.data.wounds["wound" + count] = 0;
+			}
+			count++;
+		}
+
+		if (injuryIndex <= data.data.health.wounds.current)
+		{
+			data.data.health.wounds.lastTotal = data.data.health.wounds.current;
+			data.data.health.wounds.current--;
+		}
 
 		var result = await this.actor.update(data.actor);
 	}
@@ -398,8 +440,11 @@ export class BoilerplateActorSheet extends ActorSheet
 
 		html.find(".actionPointCheckbox").change(this.updateActionPoints.bind(this));
 		
+		//html.find(".injuryRow").click(this.checkEnableInjury.bind(this));
+		
 		html.find(".injuryCheckbox").change(this.updateInjuryTotal.bind(this));
 		html.find(".injurySelect").change(this.updateInjuryDetail.bind(this));
+		html.find(".healInjury").click(this.healInjury.bind(this));
 
 		var resizeHandle = html.parent().parent().find(".window-resizable-handle");
 		
@@ -565,21 +610,20 @@ Handlebars.registerHelper('itemEnabled', function (pointIndex, currentPoints)
 	return "disabled";
 });
 
-Handlebars.registerHelper('actionStateClasses', function (pointIndex, actionPointData)
+Handlebars.registerHelper('addStateClasses', function (pointIndex, basePointData)
 {
-	const current = actionPointData.current;
-	const lastTotal = actionPointData.lastTotal;
+	const current = basePointData.current;
+	const lastTotal = basePointData.lastTotal;
 	var classes = []
 
 	if (pointIndex <= current)
 	{
-		classes.push("activeActionPoint");
+		classes.push("activePoint");
 	}
 	if (pointIndex == current)
 	{
-		classes.push("currentActionPointTotal");
+		classes.push("currentPointTotal");
 	}
-
 
 	if (lastTotal > current)
 	{
