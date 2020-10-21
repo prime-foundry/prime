@@ -36,6 +36,21 @@ Convert text in template to lang file.
 
 Update armour > coverage to armour > protection
 
+Add character name, prime and refinement to dice result message.
+
+Wounds can't be reset below 1
+
+Fix add item button.
+
+Only GMs can see action points - verify via player account test
+
+Intended action should be added to the combat tracker
+
+Add action selection tab.
+
+Make the start new combat round auto-add a action point.
+
+
 Stats to add:
 =============
 
