@@ -1,15 +1,17 @@
 {
 	"Actor":{
-		"types":[
+		"types":
+		[
 			"character"
 		],
-		"templates":{
-			"base":
+		"templates":
+		{
+			"base_template":
 			{
 				"actionPoints":
 				{
 					"lastTotal": 0,
-					"current": 0,
+					"value": 0,
 					"max": 6
 				},
 				"health":
@@ -17,55 +19,78 @@
 					"wounds":
 					{
 						"lastTotal": 0,
-						"current": 0,
+						"value": 0,
 						"max": 6
 					},
 					"resilience":
 					{
-						"current": 0,
+						"value": 0,
 						"max": 6
 					}
 				},
 				"armour":
 				{
-					"coverage":
+					"protection":
 					{
-						"current":0,
+						"value":0,
 						"max":6
 					},
 					"resilience":
 					{
-						"current":0,
+						"value":0,
 						"max":6
 					}
 				},
 				"soul":
 				{
 					"initial": 100,
-					"current": 0,
+					"value": 0,
 					"awarded": 0,
 					"spent": 0
 				},
 				"xp":
 				{
 					"initial":100,
-					"current":0,
+					"value":0,
 					"awarded":0,
 					"spent":0
-				},
+				}
+			},
+			"metadata_template":
+			{
 				"metadata":
 				{
-					"faction": 
-					{
-						"value": "",
-						"title":"PRIME.meta_faction_title"
-					},
 					"race": 
 					{
 						"value": "",
 						"title":"PRIME.meta_race_title"
 					},
-					"height": 
+					"faction": 
+					{
+						"value": "",
+						"title":"PRIME.meta_faction_title"
+					},
+					"occupation": 
+					{
+						"value": "",
+						"title":"PRIME.meta_faction_title"
+					},
+					"celestial":
+					{
+						"value": "",
+						"title":"PRIME.meta_celestial"
+					},
+					"birthplace":
+					{
+						"value": "",
+						"title":"PRIME.meta_birthplace"
+					},
+					"rankOrTitle":
+					{
+						"value": "",
+						"title":"PRIME.meta_rank_or_title"
+					},
+					"height":
 					{
 						"value": "",
 						"title":"PRIME.meta_height_title"
@@ -85,12 +110,25 @@
 						"value": "",
 						"title":"PRIME.meta_height_title"
 					},
+					"gender": 
+					{
+						"value": "",
+						"title":"PRIME.meta_gender"
+					},
+					"age": 
+					{
+						"value": "",
+						"title":"PRIME.meta_age"
+					},
 					"biography":
 					{
 						"value": "",
 						"title":"PRIME.meta_biography_title"
 					}
-				},
+				}
+			},
+			"primes_template":
+			{
 				"primes":
 				{
 					"end":{
@@ -153,7 +191,10 @@
 						"title": "PRIME.prime_title_por",
 						"description": "PRIME.prime_description_por"
 					}
-				},
+				}
+			},
+			"refinements_template":
+			{
 				"refinements":
 				{
 					"survival" :
@@ -373,7 +414,10 @@
 		"character":{
 			"templates":
 			[
-				"base"
+				"base_template",
+				"metadata_template",
+				"primes_template",
+				"refinements_template"
 			],
 			"perks": [],
 			"wounds": 
@@ -386,39 +430,78 @@
 				"wound5":0,
 				"wound6":0
 			}
-
 		}
 	},
-	"Item":{
+	"Item":
+	{
 		"types":[
+			"weapon",
+			"armour",
 			"item",
-			"feature",
-			"spell"
+			"perk"
 		],
 		"templates":{
 			"base":
 			{
 				"title": "",
-				"description":"",
-				"cost":"",
+				"description":""
+			},
+
+			"physicalItem":
+			{
+				"quantity":1,
+				"weight":0,
 				"rarity": ""
 			},
-			"mastercraft":
+			"valuable":
 			{
+				"valueType": "",
+				"valueAmount": ""
+			},
+			"mastercratable":
+			{
+				"isMasterCraft": false,
 				"traits": []
+			},
+
+			"actorFeature":
+			{
+				"cost":
+				{
+					"attributePath":"",
+					"amount": 0
+				},
+				"prerequisites": []
 			}
 		},
-		"item":{
-			"templates":[
-				"base"
-			],
-			"quantity":1,
-			"weight":0
+		"item":
+		{
+			"templates":["base", "physicalItem", "valuable"]
 		},
-		"feature":{
-			"templates":[
-				"base"
-			]
+		"weapon":
+		{
+			"templates":["base", "physicalItem", "mastercratable", "valuable"],
+			"weaponType": "",
+			"damageRating": 0,
+			"requiredHands": 1,
+			"damageConditions": [],
+			"keywords": [],
+			"customActions": [],
+			"notes": ""
+		},
+		"armour":
+		{
+			"templates":["base", "physicalItem", "mastercratable", "valuable"],
+			"armourType": "",
+			"protection": 0,
+			"armourResilience": 1,
+			"keywords": [],
+			"untrainedPenalty": [],
+			"notes": ""
+		},
+		"perk":
+		{
+			"templates": ["base", "actorFeature"]			
 		}
 	}
 }
