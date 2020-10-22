@@ -1,6 +1,6 @@
 import { PRIME_DICE_ROLLER } from "./prime_dice_roller.js";
 
-export class PRIME_DICE_POPUP extends FormApplication
+export class PRIME_DICE_POPUP extends Application
 {
 	diceRoller = new PRIME_DICE_ROLLER();
 
@@ -50,15 +50,14 @@ export class PRIME_DICE_POPUP extends FormApplication
 
 	getPrimes()
 	{
-		
-		if (game.system.template.Actor.templates.base.primes)
+		const primeData = game.system.template.Actor.templates.primes_template.primes		
+		if (primeData)
 		{
 			let primes = [];
 			let currPrime = null;
-			let primesSource = game.system.template.Actor.templates.base.primes;
-			for (let currAbbrevation in primesSource)
+			for (let currAbbrevation in primeData)
 			{
-				currPrime = primesSource[currAbbrevation];
+				currPrime = primeData[currAbbrevation];
 				primes.push({name: currAbbrevation, title: game.i18n.localize(currPrime.title)});
 			}
 			return primes;
@@ -69,7 +68,7 @@ export class PRIME_DICE_POPUP extends FormApplication
 
 	getRefinements()
 	{
-		var refinementData = game.system.template.Actor.templates.base.refinements;
+		var refinementData = game.system.template.Actor.templates.refinements_template.refinements;
 		if (refinementData)
 		{
 			var localisedRefinments = this.getLocalisedRefinments(refinementData);
