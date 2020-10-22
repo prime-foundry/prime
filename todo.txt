@@ -50,6 +50,8 @@ Add action selection tab.
 
 Make the start new combat round auto-add a action point.
 
+Enhance the dice roller to allow for opposed rolls.
+
 
 Stats to add:
 =============
