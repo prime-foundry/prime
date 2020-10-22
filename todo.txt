@@ -34,11 +34,9 @@ Ship sheet
 
 Convert text in template to lang file.
 
-Update armour > coverage to armour > protection
+Convert wound selects to use the {{#select}} Handlebars helper and remove code from actor sheet JS.
 
 Add character name, prime and refinement to dice result message.
-
-Wounds can't be reset below 1
 
 Fix add item button.
 
@@ -52,6 +50,9 @@ Make the start new combat round auto-add a action point.
 
 Enhance the dice roller to allow for opposed rolls.
 
+//Wounds can't be reset below 1
+
+//Update armour > coverage to armour > protection
 
 Stats to add:
 =============
