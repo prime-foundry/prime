@@ -34,7 +34,7 @@ export class PrimePCActorSheet extends ActorSheet
 	{
 		Hooks.on("preUpdateActor", function(actorData, changeData, options, maybeUpdateID)
 		{
-			if (changeData.data && changeData.data.actionPoints && changeData.data.actionPoints.lastTotal && !changeData.data.actionPoints.current && changeData.data.actionPoints.current !== 0)
+			if (changeData.data && changeData.data.actionPoints && changeData.data.actionPoints.lastTotal && !changeData.data.actionPoints.value && changeData.data.actionPoints.value !== 0)
 			{
 				return false;
 			}
@@ -65,7 +65,7 @@ export class PrimePCActorSheet extends ActorSheet
 
 		data.currentOwners = this.getCurrentOwners(data.actor.permission);
 
-		data.combinedResilience = data.data.health.resilience.current + data.data.armour.resilience.current;
+		data.combinedResilience = data.data.health.resilience.value + data.data.armour.resilience.value;
 		
 		data.data.typeSorted = this.getTypeSortedPrimesAndRefinements(data);
 
@@ -194,20 +194,20 @@ export class PrimePCActorSheet extends ActorSheet
 		const data = super.getData();
 		const checked = input.prop("checked");
 		const inputParent = input.parent();
-		data.data.actionPoints.lastTotal = data.data.actionPoints.current;
+		data.data.actionPoints.lastTotal = data.data.actionPoints.value;
 
 		if (checked || (!checked && !inputParent.hasClass("currentPointTotal")))
 		{
-			data.data.actionPoints.current = parseInt(value);
+			data.data.actionPoints.value = parseInt(value);
 		}
 		else
 		{
-			data.data.actionPoints.current = parseInt(value) - 1;
+			data.data.actionPoints.value = parseInt(value) - 1;
 		}
 
-		if (data.data.actionPoints.current < 0)
+		if (data.data.actionPoints.value < 0)
 		{
-			data.data.actionPoints.current = 0;
+			data.data.actionPoints.value = 0;
 		}
 
 		var result = await this.actor.update(data.actor);
@@ -221,20 +221,20 @@ export class PrimePCActorSheet extends ActorSheet
 		const data = super.getData();
 		const checked = input.prop("checked");
 		const inputParent = input.parent();
-		data.data.health.wounds.lastTotal = data.data.health.wounds.current;
+		data.data.health.wounds.lastTotal = data.data.health.wounds.value;
 
 		if (checked || (!checked && !inputParent.hasClass("currentPointTotal")))
 		{
-			data.data.health.wounds.current = parseInt(value);
+			data.data.health.wounds.value = parseInt(value);
 		}
 		else
 		{
-			data.data.health.wounds.current = parseInt(value) - 1;
+			data.data.health.wounds.value = parseInt(value) - 1;
 		}
 
-		if (data.data.health.wounds.current < 0)
+		if (data.data.health.wounds.value < 0)
 		{
-			data.data.health.wounds.current = 0;
+			data.data.health.wounds.value = 0;
 		}
 
 		var result = await this.actor.update(data.actor);
@@ -285,10 +285,10 @@ export class PrimePCActorSheet extends ActorSheet
 			count++;
 		}
 
-		if (injuryIndex <= data.data.health.wounds.current)
+		if (injuryIndex <= data.data.health.wounds.value)
 		{
-			data.data.health.wounds.lastTotal = data.data.health.wounds.current;
-			data.data.health.wounds.current--;
+			data.data.health.wounds.lastTotal = data.data.health.wounds.value;
+			data.data.health.wounds.value--;
 		}
 
 		var result = await this.actor.update(data.actor);
@@ -500,7 +500,7 @@ export class PrimePCActorSheet extends ActorSheet
 		html.find(".fillAnimation").removeClass("fillAnimation");
 		html.find(".emptyAnimation").removeClass("emptyAnimation");
 
-		data.data.actionPoints.lastTotal = data.data.actionPoints.current;
+		data.data.actionPoints.lastTotal = data.data.actionPoints.value;
 		var result = await this.actor.update(data.actor, {render: false});
 	}
 
@@ -612,7 +612,7 @@ Handlebars.registerHelper('itemEnabled', function (pointIndex, currentPoints)
 
 Handlebars.registerHelper('addStateClasses', function (pointIndex, basePointData)
 {
-	const current = basePointData.current;
+	const current = basePointData.value;
 	const lastTotal = basePointData.lastTotal;
 	var classes = []
 
