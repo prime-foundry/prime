@@ -1,5 +1,5 @@
 
-#chat-controls .roll-type-select i.fas.fa-dice-d20
+#chat-controls .chat-control-icon i.fas.fa-dice-d20
 {
     position:relative;
     color: #ff6400;
@@ -14,24 +14,24 @@
 }
 
 
-#chat-controls .roll-type-select i.fas.fa-dice-d20:active
+#chat-controls .chat-control-icon i.fas.fa-dice-d20:active
 {
     transform: translate(0px, 1px);
 }
 
-#chat-controls .roll-type-select i.fas.fa-dice-d20::before
+#chat-controls .chat-control-icon i.fas.fa-dice-d20::before
 {
     font-size: 24px;
     vertical-align: bottom;
 }
 
-#chat-controls .roll-type-select i.fas.fa-dice-d20:hover
+#chat-controls .chat-control-icon i.fas.fa-dice-d20:hover
 {
     box-shadow: inset 0 0 3px #ff6400, 0 0 5px #ff6400;
     text-shadow: 0 0 3px #ff6400;
 }
 
-#chat-controls .roll-type-select i.fas.fa-dice-d20::after
+#chat-controls .chat-control-icon i.fas.fa-dice-d20::after
 {
     position:absolute;
     top:1px;
