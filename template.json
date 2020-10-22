@@ -60,71 +60,19 @@
 			{
 				"metadata":
 				{
-					"race": 
-					{
-						"value": "",
-						"title":"PRIME.meta_race_title"
-					},
-					"faction": 
-					{
-						"value": "",
-						"title":"PRIME.meta_faction_title"
-					},
-					"occupation": 
-					{
-						"value": "",
-						"title":"PRIME.meta_faction_title"
-					},
-					"celestial":
-					{
-						"value": "",
-						"title":"PRIME.meta_celestial"
-					},
-					"birthplace":
-					{
-						"value": "",
-						"title":"PRIME.meta_birthplace"
-					},
-					"rankOrTitle":
-					{
-						"value": "",
-						"title":"PRIME.meta_rank_or_title"
-					},
-					"height":
-					{
-						"value": "",
-						"title":"PRIME.meta_height_title"
-					},
-					"weight": 
-					{
-						"value": "",
-						"title":"PRIME.meta_height_title"
-					},
-					"hair": 
-					{
-						"value": "",
-						"title":"PRIME.meta_hair_title"
-					},
-					"eyes": 
-					{
-						"value": "",
-						"title":"PRIME.meta_height_title"
-					},
-					"gender": 
-					{
-						"value": "",
-						"title":"PRIME.meta_gender"
-					},
-					"age": 
-					{
-						"value": "",
-						"title":"PRIME.meta_age"
-					},
-					"biography":
-					{
-						"value": "",
-						"title":"PRIME.meta_biography_title"
-					}
+					"race": "",
+					"faction": "",
+					"occupation": "",
+					"celestial": "",
+					"birthplace": "",
+					"rankOrTitle": "",
+					"height": "",
+					"weight": "",
+					"hair": "",
+					"eyes": "",
+					"gender": "",
+					"age": "",
+					"biography": ""
 				}
 			},
 			"primes_template":
@@ -133,29 +81,34 @@
 				{
 					"end":{
 						"value":1,
+						"max": 10,
 						"type" : "physical",
 						"title": "PRIME.prime_title_end",
 						"description": "PRIME.prime_description_end"
 					},
 					"itr":{
 						"value":1,
+						"max": 10,
 						"type" : "physical",
 						"title": "PRIME.prime_title_itr",
 						"description": "PRIME.prime_description_itr"
 					},
 					"mov":{
 						"value":1,
+						"max": 10,
 						"type" : "physical",
 						"title": "PRIME.prime_title_mov",
 						"description": "PRIME.prime_description_mov"
 					},
 					"str":{
 						"value":1,
+						"max": 10,
 						"type" : "physical",
 						"title": "PRIME.prime_title_str",
 						"description": "PRIME.prime_description_str"
 					},
 					"int":{
+						"max": 10,
 						"value":1,
 						"type" : "mental",
 						"title": "PRIME.prime_title_int",
@@ -163,30 +116,35 @@
 					},
 					"man":{
 						"value":1,
+						"max": 10,
 						"type" : "mental",
 						"title": "PRIME.prime_title_man",
 						"description": "PRIME.prime_description_man"
 					},
 					"per":{
 						"value":1,
+						"max": 10,
 						"type" : "mental",
 						"title": "PRIME.prime_title_per",
 						"description": "PRIME.prime_description_per"
 					},
 					"res":{
 						"value":1,
+						"max": 10,
 						"type" : "mental",
 						"title": "PRIME.prime_title_res",
 						"description": "PRIME.prime_description_res"
 					},
 					"att":{
-						"value":1,
+						"value":0,
+						"max": 10,
 						"type" : "supernaturual",
 						"title": "PRIME.prime_title_att",
 						"description": "PRIME.prime_description_att"
 					},
 					"por":{
 						"value":1,
+						"max": 10,
 						"type" : "supernaturual",
 						"title": "PRIME.prime_title_por",
 						"description": "PRIME.prime_description_por"
@@ -200,6 +158,7 @@
 					"survival" :
 					{
 						"value": 0,
+						"max": 10,
 						"related" : ["end", "per", "int"],
 						"type" : "physical",
 						"title": "PRIME.refinment_title_survival",
@@ -208,6 +167,7 @@
 					"crafting" :
 					{
 						"value": 0,
+						"max": 10,
 						"related" : ["itr", "str", "int"],
 						"type" : "physical",
 						"title": "PRIME.refinment_title_crafting",
@@ -216,6 +176,7 @@
 					"physique" :
 					{
 						"value": 0,
+						"max": 10,
 						"related" : ["end", "str", "mov"],
 						"type" : "physical",
 						"title": "PRIME.refinment_title_physique",
@@ -224,6 +185,7 @@
 					"melee" :
 					{
 						"value": 0,
+						"max": 10,
 						"related" : ["str"],
 						"type" : "physical",
 						"title": "PRIME.refinment_title_melee",
@@ -232,6 +194,7 @@
 					"ranged" :
 					{
 						"value": 0,
+						"max": 10,
 						"related" : ["itr"],
 						"type" : "physical",
 						"title": "PRIME.refinment_title_ranged",
@@ -240,6 +203,7 @@
 					"athletics" :
 					{
 						"value": 0,
+						"max": 10,
 						"related" : ["mov", "str"],
 						"type" : "physical",
 						"title": "PRIME.refinment_title_athletics",
@@ -248,6 +212,7 @@
 					"handle" :
 					{
 						"value": 0,
+						"max": 10,
 						"related" : ["mov"],
 						"type" : "physical",
 						"title": "PRIME.refinment_title_handle",
@@ -256,6 +221,7 @@
 					"pilot" :
 					{
 						"value": 0,
+						"max": 10,
 						"related" : ["itr"],
 						"type" : "physical",
 						"title": "PRIME.refinment_title_pilot",
@@ -264,6 +230,7 @@
 					"skulldugery" :
 					{
 						"value": 0,
+						"max": 10,
 						"related" : ["itr", "mov"],
 						"type" : "physical",
 						"title": "PRIME.refinment_title_skulldugery",
@@ -274,6 +241,7 @@
 					"artistry" :
 					{
 						"value": 0,
+						"max": 10,
 						"related" : ["man", "int", "itr"],
 						"type" : "mental",
 						"title": "PRIME.refinment_title_artistry",
@@ -282,6 +250,7 @@
 					"observation" :
 					{
 						"value": 0,
+						"max": 10,
 						"related" : ["per"],
 						"type" : "mental",
 						"title": "PRIME.refinment_title_observation",
@@ -290,6 +259,7 @@
 					"influence" :
 					{
 						"value": 0,
+						"max": 10,
 						"related" : ["man", "per", "int", "itr"],
 						"type" : "mental",
 						"title": "PRIME.refinment_title_influence",
@@ -298,6 +268,7 @@
 					"discern" :
 					{
 						"value": 0,
+						"max": 10,
 						"related" : ["man", "per", "int", "itr"],
 						"type" : "mental",
 						"title": "PRIME.refinment_title_discern",
@@ -306,6 +277,7 @@
 					"fortitude" :
 					{
 						"value": 0,
+						"max": 10,
 						"related" : ["res"],
 						"type" : "mental",
 						"title": "PRIME.refinment_title_fortitude",
@@ -314,6 +286,7 @@
 					"culture" :
 					{
 						"value": 0,
+						"max": 10,
 						"related" : ["man", "per", "int"],
 						"type" : "mental",
 						"title": "PRIME.refinment_title_culture",
@@ -322,6 +295,7 @@
 					"medicine" :
 					{
 						"value": 0,
+						"max": 10,
 						"related" : ["per", "int", "itr"],
 						"type" : "mental",
 						"title": "PRIME.refinment_title_medicine",
@@ -330,6 +304,7 @@
 					"metaphysics" :
 					{
 						"value": 0,
+						"max": 10,
 						"related" : ["int", "per", "por", "att"],
 						"type" : "mental",
 						"title": "PRIME.refinment_title_metaphysics",
@@ -338,6 +313,7 @@
 					"doctrines" :
 					{
 						"value": 0,
+						"max": 10,
 						"related" : ["man", "per", "int", "mov"],
 						"type" : "mental",
 						"title": "PRIME.refinment_title_doctrines",
@@ -346,6 +322,7 @@
 					"sciences" :
 					{
 						"value": 0,
+						"max": 10,
 						"related" : ["int", "per"],
 						"type" : "mental",
 						"title": "PRIME.refinment_title_sciences",
@@ -355,6 +332,7 @@
 					"fury" :
 					{
 						"value": 0,
+						"max": 10,
 						"related" : ["por"],
 						"type" : "supernaturual",
 						"title": "PRIME.refinment_title_fury",
@@ -363,6 +341,7 @@
 					"premonition" :
 					{
 						"value": 0,
+						"max": 10,
 						"related" : ["por"],
 						"type" : "supernaturual",
 						"title": "PRIME.refinment_title_premonition",
@@ -371,6 +350,7 @@
 					"threads" :
 					{
 						"value": 0,
+						"max": 10,
 						"related" : ["por", "end", "res", "per", "int"],
 						"type" : "supernaturual",
 						"title": "PRIME.refinment_title_threads",
@@ -379,6 +359,7 @@
 					"regeneration" :
 					{
 						"value": 0,
+						"max": 10,
 						"related" : ["por"],
 						"type" : "supernaturual",
 						"title": "PRIME.refinment_title_regeneration",
@@ -387,6 +368,7 @@
 					"tap" :
 					{
 						"value": 0,
+						"max": 10,
 						"related" : ["att"],
 						"type" : "supernaturual",
 						"title": "PRIME.refinment_title_tap",
@@ -395,6 +377,7 @@
 					"release" :
 					{
 						"value": 0,
+						"max": 10,
 						"related" : ["att"],
 						"type" : "supernaturual",
 						"title": "PRIME.refinment_title_release",
@@ -403,6 +386,7 @@
 					"manifest" :
 					{
 						"value": 0,
+						"max": 10,
 						"related" : ["por"],
 						"type" : "supernaturual",
 						"title": "PRIME.refinment_title_manifest",
@@ -435,15 +419,14 @@
 	"Item":
 	{
 		"types":[
+			"item",
 			"weapon",
 			"armour",
-			"item",
 			"perk"
 		],
 		"templates":{
 			"base":
 			{
-				"title": "",
 				"description":""
 			},
 
@@ -451,7 +434,7 @@
 			{
 				"quantity":1,
 				"weight":0,
-				"rarity": ""
+				"rarity": "common"
 			},
 			"valuable":
 			{
