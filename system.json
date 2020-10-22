@@ -7,7 +7,7 @@
   "compatibleCoreVersion": "0.9.5",
   "templateVersion": 2,
   "author": "Matt Henderson, Johnathan Castle, Jack Moxley & co",
-  "esmodules": ["module/boilerplate.js", "module/prime_dice/prime_dice.js"],
+  "esmodules": ["module/prime_system_core.js", "module/prime_dice/prime_dice.js"],
   "styles": ["css/core_imports.css"],
   "scripts": [],
   "packs": [],

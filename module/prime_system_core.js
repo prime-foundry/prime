@@ -1,14 +1,14 @@
 // Import Modules
-import { BoilerplateActor } from "./actor/actor.js";
-import { BoilerplateActorSheet } from "./actor/actor-sheet.js";
-import { BoilerplateItem } from "./item/item.js";
-import { BoilerplateItemSheet } from "./item/item-sheet.js";
+import { PrimePCActor } from "./actor/actor.js";
+import { PrimePCActorSheet } from "./actor/actor-sheet.js";
+import { PrimeItem as PrimeItem } from "./item/item.js";
+import { PrimeItemSheet } from "./item/item-sheet.js";
 
 Hooks.once('init', async function() {
 
-  game.boilerplate = {
-    BoilerplateActor,
-    BoilerplateItem,
+  game.prime = {
+    PrimePCActor,
+    PrimeItem,
     rollItemMacro
   };
 
@@ -22,14 +22,14 @@ Hooks.once('init', async function() {
   };
 
   // Define custom Entity classes
-  CONFIG.Actor.entityClass = BoilerplateActor;
-  CONFIG.Item.entityClass = BoilerplateItem;
+  CONFIG.Actor.entityClass = PrimePCActor;
+  CONFIG.Item.entityClass = PrimeItem;
 
   // Register sheet application classes
   Actors.unregisterSheet("core", ActorSheet);
-  Actors.registerSheet("boilerplate", BoilerplateActorSheet, { makeDefault: true });
+  Actors.registerSheet("prime", PrimePCActorSheet, { makeDefault: true });
   Items.unregisterSheet("core", ItemSheet);
-  Items.registerSheet("boilerplate", BoilerplateItemSheet, { makeDefault: true });
+  Items.registerSheet("prime", PrimeItemSheet, { makeDefault: true });
 
   // If you need to add Handlebars helpers, here are a few useful examples:
   Handlebars.registerHelper('concat', function() {
@@ -69,7 +69,7 @@ async function createBoilerplateMacro(data, slot) {
   const item = data.data;
 
   // Create the macro command
-  const command = `game.boilerplate.rollItemMacro("${item.name}");`;
+  const command = `game.prime.rollItemMacro("${item.name}");`;
   let macro = game.macros.entities.find(m => (m.name === item.name) && (m.command === command));
   if (!macro) {
     macro = await Macro.create({
@@ -77,7 +77,7 @@ async function createBoilerplateMacro(data, slot) {
       type: "script",
       img: item.img,
       command: command,
-      flags: { "boilerplate.itemMacro": true }
+      flags: { "prime.itemMacro": true }
     });
   }
   game.user.assignHotbarMacro(macro, slot);

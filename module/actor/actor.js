@@ -2,7 +2,7 @@
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
  * @extends {Actor}
  */
-export class BoilerplateActor extends Actor
+export class PrimePCActor extends Actor
 {
 
 	/**
@@ -45,7 +45,7 @@ export class BoilerplateActor extends Actor
 		{
 			// Calculate the modifier using d20 rules.
 			// prime.mod = Math.floor((prime.value - 10) / 2);
-			item.cost = BoilerplateActor.primeCost(item.value);
+			item.cost = PrimePCActor.primeCost(item.value);
 			totalCost += item.cost;
 			// mod will go but lets see what we get
 			item.mod = item.cost;
