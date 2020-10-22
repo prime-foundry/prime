@@ -39,15 +39,15 @@
 				<div class="flexRow flexEnd block topHalfBlock">
 					<div class="blockTitle">Health</div>
 					<div class="cell25 flexColumn flexCenter">
-						<label for="data.wounds.current">Wounds</label>
+						<label for="data.wounds.value">Wounds</label>
 						<div class="metaValueContent flexRow flexCenter">
-							<div class="bigNumberText">{{data.health.wounds.current}} / {{data.health.wounds.max}}</div>
+							<div class="bigNumberText">{{data.health.wounds.value}} / {{data.health.wounds.max}}</div>
 						</div>
 					</div>
 					<div class="cell25 flexColumn resilienceBlock">
-						<label for="data.wounds.current">Resilience</label>
+						<label for="data.wounds.value">Resilience</label>
 						<div class="metaValueContent flexRow">
-							<input type="text" class="bigNumberInput" name="data.health.resilience.current" value="{{data.health.resilience.current}}" data-dtype="Number" data-min="0" data-max="{{data.health.resilience.max}}" data-lastValue="{{data.health.resilience.current}}"/>
+							<input type="text" class="bigNumberInput" name="data.health.resilience.value" value="{{data.health.resilience.value}}" data-dtype="Number" data-min="0" data-max="{{data.health.resilience.max}}" data-lastValue="{{data.health.resilience.value}}"/>
 						</div>
 					</div>
 				</div>
@@ -62,10 +62,10 @@
 					
 					<div class="flexRow injuryRow">
 						<div class="injuryCheckBoxWrapper flexRow flexCenter verticalCenter{{addStateClasses this ../data.health.wounds}}">
-							<input type="checkbox" id="injuryCheckbox{{this}}" name="injuryCheckboxes" class="injuryCheckbox" value="{{this}}" {{itemSelected this ../data.health.wounds.current}}/>
+							<input type="checkbox" id="injuryCheckbox{{this}}" name="injuryCheckboxes" class="injuryCheckbox" value="{{this}}" {{itemSelected this ../data.health.wounds.value}}/>
 							<label for="injuryCheckbox{{this}}" class="flexRow flexCenter verticalCenter">{{this}}</label>
 						</div>
-						<select name="injurySelect{{this}}" class="injurySelect" {{itemEnabled this ../data.health.wounds.current}} data-injury-index="{{this}}">
+						<select name="injurySelect{{this}}" class="injurySelect" {{itemEnabled this ../data.health.wounds.value}} data-injury-index="{{this}}">
 							<option value="0"></option>
 							<option value="1">Bleeding</option>
 							<option value="2">Pierced</option>
@@ -86,15 +86,15 @@
 					<div class="blockTitle">Armour</div>
 					<div class="cell25 flexColumn flexCenter">
 						<div class="metaValueContent flexRow flexCenter">
-							<input type="text" class="bigNumberInput" name="data.armour.coverage.current" value="{{data.armour.coverage.current}}" data-dtype="Number" data-min="0" data-max="{{data.armour.coverage.max}}" data-lastValue="{{data.armour.coverage.current}}"/>
+							<input type="text" class="bigNumberInput" name="data.armour.coverage.value" value="{{data.armour.coverage.value}}" data-dtype="Number" data-min="0" data-max="{{data.armour.coverage.max}}" data-lastValue="{{data.armour.coverage.value}}"/>
 						</div>
-						<label for="data.armour.coverage.current">Protection</label>
+						<label for="data.armour.coverage.value">Protection</label>
 					</div>
 					<div class="cell25 flexColumn resilienceBlock">
 						<div class="metaValueContent flexRow">
-							<input type="text" class="bigNumberInput" name="data.armour.resilience.current" value="{{data.armour.resilience.current}}" data-dtype="Number" data-min="0" data-max="{{data.armour.resilience.max}}" data-lastValue="{{data.armour.resilience.current}}"/>
+							<input type="text" class="bigNumberInput" name="data.armour.resilience.value" value="{{data.armour.resilience.value}}" data-dtype="Number" data-min="0" data-max="{{data.armour.resilience.max}}" data-lastValue="{{data.armour.resilience.value}}"/>
 						</div>
-						<label for="data.armour.resilience.current">Resilience</label>
+						<label for="data.armour.resilience.value">Resilience</label>
 					</div>
 				</div>
 			</div>
@@ -104,7 +104,7 @@
 					<div class="metaValueContent actionPointsWrapper">
 						{{#for 0 data.actionPoints.max 1}}
 						<div class='actionPointWrapper{{addStateClasses this ../data.actionPoints}}'>
-							<input id="actionPoint{{this}}" value="{{this}}" class="actionPointCheckbox" type="checkbox" name="actionPoints" {{itemSelected this ../data.actionPoints.current}}/>
+							<input id="actionPoint{{this}}" value="{{this}}" class="actionPointCheckbox" type="checkbox" name="actionPoints" {{itemSelected this ../data.actionPoints.value}}/>
 							<label for="actionPoint{{this}}">{{this}}</label>
 						</div>
 						{{/for}}
@@ -114,13 +114,13 @@
 					<div class="cell50">
 						<label for="data.soul.value">Soul</label>
 						<div class="metaValueContent">
-							<span title="Initial: {{data.soul.initial}}, Awarded: {{data.soul.awarded}}, Spent: {{data.soul.spent}}">{{data.soul.current}}</span>
+							<span title="Initial: {{data.soul.initial}}, Awarded: {{data.soul.awarded}}, Spent: {{data.soul.spent}}">{{data.soul.value}}</span>
 						</div>
 					</div>
 					<div class="cell50">
 						<label for="data.xp.value">XP</label>
 						<div class="metaValueContent">
-							<span title="Initial: {{data.xp.initial}}, Awarded: {{data.xp.awarded}}, Spent: {{data.xp.spent}}">{{data.xp.current}}</span>
+							<span title="Initial: {{data.xp.initial}}, Awarded: {{data.xp.awarded}}, Spent: {{data.xp.spent}}">{{data.xp.value}}</span>
 						</div>
 					</div>
 				</div>
@@ -160,8 +160,6 @@
 		<a class="item" data-tab="description">Description</a>
 		<a class="item" data-tab="items">Items</a>
 		<a class="item" data-tab="features">Features</a>
-		<a class="item" data-tab="spells">Spells</a>
-		<a class="item" data-tab="refinements">Refinements</a>
 	</nav>
 
 	{{!-- Sheet Body --}}
@@ -215,64 +213,6 @@
 					</div>
 				</li>
 			{{/each}}
-			</ol>
-		</div>
-
-		{{!-- Owned Spells Tab --}}
-		<div class="tab spells" data-group="primary" data-tab="spells">
-			<ol class="items-list">
-				<li class="item flexrow item-header">
-				<div class="item-image"></div>
-				<div class="item-name">Name</div>
-				<div class="item-controls"></div>
-				</li>
-				{{#each actor.spells as |spells spellLevel|}}
-					<li class="item flexrow item-header">
-					<div class="item-name">Level {{spellLevel}} Spells</div>
-					<div class="item-controls">
-						<a class="item-control item-create" title="Create item" data-type="spell" data-spell-level="{{spellLevel}}"><i class="fas fa-plus"></i> Add LVL {{spellLevel}}</a>
-					</div>
-					</li>
-					{{#each spells as |item id|}}
-						<li class="item flexrow" data-item-id="{{item._id}}">
-							<div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
-							<h4 class="item-name">{{item.name}}</h4>
-							<div class="item-controls">
-								<a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
-								<a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
-							</div>
-						</li>
-					{{/each}}
-				{{/each}}
-			</ol>
-		</div>
-
-		{{!-- Refinements --}}
-		<div class="tab refinements" data-group="primary" data-tab="refinements">
-			<ol class="items-list">
-				<li class="item flexrow item-header">
-				<div class="item-image"></div>
-				<div class="item-name">Name</div>
-				<div class="item-controls"></div>
-				</li>
-				{{#each actor.spells as |spells spellLevel|}}
-					<li class="item flexrow item-header">
-					<div class="item-name">Level {{spellLevel}} Spells</div>
-					<div class="item-controls">
-						<a class="item-control item-create" title="Create item" data-type="spell" data-spell-level="{{spellLevel}}"><i class="fas fa-plus"></i> Add LVL {{spellLevel}}</a>
-					</div>
-					</li>
-					{{#each spells as |item id|}}
-						<li class="item flexrow" data-item-id="{{item._id}}">
-							<div class="item-image"><img src="{{item.img}}" title="{{item.name}}" width="24" height="24"/></div>
-							<h4 class="item-name">{{item.name}}</h4>
-							<div class="item-controls">
-								<a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
-								<a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
-							</div>
-						</li>
-					{{/each}}
-				{{/each}}
 			</ol>
 		</div>
 
