@@ -5,14 +5,14 @@
 <div>
 	<div class="primeDiceWrapper">
 		{{#each diceRolls}}
-		<div class="primeDieWrapper {{primeDiceClass this.roll}}">
+		<div class="primeDieWrapper {{primeDiceClass this.result}}">
 			<div class="primeDie">
 				<i class="fas fa-dice-d20"></i>
 				<span class="primeDieModifierOuter">
 					<span class="primeDieModifierInner">{{this.primeModifier}}</span>
 				</span>
 			</div>
-			<div class="primeResultRaw">({{this.roll}})</div>
+			<div class="primeResultRaw">({{this.result}})</div>
 		</div>
 		{{/each}}
 	</div>
