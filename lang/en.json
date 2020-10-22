@@ -135,5 +135,11 @@
 
 
 	"PRIME.diceRoller.title" : "Prime Dice",
-	"PRIME.diceRoller.help" : "Select a Prime, a Prime + Refinement, add a base value or simply press Roll!"
+	"PRIME.diceRoller.help" : "Select a Prime, a Prime + Refinement, add a base value or simply press Roll!",
+
+
+	"ITEM.TypeItem" : "General item",
+	"ITEM.TypeWeapon" : "Weapon",
+	"ITEM.TypeArmour" : "Armour",
+	"ITEM.TypePerk" : "Perk"
 }
