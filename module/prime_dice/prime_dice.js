@@ -19,7 +19,7 @@ class PRIME_DICE
 
 	static attachToRollDiceIcon()
 	{
-		var diceIcon = $('.roll-type-select .fas.fa-dice-d20');
+		var diceIcon = $('.chat-control-icon .fas.fa-dice-d20');
 		
 		diceIcon.on('click', (event) => {
 			PRIME_DICE.openPrimeDice("rollDiceIcon");
