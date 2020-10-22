@@ -1,14 +1,9 @@
 //import Mustache from 'mustache';
 
-export class PRIME_DICE_ROLLER extends FormApplication
+export class PRIME_DICE_ROLLER
 {
 	primeTable = [-5,-4,-3,-2,-2,-1,-1,-1,0,0,0,0,1,1,1,2,2,3,4,5];
 
-	constructor(...args)
-	{
-        super(...args)
-        game.users.apps.push(this)
-    }
 
 	async rollPrimeDice()
 	{
@@ -28,7 +23,7 @@ export class PRIME_DICE_ROLLER extends FormApplication
 
 	getDiceResult()
 	{
-		var currentDie = new Die(20);
+		var currentDie = new Die({faces:20});
 		this.rollDie(currentDie);
 		var primeDiceResult = this.getPrimeDiceResultData(currentDie);
 		//if (primeDiceResult.diceRolls.length > 2)
@@ -41,8 +36,8 @@ export class PRIME_DICE_ROLLER extends FormApplication
 	rollDie(whatDie)
 	{
 		whatDie.roll(1);
-		var lastDice = whatDie.rolls[whatDie.rolls.length - 1]
-		if (lastDice.roll == 1 || lastDice.roll == 20)
+		var lastDice = whatDie.results[whatDie.results.length - 1]
+		if (lastDice.result == 1 || lastDice.result == 20)
 		{
 			this.rollDie(whatDie);
 		}
@@ -51,9 +46,9 @@ export class PRIME_DICE_ROLLER extends FormApplication
 	getPrimeDiceResultData(foundryDice)
 	{
 		var _modifier = 0;
-		var _primeResults = foundryDice.rolls.map(currResult => 
+		var _primeResults = foundryDice.results.map(currResult => 
 		{
-			let _primeModifier = this.primeTable[currResult.roll - 1];
+			let _primeModifier = this.primeTable[currResult.result - 1];
 			_modifier += _primeModifier;
 			return {...currResult, primeModifier: _primeModifier};
 		});
@@ -71,10 +66,6 @@ export class PRIME_DICE_ROLLER extends FormApplication
 		var handlebarsTemplate = await getTemplate("systems/prime/templates/dice/prime_result.html");
 		var messageContent = handlebarsTemplate(diceResult);
 		return messageContent
-	}
-
-	async _updateObject(event, formData)
-	{
 	}
 	
 	testDiceRolling(_testIterations)
