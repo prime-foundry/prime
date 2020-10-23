@@ -61,9 +61,9 @@
 		{{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
 	</div>
 
-	<div class="block bottomBlockTitle metaDataBlock flexColumn flexCenter">
+	<div class="block blockTitle metaDataBlock ">
 		<div class="blockTitle">Entry metadata</div>
-		<div>Author: {{data.creator}} | Created: {{data.created}}</div>
-		<div></div>Updater: {{data.updater}} | Updated: {{data.updated}}</div>
+		Author: {{data.metadata.creator}} | Created: {{data.metadata.created}} | Updated: {{data.metadata.updated}}
 	</div>
+
 </form>
