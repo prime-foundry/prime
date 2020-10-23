@@ -23,37 +23,10 @@
 	min-width:500px;
 }
 
-.primeCharacterSheet h1,
-.primeCharacterSheet h2,
-.primeCharacterSheet h3,
-.primeCharacterSheet h4,
-.primeCharacterSheet h5,
-.primeCharacterSheet h6
-{
-	border-width: 0px;
-}
-
-.primeCharacterSheet input
-{
-	width:auto;
-}
 
 .metaDataContentInner
 {
 	position: relative;
-}
-
-.characterName
-{
-	font-size: 14px;
-}
-
-.characterName input
-{
-	width: 100%;
-	height: auto;
-	padding: 5px;
-	font-size: 24px;
 }
 
 .characterOwners

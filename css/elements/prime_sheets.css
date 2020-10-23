@@ -1,0 +1,27 @@
+.primeSheet h1,
+.primeSheet h2,
+.primeSheet h3,
+.primeSheet h4,
+.primeSheet h5,
+.primeSheet h6
+{
+	border-width: 0px;
+}
+
+.primeSheet input
+{
+	width:auto;
+}
+
+.entityName
+{
+	font-size: 14px;
+}
+
+.entityName input
+{
+	width: 100%;
+	height: auto;
+	padding: 5px;
+	font-size: 24px;
+}
