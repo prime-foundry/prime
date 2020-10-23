@@ -16,7 +16,7 @@ export class PrimePCActorSheet extends ActorSheet
 		this.addHooks();
 
 		return mergeObject(superOptions, {
-			classes: ["primeCharacterSheet", "sheet", "actor"],
+			classes: ["primeSheet", "primeCharacterSheet", "sheet", "actor"],
 			template: "systems/prime/templates/actor/actor-sheet.html",
 			width: 750,
 			height: 750,
