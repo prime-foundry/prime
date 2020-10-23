@@ -95,6 +95,21 @@
 	width:65%;
 }
 
+.cell75
+{
+	width:74%;
+}
+
+.cell80
+{
+	width:79%;
+}
+
+.cell100
+{
+	width:100%;
+}
+
 .block
 {
 	position: relative;
@@ -103,6 +118,11 @@
 	margin: 11px 5px 5px 5px;
 	border:1px solid grey;
 	background: rgba(0,0,0,0.05);
+}
+
+.block.noTitle
+{
+	padding: 5px 5px 5px 5px;
 }
 
 .block.bottomBlockTitle
