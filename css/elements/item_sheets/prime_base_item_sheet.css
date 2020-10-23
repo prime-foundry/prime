@@ -1,0 +1,35 @@
+.primeItemSheet.genericItem
+{
+	min-width:350px;
+}
+
+.imageWrapper img
+{
+	border-width: 0px;
+}
+
+.infoBlock
+{
+	flex-wrap: wrap;
+}
+
+.infoBlock .firstRow
+{
+	margin-bottom: 5px;
+}
+
+.descriptionBlock
+{
+	flex-grow: 4;
+}
+
+.descriptionBlock .editor
+{
+	height:100%;
+	width:100%;
+}
+
+.metaDataBlock
+{
+	font-size: 10px;
+}
