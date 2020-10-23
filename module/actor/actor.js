@@ -34,8 +34,8 @@ export class PrimePCActor extends Actor
 		data.xp.spent = this.getTotalCost(data.refinements);
 		// Loop through ability scores, and add their modifiers to our sheet output.
 
-		data.soul.current = (data.soul.initial + data.soul.awarded) - data.soul.spent;
-		data.xp.current = (data.xp.initial + data.xp.awarded) - data.xp.spent;
+		data.soul.value = (data.soul.initial + data.soul.awarded) - data.soul.spent;
+		data.xp.value = (data.xp.initial + data.xp.awarded) - data.xp.spent;
 	}
 
 	getTotalCost(whatItems)
