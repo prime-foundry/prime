@@ -455,15 +455,25 @@
 					"amount": 0
 				},
 				"prerequisites": []
+			},
+
+			"metadata":
+			{
+				"creator": "",
+				"creatorID": "",
+				"created": "",
+				"updater": "",
+				"updaterID": "",
+				"updated": ""
 			}
 		},
 		"item":
 		{
-			"templates":["base", "physicalItem", "valuable"]
+			"templates":["base", "physicalItem", "valuable", "metadata"]
 		},
 		"weapon":
 		{
-			"templates":["base", "physicalItem", "mastercratable", "valuable"],
+			"templates":["base", "physicalItem", "mastercratable", "valuable", "metadata"],
 			"weaponType": "",
 			"damageRating": 0,
 			"requiredHands": 1,
@@ -474,7 +484,7 @@
 		},
 		"armour":
 		{
-			"templates":["base", "physicalItem", "mastercratable", "valuable"],
+			"templates":["base", "physicalItem", "mastercratable", "valuable", "metadata"],
 			"armourType": "",
 			"protection": 0,
 			"armourResilience": 1,
@@ -484,7 +494,7 @@
 		},
 		"perk":
 		{
-			"templates": ["base", "actorFeature"]			
+			"templates": ["base", "actorFeature", "metadata"]			
 		}
 	}
 }
