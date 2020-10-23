@@ -42,6 +42,8 @@ Fix add item button.
 
 Only GMs can see action points - verify via player account test
 
+Add meta data to character sheets.
+
 Intended action should be added to the combat tracker
 
 Add action selection tab.
