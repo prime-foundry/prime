@@ -133,13 +133,131 @@
 	"PRIME.refinment_type_mental" : "Mental",
 	"PRIME.refinment_type_supernaturual" : "Supernaturual",
 
-
 	"PRIME.diceRoller.title" : "Prime Dice",
 	"PRIME.diceRoller.help" : "Select a Prime, a Prime + Refinement, add a base value or simply press Roll!",
 
 
 	"ITEM.TypeItem" : "General item",
-	"ITEM.TypeWeapon" : "Weapon",
+	"ITEM.TypeMelee-weapon" : "Melee Weapon",
+	"ITEM.TypeRanged-weapon" : "Ranged Weapon",
 	"ITEM.TypeArmour" : "Armour",
-	"ITEM.TypePerk" : "Perk"
+	"ITEM.TypePerk" : "Perk",
+
+	
+	"PRIME.weapons_ranges" : "Weapon ranges",
+	"PRIME.weapons_ranges_point_blank" : "Point blank",
+	"PRIME.weapons_ranges_short" : "Short",
+	"PRIME.weapons_ranges_medium" : "Medium",
+	"PRIME.weapons_ranges_long" : "Long",
+	"PRIME.weapons_ranges_extreme" : "Extreme",
+
+	
+	"PRIME.item_rarity" : "Rarity",
+	"PRIME.item_rarity_common" : "Common",
+	"PRIME.item_rarity_uncommon" : "Uncommon",
+	"PRIME.item_rarity_scarce" : "Scarce",
+	"PRIME.item_rarity_rare" : "Rare",
+	"PRIME.item_rarity_legendary" : "Legendary",
+	"PRIME.item_rarity_unique" : "Unique",
+	
+	"PRIME.weapon_sizes" : "Weapon size",
+	"PRIME.weapon_sizes_tiny" : "Tiny",
+	"PRIME.weapon_sizes_small" : "Small",
+	"PRIME.weapon_sizes_medium" : "Medium",
+	"PRIME.weapon_sizes_large" : "Large",
+	"PRIME.weapon_sizes_huge" : "Huge",
+	
+
+	"PRIME.weapon_keywords_title_flexible" : "Flexible",
+	"PRIME.weapon_keywords_description_flexible" : "This weapon is hard to Parry or Block (-2) and is hard to use to Parry (-2)",
+
+	"PRIME.weapon_keywords_title_pole" : "Pole",
+	"PRIME.weapon_keywords_description_pole" : "Gains +2 to Set to Recieve Reaction",
+
+	"PRIME.weapon_keywords_title_ranked" : "Ranked",
+	"PRIME.weapon_keywords_description_ranked" : "Weapon can be used for ranked fighting",
+
+	"PRIME.weapon_keywords_title_minimum_range" : "Minimum range",
+	"PRIME.weapon_keywords_description_minimum_range" : "Weapon can only be used at more distant targets (not target next to you)",
+
+	"PRIME.weapon_keywords_title_weak" : "Weak",
+	"PRIME.weapon_keywords_description_weak" : "If an attack fails by 5 or more steps, the weapon is damaged and can only be used to parry until repaired",
+
+	"PRIME.weapon_keywords_title_heavy" : "Heavy",
+	"PRIME.weapon_keywords_description_heavy" : "Must have Strength Prime of 4 or higher OR relevant perk.",
+
+	"PRIME.weapon_keywords_title_penetrating" : "Penetrating",
+	"PRIME.weapon_keywords_description_penetrating" : "Reduces armour protection by one per rank",
+
+	"PRIME.weapon_keywords_title_devastating" : "Devastating",
+	"PRIME.weapon_keywords_description_devastating" : "Counts as two wounds towards Wound Limit, often linked to another wound type, e.g. Devastating Bleeding",
+
+	"PRIME.weapon_keywords_title_versatile" : "Versatile",
+	"PRIME.weapon_keywords_description_versatile" : "Choose Strength or Manoeuvre as Prime",
+
+	"PRIME.weapon_keywords_title_cumbersome" : "Cumbersome",
+	"PRIME.weapon_keywords_description_cumbersome" : "Attacks with this weapon cost +1 AP",
+	
+	
+	"PRIME.weapon_wound_condition_title_bleeding" : "Bleeding",
+	"PRIME.weapon_wound_condition_description_bleeding" : "Every time a Bane (natural 1) is rolled to perform an action lose 1 Resilience",
+
+	"PRIME.weapon_wound_condition_title_pierced" : "Pierced",
+	"PRIME.weapon_wound_condition_description_pierced" : "Every time a Bane (natural 1) is rolled to perform an action suffer a wound (max 1 wound per roll)",
+
+	"PRIME.weapon_wound_condition_title_hooked" : "Hooked",
+	"PRIME.weapon_wound_condition_description_hooked" : "Knocked Prone",
+
+	"PRIME.weapon_wound_condition_title_non-lethal" : "Non-lethal",
+	"PRIME.weapon_wound_condition_description_non-lethal" : "Counts towards Wound Limit, but character falls unconscious instead of starting to die if Wound Limit reached.",
+
+	"PRIME.weapon_wound_condition_title_staggered" : "Staggered",
+	"PRIME.weapon_wound_condition_description_staggered" : "Movement speed halved",
+
+	"PRIME.weapon_wound_condition_title_stunned" : "Stunned",
+	"PRIME.weapon_wound_condition_description_stunned" : "You no longer recieve the first Reaction for free each tic",
+
+	"PRIME.weapon_wound_condition_title_crushed" : "Crushed",
+	"PRIME.weapon_wound_condition_description_crushed" : "Maximum Action Points reduced by 3",
+
+	"PRIME.weapon_wound_condition_title_battered" : "Battered",
+	"PRIME.weapon_wound_condition_description_battered" : "Lowers maximum Resilience by 1 for each Battered wound condition",
+
+	"PRIME.weapon_wound_condition_title_slowed" : "Slowed",
+	"PRIME.weapon_wound_condition_description_slowed" : "You must act last in a combat phase",
+
+	"PRIME.weapon_weapon_action_title_cleave" : "Cleave",
+	"PRIME.weapon_weapon_action_description_cleave" : "This weapon can be swung for more damage (+1 DR)",
+	
+	"PRIME.weapon_weapon_action_title_hook" : "Hook",
+	"PRIME.weapon_weapon_action_description_hook" : "Needs description",
+
+	"PRIME.weapon_weapon_action_title_impale" : "Impale",
+	"PRIME.weapon_weapon_action_description_impale" : "Add either +1DR or +2 AP",
+
+	"PRIME.weapon_weapon_action_title_bash" : "Bash",
+	"PRIME.weapon_weapon_action_description_bash" : "Target loses 2 Action Points if Resilience damage caused",
+
+	"PRIME.weapon_weapon_action_title_stab" : "Stab",
+	"PRIME.weapon_weapon_action_description_stab" : "Improve Armour Penetration (+2 AP)",
+	
+
+	"PRIME.weapon_melee_type" : "Type",
+	"PRIME.weapon_melee_type_blunt" : "Blunt",
+	"PRIME.weapon_melee_type_sword" : "Sword",
+	"PRIME.weapon_melee_type_dagger" : "Dagger",
+	"PRIME.weapon_melee_type_axe" : "Axe",
+	"PRIME.weapon_melee_type_pole" : "Pole",
+	
+	"PRIME.weapon_ranged_type" : "Type",
+	"PRIME.weapon_ranged_type_bow" : "Bow",
+	"PRIME.weapon_ranged_type_mechanical" : "Mechanical",
+	"PRIME.weapon_ranged_type_thrown" : "Thrown",
+	"PRIME.weapon_ranged_type_blowpipe" : "Blowpipe",
+
+	"PRIME.weapon_ammo_type" : "Type",
+	"PRIME.weapon_ammo_type_arrow" : "Arrow",
+	"PRIME.weapon_ammo_type_bolt" : "Bolt",
+	"PRIME.weapon_ammo_type_dart" : "Dart",
+	"PRIME.weapon_ammo_type_bullet" : "Bullet"
 }
