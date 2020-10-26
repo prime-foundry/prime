@@ -420,7 +420,8 @@
 	{
 		"types":[
 			"item",
-			"weapon",
+			"melee-weapon",
+			"ranged-weapon",
 			"armour",
 			"perk"
 		],
@@ -436,15 +437,17 @@
 				"weight":0,
 				"rarity": "common"
 			},
+
 			"valuable":
 			{
 				"valueType": "",
 				"valueAmount": ""
 			},
+
 			"mastercratable":
 			{
 				"isMasterCraft": false,
-				"traits": []
+				"mastercraftTraits": []
 			},
 
 			"actorFeature":
@@ -465,23 +468,88 @@
 				"updater": "",
 				"updaterID": "",
 				"updated": ""
+			},
+
+			"weapon": 
+			{
+				"weaponSize": "",
+				"weaponType": "",
+				"damageRating": 0,
+				"requiredHands": 1,
+				"woundConditions": [],
+				"keywords": [],
+				"customActions": []
+			},
+
+			"ranged": 
+			{
+				"ranges":
+				[
+					{
+						"key": "pointBlank",
+						"title": "PRIME.weapons_ranges_point_blank",
+						"from": 0,
+						"to": 0,
+						"unit": ""
+					},
+					{
+						"key": "short",
+						"title": "PRIME.weapons_ranges_short",
+						"from": 0,
+						"to": 0,
+						"unit": ""
+					},
+					{
+						"key": "medium",
+						"title": "PRIME.weapons_ranges_medium",
+						"from": 0,
+						"to": 0,
+						"unit": ""
+					},
+					{
+						"key": "long",
+						"title": "PRIME.weapons_ranges_long",
+						"from": 0,
+						"to": 0,
+						"unit": ""
+					},
+					{
+						"key": "extreme",
+						"title": "PRIME.weapons_ranges_extreme",
+						"from": 0,
+						"to": 0,
+						"unit": ""
+					}
+				],
+				"ammo":
+				{
+					"type": "",
+					"capacity": ""
+				}
 			}
 		},
+
 		"item":
 		{
 			"templates":["base", "physicalItem", "valuable", "metadata"]
 		},
-		"weapon":
+
+		"melee-weapon":
 		{
-			"templates":["base", "physicalItem", "mastercratable", "valuable", "metadata"],
-			"weaponType": "",
-			"damageRating": 0,
-			"requiredHands": 1,
-			"damageConditions": [],
-			"keywords": [],
-			"customActions": [],
+			"templates":["base", "physicalItem", "weapon", "mastercratable", "valuable", "metadata"],
+			"isMelee": true,
+			"isRanged": false,
 			"notes": ""
 		},
+
+		"ranged-weapon":
+		{
+			"templates":["base", "physicalItem", "weapon", "ranged", "mastercratable", "valuable", "metadata"],
+			"isMelee": false,
+			"isRanged": true,
+			"notes": ""
+		},
+
 		"armour":
 		{
 			"templates":["base", "physicalItem", "mastercratable", "valuable", "metadata"],
@@ -495,6 +563,266 @@
 		"perk":
 		{
 			"templates": ["base", "actorFeature", "metadata"]			
+		}
+	},
+	"Tables":
+	{
+		"items":
+		{
+			"rarity":
+			[
+				{
+					"key": "common",
+					"title": "PRIME.item_rarity_common"
+				},
+				{
+					"key": "uncommon",
+					"title": "PRIME.item_rarity_uncommon"
+				},
+				{
+					"key": "scarce",
+					"title": "PRIME.item_rarity_scarce"
+				},
+				{
+					"key": "rare",
+					"title": "PRIME.item_rarity_rare"
+				},
+				{
+					"key": "legendary",
+					"title": "PRIME.item_rarity_legendary"
+				},
+				{
+					"key": "unique",
+					"title": "PRIME.item_rarity_unique"
+				}
+			],
+			"weapons":
+			{
+				"sizes":
+				[
+					{
+						"key": "tiny",
+						"title": "PRIME.weapon_sizes_tiny"
+					},
+					{
+						"key": "small",
+						"title": "PRIME.weapon_sizes_small"
+					},
+					{
+						"key": "medium",
+						"title": "PRIME.weapon_sizes_medium"
+					},
+					{
+						"key": "large",
+						"title": "PRIME.weapon_sizes_large"
+					},
+					{
+						"key": "huge",
+						"title": "PRIME.weapon_sizes_huge"
+					}
+				],
+
+				"keywords":
+				[
+					{
+						"key": "flexible",
+						"title": "PRIME.weapon_keywords_title_flexible",
+						"description": "PRIME.weapon_keywords_description_flexible"
+					},
+					{
+						"key": "pole",
+						"title": "PRIME.weapon_keywords_title_pole",
+						"description": "PRIME.weapon_keywords_description_pole"
+					},
+					{
+						"key": "ranked",
+						"title": "PRIME.weapon_keywords_title_ranked",
+						"description": "PRIME.weapon_keywords_description_ranked"
+					},
+					{
+						"key": "minimum_range",
+						"title": "PRIME.weapon_keywords_title_minimum_range",
+						"description": "PRIME.weapon_keywords_description_minimum_range"
+					},
+					{
+						"key": "weak",
+						"title": "PRIME.weapon_keywords_title_weak",
+						"description": "PRIME.weapon_keywords_description_weak"
+					},
+					{
+						"key": "heavy",
+						"title": "PRIME.weapon_keywords_title_heavy",
+						"description": "PRIME.weapon_keywords_description_heavy"
+					},
+					{
+						"key": "penetrating",
+						"title": "PRIME.weapon_keywords_title_penetrating",
+						"description": "PRIME.weapon_keywords_description_penetrating"
+					},
+					{
+						"key": "devastating",
+						"title": "PRIME.weapon_keywords_title_devastating",
+						"description": "PRIME.weapon_keywords_description_devastating"
+					},
+					{
+						"key": "versatile",
+						"title": "PRIME.weapon_keywords_title_versatile",
+						"description": "PRIME.weapon_keywords_description_versatile"
+					},
+					{
+						"key": "cumbersome",
+						"title": "PRIME.weapon_keywords_title_cumbersome",
+						"description": "PRIME.weapon_keywords_description_cumbersome"
+					}
+				],
+
+				"woundConditions":
+				[
+					{
+						"key": "bleeding",
+						"title": "PRIME.weapon_wound_condition_title_bleeding",
+						"description": "PRIME.weapon_wound_condition_description_bleeding"
+					},
+					{
+						"key": "pierced",
+						"title": "PRIME.weapon_wound_condition_title_pierced",
+						"description": "PRIME.weapon_wound_condition_description_pierced"
+					},
+					{
+						"key": "hooked",
+						"title": "PRIME.weapon_wound_condition_title_hooked",
+						"description": "PRIME.weapon_wound_condition_description_hooked"
+					},
+					{
+						"key": "non-lethal",
+						"title": "PRIME.weapon_wound_condition_title_non-lethal",
+						"description": "PRIME.weapon_wound_condition_description_non-lethal"
+					},
+					{
+						"key": "staggered",
+						"title": "PRIME.weapon_wound_condition_title_staggered",
+						"description": "PRIME.weapon_wound_condition_description_staggered"
+					},
+					{
+						"key": "stunned",
+						"title": "PRIME.weapon_wound_condition_title_stunned",
+						"description": "PRIME.weapon_wound_condition_description_stunned"
+					},
+					{
+						"key": "crushed",
+						"title": "PRIME.weapon_wound_condition_title_crushed",
+						"description": "PRIME.weapon_wound_condition_description_crushed"
+					},
+					{
+						"key": "battered",
+						"title": "PRIME.weapon_wound_condition_title_battered",
+						"description": "PRIME.weapon_wound_condition_description_battered"
+					},
+					{
+						"key": "slowed",
+						"title": "PRIME.weapon_wound_condition_title_slowed",
+						"description": "PRIME.weapon_wound_condition_description_slowed"
+					}
+				],
+
+				"weaponActions":
+				[
+					{
+						"key": "cleave",
+						"title": "PRIME.weapon_weapon_action_title_cleave",
+						"description": "PRIME.weapon_weapon_action_description_cleave",
+						"apCost": 1
+					},
+					{
+						"key": "hook",
+						"title": "PRIME.weapon_weapon_action_title_hook",
+						"description": "PRIME.weapon_weapon_action_description_hook",
+						"apCost": 1
+					},
+					{
+						"key": "impale",
+						"title": "PRIME.weapon_weapon_action_title_impale",
+						"description": "PRIME.weapon_weapon_action_description_impale",
+						"apCost": 1
+					},
+					{
+						"key": "bash",
+						"title": "PRIME.weapon_weapon_action_title_bash",
+						"description": "PRIME.weapon_weapon_action_description_bash",
+						"apCost": 1
+					},
+					{
+						"key": "stab",
+						"title": "PRIME.weapon_weapon_action_title_stab",
+						"description": "PRIME.weapon_weapon_action_description_stab",
+						"apCost": 1
+					}
+				],
+
+				"meleeTypes":
+				[
+					{
+						"key": "blunt",
+						"title": "PRIME.weapon_melee_type_blunt"
+					},
+					{
+						"key": "sword",
+						"title": "PRIME.weapon_melee_type_sword"
+					},
+					{
+						"key": "dagger",
+						"title": "PRIME.weapon_melee_type_dagger"
+					},
+					{
+						"key": "axe",
+						"title": "PRIME.weapon_melee_type_axe"
+					},
+					{
+						"key": "pole",
+						"title": "PRIME.weapon_melee_type_pole"
+					}
+				],
+
+				"rangedTypes":
+				[
+					{
+						"key": "bow",
+						"title": "PRIME.weapon_ranged_type_bow"
+					},
+					{
+						"key": "mechanical",
+						"title": "PRIME.weapon_ranged_type_mechanical"
+					},
+					{
+						"key": "thrown",
+						"title": "PRIME.weapon_ranged_type_thrown"
+					},
+					{
+						"key": "blowpipe",
+						"title": "PRIME.weapon_ranged_type_blowpipe"
+					}
+				],
+
+				"ammoTypes":
+				[
+					{
+						"key": "arrow",
+						"title": "PRIME.weapon_ammo_type_arrow"
+					},
+					{
+						"key": "bolt",
+						"title": "PRIME.weapon_ammo_type_bolt"
+					},
+					{
+						"key": "dart",
+						"title": "PRIME.weapon_ammo_type_dart"
+					},
+					{
+						"key": "bullet",
+						"title": "PRIME.weapon_ammo_type_bullet"
+					}
+				]
+			}
 		}
 	}
 }
