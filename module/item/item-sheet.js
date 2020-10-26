@@ -10,7 +10,7 @@ export class PrimeItemSheet extends ItemSheet
 	{
 		return mergeObject(super.defaultOptions, {
 			classes: ["primeSheet", "primeItemSheet", "sheet", "genericItem"],
-			width: 350,
+			width: 420,
 			height: 550,
 			tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
 		});
@@ -33,8 +33,81 @@ export class PrimeItemSheet extends ItemSheet
 	/** @override */
 	getData()
 	{
-		const data = super.getData();
+		let data = super.getData();
+		data.tables = this.getItemTables();
+		this.addItemTypeData(data);
 		return data;
+	}
+
+	getItemTables()
+	{
+		var _itemTables = $.extend({}, game.system.template.Tables.items);
+		this.addTranslations(_itemTables);
+		return _itemTables;
+	}
+
+	addItemTypeData(data)
+	{
+		switch(data.item.type)
+		{
+			case "item":
+			break;
+			case "melee-weapon":
+				data.checkboxGroups = this.compileCheckboxGroups(data);
+			break;
+			case "ranged-weapon":
+				data.checkboxGroups = this.compileCheckboxGroups(data);
+			break;
+			case "armour":
+			break;
+			case "perk":
+			break;
+			default:
+				console.warn("Unknown item type of '' found in addItemTypeData().");
+			break;
+		}
+
+	}
+
+	addTranslations(whatData)
+	{
+		for (var key in whatData)
+		{
+			if (key == "title" || key == "description")
+			{
+				var translation = game.i18n.localize(whatData[key])
+				whatData[key] = translation;
+			}
+			if (typeof whatData[key] === 'object' && whatData[key] !== null)
+			{
+				this.addTranslations(whatData[key]);
+			}
+		}
+	}
+
+	compileCheckboxGroups(data)
+	{
+		let woundList = this.cloneAndAddSelectedState(data.tables.weapons.woundConditions, data.data.woundConditions);
+		let keywordsList = this.cloneAndAddSelectedState(data.tables.weapons.keywords, data.data.keywords);
+		let actionsList = this.cloneAndAddSelectedState(data.tables.weapons.weaponActions, data.data.customActions);
+
+		return {wounds: woundList, keywords: keywordsList, actions: actionsList};	
+	}
+
+	cloneAndAddSelectedState(whatRawOptionsArray, whatSelectionData)
+	{
+		let checkboxGroupObject = $.extend([], whatRawOptionsArray);
+
+		var count = 0;
+
+		while (count < checkboxGroupObject.length)
+		{
+			let currOption = checkboxGroupObject[count];
+			currOption.checked = whatSelectionData[count];
+			count++;
+		}
+
+		return checkboxGroupObject;
 	}
 
 	async _updateObject(event, data)
