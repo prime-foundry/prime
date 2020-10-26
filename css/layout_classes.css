@@ -12,6 +12,11 @@
 	justify-content: space-between;
 }
 
+.flexWrap
+{
+	flex-wrap: wrap;
+}
+
 .flexRow.flexStart,
 .flexColumn.flexStart,
 .flexColumn .flexRow.flexStart,
