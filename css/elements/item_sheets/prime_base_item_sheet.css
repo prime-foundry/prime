@@ -21,6 +21,7 @@
 .descriptionBlock
 {
 	flex-grow: 4;
+	height: 200px;
 }
 
 .descriptionBlock .editor
