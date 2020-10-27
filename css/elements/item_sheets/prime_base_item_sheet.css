@@ -13,10 +13,56 @@
 	flex-wrap: wrap;
 }
 
-.infoBlock .firstRow
+.infoBlock>div
 {
 	margin-bottom: 5px;
 }
+
+.infoBlock>div.lastRow
+{
+	margin-bottom: 0px;
+}
+
+.checkboxGroupTitle:hover
+{
+	cursor: pointer;
+}
+
+.checkboxGroupTitle:hover div
+{
+	text-decoration: underline;
+}
+
+.checkboxGroupTitle.collapsed .fa-chevron-circle-up
+{
+	display: none;
+}
+
+.checkboxGroupTitle.expanded .fa-chevron-circle-down
+{
+	display: none;
+}
+
+.checkboxGroupTitle span
+{
+	font-style: italic;
+}
+
+.checkboxGroupWrapper
+{
+
+}
+
+.checkboxGroupWrapper.collapsed
+{
+	display: none;
+}
+.checkboxGroupWrapper.expanded
+{
+	display: flex;
+}
+
+
 
 .descriptionBlock
 {
