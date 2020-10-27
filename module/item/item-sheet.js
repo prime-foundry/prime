@@ -59,6 +59,7 @@ export class PrimeItemSheet extends ItemSheet
 			break;
 			case "ranged-weapon":
 				data.checkboxGroups = this.compileCheckboxGroups(data, "ranged");
+				this.addRangeCatergoryTitles(data)
 			break;
 			case "armour":
 			break;
@@ -111,7 +112,7 @@ export class PrimeItemSheet extends ItemSheet
 			currOption.checked = whatSelectionData[count];
 			if (currOption.checked)
 			{
-				let selectedItemData = {title: currOption.title}
+				let selectedItemData = {title: currOption.title};
 				if (currOption.description)
 				{
 					selectedItemData.description = currOption.description;
@@ -127,6 +128,14 @@ export class PrimeItemSheet extends ItemSheet
 		}
 
 		return checkboxGroupObject;
+	}
+
+	addRangeCatergoryTitles(data)
+	{
+		for (let key in data.data.ranges)
+		{
+			data.data.ranges[key].title = data.tables.weapons.rangeCatergories[key];
+		}
 	}
 
 	async _updateObject(event, data)
