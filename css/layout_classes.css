@@ -9,7 +9,6 @@
 {
 	display: flex;
 	/* border:1px solid red; */
-	justify-content: space-between;
 }
 
 .flexWrap
@@ -75,6 +74,11 @@
 	width:24%;
 }
 
+.cell30
+{
+	width:29%;
+}
+
 .cell33
 {
 	width:32%;
@@ -98,6 +102,12 @@
 .cell66
 {
 	width:65%;
+}
+
+.cell70
+{
+	/*Nice!*/
+	width:69%;
 }
 
 .cell75
@@ -214,4 +224,10 @@
 	border-radius: 0px 0px 5px 5px;
 	border-top-width: 0px;
 	margin-top: 0px;
+}
+
+table th.center,
+table td.center
+{
+	text-align: center;
 }
