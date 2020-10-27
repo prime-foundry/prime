@@ -4,6 +4,7 @@
  */
 export class PrimeItemSheet extends ItemSheet
 {
+	checkboxGroupStates = {}
 
 	/** @override */
 	static get defaultOptions()
@@ -36,6 +37,7 @@ export class PrimeItemSheet extends ItemSheet
 		let data = super.getData();
 		data.tables = this.getItemTables();
 		this.addItemTypeData(data);
+		data.checkboxGroupStates = this.checkboxGroupStates;
 		return data;
 	}
 
@@ -53,20 +55,19 @@ export class PrimeItemSheet extends ItemSheet
 			case "item":
 			break;
 			case "melee-weapon":
-				data.checkboxGroups = this.compileCheckboxGroups(data);
+				data.checkboxGroups = this.compileCheckboxGroups(data, "melee");
 			break;
 			case "ranged-weapon":
-				data.checkboxGroups = this.compileCheckboxGroups(data);
+				data.checkboxGroups = this.compileCheckboxGroups(data, "ranged");
 			break;
 			case "armour":
 			break;
 			case "perk":
 			break;
 			default:
-				console.warn("Unknown item type of '' found in addItemTypeData().");
+				console.warn("Unknown item type of '" + data.item.type + "' found in addItemTypeData().");
 			break;
 		}
-
 	}
 
 	addTranslations(whatData)
@@ -85,32 +86,57 @@ export class PrimeItemSheet extends ItemSheet
 		}
 	}
 
-	compileCheckboxGroups(data)
+	compileCheckboxGroups(data, subTypeKey)
 	{
 		let woundList = this.cloneAndAddSelectedState(data.tables.weapons.woundConditions, data.data.woundConditions);
 		let keywordsList = this.cloneAndAddSelectedState(data.tables.weapons.keywords, data.data.keywords);
-		let actionsList = this.cloneAndAddSelectedState(data.tables.weapons.weaponActions, data.data.customActions);
+		let actionsList = this.cloneAndAddSelectedState(data.tables.weapons[subTypeKey + 'WeaponActions'], data.data.customActions);
 
 		return {wounds: woundList, keywords: keywordsList, actions: actionsList};	
 	}
 
 	cloneAndAddSelectedState(whatRawOptionsArray, whatSelectionData)
 	{
-		let checkboxGroupObject = $.extend([], whatRawOptionsArray);
+		let checkboxGroupObject =
+		{
+			optionsData: $.extend([], whatRawOptionsArray),
+			selectedItems: []
+		}
 
 		var count = 0;
 
-		while (count < checkboxGroupObject.length)
+		while (count < checkboxGroupObject.optionsData.length)
 		{
-			let currOption = checkboxGroupObject[count];
+			let currOption = checkboxGroupObject.optionsData[count];
 			currOption.checked = whatSelectionData[count];
+			if (currOption.checked)
+			{
+				let selectedItemData = {title: currOption.title}
+				if (currOption.description)
+				{
+					selectedItemData.description = currOption.description;
+				}
+				checkboxGroupObject.selectedItems.push(selectedItemData);
+			}
 			count++;
+		}
+
+		if (checkboxGroupObject.selectedItems.length == 0)
+		{
+			checkboxGroupObject.selectedItems.push({title: "none"});
 		}
 
 		return checkboxGroupObject;
 	}
 
 	async _updateObject(event, data)
+	{
+		this.checkMetaData(data);
+		var result = await super._updateObject(event, data);
+		//return result;
+	}
+
+	checkMetaData(data)
 	{
 		const baseData = super.getData();
 		if (!baseData.data.creator)
@@ -121,9 +147,6 @@ export class PrimeItemSheet extends ItemSheet
 		{
 			this.updateMetaData(data);
 		}
-
-		var result = await super._updateObject(event, data);
-		//return result;
 	}
 
 	addMetaData(data)
@@ -150,7 +173,6 @@ export class PrimeItemSheet extends ItemSheet
 		var dateString = this.getDateString();
 		data["data.updated"] = dateString;
 	}
-
 
 	/* -------------------------------------------- */
 
@@ -190,9 +212,54 @@ export class PrimeItemSheet extends ItemSheet
 	{
 		super.activateListeners(html);
 
+		const groupTitles = html.find(".checkboxGroupTitle");
+		groupTitles.click(this.toggleCheckboxGroup.bind(this));
+
 		// Everything below here is only needed if the sheet is editable
 		if (!this.options.editable) return;
 
 		// Roll handlers, click handlers, etc. would go here.
 	}
+
+	toggleCheckboxGroup(event)
+	{
+		const checkboxGroupTitle = $(event.delegateTarget);
+		const checkboxGroupID = checkboxGroupTitle.data("checkbox-group");
+		const outerWrapper = checkboxGroupTitle.parent();
+		const targetGroupWrapper = outerWrapper.find(".checkboxGroupWrapper[data-checkbox-group='" + checkboxGroupID + "']");
+
+		if (!this.checkboxGroupStates[checkboxGroupID])
+		{
+			this.checkboxGroupStates[checkboxGroupID] = true;
+			
+			checkboxGroupTitle.addClass("expanded");
+			checkboxGroupTitle.removeClass("collapsed");
+			targetGroupWrapper.addClass("expanded");
+			targetGroupWrapper.removeClass("collapsed");
+		}
+		else
+		{
+			this.checkboxGroupStates[checkboxGroupID] = false;
+
+			checkboxGroupTitle.removeClass("expanded");
+			checkboxGroupTitle.addClass("collapsed");
+			targetGroupWrapper.removeClass("expanded");
+			targetGroupWrapper.addClass("collapsed");
+		}
+	}
+	
 }
+
+Handlebars.registerHelper('isNotLastItem', function (v1, v2, options)
+{
+	return (v1 < (v2 - 1)) ? options.fn(this) : options.inverse(this);
+});
+Handlebars.registerHelper('checkboxGroupState', function (v1)
+{
+	if (v1)
+	{
+		return "expanded";
+	}
+	return "collapsed"
+});
+
