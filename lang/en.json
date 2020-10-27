@@ -226,21 +226,35 @@
 	"PRIME.weapon_wound_condition_title_slowed" : "Slowed",
 	"PRIME.weapon_wound_condition_description_slowed" : "You must act last in a combat phase",
 
-	"PRIME.weapon_weapon_action_title_cleave" : "Cleave",
-	"PRIME.weapon_weapon_action_description_cleave" : "This weapon can be swung for more damage (+1 DR)",
 	
-	"PRIME.weapon_weapon_action_title_hook" : "Hook",
-	"PRIME.weapon_weapon_action_description_hook" : "Needs description",
-
-	"PRIME.weapon_weapon_action_title_impale" : "Impale",
-	"PRIME.weapon_weapon_action_description_impale" : "Add either +1DR or +2 AP",
-
-	"PRIME.weapon_weapon_action_title_bash" : "Bash",
-	"PRIME.weapon_weapon_action_description_bash" : "Target loses 2 Action Points if Resilience damage caused",
-
-	"PRIME.weapon_weapon_action_title_stab" : "Stab",
-	"PRIME.weapon_weapon_action_description_stab" : "Improve Armour Penetration (+2 AP)",
+	"PRIME.weapon_action_title_cleave" : "Cleave",
+	"PRIME.weapon_action_description_cleave" : "This weapon can be swung for more damage (+1 DR)",
 	
+	"PRIME.weapon_action_title_hook" : "Hook",
+	"PRIME.weapon_action_description_hook" : "Needs description",
+
+	"PRIME.weapon_action_title_impale" : "Impale",
+	"PRIME.weapon_action_description_impale" : "Add either +1DR or +2 AP",
+
+	"PRIME.weapon_action_title_bash" : "Bash",
+	"PRIME.weapon_action_description_bash" : "Target loses 2 Action Points if Resilience damage caused",
+
+	"PRIME.weapon_action_title_stab" : "Stab",
+	"PRIME.weapon_action_description_stab" : "Improve Armour Penetration (+2 AP)",
+	
+
+	"PRIME.weapon_action_title_volley" : "Volley",
+	"PRIME.weapon_action_description_volley" : "Fires a lot of shots. (tbc)",
+
+	"PRIME.weapon_action_title_surpress" : "Surpress",
+	"PRIME.weapon_action_description_surpress" : "Restricts targets movement. (tbc)",
+
+	"PRIME.weapon_action_title_burst" : "Burst",
+	"PRIME.weapon_action_description_burst" : "Fires a few shots. (tbc)",
+
+	"PRIME.weapon_action_title_lob" : "Lob",
+	"PRIME.weapon_action_description_lob" : "Fires in an arc over cover and stuff. (tbc)",
+
 
 	"PRIME.weapon_melee_type" : "Type",
 	"PRIME.weapon_melee_type_blunt" : "Blunt",
