@@ -100,66 +100,7 @@
 	flex-wrap: wrap;
 }
 
-.metaValueContent.actionPointsWrapper
-{
-	display: flex;
-	justify-content: space-between;
-}
 
-.metaValueContent .actionPointWrapper,
-.metaValueContent .actionPointWrapper.activePoint.fillAnimation
-{
-	position: relative;
-	border: 1px solid #444444;
-	border-radius: 100%;
-	width: 11.28%;
-	margin: 1.5%;
-	text-shadow: none;
-	box-shadow: none;
-	transition: text-shadow 0.2s ease-in, box-shadow 0.2s ease-in;
-	/* transition: text-shadow var(--primary-transition), box-shadow var(--primary-transition); */
-	cursor: pointer;
-	background: rgba(255,255,255,0.5);
-}
-
-.metaValueContent .actionPointWrapper:after
-{
-	content: "";
-	display: block;
-	padding-bottom: 100%;
-}
-
-.metaValueContent .actionPointWrapper.activePoint,
-.metaValueContent .actionPointWrapper.emptyAnimation
-{
-    border: 1px solid red;
-    border-bottom: none;
-    box-shadow: 0 0 6px inset #ff6400, 0 0 6px #ff6400;
-    text-shadow: 0 0 3px #ff6400;
-}
-
-.metaValueContent .actionPointWrapper input
-{
-	opacity: 0;
-	width: 0;
-	height: 0;
-	margin: 0;
-	float: left;
-}
-
-.metaValueContent .actionPointWrapper label
-{
-	position: absolute;
-	top: 0;
-	left: 0;
-	bottom: 0;
-	right: 0;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	cursor: pointer;
-	border-radius: 100%;
-}
 
 .primeCharacterSheet .healthAndArmourOuter
 {
@@ -228,6 +169,8 @@
 	bottom: 21%;
 	font-size: var(--smallTitle-size);
 }
+
+
 
 .primeCharacterSheet .injuriesBlock 
 {
@@ -337,32 +280,134 @@
 	font-size: 12px;
 }
 
+.metaValueContent.actionPointsWrapper
+{
+	display: flex;
+	justify-content: space-between;
+}
 
+.metaValueContent .actionPointWrapper,
+.metaValueContent .actionPointWrapper.activePoint.fillAnimation
+{
+	position: relative;
+	border: 1px solid #444444;
+	border-radius: 100%;
+	width: 11.28%;
+	margin: 1.5%;
+	text-shadow: none;
+	box-shadow: none;
+	transition: text-shadow 0.2s ease-in, box-shadow 0.2s ease-in;
+	/* transition: text-shadow var(--primary-transition), box-shadow var(--primary-transition); */
+	cursor: pointer;
+	background: rgba(255,255,255,0.5);
+}
+
+.metaValueContent .actionPointWrapper:after
+{
+	content: "";
+	display: block;
+	padding-bottom: 100%;
+}
+
+.metaValueContent .actionPointWrapper.activePoint,
+.metaValueContent .actionPointWrapper.emptyAnimation
+{
+    border: 1px solid red;
+    border-bottom: none;
+    box-shadow: 0 0 6px inset #ff6400, 0 0 6px #ff6400;
+    text-shadow: 0 0 3px #ff6400;
+}
+
+.metaValueContent .actionPointWrapper input
+{
+	opacity: 0;
+	width: 0;
+	height: 0;
+	margin: 0;
+	float: left;
+}
+
+.metaValueContent .actionPointWrapper label
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	border-radius: 100%;
+}
+
+.soulAndXP
+{
+	flex:1;	
+	font-size: var(--title-size);
+}
+
+
+.weaponsContent .meleeWeapons th,
+.weaponsContent .meleeWeapons td,
+.weaponsContent .rangedWeapons th,
+.weaponsContent .rangedWeapons td
+{
+	min-width: 30px;
+	padding: 5px;
+	vertical-align: baseline;
+}
 
 .statsContent
 {
-	margin:0.2em;
-	display: flex;
-	flex-wrap: wrap;
+	margin-top:10px;
+	margin-bottom:10px;
 }
 
 .statsContent .primesGroup,
 .statsContent .refinementsGroup
 {
-	width: 30%;
-	padding:1%;
-	margin-right:3%;
+	width: 20%;
+	min-width: 110px;
+	padding: 5px 5px 5px 5px;
+    margin: 0px 5px 0px 3px;
 	border-radius: 5px;
 	border:1px solid grey;
+}
+
+.narrowWidth .statsContent .primesGroup
+{
+	width: 25%;
 }
 
 .statsContent .primesGroup.primeGroup_physical,
 .statsContent .refinementsGroup.refinementGroup_physical
 {
+	position: relative;
+	padding-top:11px;
 	border-bottom-left-radius: 0;
 	border-bottom-right-radius: 0;
 	border-bottom-width: 0;
 }
+
+
+.primeGroup_physical .blockTitle,
+.refinementGroup_physical .blockTitle
+{
+	position: absolute;
+	top:-7.5px;
+	height: 15px;
+	left: 25%;
+	right: 25%;
+	font-size:10px;
+	background: url(../../../../../../ui/parchment.jpg) repeat;
+	border:1px solid grey;
+	border-radius: 3px;
+	display:flex;
+	justify-content: center;
+	align-items: center;
+}
+
 
 .statsContent .primesGroup.primeGroup_mental,
 .statsContent .refinementsGroup.refinementGroup_mental
@@ -400,6 +445,7 @@
 	height:25px;
 	text-align: center;
 }
+
 .statsContent .primesGroup .primeWrapper .primeValue
 {
 	width:25px;
@@ -409,11 +455,15 @@
 
 .statsContent .refinementsGroup
 {
-	width: 66%;
-	margin-right:0%;
+	width: 77%;
 	display: flex;
 	flex-wrap: wrap;
 	align-content: flex-start;
+}
+
+.narrowWidth .statsContent .refinementsGroup
+{
+	width: 71%;
 }
 
 .statsContent .refinementsGroup .refinementWrapper
