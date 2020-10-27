@@ -68,6 +68,10 @@ export class PrimePCActorSheet extends ActorSheet
 		data.combinedResilience = data.data.health.resilience.value + data.data.armour.resilience.value;
 		
 		data.data.typeSorted = this.getTypeSortedPrimesAndRefinements(data);
+		
+		data.tables = this.getItemTables();
+
+		this.processItems(data);
 
 		// Prepare items.
 		if (this.actor.data.type == "character")
@@ -76,6 +80,27 @@ export class PrimePCActorSheet extends ActorSheet
 		}
 
 		return data;
+	}
+
+	getCurrentOwners(whatPermissions)
+	{
+		let ownerNames = [];
+		let currUser;
+		for (var key in whatPermissions)
+		{
+			currUser = game.users.get(key)
+			if (key != "default" && whatPermissions[key] == 3 && !currUser.isGM)
+			{
+				ownerNames.push(currUser.name);
+			}
+		}
+
+		if (ownerNames.length == 0)
+		{
+			ownerNames.push("Not assigned");
+		}
+
+		return ownerNames.join(", ");
 	}
 
 	getTypeSortedPrimesAndRefinements(sourceData)
@@ -105,25 +130,138 @@ export class PrimePCActorSheet extends ActorSheet
 		return sortedData;
 	}
 
-	getCurrentOwners(whatPermissions)
+	getItemTables()
 	{
-		let ownerNames = [];
-		let currUser;
-		for (var key in whatPermissions)
+		var _itemTables = $.extend({}, game.system.template.Tables.items);
+		this.addTranslations(_itemTables);
+		return _itemTables;
+	}
+
+	addTranslations(whatData)
+	{
+		for (var key in whatData)
 		{
-			currUser = game.users.get(key)
-			if (key != "default" && whatPermissions[key] == 3 && !currUser.isGM)
+			if (key == "title" || key == "description")
 			{
-				ownerNames.push(currUser.name);
+				var translation = game.i18n.localize(whatData[key])
+				whatData[key] = translation;
+			}
+			if (typeof whatData[key] === 'object' && whatData[key] !== null)
+			{
+				this.addTranslations(whatData[key]);
 			}
 		}
+	}
 
-		if (ownerNames.length == 0)
+	processItems(data)
+	{
+		data.filteredItems = this.filterItemsByType(data);
+	}
+
+	filterItemsByType(data)
+	{
+		const itemData = data.items;
+		var itemTypes = {}
+		var count = 0;
+		while (count < itemData.length)
 		{
-			ownerNames.push("Not assigned");
+			let currItem = itemData[count];
+			if (!itemTypes[currItem.type])
+			{
+				itemTypes[currItem.type] = [];
+			}
+
+			currItem = this.processItem(currItem, data.tables);
+
+			itemTypes[currItem.type].push(currItem);
+			count++;
+		}
+		return itemTypes;
+	}
+
+	processItem(itemData, tables)
+	{
+		switch (itemData.type)
+		{
+			case "item":
+			break;
+			case "melee-weapon":
+				itemData = this.processWeapon(itemData, "melee", tables);
+			break;
+			case "ranged-weapon":
+				itemData = this.processWeapon(itemData, "ranged", tables);
+			break;
+			case "armour":
+			break;
+			case "perk":
+			break;
+			default:
+				console.warn("Unknown item type of '" + itemData.type + "' found in processItem().");
+			break;
+		}
+		return itemData;
+	}
+
+	processWeapon(weaponData, catergory, tables)
+	{
+		weaponData.data.weaponSize = this.getTitleFromTableByKey(weaponData.data.weaponSize, tables.weapons.sizes);
+		weaponData.data.weaponType = this.getTitleFromTableByKey(weaponData.data.weaponType, tables.weapons[catergory + "Types"]);
+
+		weaponData.data.rarity = this.getTitleFromTableByKey(weaponData.data.rarity, tables.rarity);
+
+		weaponData.data.woundConditions = this.getTitlesFromTableByCheckboxGroupArray(weaponData.data.woundConditions, tables.weapons.woundConditions);
+		weaponData.data.keywords = this.getTitlesFromTableByCheckboxGroupArray(weaponData.data.keywords, tables.weapons.keywords);
+		weaponData.data.customActions = this.getTitlesFromTableByCheckboxGroupArray(weaponData.data.customActions, tables.weapons[catergory + "WeaponActions"]);
+
+		if (catergory == "ranged")
+		{
+			weaponData.data.ammo.type = this.getTitleFromTableByKey(weaponData.data.ammo.type, tables.weapons.ammoTypes);
 		}
 
-		return ownerNames.join(", ");
+		return weaponData
+	}
+
+	getTitleFromTableByKey(key, table)
+	{
+		var count = 0;
+		while (count < table.length)
+		{
+			let entry = table[count];
+			if (entry.key == key)
+			{
+				return entry.title;
+			}
+			count++;
+		}
+		console.error("ERROR: Unable to find an entry with the key of '" + key + "' in: ", table);
+		return "";
+	}
+
+	getTitlesFromTableByCheckboxGroupArray(checkboxGroupArray, table)
+	{
+		var titlesArray = [];
+
+		if (checkboxGroupArray.length != table.length)
+		{
+			console.warn("WARNING: Mismatched lengths between checkbox group array and data table.", checkboxGroupArray, table);
+		}
+
+		var count = 0;
+		while (count < checkboxGroupArray.length)
+		{
+			if (checkboxGroupArray[count])
+			{
+				let entry = table[count];
+				titlesArray.push("<span title='" + entry.description + "' class='hasTooltip'>" + entry.title + "</span>");
+			}
+			count++;
+		}
+
+		if (titlesArray.length == 0)
+		{
+			titlesArray.push("None");
+		}
+		return titlesArray.join(", ");
 	}
 
 	toggleSheetEditMode()
@@ -358,6 +496,14 @@ export class PrimePCActorSheet extends ActorSheet
 		valueWrappers.toggleClass("valueEditable");
 	}
 
+	
+	deleteItem(event)
+	{
+		const deleteLink = $(event.delegateTarget);
+		const itemID = deleteLink.data("item-id");
+		this.actor.deleteOwnedItem(itemID);
+	}
+
 	/**
 	 * Organize and classify Items for Character sheets.
 	 *
@@ -452,6 +598,8 @@ export class PrimePCActorSheet extends ActorSheet
 		$(document).mouseup(this.resizeUpdateEnd.bind(this));
 		resizeHandle.click(this.resizeUpdateEnd.bind(this));
 
+		html.find(".deleteItemIcon").click(this.deleteItem.bind(this));
+
 		// Previous event listeners below here
 
 		// Add Inventory Item
@@ -463,14 +611,6 @@ export class PrimePCActorSheet extends ActorSheet
 			const li = $(ev.currentTarget).parents(".item");
 			const item = this.actor.getOwnedItem(li.data("itemId"));
 			item.sheet.render(true);
-		});
-
-		// Delete Inventory Item
-		html.find(".item-delete").click((ev) =>
-		{
-			const li = $(ev.currentTarget).parents(".item");
-			this.actor.deleteOwnedItem(li.data("itemId"));
-			li.slideUp(200, () => this.render(false));
 		});
 
 		// Drag events for macros.
