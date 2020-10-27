@@ -484,43 +484,33 @@
 			"ranged": 
 			{
 				"ranges":
-				[
+				{
+					"pointBlank": 
 					{
-						"key": "pointBlank",
-						"title": "PRIME.weapons_ranges_point_blank",
 						"from": 0,
-						"to": 0,
-						"unit": ""
+						"to": 0
 					},
+					"short": 
 					{
-						"key": "short",
-						"title": "PRIME.weapons_ranges_short",
 						"from": 0,
-						"to": 0,
-						"unit": ""
+						"to": 0
 					},
+					"medium": 
 					{
-						"key": "medium",
-						"title": "PRIME.weapons_ranges_medium",
 						"from": 0,
-						"to": 0,
-						"unit": ""
+						"to": 0
 					},
+					"long": 
 					{
-						"key": "long",
-						"title": "PRIME.weapons_ranges_long",
 						"from": 0,
-						"to": 0,
-						"unit": ""
+						"to": 0
 					},
+					"extreme": 
 					{
-						"key": "extreme",
-						"title": "PRIME.weapons_ranges_extreme",
 						"from": 0,
-						"to": 0,
-						"unit": ""
+						"to": 0
 					}
-				],
+				},
 				"ammo":
 				{
 					"type": "",
@@ -836,6 +826,15 @@
 						"title": "PRIME.weapon_ranged_type_blowpipe"
 					}
 				],
+
+				"rangeCatergories" :
+				{
+					"pointBlank": "PRIME.weapons_ranges_point_blank",
+					"short": "PRIME.weapons_ranges_short",
+					"medium": "PRIME.weapons_ranges_medium",
+					"long": "PRIME.weapons_ranges_long",
+					"extreme": "PRIME.weapons_ranges_extreme"
+				},
 
 				"ammoTypes":
 				[
