@@ -725,36 +725,70 @@
 					}
 				],
 
-				"weaponActions":
+				"meleeWeaponActions":
 				[
 					{
 						"key": "cleave",
-						"title": "PRIME.weapon_weapon_action_title_cleave",
-						"description": "PRIME.weapon_weapon_action_description_cleave",
+						"title": "PRIME.weapon_action_title_cleave",
+						"description": "PRIME.weapon_action_description_cleave",
 						"apCost": 1
 					},
 					{
 						"key": "hook",
-						"title": "PRIME.weapon_weapon_action_title_hook",
-						"description": "PRIME.weapon_weapon_action_description_hook",
+						"title": "PRIME.weapon_action_title_hook",
+						"description": "PRIME.weapon_action_description_hook",
 						"apCost": 1
 					},
 					{
 						"key": "impale",
-						"title": "PRIME.weapon_weapon_action_title_impale",
-						"description": "PRIME.weapon_weapon_action_description_impale",
+						"title": "PRIME.weapon_action_title_impale",
+						"description": "PRIME.weapon_action_description_impale",
 						"apCost": 1
 					},
 					{
 						"key": "bash",
-						"title": "PRIME.weapon_weapon_action_title_bash",
-						"description": "PRIME.weapon_weapon_action_description_bash",
+						"title": "PRIME.weapon_action_title_bash",
+						"description": "PRIME.weapon_action_description_bash",
 						"apCost": 1
 					},
 					{
 						"key": "stab",
-						"title": "PRIME.weapon_weapon_action_title_stab",
-						"description": "PRIME.weapon_weapon_action_description_stab",
+						"title": "PRIME.weapon_action_title_stab",
+						"description": "PRIME.weapon_action_description_stab",
+						"apCost": 1
+					}
+				],
+
+				"rangedWeaponActions":
+				[
+					{
+						"key": "impale",
+						"title": "PRIME.weapon_action_title_impale",
+						"description": "PRIME.weapon_action_description_impale",
+						"apCost": 1
+					},
+					{
+						"key": "volley",
+						"title": "PRIME.weapon_action_title_volley",
+						"description": "PRIME.weapon_action_description_volley",
+						"apCost": 1
+					},
+					{
+						"key": "surpress",
+						"title": "PRIME.weapon_action_title_surpress",
+						"description": "PRIME.weapon_action_description_surpress",
+						"apCost": 1
+					},
+					{
+						"key": "burst",
+						"title": "PRIME.weapon_action_title_burst",
+						"description": "PRIME.weapon_action_description_burst",
+						"apCost": 1
+					},
+					{
+						"key": "lob",
+						"title": "PRIME.weapon_action_title_lob",
+						"description": "PRIME.weapon_action_description_lob",
 						"apCost": 1
 					}
 				],
