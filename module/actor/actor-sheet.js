@@ -640,8 +640,11 @@ export class PrimePCActorSheet extends ActorSheet
 		html.find(".fillAnimation").removeClass("fillAnimation");
 		html.find(".emptyAnimation").removeClass("emptyAnimation");
 
-		data.data.actionPoints.lastTotal = data.data.actionPoints.value;
-		var result = await this.actor.update(data.actor, {render: false});
+		if (data.data.actionPoints.lastTotal != data.data.actionPoints.value)
+		{
+			data.data.actionPoints.lastTotal = data.data.actionPoints.value;
+			var result = await this.actor.update(data.actor, {render: false});
+		}
 	}
 
 
