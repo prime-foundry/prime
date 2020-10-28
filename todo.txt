@@ -54,6 +54,17 @@ Make the start new combat round auto-add a action point.
 
 Enhance the dice roller to allow for opposed rolls.
 
+Item shop
+
+Item swapping - bound by distance
+
+Journal link to change scene
+
+BUGS
+======
+
+Adding an item when you're a player seems to cause some sort of spaz out.
+
 //Wounds can't be reset below 1
 
 //Update armour > coverage to armour > protection
