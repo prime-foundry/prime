@@ -1,6 +1,6 @@
 import { PRIME_DICE_POPUP } from "./prime_dice_popup.js";
 
-class PRIME_DICE
+export class PRIME_DICE
 {
 	static dicePopup = null;
 
