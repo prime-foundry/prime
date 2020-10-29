@@ -1,0 +1,28 @@
+
+
+#controls .prime-control.control-tool {
+    background: rgba(0,54,65, 0.5);
+    box-shadow: 0 0 10px #003641;
+    color: #BBB;
+    border: 1px solid #000;
+}
+
+#controls .prime-control.control-tool::before {
+   content: "Prime";
+   font-size: 8px;
+   margin-top: -19px;
+   margin-left: -9px;
+   position: absolute;
+   color: rgba(187,187,187, 0.75);
+}
+
+#controls .prime-control.control-tool.active, #controls .prime-control.control-tool:hover {
+    color: #EEF;
+    border: 1px solid #004c66;
+    border-bottom: 1px solid #007299;
+    box-shadow: 0 0 10px #00A8E1;
+}
+
+#controls .prime-control.control-tool.active::before, #controls .prime-control.control-tool:hover::before {
+    color: rgba(187,187,187, 1);
+}

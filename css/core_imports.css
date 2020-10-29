@@ -7,6 +7,8 @@
 @import url('fonts/fonts_imports.css');
 
 
+@import url('elements/prime_control.css');
+
 @import url('elements/prime_sheets.css');
 
 @import url('elements/prime_dice.css');
