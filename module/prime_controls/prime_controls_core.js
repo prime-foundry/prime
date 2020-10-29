@@ -15,7 +15,7 @@ Hooks.on("getSceneControlButtons", (controls) => {
     basicControls.tools.push({
         name: "prime-xp",
         title: game.i18n.localize("PRIME.controls_xp_title"),
-        icon: "fas fa-expand",
+        icon: "game-icon game-icon-aura",
         cssClass: "prime-button",
         visible: isGM,
     });

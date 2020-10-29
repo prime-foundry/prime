@@ -6,7 +6,10 @@
 
 @import url('fonts/fonts_imports.css');
 
+/* Icons */
+@import url('elements/game-icons/game-icons.css');
 
+/* Prime */
 @import url('elements/prime_control.css');
 
 @import url('elements/prime_sheets.css');
