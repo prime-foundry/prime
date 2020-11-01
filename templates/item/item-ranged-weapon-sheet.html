@@ -131,16 +131,12 @@
 
 	<div class="flexRow block flexWrap flexBetween verticalCenter infoBlock">
 		<div class="blockTitle">Ranges</div>
-		<div class="cell33">&nbsp;</div>
-		<div class="cell33">From</div>
-		<div class="cell33">To</div>
+		<div class="cell50">&nbsp;</div>
+		<div class="cell50">Distance</div>
 		{{#each data.ranges as |rangeBlock key|}}
-		<div class="cell33 flexRow flexEnd verticalCenter">{{localize rangeBlock.title}}: </div>
-		<div class="cell33">
-			<input type="text" id="data.ranges.{{key}}.from" name="data.ranges.{{key}}.from" class="cell100" value="{{rangeBlock.from}}" data-dtype="Number"/>
-		</div>
-		<div class="cell33">
-			<input type="text" id="data.ranges.{{key}}.to" name="data.ranges.{{key}}.to" class="cell100" value="{{rangeBlock.to}}" data-dtype="Number"/>
+		<div class="cell50 flexRow flexEnd verticalCenter">{{localize rangeBlock.title}}: </div>
+		<div class="cell50">
+			<input type="text" id="data.ranges.{{key}}.value" name="data.ranges.{{key}}.value" class="cell100" value="{{rangeBlock.value}}" data-dtype="Number"/>
 		</div>
 		{{/each}}
 	</div>
