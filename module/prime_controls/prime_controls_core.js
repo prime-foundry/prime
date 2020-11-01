@@ -8,18 +8,15 @@ Hooks.on("getSceneControlButtons", (controls) => {
         name: "prime-roll",
         title: game.i18n.localize("PRIME.controls_roll_title"),
         icon: "fas fa-dice-d20",
-        cssClass: "prime-button",
         button: true,
-        onClick: () => PRIME_DICE.openPrimeDice("primeControl"),
+        // onClick: () => PRIME_DICE.openPrimeDice("primeControl"),
     });
     basicControls.tools.push({
         name: "prime-xp",
         title: game.i18n.localize("PRIME.controls_xp_title"),
         icon: "game-icon game-icon-aura",
-        cssClass: "prime-button",
         visible: isGM,
     });
-
 });
 
 // export class PrimeLayer extends CanvasLayer {
@@ -28,8 +25,44 @@ Hooks.on("getSceneControlButtons", (controls) => {
 
 
 Hooks.on("renderSceneControls", () => {
-    $('li[data-tool="prime-roll"].control-tool').addClass("prime-control");
     $('li[data-tool="prime-xp"].control-tool').addClass("prime-control");
+
+    let primeRoll = $('li[data-tool="prime-roll"].control-tool');
+    primeRoll.addClass("prime-control prime-control-roll");
+    let offset = primeRoll.offset();
+    let width = primeRoll.width();
+    // let height = primeRoll.height();
+
+    $(primeRoll).click(instance => {
+
+        PRIME_DICE.openPrimeDice("primeControl", offset.left+width+12, offset.top);
+    });
+    // there appears to be something a bit dodgy going on when we click a button when this is evaluated, 
+    // the page is rerendered and so the tool tip thinks we are at 0,0 
+    // so to fix we get the location of the button (and its dimensions) after the first render.
+    // tippy(primeRoll.get(0), {
+    //     content: 'Prime Roll',
+    //     trigger: 'click',
+    //     // interactive: true,
+    //     allowHTML: true,
+    //     getReferenceClientRect: () => ({
+    //         width: width,
+    //         height: height,
+    //         left: offset.left,
+    //         right: offset.left + width,
+    //         top: offset.top,
+    //         bottom: offset.top + height,
+    //     }),
+    //     placement: 'right',
+    //     onMount(instance) {
+    //         // ...
+    //     },
+    //     onShown(instance) {
+
+    //         let wrapper = $('#primeDiceRoller');
+    //         instance.setContent(wrapper.get(0));
+    //     },
+    // });
     // $('li[data-control="primeCoreControl"]')[0].onclick = () => {
     //     PRIME_DICE.openPrimeDice("primeControl");
     // initMap();
