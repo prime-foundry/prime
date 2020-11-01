@@ -1,0 +1,134 @@
+<form class="{{cssClass}} flexColumn " autocomplete="off">
+	<div class="flexRow">
+		<div class="cell30 block noTitle imageWrapper flexRow flexCenter verticalCenter">
+			<img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+		</div>
+		<div class="cell70 block flexColumn">
+			<div class="blockTitle">Basic information</div>
+			<h1 class="entityName">
+				<label for="name">Name:</label>
+				<input name="name" type="text" value="{{item.name}}" placeholder="Name" />
+			</h1>
+			<div class="flexRow infoBlock">
+				<div class="cell50 flexRow verticalCenter flexBetween">
+					<label class="cell60" for="data.quantity" >Quantity:</label>
+					<input class="cell40" type="text" id="data.quantity" name="data.quantity" value="{{data.quantity}}" data-dtype="Number" />
+				</div>
+
+				<div class="cell50 flexRow verticalCenter flexBetween">
+					<label class="cell60" for="data.weight">Weight:</label>
+					<input class="cell40" type="text" id="data.weight" name="data.weight" value="{{data.weight}}" data-dtype="String" />
+				</div>
+
+				<div class="cell100 flexRow verticalCenter flexBetween lastRow">
+					<label class="cell25">{{localize "PRIME.item_rarity"}}:</label>
+					<select name="data.rarity" id="data.rarity" class="itemRarity cell75">
+						{{#select data.rarity}}
+						{{#each tables.rarity}}
+						<option value="{{this.key}}">{{this.title}}</option>
+						{{/each}}
+						{{/select}}
+					</select>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--
+		"armourType": "",
+		"protection": 0,
+		"armourResilience": 1,
+		"keywords": [],
+		"untrainedPenalty": []
+	-->
+	
+	<div class="flexRow flexWrap block infoBlock">
+		<div class="blockTitle">Weapon details</div>
+		
+		<div class="cell100 flexRow verticalCenter">
+			<label for="data.armourType" class="resource-label cell50">Type:</label>
+			<select name="data.armourType" class="itemValueType cell50">
+				{{#select data.armourType}}
+				{{#each tables.armour.types}}
+				<option value="{{this.key}}">{{this.title}}</option>
+				{{/each}}
+				{{/select}}
+			</select>
+		</div>
+
+		<div class="cell50 flexRow verticalCenter">
+			<label for="data.protection" class="resource-label cell50">Protection:</label>
+			<input class="cell50" type="text" id="data.protection" name="data.protection" value="{{data.protection}}" data-dtype="Number" data-min="0" data-max="5"/>
+		</div>
+
+		<div class="cell50 flexRow verticalCenter">
+			<label for="data.armourResilience" class="resource-label cell50">Armour resilience:</label>
+			<input type="text" id="data.armourResilience" name="data.armourResilience" class="cell50" value="{{data.armourResilience}}" data-dtype="Number" data-min="0" data-max="5"/>
+		</div>
+
+		<div class="cell100 flexRow verticalCenter flexCenter checkboxGroupTitle {{checkboxGroupState checkboxGroupStates.keywords}}" data-checkbox-group="keywords">
+			<div class="cell100">Keywords:
+				{{#each checkboxGroups.keywords.selectedItems as |keyword key|}}
+				<span title="{{keyword.description}}" class="hasTooltip">{{keyword.title}}</span>{{#isNotLastItem key ../checkboxGroups.keywords.selectedItems.length}}, {{/isNotLastItem}}
+				{{/each}}
+			</div>
+			<i class="fas fa-chevron-circle-up"></i>
+			<i class="fas fa-chevron-circle-down"></i>
+		</div>
+		<div class="cell100 flexRow verticalCenter flexBetween flexWrap checkboxGroupWrapper {{checkboxGroupState checkboxGroupStates.keywords}}" data-checkbox-group="keywords">
+			{{#each checkboxGroups.keywords.optionsData as |keyword key|}}
+			<div class="flexRow verticalCenter cell33 flexBetween">
+				<label for="{{keyword.key}}" class="resource-label hasTooltip" title="{{keyword.description}}">{{keyword.title}}:</label>
+				<input type="checkbox" id="{{keyword.key}}" name="data.keywords" value="{{keyword.key}}" {{checked keyword.checked}}/>
+			</div>
+			{{/each}}
+		</div>
+
+		<div class="cell100 flexRow verticalCenter flexCenter checkboxGroupTitle {{checkboxGroupState checkboxGroupStates.actions}}" data-checkbox-group="actions">
+			<div class="cell100">Untrained penalty:
+				{{#each checkboxGroups.untrainedPenalty.selectedItems as |untrainedPenalty key|}}
+				<span title="{{untrainedPenalty.description}}" class="hasTooltip">{{untrainedPenalty.title}}</span>{{#isNotLastItem key ../checkboxGroups.untrainedPenalty.selectedItems.length}}, {{/isNotLastItem}}
+				{{/each}}
+			</div>
+			<i class="fas fa-chevron-circle-up"></i>
+			<i class="fas fa-chevron-circle-down"></i>
+		</div>
+		<div class="cell100 lastRow flexRow verticalCenter flexBetween flexWrap checkboxGroupWrapper {{checkboxGroupState checkboxGroupStates.actions}}" data-checkbox-group="actions">
+			{{#each checkboxGroups.untrainedPenalty.optionsData as |untrainedPenalty key|}}
+			<div class="flexRow verticalCenter cell33 flexBetween">
+				<label for="{{untrainedPenalty.key}}" class="resource-label hasTooltip" title="{{untrainedPenalty.description}}">{{untrainedPenalty.title}}:</label>
+				<input type="checkbox" id="{{untrainedPenalty.key}}" name="data.untrainedPenalty" value="{{untrainedPenalty.key}}" {{checked untrainedPenalty.checked}}/>
+			</div>
+			{{/each}}
+		</div>
+	</div>
+
+	<div class="flexRow block">
+		<div class="blockTitle">Value</div>
+		<div class="cell50 flexColumn">
+			<label for="data.valueTypeID">Type: </label>
+			<!--<input type="text" name="data.weight" value="{{data.weight}}" data-dtype="Number" />-->
+			<select id="data.valueTypeID" name="data.valueType" class="itemValueType">
+				{{#select data.valueType}}
+				<option value="personal">Personal $</option>
+				<option value="ship">Ship $</option>
+				{{/select}}
+			</select>
+		</div>
+		<div class="cell50 flexColumn">
+			<label  for="data.valueAmount">Amount: </label>
+			<input type="text" id="data.valueAmount" name="data.valueAmount" value="{{data.valueAmount}}" data-dtype="Number" />
+		</div>
+	</div>
+		
+	<div class="block descriptionBlock">
+		<div class="blockTitle">Description</div>
+		{{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
+	</div>
+
+	<div class="block bottomBlockTitle metaDataBlock flexColumn flexCenter">
+		<div class="blockTitle">Entry metadata</div>
+		<div>Author: {{data.creator}} | Created: {{data.created}}</div>
+		<div></div>Updater: {{data.updater}} | Updated: {{data.updated}}</div>
+	</div>
+</form>
