@@ -247,7 +247,7 @@
 	"PRIME.weapon_action_description_volley" : "Fires a lot of shots. (tbc)",
 
 	"PRIME.weapon_action_title_surpress" : "Surpress",
-	"PRIME.weapon_action_description_surpress" : "Restricts targets movement. (tbc)",
+	"PRIME.weapon_action_description_surpress" : "Restricts targets movement within a given area. (tbc)",
 
 	"PRIME.weapon_action_title_burst" : "Burst",
 	"PRIME.weapon_action_description_burst" : "Fires a few shots. (tbc)",
@@ -273,5 +273,33 @@
 	"PRIME.weapon_ammo_type_arrow" : "Arrow",
 	"PRIME.weapon_ammo_type_bolt" : "Bolt",
 	"PRIME.weapon_ammo_type_dart" : "Dart",
-	"PRIME.weapon_ammo_type_bullet" : "Bullet"
+	"PRIME.weapon_ammo_type_bullet" : "Bullet",
+
+	"PRIME.armour_type_cloth" : "Cloth",
+	"PRIME.armour_type_leather" : "Leather",
+	"PRIME.armour_type_chain" : "Chain",
+	"PRIME.armour_type_plate" : "Plate",
+	"PRIME.armour_type_other" : "Other",
+
+	"PRIME.armour_keyword_title_ablative": "Ablative",
+	"PRIME.armour_keyword_description_ablative": "If the armour's resilience is used to defend against damage, it is always reduced. This is the case for even a normal attack, unless the weapon is explicetly incapable of armour damage.",
+	"PRIME.armour_keyword_title_cumbersome": "Cumbersome",
+	"PRIME.armour_keyword_description_cumbersome": "Increases the cost of any actions involving moving across the battlefield by +1 AP.",
+	"PRIME.armour_keyword_title_restrictive": "Restrictive",
+	"PRIME.armour_keyword_description_restrictive": "Adds +2 to the difficulty of any actions involving the Intricate or Manoeuvre Primes.",
+	"PRIME.armour_keyword_title_camouflaging": "Camouflaging",
+	"PRIME.armour_keyword_description_camouflaging": "In the appropriate setting, this armour grants a +1 to attempts to hide from sight.",
+	"PRIME.armour_keyword_title_silent": "Silent",
+	"PRIME.armour_keyword_description_silent": "The armour is unusally silent and adds +1 to attempts to move silently.",
+	"PRIME.armour_keyword_title_sense_depriving": "Sense Depriving",
+	"PRIME.armour_keyword_description_sense_depriving": "Adds +2 to the difficulty of any actions involving the Perception Prime.",
+
+	"PRIME.armour_untrained_penalities_title_plus_one_ap": "+1 AP cost",
+	"PRIME.armour_untrained_penalities_description_plus_one_ap": "This armour adds +1 AP cost to all major actions if the wearer isn't properly trained.",
+	"PRIME.armour_untrained_penalities_title_plus_two_ap": "+2 AP cost",
+	"PRIME.armour_untrained_penalities_description_plus_two_ap": "This armour adds +2 AP cost to all major actions if the wearer isn't properly trained.",
+	"PRIME.armour_untrained_penalities_title_plus_three_ap": "+3 AP cost",
+	"PRIME.armour_untrained_penalities_description_plus_three_ap": "This armour adds +3 AP cost to all major actions if the wearer isn't properly trained.",
+	"PRIME.armour_untrained_penalities_title_plus_four_ap": "+4 AP cost",
+	"PRIME.armour_untrained_penalities_description_plus_four_ap": "This armour adds +4 AP cost to all major actions if the wearer isn't properly trained."
 }
