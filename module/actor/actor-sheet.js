@@ -8,12 +8,18 @@ export class PrimePCActorSheet extends ActorSheet
 	actorSheetMeasureTimer = false;
 	updateWidthClassInterval = 50;
 
+	hooksAdded = false;
+
 	/** @override */
 	static get defaultOptions()
 	{
 		var superOptions = super.defaultOptions;
 
-		this.addHooks();
+		if (!this.hooksAdded)
+		{
+			this.addHooks();
+			this.hooksAdded = true;
+		}
 
 		return mergeObject(superOptions, {
 			classes: ["primeSheet", "primeCharacterSheet", "sheet", "actor"],
@@ -34,6 +40,7 @@ export class PrimePCActorSheet extends ActorSheet
 	{
 		Hooks.on("preUpdateActor", function(actorData, changeData, options, maybeUpdateID)
 		{
+			console.log("preUpdateActor()")
 			if (changeData.data && changeData.data.actionPoints && changeData.data.actionPoints.lastTotal && !changeData.data.actionPoints.value && changeData.data.actionPoints.value !== 0)
 			{
 				return false;
@@ -191,8 +198,6 @@ export class PrimePCActorSheet extends ActorSheet
 			case "ranged-weapon":
 				itemData = this.processWeapon(itemData, "ranged", tables);
 			break;
-			case "armour":
-			break;
 			case "perk":
 			break;
 			default:
@@ -220,6 +225,12 @@ export class PrimePCActorSheet extends ActorSheet
 
 		return weaponData
 	}
+
+	// processArmour(armourData, tables)
+	// {
+	// 	armourData.data.keywords = this.getTitlesFromTableByCheckboxGroupArray(armourData.data.keywords, tables.armour.keywords);
+	// 	armourData.data.untrainedPenalty = this.getTitlesFromTableByCheckboxGroupArray(armourData.data.untrainedPenalty, tables.armour.untrainedPenalities);
+	// }
 
 	getTitleFromTableByKey(key, table)
 	{
