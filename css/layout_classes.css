@@ -212,7 +212,6 @@ input.cell100,
 	height: auto;
 }
 
-
 .block.rigthBlockTitle .blockTitle span
 {
 	transform-origin: 50% 50%;
@@ -239,8 +238,39 @@ input.cell100,
 	margin-top: 0px;
 }
 
+.primeTableWrapper
+{
+	overflow:auto;
+}
+
+.primeTableWrapper table
+{
+	border-top: none;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+.primeTableWrapper tr:first-child th:first-child,
+.primeTableWrapper tr:first-child th:last-child,
+.primeTableWrapper tr:last-child td:first-child,
+.primeTableWrapper tr:last-child td:last-child
+{
+	border-collapse:separate;
+}
+
+.primeTableWrapper tr:first-child th:first-child
+{
+	border-top-left-radius: 5px;
+}
+
+.primeTableWrapper tr:first-child th:last-child
+{
+	border-top-right-radius: 5px;
+}
+
 table th.center,
 table td.center
 {
 	text-align: center;
 }
+
