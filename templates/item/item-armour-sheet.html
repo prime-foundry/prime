@@ -3,47 +3,12 @@
 		<div class="cell30 block noTitle imageWrapper flexRow flexCenter verticalCenter">
 			<img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
 		</div>
-		<div class="cell70 block flexColumn">
-			<div class="blockTitle">Basic information</div>
-			<h1 class="entityName">
-				<label for="name">Name:</label>
-				<input name="name" type="text" value="{{item.name}}" placeholder="Name" />
-			</h1>
-			<div class="flexRow infoBlock flexBetween">
-				<div class="cell50 flexRow verticalCenter flexBetween">
-					<label class="cell60" for="data.quantity" >Quantity:</label>
-					<input class="cell40" type="text" id="data.quantity" name="data.quantity" value="{{data.quantity}}" data-dtype="Number" />
-				</div>
 
-				<div class="cell50 flexRow verticalCenter flexBetween">
-					<label class="cell60" for="data.weight">Weight:</label>
-					<input class="cell40" type="text" id="data.weight" name="data.weight" value="{{data.weight}}" data-dtype="String" />
-				</div>
-
-				<div class="cell100 flexRow verticalCenter flexBetween lastRow">
-					<label class="cell30">{{localize "PRIME.item_rarity"}}:</label>
-					<select name="data.rarity" id="data.rarity" class="itemRarity cell70">
-						{{#select data.rarity}}
-						{{#each tables.rarity}}
-						<option value="{{this.key}}">{{this.title}}</option>
-						{{/each}}
-						{{/select}}
-					</select>
-				</div>
-			</div>
-		</div>
+		{{> itemBasic }}
 	</div>
-
-	<!--
-		"armourType": "",
-		"protection": 0,
-		"armourResilience": 1,
-		"keywords": [],
-		"untrainedPenalty": []
-	-->
 	
 	<div class="flexRow flexWrap block infoBlock flexBetween">
-		<div class="blockTitle">Weapon details</div>
+		<div class="blockTitle">Armour details</div>
 		
 		<div class="cell100 flexRow verticalCenter flexBetween">
 			<label for="data.armourType" class="resource-label cell30">Type:</label>
@@ -103,32 +68,9 @@
 		</div>
 	</div>
 
-	<div class="flexRow block flexBetween">
-		<div class="blockTitle">Value</div>
-		<div class="cell50 flexColumn">
-			<label for="data.valueTypeID">Type: </label>
-			<!--<input type="text" name="data.weight" value="{{data.weight}}" data-dtype="Number" />-->
-			<select id="data.valueTypeID" name="data.valueType" class="itemValueType">
-				{{#select data.valueType}}
-				<option value="personal">Personal $</option>
-				<option value="ship">Ship $</option>
-				{{/select}}
-			</select>
-		</div>
-		<div class="cell50 flexColumn">
-			<label  for="data.valueAmount">Amount: </label>
-			<input type="text" id="data.valueAmount" name="data.valueAmount" value="{{data.valueAmount}}" data-dtype="Number" />
-		</div>
-	</div>
+	{{> itemValue }}
 		
-	<div class="block descriptionBlock">
-		<div class="blockTitle">Description</div>
-		{{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
-	</div>
+	{{> itemDescription }}
 
-	<div class="block bottomBlockTitle metaDataBlock flexColumn flexCenter">
-		<div class="blockTitle">Entry metadata</div>
-		<div>Author: {{data.creator}} | Created: {{data.created}}</div>
-		<div></div>Updater: {{data.updater}} | Updated: {{data.updated}}</div>
-	</div>
+	{{> itemMetadata }}
 </form>

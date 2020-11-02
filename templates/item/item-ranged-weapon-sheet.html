@@ -3,41 +3,14 @@
 		<div class="cell30 block noTitle imageWrapper flexRow flexCenter verticalCenter">
 			<img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
 		</div>
-		<div class="cell70 block flexColumn">
-			<div class="blockTitle">Basic information</div>
-			<h1 class="entityName">
-				<label for="name">Name:</label>
-				<input name="name" type="text" value="{{item.name}}" placeholder="Name" />
-			</h1>
-			<div class="flexRow infoBlock flexBetween">
-				<div class="cell50 flexRow verticalCenter flexBetween">
-					<label class="cell60" for="data.quantity" >Quantity:</label>
-					<input class="cell40" type="text" id="data.quantity" name="data.quantity" value="{{data.quantity}}" data-dtype="Number" />
-				</div>
 
-				<div class="cell50 flexRow verticalCenter flexBetween">
-					<label class="cell60" for="data.weight">Weight:</label>
-					<input class="cell40" type="text" id="data.weight" name="data.weight" value="{{data.weight}}" data-dtype="String" />
-				</div>
-
-				<div class="cell100 flexRow verticalCenter flexBetween lastRow">
-					<label class="cell30">{{localize "PRIME.item_rarity"}}:</label>
-					<select name="data.rarity" id="data.rarity" class="itemRarity cell70">
-						{{#select data.rarity}}
-						{{#each tables.rarity}}
-						<option value="{{this.key}}">{{this.title}}</option>
-						{{/each}}
-						{{/select}}
-					</select>
-				</div>
-			</div>
-		</div>
+		{{> itemBasic }}
 	</div>
 
-	<div class="flexRow flexWrap block infoBlock">
+	<div class="flexRow flexWrap flexBetween block infoBlock">
 		<div class="blockTitle">Weapon details</div>
 		
-		<div class="cell50 flexRow verticalCenter">
+		<div class="cell50 flexRow verticalCenter flexBetween">
 			<label for="data.weaponSize" class="resource-label cell50">Size:</label>
 			<!--<input type="text" name="data.weight" value="{{data.weight}}" data-dtype="Number" />-->
 			<select name="data.weaponSize" class="itemValueType cell50">
@@ -48,7 +21,7 @@
 				{{/select}}
 			</select>
 		</div>
-		<div class="cell50 flexRow verticalCenter">
+		<div class="cell50 flexRow verticalCenter flexBetween">
 			<label for="data.weaponType" class="resource-label cell50">Type:</label>
 			<!--<input type="text" name="data.weight" value="{{data.weight}}" data-dtype="Number" />-->
 			<select id="data.weaponType" name="data.weaponType" class="cell50">
@@ -59,11 +32,11 @@
 				{{/select}}
 			</select>
 		</div>
-		<div class="cell50 flexRow verticalCenter">
+		<div class="cell50 flexRow verticalCenter flexBetween">
 			<label for="data.damageRating" class="resource-label cell50">Damage rating:</label>
 			<input type="text" id="data.damageRating" name="data.damageRating" class="cell50" value="{{data.damageRating}}" data-dtype="Number" data-min="-5" data-max="5"/>
 		</div>
-		<div class="cell50 flexRow verticalCenter">
+		<div class="cell50 flexRow verticalCenter flexBetween">
 			<label for="data.requiredHands" class="resource-label cell50">Hands required:</label>
 			<select id="data.requiredHands" name="data.requiredHands" class="itemValueType cell50">
 				{{#select data.requiredHands}}
@@ -129,14 +102,14 @@
 		</div>
 	</div>
 
-	<div class="flexRow block flexWrap flexBetween verticalCenter infoBlock">
+	<div class="flexRow block flexWrap verticalCenter infoBlock">
 		<div class="blockTitle">Ranges</div>
-		<div class="cell50">&nbsp;</div>
-		<div class="cell50">Distance</div>
 		{{#each data.ranges as |rangeBlock key|}}
-		<div class="cell50 flexRow flexEnd verticalCenter">{{localize rangeBlock.title}}: </div>
-		<div class="cell50">
-			<input type="text" id="data.ranges.{{key}}.value" name="data.ranges.{{key}}.value" class="cell100" value="{{rangeBlock.value}}" data-dtype="Number"/>
+		<div class="cell33 flexRow flexBetween">
+			<div class="cell70 flexRow flexEnd verticalCenter">{{localize rangeBlock.title}}: </div>
+			<div class="cell30">
+				<input type="text" id="data.ranges.{{key}}.value" name="data.ranges.{{key}}.value" class="cell100" value="{{rangeBlock.value}}" data-dtype="Number"/>
+			</div>
 		</div>
 		{{/each}}
 	</div>
@@ -158,36 +131,11 @@
 				{{/select}}
 			</select>
 		</div>
-
-
 	</div>
 
-	<div class="flexRow block">
-		<div class="blockTitle">Value</div>
-		<div class="cell50 flexColumn">
-			<label for="data.valueTypeID">Type: </label>
-			<!--<input type="text" name="data.weight" value="{{data.weight}}" data-dtype="Number" />-->
-			<select id="data.valueTypeID" name="data.valueType" class="itemValueType">
-				{{#select data.valueType}}
-				<option value="personal">Personal $</option>
-				<option value="ship">Ship $</option>
-				{{/select}}
-			</select>
-		</div>
-		<div class="cell50 flexColumn">
-			<label  for="data.valueAmount">Amount: </label>
-			<input type="text" id="data.valueAmount" name="data.valueAmount" value="{{data.valueAmount}}" data-dtype="Number" />
-		</div>
-	</div>
-		
-	<div class="block descriptionBlock">
-		<div class="blockTitle">Description</div>
-		{{editor content=data.description target="data.description" button=true owner=owner editable=editable}}
-	</div>
+	{{> itemValue }}
 
-	<div class="block bottomBlockTitle metaDataBlock flexColumn flexCenter">
-		<div class="blockTitle">Entry metadata</div>
-		<div>Author: {{data.creator}} | Created: {{data.created}}</div>
-		<div></div>Updater: {{data.updater}} | Updated: {{data.updated}}</div>
-	</div>
+	{{> itemDescription }}
+
+	{{> itemMetadata }}
 </form>
