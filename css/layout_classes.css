@@ -49,77 +49,90 @@
 	align-items: center;
 }
 
-.flexColumn .verticalCenter
+.flexColumn.verticalCenter
 {
 	justify-content: center;
 }
 
-.flexRow .verticalCenter
+.flexRow.verticalCenter
 {
 	align-items: center;
 }
 
+input.cell15,
 .cell15
 {
 	width:14%;
 }
 
+input.cell20,
 .cell20
 {
 	width:19%;
 }
 
+input.cell25,
 .cell25
 {
 	width:24%;
 }
 
+input.cell30,
 .cell30
 {
 	width:29%;
 }
 
+input.cell33,
 .cell33
 {
 	width:32%;
 }
 
+input.cell40,
 .cell40
 {
 	width:39%;
 }
 
+input.cell50,
 .cell50
 {
 	width:49%;
 }
 
+input.cell60,
 .cell60
 {
 	width:59%;
 }
 
+input.cell66,
 .cell66
 {
 	width:65%;
 }
 
+input.cell70,
 .cell70
 {
 	/*Nice!*/
 	width:69%;
 }
 
+input.cell75,
 .cell75
 {
 	width:74%;
 }
 
+input.cell80,
 .cell80
 {
 	width:79%;
 }
 
+input.cell100,
 .cell100
 {
 	width:100%;

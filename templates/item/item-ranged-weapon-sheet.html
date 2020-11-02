@@ -9,7 +9,7 @@
 				<label for="name">Name:</label>
 				<input name="name" type="text" value="{{item.name}}" placeholder="Name" />
 			</h1>
-			<div class="flexRow infoBlock">
+			<div class="flexRow infoBlock flexBetween">
 				<div class="cell50 flexRow verticalCenter flexBetween">
 					<label class="cell60" for="data.quantity" >Quantity:</label>
 					<input class="cell40" type="text" id="data.quantity" name="data.quantity" value="{{data.quantity}}" data-dtype="Number" />
@@ -21,8 +21,8 @@
 				</div>
 
 				<div class="cell100 flexRow verticalCenter flexBetween lastRow">
-					<label class="cell25">{{localize "PRIME.item_rarity"}}:</label>
-					<select name="data.rarity" id="data.rarity" class="itemRarity cell75">
+					<label class="cell30">{{localize "PRIME.item_rarity"}}:</label>
+					<select name="data.rarity" id="data.rarity" class="itemRarity cell70">
 						{{#select data.rarity}}
 						{{#each tables.rarity}}
 						<option value="{{this.key}}">{{this.title}}</option>

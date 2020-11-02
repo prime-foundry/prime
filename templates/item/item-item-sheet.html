@@ -9,28 +9,24 @@
 				<label for="name">Name:</label>
 				<input name="name" type="text" value="{{item.name}}" placeholder="Name" />
 			</h1>
-			<div class="flexRow infoBlock">
-				<div class="cell50 flexRow verticalCenter flexBetween firstRow">
+			<div class="flexRow infoBlock flexBetween">
+				<div class="cell50 flexRow verticalCenter flexBetween">
 					<label class="cell60" for="data.quantity" >Quantity:</label>
 					<input class="cell40" type="text" id="data.quantity" name="data.quantity" value="{{data.quantity}}" data-dtype="Number" />
 				</div>
 
-				<div class="cell50 flexRow verticalCenter flexBetween firstRow">
+				<div class="cell50 flexRow verticalCenter flexBetween">
 					<label class="cell60" for="data.weight">Weight:</label>
 					<input class="cell40" type="text" id="data.weight" name="data.weight" value="{{data.weight}}" data-dtype="String" />
 				</div>
 
-				<div class="cell100 flexRow verticalCenter flexBetween">
-					<label class="cell25">Rarity:</label>
-					<!--<input type="text" name="data.weight" value="{{data.weight}}" data-dtype="Number" />-->
-					<select name="data.rarity" id="data.rarity" class="itemRarity cell75">
+				<div class="cell100 flexRow verticalCenter flexBetween lastRow">
+					<label class="cell30">{{localize "PRIME.item_rarity"}}:</label>
+					<select name="data.rarity" id="data.rarity" class="itemRarity cell70">
 						{{#select data.rarity}}
-						<option value="common">Common</option>
-						<option value="uncommon">Uncommon</option>
-						<option value="Scarce">Scarce</option>
-						<option value="rare">Rare</option>
-						<option value="legendary">Legendary</option>
-						<option value="unique">Unique</option>
+						{{#each tables.rarity}}
+						<option value="{{this.key}}">{{this.title}}</option>
+						{{/each}}
 						{{/select}}
 					</select>
 				</div>
