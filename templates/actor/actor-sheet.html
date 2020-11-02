@@ -3,21 +3,19 @@
 	{{!-- Sheet Header --}}
 	<div class="metaDataContent flexColumn">
 		<div class="metaDataContentInner flexRow">
-			<div class="flexColumn cell50">
-				<div class="flexRow">
-					<div class="cell33">
-						<img class="profileImg" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100%" width="100%"/>
-					</div>
-					<div class="cell66 flexColumn">
-						<h1 class="entityName">
-							<label for="name">Name:</label>
-							<div class="valueWrapper">
-								<input name="name" type="text" value="{{actor.name}}" placeholder="Name"/>
-								<span class="primeValue">{{actor.name}}</span>
-							</div>
-						</h1>
-						<h2 class="characterOwners"><label for="charName">Player: {{currentOwners}}</h2>
-					</div>
+			<div class="cell50 flexRow flexBetween">
+				<div class="cell33">
+					<img class="profileImg" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100%" width="100%"/>
+				</div>
+				<div class="cell66 flexColumn">
+					<h1 class="entityName">
+						<label for="name">Name:</label>
+						<div class="valueWrapper">
+							<input name="name" type="text" value="{{actor.name}}" placeholder="Name"/>
+							<span class="primeValue">{{actor.name}}</span>
+						</div>
+					</h1>
+					<h2 class="characterOwners"><label for="charName">Player: {{currentOwners}}</h2>
 				</div>
 			</div>
 			<div class="flexColumn cell50 verticalCenter">
@@ -130,88 +128,92 @@
 	<div class="weaponsContent">
 		<div class="meleeWeapons block">
 			<div class="blockTitle">Melee Weapons</div>
-			<table>
-				<thead>
-					<tr>
-						<th>Title</th>
-						<th class="center">Size</th>
-						<th class="center">Type</th>
-						<th class="center" title="Damage rating">DR</th>
-						<th class="center">Hands</th>
-						<th>Wounds</th>
-						<th>Keywords</th>
-						<th>Actions</th>
-					</tr>
-				</thead>
-			<!-- <div>Title(Description) | (Size) | (Type) | (DR) | Hands | Wounds | Keywords | Actions</div> -->
-				<tbody>
-					{{#each filteredItems.melee-weapon as |weapon index|}}
-					<tr>
-						<td title="{{weapon.data.description}}">{{weapon.name}}</td>
-						<td class="center">{{weapon.data.weaponSize}}</td>
-						<td class="center">{{weapon.data.weaponType}}</td>
-						<td class="center">{{weapon.data.damageRating}}</td>
-						<td class="center">{{weapon.data.requiredHands}}</td>
-						<td>{{{weapon.data.woundConditions}}}</td>
-						<td>{{{weapon.data.keywords}}}</td>
-						<td>{{{weapon.data.customActions}}}</td>
-					</tr>
-					{{/each}}
-				</tbody>
-			</table>
+			<div class="primeTableWrapper">
+				<table>
+					<thead>
+						<tr>
+							<th>Title</th>
+							<th class="center">Size</th>
+							<th class="center">Type</th>
+							<th class="center" title="Damage rating">DR</th>
+							<th class="center">Hands</th>
+							<th>Wounds</th>
+							<th>Keywords</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+				<!-- <div>Title(Description) | (Size) | (Type) | (DR) | Hands | Wounds | Keywords | Actions</div> -->
+					<tbody>
+						{{#each filteredItems.melee-weapon as |weapon index|}}
+						<tr>
+							<td title="{{convertHTMLForTitle weapon.data.description}}"><a class="itemTitle" data-item-id="{{weapon._id}}"><i class="fas fa-info-circle fa-xs"></i> {{weapon.name}}</a></td>
+							<td class="center">{{weapon.data.weaponSize}}</td>
+							<td class="center">{{weapon.data.weaponType}}</td>
+							<td class="center">{{weapon.data.damageRating}}</td>
+							<td class="center">{{weapon.data.requiredHands}}</td>
+							<td>{{{weapon.data.woundConditions}}}</td>
+							<td>{{{weapon.data.keywords}}}</td>
+							<td>{{{weapon.data.customActions}}}</td>
+						</tr>
+						{{/each}}
+					</tbody>
+				</table>
+			</div>
 		</div>
 
-		<div class="meleeWeapons block">
+		<div class="rangedWeapons block">
 			<div class="blockTitle">Ranged Weapons</div>
-			<table>
-				<thead>
-					<tr>
-						<th rowspan="2">Title</th>
-						<th rowspan="2" class="center">Size</th>
-						<th rowspan="2" class="center">Type</th>
-						<th rowspan="2" class="center" title="Damage rating">DR</th>
-						<th rowspan="2" class="center">Hands</th>
-						<th rowspan="2">Wounds</th>
-						<th rowspan="2">Keywords</th>
-						<th rowspan="2">Actions</th>
-						<th colspan="5" class="center">Ranges</th>
-						<th rowspan="2" class="center">Ammo</th>
-						<th rowspan="2" class="center">Capacity</th>
-					</tr>
-					<tr>
-						<th class="hasTooltip center" title="Point blank">PB</th>
-						<th class="hasTooltip center" title="Short">S</th>
-						<th class="hasTooltip center" title="Medium">M</th>
-						<th class="hasTooltip center" title="Long">L</th>
-						<th class="hasTooltip center" title="Extreme">E</th>
-					</tr>
-				</thead>
-			<!-- <div>Title(Description) | (Size) | (Type) | (DR) | Hands | Wounds | Keywords | Actions</div> -->
-				<tbody>
-					{{#each filteredItems.ranged-weapon as |weapon index|}}
-					<tr>
-						<td title="{{weapon.data.description}}">{{weapon.name}}</td>
-						<td class="center">{{weapon.data.weaponSize}}</td>
-						<td class="center">{{weapon.data.weaponType}}</td>
-						<td class="center">{{weapon.data.damageRating}}</td>
-						<td class="center">{{weapon.data.requiredHands}}</td>
+			<div class="primeTableWrapper">
+				<table>
+					<thead>
+						<tr>
+							<th rowspan="2">Title</th>
+							<th rowspan="2" class="center">Size</th>
+							<th rowspan="2" class="center">Type</th>
+							<th rowspan="2" class="center" title="Damage rating">DR</th>
+							<th rowspan="2" class="center">Hands</th>
+							<th rowspan="2">Wounds</th>
+							<th rowspan="2">Keywords</th>
+							<th rowspan="2">Actions</th>
+							<th colspan="5" class="center">Ranges</th>
+							<th rowspan="2" class="center">Ammo</th>
+							<th rowspan="2" class="center">Capacity</th>
+						</tr>
+						<tr>
+							<th class="hasTooltip center" title="Point blank">PB</th>
+							<th class="hasTooltip center" title="Short">S</th>
+							<th class="hasTooltip center" title="Medium">M</th>
+							<th class="hasTooltip center" title="Long">L</th>
+							<th class="hasTooltip center" title="Extreme">E</th>
+						</tr>
+					</thead>
+				<!-- <div>Title(Description) | (Size) | (Type) | (DR) | Hands | Wounds | Keywords | Actions</div> -->
+					<tbody>
+						{{#each filteredItems.ranged-weapon as |weapon index|}}
+						<tr>
+							<td title="{{convertHTMLForTitle weapon.data.description}}"><a class="itemTitle" data-item-id="{{weapon._id}}"><i class="fas fa-info-circle fa-xs"></i> {{weapon.name}}</a></td>
+							<td class="center">{{weapon.data.weaponSize}}</td>
+							<td class="center">{{weapon.data.weaponType}}</td>
+							<td class="center">{{weapon.data.damageRating}}</td>
+							<td class="center">{{weapon.data.requiredHands}}</td>
 
-						<td>{{{weapon.data.woundConditions}}}</td>
-						<td>{{{weapon.data.keywords}}}</td>
-						<td>{{{weapon.data.customActions}}}</td>
+							<td>{{{weapon.data.woundConditions}}}</td>
+							<td>{{{weapon.data.keywords}}}</td>
+							<td>{{{weapon.data.customActions}}}</td>
 
-						<td class="center">{{{weapon.data.ranges.pointBlank.value}}}</td>
-						<td class="center">{{{weapon.data.ranges.short.value}}}</td>
-						<td class="center">{{{weapon.data.ranges.medium.value}}}</td>
-						<td class="center">{{{weapon.data.ranges.long.value}}}</td>
-						<td class="center">{{{weapon.data.ranges.extreme.value}}}</td>
+							<td class="center">{{{weapon.data.ranges.pointBlank.value}}}</td>
+							<td class="center">{{{weapon.data.ranges.short.value}}}</td>
+							<td class="center">{{{weapon.data.ranges.medium.value}}}</td>
+							<td class="center">{{{weapon.data.ranges.long.value}}}</td>
+							<td class="center">{{{weapon.data.ranges.extreme.value}}}</td>
 
-						<td class="center">{{{weapon.data.ammo.type}}}</td>
-						<td class="center">{{{weapon.data.ammo.capacity}}}</td>
-					</tr>
-					{{/each}}
-				</tbody>
-			</table>
+							<td class="center">{{{weapon.data.ammo.type}}}</td>
+							<td class="center">{{{weapon.data.ammo.capacity}}}</td>
+						</tr>
+						{{/each}}
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
 
@@ -265,25 +267,27 @@
 
 		{{!-- Owned Items Tab --}}
 		<div class="tab items" data-group="primary" data-tab="items">
-			<table>
-				<thead>
-					<tr>
-						<th>Title</th>
-						<th>Description</th>
-						<th><i class="fas fa-trash"></i></th>
-					</tr>
-				</thead>
-			<!-- <div>Title(Description) | (Size) | (Type) | (DR) | Hands | Wounds | Keywords | Actions</div> -->
-				<tbody>
-					{{#each items as |item index|}}
-					<tr>
-						<td>{{item.name}}</td>
-						<td>{{{item.data.description}}}</td>
-						<td class="center"><a class="deleteItemIcon" data-item-id={{item._id}}><i class="fas fa-trash"></i></a></td>
-					</tr>
-					{{/each}}
-				</tbody>
-			</table>
+			<div class="primeTableWrapper">
+				<table>
+					<thead>
+						<tr>
+							<th>Title</th>
+							<th>Description</th>
+							<th><i class="fas fa-trash"></i></th>
+						</tr>
+					</thead>
+				<!-- <div>Title(Description) | (Size) | (Type) | (DR) | Hands | Wounds | Keywords | Actions</div> -->
+					<tbody>
+						{{#each items as |item index|}}
+						<tr>
+							<td title="{{convertHTMLForTitle item.data.description}}"><a class="itemTitle" data-item-id="{{item._id}}"><i class="fas fa-info-circle fa-xs"></i> {{item.name}}</a></td>
+							<td>{{{item.data.description}}}</td>
+							<td class="center"><a class="deleteItemIcon" data-item-id={{item._id}}><i class="fas fa-trash"></i></a></td>
+						</tr>
+						{{/each}}
+					</tbody>
+				</table>
+			</div>
 		</div>
 
 		{{!-- Owned Features Tab --}}
