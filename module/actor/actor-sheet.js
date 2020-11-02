@@ -199,6 +199,7 @@ export class PrimePCActorSheet extends ActorSheet
 				itemData = this.processWeapon(itemData, "ranged", tables);
 			break;
 			case "perk":
+			case "armour":
 			break;
 			default:
 				console.warn("Unknown item type of '" + itemData.type + "' found in processItem().");
@@ -515,6 +516,26 @@ export class PrimePCActorSheet extends ActorSheet
 		this.actor.deleteOwnedItem(itemID);
 	}
 
+	showOwnedItem(event)
+	{
+		event.preventDefault();
+		const titleLink = $(event.delegateTarget);
+		const itemID = titleLink.data("item-id");
+
+		const item = this.object.items.get(itemID);
+		const itemSheet = item.sheet;
+	
+		if (itemSheet.rendered)
+		{
+			itemSheet.maximize();
+			itemSheet.bringToTop();
+		}
+		else
+		{
+			itemSheet.render(true);
+		}
+	}
+
 	/**
 	 * Organize and classify Items for Character sheets.
 	 *
@@ -611,30 +632,28 @@ export class PrimePCActorSheet extends ActorSheet
 
 		html.find(".deleteItemIcon").click(this.deleteItem.bind(this));
 
+		html.find(".itemTitle").click(this.showOwnedItem.bind(this));
+
 		// Previous event listeners below here
+		// // Update Inventory Item
+		// html.find(".item-edit").click((ev) =>
+		// {
+		// 	const li = $(ev.currentTarget).parents(".item");
+		// 	const item = this.actor.getOwnedItem(li.data("itemId"));
+		// 	item.sheet.render(true);
+		// });
 
-		// Add Inventory Item
-		html.find(".item-create").click(this._onItemCreate.bind(this));
-
-		// Update Inventory Item
-		html.find(".item-edit").click((ev) =>
-		{
-			const li = $(ev.currentTarget).parents(".item");
-			const item = this.actor.getOwnedItem(li.data("itemId"));
-			item.sheet.render(true);
-		});
-
-		// Drag events for macros.
-		if (this.actor.owner)
-		{
-			let handler = (ev) => this._onDragItemStart(ev);
-			html.find("li.item").each((i, li) =>
-			{
-				if (li.classList.contains("inventory-header")) return;
-				li.setAttribute("draggable", true);
-				li.addEventListener("dragstart", handler, false);
-			});
-		}
+		// // Drag events for macros.
+		// if (this.actor.owner)
+		// {
+		// 	let handler = (ev) => this._onDragItemStart(ev);
+		// 	html.find("li.item").each((i, li) =>
+		// 	{
+		// 		if (li.classList.contains("inventory-header")) return;
+		// 		li.setAttribute("draggable", true);
+		// 		li.addEventListener("dragstart", handler, false);
+		// 	});
+		// }
 
 		this.postActivateListeners(html);
 	}
