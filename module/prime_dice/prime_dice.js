@@ -1,38 +1,35 @@
 import { PRIME_DICE_POPUP } from "./prime_dice_popup.js";
 
-class PRIME_DICE
-{
+export class PRIME_DICE {
 	static dicePopup = null;
 
-	static async init()
-	{
+	static async init() {
 	}
 
-	static ready()
-	{
+	static ready() {
 	}
 
-	static onRenderChatLog()
-	{
+	static onRenderChatLog() {
 		PRIME_DICE.attachToRollDiceIcon()
 	}
 
-	static attachToRollDiceIcon()
-	{
+	static attachToRollDiceIcon() {
 		var diceIcon = $('.chat-control-icon .fas.fa-dice-d20');
-		
+
 		diceIcon.on('click', (event) => {
 			PRIME_DICE.openPrimeDice("rollDiceIcon");
 		});
 	}
 
-	static openPrimeDice()
-	{
-		if (!PRIME_DICE.dicePopup)
-		{
-			PRIME_DICE.dicePopup = new PRIME_DICE_POPUP();
+	static openPrimeDice(title, left, top) {
+		let options = { left: left, top: top, log: title };
+		if (!PRIME_DICE.dicePopup) {
+			PRIME_DICE.dicePopup = new PRIME_DICE_POPUP(options);
+		} else if (left || top) {
+			PRIME_DICE.dicePopup.position.left = left;
+			PRIME_DICE.dicePopup.position.top = top;
 		}
-		PRIME_DICE.dicePopup.render(true);
+		PRIME_DICE.dicePopup.render(true, options);
 	}
 
 }
