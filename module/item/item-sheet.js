@@ -267,19 +267,4 @@ export class PrimeItemSheet extends ItemSheet
 			targetGroupWrapper.addClass("collapsed");
 		}
 	}
-	
 }
-
-Handlebars.registerHelper('isNotLastItem', function (v1, v2, options)
-{
-	return (v1 < (v2 - 1)) ? options.fn(this) : options.inverse(this);
-});
-Handlebars.registerHelper('checkboxGroupState', function (v1)
-{
-	if (v1)
-	{
-		return "expanded";
-	}
-	return "collapsed"
-});
-
