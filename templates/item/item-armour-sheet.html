@@ -34,62 +34,36 @@
 		</div>
 	</div>
 
+	<!--
+		"armourType": "",
+		"protection": 0,
+		"armourResilience": 1,
+		"keywords": [],
+		"untrainedPenalty": []
+	-->
+	
 	<div class="flexRow flexWrap block infoBlock">
 		<div class="blockTitle">Weapon details</div>
 		
-		<div class="cell50 flexRow verticalCenter">
-			<label for="data.weaponSize" class="resource-label cell50">Size:</label>
-			<!--<input type="text" name="data.weight" value="{{data.weight}}" data-dtype="Number" />-->
-			<select name="data.weaponSize" class="itemValueType cell50">
-				{{#select data.weaponSize}}
-				{{#each tables.weapons.sizes}}
+		<div class="cell100 flexRow verticalCenter">
+			<label for="data.armourType" class="resource-label cell50">Type:</label>
+			<select name="data.armourType" class="itemValueType cell50">
+				{{#select data.armourType}}
+				{{#each tables.armour.types}}
 				<option value="{{this.key}}">{{this.title}}</option>
 				{{/each}}
-				{{/select}}
-			</select>
-		</div>
-		<div class="cell50 flexRow verticalCenter">
-			<label for="data.weaponType" class="resource-label cell50">Type:</label>
-			<!--<input type="text" name="data.weight" value="{{data.weight}}" data-dtype="Number" />-->
-			<select id="data.weaponType" name="data.weaponType" class="cell50">
-				{{#select data.weaponType}}
-				{{#each tables.weapons.rangedTypes}}
-				<option value="{{this.key}}">{{this.title}}</option>
-				{{/each}}
-				{{/select}}
-			</select>
-		</div>
-		<div class="cell50 flexRow verticalCenter">
-			<label for="data.damageRating" class="resource-label cell50">Damage rating:</label>
-			<input type="text" id="data.damageRating" name="data.damageRating" class="cell50" value="{{data.damageRating}}" data-dtype="Number" data-min="-5" data-max="5"/>
-		</div>
-		<div class="cell50 flexRow verticalCenter">
-			<label for="data.requiredHands" class="resource-label cell50">Hands required:</label>
-			<select id="data.requiredHands" name="data.requiredHands" class="itemValueType cell50">
-				{{#select data.requiredHands}}
-				<option value="1">One</option>
-				<option value="2">Two</option>
 				{{/select}}
 			</select>
 		</div>
 
-		<div class="cell100 flexRow verticalCenter flexCenter checkboxGroupTitle {{checkboxGroupState checkboxGroupStates.wounds}}" data-checkbox-group="wounds">
-			<div class="cell100">
-				Wound conditions: 
-				{{#each checkboxGroups.wounds.selectedItems as |wound key|}}
-				<span title="{{wound.description}}" class="hasTooltip">{{wound.title}}</span>{{#isNotLastItem key ../checkboxGroups.wounds.selectedItems.length}}, {{/isNotLastItem}}
-				{{/each}}
-			</div>
-			<i class="fas fa-chevron-circle-up"></i>
-			<i class="fas fa-chevron-circle-down"></i>
+		<div class="cell50 flexRow verticalCenter">
+			<label for="data.protection" class="resource-label cell50">Protection:</label>
+			<input class="cell50" type="text" id="data.protection" name="data.protection" value="{{data.protection}}" data-dtype="Number" data-min="0" data-max="5"/>
 		</div>
-		<div class="cell100 flexRow verticalCenter flexBetween flexWrap checkboxGroupWrapper {{checkboxGroupState checkboxGroupStates.wounds}}" data-checkbox-group="wounds">
-			{{#each checkboxGroups.wounds.optionsData as |wound key|}}
-			<div class="flexRow verticalCenter cell33 flexBetween">
-				<label for="{{wound.key}}" class="resource-label hasTooltip" title="{{wound.description}}">{{wound.title}}:</label>
-				<input type="checkbox" id="{{wound.key}}" name="data.woundConditions" value="{{wound.key}}" {{checked wound.checked}}/>
-			</div>
-			{{/each}}
+
+		<div class="cell50 flexRow verticalCenter">
+			<label for="data.armourResilience" class="resource-label cell50">Armour resilience:</label>
+			<input type="text" id="data.armourResilience" name="data.armourResilience" class="cell50" value="{{data.armourResilience}}" data-dtype="Number" data-min="0" data-max="5"/>
 		</div>
 
 		<div class="cell100 flexRow verticalCenter flexCenter checkboxGroupTitle {{checkboxGroupState checkboxGroupStates.keywords}}" data-checkbox-group="keywords">
@@ -111,55 +85,22 @@
 		</div>
 
 		<div class="cell100 flexRow verticalCenter flexCenter checkboxGroupTitle {{checkboxGroupState checkboxGroupStates.actions}}" data-checkbox-group="actions">
-			<div class="cell100">Custom actions:
-				{{#each checkboxGroups.actions.selectedItems as |action key|}}
-				<span title="{{action.description}}" class="hasTooltip">{{action.title}}</span>{{#isNotLastItem key ../checkboxGroups.actions.selectedItems.length}}, {{/isNotLastItem}}
+			<div class="cell100">Untrained penalty:
+				{{#each checkboxGroups.untrainedPenalty.selectedItems as |untrainedPenalty key|}}
+				<span title="{{untrainedPenalty.description}}" class="hasTooltip">{{untrainedPenalty.title}}</span>{{#isNotLastItem key ../checkboxGroups.untrainedPenalty.selectedItems.length}}, {{/isNotLastItem}}
 				{{/each}}
 			</div>
 			<i class="fas fa-chevron-circle-up"></i>
 			<i class="fas fa-chevron-circle-down"></i>
 		</div>
 		<div class="cell100 lastRow flexRow verticalCenter flexBetween flexWrap checkboxGroupWrapper {{checkboxGroupState checkboxGroupStates.actions}}" data-checkbox-group="actions">
-			{{#each checkboxGroups.actions.optionsData as |action key|}}
+			{{#each checkboxGroups.untrainedPenalty.optionsData as |untrainedPenalty key|}}
 			<div class="flexRow verticalCenter cell33 flexBetween">
-				<label for="{{action.key}}" class="resource-label hasTooltip" title="{{action.description}}">{{action.title}}:</label>
-				<input type="checkbox" id="{{action.key}}" name="data.customActions" value="{{action.key}}" {{checked action.checked}}/>
+				<label for="{{untrainedPenalty.key}}" class="resource-label hasTooltip" title="{{untrainedPenalty.description}}">{{untrainedPenalty.title}}:</label>
+				<input type="checkbox" id="{{untrainedPenalty.key}}" name="data.untrainedPenalty" value="{{untrainedPenalty.key}}" {{checked untrainedPenalty.checked}}/>
 			</div>
 			{{/each}}
 		</div>
-	</div>
-
-	<div class="flexRow block flexWrap flexBetween verticalCenter infoBlock">
-		<div class="blockTitle">Ranges</div>
-		<div class="cell50">&nbsp;</div>
-		<div class="cell50">Distance</div>
-		{{#each data.ranges as |rangeBlock key|}}
-		<div class="cell50 flexRow flexEnd verticalCenter">{{localize rangeBlock.title}}: </div>
-		<div class="cell50">
-			<input type="text" id="data.ranges.{{key}}.value" name="data.ranges.{{key}}.value" class="cell100" value="{{rangeBlock.value}}" data-dtype="Number"/>
-		</div>
-		{{/each}}
-	</div>
-
-	<div class="flexRow block flexWrap flexBetween verticalCenter infoBlock">
-		<div class="blockTitle">Ammunition</div>
-		<div class="cell50 flexRow flexBetween verticalCenter">
-			<label for="data.ammo.capacity" class="resource-label cell50">Capacity:</label>
-			<input type="text" id="data.ammo.capacity" name="data.ammo.capacity" class="cell50" value="{{data.ammo.capacity}}" data-dtype="Number"/>
-		</div>
-		<div class="cell50 flexRow flexBetween verticalCenter">
-			<label for="data.ammo.type" class="resource-label cell50">Type:</label>
-			<!--<input type="text" name="data.weight" value="{{data.weight}}" data-dtype="Number" />-->
-			<select id="data.ammo.type" name="data.ammo.type" class="cell50">
-				{{#select data.ammo.type}}
-				{{#each tables.weapons.ammoTypes}}
-				<option value="{{this.key}}">{{this.title}}</option>
-				{{/each}}
-				{{/select}}
-			</select>
-		</div>
-
-
 	</div>
 
 	<div class="flexRow block">

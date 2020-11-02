@@ -55,11 +55,14 @@ export class PrimeItemSheet extends ItemSheet
 			case "item":
 			break;
 			case "melee-weapon":
-				data.checkboxGroups = this.compileCheckboxGroups(data, "melee");
+				data.checkboxGroups = this.compileWeaponCheckboxGroups(data, "melee");
 			break;
 			case "ranged-weapon":
-				data.checkboxGroups = this.compileCheckboxGroups(data, "ranged");
+				data.checkboxGroups = this.compileWeaponCheckboxGroups(data, "ranged");
 				this.addRangeCatergoryTitles(data)
+			break;
+			case "armour":
+				data.checkboxGroups = this.compileArmourCheckboxGroups(data);
 			break;
 			case "armour":
 			break;
@@ -87,13 +90,21 @@ export class PrimeItemSheet extends ItemSheet
 		}
 	}
 
-	compileCheckboxGroups(data, subTypeKey)
+	compileWeaponCheckboxGroups(data, subTypeKey)
 	{
 		let woundList = this.cloneAndAddSelectedState(data.tables.weapons.woundConditions, data.data.woundConditions);
 		let keywordsList = this.cloneAndAddSelectedState(data.tables.weapons.keywords, data.data.keywords);
 		let actionsList = this.cloneAndAddSelectedState(data.tables.weapons[subTypeKey + 'WeaponActions'], data.data.customActions);
 
 		return {wounds: woundList, keywords: keywordsList, actions: actionsList};	
+	}
+
+	compileArmourCheckboxGroups(data)
+	{
+		let keywordsList = this.cloneAndAddSelectedState(data.tables.armour.keywords, data.data.keywords);
+		let untrainedPenaltyList = this.cloneAndAddSelectedState(data.tables.armour.untrainedPenalities, data.data.untrainedPenalty);
+
+		return {keywords: keywordsList, untrainedPenalty: untrainedPenaltyList};	
 	}
 
 	cloneAndAddSelectedState(whatRawOptionsArray, whatSelectionData)
