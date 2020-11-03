@@ -20,12 +20,12 @@
 					{
 						"lastTotal": 0,
 						"value": 0,
-						"max": 6
+						"max": 3
 					},
 					"resilience":
 					{
-						"value": 0,
-						"max": 6
+						"value": 3,
+						"max": 3
 					}
 				},
 				"armour":
@@ -33,12 +33,12 @@
 					"protection":
 					{
 						"value":0,
-						"max":6
+						"max":0
 					},
 					"resilience":
 					{
 						"value":0,
-						"max":6
+						"max":0
 					}
 				},
 				"soul":
@@ -519,7 +519,8 @@
 				"protection": 0,
 				"armourResilience": 1,
 				"keywords": [],
-				"untrainedPenalty": []
+				"untrainedPenalty": [],
+				"isWorn": false
 			}
 		},
 
