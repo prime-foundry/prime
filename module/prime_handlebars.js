@@ -100,6 +100,15 @@ Handlebars.registerHelper('itemEnabled', function (pointIndex, currentPoints)
 	return "disabled";
 });
 
+Handlebars.registerHelper('itemChecked', function (checkedState)
+{
+	if (checkedState)
+	{
+		return "checked";
+	}
+	return "";
+});
+
 Handlebars.registerHelper('addStateClasses', function (pointIndex, basePointData)
 {
 	const current = basePointData.value;
