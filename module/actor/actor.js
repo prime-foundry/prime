@@ -58,4 +58,6 @@ export class PrimePCActor extends Actor
 		if (num === 0) return 0;
 		return (num * (num + 1)) / 2;
 	}
+
+	
 }

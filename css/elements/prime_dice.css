@@ -44,12 +44,34 @@
     font-family: 'New Rocker', cursive;
 }
 
-.primeDiceRollWrapper #refinementSelect option[value="null"]
+.primeDiceRollWrapper .statsContent .primesGroup .primeWrapper input,
+.primeDiceRollWrapper .statsContent .primesGroup .primeWrapper .primeValue,
+.primeDiceRollWrapper .statsContent .refinementsGroup .refinementWrapper input,
+.primeDiceRollWrapper .statsContent .refinementsGroup .refinementWrapper .refinementValue,
+.primeDiceRollWrapper .statsContent .primesGroup .primeWrapper .valueWrapper,
+.primeDiceRollWrapper .statsContent .refinementsGroup .refinementWrapper .valueWrapper
 {
-	font-weight: bold;
+	width:auto;
+	height:auto;
 }
-
-
+.primeDiceRollWrapper .statsContent .primesGroup .primeWrapper .primeValue,
+.primeDiceRollWrapper .statsContent .refinementsGroup .refinementWrapper .refinementValue {
+    margin-left: 0.5em;
+}
+.primeDiceRollWrapper .statsContent .refinementsGroup button.refinementWrapper,
+.primeDiceRollWrapper .statsContent .primesGroup button.primeWrapper {
+    margin-bottom: 5px;
+    background: rgba(255, 255, 240, 0.8);
+    border: 1px solid #b5b3a4;
+    border-radius: 3px;
+    font-size: 14px;
+    line-height: 18px;
+}
+.primeDiceRollWrapper .statsContent .refinementsGroup button.refinementWrapper.selected,
+.primeDiceRollWrapper .statsContent .primesGroup button.primeWrapper.selected {
+    background-color: rgba(225, 247, 255, 0.8);
+    box-shadow: 0 0 5px #00A8E1;
+}
 /*
 	<div class="primeDiceWrapper">
 		{{#each diceRolls}}
