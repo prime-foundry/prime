@@ -56,7 +56,7 @@ export class PRIME_DICE_POPUP extends Application {
 		const primes = currentActor.data.data.primes;
 		const refinements = currentActor.data.data.refinements;
 		var currEntry = null;
-		this.sortedStats ={};
+		this.sortedStats = {};
 		for (var key in primes) {
 			currEntry = primes[key];
 			if (!this.sortedStats[currEntry.type]) {
@@ -156,31 +156,35 @@ export class PRIME_DICE_POPUP extends Application {
 		this.toggleSelectionClasses(event);
 		this.updateRoll(event);
 	}
-	updateRoll(event){
-		
+	updateRoll(event) {
+
 		let firstTitle = this.element.find(".firstSelection .primeTitle");
 		let secondTitle = this.element.find(".secondSelection .primeTitle");
-		if(firstTitle.length == 0){
-			 firstTitle = this.element.find(".firstSelection .refinementTitle");
+		if (firstTitle.length == 0) {
+			firstTitle = this.element.find(".firstSelection .refinementTitle");
 		}
-		if(secondTitle.length == 0){
-			 secondTitle = this.element.find(".secondSelection .refinementTitle");
+		if (secondTitle.length == 0) {
+			secondTitle = this.element.find(".secondSelection .refinementTitle");
 		}
 		let firstValue = this.element.find(".firstSelection .primeValue");
 		let secondValue = this.element.find(".secondSelection .primeValue");
-		if(firstValue.length == 0){
-			 firstValue = this.element.find(".firstSelection .refinementValue");
+		if (firstValue.length == 0) {
+			firstValue = this.element.find(".firstSelection .refinementValue");
 		}
-		if(secondValue.length == 0){
-			 secondValue = this.element.find(".secondSelection .refinementValue");
+		if (secondValue.length == 0) {
+			secondValue = this.element.find(".secondSelection .refinementValue");
 		}
 		const rollButton = this.element.find(".rollPrimeDice");
-		if(secondTitle.length == 0){
-			rollButton.text("Roll Just " + firstTitle.text() +" ("+parseInt(firstValue.text())+" + ?)"); 
-		} else if( firstTitle[0] == secondTitle[0]) {
-			rollButton.text("Roll " + firstTitle.text() +" twice! ("+(parseInt(firstValue.text())*2)+" + ?)"); 
+		if (secondTitle.length == 0) {
+			if (firstTitle.length == 0) {
+				rollButton.text("Roll!");
+			} else {
+				rollButton.text("Roll Just " + firstTitle.text() + " (" + parseInt(firstValue.text()) + " + ?)");
+			}
+		} else if (firstTitle[0] == secondTitle[0]) {
+			rollButton.text("Roll " + firstTitle.text() + " twice! (" + (parseInt(firstValue.text()) * 2) + " + ?)");
 		} else {
-			rollButton.text("Roll " + firstTitle.text() +" + " +secondTitle.text() + " ("+(parseInt(firstValue.text())+parseInt(secondValue.text()))+" + ?)"); 
+			rollButton.text("Roll " + firstTitle.text() + " + " + secondTitle.text() + " (" + (parseInt(firstValue.text()) + parseInt(secondValue.text())) + " + ?)");
 		}
 	}
 
@@ -189,29 +193,35 @@ export class PRIME_DICE_POPUP extends Application {
 		const thisElement = $(event.delegateTarget)
 		const firstElement = this.element.find(".firstSelection")
 		const secondElement = this.element.find(".secondSelection")
-		if(firstElement.length > 0 && secondElement.length > 0 && firstElement[0] == secondElement[0]) {
-			if(thisElement[0] == firstElement[0]) {
+		if (firstElement.length > 0 && secondElement.length > 0 && firstElement[0] == secondElement[0]) {
+			if (thisElement[0] == firstElement[0]) {
+				thisElement.toggleClass("firstSelection");
 				thisElement.toggleClass("secondSelection");
-				// thisElement = firstSelection.
+				// thisElement = no selection.
 			} else {
 				firstElement.toggleClass("secondSelection");
 				// firstElement = firstSelection.
 				thisElement.toggleClass("secondSelection");
 				// thisElement = secondSelecton.
 			}
-		} else if(firstElement.length > 0 && thisElement[0] == firstElement[0]) {
-			thisElement.toggleClass("firstSelection");
-			thisElement.toggleClass("secondSelection");
-			// thisElement = secondSelection.
-			secondElement.toggleClass("firstSelection");
-			secondElement.toggleClass("secondSelection");
+		} else if (firstElement.length > 0 && thisElement[0] == firstElement[0]) {
+			if (secondElement.length > 0) {
+				thisElement.toggleClass("firstSelection");
+				thisElement.toggleClass("secondSelection");
+				// thisElement = secondSelection.
+				secondElement.toggleClass("firstSelection");
+				secondElement.toggleClass("secondSelection");
+			} else {
+				thisElement.toggleClass("secondSelection");
+				// thisElement = secondSelection & firstSelection.
+			}
 			// secondElement = firstSelection.
-		} else if(secondElement.length > 0 && thisElement[0] == secondElement[0]) {
+		} else if (secondElement.length > 0 && thisElement[0] == secondElement[0]) {
 			firstElement.toggleClass("firstSelection");
 			// firstElement = no selection
 			thisElement.toggleClass("firstSelection");
 			// thisElement = secondSelection & firstSelection
-		} else if(secondElement.length > 0) {
+		} else if (secondElement.length > 0) {
 
 			firstElement.toggleClass("firstSelection");
 			// firstElement = no selection
@@ -220,7 +230,7 @@ export class PRIME_DICE_POPUP extends Application {
 			// secondElement = firstSelection.
 			thisElement.toggleClass("secondSelection");
 			// thisElement = secondSelection.
-		} else if(firstElement.length > 0) {
+		} else if (firstElement.length > 0) {
 			thisElement.toggleClass("secondSelection");
 		} else {
 			thisElement.toggleClass("firstSelection");
@@ -232,7 +242,7 @@ export class PRIME_DICE_POPUP extends Application {
 		const actors = game.actors;
 		this.currentActor = game.actors.get(event.target.value);
 		this.getSortedActorStats(this.currentActor);
-		this.render(false, {action: "update"});
+		this.render(false, { action: "update" });
 	}
 
 	activateListeners(html) {
@@ -241,9 +251,9 @@ export class PRIME_DICE_POPUP extends Application {
 		this.element.find(".selectPrime").click((event) => this.selectPrime(event));
 		this.element.find(".selectRefinement").click((event) => this.selectRefinement(event));
 		const actorSelect = this.element.find("#primeDiceRollerActorSelect");
-		
-		const currentSelect = this.element.find("#primeDiceRollerActorSelect option[value='"+this.currentActor.id+"']");
-		currentSelect.attr('selected','selected');
+
+		const currentSelect = this.element.find("#primeDiceRollerActorSelect option[value='" + this.currentActor.id + "']");
+		currentSelect.attr('selected', 'selected');
 		actorSelect.change((event) => this.selectActor(event));
 	}
 }
