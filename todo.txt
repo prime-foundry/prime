@@ -32,38 +32,38 @@ Ship sheet
 - Upgrades
 - Weapons
 
-Convert text in template to lang file.
+/Convert text in template to lang file.
 
-Convert wound selects to use the {{#select}} Handlebars helper and remove code from actor sheet JS.
+/Convert wound selects to use the {{#select}} Handlebars helper and remove code from actor sheet JS.
 
-Add character name, prime and refinement to dice result message.
+/Add character name, prime and refinement to dice result message.
 
-Fix add item button.
+//Fix add item button.
 
-Only GMs can see action points - verify via player account test
+/Only GMs can see action points - verify via player account test
 
-Add meta data to character sheets.
+/Add meta data to character sheets.
 
-Port number validation in library
+/Port number validation in library
 
-Intended action should be added to the combat tracker
+/Intended action should be added to the combat tracker
 
-Add action selection tab.
+/Add action selection tab.
 
-Make the start new combat round auto-add a action point.
+/Make the start new combat round auto-add a action point.
 
-Enhance the dice roller to allow for opposed rolls.
+/Enhance the dice roller to allow for opposed rolls.
 
-Item shop
+/Item shop
 
-Item swapping - bound by distance
+/Item swapping - bound by distance
 
 Journal link to change scene
 
 BUGS
 ======
 
-Adding an item when you're a player seems to cause some sort of spaz out.
+//Adding an item when you're a player seems to cause some sort of spaz out.
 
 //Wounds can't be reset below 1
 

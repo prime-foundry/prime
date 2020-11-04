@@ -280,6 +280,27 @@
 	font-size: 12px;
 }
 
+.primeCharacterSheet .healthAndArmourOuter .healthResilienceWrapper,
+.primeCharacterSheet .healthAndArmourOuter .armourResilienceWrapper
+{
+	position: relative;
+}
+
+.primeCharacterSheet .healthAndArmourOuter .healthMaxResilience,
+.primeCharacterSheet .healthAndArmourOuter .armourMaxResilience
+{
+	position: absolute;
+    bottom: 0px;
+    left: 15%;
+    font-size: 10px;
+    z-index: 50;
+}
+.primeCharacterSheet .healthAndArmourOuter .healthMaxResilience
+{
+	top: 0px;
+	bottom: auto;
+}
+
 .metaValueContent.actionPointsWrapper
 {
 	display: flex;
@@ -347,7 +368,6 @@
 	font-size: var(--title-size);
 }
 
-
 .weaponsContent .meleeWeapons th,
 .weaponsContent .meleeWeapons td,
 .weaponsContent .rangedWeapons th,
@@ -356,6 +376,30 @@
 	min-width: 30px;
 	padding: 5px;
 	vertical-align: baseline;
+	position: relative;
+}
+
+
+.weaponsContent .attackIconWrapper
+{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	bottom: 0px;
+	right: 0px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.weaponsContent .attackWithWeapon
+{
+	transform: scale(1);
+	transition: all .2s ease-in-out;
+}
+.weaponsContent .attackWithWeapon:hover
+{
+	transform: scale(2);
 }
 
 .statsContent

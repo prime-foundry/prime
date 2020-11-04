@@ -8,17 +8,23 @@ export class PrimePCActorSheet extends ActorSheet
 	actorSheetMeasureTimer = false;
 	updateWidthClassInterval = 50;
 
+	hooksAdded = false;
+
 	/** @override */
 	static get defaultOptions()
 	{
 		var superOptions = super.defaultOptions;
 
-		this.addHooks();
+		if (!this.hooksAdded)
+		{
+			this.addHooks();
+			this.hooksAdded = true;
+		}
 
 		return mergeObject(superOptions, {
 			classes: ["primeSheet", "primeCharacterSheet", "sheet", "actor"],
 			template: "systems/prime/templates/actor/actor-sheet.html",
-			width: 750,
+			width: 775,
 			height: 750,
 			tabs: [
 				{
@@ -34,6 +40,7 @@ export class PrimePCActorSheet extends ActorSheet
 	{
 		Hooks.on("preUpdateActor", function(actorData, changeData, options, maybeUpdateID)
 		{
+			console.log("preUpdateActor()")
 			if (changeData.data && changeData.data.actionPoints && changeData.data.actionPoints.lastTotal && !changeData.data.actionPoints.value && changeData.data.actionPoints.value !== 0)
 			{
 				return false;
@@ -191,9 +198,10 @@ export class PrimePCActorSheet extends ActorSheet
 			case "ranged-weapon":
 				itemData = this.processWeapon(itemData, "ranged", tables);
 			break;
-			case "armour":
-			break;
 			case "perk":
+				break;
+			case "armour":
+				itemData = this.processArmour(itemData, tables);
 			break;
 			default:
 				console.warn("Unknown item type of '" + itemData.type + "' found in processItem().");
@@ -204,6 +212,10 @@ export class PrimePCActorSheet extends ActorSheet
 
 	processWeapon(weaponData, catergory, tables)
 	{
+		// Needs to come first as we switch the type to it's title value later.
+		weaponData.data.attackIcon = this.getAttackIconHTML(catergory, weaponData.data.weaponType);
+
+
 		weaponData.data.weaponSize = this.getTitleFromTableByKey(weaponData.data.weaponSize, tables.weapons.sizes);
 		weaponData.data.weaponType = this.getTitleFromTableByKey(weaponData.data.weaponType, tables.weapons[catergory + "Types"]);
 
@@ -213,12 +225,21 @@ export class PrimePCActorSheet extends ActorSheet
 		weaponData.data.keywords = this.getTitlesFromTableByCheckboxGroupArray(weaponData.data.keywords, tables.weapons.keywords);
 		weaponData.data.customActions = this.getTitlesFromTableByCheckboxGroupArray(weaponData.data.customActions, tables.weapons[catergory + "WeaponActions"]);
 
+
 		if (catergory == "ranged")
 		{
 			weaponData.data.ammo.type = this.getTitleFromTableByKey(weaponData.data.ammo.type, tables.weapons.ammoTypes);
 		}
 
 		return weaponData
+	}
+
+	processArmour(armourData, tables)
+	{
+		armourData.data.keywords = this.getTitlesFromTableByCheckboxGroupArray(armourData.data.keywords, tables.armour.keywords);
+		armourData.data.untrainedPenalty = this.getTitlesFromTableByCheckboxGroupArray(armourData.data.untrainedPenalty, tables.armour.untrainedPenalities);
+
+		return armourData;
 	}
 
 	getTitleFromTableByKey(key, table)
@@ -262,6 +283,75 @@ export class PrimePCActorSheet extends ActorSheet
 			titlesArray.push("None");
 		}
 		return titlesArray.join(", ");
+	}
+
+	getAttackIconHTML(primaryType, subType)
+	{
+		switch (primaryType)
+		{
+			case "melee":
+				var attackIcon = this.getMeleeAttackIcon(subType);
+			break;
+			case "ranged":
+				var attackIcon = this.getRangedAttackIcon(subType);
+			break;
+			default:
+				console.warn("Unknown weapon type of '" + primaryType + "' found in getAttackIconHTML().");
+				var attackIcon = '<i class="game-icon game-icon-fist icon-md"></i>';
+			break;
+		}
+		return attackIcon;
+	}
+
+	getMeleeAttackIcon(weaponType)
+	{
+		switch (weaponType)
+		{
+			case "blunt":
+				var attackIcon = '<i class="game-icon game-icon-flanged-mace icon-md"></i>';
+			break;
+			case "sword":
+				var attackIcon = '<i class="game-icon game-icon-bloody-sword icon-md"></i>';
+			break;
+			case "dagger":
+				var attackIcon = '<i class="game-icon game-icon-curvy-knife icon-md"></i>';
+			break;
+			case "axe":
+				var attackIcon = '<i class="game-icon game-icon-sharp-axe icon-md"></i>';
+			break;
+			case "pole":
+				var attackIcon = '<i class="game-icon game-icon-trident icon-md"></i>';
+			break;
+			default:
+				console.warn("Unknown weapon type of '" + weaponType + "' found in getAttackIconHTML().");
+				var attackIcon = '<i class="game-icon game-icon-fist icon-md"></i>';
+			break;
+		}
+		return attackIcon;
+	}
+
+	getRangedAttackIcon(weaponType)
+	{
+		switch (weaponType)
+		{
+			case "bow":
+				var attackIcon = '<i class="game-icon game-icon-pocket-bow icon-md"></i>';
+			break;
+			case "mechanical":
+				var attackIcon = '<i class="game-icon game-icon-crossbow icon-md"></i>';
+			break;
+			case "thrown":
+				var attackIcon = '<i class="game-icon game-icon-thrown-spear icon-md"></i>';
+			break;
+			case "blowpipe":
+				var attackIcon = '<i class="game-icon game-icon-straight-pipe icon-md"></i>';
+			break;
+			default:
+				console.warn("Unknown weapon type of '" + weaponType + "' found in getAttackIconHTML().");
+				var attackIcon = '<i class="game-icon game-icon-fist icon-md"></i>';
+			break;
+		}
+		return attackIcon;
 	}
 
 	toggleSheetEditMode()
@@ -504,6 +594,89 @@ export class PrimePCActorSheet extends ActorSheet
 		this.actor.deleteOwnedItem(itemID);
 	}
 
+	showOwnedItem(event)
+	{
+		event.preventDefault();
+		const titleLink = $(event.delegateTarget);
+		const itemID = titleLink.data("item-id");
+
+		const item = this.object.items.get(itemID);
+		const itemSheet = item.sheet;
+	
+		if (itemSheet.rendered)
+		{
+			itemSheet.maximize();
+			itemSheet.bringToTop();
+		}
+		else
+		{
+			itemSheet.render(true);
+		}
+	}
+
+	attackWithWeapon(event)
+	{
+		const titleLink = $(event.delegateTarget);
+		const weaponID = titleLink.data("weapon-id");
+		const weapon = this.object.items.get(weaponID);
+		alert("Attack with: " + weapon.name)
+	}
+	
+	async updateWornArmour(event)
+	{
+		const titleLink = $(event.delegateTarget);
+		const armourID = titleLink.data("armour-id");
+		const armour = this.object.items.get(armourID);
+
+		var isWorn = armour.data.data.isWorn;
+		if (isWorn)
+		{
+			armour.data.data.isWorn = false;
+		}
+		else
+		{
+			armour.data.data.isWorn = true;
+		}
+		
+		var result = await armour.update(armour.data);
+
+		this.updateArmourValues();
+	}
+
+	async updateArmourValues()
+	{
+		var data = super.getData();
+		var currentArmour = this.getMostResilientArmour(data.items);
+		
+		data.data.armour.protection.value = currentArmour.data.protection;
+		data.data.armour.protection.max = currentArmour.data.protection;
+		data.data.armour.resilience.value = currentArmour.data.armourResilience;
+		data.data.armour.resilience.max = currentArmour.data.armourResilience;
+
+		var result = await this.actor.update(data.actor);
+	}
+
+	getMostResilientArmour(items)
+	{
+		var bestArmour =
+		{
+			data: {armourResilience: 0, protection: 0}
+		};
+		var currItem = null;
+		var count = 0;
+		while (count < items.length)
+		{
+			currItem = items[count];
+			if (currItem.type == "armour" && currItem.data.isWorn && currItem.data.armourResilience > bestArmour.data.armourResilience)
+			{
+				bestArmour = currItem;
+			}
+			count++;
+		}
+		return bestArmour;		
+	}
+	
+
 	/**
 	 * Organize and classify Items for Character sheets.
 	 *
@@ -600,30 +773,32 @@ export class PrimePCActorSheet extends ActorSheet
 
 		html.find(".deleteItemIcon").click(this.deleteItem.bind(this));
 
+		html.find(".itemTitle").click(this.showOwnedItem.bind(this));
+
+		html.find(".attackWithWeapon").click(this.attackWithWeapon.bind(this));
+
+		html.find(".armourWornCheckbox").click(this.updateWornArmour.bind(this));
+
 		// Previous event listeners below here
+		// // Update Inventory Item
+		// html.find(".item-edit").click((ev) =>
+		// {
+		// 	const li = $(ev.currentTarget).parents(".item");
+		// 	const item = this.actor.getOwnedItem(li.data("itemId"));
+		// 	item.sheet.render(true);
+		// });
 
-		// Add Inventory Item
-		html.find(".item-create").click(this._onItemCreate.bind(this));
-
-		// Update Inventory Item
-		html.find(".item-edit").click((ev) =>
-		{
-			const li = $(ev.currentTarget).parents(".item");
-			const item = this.actor.getOwnedItem(li.data("itemId"));
-			item.sheet.render(true);
-		});
-
-		// Drag events for macros.
-		if (this.actor.owner)
-		{
-			let handler = (ev) => this._onDragItemStart(ev);
-			html.find("li.item").each((i, li) =>
-			{
-				if (li.classList.contains("inventory-header")) return;
-				li.setAttribute("draggable", true);
-				li.addEventListener("dragstart", handler, false);
-			});
-		}
+		// // Drag events for macros.
+		// if (this.actor.owner)
+		// {
+		// 	let handler = (ev) => this._onDragItemStart(ev);
+		// 	html.find("li.item").each((i, li) =>
+		// 	{
+		// 		if (li.classList.contains("inventory-header")) return;
+		// 		li.setAttribute("draggable", true);
+		// 		li.addEventListener("dragstart", handler, false);
+		// 	});
+		// }
 
 		this.postActivateListeners(html);
 	}
@@ -698,93 +873,3 @@ export class PrimePCActorSheet extends ActorSheet
 		}
 	}
 }
-
-Handlebars.registerHelper('for', function(from, to, incr, block) {
-    var accum = '';
-    for(var i = from; i <= to; i += incr)
-        accum += block.fn(i);
-    return accum;
-});
-
-Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
-
-    switch (operator) {
-        case '==':
-            return (v1 == v2) ? options.fn(this) : options.inverse(this);
-        case '===':
-            return (v1 === v2) ? options.fn(this) : options.inverse(this);
-        case '!=':
-            return (v1 != v2) ? options.fn(this) : options.inverse(this);
-        case '!==':
-            return (v1 !== v2) ? options.fn(this) : options.inverse(this);
-        case '<':
-            return (v1 < v2) ? options.fn(this) : options.inverse(this);
-        case '<=':
-            return (v1 <= v2) ? options.fn(this) : options.inverse(this);
-        case '>':
-            return (v1 > v2) ? options.fn(this) : options.inverse(this);
-        case '>=':
-            return (v1 >= v2) ? options.fn(this) : options.inverse(this);
-        case '&&':
-            return (v1 && v2) ? options.fn(this) : options.inverse(this);
-        case '||':
-            return (v1 || v2) ? options.fn(this) : options.inverse(this);
-        default:
-            return options.inverse(this);
-    }
-});
-
-
-Handlebars.registerHelper('itemSelected', function (pointIndex, currentPoints)
-{
-	if (pointIndex <= currentPoints)
-	{
-		return "checked";
-	}
-	return "";
-});
-
-Handlebars.registerHelper('itemEnabled', function (pointIndex, currentPoints)
-{
-	if (pointIndex <= currentPoints)
-	{
-		return "";
-	}
-	return "disabled";
-});
-
-Handlebars.registerHelper('addStateClasses', function (pointIndex, basePointData)
-{
-	const current = basePointData.value;
-	const lastTotal = basePointData.lastTotal;
-	var classes = []
-
-	if (pointIndex <= current)
-	{
-		classes.push("activePoint");
-	}
-	if (pointIndex == current)
-	{
-		classes.push("currentPointTotal");
-	}
-
-	if (lastTotal > current)
-	{
-		if (pointIndex > current && pointIndex <= lastTotal)
-		{
-			classes.push("emptyAnimation");
-		}
-	}
-	else if (lastTotal < current)
-	{
-		if (pointIndex > lastTotal && pointIndex <= current)
-		{
-			classes.push("fillAnimation");
-		}
-	}
-	if (classes.length > 0)
-	{
-		return " " + classes.join(" ");
-	}
-	return "";
-});

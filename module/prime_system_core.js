@@ -4,6 +4,8 @@ import { PrimePCActorSheet } from "./actor/actor-sheet.js";
 import { PrimeItem as PrimeItem } from "./item/item.js";
 import { PrimeItemSheet } from "./item/item-sheet.js";
 
+import { PrimeHandlebarsPartials } from "./prime_handlebars.js";
+
 Hooks.once('init', async function() {
 
   game.prime = {
@@ -11,6 +13,8 @@ Hooks.once('init', async function() {
     PrimeItem,
     rollItemMacro
   };
+
+  await PrimeHandlebarsPartials.loadPartials();
 
   /**
    * Set an initiative formula for the system

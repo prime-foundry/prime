@@ -29,3 +29,10 @@
 {
 	cursor: help;
 }
+
+.itemTitle .fas.fa-info-circle
+{
+	float: right;
+	margin-left: 5px;
+	margin-right: 5px;
+}
