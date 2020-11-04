@@ -67,10 +67,20 @@
     font-size: 14px;
     line-height: 18px;
 }
-.primeDiceRollWrapper .statsContent .refinementsGroup button.refinementWrapper.selected,
-.primeDiceRollWrapper .statsContent .primesGroup button.primeWrapper.selected {
+.primeDiceRollWrapper .statsContent .refinementsGroup button.refinementWrapper.firstSelection,
+.primeDiceRollWrapper .statsContent .primesGroup button.primeWrapper.firstSelection {
     background-color: rgba(225, 247, 255, 0.8);
     box-shadow: 0 0 5px #00A8E1;
+}
+.primeDiceRollWrapper .statsContent .refinementsGroup button.refinementWrapper.secondSelection,
+.primeDiceRollWrapper .statsContent .primesGroup button.primeWrapper.secondSelection {
+    background-color: rgba(255, 225, 247, 0.8);
+    box-shadow: 0 0 5px #E13212;
+}
+.primeDiceRollWrapper .statsContent .refinementsGroup button.refinementWrapper.firstSelection.secondSelection,
+.primeDiceRollWrapper .statsContent .primesGroup button.primeWrapper.firstSelection.secondSelection {
+    background: linear-gradient(to right, #b3e8fc , #ffa2c9);
+    box-shadow: 0 0 5px #b8860b;
 }
 /*
 	<div class="primeDiceWrapper">
