@@ -58,6 +58,8 @@ Ship sheet
 
 /Item swapping - bound by distance
 
+Items and perks could both add to a roll.
+
 Journal link to change scene
 
 BUGS
