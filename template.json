@@ -548,6 +548,8 @@
 
 			"type": "",
 
+			"isCollapsed": false,
+			
 			"bonus":
 			{
 				"actorDataPath": "",
