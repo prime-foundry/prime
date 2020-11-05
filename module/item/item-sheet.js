@@ -1,3 +1,4 @@
+import { PrimeTables } from "../prime_tables.js";
 /**
  * Extend the basic ItemSheet with some very simple modifications
  * @extends {ItemSheet}
@@ -35,18 +36,11 @@ export class PrimeItemSheet extends ItemSheet
 	getData()
 	{
 		let data = super.getData();
-		data.tables = this.getTables("items");
-		data.coreTables = this.getTables("core");
+		data.tables = PrimeTables.cloneAndTranslateTables("items");
+		data.coreTables = PrimeTables.cloneAndTranslateTables("core");
 		this.addItemTypeData(data);
 		data.checkboxGroupStates = this.checkboxGroupStates;
 		return data;
-	}
-
-	getTables(tableType)
-	{
-		var _tables = $.extend({}, game.system.template.Tables[tableType]);
-		this.addTranslations(_tables);
-		return _tables;
 	}
 
 	addItemTypeData(data)
@@ -75,22 +69,6 @@ export class PrimeItemSheet extends ItemSheet
 		}
 	}
 
-	addTranslations(whatData)
-	{
-		for (var key in whatData)
-		{
-			if (key == "title" || key == "description")
-			{
-				var translation = game.i18n.localize(whatData[key])
-				whatData[key] = translation;
-			}
-			if (typeof whatData[key] === 'object' && whatData[key] !== null)
-			{
-				this.addTranslations(whatData[key]);
-			}
-		}
-	}
-
 	compileWeaponCheckboxGroups(data, subTypeKey)
 	{
 		let woundList = this.cloneAndAddSelectedState(data.tables.weapons.woundConditions, data.data.woundConditions);
@@ -112,7 +90,7 @@ export class PrimeItemSheet extends ItemSheet
 	{
 		let checkboxGroupObject =
 		{
-			optionsData: $.extend([], whatRawOptionsArray),
+			optionsData: $.extend(true, [], whatRawOptionsArray),
 			selectedItems: []
 		}
 
