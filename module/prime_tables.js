@@ -1,7 +1,6 @@
 
 export class PrimeTables
 {
-
 	static cloneAndTranslateTables(whatPath)
 	{
 		var tableClone = this.cloneTables(whatPath);
@@ -54,4 +53,48 @@ export class PrimeTables
 		}
 	}
 
+	static getTitleFromTableByKey(key, path)
+	{
+		var table = PrimeTables.cloneTables(path);
+		var count = 0;
+		while (count < table.length)
+		{
+			let entry = table[count];
+			if (entry.key == key)
+			{
+				return game.i18n.localize(entry.title);
+			}
+			count++;
+		}
+		console.error("ERROR: Unable to find an entry with the key of '" + key + "' in: ", table);
+		return "";
+	}
+
+	static getTitlesFromTableByCheckboxGroupArray(checkboxGroupArray, path)
+	{
+		var titlesArray = [];
+		var table = PrimeTables.cloneAndTranslateTables(path);
+
+		if (checkboxGroupArray.length != table.length)
+		{
+			console.warn("WARNING: Mismatched lengths between checkbox group array and data table.", checkboxGroupArray, table);
+		}
+
+		var count = 0;
+		while (count < checkboxGroupArray.length)
+		{
+			if (checkboxGroupArray[count])
+			{
+				let entry = table[count];
+				titlesArray.push("<span title='" + entry.description + "' class='hasTooltip'>" + entry.title + "</span>");
+			}
+			count++;
+		}
+
+		if (titlesArray.length == 0)
+		{
+			titlesArray.push("None");
+		}
+		return titlesArray.join(", ");
+	}
 }
