@@ -35,17 +35,18 @@ export class PrimeItemSheet extends ItemSheet
 	getData()
 	{
 		let data = super.getData();
-		data.tables = this.getItemTables();
+		data.tables = this.getTables("items");
+		data.coreTables = this.getTables("core");
 		this.addItemTypeData(data);
 		data.checkboxGroupStates = this.checkboxGroupStates;
 		return data;
 	}
 
-	getItemTables()
+	getTables(tableType)
 	{
-		var _itemTables = $.extend({}, game.system.template.Tables.items);
-		this.addTranslations(_itemTables);
-		return _itemTables;
+		var _tables = $.extend({}, game.system.template.Tables[tableType]);
+		this.addTranslations(_tables);
+		return _tables;
 	}
 
 	addItemTypeData(data)
