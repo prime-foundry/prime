@@ -15,11 +15,21 @@
 			<input class="cell40" type="text" id="data.weight" name="data.weight" value="{{data.weight}}" data-dtype="String" />
 		</div>
 
-		<div class="cell100 flexRow verticalCenter flexBetween lastRow">
-			<label class="cell30">{{localize "PRIME.item_rarity"}}:</label>
+		<div class="cell100 flexRow verticalCenter flexBetween">
+			<label class="cell30" for="data.rarity">{{localize "PRIME.item_rarity"}}:</label>
 			<select name="data.rarity" id="data.rarity" class="itemRarity cell70">
 				{{#select data.rarity}}
 				{{#each tables.rarity}}
+				<option value="{{this.key}}">{{this.title}}</option>
+				{{/each}}
+				{{/select}}
+			</select>
+		</div>
+		<div class="cell100 flexRow verticalCenter flexBetween lastRow">
+			<label class="cell30" for="data.setting">{{localize "PRIME.core_setting"}}:</label>
+			<select name="data.setting" id="data.setting" class="itemRarity cell70">
+				{{#select data.setting}}
+				{{#each coreTables.settings}}
 				<option value="{{this.key}}">{{this.title}}</option>
 				{{/each}}
 				{{/select}}
