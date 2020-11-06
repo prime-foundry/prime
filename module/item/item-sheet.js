@@ -36,8 +36,9 @@ export class PrimeItemSheet extends ItemSheet
 	getData()
 	{
 		let data = super.getData();
-		data.tables = PrimeTables.cloneAndTranslateTables("items");
+		data.itemTables = PrimeTables.cloneAndTranslateTables("items");
 		data.coreTables = PrimeTables.cloneAndTranslateTables("core");
+		data.perkTables = PrimeTables.cloneAndTranslateTables("perks");
 		this.addItemTypeData(data);
 		data.checkboxGroupStates = this.checkboxGroupStates;
 		return data;
@@ -62,6 +63,7 @@ export class PrimeItemSheet extends ItemSheet
 			case "armour":
 			break;
 			case "perk":
+				data.dynamicDataForBonusTarget = this.getDynamicDataForBonusTarget(data.data.type);
 			break;
 			default:
 				console.warn("Unknown item type of '" + data.item.type + "' found in addItemTypeData().");
@@ -71,19 +73,53 @@ export class PrimeItemSheet extends ItemSheet
 
 	compileWeaponCheckboxGroups(data, subTypeKey)
 	{
-		let woundList = this.cloneAndAddSelectedState(data.tables.weapons.woundConditions, data.data.woundConditions);
-		let keywordsList = this.cloneAndAddSelectedState(data.tables.weapons.keywords, data.data.keywords);
-		let actionsList = this.cloneAndAddSelectedState(data.tables.weapons[subTypeKey + 'WeaponActions'], data.data.customActions);
+		let woundList = this.cloneAndAddSelectedState(data.itemTables.weapons.woundConditions, data.data.woundConditions);
+		let keywordsList = this.cloneAndAddSelectedState(data.itemTables.weapons.keywords, data.data.keywords);
+		let actionsList = this.cloneAndAddSelectedState(data.itemTables.weapons[subTypeKey + 'WeaponActions'], data.data.customActions);
 
 		return {wounds: woundList, keywords: keywordsList, actions: actionsList};	
 	}
 
 	compileArmourCheckboxGroups(data)
 	{
-		let keywordsList = this.cloneAndAddSelectedState(data.tables.armour.keywords, data.data.keywords);
-		let untrainedPenaltyList = this.cloneAndAddSelectedState(data.tables.armour.untrainedPenalities, data.data.untrainedPenalty);
+		let keywordsList = this.cloneAndAddSelectedState(data.itemTables.armour.keywords, data.data.keywords);
+		let untrainedPenaltyList = this.cloneAndAddSelectedState(data.itemTables.armour.untrainedPenalities, data.data.untrainedPenalty);
 
 		return {keywords: keywordsList, untrainedPenalty: untrainedPenaltyList};	
+	}
+
+	getDynamicDataForBonusTarget(perkType)
+	{
+		var dynamicDataForBonusTarget = [];
+		switch (perkType)
+		{
+			case "situationalPrime":
+				dynamicDataForBonusTarget = PrimeTables.getPrimeKeysAndTitles();
+			break;
+			case "situationalRefinement":
+				dynamicDataForBonusTarget = PrimeTables.getRefinementKeysAndTitles();
+			break;
+			case "extraAction":
+				dynamicDataForBonusTarget = PrimeTables.getActionKeysAndTitles();
+			break;
+			case "actionPointBonus":
+				dynamicDataForBonusTarget = PrimeTables.getActionKeysAndTitles();
+			break;
+			case "actorStatBonus":
+				dynamicDataForBonusTarget = PrimeTables.cloneAndTranslateTables("perks.actorStatLookup");
+			break;
+			case "externalStatBonus":
+				dynamicDataForBonusTarget = PrimeTables.cloneAndTranslateTables("perks.externalStatLookup");
+			break;
+			case "misc":
+				dynamicDataForBonusTarget = PrimeTables.cloneAndTranslateTables("perks.miscBonusLookup");
+			break;
+			default:
+				console.error("Unknown perk type of '" + perkType + "' found in getDynamicDataPathForBonus().");
+			break;
+		}
+
+		return dynamicDataForBonusTarget;
 	}
 
 	cloneAndAddSelectedState(whatRawOptionsArray, whatSelectionData)
@@ -124,7 +160,7 @@ export class PrimeItemSheet extends ItemSheet
 	{
 		for (let key in data.data.ranges)
 		{
-			data.data.ranges[key].title = data.tables.weapons.rangeCatergories[key];
+			data.data.ranges[key].title = data.itemTables.weapons.rangeCatergories[key];
 		}
 	}
 
