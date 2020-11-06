@@ -1,0 +1,59 @@
+<form class="{{cssClass}} flexColumn " autocomplete="off">
+	<div class="flexRow">
+		<div class="cell30 block noTitle imageWrapper flexRow flexCenter verticalCenter">
+			<img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+		</div>
+		<div class="cell70 block flexColumn">
+			<div class="blockTitle">Basic information</div>
+			<h1 class="entityName">
+				<label for="name">Name:</label>
+				<input name="name" type="text" value="{{item.name}}" placeholder="Name" />
+			</h1>
+			<div class="cell100 flexRow verticalCenter flexBetween lastRow">
+				<label class="cell30" for="data.setting">{{localize "PRIME.core_setting"}}:</label>
+				<select name="data.setting" id="data.setting" class="itemRarity cell70">
+					{{#select data.setting}}
+					{{#each coreTables.settings}}
+					<option value="{{this.key}}">{{this.title}}</option>
+					{{/each}}
+					{{/select}}
+				</select>
+			</div>
+		</div>
+	</div>
+
+	<div class="flexRow flexWrap block infoBlock">
+		<div class="blockTitle">Perk details</div>
+		
+		<div class="cell100 flexRow verticalCenter">
+			<label for="data.type" class="resource-label cell30">Type:</label>
+			<select id="data.type" name="data.type" class="itemValueType cell70">
+				{{#select data.type}}
+				{{#each perkTables.types}}
+				<option value="{{this.key}}">{{this.title}}</option>
+				{{/each}}
+				{{/select}}
+			</select>
+		</div>
+
+		<div class="cell100 flexRow verticalCenter">
+			<label for="data.bonus.dataPath" class="resource-label cell30">Bonus to:</label>
+			<select id="data.bonus.dataPath" name="bonus.dataPath" class="itemValueType cell70">
+				{{#select data.bonus.dataPath}}
+				{{#each dynamicDataForBonusTarget}}
+				<option value="{{this.key}}">{{this.title}}</option>
+				{{/each}}
+				{{/select}}
+			</select>
+		</div>
+
+		<div class="cell100 flexRow verticalCenter">
+			<label for="data.bonus.amount" class="resource-label cell30">Amount:</label>
+			<input type="text" id="data.bonus.amount" name="data.bonus.amount" class="cell70" value="{{data.bonus.amount}}" data-dtype="Number" data-min="-5" data-max="5"/>
+		</div>
+	</div>
+
+	{{> itemDescription }}
+
+	{{> itemMetadata }}
+</form>
