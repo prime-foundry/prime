@@ -553,7 +553,7 @@
 			"bonus":
 			{
 				"actorDataPath": "",
-				"bonusAmount": 0
+				"amount": 0
 			},
 
 			"cost":
@@ -984,6 +984,10 @@
 					"title": "PRIME.perk_type_extra_action"
 				},
 				{
+					"key": "actionPointBonus",
+					"title": "PRIME.perk_type_action_cost_reduction"
+				},
+				{
 					"key": "actorStatBonus",
 					"title": "PRIME.perk_type_actor_stat_bonus"
 				},
@@ -1034,6 +1038,54 @@
 				{
 					"key": "maximumStat",
 					"title": "PRIME.perk_prerequisite_maximum_stat"
+				}
+			],
+
+			"actorStatLookup":
+			[
+				{
+					"key": "actionPoints.default",
+					"title": "PRIME.perk_actor_stat_bonus_base_ap_bonus"
+				},
+				{
+					"key": "actionPoints.max",
+					"title": "PRIME.perk_actor_stat_bonus_max_ap_bonus"
+				},
+				{
+					"key": "actionPoints.perRound",
+					"title": "PRIME.perk_actor_stat_bonus_per_round_ap_bonus"
+				},
+				{
+					"key": "health.wounds.max",
+					"title": "PRIME.perk_actor_stat_bonus_max_wounds"
+				},
+				{
+					"key": "health.resilience.max",
+					"title": "PRIME.perk_actor_stat_bonus_max_resilience"
+				},
+				{
+					"key": "armour.protection.max",
+					"title": "PRIME.perk_actor_stat_bonus_max_protection"
+				},
+				{
+					"key": "armour.resilience.max",
+					"title": "PRIME.perk_actor_stat_bonus_max_armour_resilience"
+				}
+			],
+
+			"externalStatLookup":
+			[
+				{
+					"key": "null",
+					"title": "Please write in description"
+				}
+			],
+			
+			"miscBonusLookup":
+			[
+				{
+					"key": "null",
+					"title": "Please write in description"
 				}
 			]
 		}
