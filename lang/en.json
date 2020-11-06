@@ -307,6 +307,7 @@
 	"PRIME.perk_type_situational_prime": "Situational - Prime bonus",
 	"PRIME.perk_type_situational_refinement": "Situational - Refinement bonus",
 	"PRIME.perk_type_extra_action": "Additional action",
+	"PRIME.perk_type_action_cost_reduction": "Action point reduction",
 	"PRIME.perk_type_actor_stat_bonus": "Bonus to characters statistic",
 	"PRIME.perk_type_external_stat_bonus": "Bonus to other entities statistic",
 	"PRIME.perk_type_misc": "Miscellaneous",
@@ -323,5 +324,13 @@
 	
 	"PRIME.core_setting": "Setting",
 	"PRIME.core_settings_prime_possession": "Prime / Possession",
-	"PRIME.core_settings_aethernauts": "Aethernauts"
+	"PRIME.core_settings_aethernauts": "Aethernauts",
+
+	"PRIME.perk_actor_stat_bonus_base_ap_bonus": "Action points at start of combat ",
+	"PRIME.perk_actor_stat_bonus_max_ap_bonus": "Maximum action point total",
+	"PRIME.perk_actor_stat_bonus_per_round_ap_bonus": "Action points gained per round",
+	"PRIME.perk_actor_stat_bonus_max_wounds": "Maximum wounds",
+	"PRIME.perk_actor_stat_bonus_max_resilience": "Health Resilience",
+	"PRIME.perk_actor_stat_bonus_max_protection": "Armour protection",
+	"PRIME.perk_actor_stat_bonus_max_armour_resilience": "Armour resilience"
 }
