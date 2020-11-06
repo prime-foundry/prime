@@ -12,9 +12,9 @@
 		<div class="cell50 flexRow verticalCenter">
 			<label for="data.weaponSize" class="resource-label cell50">Size:</label>
 			<!--<input type="text" name="data.weight" value="{{data.weight}}" data-dtype="Number" />-->
-			<select name="data.weaponSize" class="itemValueType cell50">
+			<select name="data.weaponSize" class="weaponSize cell50">
 				{{#select data.weaponSize}}
-				{{#each tables.weapons.sizes}}
+				{{#each itemTables.weapons.sizes}}
 				<option value="{{this.key}}">{{this.title}}</option>
 				{{/each}}
 				{{/select}}
@@ -25,7 +25,7 @@
 			<!--<input type="text" name="data.weight" value="{{data.weight}}" data-dtype="Number" />-->
 			<select id="data.weaponType" name="data.weaponType" class="cell50">
 				{{#select data.weaponType}}
-				{{#each tables.weapons.meleeTypes}}
+				{{#each itemTables.weapons.meleeTypes}}
 				<option value="{{this.key}}">{{this.title}}</option>
 				{{/each}}
 				{{/select}}

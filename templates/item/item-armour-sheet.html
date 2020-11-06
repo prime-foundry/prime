@@ -14,7 +14,7 @@
 			<label for="data.armourType" class="resource-label cell30">Type:</label>
 			<select name="data.armourType" class="itemValueType cell70">
 				{{#select data.armourType}}
-				{{#each tables.armour.types}}
+				{{#each itemTables.armour.types}}
 				<option value="{{this.key}}">{{this.title}}</option>
 				{{/each}}
 				{{/select}}

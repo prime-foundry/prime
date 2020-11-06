@@ -19,7 +19,7 @@
 			<label class="cell30" for="data.rarity">{{localize "PRIME.item_rarity"}}:</label>
 			<select name="data.rarity" id="data.rarity" class="itemRarity cell70">
 				{{#select data.rarity}}
-				{{#each tables.rarity}}
+				{{#each itemTables.rarity}}
 				<option value="{{this.key}}">{{this.title}}</option>
 				{{/each}}
 				{{/select}}
