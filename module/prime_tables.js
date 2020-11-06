@@ -9,7 +9,7 @@ export class PrimeTables
 		return tableClone;
 	}
 
-	static cloneTables(path, surpressTranslation)
+	static cloneTables(path)
 	{
 		var pathSplit = path.split(".");
 		var count = 0;
@@ -28,7 +28,14 @@ export class PrimeTables
 			count++;
 		}
 
-		return currTable;
+		if (Array.isArray(currTable))
+		{
+			return $.extend(true, [], currTable);
+		}
+		else
+		{
+			return $.extend(true, {}, currTable);
+		}
 	}
 
 	static addTranslations(whatData)
@@ -96,5 +103,38 @@ export class PrimeTables
 			titlesArray.push("None");
 		}
 		return titlesArray.join(", ");
+	}
+
+	static getPrimeKeysAndTitles()
+	{
+		const basePrimeData = game.system.template.Actor.templates.primes_template.primes;
+		const keyTitleArray = this.getKeyAndTitleData(basePrimeData);
+
+		return keyTitleArray;
+	}
+
+	static getRefinementKeysAndTitles()
+	{
+		const baseRefinementsData = game.system.template.Actor.templates.refinements_template.refinements;
+		const keyTitleArray = this.getKeyAndTitleData(baseRefinementsData);
+
+		return keyTitleArray;
+	}
+
+	static getKeyAndTitleData(whatKeyIndexedData)
+	{
+		let keyTitleArray = [];
+		let currEntry = null;
+		for (let key in whatKeyIndexedData)
+		{
+			currEntry = whatKeyIndexedData[key];
+			keyTitleArray.push({key: key, title: game.i18n.localize(currEntry.title)});
+		}
+		return keyTitleArray;
+	}
+
+	static getActionKeysAndTitles()
+	{
+		return [{key: "null", title:"Dynamic actions list coming soon (TM)"}];
 	}
 }
