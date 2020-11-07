@@ -9,6 +9,8 @@ export class PRIME_DICE_POPUP extends Application {
 	selectedPrimeValue = 0;
 	selectedRefinementValue = 0;
 	doublePrime = false;
+	autoroll = false;
+	autoclose = true;
 
 	constructor(...args) {
 		super(...args)
@@ -46,7 +48,9 @@ export class PRIME_DICE_POPUP extends Application {
 			primes,
 			refinements,
 			sortedStats: this.sortedStats,
-			currentActor: this.currentActor
+			currentActor: this.currentActor,
+			autoroll: this.autoroll,
+			autoclose: this.autoclose
 			/*,
 			abilities,
 			saves,
@@ -169,8 +173,6 @@ export class PRIME_DICE_POPUP extends Application {
 		const primeDataKey = "data-prime-key"
 		const primeDataValue = "data-prime-value";
 
-		console.log("select prime", event);
-
 		const thisElement = $(event.delegateTarget);
 		const thisKey = thisElement.attr(primeDataKey);
 
@@ -189,6 +191,7 @@ export class PRIME_DICE_POPUP extends Application {
 
 				this.selectedRefinement = null;
 				this.selectedRefinementValue = 0;
+
 			}
 		} else {
 			if (this.selectedPrime) {
@@ -213,8 +216,6 @@ export class PRIME_DICE_POPUP extends Application {
 		const primeDataKey = "data-prime-key"
 		const primeDataValue = "data-prime-value";
 		const doubledSelectedClass = "doubled";
-
-		console.log("select  refinement", event);
 
 		const thisElement = $(event.delegateTarget);
 		const thisKey = thisElement.attr(refinementDataKey);
@@ -245,6 +246,7 @@ export class PRIME_DICE_POPUP extends Application {
 			thisElement.addClass(selectedRefinementClass);
 			this.selectedRefinement = thisKey;
 			this.selectedRefinementValue = Number.parseInt(thisElement.attr(refinementDataValue), 10);
+
 		}
 		this.updateRoll(event);
 	}
@@ -260,11 +262,19 @@ export class PRIME_DICE_POPUP extends Application {
 			if (this.doubled) {
 				rollButton.text("Roll " + localizedPrime
 					+ " twice. (" + this.selectedPrimeValue + " + " + this.selectedPrimeValue + " + ?)");
+					
+				if (this.autoroll) {
+					this.doAutoRoll();
+				}
 			} else if (this.selectedRefinement) {
 				const localizedRefinement = game.i18n.localize(refinementData[this.selectedRefinement].title);
 
 				rollButton.text("Roll " + localizedPrime + " with " + localizedRefinement
 					+ ". (" + this.selectedPrimeValue + " + " + this.selectedRefinementValue + " + ?)");
+					
+				if (this.autoroll) {
+					this.doAutoRoll();
+				}
 			} else {
 				rollButton.text("Roll " + localizedPrime + " once. (" + this.selectedPrimeValue + " + ?)");
 			}
@@ -277,9 +287,49 @@ export class PRIME_DICE_POPUP extends Application {
 
 	}
 
+	doAutoRoll() {
+		this.doRoll();
+		this.selectedPrime = null;
+		this.selectedRefinement = null;
+		this.selectedPrimeValue = 0;
+		this.selectedRefinementValue = 0;
+		this.doubled = false;
+		
+		const selectedRefinementClass = "selectedRefinement";
+		const selectedPrimeClass = "selectedPrime";
+		const doubledSelectedClass = "doubled";
+
+		this.element.find("." + selectedRefinementClass).removeClass(selectedRefinementClass);
+		this.element.find("." + selectedPrimeClass).removeClass(selectedPrimeClass);
+		this.element.find("." + doubledSelectedClass).removeClass(doubledSelectedClass);
+		this.element.find(".rollPrimeDice").text("Roll!");
+	}
+
+	doRoll() {
+		var diceParams = {};
+		if (this.selectedPrime) {
+			diceParams["prime"] = {
+				key: this.selectedPrime,
+				value: this.selectedPrimeValue,
+				doubled: this.doubled
+			};
+		}
+		if (this.selectedRefinement) {
+			diceParams["refinement"] = {
+				key: this.selectedRefinement,
+				value: this.selectedRefinementValue,
+			};
+		}
+		this.diceRoller.rollPrimeDice(diceParams);
+		console.log("rolled", diceParams);
+		
+		if (this.autoclose) {
+			this.close();
+		}
+	}
+
 
 	selectActor(event) {
-		console.log("select  actor", event);
 		const newActor = game.actors.get(event.target.value);
 		if (this.currentActor != newActor) {
 			this.currentActor = newActor;
@@ -295,7 +345,7 @@ export class PRIME_DICE_POPUP extends Application {
 
 	activateListeners(html) {
 		super.activateListeners(html);
-		this.element.find(".rollPrimeDice").click((event) => this.diceRoller.rollPrimeDice(event, true));
+		this.element.find(".rollPrimeDice").click((event) => this.doRoll(event));
 		this.element.find(".selectPrime").click((event) => this.selectPrime(event));
 		this.element.find(".selectRefinement").click((event) => this.selectRefinement(event));
 		const actorSelect = this.element.find("#primeDiceRollerActorSelect");
@@ -304,5 +354,15 @@ export class PRIME_DICE_POPUP extends Application {
 			currentSelect.attr('selected', 'selected');
 			actorSelect.change((event) => this.selectActor(event));
 		}
+		this.element.find("#autoroll").click((event) => {
+			this.autoroll = !this.autoroll;
+			 $(event.delegateTarget).prop( "checked",  this.autoroll);
+			 event.stopPropagation();
+		});
+		this.element.find("#autoclose").click((event) => {
+			this.autoclose = !this.autoclose;
+			$(event.delegateTarget).prop( "checked",  this.autoclose);
+			event.stopPropagation();
+		});
 	}
 }

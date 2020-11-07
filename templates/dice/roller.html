@@ -14,6 +14,19 @@
 			{{actors.[0].name}}
 			{{/ifCond}}</span>
 		{{/ifCond}}
+		<span class="autorollContainer">
+			<label for="autoroll">Autoroll</label>
+			<input type="checkbox" id="autoroll"
+			{{#if autoroll}}checked{{/if}}
+			>
+		</span>
+		
+		<span class="autocloseContainer">
+			<label for="autoclose">Autoclose</label>
+			<input type="checkbox" id="autoclose"
+			{{#if autoclose}}checked{{/if}}
+			>
+		</span>
 	</div>
 
 	<div class="primeDiceRollWrapper">
