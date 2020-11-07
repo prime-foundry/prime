@@ -1,13 +1,11 @@
 //import Mustache from 'mustache';
 
-export class PRIME_DICE_ROLLER
-{
-	primeTable = [-5,-4,-3,-2,-2,-1,-1,-1,0,0,0,0,1,1,1,2,2,3,4,5];
+export class PRIME_DICE_ROLLER {
+	primeTable = [-5, -4, -3, -2, -2, -1, -1, -1, 0, 0, 0, 0, 1, 1, 1, 2, 2, 3, 4, 5];
 
 
-	async rollPrimeDice()
-	{
-		var diceResult = this.getDiceResult();
+	async rollPrimeDice(diceParams) {
+		var diceResult = this.getDiceResult(diceParams);
 		var messageContent = await this.createContent(diceResult);
 		let data =
 		{
@@ -21,11 +19,10 @@ export class PRIME_DICE_ROLLER
 
 	}
 
-	getDiceResult()
-	{
-		var currentDie = new Die({faces:20});
+	getDiceResult(diceParams) {
+		const currentDie = new Die({ faces: 20 });
 		this.rollDie(currentDie);
-		var primeDiceResult = this.getPrimeDiceResultData(currentDie);
+		const primeDiceResult = this.getPrimeDiceResultData(currentDie, diceParams);
 		//if (primeDiceResult.diceRolls.length > 2)
 		//{
 		//	console.log(primeDiceResult);
@@ -33,51 +30,67 @@ export class PRIME_DICE_ROLLER
 		return primeDiceResult;
 	}
 
-	rollDie(whatDie)
-	{
+	rollDie(whatDie) {
 		whatDie.roll(1);
 		var lastDice = whatDie.results[whatDie.results.length - 1]
-		if (lastDice.result == 1 || lastDice.result == 20)
-		{
+		if (lastDice.result == 1 || lastDice.result == 20) {
 			this.rollDie(whatDie);
 		}
 	}
 
-	getPrimeDiceResultData(foundryDice)
-	{
-		var _modifier = 0;
-		var _primeResults = foundryDice.results.map(currResult => 
-		{
+	getPrimeDiceResultData(foundryDice, diceParams) {
+		var _result = 0;
+		var _primeResults = foundryDice.results.map(currResult => {
 			let _primeModifier = this.primeTable[currResult.result - 1];
-			_modifier += _primeModifier;
-			return {...currResult, primeModifier: _primeModifier};
+			_result += _primeModifier;
+			return { ...currResult, primeModifier: _primeModifier };
 		});
 
 		var _primeDiceResults =
 		{
 			diceRolls: _primeResults,
-			total: _modifier
+			totalDice: _result,
+			total: diceParams.total + _result,
+			calculation: this.getCalculationText(_result, diceParams)
 		};
 		return _primeDiceResults;
 	}
 
-	async createContent(diceResult)
-	{
+	getCalculationText(diceResult, diceParams) {
+		const primeData = game.system.template.Actor.templates.primes_template.primes
+		const refinementData = game.system.template.Actor.templates.refinements_template.refinements;
+		const result = diceResult < 0 ? " - " + (-diceResult) : " + " + diceResult;
+	
+		if (diceParams.prime) {
+			const localizedPrime = game.i18n.localize(primeData[diceParams.prime.key].title);
+			if (diceParams.prime.doubled) {
+				return localizedPrime + " (" + diceParams.prime.value + ") + " + localizedPrime + " (" + diceParams.prime.value + ")" + result;
+			} else if (diceParams.refinement) {
+				const localizedRefinement = game.i18n.localize(refinementData[diceParams.refinement.key].title);
+				return localizedPrime + " (" + diceParams.prime.value + ") + " + localizedRefinement + " (" + diceParams.refinement.value + ")" + result;
+			} else {
+				return localizedPrime + " (" + diceParams.prime.value + ")" + result;
+			}
+		} else if (diceParams.refinement) {
+			const localizedRefinement = game.i18n.localize(refinementData[diceParams.refinement.key].title);
+			return localizedRefinement + " (" + diceParams.refinement.value + ")" + result;
+		}
+		return "";
+	}
+
+	async createContent(diceResult) {
 		var handlebarsTemplate = await getTemplate("systems/prime/templates/dice/prime_result.html");
 		var messageContent = handlebarsTemplate(diceResult);
 		return messageContent
 	}
-	
-	testDiceRolling(_testIterations)
-	{
+
+	testDiceRolling(_testIterations) {
 		var count = 0
 		var _resultsObject = {}
-		while (count < _testIterations)
-		{
+		while (count < _testIterations) {
 			let result = this.getDiceResult().total;
-			if (!_resultsObject[result])
-			{
-				_resultsObject[result] = {total: 0};
+			if (!_resultsObject[result]) {
+				_resultsObject[result] = { total: 0 };
 			}
 			_resultsObject[result].total++;
 			count++;
@@ -85,8 +98,7 @@ export class PRIME_DICE_ROLLER
 
 		count = 0;
 
-		for (var _currResult in _resultsObject)
-		{
+		for (var _currResult in _resultsObject) {
 			_resultsObject[_currResult].percentage = (_resultsObject[_currResult].total / _testIterations) * 100;
 			count++;
 		}
@@ -95,36 +107,28 @@ export class PRIME_DICE_ROLLER
 	}
 }
 
-Handlebars.registerHelper('primeDiceClass', function(value)
-{
-	if (value === 1)
-	{
+Handlebars.registerHelper('primeDiceClass', function (value) {
+	if (value === 1) {
 		return "misfortunePrimeRoll lowPrimeRoll";
 	}
-	if (value === 20)
-	{
+	if (value === 20) {
 		return "fortunePrimeRoll highPrimeRoll"
 	}
 
-	if (value < 9)
-	{
+	if (value < 9) {
 		return "lowPrimeRoll";
 	}
-	if (value > 12)
-	{
+	if (value > 12) {
 		return "highPrimeRoll"
 	}
 	return "";
 });
 
-Handlebars.registerHelper('primeDiceModiferClass', function(value)
-{
-	if (value > 0)
-	{
+Handlebars.registerHelper('primeDiceModiferClass', function (value) {
+	if (value > 0) {
 		return "highPrimeModifierResult";
 	}
-	if (value < 0)
-	{
+	if (value < 0) {
 		return "lowPrimeModifierResult";
 	}
 	return "";

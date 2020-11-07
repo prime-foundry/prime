@@ -307,19 +307,26 @@ export class PRIME_DICE_POPUP extends Application {
 
 	doRoll() {
 		var diceParams = {};
+		var total = 0;
 		if (this.selectedPrime) {
 			diceParams["prime"] = {
 				key: this.selectedPrime,
 				value: this.selectedPrimeValue,
 				doubled: this.doubled
 			};
+			total += this.selectedPrimeValue;
+			if(this.doubled){
+				total += this.selectedPrimeValue;
+			}
 		}
 		if (this.selectedRefinement) {
 			diceParams["refinement"] = {
 				key: this.selectedRefinement,
 				value: this.selectedRefinementValue,
 			};
+			total += this.selectedRefinementValue;
 		}
+		diceParams["total"] = total;
 		this.diceRoller.rollPrimeDice(diceParams);
 		console.log("rolled", diceParams);
 		
