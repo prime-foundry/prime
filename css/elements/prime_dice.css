@@ -67,18 +67,19 @@
     font-size: 14px;
     line-height: 18px;
 }
-.primeDiceRollWrapper .statsContent .refinementsGroup button.refinementWrapper.firstSelection,
-.primeDiceRollWrapper .statsContent .primesGroup button.primeWrapper.firstSelection {
+
+.primeDiceRollWrapper .statsContent .refinementsGroup button.refinementWrapper.selectedPrime,
+.primeDiceRollWrapper .statsContent .primesGroup button.primeWrapper.selectedPrime {
     background-color: rgba(225, 247, 255, 0.8);
     box-shadow: 0 0 5px #00A8E1;
 }
-.primeDiceRollWrapper .statsContent .refinementsGroup button.refinementWrapper.secondSelection,
-.primeDiceRollWrapper .statsContent .primesGroup button.primeWrapper.secondSelection {
+.primeDiceRollWrapper .statsContent .refinementsGroup button.refinementWrapper.selectedRefinement,
+.primeDiceRollWrapper .statsContent .primesGroup button.primeWrapper.selectedRefinement {
     background-color: rgba(255, 225, 247, 0.8);
     box-shadow: 0 0 5px #E13212;
 }
-.primeDiceRollWrapper .statsContent .refinementsGroup button.refinementWrapper.firstSelection.secondSelection,
-.primeDiceRollWrapper .statsContent .primesGroup button.primeWrapper.firstSelection.secondSelection {
+.primeDiceRollWrapper .statsContent .refinementsGroup button.refinementWrapper.selectedPrime.doubled,
+.primeDiceRollWrapper .statsContent .primesGroup button.primeWrapper.selectedPrime.doubled {
     background: linear-gradient(to right, #b3e8fc , #ffa2c9);
     box-shadow: 0 0 5px #b8860b;
 }

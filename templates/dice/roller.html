@@ -24,7 +24,7 @@
 				<div class="blockTitle">Primes</div>
 				{{/ifCond}}
 				{{#each typeGroup.primes as |prime key|}}
-				<button class="primeWrapper selectPrime">
+				<button class="primeWrapper selectPrime" data-prime-key="{{key}}" data-prime-value="{{prime.value}}">
 					<span class="primeTitle">{{prime.title}}</span>
 					<span class="primeValue">{{prime.value}}</span>
 				</button>
@@ -35,7 +35,9 @@
 				<div class="blockTitle">Refinements</div>
 				{{/ifCond}}
 				{{#each typeGroup.refinements as |refinement key|}}
-				<button class="refinementWrapper selectRefinement">
+				<button class="refinementWrapper selectRefinement" data-refinement-key="{{key}}"
+					data-refinement-value="{{refinement.value}}"
+					data-refinement-default-prime="{{refinement.defaultPrime}}">
 					<span class="refinementTitle">{{refinement.title}}</span>
 					<span class="refinementValue">{{refinement.value}}</span>
 				</button>

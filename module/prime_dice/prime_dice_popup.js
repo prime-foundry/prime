@@ -4,6 +4,11 @@ export class PRIME_DICE_POPUP extends Application {
 	diceRoller = new PRIME_DICE_ROLLER();
 	currentActor = null;
 	sortedStats = {};
+	selectedPrime = null;
+	selectedRefinement = null;
+	selectedPrimeValue = 0;
+	selectedRefinementValue = 0;
+	doublePrime = false;
 
 	constructor(...args) {
 		super(...args)
@@ -68,11 +73,22 @@ export class PRIME_DICE_POPUP extends Application {
 					title: localisedTitle
 				}
 			}
-			this.sortedStats[currEntry.type].primes[key] = { value: currEntry.value, title: game.i18n.localize(currEntry.title), description: game.i18n.localize(currEntry.description) };
+			this.sortedStats[currEntry.type].primes[key] =
+			{
+				value: currEntry.value,
+				title: game.i18n.localize(currEntry.title),
+				description: game.i18n.localize(currEntry.description)
+			};
 		}
 		for (var key in refinements) {
 			currEntry = refinements[key];
-			this.sortedStats[currEntry.type].refinements[key] = { value: currEntry.value, title: game.i18n.localize(currEntry.title), description: game.i18n.localize(currEntry.description) };
+			this.sortedStats[currEntry.type].refinements[key] =
+			{
+				defaultPrime: currEntry.related && currEntry.related.length > 0 ? currEntry.related[0] : "",
+				value: currEntry.value,
+				title: game.i18n.localize(currEntry.title),
+				description: game.i18n.localize(currEntry.description)
+			};
 		}
 		return this.sortedStats;
 	}
@@ -93,7 +109,7 @@ export class PRIME_DICE_POPUP extends Application {
 	}
 
 	getRefinements() {
-		var refinementData = game.system.template.Actor.templates.refinements_template.refinements;
+		const refinementData = game.system.template.Actor.templates.refinements_template.refinements;
 		if (refinementData) {
 			var localisedRefinments = this.getLocalisedRefinments(refinementData);
 			var catergorisedRefinementsList = [];
@@ -146,103 +162,135 @@ export class PRIME_DICE_POPUP extends Application {
 	}
 
 	selectPrime(event) {
+		const selectedRefinementClass = "selectedRefinement";
+		const doubledSelectedClass = "doubled";
+
+		const selectedPrimeClass = "selectedPrime";
+		const primeDataKey = "data-prime-key"
+		const primeDataValue = "data-prime-value";
+
 		console.log("select prime", event);
-		this.toggleSelectionClasses(event);
+
+		const thisElement = $(event.delegateTarget);
+		const thisKey = thisElement.attr(primeDataKey);
+
+		if (this.selectedPrime == thisKey) {
+
+			if (this.doubled) {
+				this.selectedPrime = null;
+				this.doubled = false;
+				thisElement.removeClass(doubledSelectedClass);
+				thisElement.removeClass(selectedPrimeClass);
+				this.selectedPrimeValue = 0;
+			} else {
+				this.doubled = true;
+				thisElement.addClass(doubledSelectedClass);
+				this.element.find("." + selectedRefinementClass).removeClass(selectedRefinementClass);
+
+				this.selectedRefinement = null;
+				this.selectedRefinementValue = 0;
+			}
+		} else {
+			if (this.selectedPrime) {
+				this.element.find("." + selectedPrimeClass).removeClass(selectedPrimeClass);
+			}
+			thisElement.addClass(selectedPrimeClass);
+			this.selectedPrime = thisKey;
+			this.selectedPrimeValue = Number.parseInt(thisElement.attr(primeDataValue), 10);
+		}
+
 		this.updateRoll(event);
 	}
+
 
 	selectRefinement(event) {
+		const selectedRefinementClass = "selectedRefinement";
+		const refinementDataKey = "data-refinement-key"
+		const refinementDataValue = "data-refinement-value";
+		const refinementDataDefault = "data-refinement-default-prime"
+
+		const selectedPrimeClass = "selectedPrime";
+		const primeDataKey = "data-prime-key"
+		const primeDataValue = "data-prime-value";
+		const doubledSelectedClass = "doubled";
+
 		console.log("select  refinement", event);
-		this.toggleSelectionClasses(event);
+
+		const thisElement = $(event.delegateTarget);
+		const thisKey = thisElement.attr(refinementDataKey);
+
+		if (this.selectedRefinement == thisKey) {
+			thisElement.removeClass(selectedRefinementClass);
+			this.selectedRefinement = null;
+			this.selectedRefinementValue = 0;
+		} else {
+
+			if (this.selectedRefinement) {
+				this.element.find("." + selectedRefinementClass).removeClass(selectedRefinementClass);
+			} else if (this.selectedPrime) {
+				if (this.doubled) {
+					this.doubled = false;
+					this.element.find("." + doubledSelectedClass).removeClass(doubledSelectedClass);
+				}
+			} else {
+				const defaultPrime = thisElement.attr(refinementDataDefault);
+				if (defaultPrime) {
+					this.selectedPrime = defaultPrime;
+					const primeElement = this.element.find('.selectPrime[' + primeDataKey + '="' + defaultPrime + '"]');
+					primeElement.addClass(selectedPrimeClass);
+					this.selectedPrimeValue = Number.parseInt(primeElement.attr(primeDataValue), 10);
+				}
+			}
+
+			thisElement.addClass(selectedRefinementClass);
+			this.selectedRefinement = thisKey;
+			this.selectedRefinementValue = Number.parseInt(thisElement.attr(refinementDataValue), 10);
+		}
 		this.updateRoll(event);
 	}
+
 	updateRoll(event) {
 
-		let firstTitle = this.element.find(".firstSelection .primeTitle");
-		let secondTitle = this.element.find(".secondSelection .primeTitle");
-		if (firstTitle.length == 0) {
-			firstTitle = this.element.find(".firstSelection .refinementTitle");
-		}
-		if (secondTitle.length == 0) {
-			secondTitle = this.element.find(".secondSelection .refinementTitle");
-		}
-		let firstValue = this.element.find(".firstSelection .primeValue");
-		let secondValue = this.element.find(".secondSelection .primeValue");
-		if (firstValue.length == 0) {
-			firstValue = this.element.find(".firstSelection .refinementValue");
-		}
-		if (secondValue.length == 0) {
-			secondValue = this.element.find(".secondSelection .refinementValue");
-		}
+		const primeData = game.system.template.Actor.templates.primes_template.primes
+		const refinementData = game.system.template.Actor.templates.refinements_template.refinements;
+
 		const rollButton = this.element.find(".rollPrimeDice");
-		if (secondTitle.length == 0) {
-			if (firstTitle.length == 0) {
-				rollButton.text("Roll!");
+		if (this.selectedPrime) {
+			const localizedPrime = game.i18n.localize(primeData[this.selectedPrime].title);
+			if (this.doubled) {
+				rollButton.text("Roll " + localizedPrime
+					+ " twice. (" + this.selectedPrimeValue + " + " + this.selectedPrimeValue + " + ?)");
+			} else if (this.selectedRefinement) {
+				const localizedRefinement = game.i18n.localize(refinementData[this.selectedRefinement].title);
+
+				rollButton.text("Roll " + localizedPrime + " with " + localizedRefinement
+					+ ". (" + this.selectedPrimeValue + " + " + this.selectedRefinementValue + " + ?)");
 			} else {
-				rollButton.text("Roll Just " + firstTitle.text() + " (" + parseInt(firstValue.text()) + " + ?)");
+				rollButton.text("Roll " + localizedPrime + " once. (" + this.selectedPrimeValue + " + ?)");
 			}
-		} else if (firstTitle[0] == secondTitle[0]) {
-			rollButton.text("Roll " + firstTitle.text() + " twice! (" + (parseInt(firstValue.text()) * 2) + " + ?)");
+		} else if (this.selectedRefinement) {
+			const localizedRefinement = game.i18n.localize(refinementData[this.selectedRefinement].title);
+			rollButton.text("Roll " + localizedRefinement + " once. (" + this.selectedRefinementValue + " + ?)");
 		} else {
-			rollButton.text("Roll " + firstTitle.text() + " + " + secondTitle.text() + " (" + (parseInt(firstValue.text()) + parseInt(secondValue.text())) + " + ?)");
+			rollButton.text("Roll!");
 		}
+
 	}
 
-	toggleSelectionClasses(event) {
-
-		const thisElement = $(event.delegateTarget)
-		const firstElement = this.element.find(".firstSelection")
-		const secondElement = this.element.find(".secondSelection")
-		if (firstElement.length > 0 && secondElement.length > 0 && firstElement[0] == secondElement[0]) {
-			if (thisElement[0] == firstElement[0]) {
-				thisElement.toggleClass("firstSelection");
-				thisElement.toggleClass("secondSelection");
-				// thisElement = no selection.
-			} else {
-				firstElement.toggleClass("secondSelection");
-				// firstElement = firstSelection.
-				thisElement.toggleClass("secondSelection");
-				// thisElement = secondSelecton.
-			}
-		} else if (firstElement.length > 0 && thisElement[0] == firstElement[0]) {
-			if (secondElement.length > 0) {
-				thisElement.toggleClass("firstSelection");
-				thisElement.toggleClass("secondSelection");
-				// thisElement = secondSelection.
-				secondElement.toggleClass("firstSelection");
-				secondElement.toggleClass("secondSelection");
-			} else {
-				thisElement.toggleClass("secondSelection");
-				// thisElement = secondSelection & firstSelection.
-			}
-			// secondElement = firstSelection.
-		} else if (secondElement.length > 0 && thisElement[0] == secondElement[0]) {
-			firstElement.toggleClass("firstSelection");
-			// firstElement = no selection
-			thisElement.toggleClass("firstSelection");
-			// thisElement = secondSelection & firstSelection
-		} else if (secondElement.length > 0) {
-
-			firstElement.toggleClass("firstSelection");
-			// firstElement = no selection
-			secondElement.toggleClass("firstSelection");
-			secondElement.toggleClass("secondSelection");
-			// secondElement = firstSelection.
-			thisElement.toggleClass("secondSelection");
-			// thisElement = secondSelection.
-		} else if (firstElement.length > 0) {
-			thisElement.toggleClass("secondSelection");
-		} else {
-			thisElement.toggleClass("firstSelection");
-		}
-	}
 
 	selectActor(event) {
 		console.log("select  actor", event);
-		const actors = game.actors;
-		this.currentActor = game.actors.get(event.target.value);
-		this.getSortedActorStats(this.currentActor);
-		this.render(false, { action: "update" });
+		const newActor = game.actors.get(event.target.value);
+		if (this.currentActor != newActor) {
+			this.currentActor = newActor;
+			this.getSortedActorStats(this.currentActor);
+			this.selectedPrimeValue = 0;
+			this.selectedRefinementValue = 0;
+			this.selectedPrime = null;
+			this.selectedRefinement = null;
+			this.doubled = false;
+			this.render(false, { action: "update" });
+		}
 	}
 
 	activateListeners(html) {
@@ -251,9 +299,10 @@ export class PRIME_DICE_POPUP extends Application {
 		this.element.find(".selectPrime").click((event) => this.selectPrime(event));
 		this.element.find(".selectRefinement").click((event) => this.selectRefinement(event));
 		const actorSelect = this.element.find("#primeDiceRollerActorSelect");
-
-		const currentSelect = this.element.find("#primeDiceRollerActorSelect option[value='" + this.currentActor.id + "']");
-		currentSelect.attr('selected', 'selected');
-		actorSelect.change((event) => this.selectActor(event));
+		if (actorSelect.length > 0) {
+			const currentSelect = this.element.find("#primeDiceRollerActorSelect option[value='" + this.currentActor.id + "']");
+			currentSelect.attr('selected', 'selected');
+			actorSelect.change((event) => this.selectActor(event));
+		}
 	}
 }
