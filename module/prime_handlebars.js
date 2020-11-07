@@ -144,3 +144,8 @@ Handlebars.registerHelper('addStateClasses', function (pointIndex, basePointData
 	}
 	return "";
 });
+
+Handlebars.registerHelper("humanIndex", function(value, options)
+{
+    return parseInt(value) + 1;
+});
