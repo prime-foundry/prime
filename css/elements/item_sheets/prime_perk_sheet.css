@@ -1,0 +1,46 @@
+.perkItem .perkBonusesBlock .bonusesWrapper
+{
+	max-height: 205px;
+	padding-right:20px;
+	overflow: auto;
+}
+
+.perkItem .perkBonusesBlock .perkBonusWrapper
+{
+	position: relative;
+	border-bottom:1px solid grey;
+	padding-bottom: 5px;
+	margin-bottom: 5px;
+}
+
+.perkItem .perkBonusesBlock .perkBonusWrapper:last-child
+{
+	border-bottom-width:0px;
+}
+
+
+.perkItem .perkBonusesBlock .perkBonusWrapper .bonusIndex
+{
+	position: absolute;
+	left:10px;
+	top:10px;
+	font-size: 50px;
+	opacity: 0.1;
+	color:black;
+}
+
+.perkItem .perkBonusesBlock .perkBonusWrapper .removeBonusIcon
+{
+	position: absolute;
+	top: calc(50% - 6px);
+	right: -15px;
+	width:10px;
+	height:10px;
+}
+
+.perkItem .perkBonusesBlock .addBonusIcon
+{
+	display: block;
+	text-align: center;
+	width: 100%;
+}
