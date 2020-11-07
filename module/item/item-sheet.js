@@ -11,7 +11,7 @@ export class PrimeItemSheet extends ItemSheet
 	static get defaultOptions()
 	{
 		return mergeObject(super.defaultOptions, {
-			classes: ["primeSheet", "primeItemSheet", "sheet", "genericItem"],
+			classes: ["primeSheet", "primeItemSheet", "sheet"],
 			width: 420,
 			height: 550,
 			tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
@@ -30,7 +30,6 @@ export class PrimeItemSheet extends ItemSheet
 		return `${path}/item-${this.item.data.type}-sheet.html`;
 	}
 
-	/* -------------------------------------------- */
 
 	/** @override */
 	getData()
@@ -63,7 +62,7 @@ export class PrimeItemSheet extends ItemSheet
 			case "armour":
 			break;
 			case "perk":
-				data.dynamicDataForBonusTarget = this.getDynamicDataForBonusTarget(data.data.type);
+				this.addDynamicDataForBonusTargets(data);
 			break;
 			default:
 				console.warn("Unknown item type of '" + data.item.type + "' found in addItemTypeData().");
@@ -86,6 +85,23 @@ export class PrimeItemSheet extends ItemSheet
 		let untrainedPenaltyList = this.cloneAndAddSelectedState(data.itemTables.armour.untrainedPenalities, data.data.untrainedPenalty);
 
 		return {keywords: keywordsList, untrainedPenalty: untrainedPenaltyList};	
+	}
+
+	addDynamicDataForBonusTargets(data)
+	{
+		var actualBonusCount = 0;
+		for (var key in data.data.bonuses)
+		{
+			var currBonus = data.data.bonuses[key];
+			//Due to the fact foundry sometimes turns this into an object, we can't know for sure
+			// if a given index will actually exist.
+			if (currBonus && !currBonus.deleted)
+			{
+				currBonus.dynamicSelectData = this.getDynamicDataForBonusTarget(currBonus.type);
+				currBonus.actualBonusCount = actualBonusCount;
+				actualBonusCount++;
+			}
+		}
 	}
 
 	getDynamicDataForBonusTarget(perkType)
@@ -118,7 +134,7 @@ export class PrimeItemSheet extends ItemSheet
 				console.error("Unknown perk type of '" + perkType + "' found in getDynamicDataPathForBonus().");
 			break;
 		}
-
+	
 		return dynamicDataForBonusTarget;
 	}
 
@@ -250,6 +266,9 @@ export class PrimeItemSheet extends ItemSheet
 		const groupTitles = html.find(".checkboxGroupTitle");
 		groupTitles.click(this.toggleCheckboxGroup.bind(this));
 
+		html.find(".removeBonusIcon").click(this.removeBonus.bind(this));
+		html.find(".addBonusIcon").click(this.addBlankBonus.bind(this));
+
 		// Everything below here is only needed if the sheet is editable
 		if (!this.options.editable) return;
 
@@ -281,5 +300,40 @@ export class PrimeItemSheet extends ItemSheet
 			targetGroupWrapper.removeClass("expanded");
 			targetGroupWrapper.addClass("collapsed");
 		}
+	}
+
+	async removeBonus(event)
+	{
+		const removeIcon = $(event.delegateTarget);
+		const bonusKey = removeIcon.data("bonus-key");
+		
+		//const data = super.getData();
+		//this.item.data.data.bonuses = PrimeTables.forceToArray(this.item.data.data.bonuses);
+
+		this.item.data.data.bonuses[bonusKey].deleted = true;
+
+		var result = await this.item.update(this.item.data.data);
+	}
+
+	async addBlankBonus()
+	{
+		//const addIcon = $(event.delegateTarget);
+		var newData = $.extend(true, {}, game.system.template.Item.perk.bonuses[0]);
+
+		var highestKey = 0;
+		for (var key in this.item.data.data.bonuses)
+		{
+			if (key > highestKey)
+			{
+				highestKey = key;
+			}
+		}
+		this.item.data.data.bonuses[highestKey + 1] = newData;
+
+		//this.item.data.data.bonuses = PrimeTables.forceToArray(this.item.data.data.bonuses);
+		//this.item.data.data.bonuses.push(newData);
+
+		var result = await this.item.update(this.item.data.data);
+
 	}
 }
