@@ -546,14 +546,17 @@
 		{
 			"templates": ["base", "metadata"],
 
-			"type": "",
-
 			"isCollapsed": false,
 			
-			"bonus":
+			"bonuses":
 			{
-				"actorDataPath": "",
-				"amount": 0
+				"0":
+				{
+					"type": "situationalPrime",
+					"path": "",
+					"amount": 0,
+					"deleted": false
+				}
 			},
 
 			"cost":
@@ -562,7 +565,16 @@
 				"amount": 0
 			},
 
-			"prerequisites": []
+			"prerequisites":
+			{
+				"0":
+				{
+					"type": "situationalPrime",
+					"path": "",
+					"amount": 0,
+					"deleted": false
+				}
+			}
 		}
 	},
 	"Tables":
@@ -1013,7 +1025,7 @@
 				}
 			],
 
-			"prerequisites":
+			"prerequisiteLookup":
 			[
 				{
 					"key": "minimumPrime",
