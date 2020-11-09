@@ -1,11 +1,13 @@
-.perkItem .perkBonusesBlock .bonusesWrapper
+.perkItem .perkBonusesBlock .bonusesWrapper,
+.perkItem .perkPrerequisitesBlock .prerequisitesWrapper
 {
 	max-height: 205px;
 	padding-right:20px;
 	overflow: auto;
 }
 
-.perkItem .perkBonusesBlock .perkBonusWrapper
+.perkItem .perkBonusesBlock .perkBonusWrapper,
+.perkItem .perkPrerequisitesBlock .perkPrerequisiteWrapper
 {
 	position: relative;
 	border-bottom:1px solid grey;
@@ -13,13 +15,15 @@
 	margin-bottom: 5px;
 }
 
-.perkItem .perkBonusesBlock .perkBonusWrapper:last-child
+.perkItem .perkBonusesBlock .perkBonusWrapper:last-child,
+.perkItem .perkPrerequisitesBlock .perkPrerequisiteWrapper:last-child
 {
 	border-bottom-width:0px;
 }
 
 
-.perkItem .perkBonusesBlock .perkBonusWrapper .bonusIndex
+.perkItem .perkBonusesBlock .perkBonusWrapper .bonusIndex,
+.perkItem .perkPrerequisitesBlock .perkPrerequisiteWrapper .prerequisiteIndex
 {
 	position: absolute;
 	left:10px;
@@ -29,7 +33,8 @@
 	color:black;
 }
 
-.perkItem .perkBonusesBlock .perkBonusWrapper .removeBonusIcon
+.perkItem .perkBonusesBlock .perkBonusWrapper .removeEffectIcon,
+.perkItem .perkPrerequisitesBlock .perkPrerequisiteWrapper .removeEffectIcon
 {
 	position: absolute;
 	top: calc(50% - 6px);
@@ -38,7 +43,8 @@
 	height:10px;
 }
 
-.perkItem .perkBonusesBlock .addBonusIcon
+.perkItem .perkBonusesBlock .addEffectIcon,
+.perkItem .perkPrerequisitesBlock .addEffectIcon
 {
 	display: block;
 	text-align: center;
