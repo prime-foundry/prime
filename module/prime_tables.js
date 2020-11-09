@@ -137,4 +137,18 @@ export class PrimeTables
 	{
 		return [{key: "null", title:"Dynamic actions list coming soon (TM)"}];
 	}
+
+	static getItemKeysAndTitlesByType(typeFilter)
+	{
+		var matchingItems = []
+		ItemDirectory.collection.forEach((item, key, items) =>
+		{
+			if (item.type == typeFilter || typeFilter == "*")
+			{
+				matchingItems.push({key: key, title: item.name})
+			}
+		});
+
+		return matchingItems;
+	}
 }
