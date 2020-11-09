@@ -6,6 +6,18 @@ import { PrimeTables } from "../prime_tables.js";
  */
 export class PrimeItem extends Item
 {
+
+	// static get config()
+	// {
+	// 	var baseItemConfig = super.config;
+	// 	baseItemConfig.embeddedEntities =
+	// 	{
+	// 		"ActiveEffect": "effects",
+	// 		"PerkBonus": "bonuses",
+	// 	}
+	// 	return baseItemConfig;
+	// }
+
 	/**
 	 * Augment the basic Item data model with additional dynamic data.
 	 */
@@ -13,11 +25,30 @@ export class PrimeItem extends Item
 	{
 		super.prepareData();
 
+		// if (!(this.data.data.bonuses instanceof Collection))
+		// {
+		// 	this.data.data.bonuses = this.convertToCollection(this.data.data.bonuses);
+		// }
+
 		// Get the Item's data
 		const itemData = this.data;
 		const actorData = this.actor ? this.actor.data : {};
 		const data = itemData.data;
 	}
+
+	// convertToCollection(objectToConvert)
+	// {
+	// 	var collectionConstructionArray = [];
+
+	// 	for (var key in objectToConvert)
+	// 	{
+	// 		let currElement = objectToConvert[key];
+
+	// 		collectionConstructionArray.push([key, currElement]);
+	// 	}
+	// 	var collection = new Collection(collectionConstructionArray);
+	// 	return collection;
+	// }
 
 	getProcessedClone()
 	{
