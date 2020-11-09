@@ -48,6 +48,9 @@ export class PRIME_DICE_ROLLER {
 
 		var _primeDiceResults =
 		{
+			actor: diceParams.actor.name,
+			user: diceParams.user.name,
+			userColour: diceParams.user.data.color,
 			diceRolls: _primeResults,
 			totalDice: _result,
 			total: diceParams.total + _result,
