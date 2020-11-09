@@ -331,7 +331,7 @@
 	"PRIME.perk_actor_stat_bonus_max_ap_bonus": "Maximum action point total",
 	"PRIME.perk_actor_stat_bonus_per_round_ap_bonus": "Action points gained per round",
 	"PRIME.perk_actor_stat_bonus_max_wounds": "Maximum wounds",
-	"PRIME.perk_actor_stat_bonus_max_resilience": "Health Resilience",
+	"PRIME.perk_actor_stat_bonus_max_resilience": "Health - Resilience",
 	"PRIME.perk_actor_stat_bonus_max_protection": "Armour protection",
-	"PRIME.perk_actor_stat_bonus_max_armour_resilience": "Armour resilience"
+	"PRIME.perk_actor_stat_bonus_max_armour_resilience": "Armour - Resilience"
 }
