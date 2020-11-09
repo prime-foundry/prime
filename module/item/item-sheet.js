@@ -40,6 +40,7 @@ export class PrimeItemSheet extends ItemSheet
 		data.perkTables = PrimeTables.cloneAndTranslateTables("perks");
 		this.addItemTypeData(data);
 		data.checkboxGroupStates = this.checkboxGroupStates;
+		//data.allowAdditionalBonuses = this.findDeletedBonus();
 		return data;
 	}
 
@@ -62,7 +63,8 @@ export class PrimeItemSheet extends ItemSheet
 			case "armour":
 			break;
 			case "perk":
-				this.addDynamicDataForBonusTargets(data);
+				data.bonuses = this.getEffectsRenderableData("bonus");
+				data.prerequisites = this.getEffectsRenderableData("prerequisite");
 			break;
 			default:
 				console.warn("Unknown item type of '" + data.item.type + "' found in addItemTypeData().");
@@ -87,27 +89,62 @@ export class PrimeItemSheet extends ItemSheet
 		return {keywords: keywordsList, untrainedPenalty: untrainedPenaltyList};	
 	}
 
-	addDynamicDataForBonusTargets(data)
+	getEffectsRenderableData(targetEffectType)
 	{
-		var actualBonusCount = 0;
-		for (var key in data.data.bonuses)
+		var effectData = [];
+		var matchingEffectsCount = 0;
+		this.item.effects.forEach((effect, key, effects) =>
 		{
-			var currBonus = data.data.bonuses[key];
-			//Due to the fact foundry sometimes turns this into an object, we can't know for sure
-			// if a given index will actually exist.
-			if (currBonus && !currBonus.deleted)
+			if (effect.data.flags.effectType == targetEffectType)
 			{
-				currBonus.dynamicSelectData = this.getDynamicDataForBonusTarget(currBonus.type);
-				currBonus.actualBonusCount = actualBonusCount;
-				actualBonusCount++;
+				matchingEffectsCount++
+				var effectDataForRender = this.getRenderableDataFromEffect(effect, targetEffectType, matchingEffectsCount);
+				effectData.push(effectDataForRender);
 			}
-		}
+		})
+
+		return effectData;
 	}
 
-	getDynamicDataForBonusTarget(perkType)
+	getRenderableDataFromEffect(whatEffect, targetEffectType, matchingEffectsCount)
+	{
+		switch (targetEffectType)
+		{
+			case "bonus":
+				var renderableData = this.getRenderableBonusDataFromEffect(whatEffect, matchingEffectsCount)
+			break;
+			case "prerequisite":
+				var renderableData = this.getRenderablePrerequiristeDataFromEffect(whatEffect, matchingEffectsCount)
+			break;
+			default:
+				console.warn("Unknown item type of '" + targetEffectType + "' found in getRenderableDataFromEffect(). Effect: ". whatEffect);
+			break;
+		}
+		return renderableData;
+	}
+
+	getRenderableBonusDataFromEffect(whatEffect, matchingEffectsCount)
+	{
+		var dynamicDataForBonusTarget = this.getDynamicDataForBonusTarget(whatEffect.data.flags.effectSubType);
+
+		var renderableEffectData =
+		{
+			effectID: whatEffect.id,
+			effectSubType: whatEffect.data.flags.effectSubType,
+			dynamicDataForEffectTarget: dynamicDataForBonusTarget,
+			path: whatEffect.data.flags.path,
+			value: whatEffect.data.flags.value,
+			actualCount: matchingEffectsCount
+		}
+
+		return renderableEffectData;
+	}
+
+
+	getDynamicDataForBonusTarget(perkBonusType)
 	{
 		var dynamicDataForBonusTarget = [];
-		switch (perkType)
+		switch (perkBonusType)
 		{
 			case "situationalPrime":
 				dynamicDataForBonusTarget = PrimeTables.getPrimeKeysAndTitles();
@@ -131,11 +168,63 @@ export class PrimeItemSheet extends ItemSheet
 				dynamicDataForBonusTarget = PrimeTables.cloneAndTranslateTables("perks.miscBonusLookup");
 			break;
 			default:
-				console.error("Unknown perk type of '" + perkType + "' found in getDynamicDataPathForBonus().");
+				console.error("Unknown perk type of '" + perkBonusType + "' found in getDynamicDataPathForBonus().");
 			break;
 		}
 	
 		return dynamicDataForBonusTarget;
+	}
+
+
+	getRenderablePrerequiristeDataFromEffect(whatEffect, matchingEffectsCount)
+	{
+		var dynamicDataForPrerequisiteTarget = this.getDynamicDataForPrerequisiteTarget(whatEffect.data.flags.effectSubType);
+
+		var renderableEffectData =
+		{
+			effectID: whatEffect.id,
+			effectSubType: whatEffect.data.flags.effectSubType,
+			dynamicDataForEffectTarget: dynamicDataForPrerequisiteTarget,
+			path: whatEffect.data.flags.path,
+			value: whatEffect.data.flags.value,
+			actualCount: matchingEffectsCount
+		}
+
+		return renderableEffectData;
+	}
+
+	getDynamicDataForPrerequisiteTarget(perkPrereqiusiteType)
+	{
+		var dynamicDataForPrerequisiteTarget = [];
+		switch (perkPrereqiusiteType)
+		{
+			case "minimumPrime":
+				dynamicDataForPrerequisiteTarget = PrimeTables.getPrimeKeysAndTitles();
+			break;
+			case "minimumRefinement":
+				dynamicDataForPrerequisiteTarget = PrimeTables.getRefinementKeysAndTitles();
+			break;
+			case "minimumStat":
+				dynamicDataForPrerequisiteTarget = PrimeTables.cloneAndTranslateTables("perks.actorStatLookup");
+			break;
+			case "maximumPrime":
+				dynamicDataForPrerequisiteTarget = PrimeTables.getPrimeKeysAndTitles();
+			break;
+			case "maximumRefinement":
+				dynamicDataForPrerequisiteTarget = PrimeTables.getRefinementKeysAndTitles();
+			break;
+			case "maximumStat":
+				dynamicDataForPrerequisiteTarget = PrimeTables.cloneAndTranslateTables("perks.actorStatLookup");
+			break;
+			case "otherPerk":
+				dynamicDataForPrerequisiteTarget = PrimeTables.getItemKeysAndTitlesByType("perk");
+			break;			
+			default:
+				console.error("Unknown perk type of '" + perkPrereqiusiteType + "' found in getDynamicDataForPrerequisiteTarget().");
+			break;
+		}
+	
+		return dynamicDataForPrerequisiteTarget;
 	}
 
 	cloneAndAddSelectedState(whatRawOptionsArray, whatSelectionData)
@@ -266,8 +355,10 @@ export class PrimeItemSheet extends ItemSheet
 		const groupTitles = html.find(".checkboxGroupTitle");
 		groupTitles.click(this.toggleCheckboxGroup.bind(this));
 
-		html.find(".removeBonusIcon").click(this.removeBonus.bind(this));
-		html.find(".addBonusIcon").click(this.addBlankBonus.bind(this));
+		html.find(".perkEffectFormElement").change(this.perkEffectFormElementChanged.bind(this));
+
+		html.find(".removeEffectIcon").click(this.removeEffect.bind(this));
+		html.find(".addEffectIcon").click(this.addBlankEffect.bind(this));
 
 		// Everything below here is only needed if the sheet is editable
 		if (!this.options.editable) return;
@@ -302,38 +393,60 @@ export class PrimeItemSheet extends ItemSheet
 		}
 	}
 
-	async removeBonus(event)
+	
+	async perkEffectFormElementChanged(event)
 	{
-		const removeIcon = $(event.delegateTarget);
-		const bonusKey = removeIcon.data("bonus-key");
-		
-		//const data = super.getData();
-		//this.item.data.data.bonuses = PrimeTables.forceToArray(this.item.data.data.bonuses);
+		event.preventDefault();
+		event.stopPropagation();
 
-		this.item.data.data.bonuses[bonusKey].deleted = true;
+		const formElement = $(event.delegateTarget);
+		const effectID = formElement.data("effect-id");
+		const flagKey = formElement.data("effect-flag-key");
 
-		var result = await this.item.update(this.item.data.data);
+		const updateData = {flags:{}};
+		updateData.flags[flagKey] = formElement.val();
+
+		// If we've changed effect subtype, reset the data path as it will be meaningless.
+		if (flagKey == "effectSubType")
+		{
+			updateData.flags.path = "";
+		}
+
+		var effectToUpdate = await this.item.effects.get(effectID);
+		var result = await effectToUpdate.update(updateData);
+
+		console.log("Perk update result: ", result);
 	}
 
-	async addBlankBonus()
+	async removeEffect(event)
 	{
-		//const addIcon = $(event.delegateTarget);
-		var newData = $.extend(true, {}, game.system.template.Item.perk.bonuses[0]);
+		event.preventDefault();
+		const removeIcon = $(event.delegateTarget);
+		const effectID = removeIcon.data("effect-id");
 
-		var highestKey = 0;
-		for (var key in this.item.data.data.bonuses)
-		{
-			if (key > highestKey)
+		var effectToDelete = this.item.effects.get(effectID);
+
+		effectToDelete.delete();
+	}
+	
+	async addBlankEffect(event)
+	{
+		event.preventDefault();
+		const removeIcon = $(event.delegateTarget);
+		const effectKey = removeIcon.data("effect-type");
+
+		var result = await ActiveEffect.create({
+			label: "Perk effect",
+			icon: "icons/svg/aura.svg",
+			origin: this.item.uuid,
+			flags: 
 			{
-				highestKey = key;
+				"effectType": effectKey,
+				"effectSubType": "situationalPrime",
+				"path": "end",
+				"value": 0,
 			}
-		}
-		this.item.data.data.bonuses[highestKey + 1] = newData;
-
-		//this.item.data.data.bonuses = PrimeTables.forceToArray(this.item.data.data.bonuses);
-		//this.item.data.data.bonuses.push(newData);
-
-		var result = await this.item.update(this.item.data.data);
-
+		}, this.item).create();
+		console.log("Created? Result: ", result);
 	}
 }
