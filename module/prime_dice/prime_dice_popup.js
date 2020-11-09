@@ -33,7 +33,7 @@ export class PRIME_DICE_POPUP extends Application {
 
 	async getData() {
 		// Return data to the template
-		const actors = game.actors.entities;
+		const actors = Array.from(game.actors.values()).filter(actor => actor.owner);
 		const users = game.users.entities;
 
 		const primes = this.getPrimes();
@@ -306,7 +306,11 @@ export class PRIME_DICE_POPUP extends Application {
 	}
 
 	doRoll() {
-		var diceParams = {};
+		const users = Array.from(game.users.values()).filter(user => user.isSelf);
+		var diceParams = {
+			"user" : users[0],
+			"actor" : this.currentActor
+		};
 		var total = 0;
 		if (this.selectedPrime) {
 			diceParams["prime"] = {
