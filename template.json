@@ -423,7 +423,8 @@
 			"melee-weapon",
 			"ranged-weapon",
 			"armour",
-			"perk"
+			"perk",
+			"action"
 		],
 		"templates":{
 			"base":
@@ -557,6 +558,14 @@
 			},
 
 			"prerequisites": []
+		},
+
+		"action":
+		{
+			"templates": ["base", "metadata"],
+			"points": 0,
+			"type": "",
+			"effects": []
 		}
 	},
 	"Tables":
@@ -1085,6 +1094,65 @@
 				{
 					"key": "null",
 					"title": "Please write in description"
+				}
+			]
+		},
+
+		"actions":
+		{
+			"actionTypes":
+			[
+				{
+					"key": "major",
+					"title": "PRIME.action_type_major_title"
+				},
+				{
+					"key": "minor",
+					"title": "PRIME.action_type_minor_title"
+				},
+				{
+					"key": "reaction",
+					"title": "PRIME.action_type_reaction_title"
+				},
+				{
+					"key": "combo",
+					"title": "PRIME.action_type_combo_title"
+				}
+			],
+
+			"effectTypes":
+			[
+				{
+					"key": "move",
+					"title": "PRIME.action_effect_type_move"
+				},
+				{
+					"key": "meleeAttack",
+					"title": "PRIME.action_effect_type_melee_attack"
+				},
+				{
+					"key": "rangedAttack",
+					"title": "PRIME.action_effect_type_ranged_attack"
+				},
+				{
+					"key": "meleeBlock",
+					"title": "PRIME.action_effect_type_melee_block"
+				},
+				{
+					"key": "rangedBlock",
+					"title": "PRIME.action_effect_type_ranged_block"
+				},
+				{
+					"key": "magic",
+					"title": "PRIME.action_effect_type_magic"
+				},
+				{
+					"key": "gainPoints",
+					"title": "PRIME.action_effect_type_gain_points"
+				},
+				{
+					"key": "misc",
+					"title": "PRIME.action_effect_type_misc"
 				}
 			]
 		}
