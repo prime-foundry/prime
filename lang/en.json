@@ -321,6 +321,7 @@
 	"PRIME.perk_prerequisite_maximum_prime": "Maximum Prime",
 	"PRIME.perk_prerequisite_maximum_refinement": "Maximum Refinement",
 	"PRIME.perk_prerequisite_maximum_stat": "Maximum Other",
+	"PRIME.perk_prerequisite_other_perk_purchased": "Other perk",
 	
 	"PRIME.core_setting": "Setting",
 	"PRIME.core_settings_prime_possession": "Prime / Possession",
