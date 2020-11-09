@@ -113,13 +113,13 @@
 				<div class="soulAndXP flexRow">
 					<div class="cell50 block bottomBlockTitle flexRow flexCenter verticalCenter">
 						<div class="blockTitle">Soul</div>
-						<div class="metaValueContent" title="Initial: {{data.soul.initial}}, Awarded: {{data.soul.awarded}}, Spent: {{data.soul.spent}}">
+						<div class="metaValueContent hasTooltip" title="Initial: {{data.soul.initial}}, Awarded: {{data.soul.awarded}}, Spent: {{data.soul.spent}}">
 							{{data.soul.value}}
 						</div>
 					</div>
 					<div class="cell50 block bottomBlockTitle flexRow flexCenter verticalCenter">
 						<div class="blockTitle">XP</div>
-						<div class="metaValueContent" title="Initial: {{data.xp.initial}}, Awarded: {{data.xp.awarded}}, Spent: {{data.xp.spent}}">
+						<div class="metaValueContent hasTooltip" title="Initial: {{data.xp.initial}}, Awarded: {{data.xp.awarded}}, Spent: {{data.xp.spent}}">
 							{{data.xp.value}}
 						</div>
 					</div>
@@ -261,7 +261,7 @@
 
 
 	<div class="statsContent flexRow flexWrap flexBetween">
-		{{#each data.typeSorted as |typeGroup key|}}
+		{{#each typeSorted as |typeGroup key|}}
 		<div class="primesGroup primeGroup_{{key}}">
 			{{#ifCond key "==" "physical" }}
 			<div class="blockTitle">Primes</div>

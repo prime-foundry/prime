@@ -1,3 +1,4 @@
+import { PrimeTables } from "../prime_tables.js";
 /**
  * Extend the basic ItemSheet with some very simple modifications
  * @extends {ItemSheet}
@@ -10,7 +11,7 @@ export class PrimeItemSheet extends ItemSheet
 	static get defaultOptions()
 	{
 		return mergeObject(super.defaultOptions, {
-			classes: ["primeSheet", "primeItemSheet", "sheet", "genericItem"],
+			classes: ["primeSheet", "primeItemSheet", "sheet"],
 			width: 420,
 			height: 550,
 			tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
@@ -29,23 +30,18 @@ export class PrimeItemSheet extends ItemSheet
 		return `${path}/item-${this.item.data.type}-sheet.html`;
 	}
 
-	/* -------------------------------------------- */
 
 	/** @override */
 	getData()
 	{
 		let data = super.getData();
-		data.tables = this.getItemTables();
+		data.itemTables = PrimeTables.cloneAndTranslateTables("items");
+		data.coreTables = PrimeTables.cloneAndTranslateTables("core");
+		data.perkTables = PrimeTables.cloneAndTranslateTables("perks");
 		this.addItemTypeData(data);
 		data.checkboxGroupStates = this.checkboxGroupStates;
+		//data.allowAdditionalBonuses = this.findDeletedBonus();
 		return data;
-	}
-
-	getItemTables()
-	{
-		var _itemTables = $.extend({}, game.system.template.Tables.items);
-		this.addTranslations(_itemTables);
-		return _itemTables;
 	}
 
 	addItemTypeData(data)
@@ -67,6 +63,8 @@ export class PrimeItemSheet extends ItemSheet
 			case "armour":
 			break;
 			case "perk":
+				data.bonuses = this.getEffectsRenderableData("bonus");
+				data.prerequisites = this.getEffectsRenderableData("prerequisite");
 			break;
 			default:
 				console.warn("Unknown item type of '" + data.item.type + "' found in addItemTypeData().");
@@ -74,44 +72,166 @@ export class PrimeItemSheet extends ItemSheet
 		}
 	}
 
-	addTranslations(whatData)
-	{
-		for (var key in whatData)
-		{
-			if (key == "title" || key == "description")
-			{
-				var translation = game.i18n.localize(whatData[key])
-				whatData[key] = translation;
-			}
-			if (typeof whatData[key] === 'object' && whatData[key] !== null)
-			{
-				this.addTranslations(whatData[key]);
-			}
-		}
-	}
-
 	compileWeaponCheckboxGroups(data, subTypeKey)
 	{
-		let woundList = this.cloneAndAddSelectedState(data.tables.weapons.woundConditions, data.data.woundConditions);
-		let keywordsList = this.cloneAndAddSelectedState(data.tables.weapons.keywords, data.data.keywords);
-		let actionsList = this.cloneAndAddSelectedState(data.tables.weapons[subTypeKey + 'WeaponActions'], data.data.customActions);
+		let woundList = this.cloneAndAddSelectedState(data.itemTables.weapons.woundConditions, data.data.woundConditions);
+		let keywordsList = this.cloneAndAddSelectedState(data.itemTables.weapons.keywords, data.data.keywords);
+		let actionsList = this.cloneAndAddSelectedState(data.itemTables.weapons[subTypeKey + 'WeaponActions'], data.data.customActions);
 
 		return {wounds: woundList, keywords: keywordsList, actions: actionsList};	
 	}
 
 	compileArmourCheckboxGroups(data)
 	{
-		let keywordsList = this.cloneAndAddSelectedState(data.tables.armour.keywords, data.data.keywords);
-		let untrainedPenaltyList = this.cloneAndAddSelectedState(data.tables.armour.untrainedPenalities, data.data.untrainedPenalty);
+		let keywordsList = this.cloneAndAddSelectedState(data.itemTables.armour.keywords, data.data.keywords);
+		let untrainedPenaltyList = this.cloneAndAddSelectedState(data.itemTables.armour.untrainedPenalities, data.data.untrainedPenalty);
 
 		return {keywords: keywordsList, untrainedPenalty: untrainedPenaltyList};	
+	}
+
+	getEffectsRenderableData(targetEffectType)
+	{
+		var effectData = [];
+		var matchingEffectsCount = 0;
+		this.item.effects.forEach((effect, key, effects) =>
+		{
+			if (effect.data.flags.effectType == targetEffectType)
+			{
+				matchingEffectsCount++
+				var effectDataForRender = this.getRenderableDataFromEffect(effect, targetEffectType, matchingEffectsCount);
+				effectData.push(effectDataForRender);
+			}
+		})
+
+		return effectData;
+	}
+
+	getRenderableDataFromEffect(whatEffect, targetEffectType, matchingEffectsCount)
+	{
+		switch (targetEffectType)
+		{
+			case "bonus":
+				var renderableData = this.getRenderableBonusDataFromEffect(whatEffect, matchingEffectsCount)
+			break;
+			case "prerequisite":
+				var renderableData = this.getRenderablePrerequiristeDataFromEffect(whatEffect, matchingEffectsCount)
+			break;
+			default:
+				console.warn("Unknown item type of '" + targetEffectType + "' found in getRenderableDataFromEffect(). Effect: ". whatEffect);
+			break;
+		}
+		return renderableData;
+	}
+
+	getRenderableBonusDataFromEffect(whatEffect, matchingEffectsCount)
+	{
+		var dynamicDataForBonusTarget = this.getDynamicDataForBonusTarget(whatEffect.data.flags.effectSubType);
+
+		var renderableEffectData =
+		{
+			effectID: whatEffect.id,
+			effectSubType: whatEffect.data.flags.effectSubType,
+			dynamicDataForEffectTarget: dynamicDataForBonusTarget,
+			path: whatEffect.data.flags.path,
+			value: whatEffect.data.flags.value,
+			actualCount: matchingEffectsCount
+		}
+
+		return renderableEffectData;
+	}
+
+
+	getDynamicDataForBonusTarget(perkBonusType)
+	{
+		var dynamicDataForBonusTarget = [];
+		switch (perkBonusType)
+		{
+			case "situationalPrime":
+				dynamicDataForBonusTarget = PrimeTables.getPrimeKeysAndTitles();
+			break;
+			case "situationalRefinement":
+				dynamicDataForBonusTarget = PrimeTables.getRefinementKeysAndTitles();
+			break;
+			case "extraAction":
+				dynamicDataForBonusTarget = PrimeTables.getActionKeysAndTitles();
+			break;
+			case "actionPointBonus":
+				dynamicDataForBonusTarget = PrimeTables.getActionKeysAndTitles();
+			break;
+			case "actorStatBonus":
+				dynamicDataForBonusTarget = PrimeTables.cloneAndTranslateTables("perks.actorStatLookup");
+			break;
+			case "externalStatBonus":
+				dynamicDataForBonusTarget = PrimeTables.cloneAndTranslateTables("perks.externalStatLookup");
+			break;
+			case "misc":
+				dynamicDataForBonusTarget = PrimeTables.cloneAndTranslateTables("perks.miscBonusLookup");
+			break;
+			default:
+				console.error("Unknown perk type of '" + perkBonusType + "' found in getDynamicDataPathForBonus().");
+			break;
+		}
+	
+		return dynamicDataForBonusTarget;
+	}
+
+
+	getRenderablePrerequiristeDataFromEffect(whatEffect, matchingEffectsCount)
+	{
+		var dynamicDataForPrerequisiteTarget = this.getDynamicDataForPrerequisiteTarget(whatEffect.data.flags.effectSubType);
+
+		var renderableEffectData =
+		{
+			effectID: whatEffect.id,
+			effectSubType: whatEffect.data.flags.effectSubType,
+			dynamicDataForEffectTarget: dynamicDataForPrerequisiteTarget,
+			path: whatEffect.data.flags.path,
+			value: whatEffect.data.flags.value,
+			actualCount: matchingEffectsCount
+		}
+
+		return renderableEffectData;
+	}
+
+	getDynamicDataForPrerequisiteTarget(perkPrereqiusiteType)
+	{
+		var dynamicDataForPrerequisiteTarget = [];
+		switch (perkPrereqiusiteType)
+		{
+			case "minimumPrime":
+				dynamicDataForPrerequisiteTarget = PrimeTables.getPrimeKeysAndTitles();
+			break;
+			case "minimumRefinement":
+				dynamicDataForPrerequisiteTarget = PrimeTables.getRefinementKeysAndTitles();
+			break;
+			case "minimumStat":
+				dynamicDataForPrerequisiteTarget = PrimeTables.cloneAndTranslateTables("perks.actorStatLookup");
+			break;
+			case "maximumPrime":
+				dynamicDataForPrerequisiteTarget = PrimeTables.getPrimeKeysAndTitles();
+			break;
+			case "maximumRefinement":
+				dynamicDataForPrerequisiteTarget = PrimeTables.getRefinementKeysAndTitles();
+			break;
+			case "maximumStat":
+				dynamicDataForPrerequisiteTarget = PrimeTables.cloneAndTranslateTables("perks.actorStatLookup");
+			break;
+			case "otherPerk":
+				dynamicDataForPrerequisiteTarget = PrimeTables.getItemKeysAndTitlesByType("perk");
+			break;			
+			default:
+				console.error("Unknown perk type of '" + perkPrereqiusiteType + "' found in getDynamicDataForPrerequisiteTarget().");
+			break;
+		}
+	
+		return dynamicDataForPrerequisiteTarget;
 	}
 
 	cloneAndAddSelectedState(whatRawOptionsArray, whatSelectionData)
 	{
 		let checkboxGroupObject =
 		{
-			optionsData: $.extend([], whatRawOptionsArray),
+			optionsData: $.extend(true, [], whatRawOptionsArray),
 			selectedItems: []
 		}
 
@@ -145,7 +265,7 @@ export class PrimeItemSheet extends ItemSheet
 	{
 		for (let key in data.data.ranges)
 		{
-			data.data.ranges[key].title = data.tables.weapons.rangeCatergories[key];
+			data.data.ranges[key].title = data.itemTables.weapons.rangeCatergories[key];
 		}
 	}
 
@@ -235,6 +355,11 @@ export class PrimeItemSheet extends ItemSheet
 		const groupTitles = html.find(".checkboxGroupTitle");
 		groupTitles.click(this.toggleCheckboxGroup.bind(this));
 
+		html.find(".perkEffectFormElement").change(this.perkEffectFormElementChanged.bind(this));
+
+		html.find(".removeEffectIcon").click(this.removeEffect.bind(this));
+		html.find(".addEffectIcon").click(this.addBlankEffect.bind(this));
+
 		// Everything below here is only needed if the sheet is editable
 		if (!this.options.editable) return;
 
@@ -266,5 +391,62 @@ export class PrimeItemSheet extends ItemSheet
 			targetGroupWrapper.removeClass("expanded");
 			targetGroupWrapper.addClass("collapsed");
 		}
+	}
+
+	
+	async perkEffectFormElementChanged(event)
+	{
+		event.preventDefault();
+		event.stopPropagation();
+
+		const formElement = $(event.delegateTarget);
+		const effectID = formElement.data("effect-id");
+		const flagKey = formElement.data("effect-flag-key");
+
+		const updateData = {flags:{}};
+		updateData.flags[flagKey] = formElement.val();
+
+		// If we've changed effect subtype, reset the data path as it will be meaningless.
+		if (flagKey == "effectSubType")
+		{
+			updateData.flags.path = "";
+		}
+
+		var effectToUpdate = await this.item.effects.get(effectID);
+		var result = await effectToUpdate.update(updateData);
+
+		console.log("Perk update result: ", result);
+	}
+
+	async removeEffect(event)
+	{
+		event.preventDefault();
+		const removeIcon = $(event.delegateTarget);
+		const effectID = removeIcon.data("effect-id");
+
+		var effectToDelete = this.item.effects.get(effectID);
+
+		effectToDelete.delete();
+	}
+	
+	async addBlankEffect(event)
+	{
+		event.preventDefault();
+		const removeIcon = $(event.delegateTarget);
+		const effectKey = removeIcon.data("effect-type");
+
+		var result = await ActiveEffect.create({
+			label: "Perk effect",
+			icon: "icons/svg/aura.svg",
+			origin: this.item.uuid,
+			flags: 
+			{
+				"effectType": effectKey,
+				"effectSubType": "situationalPrime",
+				"path": "end",
+				"value": 0,
+			}
+		}, this.item).create();
+		console.log("Created? Result: ", result);
 	}
 }

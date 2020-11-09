@@ -428,7 +428,8 @@
 		"templates":{
 			"base":
 			{
-				"description":""
+				"description":"",
+				"setting":""
 			},
 
 			"physicalItem":
@@ -448,16 +449,6 @@
 			{
 				"isMasterCraft": false,
 				"mastercraftTraits": []
-			},
-
-			"actorFeature":
-			{
-				"cost":
-				{
-					"attributePath":"",
-					"amount": 0
-				},
-				"prerequisites": []
 			},
 
 			"metadata":
@@ -550,13 +541,40 @@
 			"templates":["base", "physicalItem", "armour", "mastercratable", "valuable", "metadata"],
 			"notes": ""
 		},
+
 		"perk":
 		{
-			"templates": ["base", "actorFeature", "metadata"]			
+			"templates": ["base", "metadata"],
+
+			"isCollapsed": false,
+			
+			"bonuses":[],
+
+			"cost":
+			{
+				"attributeType": "",
+				"amount": 0
+			},
+
+			"prerequisites": []
 		}
 	},
 	"Tables":
 	{
+		"core":
+		{
+			"settings":
+			[
+				{
+					"key": "Prime / Possession",
+					"title": "PRIME.core_settings_prime_possession"
+				},
+				{
+					"key": "Aethernauts",
+					"title": "PRIME.core_settings_aethernauts"
+				}
+			]
+		},
 		"items":
 		{
 			"rarity":
@@ -941,6 +959,134 @@
 					}
 				]
 			}
+		},
+		
+		"perks":
+		{
+			"bonusTypes":
+			[
+				{
+					"key": "situationalPrime",
+					"title": "PRIME.perk_type_situational_prime"
+				},
+				{
+					"key": "situationalRefinement",
+					"title": "PRIME.perk_type_situational_refinement"
+				},
+				{
+					"key": "extraAction",
+					"title": "PRIME.perk_type_extra_action"
+				},
+				{
+					"key": "actionPointBonus",
+					"title": "PRIME.perk_type_action_cost_reduction"
+				},
+				{
+					"key": "actorStatBonus",
+					"title": "PRIME.perk_type_actor_stat_bonus"
+				},
+				{
+					"key": "externalStatBonus",
+					"title": "PRIME.perk_type_external_stat_bonus"
+				},
+				{
+					"key": "misc",
+					"title": "PRIME.perk_type_misc"
+				}
+			],
+
+			"costs":
+			[
+				{
+					"key": "perkCostSoul",
+					"title": "PRIME.perk_cost_soul"
+				},
+				{
+					"key": "perkCostXP",
+					"title": "PRIME.perk_cost_xp"
+				}
+			],
+
+			"prerequisiteTypes":
+			[
+				{
+					"key": "minimumPrime",
+					"title": "PRIME.perk_prerequisite_minimum_prime"
+				},
+				{
+					"key": "minimumRefinement",
+					"title": "PRIME.perk_prerequisite_minimum_refinement"
+				},
+				{
+					"key": "minimumStat",
+					"title": "PRIME.perk_prerequisite_minimum_stat"
+				},
+				{
+					"key": "maximumPrime",
+					"title": "PRIME.perk_prerequisite_maximum_prime"
+				},
+				{
+					"key": "maximumRefinement",
+					"title": "PRIME.perk_prerequisite_maximum_refinement"
+				},
+				{
+					"key": "maximumStat",
+					"title": "PRIME.perk_prerequisite_maximum_stat"
+				},
+				{
+					"key": "otherPerk",
+					"title": "PRIME.perk_prerequisite_other_perk_purchased"
+				}
+				
+			],
+
+			"actorStatLookup":
+			[
+				{
+					"key": "actionPoints.default",
+					"title": "PRIME.perk_actor_stat_bonus_base_ap_bonus"
+				},
+				{
+					"key": "actionPoints.max",
+					"title": "PRIME.perk_actor_stat_bonus_max_ap_bonus"
+				},
+				{
+					"key": "actionPoints.perRound",
+					"title": "PRIME.perk_actor_stat_bonus_per_round_ap_bonus"
+				},
+				{
+					"key": "health.wounds.max",
+					"title": "PRIME.perk_actor_stat_bonus_max_wounds"
+				},
+				{
+					"key": "health.resilience.max",
+					"title": "PRIME.perk_actor_stat_bonus_max_resilience"
+				},
+				{
+					"key": "armour.protection.max",
+					"title": "PRIME.perk_actor_stat_bonus_max_protection"
+				},
+				{
+					"key": "armour.resilience.max",
+					"title": "PRIME.perk_actor_stat_bonus_max_armour_resilience"
+				}
+			],
+
+			"externalStatLookup":
+			[
+				{
+					"key": "null",
+					"title": "Please write in description"
+				}
+			],
+			
+			"miscBonusLookup":
+			[
+				{
+					"key": "null",
+					"title": "Please write in description"
+				}
+			]
 		}
 	}
 }

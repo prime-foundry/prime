@@ -274,3 +274,7 @@ table td.center
 	text-align: center;
 }
 
+.rightAlign
+{
+	text-align: right;
+}

@@ -14,7 +14,6 @@ Hooks.once('init', async function() {
     rollItemMacro
   };
 
-  await PrimeHandlebarsPartials.loadPartials();
 
   /**
    * Set an initiative formula for the system
@@ -54,6 +53,7 @@ Hooks.once('init', async function() {
 Hooks.once("ready", async function() {
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
   Hooks.on("hotbarDrop", (bar, data, slot) => createBoilerplateMacro(data, slot));
+  await PrimeHandlebarsPartials.loadPartials();
 });
 
 /* -------------------------------------------- */

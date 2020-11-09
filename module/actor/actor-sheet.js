@@ -1,3 +1,5 @@
+import { PrimeTables } from "../prime_tables.js";
+
 /**
  * Extend the basic ActorSheet with some very simple modifications
  * @extends {ActorSheet}
@@ -61,297 +63,17 @@ export class PrimePCActorSheet extends ActorSheet
 	{
 		const data = super.getData();
 		data.dtypes = ["String", "Number", "Boolean"];
-		for (let [key, entry] of Object.entries(data.data.primes))
-		{
-			entry.title = game.i18n.localize(entry.title);
-		}
-		for (let [key, entry] of Object.entries(data.data.refinements))
-		{
-			entry.title = game.i18n.localize(entry.title);
-		}
 
-		data.currentOwners = this.getCurrentOwners(data.actor.permission);
-
-		data.combinedResilience = data.data.health.resilience.value + data.data.armour.resilience.value;
+		//var a = data.actor.permission
+		data.currentOwners = this.entity.getCurrentOwners();
+		data.combinedResilience = this.entity.getCombinedResilience();
+		data.typeSorted = this.entity.getTypeSortedPrimesAndRefinements();
 		
-		data.data.typeSorted = this.getTypeSortedPrimesAndRefinements(data);
-		
-		data.tables = this.getItemTables();
+		data.tables = PrimeTables.cloneAndTranslateTables("items");
 
-		this.processItems(data);
-
-		// Prepare items.
-		if (this.actor.data.type == "character")
-		{
-			this._prepareCharacterItems(data);
-		}
+		data.filteredItems = this.entity.getProcessedItems(data);
 
 		return data;
-	}
-
-	getCurrentOwners(whatPermissions)
-	{
-		let ownerNames = [];
-		let currUser;
-		for (var key in whatPermissions)
-		{
-			currUser = game.users.get(key)
-			if (key != "default" && whatPermissions[key] == 3 && !currUser.isGM)
-			{
-				ownerNames.push(currUser.name);
-			}
-		}
-
-		if (ownerNames.length == 0)
-		{
-			ownerNames.push("Not assigned");
-		}
-
-		return ownerNames.join(", ");
-	}
-
-	getTypeSortedPrimesAndRefinements(sourceData)
-	{
-		var sortedData = {};
-		var currEntry = null;
-		for (var key in sourceData.data.primes)
-		{
-			currEntry = sourceData.data.primes[key];
-			if (!sortedData[currEntry.type])
-			{
-				let localisedTitle = game.i18n.localize("PRIME.refinment_type_" + currEntry.type);
-				sortedData[currEntry.type] =
-				{
-					primes: {},
-					refinements: {},
-					title: localisedTitle
-				}
-			}
-			sortedData[currEntry.type].primes[key] = currEntry;
-		}
-		for (var key in sourceData.data.refinements)
-		{
-			currEntry = sourceData.data.refinements[key];
-			sortedData[currEntry.type].refinements[key] = currEntry;
-		}
-		return sortedData;
-	}
-
-	getItemTables()
-	{
-		var _itemTables = $.extend({}, game.system.template.Tables.items);
-		this.addTranslations(_itemTables);
-		return _itemTables;
-	}
-
-	addTranslations(whatData)
-	{
-		for (var key in whatData)
-		{
-			if (key == "title" || key == "description")
-			{
-				var translation = game.i18n.localize(whatData[key])
-				whatData[key] = translation;
-			}
-			if (typeof whatData[key] === 'object' && whatData[key] !== null)
-			{
-				this.addTranslations(whatData[key]);
-			}
-		}
-	}
-
-	processItems(data)
-	{
-		data.filteredItems = this.filterItemsByType(data);
-	}
-
-	filterItemsByType(data)
-	{
-		const itemData = data.items;
-		var itemTypes = {}
-		var count = 0;
-		while (count < itemData.length)
-		{
-			let currItem = itemData[count];
-			if (!itemTypes[currItem.type])
-			{
-				itemTypes[currItem.type] = [];
-			}
-
-			currItem = this.processItem(currItem, data.tables);
-
-			itemTypes[currItem.type].push(currItem);
-			count++;
-		}
-		return itemTypes;
-	}
-
-	processItem(itemData, tables)
-	{
-		switch (itemData.type)
-		{
-			case "item":
-			break;
-			case "melee-weapon":
-				itemData = this.processWeapon(itemData, "melee", tables);
-			break;
-			case "ranged-weapon":
-				itemData = this.processWeapon(itemData, "ranged", tables);
-			break;
-			case "perk":
-				break;
-			case "armour":
-				itemData = this.processArmour(itemData, tables);
-			break;
-			default:
-				console.warn("Unknown item type of '" + itemData.type + "' found in processItem().");
-			break;
-		}
-		return itemData;
-	}
-
-	processWeapon(weaponData, catergory, tables)
-	{
-		// Needs to come first as we switch the type to it's title value later.
-		weaponData.data.attackIcon = this.getAttackIconHTML(catergory, weaponData.data.weaponType);
-
-
-		weaponData.data.weaponSize = this.getTitleFromTableByKey(weaponData.data.weaponSize, tables.weapons.sizes);
-		weaponData.data.weaponType = this.getTitleFromTableByKey(weaponData.data.weaponType, tables.weapons[catergory + "Types"]);
-
-		weaponData.data.rarity = this.getTitleFromTableByKey(weaponData.data.rarity, tables.rarity);
-
-		weaponData.data.woundConditions = this.getTitlesFromTableByCheckboxGroupArray(weaponData.data.woundConditions, tables.weapons.woundConditions);
-		weaponData.data.keywords = this.getTitlesFromTableByCheckboxGroupArray(weaponData.data.keywords, tables.weapons.keywords);
-		weaponData.data.customActions = this.getTitlesFromTableByCheckboxGroupArray(weaponData.data.customActions, tables.weapons[catergory + "WeaponActions"]);
-
-
-		if (catergory == "ranged")
-		{
-			weaponData.data.ammo.type = this.getTitleFromTableByKey(weaponData.data.ammo.type, tables.weapons.ammoTypes);
-		}
-
-		return weaponData
-	}
-
-	processArmour(armourData, tables)
-	{
-		armourData.data.keywords = this.getTitlesFromTableByCheckboxGroupArray(armourData.data.keywords, tables.armour.keywords);
-		armourData.data.untrainedPenalty = this.getTitlesFromTableByCheckboxGroupArray(armourData.data.untrainedPenalty, tables.armour.untrainedPenalities);
-
-		return armourData;
-	}
-
-	getTitleFromTableByKey(key, table)
-	{
-		var count = 0;
-		while (count < table.length)
-		{
-			let entry = table[count];
-			if (entry.key == key)
-			{
-				return entry.title;
-			}
-			count++;
-		}
-		console.error("ERROR: Unable to find an entry with the key of '" + key + "' in: ", table);
-		return "";
-	}
-
-	getTitlesFromTableByCheckboxGroupArray(checkboxGroupArray, table)
-	{
-		var titlesArray = [];
-
-		if (checkboxGroupArray.length != table.length)
-		{
-			console.warn("WARNING: Mismatched lengths between checkbox group array and data table.", checkboxGroupArray, table);
-		}
-
-		var count = 0;
-		while (count < checkboxGroupArray.length)
-		{
-			if (checkboxGroupArray[count])
-			{
-				let entry = table[count];
-				titlesArray.push("<span title='" + entry.description + "' class='hasTooltip'>" + entry.title + "</span>");
-			}
-			count++;
-		}
-
-		if (titlesArray.length == 0)
-		{
-			titlesArray.push("None");
-		}
-		return titlesArray.join(", ");
-	}
-
-	getAttackIconHTML(primaryType, subType)
-	{
-		switch (primaryType)
-		{
-			case "melee":
-				var attackIcon = this.getMeleeAttackIcon(subType);
-			break;
-			case "ranged":
-				var attackIcon = this.getRangedAttackIcon(subType);
-			break;
-			default:
-				console.warn("Unknown weapon type of '" + primaryType + "' found in getAttackIconHTML().");
-				var attackIcon = '<i class="game-icon game-icon-fist icon-md"></i>';
-			break;
-		}
-		return attackIcon;
-	}
-
-	getMeleeAttackIcon(weaponType)
-	{
-		switch (weaponType)
-		{
-			case "blunt":
-				var attackIcon = '<i class="game-icon game-icon-flanged-mace icon-md"></i>';
-			break;
-			case "sword":
-				var attackIcon = '<i class="game-icon game-icon-bloody-sword icon-md"></i>';
-			break;
-			case "dagger":
-				var attackIcon = '<i class="game-icon game-icon-curvy-knife icon-md"></i>';
-			break;
-			case "axe":
-				var attackIcon = '<i class="game-icon game-icon-sharp-axe icon-md"></i>';
-			break;
-			case "pole":
-				var attackIcon = '<i class="game-icon game-icon-trident icon-md"></i>';
-			break;
-			default:
-				console.warn("Unknown weapon type of '" + weaponType + "' found in getAttackIconHTML().");
-				var attackIcon = '<i class="game-icon game-icon-fist icon-md"></i>';
-			break;
-		}
-		return attackIcon;
-	}
-
-	getRangedAttackIcon(weaponType)
-	{
-		switch (weaponType)
-		{
-			case "bow":
-				var attackIcon = '<i class="game-icon game-icon-pocket-bow icon-md"></i>';
-			break;
-			case "mechanical":
-				var attackIcon = '<i class="game-icon game-icon-crossbow icon-md"></i>';
-			break;
-			case "thrown":
-				var attackIcon = '<i class="game-icon game-icon-thrown-spear icon-md"></i>';
-			break;
-			case "blowpipe":
-				var attackIcon = '<i class="game-icon game-icon-straight-pipe icon-md"></i>';
-			break;
-			default:
-				console.warn("Unknown weapon type of '" + weaponType + "' found in getAttackIconHTML().");
-				var attackIcon = '<i class="game-icon game-icon-fist icon-md"></i>';
-			break;
-		}
-		return attackIcon;
 	}
 
 	toggleSheetEditMode()
@@ -676,69 +398,6 @@ export class PrimePCActorSheet extends ActorSheet
 		return bestArmour;		
 	}
 	
-
-	/**
-	 * Organize and classify Items for Character sheets.
-	 *
-	 * @param {Object} actorData The actor to prepare.
-	 *
-	 * @return {undefined}
-	 */
-	_prepareCharacterItems(sheetData)
-	{
-		const actorData = sheetData.actor;
-
-		// Initialize containers.
-		const gear = [];
-		const features = [];
-
-		const spells = {
-			0: [],
-			1: [],
-			2: [],
-			3: [],
-			4: [],
-			5: [],
-			6: [],
-			7: [],
-			8: [],
-			9: [],
-		};
-
-		// Iterate through items, allocating to containers
-		// let totalWeight = 0;
-		for (let i of sheetData.items)
-		{
-			let item = i.data;
-			i.img = i.img || DEFAULT_TOKEN;
-			// Append to gear.
-			if (i.type === "item")
-			{
-				gear.push(i);
-			}
-			// Append to features.
-			else if (i.type === "feature")
-			{
-				features.push(i);
-			}
-			// Append to spells.
-			else if (i.type === "spell")
-			{
-				if (i.data.spellLevel != undefined)
-				{
-					spells[i.data.spellLevel].push(i);
-				}
-			}
-		}
-
-		// Assign and return
-		actorData.gear = gear;
-		actorData.features = features;
-		actorData.spells = spells;
-	}
-
-	/* -------------------------------------------- */
-
 	/** @override */
 	activateListeners(html)
 	{
@@ -772,33 +431,10 @@ export class PrimePCActorSheet extends ActorSheet
 		resizeHandle.click(this.resizeUpdateEnd.bind(this));
 
 		html.find(".deleteItemIcon").click(this.deleteItem.bind(this));
-
 		html.find(".itemTitle").click(this.showOwnedItem.bind(this));
 
 		html.find(".attackWithWeapon").click(this.attackWithWeapon.bind(this));
-
 		html.find(".armourWornCheckbox").click(this.updateWornArmour.bind(this));
-
-		// Previous event listeners below here
-		// // Update Inventory Item
-		// html.find(".item-edit").click((ev) =>
-		// {
-		// 	const li = $(ev.currentTarget).parents(".item");
-		// 	const item = this.actor.getOwnedItem(li.data("itemId"));
-		// 	item.sheet.render(true);
-		// });
-
-		// // Drag events for macros.
-		// if (this.actor.owner)
-		// {
-		// 	let handler = (ev) => this._onDragItemStart(ev);
-		// 	html.find("li.item").each((i, li) =>
-		// 	{
-		// 		if (li.classList.contains("inventory-header")) return;
-		// 		li.setAttribute("draggable", true);
-		// 		li.addEventListener("dragstart", handler, false);
-		// 	});
-		// }
 
 		this.postActivateListeners(html);
 	}
@@ -819,57 +455,6 @@ export class PrimePCActorSheet extends ActorSheet
 		{
 			data.data.actionPoints.lastTotal = data.data.actionPoints.value;
 			var result = await this.actor.update(data.actor, {render: false});
-		}
-	}
-
-
-	/**
-	 * Handle creating a new Owned Item for the actor using initial data defined in the HTML dataset
-	 * @param {Event} event   The originating click event
-	 * @private
-	 */
-	_onItemCreate(event)
-	{
-		event.preventDefault();
-		const header = event.currentTarget;
-		// Get the type of item to create.
-		const type = header.dataset.type;
-		// Grab any data associated with this control.
-		const data = duplicate(header.dataset);
-		// Initialize a default name.
-		const name = `New ${type.capitalize()}`;
-		// Prepare the item object.
-		const itemData = {
-			name: name,
-			type: type,
-			data: data,
-		};
-		// Remove the type from the dataset since it's in the itemData.type prop.
-		delete itemData.data["type"];
-
-		// Finally, create the item!
-		return this.actor.createOwnedItem(itemData);
-	}
-
-	/**
-	 * Handle clickable rolls.
-	 * @param {Event} event   The originating click event
-	 * @private
-	 */
-	_onRoll(event)
-	{
-		event.preventDefault();
-		const element = event.currentTarget;
-		const dataset = element.dataset;
-
-		if (dataset.roll)
-		{
-			let roll = new Roll(dataset.roll, this.actor.data.data);
-			let label = dataset.label ? `Rolling ${dataset.label}` : "";
-			roll.roll().toMessage({
-				speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-				flavor: label,
-			});
 		}
 	}
 }
