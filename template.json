@@ -548,16 +548,7 @@
 
 			"isCollapsed": false,
 			
-			"bonuses":
-			{
-				"0":
-				{
-					"type": "situationalPrime",
-					"path": "",
-					"amount": 0,
-					"deleted": false
-				}
-			},
+			"bonuses":[],
 
 			"cost":
 			{
@@ -565,16 +556,7 @@
 				"amount": 0
 			},
 
-			"prerequisites":
-			{
-				"0":
-				{
-					"type": "situationalPrime",
-					"path": "",
-					"amount": 0,
-					"deleted": false
-				}
-			}
+			"prerequisites": []
 		}
 	},
 	"Tables":
@@ -981,7 +963,7 @@
 		
 		"perks":
 		{
-			"types":
+			"bonusTypes":
 			[
 				{
 					"key": "situationalPrime",
@@ -1025,7 +1007,7 @@
 				}
 			],
 
-			"prerequisiteLookup":
+			"prerequisiteTypes":
 			[
 				{
 					"key": "minimumPrime",
@@ -1050,7 +1032,12 @@
 				{
 					"key": "maximumStat",
 					"title": "PRIME.perk_prerequisite_maximum_stat"
+				},
+				{
+					"key": "otherPerk",
+					"title": "PRIME.perk_prerequisite_other_perk_purchased"
 				}
+				
 			],
 
 			"actorStatLookup":
