@@ -263,10 +263,9 @@
 	content: "+"
 }
 .primeDiceModiferTotal {
-    border-top: 1px solid black;
     /* background-color: rgba(245, 245, 245, 0.4); */
     /* border-radius: 8px; */
-    margin: 10px 0 0 10px;
+    margin: 0 10px;
     padding: 3px;
     display: inline-flex;
     width: 100%;
@@ -282,6 +281,8 @@
 }
 
 .totalBox {
+    margin-top: 8px;
+    border-top: 1px solid black;
     display: flex;
     align-items: baseline;
     justify-content: flex-start;
