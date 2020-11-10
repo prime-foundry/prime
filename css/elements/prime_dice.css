@@ -263,9 +263,9 @@
 	content: "+"
 }
 .primeDiceModiferTotal {
-    /* border-top: 1px solid black; */
-    background-color: rgba(245, 245, 245, 0.7);
-    border-radius: 8px;
+    border-top: 1px solid black;
+    /* background-color: rgba(245, 245, 245, 0.4); */
+    /* border-radius: 8px; */
     margin: 10px 0 0 10px;
     padding: 3px;
     display: inline-flex;
