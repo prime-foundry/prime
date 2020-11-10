@@ -38,6 +38,7 @@ export class PrimeItemSheet extends ItemSheet
 		data.itemTables = PrimeTables.cloneAndTranslateTables("items");
 		data.coreTables = PrimeTables.cloneAndTranslateTables("core");
 		data.perkTables = PrimeTables.cloneAndTranslateTables("perks");
+		data.actionTables = PrimeTables.cloneAndTranslateTables("actions");
 		this.addItemTypeData(data);
 		data.checkboxGroupStates = this.checkboxGroupStates;
 		//data.allowAdditionalBonuses = this.findDeletedBonus();
@@ -65,6 +66,9 @@ export class PrimeItemSheet extends ItemSheet
 			case "perk":
 				data.bonuses = this.getEffectsRenderableData("bonus");
 				data.prerequisites = this.getEffectsRenderableData("prerequisite");
+			break;
+			case "action":
+				data.effects = this.getEffectsRenderableData("actionEffect");
 			break;
 			default:
 				console.warn("Unknown item type of '" + data.item.type + "' found in addItemTypeData().");
@@ -116,6 +120,9 @@ export class PrimeItemSheet extends ItemSheet
 			case "prerequisite":
 				var renderableData = this.getRenderablePrerequiristeDataFromEffect(whatEffect, matchingEffectsCount)
 			break;
+			case "actionEffect":
+				var renderableData = this.getRenderableActionDataFromEffect(whatEffect, matchingEffectsCount)
+			break;
 			default:
 				console.warn("Unknown item type of '" + targetEffectType + "' found in getRenderableDataFromEffect(). Effect: ". whatEffect);
 			break;
@@ -159,7 +166,7 @@ export class PrimeItemSheet extends ItemSheet
 				dynamicDataForBonusTarget = PrimeTables.getActionKeysAndTitles();
 			break;
 			case "actorStatBonus":
-				dynamicDataForBonusTarget = PrimeTables.cloneAndTranslateTables("perks.actorStatLookup");
+				dynamicDataForBonusTarget = PrimeTables.cloneAndTranslateTables("actor.actorStatLookup");
 			break;
 			case "externalStatBonus":
 				dynamicDataForBonusTarget = PrimeTables.cloneAndTranslateTables("perks.externalStatLookup");
@@ -205,7 +212,7 @@ export class PrimeItemSheet extends ItemSheet
 				dynamicDataForPrerequisiteTarget = PrimeTables.getRefinementKeysAndTitles();
 			break;
 			case "minimumStat":
-				dynamicDataForPrerequisiteTarget = PrimeTables.cloneAndTranslateTables("perks.actorStatLookup");
+				dynamicDataForPrerequisiteTarget = PrimeTables.cloneAndTranslateTables("actor.actorStatLookup");
 			break;
 			case "maximumPrime":
 				dynamicDataForPrerequisiteTarget = PrimeTables.getPrimeKeysAndTitles();
@@ -214,7 +221,7 @@ export class PrimeItemSheet extends ItemSheet
 				dynamicDataForPrerequisiteTarget = PrimeTables.getRefinementKeysAndTitles();
 			break;
 			case "maximumStat":
-				dynamicDataForPrerequisiteTarget = PrimeTables.cloneAndTranslateTables("perks.actorStatLookup");
+				dynamicDataForPrerequisiteTarget = PrimeTables.cloneAndTranslateTables("actor.actorStatLookup");
 			break;
 			case "otherPerk":
 				dynamicDataForPrerequisiteTarget = PrimeTables.getItemKeysAndTitlesByType("perk");
@@ -225,6 +232,48 @@ export class PrimeItemSheet extends ItemSheet
 		}
 	
 		return dynamicDataForPrerequisiteTarget;
+	}
+
+	getRenderableActionDataFromEffect(whatEffect, matchingEffectsCount)
+	{
+		var dynamicDataForActionTarget = this.getDynamicDataForActionTarget(whatEffect.data.flags.effectSubType);
+
+		var renderableEffectData =
+		{
+			effectID: whatEffect.id,
+			effectSubType: whatEffect.data.flags.effectSubType,
+			dynamicDataForEffectTarget: dynamicDataForActionTarget,
+			path: whatEffect.data.flags.path,
+			value: whatEffect.data.flags.value,
+			actualCount: matchingEffectsCount
+		}
+
+		return renderableEffectData;
+	}
+
+	getDynamicDataForActionTarget(actionSubType)
+	{
+		var dynamicDataForActionTarget = [];
+		switch (actionSubType)
+		{
+			case "move":
+			case "meleeAttack":
+			case "rangedAttack":
+			case "meleeBlock":
+			case "rangedBlock":
+			case "magic":
+			case "misc":
+				dynamicDataForActionTarget = PrimeTables.cloneAndTranslateTables("actions.miscBonusLookup");
+			break;
+			case "gainPoints":
+				dynamicDataForActionTarget = PrimeTables.cloneAndTranslateTables("actor.actorStatLookup");
+			break;
+			default:
+				console.error("Unknown perk type of '" + actionSubType + "' found in getDynamicDataForActionTarget().");
+			break;
+		}
+	
+		return dynamicDataForActionTarget;
 	}
 
 	cloneAndAddSelectedState(whatRawOptionsArray, whatSelectionData)
@@ -355,7 +404,7 @@ export class PrimeItemSheet extends ItemSheet
 		const groupTitles = html.find(".checkboxGroupTitle");
 		groupTitles.click(this.toggleCheckboxGroup.bind(this));
 
-		html.find(".perkEffectFormElement").change(this.perkEffectFormElementChanged.bind(this));
+		html.find(".effectFormElement").change(this.perkEffectFormElementChanged.bind(this));
 
 		html.find(".removeEffectIcon").click(this.removeEffect.bind(this));
 		html.find(".addEffectIcon").click(this.addBlankEffect.bind(this));
@@ -433,20 +482,49 @@ export class PrimeItemSheet extends ItemSheet
 	{
 		event.preventDefault();
 		const removeIcon = $(event.delegateTarget);
-		const effectKey = removeIcon.data("effect-type");
+		const effectType = removeIcon.data("effect-type");
 
-		var result = await ActiveEffect.create({
-			label: "Perk effect",
+		var effectData = this.getBlankEffectByType(effectType);
+
+		var result = await ActiveEffect.create(effectData, this.item).create();
+		console.log("Created? Result: ", result);
+	}
+
+	getBlankEffectByType(effectType)
+	{
+		var baseEffectData =
+		{
 			icon: "icons/svg/aura.svg",
 			origin: this.item.uuid,
 			flags: 
 			{
-				"effectType": effectKey,
-				"effectSubType": "situationalPrime",
-				"path": "end",
+				"effectType": effectType,
 				"value": 0,
 			}
-		}, this.item).create();
-		console.log("Created? Result: ", result);
+		}
+
+		switch (effectType)
+		{
+			case "bonus":
+				baseEffectData.label = "Perk effect";
+				baseEffectData.flags.effectSubType = "situationalPrime";
+				baseEffectData.flags.path = "end";
+			break;
+			case "prerequisite":
+				baseEffectData.label = "Perk prerequisite";
+				baseEffectData.flags.effectSubType = "situationalPrime";
+				baseEffectData.flags.path = "end";
+			break;
+			case "actionEffect":
+				baseEffectData.label = "Action effect";
+				baseEffectData.flags.effectSubType = "move";
+				baseEffectData.flags.path = "null";
+			break;
+			default:
+				console.error("ERROR: Unknown effect type of '" + effectType + "' found in getBlankEffectByType().");
+			break;
+		}
+
+		return baseEffectData;
 	}
 }

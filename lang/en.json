@@ -137,13 +137,12 @@
 	"PRIME.diceRoller.title" : "Prime Dice",
 	"PRIME.diceRoller.help" : "Select a Prime, a Prime + Refinement, add a base value or simply press Roll!",
 
-
 	"ITEM.TypeItem" : "General item",
 	"ITEM.TypeMelee-weapon" : "Melee Weapon",
 	"ITEM.TypeRanged-weapon" : "Ranged Weapon",
 	"ITEM.TypeArmour" : "Armour",
 	"ITEM.TypePerk" : "Perk",
-
+	"ITEM.TypeAction" : "Action",
 	
 	"PRIME.weapons_ranges" : "Weapon ranges",
 	"PRIME.weapons_ranges_point_blank" : "Point blank",
@@ -152,7 +151,6 @@
 	"PRIME.weapons_ranges_long" : "Long",
 	"PRIME.weapons_ranges_extreme" : "Extreme",
 
-	
 	"PRIME.item_rarity" : "Rarity",
 	"PRIME.item_rarity_common" : "Common",
 	"PRIME.item_rarity_uncommon" : "Uncommon",
@@ -331,7 +329,26 @@
 	"PRIME.perk_actor_stat_bonus_max_ap_bonus": "Maximum action point total",
 	"PRIME.perk_actor_stat_bonus_per_round_ap_bonus": "Action points gained per round",
 	"PRIME.perk_actor_stat_bonus_max_wounds": "Maximum wounds",
-	"PRIME.perk_actor_stat_bonus_max_resilience": "Health Resilience",
+	"PRIME.perk_actor_stat_bonus_max_resilience": "Health - Resilience",
 	"PRIME.perk_actor_stat_bonus_max_protection": "Armour protection",
-	"PRIME.perk_actor_stat_bonus_max_armour_resilience": "Armour resilience"
+	"PRIME.perk_actor_stat_bonus_max_armour_resilience": "Armour - Resilience",
+
+
+	"PRIME.action_type_major_title": "Major",
+	"PRIME.action_type_major_description": "Only one major action per tick",
+	"PRIME.action_type_minor_title": "Minor",
+	"PRIME.action_type_minor_description": "No limit to how may times the action can be used in a tick",
+	"PRIME.action_type_reaction_title": "Reaction",
+	"PRIME.action_type_reaction_description": "Can be used in response to other actions with no limit to number of uses",
+	"PRIME.action_type_combo_title": "Combo",
+	"PRIME.action_type_combo_description": "Must be used in combination with a major action",
+
+	"PRIME.action_effect_type_move": "Movement",
+	"PRIME.action_effect_type_melee_attack": "Attack - Melee",
+	"PRIME.action_effect_type_ranged_attack": "Attack - Ranged",
+	"PRIME.action_effect_type_melee_block": "Block - Melee",
+	"PRIME.action_effect_type_ranged_block": "Block - Ranged",
+	"PRIME.action_effect_type_magic": "Magic",
+	"PRIME.action_effect_type_gain_points": "Points gain",
+	"PRIME.action_effect_type_misc": "Miscellaneous"
 }
