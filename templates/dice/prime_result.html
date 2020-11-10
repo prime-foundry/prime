@@ -2,8 +2,8 @@
 			diceRolls: [{roll:1-20, prime: +/-X}...],
 			total: +/- X
 -->
-<div>
-	<div class="primeRollActor" style="background-color: {{this.userColour}};">{{this.actor}}</div>
+<div class="diceMessage">
+	<div class="primeRollActor" style="border-color: {{this.userColour}};">{{this.actor}}</div>
 	<div class="primeDiceWrapper">
 		{{#each diceRolls}}
 		<div class="primeDieWrapper {{primeDiceClass this.result}}">
@@ -18,5 +18,7 @@
 		{{/each}}
 	</div>
 	<div class="primeDiceModiferCalculation"><span class="calculation">{{calculation}}</span></div>
-	<div class="primeDiceModiferTotal {{primeDiceModiferClass total}}">Total: <span class="value">{{total}}</span></div>
+	<div class="totalBox"><span>Total:</span> <div class="primeDiceModiferTotal {{primeDiceModiferClass total}}">
+		<span class="value">{{total}}</span></div>
+	</div>
 </div>
