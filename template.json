@@ -584,6 +584,42 @@
 				}
 			]
 		},
+
+		"actor":
+		{
+			"actorStatLookup":
+			[
+				{
+					"key": "actionPoints.default",
+					"title": "PRIME.perk_actor_stat_bonus_base_ap_bonus"
+				},
+				{
+					"key": "actionPoints.max",
+					"title": "PRIME.perk_actor_stat_bonus_max_ap_bonus"
+				},
+				{
+					"key": "actionPoints.perRound",
+					"title": "PRIME.perk_actor_stat_bonus_per_round_ap_bonus"
+				},
+				{
+					"key": "health.wounds.max",
+					"title": "PRIME.perk_actor_stat_bonus_max_wounds"
+				},
+				{
+					"key": "health.resilience.max",
+					"title": "PRIME.perk_actor_stat_bonus_max_resilience"
+				},
+				{
+					"key": "armour.protection.max",
+					"title": "PRIME.perk_actor_stat_bonus_max_protection"
+				},
+				{
+					"key": "armour.resilience.max",
+					"title": "PRIME.perk_actor_stat_bonus_max_armour_resilience"
+				}
+			]
+		},
+
 		"items":
 		{
 			"rarity":
@@ -1049,38 +1085,6 @@
 				
 			],
 
-			"actorStatLookup":
-			[
-				{
-					"key": "actionPoints.default",
-					"title": "PRIME.perk_actor_stat_bonus_base_ap_bonus"
-				},
-				{
-					"key": "actionPoints.max",
-					"title": "PRIME.perk_actor_stat_bonus_max_ap_bonus"
-				},
-				{
-					"key": "actionPoints.perRound",
-					"title": "PRIME.perk_actor_stat_bonus_per_round_ap_bonus"
-				},
-				{
-					"key": "health.wounds.max",
-					"title": "PRIME.perk_actor_stat_bonus_max_wounds"
-				},
-				{
-					"key": "health.resilience.max",
-					"title": "PRIME.perk_actor_stat_bonus_max_resilience"
-				},
-				{
-					"key": "armour.protection.max",
-					"title": "PRIME.perk_actor_stat_bonus_max_protection"
-				},
-				{
-					"key": "armour.resilience.max",
-					"title": "PRIME.perk_actor_stat_bonus_max_armour_resilience"
-				}
-			],
-
 			"externalStatLookup":
 			[
 				{
@@ -1153,6 +1157,14 @@
 				{
 					"key": "misc",
 					"title": "PRIME.action_effect_type_misc"
+				}
+			],
+			
+			"miscBonusLookup":
+			[
+				{
+					"key": "null",
+					"title": "Please write in description"
 				}
 			]
 		}

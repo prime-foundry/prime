@@ -43,7 +43,7 @@
 	</div>
 
 	<div class="flexRow flexBetween flexWrap block infoBlock perkBonusesBlock">
-		<div class="blockTitle">Bonuses</div>
+		<div class="blockTitle">Effects</div>
 
 		<div class="bonusesWrapper">
 			{{#each bonuses as |bonus key|}}
@@ -52,7 +52,7 @@
 				{{log bonus}}
 				<div class="cell100 flexRow flexBetween verticalCenter">
 					<label for="data.bonuses.{{key}}.bonusType" class="resource-label cell30 rightAlign">Type:</label>
-					<select id="data.bonuses.{{key}}.bonusType" name="data.bonuses.{{key}}.bonusType" class="cell70 perkEffectFormElement" data-effect-id="{{effectID}}" data-effect-flag-key="effectSubType">
+					<select id="data.bonuses.{{key}}.bonusType" name="data.bonuses.{{key}}.bonusType" class="cell70 effectFormElement" data-effect-id="{{effectID}}" data-effect-flag-key="effectSubType">
 						{{#select bonus.effectSubType}}
 						{{#each ../perkTables.bonusTypes}}
 						<option value="{{this.key}}">{{this.title}}</option>
@@ -62,8 +62,8 @@
 				</div>
 
 				<div class="cell100 flexRow flexBetween verticalCenter">
-					<label for="data.bonuses.{{key}}.path" class="resource-label cell30 rightAlign">Bonus to:</label>
-					<select id="data.bonuses.{{key}}.path" name="data.bonuses.{{key}}.path" class="cell70 perkEffectFormElement" data-effect-id="{{effectID}}" data-effect-flag-key="path">
+					<label for="data.bonuses.{{key}}.path" class="resource-label cell30 rightAlign">Adjustment to:</label>
+					<select id="data.bonuses.{{key}}.path" name="data.bonuses.{{key}}.path" class="cell70 effectFormElement" data-effect-id="{{effectID}}" data-effect-flag-key="path">
 						{{#select bonus.path}}
 						{{#each bonus.dynamicDataForEffectTarget}}
 						<option value="{{this.key}}">{{this.title}}</option>
@@ -74,7 +74,7 @@
 
 				<div class="cell100 flexRow flexBetween verticalCenter lastRow">
 					<label for="data.bonuses.{{key}}.value" class="resource-label cell30 rightAlign">Value:</label>
-					<input type="text" id="data.bonuses.{{key}}.value" name="data.bonuses.{{key}}.value" class="cell70 perkEffectFormElement" data-effect-id="{{effectID}}" data-effect-flag-key="value" value="{{bonus.value}}" data-dtype="Number" data-min="-10" data-max="10"/>
+					<input type="text" id="data.bonuses.{{key}}.value" name="data.bonuses.{{key}}.value" class="cell70 effectFormElement" data-effect-id="{{effectID}}" data-effect-flag-key="value" value="{{bonus.value}}" data-dtype="Number" data-min="-10" data-max="10"/>
 				</div>
 
 				<a class="removeEffectIcon" data-effect-id="{{effectID}}"><i class="fas fa-trash"></i></a>
@@ -95,7 +95,7 @@
 
 				<div class="cell100 flexRow flexBetween verticalCenter">
 					<label for="data.prerequisites.{{key}}.prerequisiteType" class="resource-label cell30 rightAlign">Type:</label>
-					<select id="data.prerequisites.{{key}}.prerequisiteType" name="data.prerequisites.{{key}}.prerequisiteType" class="cell70 perkEffectFormElement" data-effect-id="{{effectID}}" data-effect-flag-key="effectSubType">
+					<select id="data.prerequisites.{{key}}.prerequisiteType" name="data.prerequisites.{{key}}.prerequisiteType" class="cell70 effectFormElement" data-effect-id="{{effectID}}" data-effect-flag-key="effectSubType">
 						{{#select prerequisite.effectSubType}}
 						{{#each ../perkTables.prerequisiteTypes}}
 						<option value="{{this.key}}">{{this.title}}</option>
@@ -106,7 +106,7 @@
 
 				<div class="cell100 flexRow flexBetween verticalCenter">
 					<label for="data.prerequisites.{{key}}.path" class="resource-label cell30 rightAlign">Prerequisite to:</label>
-					<select id="data.prerequisites.{{key}}.path" name="data.prerequisites.{{key}}.path" class="cell70 perkEffectFormElement" data-effect-id="{{effectID}}" data-effect-flag-key="path">
+					<select id="data.prerequisites.{{key}}.path" name="data.prerequisites.{{key}}.path" class="cell70 effectFormElement" data-effect-id="{{effectID}}" data-effect-flag-key="path">
 						{{#select prerequisite.path}}
 						{{#each prerequisite.dynamicDataForEffectTarget}}
 						<option value="{{this.key}}">{{this.title}}</option>
@@ -117,7 +117,7 @@
 
 				<div class="cell100 flexRow flexBetween verticalCenter lastRow">
 					<label for="data.prerequisites.{{key}}.value" class="resource-label cell30 rightAlign">Target value:</label>
-					<input type="text" id="data.prerequisites.{{key}}.value" name="data.prerequisites.{{key}}.value" class="cell70 perkEffectFormElement" data-effect-id="{{effectID}}" data-effect-flag-key="value" value="{{prerequisite.value}}" data-dtype="Number" data-min="-10" data-max="10"/>
+					<input type="text" id="data.prerequisites.{{key}}.value" name="data.prerequisites.{{key}}.value" class="cell70 effectFormElement" data-effect-id="{{effectID}}" data-effect-flag-key="value" value="{{prerequisite.value}}" data-dtype="Number" data-min="-10" data-max="10"/>
 				</div>
 
 				<a class="removeEffectIcon" data-effect-id="{{effectID}}"><i class="fas fa-trash"></i></a>

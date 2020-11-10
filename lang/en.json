@@ -137,13 +137,12 @@
 	"PRIME.diceRoller.title" : "Prime Dice",
 	"PRIME.diceRoller.help" : "Select a Prime, a Prime + Refinement, add a base value or simply press Roll!",
 
-
 	"ITEM.TypeItem" : "General item",
 	"ITEM.TypeMelee-weapon" : "Melee Weapon",
 	"ITEM.TypeRanged-weapon" : "Ranged Weapon",
 	"ITEM.TypeArmour" : "Armour",
 	"ITEM.TypePerk" : "Perk",
-
+	"ITEM.TypeAction" : "Action",
 	
 	"PRIME.weapons_ranges" : "Weapon ranges",
 	"PRIME.weapons_ranges_point_blank" : "Point blank",
@@ -152,7 +151,6 @@
 	"PRIME.weapons_ranges_long" : "Long",
 	"PRIME.weapons_ranges_extreme" : "Extreme",
 
-	
 	"PRIME.item_rarity" : "Rarity",
 	"PRIME.item_rarity_common" : "Common",
 	"PRIME.item_rarity_uncommon" : "Uncommon",
