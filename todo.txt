@@ -60,7 +60,9 @@ Ship sheet
 
 Items and perks could both add to a roll.
 
-Journal link to change scene
+Make "NPC" turrets as some sort of actor.
+
+/Journal link to change scene
 
 BUGS
 ======
