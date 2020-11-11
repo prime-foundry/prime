@@ -3,7 +3,9 @@
 			total: +/- X
 -->
 <div class="diceMessage">
-	<div class="primeRollActor" style="border-color: {{this.userColour}};">{{this.actor}}</div>
+	<div class="primeRollActor">
+		<div class="actorname">{{this.actor}}</div>
+		<img class="actorPortrait" style="border-top-color: {{this.userColour}};" src="{{this.actorImg}}"/></div>
 	<div class="primeDiceWrapper">
 		{{#each diceRolls}}
 		<div class="primeDieWrapper {{primeDiceClass this.result}}">

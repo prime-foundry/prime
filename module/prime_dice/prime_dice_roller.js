@@ -50,6 +50,7 @@ export class PRIME_DICE_ROLLER {
 		{
 			actor: diceParams.actor.name,
 			user: diceParams.user.name,
+			actorImg: diceParams.actor.img,
 			userColour: diceParams.user.data.color,
 			diceRolls: _primeResults,
 			totalDice: _result,

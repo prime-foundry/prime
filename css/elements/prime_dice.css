@@ -94,14 +94,7 @@
 	</div>
 	<div class="primeDiceModiferTotal {{primeDiceModiferClass total}}">Total: {{total}}</div>
 */
-.primeRollActor {
-    float: right;
-    clear: right;
-    font-size: 16px;
-    padding-bottom: 3px;
-    padding-left: 3px;
-    border-bottom: 3px solid black;
-}
+
 .primeDiceWrapper
 {
     margin-top: 5px;
@@ -293,4 +286,25 @@
 .primeDiceModiferCalculation {
     margin-top: 10px;
     color:  #444;
+}
+
+.primeRollActor {
+    float: right;
+    clear: right;
+    padding-bottom: 3px;
+    padding-left: 3px;
+    margin-bottom: 3px;
+}
+.primeRollActor .actorPortrait {
+    width: 50px;
+    border: 1px solid black;
+    border-top: 3px solid black;
+    background-color: gray;
+    float: right;
+    padding:3px;
+}
+
+.primeRollActor .actorname {
+    text-align: right;
+    font-size: 16px;
 }
