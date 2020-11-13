@@ -3,25 +3,13 @@
 	{{!-- Sheet Header --}}
 	<div class="metaDataContent flexColumn">
 		<div class="metaDataContentInner flexRow">
-			<div class="cell50 flexRow flexBetween">
-				<div class="cell33">
-					<img class="profileImg" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100%" width="100%"/>
-				</div>
-				<div class="cell66 flexColumn">
-					<h1 class="entityName">
-						<label for="name">Name:</label>
-						<div class="valueWrapper">
-							<input name="name" type="text" value="{{actor.name}}" placeholder="Name"/>
-							<span class="primeValue">{{actor.name}}</span>
-						</div>
-					</h1>
-					<h2 class="characterOwners"><label for="charName">Player: {{currentOwners}}</h2>
-				</div>
-			</div>
+			{{> actorBaseMetadata partialClasses='cell50'}}
+
 			<div class="flexColumn cell50 verticalCenter">
 				<h2 class="systemTitle"><span class="bigCaps">P</span>OSSESSIO<span class="bigCaps">N</span></h2>
 				<h3 class="campaignTitle"><span class="bigCaps">A</span>ETHERNAUTS</h2>
 			</div>
+			
 			<div class="toggleEditableWrapper">
 				<a class="toggleCharacterEditing" title="Toggle to editable">
 					<i class="fas fa-edit fa-lg"></i>

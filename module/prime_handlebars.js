@@ -1,9 +1,22 @@
 var primeHandlebarsPartialsPaths =
 {
-	"itemBasic": "systems/prime/templates/item/partials/item-basic.html",
-	"itemValue": "systems/prime/templates/item/partials/item-value.html",
-	"itemDescription": "systems/prime/templates/item/partials/item-description.html",
-	"itemMetadata": "systems/prime/templates/item/partials/item-metadata.html"
+	"actorActionPoints": "systems/prime/templates/actor/partials/sheet/actor-action-points.html",
+	"actorBaseMetadata": "systems/prime/templates/actor/partials/sheet/actor-base-metadata.html",
+	"actorExerpeincePoints": "systems/prime/templates/actor/partials/sheet/actor-expiereince-points.html",
+	"actorMentalHealth": "systems/prime/templates/actor/partials/sheet/actor-mental-health.html",
+	"actorPhysicalHealth": "systems/prime/templates/actor/partials/sheet/actor-physical-health.html",
+	"actorPrimesAndRefinements": "systems/prime/templates/actor/partials/sheet/actor-primes-and-refinements.html",
+	"actorSoulPoints": "systems/prime/templates/actor/partials/sheet/actor-soul-points.html",
+
+	"itemListArmour": "systems/prime/templates/item/partials/list/item-list-armour.html",
+	"itemListGeneral": "systems/prime/templates/item/partials/list/item-list-general.html",
+	"itemListMeleeWeapons": "systems/prime/templates/item/partials/list/item-list-melee-weapons.html",
+	"itemListRangedWeapons": "systems/prime/templates/item/partials/list/item-list-ranged-weapons.html",
+
+	"itemBasic": "systems/prime/templates/item/partials/sheet/item-basic.html",
+	"itemValue": "systems/prime/templates/item/partials/sheet/item-value.html",
+	"itemDescription": "systems/prime/templates/item/partials/sheet/item-description.html",
+	"itemMetadata": "systems/prime/templates/item/partials/sheet/item-metadata.html"
 }
 
 export class PrimeHandlebarsPartials

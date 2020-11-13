@@ -1,0 +1,15 @@
+<div class="flexRow flexBetween {{partialClasses}}">
+    <div class="cell33">
+        <img class="profileImg" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100%" width="100%"/>
+    </div>
+    <div class="cell66 flexColumn">
+        <h1 class="entityName">
+            <label for="name">Name:</label>
+            <div class="valueWrapper">
+                <input name="name" type="text" value="{{actor.name}}" placeholder="Name"/>
+                <span class="primeValue">{{actor.name}}</span>
+            </div>
+        </h1>
+        <h2 class="characterOwners"><label for="charName">Player: {{currentOwners}}</h2>
+    </div>
+</div>
