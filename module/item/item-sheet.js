@@ -512,7 +512,7 @@ export class PrimeItemSheet extends ItemSheet
 			break;
 			case "prerequisite":
 				baseEffectData.label = "Perk prerequisite";
-				baseEffectData.flags.effectSubType = "situationalPrime";
+				baseEffectData.flags.effectSubType = "minimumPrime";
 				baseEffectData.flags.path = "end";
 			break;
 			case "actionEffect":
