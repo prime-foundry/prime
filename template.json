@@ -41,6 +41,7 @@
 						"max":0
 					}
 				},
+
 				"soul":
 				{
 					"initial": 100,
@@ -56,10 +57,44 @@
 					"spent":0
 				}
 			},
+
+			"mental_template":
+			{
+				"mind":
+				{
+					"wounds":
+					{
+						"lastTotal": 0,
+						"value": 0,
+						"max": 3
+					},
+					"resilience":
+					{
+						"value": 3,
+						"max": 3
+					}
+				},
+				
+				"mindArmour":
+				{
+					"protection":
+					{
+						"value":0,
+						"max":0
+					},
+					"resilience":
+					{
+						"value":0,
+						"max":0
+					}
+				}
+			},
+
 			"metadata_template":
 			{
 				"metadata":
 				{
+					"isNPC": false,
 					"race": "",
 					"faction": "",
 					"occupation": "",
@@ -75,6 +110,7 @@
 					"biography": ""
 				}
 			},
+
 			"primes_template":
 			{
 				"primes":
@@ -399,6 +435,7 @@
 			"templates":
 			[
 				"base_template",
+				"mental_template",
 				"metadata_template",
 				"primes_template",
 				"refinements_template"
