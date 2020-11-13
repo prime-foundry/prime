@@ -1,0 +1,32 @@
+<div class="{{partialClasses}} statsContent flexRow flexWrap flexBetween">
+    {{#each typeSorted as |typeGroup key|}}
+    <div class="primesGroup primeGroup_{{key}}">
+        {{#ifCond key "==" "physical" }}
+        <div class="blockTitle">Primes</div>
+        {{/ifCond}}
+        {{#each typeGroup.primes as |prime key|}}
+        <div class="primeWrapper">
+            <label for="data.primes.{{key}}.value">{{prime.title}}</label>
+            <div class="valueWrapper">
+                <input type="text" name="data.primes.{{key}}.value" value="{{prime.value}}" data-dtype="Number" data-min="1" data-max="10" data-lastValue="{{prime.value}}"/>
+                <span class="primeValue">{{prime.value}}</span>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+    <div class="refinementsGroup refinementGroup_{{key}}">
+        {{#ifCond key "==" "physical" }}
+        <div class="blockTitle">Refinements</div>
+        {{/ifCond}}
+        {{#each typeGroup.refinements as |refinement key|}}
+        <div class="refinementWrapper">
+            <label for="data.refinements.{{key}}.value">{{refinement.title}}</label>
+            <div class="valueWrapper">
+                <input type="text" name="data.refinements.{{key}}.value" value="{{refinement.value}}" data-dtype="Number" data-min="0" data-max="10" data-lastValue="{{refinement.value}}"/>
+                <span class="refinementValue">{{refinement.value}}</span>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+    {{/each}}
+</div>

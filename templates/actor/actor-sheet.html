@@ -21,265 +21,30 @@
 		</div>
 
 		<div class="metaDataContentInner flexRow flexBetween">
-			<div class="cell50 flexColumn healthAndArmourOuter">
-				<div class="flexRow flexEnd block topHalfBlock">
-					<div class="blockTitle">Health</div>
-					<div class="cell25 flexColumn flexCenter">
-						<label for="data.wounds.value">Wounds</label>
-						<div class="metaValueContent flexRow flexCenter">
-							<div class="bigNumberText">{{data.health.wounds.value}} / {{data.health.wounds.max}}</div>
-						</div>
-					</div>
-					<div class="cell25 flexColumn resilienceBlock">
-						<label for="data.wounds.value">Resilience</label>
-						<div class="metaValueContent flexRow healthResilienceWrapper">
-							<input type="text" class="bigNumberInput" name="data.health.resilience.value" value="{{data.health.resilience.value}}" data-dtype="Number" data-min="0" data-max="{{data.health.resilience.max}}" data-lastValue="{{data.health.resilience.value}}"/>
-							<span class="healthMaxResilience">Max: {{data.health.resilience.max}}</span>
-						</div>
-					</div>
-				</div>
-				<div class="combinedResilienceBlock block rigthBlockTitle flexRow flexCenter verticalCenter">
-					<div class="blockTitle"><span>Combined</span></div>
-					<div>{{combinedResilience}}</div>
-				</div>
-				<div class="injuriesBlock block leftBlockTitle flexColumn">
-					<div class="blockTitle"><span>Wounds</span></div>
+			{{> actorPhysicalHealth partialClasses='cell50'}}
 
-					{{#for 1 data.health.wounds.max 1}}
-					<div class="flexRow injuryRow">
-						<div class="injuryCheckBoxWrapper flexRow flexCenter verticalCenter{{addStateClasses this ../data.health.wounds}}">
-							<input type="checkbox" id="injuryCheckbox{{this}}" name="injuryCheckboxes" class="injuryCheckbox" value="{{this}}" {{itemSelected this ../data.health.wounds.value}}/>
-							<label for="injuryCheckbox{{this}}" class="flexRow flexCenter verticalCenter">{{this}}</label>
-						</div>
-						<select name="injurySelect{{this}}" class="injurySelect" {{itemEnabled this ../data.health.wounds.value}} data-injury-index="{{this}}">
-							<option value="0"></option>
-							<option value="1">Bleeding</option>
-							<option value="2">Pierced</option>
-							<option value="3">Hooked</option>
-							<option value="4">Non-lethal</option>
-							<option value="5">Staggered</option>
-							<option value="6">Stunned</option>
-							<option value="7">Crushed</option>
-							<option value="8">Battered</option>
-							<option value="9">Slowed</option>
-							<option value="10">Special</option>
-						</select>
-						<div class="medkitIcon flexRow flexEnd verticalCenter"><a class="healInjury" title="Heal this injury" data-injury-index="{{this}}"><i class="fas fa-medkit"></i></a></div>
-					</div>
-					{{/for}}
-				</div>
-				<div class="flexRow flexEnd block bottomBlockTitle bottomHalfBlock">
-					<div class="blockTitle">Armour</div>
-					<div class="cell25 flexColumn flexCenter">
-						<div class="metaValueContent flexRow flexCenter">
-							<!-- <input type="text" class="bigNumberInput" name="data.armour.coverage.value" value="{{data.armour.coverage.value}}" data-dtype="Number" data-min="0" data-max="{{data.armour.coverage.max}}" data-lastValue="{{data.armour.coverage.value}}"/> -->
-							<div class="bigNumberText">{{data.armour.protection.value}}</div>
-						</div>
-						<div>Protection</div>
-					</div>
-					<div class="cell25 flexColumn resilienceBlock">
-						<div class="metaValueContent flexRow armourResilienceWrapper">
-							<input type="text" class="bigNumberInput" name="data.armour.resilience.value" value="{{data.armour.resilience.value}}" data-dtype="Number" data-min="0" data-max="{{data.armour.resilience.max}}" data-lastValue="{{data.armour.resilience.value}}"/>
-							<span class="armourMaxResilience">Max: {{data.armour.resilience.max}}</span>
-						</div>
-						<div>Resilience</div>
-					</div>
-				</div>
-			</div>
 			<div class="cell50 flexColumn">
-				<div class="actionPoints block">
-					<div class="blockTitle">Action points</div>
-					<div class="metaValueContent actionPointsWrapper">
-						{{#for 0 data.actionPoints.max 1}}
-						<div class='actionPointWrapper{{addStateClasses this ../data.actionPoints}}'>
-							<input id="actionPoint{{this}}" value="{{this}}" class="actionPointCheckbox" type="checkbox" name="actionPoints" {{itemSelected this ../data.actionPoints.value}}/>
-							<label for="actionPoint{{this}}">{{this}}</label>
-						</div>
-						{{/for}}
-					</div>
-				</div>
+				{{> actorActionPoints}}
+
 				<div class="soulAndXP flexRow">
-					<div class="cell50 block bottomBlockTitle flexRow flexCenter verticalCenter">
-						<div class="blockTitle">Soul</div>
-						<div class="metaValueContent hasTooltip" title="Initial: {{data.soul.initial}}, Awarded: {{data.soul.awarded}}, Spent: {{data.soul.spent}}">
-							{{data.soul.value}}
-						</div>
-					</div>
-					<div class="cell50 block bottomBlockTitle flexRow flexCenter verticalCenter">
-						<div class="blockTitle">XP</div>
-						<div class="metaValueContent hasTooltip" title="Initial: {{data.xp.initial}}, Awarded: {{data.xp.awarded}}, Spent: {{data.xp.spent}}">
-							{{data.xp.value}}
-						</div>
-					</div>
+					{{> actorSoulPoints partialClasses='cell50'}}
+
+					{{> actorExperiencePoints partialClasses='cell50'}}
 				</div>
 			</div>
 		</div>
 	</div>
 
 	<div class="weaponsContent">
-		<div class="meleeWeapons block">
-			<div class="blockTitle">Melee Weapons</div>
-			<div class="primeTableWrapper">
-				<table>
-					<thead>
-						<tr>
-							<th class="center"><i class="game-icon game-icon-fist icon-md"></i></th>
-							<th>Title</th>
-							<th class="center">Size</th>
-							<th class="center">Type</th>
-							<th class="center" title="Damage rating">DR</th>
-							<th class="center">Hands</th>
-							<th>Wounds</th>
-							<th>Keywords</th>
-							<th>Actions</th>
-						</tr>
-					</thead>
-				<!-- <div>Title(Description) | (Size) | (Type) | (DR) | Hands | Wounds | Keywords | Actions</div> -->
-					<tbody>
-						{{#each filteredItems.melee-weapon as |weapon index|}}
-						<tr>
-							<td class="center"><div class="attackIconWrapper"><a class="attackWithWeapon" data-weapon-id={{weapon._id}}>{{{weapon.data.attackIcon}}}</a></div></td>
-							<td title="{{convertHTMLForTitle weapon.data.description}}"><a class="itemTitle" data-item-id="{{weapon._id}}"><i class="fas fa-info-circle fa-xs"></i> {{weapon.name}}</a></td>
-							<td class="center">{{weapon.data.weaponSize}}</td>
-							<td class="center">{{weapon.data.weaponType}}</td>
-							<td class="center">{{weapon.data.damageRating}}</td>
-							<td class="center">{{weapon.data.requiredHands}}</td>
-							<td>{{{weapon.data.woundConditions}}}</td>
-							<td>{{{weapon.data.keywords}}}</td>
-							<td>{{{weapon.data.customActions}}}</td>
-						</tr>
-						{{/each}}
-					</tbody>
-				</table>
-			</div>
-		</div>
+		{{> itemListMeleeWeapons partialClasses=''}}
 
-		<div class="rangedWeapons block">
-			<div class="blockTitle">Ranged Weapons</div>
-			<div class="primeTableWrapper">
-				<table>
-					<thead>
-						<tr>
-							<th rowspan="2" class="center"><i class="game-icon game-icon-fist icon-md"></i></th>
-							<th rowspan="2">Title</th>
-							<th rowspan="2" class="center">Size</th>
-							<th rowspan="2" class="center">Type</th>
-							<th rowspan="2" class="center" title="Damage rating">DR</th>
-							<th rowspan="2" class="center">Hands</th>
-							<th rowspan="2">Wounds</th>
-							<th rowspan="2">Keywords</th>
-							<th rowspan="2">Actions</th>
-							<th colspan="5" class="center">Ranges</th>
-							<th rowspan="2" class="center">Ammo</th>
-							<th rowspan="2" class="center">Capacity</th>
-						</tr>
-						<tr>
-							<th class="hasTooltip center" title="Point blank">PB</th>
-							<th class="hasTooltip center" title="Short">S</th>
-							<th class="hasTooltip center" title="Medium">M</th>
-							<th class="hasTooltip center" title="Long">L</th>
-							<th class="hasTooltip center" title="Extreme">E</th>
-						</tr>
-					</thead>
-				<!-- <div>Title(Description) | (Size) | (Type) | (DR) | Hands | Wounds | Keywords | Actions</div> -->
-					<tbody>
-						{{#each filteredItems.ranged-weapon as |weapon index|}}
-						<tr>
-							<td class="center"><div class="attackIconWrapper"><a class="attackWithWeapon" data-armour-id={{weapon._id}}>{{{weapon.data.attackIcon}}}</a></div></td>
-							<td title="{{convertHTMLForTitle weapon.data.description}}"><a class="itemTitle" data-item-id="{{weapon._id}}"><i class="fas fa-info-circle fa-xs"></i> {{weapon.name}}</a></td>
-							<td class="center">{{weapon.data.weaponSize}}</td>
-							<td class="center">{{weapon.data.weaponType}}</td>
-							<td class="center">{{weapon.data.damageRating}}</td>
-							<td class="center">{{weapon.data.requiredHands}}</td>
-
-							<td>{{{weapon.data.woundConditions}}}</td>
-							<td>{{{weapon.data.keywords}}}</td>
-							<td>{{{weapon.data.customActions}}}</td>
-
-							<td class="center">{{{weapon.data.ranges.pointBlank.value}}}</td>
-							<td class="center">{{{weapon.data.ranges.short.value}}}</td>
-							<td class="center">{{{weapon.data.ranges.medium.value}}}</td>
-							<td class="center">{{{weapon.data.ranges.long.value}}}</td>
-							<td class="center">{{{weapon.data.ranges.extreme.value}}}</td>
-
-							<td class="center">{{{weapon.data.ammo.type}}}</td>
-							<td class="center">{{{weapon.data.ammo.capacity}}}</td>
-						</tr>
-						{{/each}}
-					</tbody>
-				</table>
-			</div>
-		</div>
+		{{> itemListRangedWeapons partialClasses=''}}
 	</div>
+
+	{{> itemListArmour partialClasses=''}}
 
 	
-
-	<div class="armour block">
-		<div class="blockTitle">Armour</div>
-		<div class="primeTableWrapper">
-			<table>
-				<thead>
-					<tr>
-						<th>Title</th>
-						<th class="center">Type</th>
-						<th class="center">Protection</th>
-						<th class="center">Resilience</th>
-						<th>Keywords</th>
-						<th>Untrained</th>
-						<th class="center hasTooltip" title="Is worn?"><i class="game-icon game-icon-clothes icon-md"></i></th>
-					</tr>
-				</thead>
-			<!-- <div>Title(Description) | (Size) | (Type) | (DR) | Hands | Wounds | Keywords | Actions</div> -->
-				<tbody>
-					{{#each filteredItems.armour as |armour index|}}
-					<tr>
-						<td title="{{convertHTMLForTitle armour.data.description}}"><a class="itemTitle" data-item-id="{{armour._id}}"><i class="fas fa-info-circle fa-xs"></i> {{armour.name}}</a></td>
-						<td class="center">{{armour.data.armourType}}</td>
-						<td class="center">{{armour.data.protection}}</td>
-						<td class="center">{{armour.data.armourResilience}}</td>
-						<td>{{{armour.data.keywords}}}</td>
-						<td>{{{armour.data.untrainedPenalty}}}</td>
-						<td class="center"><input type="checkbox" class="armourWornCheckbox" data-armour-id="{{armour._id}}" {{itemChecked armour.data.isWorn}}></td>
-					</tr>
-					{{/each}}
-				</tbody>
-			</table>
-		</div>
-	</div>
-
-
-	<div class="statsContent flexRow flexWrap flexBetween">
-		{{#each typeSorted as |typeGroup key|}}
-		<div class="primesGroup primeGroup_{{key}}">
-			{{#ifCond key "==" "physical" }}
-			<div class="blockTitle">Primes</div>
-			{{/ifCond}}
-			{{#each typeGroup.primes as |prime key|}}
-			<div class="primeWrapper">
-				<label for="data.primes.{{key}}.value">{{prime.title}}</label>
-				<div class="valueWrapper">
-					<input type="text" name="data.primes.{{key}}.value" value="{{prime.value}}" data-dtype="Number" data-min="1" data-max="10" data-lastValue="{{prime.value}}"/>
-					<span class="primeValue">{{prime.value}}</span>
-				</div>
-			</div>
-			{{/each}}
-		</div>
-		<div class="refinementsGroup refinementGroup_{{key}}">
-			{{#ifCond key "==" "physical" }}
-			<div class="blockTitle">Refinements</div>
-			{{/ifCond}}
-			{{#each typeGroup.refinements as |refinement key|}}
-			<div class="refinementWrapper">
-				<label for="data.refinements.{{key}}.value">{{refinement.title}}</label>
-				<div class="valueWrapper">
-					<input type="text" name="data.refinements.{{key}}.value" value="{{refinement.value}}" data-dtype="Number" data-min="0" data-max="10" data-lastValue="{{refinement.value}}"/>
-					<span class="refinementValue">{{refinement.value}}</span>
-				</div>
-			</div>
-			{{/each}}
-		</div>
-		{{/each}}
-	</div>
+	{{> actorPrimesAndRefinements partialClasses=''}}
 
 	{{!-- Sheet Tab Navigation --}}
 	<nav class="sheet-tabs tabs" data-group="primary">
@@ -298,27 +63,7 @@
 
 		{{!-- Owned Items Tab --}}
 		<div class="tab items" data-group="primary" data-tab="items">
-			<div class="primeTableWrapper">
-				<table>
-					<thead>
-						<tr>
-							<th>Title</th>
-							<th>Description</th>
-							<th><i class="fas fa-trash"></i></th>
-						</tr>
-					</thead>
-				<!-- <div>Title(Description) | (Size) | (Type) | (DR) | Hands | Wounds | Keywords | Actions</div> -->
-					<tbody>
-						{{#each items as |item index|}}
-						<tr>
-							<td title="{{convertHTMLForTitle item.data.description}}"><a class="itemTitle" data-item-id="{{item._id}}"><i class="fas fa-info-circle fa-xs"></i> {{item.name}}</a></td>
-							<td>{{{item.data.description}}}</td>
-							<td class="center"><a class="deleteItemIcon" data-item-id={{item._id}}><i class="fas fa-trash"></i></a></td>
-						</tr>
-						{{/each}}
-					</tbody>
-				</table>
-			</div>
+			{{> itemListGeneral partialClasses=''}}
 		</div>
 
 		{{!-- Owned Features Tab --}}

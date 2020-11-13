@@ -1,0 +1,36 @@
+<div class="{{partialClasses}} meleeWeapons block">
+    <div class="blockTitle">Melee Weapons</div>
+    <div class="primeTableWrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th class="center"><i class="game-icon game-icon-fist icon-md"></i></th>
+                    <th>Title</th>
+                    <th class="center">Size</th>
+                    <th class="center">Type</th>
+                    <th class="center" title="Damage rating">DR</th>
+                    <th class="center">Hands</th>
+                    <th>Wounds</th>
+                    <th>Keywords</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+        <!-- <div>Title(Description) | (Size) | (Type) | (DR) | Hands | Wounds | Keywords | Actions</div> -->
+            <tbody>
+                {{#each filteredItems.melee-weapon as |weapon index|}}
+                <tr>
+                    <td class="center"><div class="attackIconWrapper"><a class="attackWithWeapon" data-weapon-id={{weapon._id}}>{{{weapon.data.attackIcon}}}</a></div></td>
+                    <td title="{{convertHTMLForTitle weapon.data.description}}"><a class="itemTitle" data-item-id="{{weapon._id}}"><i class="fas fa-info-circle fa-xs"></i> {{weapon.name}}</a></td>
+                    <td class="center">{{weapon.data.weaponSize}}</td>
+                    <td class="center">{{weapon.data.weaponType}}</td>
+                    <td class="center">{{weapon.data.damageRating}}</td>
+                    <td class="center">{{weapon.data.requiredHands}}</td>
+                    <td>{{{weapon.data.woundConditions}}}</td>
+                    <td>{{{weapon.data.keywords}}}</td>
+                    <td>{{{weapon.data.customActions}}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>

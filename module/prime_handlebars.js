@@ -2,7 +2,7 @@ var primeHandlebarsPartialsPaths =
 {
 	"actorActionPoints": "systems/prime/templates/actor/partials/sheet/actor-action-points.html",
 	"actorBaseMetadata": "systems/prime/templates/actor/partials/sheet/actor-base-metadata.html",
-	"actorExerpeincePoints": "systems/prime/templates/actor/partials/sheet/actor-expiereince-points.html",
+	"actorExperiencePoints": "systems/prime/templates/actor/partials/sheet/actor-experience-points.html",
 	"actorMentalHealth": "systems/prime/templates/actor/partials/sheet/actor-mental-health.html",
 	"actorPhysicalHealth": "systems/prime/templates/actor/partials/sheet/actor-physical-health.html",
 	"actorPrimesAndRefinements": "systems/prime/templates/actor/partials/sheet/actor-primes-and-refinements.html",

@@ -1,0 +1,23 @@
+<div class="{{partialClasses}} generalItems">
+    <div class="primeTableWrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th><i class="fas fa-trash"></i></th>
+                </tr>
+            </thead>
+        <!-- <div>Title(Description) | (Size) | (Type) | (DR) | Hands | Wounds | Keywords | Actions</div> -->
+            <tbody>
+                {{#each items as |item index|}}
+                <tr>
+                    <td title="{{convertHTMLForTitle item.data.description}}"><a class="itemTitle" data-item-id="{{item._id}}"><i class="fas fa-info-circle fa-xs"></i> {{item.name}}</a></td>
+                    <td>{{{item.data.description}}}</td>
+                    <td class="center"><a class="deleteItemIcon" data-item-id={{item._id}}><i class="fas fa-trash"></i></a></td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,15 +1,11 @@
-<div class="cell50 flexRow flexBetween {{partialClasses}}">
-    <div class="cell33">
-        <img class="profileImg" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100%" width="100%"/>
-    </div>
-    <div class="cell66 flexColumn">
-        <h1 class="entityName">
-            <label for="name">Name:</label>
-            <div class="valueWrapper">
-                <input name="name" type="text" value="{{actor.name}}" placeholder="Name"/>
-                <span class="primeValue">{{actor.name}}</span>
-            </div>
-        </h1>
-        <h2 class="characterOwners"><label for="charName">Player: {{currentOwners}}</h2>
+<div class="actionPoints block">
+    <div class="blockTitle">Action points</div>
+    <div class="metaValueContent actionPointsWrapper">
+        {{#for 0 data.actionPoints.max 1}}
+        <div class='actionPointWrapper{{addStateClasses this ../data.actionPoints}}'>
+            <input id="actionPoint{{this}}" value="{{this}}" class="actionPointCheckbox" type="checkbox" name="actionPoints" {{itemSelected this ../data.actionPoints.value}}/>
+            <label for="actionPoint{{this}}">{{this}}</label>
+        </div>
+        {{/for}}
     </div>
 </div>

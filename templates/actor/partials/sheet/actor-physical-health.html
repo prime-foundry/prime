@@ -1,0 +1,65 @@
+<div class="{{partialClasses}} flexColumn healthAndArmourOuter">
+    <div class="flexRow flexEnd block topHalfBlock">
+        <div class="blockTitle">Health</div>
+        <div class="cell25 flexColumn flexCenter">
+            <label for="data.wounds.value">Wounds</label>
+            <div class="metaValueContent flexRow flexCenter">
+                <div class="bigNumberText">{{data.health.wounds.value}} / {{data.health.wounds.max}}</div>
+            </div>
+        </div>
+        <div class="cell25 flexColumn resilienceBlock">
+            <label for="data.wounds.value">Resilience</label>
+            <div class="metaValueContent flexRow healthResilienceWrapper">
+                <input type="text" class="bigNumberInput" name="data.health.resilience.value" value="{{data.health.resilience.value}}" data-dtype="Number" data-min="0" data-max="{{data.health.resilience.max}}" data-lastValue="{{data.health.resilience.value}}"/>
+                <span class="healthMaxResilience">Max: {{data.health.resilience.max}}</span>
+            </div>
+        </div>
+    </div>
+    <div class="combinedResilienceBlock block rigthBlockTitle flexRow flexCenter verticalCenter">
+        <div class="blockTitle"><span>Combined</span></div>
+        <div>{{combinedResilience}}</div>
+    </div>
+    <div class="injuriesBlock block leftBlockTitle flexColumn">
+        <div class="blockTitle"><span>Wounds</span></div>
+
+        {{#for 1 data.health.wounds.max 1}}
+        <div class="flexRow injuryRow">
+            <div class="injuryCheckBoxWrapper flexRow flexCenter verticalCenter{{addStateClasses this ../data.health.wounds}}">
+                <input type="checkbox" id="injuryCheckbox{{this}}" name="injuryCheckboxes" class="injuryCheckbox" value="{{this}}" {{itemSelected this ../data.health.wounds.value}}/>
+                <label for="injuryCheckbox{{this}}" class="flexRow flexCenter verticalCenter">{{this}}</label>
+            </div>
+            <select name="injurySelect{{this}}" class="injurySelect" {{itemEnabled this ../data.health.wounds.value}} data-injury-index="{{this}}">
+                <option value="0"></option>
+                <option value="1">Bleeding</option>
+                <option value="2">Pierced</option>
+                <option value="3">Hooked</option>
+                <option value="4">Non-lethal</option>
+                <option value="5">Staggered</option>
+                <option value="6">Stunned</option>
+                <option value="7">Crushed</option>
+                <option value="8">Battered</option>
+                <option value="9">Slowed</option>
+                <option value="10">Special</option>
+            </select>
+            <div class="medkitIcon flexRow flexEnd verticalCenter"><a class="healInjury" title="Heal this injury" data-injury-index="{{this}}"><i class="fas fa-medkit"></i></a></div>
+        </div>
+        {{/for}}
+    </div>
+    <div class="flexRow flexEnd block bottomBlockTitle bottomHalfBlock">
+        <div class="blockTitle">Armour</div>
+        <div class="cell25 flexColumn flexCenter">
+            <div class="metaValueContent flexRow flexCenter">
+                <!-- <input type="text" class="bigNumberInput" name="data.armour.coverage.value" value="{{data.armour.coverage.value}}" data-dtype="Number" data-min="0" data-max="{{data.armour.coverage.max}}" data-lastValue="{{data.armour.coverage.value}}"/> -->
+                <div class="bigNumberText">{{data.armour.protection.value}}</div>
+            </div>
+            <div>Protection</div>
+        </div>
+        <div class="cell25 flexColumn resilienceBlock">
+            <div class="metaValueContent flexRow armourResilienceWrapper">
+                <input type="text" class="bigNumberInput" name="data.armour.resilience.value" value="{{data.armour.resilience.value}}" data-dtype="Number" data-min="0" data-max="{{data.armour.resilience.max}}" data-lastValue="{{data.armour.resilience.value}}"/>
+                <span class="armourMaxResilience">Max: {{data.armour.resilience.max}}</span>
+            </div>
+            <div>Resilience</div>
+        </div>
+    </div>
+</div>
