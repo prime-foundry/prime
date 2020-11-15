@@ -39,6 +39,8 @@ export class PrimeItemSheet extends ItemSheet
 		data.coreTables = PrimeTables.cloneAndTranslateTables("core");
 		data.perkTables = PrimeTables.cloneAndTranslateTables("perks");
 		data.actionTables = PrimeTables.cloneAndTranslateTables("actions");
+		data.actorTables = PrimeTables.cloneAndTranslateTables("actor");
+		
 		this.addItemTypeData(data);
 		data.checkboxGroupStates = this.checkboxGroupStates;
 		//data.allowAdditionalBonuses = this.findDeletedBonus();
@@ -78,7 +80,7 @@ export class PrimeItemSheet extends ItemSheet
 
 	compileWeaponCheckboxGroups(data, subTypeKey)
 	{
-		let woundList = this.cloneAndAddSelectedState(data.itemTables.weapons.woundConditions, data.data.woundConditions);
+		let woundList = this.cloneAndAddSelectedState(data.actorTables.woundConditions, data.data.woundConditions);
 		let keywordsList = this.cloneAndAddSelectedState(data.itemTables.weapons.keywords, data.data.keywords);
 		let actionsList = this.cloneAndAddSelectedState(data.itemTables.weapons[subTypeKey + 'WeaponActions'], data.data.customActions);
 
