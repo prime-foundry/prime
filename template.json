@@ -450,6 +450,16 @@
 				"wound4":0,
 				"wound5":0,
 				"wound6":0
+			},
+			"insanities": 
+			{
+				"insanity0":0,
+				"insanity1":0,
+				"insanity2":0,
+				"insanity3":0,
+				"insanity4":0,
+				"insanity5":0,
+				"insanity6":0
 			}
 		}
 	},
