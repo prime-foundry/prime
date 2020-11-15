@@ -72,6 +72,11 @@ De-duplicate the health/instanity event handlers.
 
 Create burn soul popup.
 
+Make heal/couch inactive and grey until parent active.
+
+Player choosen custom refinements
+
+
 BUGS
 ======
 
