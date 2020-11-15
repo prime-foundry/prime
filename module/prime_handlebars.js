@@ -8,6 +8,13 @@ var primeHandlebarsPartialsPaths =
 	"actorPrimesAndRefinements": "systems/prime/templates/actor/partials/sheet/actor-primes-and-refinements.html",
 	"actorSoulPoints": "systems/prime/templates/actor/partials/sheet/actor-soul-points.html",
 
+	"actorTabDescription": "systems/prime/templates/actor/partials/tabs/actor-description-tab.html",
+	"actorTabCombat": "systems/prime/templates/actor/partials/tabs/actor-combat-tab.html",
+	"actorTabInventory": "systems/prime/templates/actor/partials/tabs/actor-inventory-tab.html",
+	"actorTabNotes": "systems/prime/templates/actor/partials/tabs/actor-notes-tab.html",
+	"actorTabPerks": "systems/prime/templates/actor/partials/tabs/actor-perks-tab.html",
+	"actorTabStatistics": "systems/prime/templates/actor/partials/tabs/actor-statistics-tab.html",
+
 	"itemListArmour": "systems/prime/templates/item/partials/list/item-list-armour.html",
 	"itemListGeneral": "systems/prime/templates/item/partials/list/item-list-general.html",
 	"itemListMeleeWeapons": "systems/prime/templates/item/partials/list/item-list-melee-weapons.html",
