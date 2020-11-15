@@ -196,34 +196,6 @@
 
 	"PRIME.weapon_keywords_title_cumbersome" : "Cumbersome",
 	"PRIME.weapon_keywords_description_cumbersome" : "Attacks with this weapon cost +1 AP",
-	
-	
-	"PRIME.weapon_wound_condition_title_bleeding" : "Bleeding",
-	"PRIME.weapon_wound_condition_description_bleeding" : "Every time a Bane (natural 1) is rolled to perform an action lose 1 Resilience",
-
-	"PRIME.weapon_wound_condition_title_pierced" : "Pierced",
-	"PRIME.weapon_wound_condition_description_pierced" : "Every time a Bane (natural 1) is rolled to perform an action suffer a wound (max 1 wound per roll)",
-
-	"PRIME.weapon_wound_condition_title_hooked" : "Hooked",
-	"PRIME.weapon_wound_condition_description_hooked" : "Knocked Prone",
-
-	"PRIME.weapon_wound_condition_title_non-lethal" : "Non-lethal",
-	"PRIME.weapon_wound_condition_description_non-lethal" : "Counts towards Wound Limit, but character falls unconscious instead of starting to die if Wound Limit reached.",
-
-	"PRIME.weapon_wound_condition_title_staggered" : "Staggered",
-	"PRIME.weapon_wound_condition_description_staggered" : "Movement speed halved",
-
-	"PRIME.weapon_wound_condition_title_stunned" : "Stunned",
-	"PRIME.weapon_wound_condition_description_stunned" : "You no longer recieve the first Reaction for free each tic",
-
-	"PRIME.weapon_wound_condition_title_crushed" : "Crushed",
-	"PRIME.weapon_wound_condition_description_crushed" : "Maximum Action Points reduced by 3",
-
-	"PRIME.weapon_wound_condition_title_battered" : "Battered",
-	"PRIME.weapon_wound_condition_description_battered" : "Lowers maximum Resilience by 1 for each Battered wound condition",
-
-	"PRIME.weapon_wound_condition_title_slowed" : "Slowed",
-	"PRIME.weapon_wound_condition_description_slowed" : "You must act last in a combat phase",
 
 	
 	"PRIME.weapon_action_title_cleave" : "Cleave",
@@ -332,6 +304,40 @@
 	"PRIME.perk_actor_stat_bonus_max_resilience": "Health - Resilience",
 	"PRIME.perk_actor_stat_bonus_max_protection": "Armour protection",
 	"PRIME.perk_actor_stat_bonus_max_armour_resilience": "Armour - Resilience",
+
+	"PRIME.actor_wound_condition_title_bleeding" : "Bleeding",
+	"PRIME.actor_wound_condition_description_bleeding" : "Every time a Bane (natural 1) is rolled to perform an action lose 1 Resilience",
+
+	"PRIME.actor_wound_condition_title_pierced" : "Pierced",
+	"PRIME.actor_wound_condition_description_pierced" : "Every time a Bane (natural 1) is rolled to perform an action suffer a wound (max 1 wound per roll)",
+
+	"PRIME.actor_wound_condition_title_hooked" : "Hooked",
+	"PRIME.actor_wound_condition_description_hooked" : "Knocked Prone",
+
+	"PRIME.actor_wound_condition_title_non-lethal" : "Non-lethal",
+	"PRIME.actor_wound_condition_description_non-lethal" : "Counts towards Wound Limit, but character falls unconscious instead of starting to die if Wound Limit reached.",
+
+	"PRIME.actor_wound_condition_title_staggered" : "Staggered",
+	"PRIME.actor_wound_condition_description_staggered" : "Movement speed halved",
+
+	"PRIME.actor_wound_condition_title_stunned" : "Stunned",
+	"PRIME.actor_wound_condition_description_stunned" : "You no longer recieve the first Reaction for free each tic",
+
+	"PRIME.actor_wound_condition_title_crushed" : "Crushed",
+	"PRIME.actor_wound_condition_description_crushed" : "Maximum Action Points reduced by 3",
+
+	"PRIME.actor_wound_condition_title_battered" : "Battered",
+	"PRIME.actor_wound_condition_description_battered" : "Lowers maximum Resilience by 1 for each Battered wound condition",
+
+	"PRIME.actor_wound_condition_title_slowed" : "Slowed",
+	"PRIME.actor_wound_condition_description_slowed" : "You must act last in a combat phase",
+
+	
+	"PRIME.actor_mental_condition_title_mad" : "Mad",
+	"PRIME.actor_mental_condition_description_mad" : "Mad, mad mad I tell you!",
+	
+	"PRIME.actor_mental_condition_title_scared" : "Scared",
+	"PRIME.actor_mental_condition_description_scared" : "Boo!",
 
 
 	"PRIME.action_type_major_title": "Major",
