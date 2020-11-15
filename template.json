@@ -443,23 +443,23 @@
 			"perks": [],
 			"wounds": 
 			{
-				"wound0":0,
-				"wound1":0,
-				"wound2":0,
-				"wound3":0,
-				"wound4":0,
-				"wound5":0,
-				"wound6":0
+				"wound0": "null",
+				"wound1": "null",
+				"wound2": "null",
+				"wound3": "null",
+				"wound4": "null",
+				"wound5": "null",
+				"wound6": "null"
 			},
 			"insanities": 
 			{
-				"insanity0":0,
-				"insanity1":0,
-				"insanity2":0,
-				"insanity3":0,
-				"insanity4":0,
-				"insanity5":0,
-				"insanity6":0
+				"insanity0": "null",
+				"insanity1": "null",
+				"insanity2": "null",
+				"insanity3": "null",
+				"insanity4": "null",
+				"insanity5": "null",
+				"insanity6": "null"
 			}
 		}
 	},
@@ -664,6 +664,69 @@
 					"key": "armour.resilience.max",
 					"title": "PRIME.perk_actor_stat_bonus_max_armour_resilience"
 				}
+			],
+
+			"woundConditions":
+			[
+				{
+					"key": "bleeding",
+					"title": "PRIME.actor_wound_condition_title_bleeding",
+					"description": "PRIME.actor_wound_condition_description_bleeding"
+				},
+				{
+					"key": "pierced",
+					"title": "PRIME.actor_wound_condition_title_pierced",
+					"description": "PRIME.actor_wound_condition_description_pierced"
+				},
+				{
+					"key": "hooked",
+					"title": "PRIME.actor_wound_condition_title_hooked",
+					"description": "PRIME.actor_wound_condition_description_hooked"
+				},
+				{
+					"key": "non-lethal",
+					"title": "PRIME.actor_wound_condition_title_non-lethal",
+					"description": "PRIME.actor_wound_condition_description_non-lethal"
+				},
+				{
+					"key": "staggered",
+					"title": "PRIME.actor_wound_condition_title_staggered",
+					"description": "PRIME.actor_wound_condition_description_staggered"
+				},
+				{
+					"key": "stunned",
+					"title": "PRIME.actor_wound_condition_title_stunned",
+					"description": "PRIME.actor_wound_condition_description_stunned"
+				},
+				{
+					"key": "crushed",
+					"title": "PRIME.actor_wound_condition_title_crushed",
+					"description": "PRIME.actor_wound_condition_description_crushed"
+				},
+				{
+					"key": "battered",
+					"title": "PRIME.actor_wound_condition_title_battered",
+					"description": "PRIME.actor_wound_condition_description_battered"
+				},
+				{
+					"key": "slowed",
+					"title": "PRIME.actor_wound_condition_title_slowed",
+					"description": "PRIME.actor_wound_condition_description_slowed"
+				}
+			],
+
+			"mentalConditions":
+			[
+				{
+					"key": "scared",
+					"title": "PRIME.actor_mental_condition_title_scared",
+					"description": "PRIME.actor_mental_condition_description_scared"
+				},
+				{
+					"key": "mad",
+					"title": "PRIME.actor_mental_condition_title_mad",
+					"description": "PRIME.actor_mental_condition_description_mad"
+				}
 			]
 		},
 
@@ -773,55 +836,6 @@
 						"key": "cumbersome",
 						"title": "PRIME.weapon_keywords_title_cumbersome",
 						"description": "PRIME.weapon_keywords_description_cumbersome"
-					}
-				],
-
-				"woundConditions":
-				[
-					{
-						"key": "bleeding",
-						"title": "PRIME.weapon_wound_condition_title_bleeding",
-						"description": "PRIME.weapon_wound_condition_description_bleeding"
-					},
-					{
-						"key": "pierced",
-						"title": "PRIME.weapon_wound_condition_title_pierced",
-						"description": "PRIME.weapon_wound_condition_description_pierced"
-					},
-					{
-						"key": "hooked",
-						"title": "PRIME.weapon_wound_condition_title_hooked",
-						"description": "PRIME.weapon_wound_condition_description_hooked"
-					},
-					{
-						"key": "non-lethal",
-						"title": "PRIME.weapon_wound_condition_title_non-lethal",
-						"description": "PRIME.weapon_wound_condition_description_non-lethal"
-					},
-					{
-						"key": "staggered",
-						"title": "PRIME.weapon_wound_condition_title_staggered",
-						"description": "PRIME.weapon_wound_condition_description_staggered"
-					},
-					{
-						"key": "stunned",
-						"title": "PRIME.weapon_wound_condition_title_stunned",
-						"description": "PRIME.weapon_wound_condition_description_stunned"
-					},
-					{
-						"key": "crushed",
-						"title": "PRIME.weapon_wound_condition_title_crushed",
-						"description": "PRIME.weapon_wound_condition_description_crushed"
-					},
-					{
-						"key": "battered",
-						"title": "PRIME.weapon_wound_condition_title_battered",
-						"description": "PRIME.weapon_wound_condition_description_battered"
-					},
-					{
-						"key": "slowed",
-						"title": "PRIME.weapon_wound_condition_title_slowed",
-						"description": "PRIME.weapon_wound_condition_description_slowed"
 					}
 				],
 
