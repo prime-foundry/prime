@@ -68,6 +68,10 @@ Add NPC checkbox to actor sheet
 
 Make XP field editable short term
 
+De-duplicate the health/instanity event handlers.
+
+Create burn soul popup.
+
 BUGS
 ======
 
