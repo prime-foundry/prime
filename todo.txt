@@ -64,6 +64,8 @@ Make "NPC" turrets as some sort of actor.
 
 /Journal link to change scene
 
+Normalise health/wounds/mental/insanities in data layer.
+
 Add NPC checkbox to actor sheet
 
 Make XP field editable short term
