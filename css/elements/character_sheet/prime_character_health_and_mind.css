@@ -1,0 +1,275 @@
+
+.primeCharacterSheet .healthAndArmourOuter,
+.primeCharacterSheet .mindAndProtectionsOuter
+{
+	position: relative;
+}
+
+.primeCharacterSheet .healthAndArmourOuter .topHalfBlock.block .blockTitle,
+.primeCharacterSheet .healthAndArmourOuter .bottomHalfBlock.block .blockTitle
+{
+	left: 55%;
+	right: 5%;
+}
+
+
+.primeCharacterSheet .mindAndProtectionsOuter .topHalfBlock.block .blockTitle,
+.primeCharacterSheet .mindAndProtectionsOuter .bottomHalfBlock.block .blockTitle
+{
+	left: 5%;
+	right: 55%;
+}
+
+.primeCharacterSheet .resilienceBlock
+{
+	margin-left: 1%;
+}
+.primeCharacterSheet .intellectBlock
+{
+	margin-right: 1%;
+}
+
+.primeCharacterSheet .intellectBlock label,
+.primeCharacterSheet .intellectBlock .mindArmourIntellectLabel
+{
+    text-align: right;
+}
+
+.primeCharacterSheet .resilienceBlock input.bigNumberInput
+{
+	width: 75%;
+    text-align: left;
+    padding-left: 18%;
+}
+
+.primeCharacterSheet .resilienceBlock .healthResilienceWrapper input.bigNumberInput,
+.primeCharacterSheet .intellectBlock .mindIntellectWrapper input.bigNumberInput
+{
+	padding-top: 5px;
+}
+.primeCharacterSheet .resilienceBlock .armourResilienceWrapper input.bigNumberInput,
+.primeCharacterSheet .intellectBlock .mindArmourIntellectWrapper input.bigNumberInput
+{
+	padding-bottom: 5px;
+}
+
+.primeCharacterSheet .intellectBlock input.bigNumberInput
+{
+	width: 75%;
+    text-align: right;
+    padding-right: 18%;
+}
+
+.primeCharacterSheet .combinedResilienceBlock,
+.primeCharacterSheet .injuriesBlock,
+.primeCharacterSheet .combinedIntellectBlock,
+.primeCharacterSheet .insanitiesBlock
+{
+	position: absolute;
+	top: 16%;
+	right: -14px;
+	width: 15.5%;
+	bottom: 18%;
+	z-index: 20;
+	background: rgb(232, 232, 232);
+	border-radius: 100% 5px 5px 100%;
+	font-size: var(--title-size);
+}
+
+.primeCharacterSheet .combinedIntellectBlock,
+.primeCharacterSheet .insanitiesBlock
+{
+	left: -14px;
+	right: auto;
+	border-radius: 5px 100% 100% 5px;
+}
+
+.primeCharacterSheet.narrowWidth .combinedResilienceBlock,
+.primeCharacterSheet.narrowWidth .combinedIntellectBlock
+{
+	top: 20%;
+	bottom: 21%;
+	font-size: var(--smallTitle-size);
+}
+
+.primeCharacterSheet .injuriesBlock,
+.primeCharacterSheet .insanitiesBlock
+{
+	top: 2%;
+	left: -8px;
+	right: auto;
+	width: 48%;
+	bottom: 2%;
+	border-radius: 5px;
+	padding-left: 14px;
+	justify-content: space-evenly;
+	font-size: var(--font-size-medium);
+	transition: width 0.2s ease-in, padding 0.2s ease-in;
+	overflow: hidden;
+}
+
+.primeCharacterSheet .insanitiesBlock
+{
+	left: auto;
+    right: -8px;
+    padding-left: 5px;
+    padding-right: 14px;
+}
+
+.primeCharacterSheet.narrowWidth .injuriesBlock,
+.primeCharacterSheet.narrowWidth .insanitiesBlock
+{
+	top: 2%;
+	bottom: 2%;
+}
+
+.primeCharacterSheet .injuriesBlock .injuryCheckBoxWrapper,
+.primeCharacterSheet .insanitiesBlock .insanityCheckBoxWrapper
+{
+	position: relative;
+	width:22%;
+}
+
+.primeCharacterSheet .injuriesBlock .injuryCheckBoxWrapper label,
+.primeCharacterSheet .insanitiesBlock .insanityCheckBoxWrapper label
+{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	bottom: 0px;
+	right: 0px;
+	font-size: 12px;
+	color: var(--disabledGrey);
+	cursor: pointer;
+}
+
+.primeCharacterSheet .injuriesBlock .injuryCheckBoxWrapper.activePoint label
+{
+	color: var(--darkBloodRed);
+}
+.primeCharacterSheet .insanitiesBlock .insanityCheckBoxWrapper.activePoint label
+{
+	color: var(--mindBlue);
+}
+
+.primeCharacterSheet .insanitiesBlock .insanityCheckBoxWrapper.activePoint label span
+{
+    text-shadow: 0px 0px 20px #FFFFFF;
+}
+
+.primeCharacterSheet .injuriesBlock .injuryCheckBoxWrapper label:before,
+.primeCharacterSheet .insanitiesBlock .insanityCheckBoxWrapper label:before
+{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	bottom: 0px;
+	right: 0px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 25px;
+	content: "\f004";
+	font-family: "Font Awesome 5 Free";
+	font-weight: 400;
+	-webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+	line-height: 1;
+	text-align: center;
+}
+
+.primeCharacterSheet .insanitiesBlock .insanityCheckBoxWrapper label:before
+{
+    content: "\f5dc";
+    font-weight: 900;
+}
+
+.primeCharacterSheet.narrowWidth .injuriesBlock .injuryCheckBoxWrapper label:before,
+.primeCharacterSheet.narrowWidth .insanitiesBlock .insanityCheckBoxWrapper label:before
+{
+	font-size: 18px;
+}
+
+.primeCharacterSheet .injuriesBlock .injuryRow,
+.primeCharacterSheet .insanitiesBlock .insanityRow
+{
+	position: relative;
+}
+
+.primeCharacterSheet .injuriesBlock .injuryRow input,
+.primeCharacterSheet .insanitiesBlock .insanityRow input
+{
+	opacity: 0;
+	width: 0;
+	height: 0;
+	margin: 0;
+	float: left;
+}
+.primeCharacterSheet .insanitiesBlock .insanityRow input
+{
+	float: right;
+}
+
+
+.primeCharacterSheet .injuriesBlock .injuryRow select,
+.primeCharacterSheet .insanitiesBlock .insanityRow select
+{
+	width: 65%;
+}
+
+.primeCharacterSheet.narrowWidth .injuriesBlock .injuryRow select,
+.primeCharacterSheet.narrowWidth .insanitiesBlock .insanityRow select
+{
+	height:18px;
+	font-size:12px;
+}
+
+.primeCharacterSheet .injuriesBlock .injuryRow .medkitIcon,
+.primeCharacterSheet .insanitiesBlock .insanityRow .couchIcon
+{
+	width:13%;
+}
+
+.primeCharacterSheet.narrowWidth .injuriesBlock .injuryRow .medkitIcon,
+.primeCharacterSheet.narrowWidth .insanitiesBlock .insanityRow .couchIcon
+
+{
+	font-size: 12px;
+}
+
+.primeCharacterSheet .healthAndArmourOuter .healthResilienceWrapper,
+.primeCharacterSheet .healthAndArmourOuter .armourResilienceWrapper,
+.primeCharacterSheet .mindAndProtectionsOuter .mindIntellectWrapper,
+.primeCharacterSheet .mindAndProtectionsOuter .mindArmourIntellectWrapper
+{
+	position: relative;
+}
+
+.primeCharacterSheet .healthAndArmourOuter .healthMaxResilience,
+.primeCharacterSheet .healthAndArmourOuter .armourMaxResilience,
+.primeCharacterSheet .mindAndProtectionsOuter .mindMaxIntellect,
+.primeCharacterSheet .mindAndProtectionsOuter .mindArmourMaxIntellect
+{
+	position: absolute;
+    bottom: 0px;
+    left: 15%;
+    font-size: 10px;
+    z-index: 50;
+}
+
+.primeCharacterSheet .mindAndProtectionsOuter .mindMaxIntellect,
+.primeCharacterSheet .mindAndProtectionsOuter .mindArmourMaxIntellect
+{
+    left: auto;
+    right: 15%;
+}
+
+.primeCharacterSheet .healthAndArmourOuter .healthMaxResilience,
+.primeCharacterSheet .mindAndProtectionsOuter .mindMaxIntellect
+{
+	top: 0px;
+	bottom: auto;
+}
