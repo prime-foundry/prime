@@ -5,7 +5,9 @@
 
 	--foundryOrange: hsl(24, 100%, 50%);
 	--disabledGrey: hsl(0, 0%, 83%);
-	--darkBloodRed: hsl(0, 96%, 28%);
+    --darkBloodRed: hsl(0, 96%, 28%);
+    --mindBlue: hsl(241, 96%, 28%);
+    
 
     /********** Base font values **********/
     --font1: 'Manrope', sans-serif;
