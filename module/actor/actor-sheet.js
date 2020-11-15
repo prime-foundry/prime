@@ -74,7 +74,8 @@ export class PrimePCActorSheet extends ActorSheet
 		
 		data.typeSorted = this.entity.getTypeSortedPrimesAndRefinements();
 		
-		data.tables = PrimeTables.cloneAndTranslateTables("items");
+		data.itemTables = PrimeTables.cloneAndTranslateTables("items");
+		data.actorTables = PrimeTables.cloneAndTranslateTables("actor");
 
 		data.filteredItems = this.entity.getProcessedItems(data);
 
