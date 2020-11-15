@@ -161,13 +161,13 @@ input.cell100,
 
 .block.leftBlockTitle
 {
-	padding: 5px 5px 5px 11px;
+	padding: 5px 5px 5px 18px;
 	margin: 5px 5px 5px 11px;
 }
 
-.block.rigthBlockTitle
+.block.rightBlockTitle
 {
-	padding: 5px 11px 5px 5px;
+	padding: 5px 18px 5px 5px;
 	margin: 5px 11px 5px 5px;
 }
 
@@ -193,7 +193,7 @@ input.cell100,
 	bottom:-8.5px;
 }
 
-.block.rigthBlockTitle .blockTitle
+.block.rightBlockTitle .blockTitle
 {
 	top: -1px;
 	bottom: -1px;
@@ -212,7 +212,7 @@ input.cell100,
 	height: auto;
 }
 
-.block.rigthBlockTitle .blockTitle span
+.block.rightBlockTitle .blockTitle span
 {
 	transform-origin: 50% 50%;
 	transform: rotate(90deg);
