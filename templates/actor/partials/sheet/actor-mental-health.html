@@ -27,17 +27,10 @@
         <div class="flexRow insanityRow">
             <div class="couchIcon flexRow flexStart verticalCenter"><a class="healInsanity" title="Heal this insanity" data-insanity-index="{{this}}"><i class="fas fa-couch"></i></a></div>
             <select name="insanitySelect{{this}}" class="insanitySelect" {{itemEnabled this ../data.mind.wounds.value}} data-insanity-index="{{this}}">
-                <option value="0"></option>
-                <option value="1">Bleeding</option>
-                <option value="2">Pierced</option>
-                <option value="3">Hooked</option>
-                <option value="4">Non-lethal</option>
-                <option value="5">Staggered</option>
-                <option value="6">Stunned</option>
-                <option value="7">Crushed</option>
-                <option value="8">Battered</option>
-                <option value="9">Slowed</option>
-                <option value="10">Special</option>
+                <option value="null"></option>
+				{{#each ../actorTables.mentalConditions}}
+				<option value="{{this.key}}">{{this.title}}</option>
+				{{/each}}
             </select>
             <div class="insanityCheckBoxWrapper flexRow flexCenter verticalCenter{{addStateClasses this ../data.mind.wounds}}">
                 <input type="checkbox" id="insanityCheckbox{{this}}" name="insanityCheckboxes" class="insanityCheckbox" value="{{this}}" {{itemSelected this ../data.mind.wounds.value}}/>

@@ -30,16 +30,9 @@
             </div>
             <select name="injurySelect{{this}}" class="injurySelect" {{itemEnabled this ../data.health.wounds.value}} data-injury-index="{{this}}">
                 <option value="0"></option>
-                <option value="1">Bleeding</option>
-                <option value="2">Pierced</option>
-                <option value="3">Hooked</option>
-                <option value="4">Non-lethal</option>
-                <option value="5">Staggered</option>
-                <option value="6">Stunned</option>
-                <option value="7">Crushed</option>
-                <option value="8">Battered</option>
-                <option value="9">Slowed</option>
-                <option value="10">Special</option>
+				{{#each ../actorTables.woundConditions}}
+				<option value="{{this.key}}">{{this.title}}</option>
+				{{/each}}
             </select>
             <div class="medkitIcon flexRow flexEnd verticalCenter"><a class="healInjury" title="Heal this injury" data-injury-index="{{this}}"><i class="fas fa-medkit"></i></a></div>
         </div>
