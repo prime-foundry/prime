@@ -27,7 +27,7 @@ export class PrimePCActorSheet extends ActorSheet
 			classes: ["primeSheet", "primeCharacterSheet", "sheet", "actor"],
 			template: "systems/prime/templates/actor/actor-sheet.html",
 			width: 775,
-			height: 750,
+			height: 765,
 			tabs: [
 				{
 					navSelector: ".sheet-tabs",
@@ -64,9 +64,14 @@ export class PrimePCActorSheet extends ActorSheet
 		const data = super.getData();
 		data.dtypes = ["String", "Number", "Boolean"];
 
+		data.characterNameClass = this.getCharacterNameClass(data.actor.name);
+		console.log("data.characterNameClass: " + data.characterNameClass)
+
 		//var a = data.actor.permission
 		data.currentOwners = this.entity.getCurrentOwners();
 		data.combinedResilience = this.entity.getCombinedResilience();
+		data.combinedIntellect = this.entity.getCombinedIntellect();
+		
 		data.typeSorted = this.entity.getTypeSortedPrimesAndRefinements();
 		
 		data.tables = PrimeTables.cloneAndTranslateTables("items");
@@ -74,6 +79,43 @@ export class PrimePCActorSheet extends ActorSheet
 		data.filteredItems = this.entity.getProcessedItems(data);
 
 		return data;
+	}
+
+	getCharacterNameClass(whatName)
+	{
+		const canvas = document.createElement('canvas');
+		const canvasContext = canvas.getContext('2d');
+		canvasContext.font = "34px Signika";
+
+		const nameText = canvasContext.measureText(whatName); 
+		const nameWidth = nameText.width;
+
+		// 215 is width of name field on default open.
+		if (nameWidth <= 180)
+		{
+			return "largestNameFont";
+		}
+		else if (nameWidth > 180 && nameWidth <= 230)
+		{
+			return "largeNameFont";
+		}
+		else if (nameWidth > 230 && nameWidth <= 320)
+		{
+			return "mediumNameFont";
+		}
+		else if (nameWidth > 320 && nameWidth <= 450)
+		{
+			return "smallNameFont";
+		}
+		else
+		{
+			return "tinyNameFont";
+		}
+	}
+
+	burnSoulPoint()
+	{
+		alert("Go'on, you know you want too...\n\n   (coming soon)");
 	}
 
 	toggleSheetEditMode()
@@ -202,17 +244,6 @@ export class PrimePCActorSheet extends ActorSheet
 		var result = await this.actor.update(data.actor);
 	}
 
-	// checkEnableInjury(event)
-	// {
-	// 	const injuryRow = $(event.delegateTarget);
-	// 	const siblingCheckbox = injuryRow.find(".injuryCheckbox");
-	// 	const checkBoxState = siblingCheckbox.val();
-	// 	if (siblingCheckbox.prop( "checked" ) == false)
-	// 	{
-	// 		siblingCheckbox.prop( "checked", true );
-	// 	}
-	// }
-
 	async healInjury(event)
 	{
 		const anchor = $(event.delegateTarget);
@@ -239,6 +270,75 @@ export class PrimePCActorSheet extends ActorSheet
 		{
 			data.data.health.wounds.lastTotal = data.data.health.wounds.value;
 			data.data.health.wounds.value--;
+		}
+
+		var result = await this.actor.update(data.actor);
+	}
+
+	async updateInsanityTotal(event)
+	{
+		const input = $(event.delegateTarget);
+		const value = input.val();
+		const data = super.getData();
+		const checked = input.prop("checked");
+		const inputParent = input.parent();
+		data.data.mind.wounds.lastTotal = data.data.mind.wounds.value;
+
+		if (checked || (!checked && !inputParent.hasClass("currentPointTotal")))
+		{
+			data.data.mind.wounds.value = parseInt(value);
+		}
+		else
+		{
+			data.data.mind.wounds.value = parseInt(value) - 1;
+		}
+
+		if (data.data.mind.wounds.value < 0)
+		{
+			data.data.mind.wounds.value = 0;
+		}
+
+		var result = await this.actor.update(data.actor);
+	}
+
+	async updateInsanityDetail(event)
+	{
+		const select = $(event.delegateTarget);
+		const value = select.val();
+		const insanityIndex = select.data("insanity-index");
+				
+		const data = super.getData();
+		data.data.insanities["insanity" + (insanityIndex - 1)] = value;
+
+		var result = await this.actor.update(data.actor);
+	}
+	
+	async healInsanity(event)
+	{
+		const anchor = $(event.delegateTarget);
+		const insanityIndex = anchor.data("insanity-index");
+				
+		const data = super.getData();
+
+		var count = insanityIndex - 1;
+		while (count <= data.data.mind.wounds.max)
+		{
+			var nextInsanity = data.data.insanities["insanity" + (count + 1)]
+			if (nextInsanity)
+			{
+				data.data.insanities["insanity" + count] = nextInsanity;
+			}
+			else
+			{
+				data.data.insanities["insanity" + count] = 0;
+			}
+			count++;
+		}
+
+		if (insanityIndex <= data.data.mind.wounds.value)
+		{
+			data.data.mind.wounds.lastTotal = data.data.mind.wounds.value;
+			data.data.mind.wounds.value--;
 		}
 
 		var result = await this.actor.update(data.actor);
@@ -409,6 +509,8 @@ export class PrimePCActorSheet extends ActorSheet
 		html.find(".toggleCharacterEditing").click(this.toggleSheetEditMode.bind(this));
 		html.find(".toggleCharacterLocked").click(this.toggleSheetEditMode.bind(this));
 
+		html.find(".soulAndXP").click(this.burnSoulPoint.bind(this));
+
 		html.find(".valueWrapper").dblclick(this.toggleValueEditMode.bind(this));
 		html.find(".valueWrapper").click(this.checkPreventClose.bind(this));
 		
@@ -423,6 +525,10 @@ export class PrimePCActorSheet extends ActorSheet
 		html.find(".injuryCheckbox").change(this.updateInjuryTotal.bind(this));
 		html.find(".injurySelect").change(this.updateInjuryDetail.bind(this));
 		html.find(".healInjury").click(this.healInjury.bind(this));
+
+		html.find(".insanityCheckbox").change(this.updateInsanityTotal.bind(this));
+		html.find(".insanitySelect").change(this.updateInsanityDetail.bind(this));
+		html.find(".healInsanity").click(this.healInsanity.bind(this));
 
 		var resizeHandle = html.parent().parent().find(".window-resizable-handle");
 		
@@ -446,6 +552,11 @@ export class PrimePCActorSheet extends ActorSheet
 		html.find(".injurySelect").each(function(index, element)
 		{
 			$(element).val(data.data.wounds["wound" + index]);
+		});
+
+		html.find(".insanitySelect").each(function(index, element)
+		{
+			$(element).val(data.data.insanities["insanity" + index]);
 		});
 
 		html.find(".fillAnimation").removeClass("fillAnimation");
