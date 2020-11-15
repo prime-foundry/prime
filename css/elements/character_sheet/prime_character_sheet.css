@@ -1,3 +1,4 @@
+@import url('prime_character_health_and_mind.css');
 
 
 /* 665 or lower */
@@ -29,9 +30,88 @@
 	position: relative;
 }
 
-.characterOwners
+.burnSoulpoint
+{
+	position: absolute;
+	bottom: -5px;
+	right: 0px;
+	font-size: 20px;
+	transform: scale(1);
+	transition: all .2s ease-in-out;
+	transform-origin: bottom right;
+	cursor: pointer;
+}
+
+.burnSoulpoint:hover
+{
+	text-shadow: 0 -1px 4px #FFF, 0 -2px 10px #ff0, 0 -10px 20px #ff8000, 0 -18px 40px #F00;
+	transform: scale(2);
+}
+
+.primeCharacterSheet input.bigNumberInput,
+.primeCharacterSheet .bigNumberText
+{
+	width:100%;
+	height:40px;
+	font-size: 30px;
+	text-align: center;
+	background: rgba(255,255,255,0.5);
+}
+
+.primeCharacterSheet .bigNumberText
+{
+	background: transparent;
+	display: flex;
+	align-items: center;
+}
+
+.primeCharacterSheet.narrowWidth input.bigNumberInput,
+.primeCharacterSheet.narrowWidth .bigNumberText
+{
+	font-size: var(--smallTitle-size);
+	height:30px;
+}
+
+
+h1.entityName
+{
+	margin: 0px;
+	margin-top: 5px;
+	text-align: center;
+}
+
+.largestNameFont
+{
+	font-size: 38px;
+}
+
+.largeNameFont
+{
+	font-size: 34px;
+}
+
+.mediumNameFont
+{
+	font-size: 26px;
+	line-height: 85%;
+}
+
+.smallNameFont
+{
+	font-size: 20px;
+}
+
+.tinyNameFont
 {
 	font-size: 14px;
+}
+
+.characterOwners
+{
+	font-size: 10px;
+	margin: 0px;
+	margin-bottom: -5px;
+	text-align: left;
 }
 
 .primeCharacterSheet.sheetEditable .toggleCharacterEditing,
@@ -92,213 +172,11 @@
 	right:0px;
 }
 
-
 .primeCharacterSheet .metaDataContent .metaValues
 {
 	display: flex;
 	justify-content: space-between;
 	flex-wrap: wrap;
-}
-
-
-
-.primeCharacterSheet .healthAndArmourOuter
-{
-	position: relative;
-}
-
-.primeCharacterSheet .healthAndArmourOuter .topHalfBlock.block .blockTitle,
-.primeCharacterSheet .healthAndArmourOuter .bottomHalfBlock.block .blockTitle
-{
-	left: 55%;
-	right: 5%;
-}
-
-.primeCharacterSheet .resilienceBlock
-{
-	margin-left: 1%;
-}
-
-.primeCharacterSheet input.bigNumberInput,
-.primeCharacterSheet div.bigNumberText
-{
-	width:100%;
-	height:50px;
-	font-size: var(--title-size);
-	text-align: center;
-	background: rgba(255,255,255,0.5);
-}
-
-.primeCharacterSheet div.bigNumberText
-{
-	background: transparent;
-	display: flex;
-	align-items: center;
-}
-.primeCharacterSheet.narrowWidth input.bigNumberInput,
-.primeCharacterSheet.narrowWidth div.bigNumberText
-{
-	font-size: var(--smallTitle-size);
-	height:30px;
-}
-
-.primeCharacterSheet .resilienceBlock input.bigNumberInput
-{
-	width: 75%;
-    text-align: left;
-    padding-left: 18%;
-}
-
-.primeCharacterSheet .combinedResilienceBlock,
-.primeCharacterSheet .injuriesBlock
-{
-	position: absolute;
-	top: 16%;
-	right: -14px;
-	width: 15.5%;
-	bottom: 18%;
-	z-index: 20;
-	background: rgb(232, 232, 232);
-	border-radius: 100% 5px 5px 100%;
-	font-size: var(--title-size);
-}
-
-.primeCharacterSheet.narrowWidth .combinedResilienceBlock
-{
-	top: 20%;
-	bottom: 21%;
-	font-size: var(--smallTitle-size);
-}
-
-
-
-.primeCharacterSheet .injuriesBlock 
-{
-	top: 2%;
-	left: -8px;
-	right: auto;
-	width: 48%;
-	bottom: 2%;
-	border-radius: 5px;
-	padding-left: 14px;
-	justify-content: space-evenly;
-	font-size: var(--font-size-medium);
-	transition: width 0.2s ease-in, padding 0.2s ease-in;
-	overflow: hidden;
-}
-
-.primeCharacterSheet.narrowWidth .injuriesBlock
-{
-	top: 2%;
-	bottom: 2%;
-}
-
-.primeCharacterSheet .injuriesBlock .injuryCheckBoxWrapper
-{
-	position: relative;
-	width:22%;
-}
-
-.primeCharacterSheet .injuriesBlock .injuryCheckBoxWrapper label
-{
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	bottom: 0px;
-	right: 0px;
-	font-size: 10px;
-	color: var(--disabledGrey);
-	cursor: pointer;
-}
-
-.primeCharacterSheet .injuriesBlock .injuryCheckBoxWrapper.activePoint label
-{
-	color: var(--darkBloodRed);
-}
-
-.primeCharacterSheet .injuriesBlock .injuryCheckBoxWrapper label:before
-{
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	bottom: 0px;
-	right: 0px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	font-size: 25px;
-	content: "\f004";
-	font-family: "Font Awesome 5 Free";
-	font-weight: 400;
-	-webkit-font-smoothing: antialiased;
-    display: inline-block;
-    font-style: normal;
-    font-variant: normal;
-    text-rendering: auto;
-	line-height: 1;
-	text-align: center;
-}
-
-.primeCharacterSheet.narrowWidth .injuriesBlock .injuryCheckBoxWrapper label:before
-{
-	font-size: 18px;
-}
-
-.primeCharacterSheet .injuriesBlock .injuryRow
-{
-	position: relative;
-}
-
-.primeCharacterSheet .injuriesBlock .injuryRow input
-{
-	opacity: 0;
-	width: 0;
-	height: 0;
-	margin: 0;
-	float: left;
-}
-
-
-.primeCharacterSheet .injuriesBlock .injuryRow select
-{
-	width: 65%;
-}
-
-.primeCharacterSheet.narrowWidth .injuriesBlock .injuryRow select
-{
-	height:18px;
-	font-size:12px;
-}
-
-.primeCharacterSheet .injuriesBlock .injuryRow .medkitIcon
-{
-	width:13%;
-}
-
-.primeCharacterSheet.narrowWidth .injuriesBlock .injuryRow .medkitIcon
-{
-	font-size: 12px;
-}
-
-.primeCharacterSheet .healthAndArmourOuter .healthResilienceWrapper,
-.primeCharacterSheet .healthAndArmourOuter .armourResilienceWrapper
-{
-	position: relative;
-}
-
-.primeCharacterSheet .healthAndArmourOuter .healthMaxResilience,
-.primeCharacterSheet .healthAndArmourOuter .armourMaxResilience
-{
-	position: absolute;
-    bottom: 0px;
-    left: 15%;
-    font-size: 10px;
-    z-index: 50;
-}
-.primeCharacterSheet .healthAndArmourOuter .healthMaxResilience
-{
-	top: 0px;
-	bottom: auto;
 }
 
 .metaValueContent.actionPointsWrapper
@@ -525,13 +403,19 @@
 {
 	margin-right:5px;	
 }
-.statsContent .refinementsGroup .refinementWrapper input
+
+.primeCharacterSheet input
 {
 	position: relative;
-	width:25px;
-	height:25px;
 	text-align: center;
 }
+
+.statsContent .refinementsGroup .refinementWrapper input
+{
+	width:25px;
+	height:25px;
+}
+
 .statsContent .refinementsGroup .refinementWrapper .refinementValue
 {
 	width:25px;
@@ -539,14 +423,71 @@
 	text-align: center;
 }
 
-.statsContent .primesGroup .primeWrapper .valueWrapper,
-.statsContent .refinementsGroup .refinementWrapper .valueWrapper
+.primeCharacterSheet .tabbedSection .tabContentWrapper .block.leftBlockTitle
+{
+	margin-left:0px;
+}
+
+.primeCharacterSheet .tabbedSection .tabContentWrapper .block.rightBlockTitle 
+{
+	margin-right:0px;
+}
+
+.primeCharacterSheet .descriptionItem
+{
+	margin-bottom: 5px;
+}
+.primeCharacterSheet .descriptionItem:last-child
+{
+	margin-bottom: 0px;
+}
+
+.primeCharacterSheet .descriptionLabel
+{
+	text-align: right;
+	padding-right: 5px;
+}
+
+.primeCharacterSheet .descriptionItem input
+{
+	text-align: left;
+	margin-bottom: 1px;
+}
+
+.primeCharacterSheet .valueWrapper .descriptionValue
+{
+	justify-content: start;
+	padding-top: 2px;
+	border-bottom: 1px solid #191813;
+}
+
+.primeCharacterSheet.sheetEditable .descriptionValue,
+.primeCharacterSheet .valueEditable .descriptionValue
+{
+	border-bottom-width: 0px;
+}
+
+.primeCharacterSheet .characterBiographyHolder .editor
+{
+	height: 180px;
+}
+
+.primeCharacterSheet .valueWrapper,
+.primeCharacterSheet .refinementsGroup .valueWrapper,
+.primeCharacterSheet .primesGroup.valueWrapper
 {
 	position: relative;
+}
+
+.primeCharacterSheet .refinementsGroup .valueWrapper,
+.primeCharacterSheet .primesGroup.valueWrapper
+{
 	width:25px;
 	height:25px;
 }
 
+.primeCharacterSheet .actorValue,
+.primeCharacterSheet .descriptionValue,
 .primeCharacterSheet .statsContent .refinementsGroup .refinementWrapper .refinementValue,
 .primeCharacterSheet .statsContent .primesGroup .primeWrapper .primeValue
 {
@@ -560,6 +501,9 @@
 	align-items: center;
 }
 
+.primeCharacterSheet .actorValue,
+.primeCharacterSheet .descriptionValue,
+.primeCharacterSheet .valueWrapper input,
 .primeCharacterSheet .statsContent .refinementsGroup .refinementWrapper .refinementValue,
 .primeCharacterSheet .statsContent .primesGroup .primeWrapper .primeValue,
 .primeCharacterSheet .statsContent .refinementsGroup .refinementWrapper input,
@@ -573,7 +517,11 @@
 .primeCharacterSheet .statsContent .refinementsGroup .refinementWrapper .refinementValue,
 .primeCharacterSheet .statsContent .primesGroup .primeWrapper .primeValue,
 .primeCharacterSheet .statsContent .refinementsGroup .refinementWrapper .valueEditable input,
-.primeCharacterSheet .statsContent .primesGroup .primeWrapper .valueEditable input
+.primeCharacterSheet .statsContent .primesGroup .primeWrapper .valueEditable input,
+.primeCharacterSheet .actorValue,
+.primeCharacterSheet .descriptionValue,
+.primeCharacterSheet.sheetEditable .valueWrapper input,
+.primeCharacterSheet .valueEditable.valueEditable input
 {
 	opacity: 1;
 	z-index: 1;
@@ -584,7 +532,12 @@
 .primeCharacterSheet.sheetEditable .statsContent .refinementsGroup .refinementWrapper .refinementValue,
 .primeCharacterSheet.sheetEditable .statsContent .primesGroup .primeWrapper .primeValue,
 .primeCharacterSheet .statsContent .refinementsGroup .refinementWrapper .valueEditable .refinementValue,
-.primeCharacterSheet .statsContent .primesGroup .primeWrapper .valueEditable .primeValue
+.primeCharacterSheet .statsContent .primesGroup .primeWrapper .valueEditable .primeValue,
+.primeCharacterSheet.sheetEditable .actorValue,
+.primeCharacterSheet.sheetEditable .descriptionValue,
+.primeCharacterSheet .valueWrapper input,
+.primeCharacterSheet .valueEditable .actorValue,
+.primeCharacterSheet .valueEditable .descriptionValue
 {
 	opacity: 0;
 	z-index: 0;
