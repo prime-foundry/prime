@@ -468,6 +468,7 @@
 			"base":
 			{
 				"description":"",
+				"settingDescription":"",
 				"setting":""
 			},
 
@@ -654,6 +655,23 @@
 				{
 					"key": "armour.resilience.max",
 					"title": "PRIME.perk_actor_stat_bonus_max_armour_resilience"
+				},
+
+				{
+					"key": "mind.insanities.max",
+					"title": "PRIME.perk_actor_stat_bonus_max_insanities"
+				},
+				{
+					"key": "mind.psyche.max",
+					"title": "PRIME.perk_actor_stat_bonus_max_psyche"
+				},
+				{
+					"key": "ward.stability.max",
+					"title": "PRIME.perk_actor_stat_bonus_max_stability"
+				},
+				{
+					"key": "ward.psyche.max",
+					"title": "PRIME.perk_actor_stat_bonus_max_ward_psyche"
 				}
 			],
 
