@@ -49,7 +49,7 @@
 			<div class="cell100">
 				Wound conditions: 
 				{{#each checkboxGroups.wounds.selectedItems as |wound key|}}
-				<span title="{{wound.description}}" class="hasTooltip">{{wound.title}}</span>{{#isNotLastItem key ../checkboxGroups.wounds.selectedItems.length}}, {{/isNotLastItem}}
+				<span title="{{convertHTMLForTitle wound.description}}" class="hasTooltip">{{wound.title}}</span>{{#isNotLastItem key ../checkboxGroups.wounds.selectedItems.length}}, {{/isNotLastItem}}
 				{{/each}}
 			</div>
 			<i class="fas fa-chevron-circle-up"></i>
@@ -58,7 +58,7 @@
 		<div class="cell100 flexRow verticalCenter flexBetween flexWrap checkboxGroupWrapper {{checkboxGroupState checkboxGroupStates.wounds}}" data-checkbox-group="wounds">
 			{{#each checkboxGroups.wounds.optionsData as |wound key|}}
 			<div class="flexRow verticalCenter cell33 flexBetween">
-				<label for="{{wound.key}}" class="resource-label hasTooltip" title="{{wound.description}}">{{wound.title}}:</label>
+				<label for="{{wound.key}}" class="resource-label hasTooltip" title="{{convertHTMLForTitle wound.description}}">{{wound.title}}:</label>
 				<input class="checkboxGroup" data-effect-id="{{wound.effectID}}" data-group-type="checkbox-wound-conditions" type="checkbox" id="{{wound.key}}" name="data.woundConditions" value="{{wound.key}}" {{checked wound.checked}}/>
 			</div>
 			{{/each}}
@@ -67,7 +67,7 @@
 		<div class="cell100 flexRow verticalCenter flexCenter checkboxGroupTitle {{checkboxGroupState checkboxGroupStates.keywords}}" data-checkbox-group="keywords">
 			<div class="cell100">Keywords:
 				{{#each checkboxGroups.keywords.selectedItems as |keyword key|}}
-				<span title="{{keyword.description}}" class="hasTooltip">{{keyword.title}}</span>{{#isNotLastItem key ../checkboxGroups.keywords.selectedItems.length}}, {{/isNotLastItem}}
+				<span title="{{convertHTMLForTitle keyword.description}}" class="hasTooltip">{{keyword.title}}</span>{{#isNotLastItem key ../checkboxGroups.keywords.selectedItems.length}}, {{/isNotLastItem}}
 				{{/each}}
 			</div>
 			<i class="fas fa-chevron-circle-up"></i>
@@ -76,7 +76,7 @@
 		<div class="cell100 flexRow verticalCenter flexBetween flexWrap checkboxGroupWrapper {{checkboxGroupState checkboxGroupStates.keywords}}" data-checkbox-group="keywords">
 			{{#each checkboxGroups.keywords.optionsData as |keyword key|}}
 			<div class="flexRow verticalCenter cell33 flexBetween">
-				<label for="{{keyword.key}}" class="resource-label hasTooltip" title="{{keyword.description}}">{{keyword.title}}:</label>
+				<label for="{{keyword.key}}" class="resource-label hasTooltip" title="{{convertHTMLForTitle keyword.description}}">{{keyword.title}}:</label>
 				<input class="checkboxGroup" data-effect-id="{{keyword.effectID}}" data-group-type="checkbox-keywords" type="checkbox" id="{{keyword.key}}" name="data.keywords" value="{{keyword.key}}" {{checked keyword.checked}}/>
 			</div>
 			{{/each}}
@@ -85,7 +85,7 @@
 		<div class="cell100 flexRow verticalCenter flexCenter checkboxGroupTitle {{checkboxGroupState checkboxGroupStates.actions}}" data-checkbox-group="actions">
 			<div class="cell100">Custom actions:
 				{{#each checkboxGroups.actions.selectedItems as |action key|}}
-				<span title="{{action.description}}" class="hasTooltip">{{action.title}}</span>{{#isNotLastItem key ../checkboxGroups.actions.selectedItems.length}}, {{/isNotLastItem}}
+				<span title="{{convertHTMLForTitle action.description}}" class="hasTooltip">{{action.title}}</span>{{#isNotLastItem key ../checkboxGroups.actions.selectedItems.length}}, {{/isNotLastItem}}
 				{{/each}}
 			</div>
 			<i class="fas fa-chevron-circle-up"></i>
@@ -94,7 +94,7 @@
 		<div class="cell100 lastRow flexRow verticalCenter flexBetween flexWrap checkboxGroupWrapper {{checkboxGroupState checkboxGroupStates.actions}}" data-checkbox-group="actions">
 			{{#each checkboxGroups.actions.optionsData as |action key|}}
 			<div class="flexRow verticalCenter cell33 flexBetween">
-				<label for="{{action.key}}" class="resource-label hasTooltip" title="{{action.description}}">{{action.title}}:</label>
+				<label for="{{action.key}}" class="resource-label hasTooltip" title="{{convertHTMLForTitle action.description}}">{{action.title}}:</label>
 				<input class="checkboxGroup" data-effect-id="{{action.effectID}}" data-group-type="checkbox-actions" type="checkbox" id="{{action.key}}" name="data.customActions" value="{{action.key}}" {{checked action.checked}}/>
 			</div>
 			{{/each}}

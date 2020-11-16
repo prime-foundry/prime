@@ -34,7 +34,7 @@
 		<div class="cell100 flexRow verticalCenter flexCenter checkboxGroupTitle {{checkboxGroupState checkboxGroupStates.keywords}}" data-checkbox-group="keywords">
 			<div class="cell100">Keywords:
 				{{#each checkboxGroups.keywords.selectedItems as |keyword key|}}
-				<span title="{{keyword.description}}" class="hasTooltip">{{keyword.title}}</span>{{#isNotLastItem key ../checkboxGroups.keywords.selectedItems.length}}, {{/isNotLastItem}}
+				<span title="{{convertHTMLForTitle keyword.description}}" class="hasTooltip">{{keyword.title}}</span>{{#isNotLastItem key ../checkboxGroups.keywords.selectedItems.length}}, {{/isNotLastItem}}
 				{{/each}}
 			</div>
 			<i class="fas fa-chevron-circle-up"></i>
@@ -43,7 +43,7 @@
 		<div class="cell100 flexRow verticalCenter flexBetween flexWrap checkboxGroupWrapper {{checkboxGroupState checkboxGroupStates.keywords}}" data-checkbox-group="keywords">
 			{{#each checkboxGroups.keywords.optionsData as |keyword key|}}
 			<div class="flexRow verticalCenter cell33 flexBetween">
-				<label for="{{keyword.key}}" class="resource-label hasTooltip" title="{{keyword.description}}">{{keyword.title}}:</label>
+				<label for="{{keyword.key}}" class="resource-label hasTooltip" title="{{convertHTMLForTitle keyword.description}}">{{keyword.title}}:</label>
 				<input class="checkboxGroup" data-effect-id="{{keyword.effectID}}" data-group-type="checkbox-keywords" type="checkbox" id="{{keyword.key}}" name="data.keywords.{{key}}" value="{{keyword.key}}" {{checked keyword.checked}}/>
 			</div>
 			{{/each}}
@@ -52,7 +52,7 @@
 		<div class="cell100 flexRow verticalCenter flexCenter checkboxGroupTitle {{checkboxGroupState checkboxGroupStates.actions}}" data-checkbox-group="actions">
 			<div class="cell100">Untrained penalty:
 				{{#each checkboxGroups.untrainedPenalty.selectedItems as |untrainedPenalty key|}}
-				<span title="{{untrainedPenalty.description}}" class="hasTooltip">{{untrainedPenalty.title}}</span>{{#isNotLastItem key ../checkboxGroups.untrainedPenalty.selectedItems.length}}, {{/isNotLastItem}}
+				<span title="{{convertHTMLForTitle untrainedPenalty.description}}" class="hasTooltip">{{untrainedPenalty.title}}</span>{{#isNotLastItem key ../checkboxGroups.untrainedPenalty.selectedItems.length}}, {{/isNotLastItem}}
 				{{/each}}
 			</div>
 			<i class="fas fa-chevron-circle-up"></i>
@@ -61,7 +61,7 @@
 		<div class="cell100 lastRow flexRow verticalCenter flexBetween flexWrap checkboxGroupWrapper {{checkboxGroupState checkboxGroupStates.actions}}" data-checkbox-group="actions">
 			{{#each checkboxGroups.untrainedPenalty.optionsData as |untrainedPenalty key|}}
 			<div class="flexRow verticalCenter cell33 flexBetween">
-				<label for="{{untrainedPenalty.key}}" class="resource-label hasTooltip" title="{{untrainedPenalty.description}}">{{untrainedPenalty.title}}:</label>
+				<label for="{{untrainedPenalty.key}}" class="resource-label hasTooltip" title="{{convertHTMLForTitle untrainedPenalty.description}}">{{untrainedPenalty.title}}:</label>
 				<input class="checkboxGroup" data-effect-id="{{untrainedPenalty.effectID}}" data-group-type="checkbox-untrained" type="checkbox" id="{{untrainedPenalty.key}}" name="data.untrainedPenalty" value="{{untrainedPenalty.key}}" {{checked untrainedPenalty.checked}}/>
 			</div>
 			{{/each}}
