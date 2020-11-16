@@ -1,9 +1,11 @@
-Refinements list
+Refinements list - Copy Aethernauts
 
-Character drive folder - move stuff into archive and give them each a spreadsheet/doc?
+Character drive folder - move stuff into archive and give them each a spreadsheet & doc?
 
 Review current tables inc. ranged actions.
 
 Mental wounds & general labeling.
 
-Tab heading highlight.
+Tab heading highlight - Invert and all caps. Swap inversion on highlighted tab.
+
+Wounds / Resilience - Done as perks with pre-reqs and max's to stop stacking.
