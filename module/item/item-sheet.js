@@ -63,8 +63,6 @@ export class PrimeItemSheet extends ItemSheet
 			case "armour":
 				data.checkboxGroups = this.compileArmourCheckboxGroups(data);
 			break;
-			case "armour":
-			break;
 			case "perk":
 				data.bonuses = this.getEffectsRenderableData("bonus");
 				data.prerequisites = this.getEffectsRenderableData("prerequisite");
@@ -80,17 +78,17 @@ export class PrimeItemSheet extends ItemSheet
 
 	compileWeaponCheckboxGroups(data, subTypeKey)
 	{
-		let woundList = this.cloneAndAddSelectedState(data.actorTables.woundConditions, data.data.woundConditions);
-		let keywordsList = this.cloneAndAddSelectedState(data.itemTables.weapons.keywords, data.data.keywords);
-		let actionsList = this.cloneAndAddSelectedState(data.itemTables.weapons[subTypeKey + 'WeaponActions'], data.data.customActions);
+		let woundList = this.cloneAndAddSelectedState(data.actorTables.woundConditions, data.data.woundConditions, "wound-conditions");
+		let keywordsList = this.cloneAndAddSelectedState(data.itemTables.weapons.keywords, data.data.keywords, "keywords");
+		let actionsList = this.cloneAndAddSelectedState(data.itemTables.weapons[subTypeKey + 'WeaponActions'], data.data.customActions, "actions");
 
 		return {wounds: woundList, keywords: keywordsList, actions: actionsList};	
 	}
 
 	compileArmourCheckboxGroups(data)
 	{
-		let keywordsList = this.cloneAndAddSelectedState(data.itemTables.armour.keywords, data.data.keywords);
-		let untrainedPenaltyList = this.cloneAndAddSelectedState(data.itemTables.armour.untrainedPenalities, data.data.untrainedPenalty);
+		let keywordsList = this.cloneAndAddSelectedState(data.itemTables.armour.keywords, data.data.keywords, "keywords");
+		let untrainedPenaltyList = this.cloneAndAddSelectedState(data.itemTables.armour.untrainedPenalities, data.data.untrainedPenalty, "untrained");
 
 		return {keywords: keywordsList, untrainedPenalty: untrainedPenaltyList};	
 	}
@@ -124,6 +122,12 @@ export class PrimeItemSheet extends ItemSheet
 			break;
 			case "actionEffect":
 				var renderableData = this.getRenderableActionDataFromEffect(whatEffect, matchingEffectsCount)
+			break;
+			case "checkbox-keywords":
+			case "checkbox-untrained":
+			case "checkbox-actions":
+			case "checkbox-wound-conditions":
+				var renderableData = this.getRenderableCheckboxGroupDataFromEffect(whatEffect)
 			break;
 			default:
 				console.warn("Unknown item type of '" + targetEffectType + "' found in getRenderableDataFromEffect(). Effect: ". whatEffect);
@@ -253,6 +257,17 @@ export class PrimeItemSheet extends ItemSheet
 		return renderableEffectData;
 	}
 
+	getRenderableCheckboxGroupDataFromEffect(whatEffect)
+	{
+		var returnData =
+		{
+			id: whatEffect.id,
+			flags: whatEffect.data.flags
+		}
+
+		return returnData;
+	}
+
 	getDynamicDataForActionTarget(actionSubType)
 	{
 		var dynamicDataForActionTarget = [];
@@ -278,7 +293,7 @@ export class PrimeItemSheet extends ItemSheet
 		return dynamicDataForActionTarget;
 	}
 
-	cloneAndAddSelectedState(whatRawOptionsArray, whatSelectionData)
+	cloneAndAddSelectedState(whatRawOptionsArray, whatSelectionData, whatEffectKey)
 	{
 		let checkboxGroupObject =
 		{
@@ -286,12 +301,33 @@ export class PrimeItemSheet extends ItemSheet
 			selectedItems: []
 		}
 
+		var effectDataArray = this.getEffectsRenderableData("checkbox-" + whatEffectKey);
+		if (effectDataArray.length == 1)
+		{
+			var effectData = effectDataArray[0];
+		}
+		else
+		{
+			var effectData = false;
+		}
+
 		var count = 0;
 
 		while (count < checkboxGroupObject.optionsData.length)
 		{
 			let currOption = checkboxGroupObject.optionsData[count];
-			currOption.checked = whatSelectionData[count];
+
+			if (effectData)
+			{
+				currOption.checked = effectData.flags[currOption.key];
+				currOption.effectID = effectData.id;
+			}
+			else
+			{
+				currOption.checked = false
+				currOption.effectID = "";
+			}
+
 			if (currOption.checked)
 			{
 				let selectedItemData = {title: currOption.title};
@@ -406,6 +442,9 @@ export class PrimeItemSheet extends ItemSheet
 		const groupTitles = html.find(".checkboxGroupTitle");
 		groupTitles.click(this.toggleCheckboxGroup.bind(this));
 
+		
+		html.find(".checkboxGroup").change(this.processCheckboxGroup.bind(this));
+
 		html.find(".effectFormElement").change(this.perkEffectFormElementChanged.bind(this));
 
 		html.find(".removeEffectIcon").click(this.removeEffect.bind(this));
@@ -415,6 +454,36 @@ export class PrimeItemSheet extends ItemSheet
 		if (!this.options.editable) return;
 
 		// Roll handlers, click handlers, etc. would go here.
+	}
+
+	async processCheckboxGroup(event)
+	{
+		// data-path="keywords"
+		event.preventDefault();
+		event.stopPropagation();
+
+		const formElement = $(event.delegateTarget);
+		const effectID = formElement.data("effect-id");
+		const checkboxType = formElement.data("group-type");
+		const checkboxKey = formElement.val();
+		const checked = formElement[0].checked;
+
+		
+		if (effectID)
+		{
+			const updateData = {flags:{}};
+			updateData.flags[checkboxKey] = checked;
+
+			var effectToUpdate = await this.item.effects.get(effectID);
+			var result = await effectToUpdate.update(updateData);
+		}
+		else
+		{
+			var effectData = this.getBlankEffectByType(checkboxType);
+			effectData.flags[checkboxKey] = checked;
+
+			var result = await ActiveEffect.create(effectData, this.item).create();
+		}
 	}
 
 	toggleCheckboxGroup(event)
@@ -443,7 +512,6 @@ export class PrimeItemSheet extends ItemSheet
 			targetGroupWrapper.addClass("collapsed");
 		}
 	}
-
 	
 	async perkEffectFormElementChanged(event)
 	{
@@ -521,6 +589,18 @@ export class PrimeItemSheet extends ItemSheet
 				baseEffectData.label = "Action effect";
 				baseEffectData.flags.effectSubType = "move";
 				baseEffectData.flags.path = "null";
+			break;
+			case "checkbox-keywords":
+				baseEffectData.label = "Checkbox group - Keywords";
+			break;
+			case "checkbox-untrained":
+				baseEffectData.label = "Checkbox group - Untrained penalities";
+			break;
+			case "checkbox-actions":
+				baseEffectData.label = "Checkbox group - Custom weapon actions";
+			break;
+			case "checkbox-wound-conditions":
+				baseEffectData.label = "Checkbox group - Wound conditions";
 			break;
 			default:
 				console.error("ERROR: Unknown effect type of '" + effectType + "' found in getBlankEffectByType().");
