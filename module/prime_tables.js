@@ -133,9 +133,25 @@ export class PrimeTables
 		return keyTitleArray;
 	}
 
-	static getActionKeysAndTitles()
+	static getActionKeysAndTitles(omitDefaultActions, allowedActionTypesArray)
 	{
-		return [{key: "null", title:"Dynamic actions list coming soon (TM)"}];
+		var actions = this.getItemKeysAndTitlesByType("action");
+		if (omitDefaultActions)
+		{
+			var returnActions = []
+			var count = 0;
+			while (count < actions.length)
+			{
+				var currAction = actions[count];
+				if (!currAction.source.data.data.default && (!allowedActionTypesArray || allowedActionTypesArray.indexOf(currAction.source.data.data.type) > -1))
+				{
+					returnActions.push(currAction);
+				}
+				count++;
+			}
+			return returnActions;
+		}
+		return actions;
 	}
 
 	static getItemKeysAndTitlesByType(typeFilter)
@@ -145,7 +161,7 @@ export class PrimeTables
 		{
 			if (item.type == typeFilter || typeFilter == "*")
 			{
-				matchingItems.push({key: key, title: item.name})
+				matchingItems.push({key: key, title: item.name, source: item})
 			}
 		});
 
