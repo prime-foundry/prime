@@ -59,6 +59,12 @@
 	align-items: center;
 }
 
+input.cell10,
+.cell10
+{
+	width:9%;
+}
+
 input.cell15,
 .cell15
 {
@@ -130,6 +136,12 @@ input.cell80,
 .cell80
 {
 	width:79%;
+}
+
+input.cell90,
+.cell90
+{
+	width:89%;
 }
 
 input.cell100,
@@ -216,12 +228,14 @@ input.cell100,
 {
 	transform-origin: 50% 50%;
 	transform: rotate(90deg);
+	white-space: nowrap;
 }
 
 .block.leftBlockTitle .blockTitle span
 {
 	transform-origin: 50% 50%;
 	transform: rotate(270deg);
+	white-space: nowrap;
 }
 
 .block.topHalfBlock
