@@ -271,12 +271,12 @@
 	"PRIME.armour_untrained_penalities_title_plus_four_ap": "+4 AP cost",
 	"PRIME.armour_untrained_penalities_description_plus_four_ap": "This armour adds +4 AP cost to all major actions if the wearer isn't properly trained.",
 
-	"PRIME.perk_type_situational_prime": "Situational - Prime bonus",
-	"PRIME.perk_type_situational_refinement": "Situational - Refinement bonus",
+	"PRIME.perk_type_situational_prime": "Situational - Prime",
+	"PRIME.perk_type_situational_refinement": "Situational - Refinement",
 	"PRIME.perk_type_extra_action": "Additional action",
-	"PRIME.perk_type_action_cost_reduction": "Action point reduction",
-	"PRIME.perk_type_actor_stat_bonus": "Bonus to characters statistic",
-	"PRIME.perk_type_external_stat_bonus": "Bonus to other entities statistic",
+	"PRIME.perk_type_action_cost_reduction": "Action point",
+	"PRIME.perk_type_actor_stat_bonus": "Characters statistic",
+	"PRIME.perk_type_external_stat_bonus": "Other entities statistic",
 	"PRIME.perk_type_misc": "Miscellaneous",
 
 	"PRIME.perk_cost_soul": "Soul points",
@@ -297,10 +297,17 @@
 	"PRIME.perk_actor_stat_bonus_base_ap_bonus": "Action points at start of combat ",
 	"PRIME.perk_actor_stat_bonus_max_ap_bonus": "Maximum action point total",
 	"PRIME.perk_actor_stat_bonus_per_round_ap_bonus": "Action points gained per round",
+
 	"PRIME.perk_actor_stat_bonus_max_wounds": "Maximum wounds",
 	"PRIME.perk_actor_stat_bonus_max_resilience": "Health - Resilience",
 	"PRIME.perk_actor_stat_bonus_max_protection": "Armour protection",
 	"PRIME.perk_actor_stat_bonus_max_armour_resilience": "Armour - Resilience",
+
+	"PRIME.perk_actor_stat_bonus_max_insanities": "Maximum insantities",
+	"PRIME.perk_actor_stat_bonus_max_psyche": "Mind - Psyche",
+	"PRIME.perk_actor_stat_bonus_max_stability": "Ward stability",
+	"PRIME.perk_actor_stat_bonus_max_ward_psyche": "Armour - Psyche",
+	
 
 	"PRIME.actor_wound_condition_title_bleeding" : "Bleeding",
 	"PRIME.actor_wound_condition_description_bleeding" : "Every time a Bane (natural 1) is rolled to perform an action lose 1 Resilience",
@@ -352,6 +359,6 @@
 	"PRIME.action_effect_type_melee_block": "Block - Melee",
 	"PRIME.action_effect_type_ranged_block": "Block - Ranged",
 	"PRIME.action_effect_type_magic": "Magic",
-	"PRIME.action_effect_type_gain_points": "Points gain",
+	"PRIME.action_effect_type_gain_points": "Points adjustment",
 	"PRIME.action_effect_type_misc": "Miscellaneous"
 }
