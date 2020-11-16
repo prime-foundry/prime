@@ -46,90 +46,87 @@
 	"PRIME.prime_abbreviation_por": "por",
 	"PRIME.prime_description_por": "Portent is your inner demon. God put them there. They're your friend. Probably.",
 
+		
+	"PRIME.refinment_title_animal" : "Animal",
+	"PRIME.refinment_description_animal" : "Animal - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
+
+	"PRIME.refinment_title_artistic" : "Artistic",
+	"PRIME.refinment_description_artistic" : "Artistic - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
+
+	"PRIME.refinment_title_athletic" : "Athletic",
+	"PRIME.refinment_description_athletic" : "Athletic - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
 	
-	"PRIME.refinment_title_survival" : "Survival",
-	"PRIME.refinment_description_survival" : "Survival - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
-	
-	"PRIME.refinment_title_crafting" : "Crafting",
-	"PRIME.refinment_description_crafting" : "Crafting - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
-	
-	"PRIME.refinment_title_physique" : "Physique",
-	"PRIME.refinment_description_physique" : "Physique - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
-	
+	"PRIME.refinment_title_craft" : "Craft",
+	"PRIME.refinment_description_craft" : "Craft - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
+		
 	"PRIME.refinment_title_melee" : "Melee",
 	"PRIME.refinment_description_melee" : "Melee - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
 	
 	"PRIME.refinment_title_ranged" : "Ranged",
 	"PRIME.refinment_description_ranged" : "Ranged - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
-
-	"PRIME.refinment_title_athletics" : "Athletics",
-	"PRIME.refinment_description_athletics" : "Athletics - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
-
-	"PRIME.refinment_title_handle" : "Handle",
-	"PRIME.refinment_description_handle" : "Handle - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
 	
-	"PRIME.refinment_title_pilot" : "Pilot",
-	"PRIME.refinment_description_pilot" : "Pilot - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
-	
-	"PRIME.refinment_title_skulldugery" : "Skulldugery",
-	"PRIME.refinment_description_skulldugery" : "Skulldugery - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
+	"PRIME.refinment_title_stealth" : "Stealth",
+	"PRIME.refinment_description_stealth" : "Stealth - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
+
+	"PRIME.refinment_title_survival" : "Survival",
+	"PRIME.refinment_description_survival" : "Survival - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
+
+	"PRIME.refinment_title_tolerance" : "Tolerance",
+	"PRIME.refinment_description_tolerance" : "Tolerance - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
+
+	"PRIME.refinment_title_vehicle" : "Vehicle",
+	"PRIME.refinment_description_vehicle" : "Vehicle - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
 
 
-	"PRIME.refinment_title_artistry" : "Artistry",
-	"PRIME.refinment_description_artistry" : "Artistry - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
+
+
+	"PRIME.refinment_title_bravery" : "Bravery",
+	"PRIME.refinment_description_bravery" : "Bravery - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
 	
-	"PRIME.refinment_title_observation" : "Observation",
-	"PRIME.refinment_description_observation" : "Observation - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
+	"PRIME.refinment_title_deceive" : "Deceive",
+	"PRIME.refinment_description_deceive" : "Deceive - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
 	
 	"PRIME.refinment_title_influence" : "Influence",
 	"PRIME.refinment_description_influence" : "Influence - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
-	
-	"PRIME.refinment_title_discern" : "Discern",
-	"PRIME.refinment_description_discern" : "Discern - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
-	
+
 	"PRIME.refinment_title_knowledge" : "Knowledge",
 	"PRIME.refinment_description_knowledge" : "Knowledge - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
 	
-	"PRIME.refinment_title_fortitude" : "Fortitude",
-	"PRIME.refinment_description_fortitude" : "Fortitude - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
+	"PRIME.refinment_title_obscura" : "Obscura",
+	"PRIME.refinment_description_obscura" : "Obscura - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
 	
-	"PRIME.refinment_title_culture" : "Culture",
-	"PRIME.refinment_description_culture" : "Culture - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
+	"PRIME.refinment_title_observe" : "Observe",
+	"PRIME.refinment_description_observe" : "Observe - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
 	
-	"PRIME.refinment_title_medicine" : "Medicine",
-	"PRIME.refinment_description_medicine" : "Medicine - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
-	
-	"PRIME.refinment_title_metaphysics" : "Metaphysics",
-	"PRIME.refinment_description_metaphysics" : "Metaphysics - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
-	
-	"PRIME.refinment_title_doctrines" : "Doctrines",
-	"PRIME.refinment_description_doctrines" : "Doctrines - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
-	
-	"PRIME.refinment_title_sciences" : "Sciences",
-	"PRIME.refinment_description_sciences" : "Sciences - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
-	
+	"PRIME.refinment_title_recover" : "Recover",
+	"PRIME.refinment_description_recover" : "Recover - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
+
+	"PRIME.refinment_title_willpower" : "Willpower",
+	"PRIME.refinment_description_willpower" : "Willpower - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
+
+
+	"PRIME.refinment_title_conduit" : "Conduit",
+	"PRIME.refinment_description_conduit" : "Conduit - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
 
 	"PRIME.refinment_title_fury" : "Fury",
 	"PRIME.refinment_description_fury" : "Fury - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
 	
-	"PRIME.refinment_title_premonition" : "Premonition",
-	"PRIME.refinment_description_premonition" : "Premonition - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
-	
-	"PRIME.refinment_title_threads" : "Threads",
-	"PRIME.refinment_description_threads" : "Threads - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
-	
-	"PRIME.refinment_title_regeneration" : "Regeneration",
-	"PRIME.refinment_description_regeneration" : "Regeneration - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
-	
-	"PRIME.refinment_title_tap" : "Tap",
-	"PRIME.refinment_description_tap" : "Tap",
-	
-	"PRIME.refinment_title_release" : "Release",
-	"PRIME.refinment_description_release" : "Release - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
-	
 	"PRIME.refinment_title_manifest" : "Manifest",
 	"PRIME.refinment_description_manifest" : "Manifest - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
 
+	"PRIME.refinment_title_premonition" : "Premonition",
+	"PRIME.refinment_description_premonition" : "Premonition - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
+	
+	"PRIME.refinment_title_regeneration" : "Regeneration",
+	"PRIME.refinment_description_regeneration" : "Regeneration - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
+
+	"PRIME.refinment_title_tap" : "Tap",
+	"PRIME.refinment_description_tap" : "Tap",
+	
+	"PRIME.refinment_title_threads" : "Threads",
+	"PRIME.refinment_description_threads" : "Threads - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
+
+	
 	"PRIME.refinment_type_physical" : "Physical",
 	"PRIME.refinment_type_mental" : "Mental",
 	"PRIME.refinment_type_supernaturual" : "Supernaturual",
