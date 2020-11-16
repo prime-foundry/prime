@@ -59,7 +59,7 @@
 			{{#each checkboxGroups.wounds.optionsData as |wound key|}}
 			<div class="flexRow verticalCenter cell33 flexBetween">
 				<label for="{{wound.key}}" class="resource-label hasTooltip" title="{{wound.description}}">{{wound.title}}:</label>
-				<input type="checkbox" id="{{wound.key}}" name="data.woundConditions" value="{{wound.key}}" {{checked wound.checked}}/>
+				<input class="checkboxGroup" data-effect-id="{{wound.effectID}}" data-group-type="checkbox-wound-conditions" type="checkbox" id="{{wound.key}}" name="data.woundConditions" value="{{wound.key}}" {{checked wound.checked}}/>
 			</div>
 			{{/each}}
 		</div>
@@ -77,7 +77,7 @@
 			{{#each checkboxGroups.keywords.optionsData as |keyword key|}}
 			<div class="flexRow verticalCenter cell33 flexBetween">
 				<label for="{{keyword.key}}" class="resource-label hasTooltip" title="{{keyword.description}}">{{keyword.title}}:</label>
-				<input type="checkbox" id="{{keyword.key}}" name="data.keywords" value="{{keyword.key}}" {{checked keyword.checked}}/>
+				<input class="checkboxGroup" data-effect-id="{{keyword.effectID}}" data-group-type="checkbox-keywords" type="checkbox" id="{{keyword.key}}" name="data.keywords" value="{{keyword.key}}" {{checked keyword.checked}}/>
 			</div>
 			{{/each}}
 		</div>
@@ -95,7 +95,7 @@
 			{{#each checkboxGroups.actions.optionsData as |action key|}}
 			<div class="flexRow verticalCenter cell33 flexBetween">
 				<label for="{{action.key}}" class="resource-label hasTooltip" title="{{action.description}}">{{action.title}}:</label>
-				<input type="checkbox" id="{{action.key}}" name="data.customActions" value="{{action.key}}" {{checked action.checked}}/>
+				<input class="checkboxGroup" data-effect-id="{{action.effectID}}" data-group-type="checkbox-actions" type="checkbox" id="{{action.key}}" name="data.customActions" value="{{action.key}}" {{checked action.checked}}/>
 			</div>
 			{{/each}}
 		</div>

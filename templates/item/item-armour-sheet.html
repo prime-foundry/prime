@@ -44,7 +44,7 @@
 			{{#each checkboxGroups.keywords.optionsData as |keyword key|}}
 			<div class="flexRow verticalCenter cell33 flexBetween">
 				<label for="{{keyword.key}}" class="resource-label hasTooltip" title="{{keyword.description}}">{{keyword.title}}:</label>
-				<input type="checkbox" id="{{keyword.key}}" name="data.keywords" value="{{keyword.key}}" {{checked keyword.checked}}/>
+				<input class="checkboxGroup" data-effect-id="{{keyword.effectID}}" data-group-type="checkbox-keywords" type="checkbox" id="{{keyword.key}}" name="data.keywords.{{key}}" value="{{keyword.key}}" {{checked keyword.checked}}/>
 			</div>
 			{{/each}}
 		</div>
@@ -62,7 +62,7 @@
 			{{#each checkboxGroups.untrainedPenalty.optionsData as |untrainedPenalty key|}}
 			<div class="flexRow verticalCenter cell33 flexBetween">
 				<label for="{{untrainedPenalty.key}}" class="resource-label hasTooltip" title="{{untrainedPenalty.description}}">{{untrainedPenalty.title}}:</label>
-				<input type="checkbox" id="{{untrainedPenalty.key}}" name="data.untrainedPenalty" value="{{untrainedPenalty.key}}" {{checked untrainedPenalty.checked}}/>
+				<input class="checkboxGroup" data-effect-id="{{untrainedPenalty.effectID}}" data-group-type="checkbox-untrained" type="checkbox" id="{{untrainedPenalty.key}}" name="data.untrainedPenalty" value="{{untrainedPenalty.key}}" {{checked untrainedPenalty.checked}}/>
 			</div>
 			{{/each}}
 		</div>
