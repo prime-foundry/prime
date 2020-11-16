@@ -24,8 +24,8 @@
 					},
 					"resilience":
 					{
-						"value": 3,
-						"max": 3
+						"value": 4,
+						"max": 4
 					}
 				},
 				"armour":
@@ -62,27 +62,27 @@
 			{
 				"mind":
 				{
-					"wounds":
+					"insanities":
 					{
 						"lastTotal": 0,
 						"value": 0,
 						"max": 3
 					},
-					"resilience":
+					"psyche":
 					{
-						"value": 3,
-						"max": 3
+						"value": 4,
+						"max": 4
 					}
 				},
 				
-				"mindArmour":
+				"ward":
 				{
-					"protection":
+					"stability":
 					{
 						"value":0,
 						"max":0
 					},
-					"resilience":
+					"psyche":
 					{
 						"value":0,
 						"max":0
@@ -191,32 +191,41 @@
 			{
 				"refinements":
 				{
-					"survival" :
+					"animal" :
 					{
 						"value": 0,
 						"max": 10,
-						"related" : ["end", "per", "int"],
+						"related" : ["mov", "itr", "int"],
 						"type" : "physical",
-						"title": "PRIME.refinment_title_survival",
-						"description": "PRIME.refinment_description_survival"
+						"title": "PRIME.refinment_title_animal",
+						"description": "PRIME.refinment_description_animal"
 					},
-					"crafting" :
+					"artistic" :
+					{
+						"value": 0,
+						"max": 10,
+						"related" : ["itr", "int", "man" ],
+						"type" : "physical",
+						"title": "PRIME.refinment_title_artistic",
+						"description": "PRIME.refinment_description_artistic"
+					},
+					"athletic" :
+					{
+						"value": 0,
+						"max": 10,
+						"related" : ["mov", "str"],
+						"type" : "physical",
+						"title": "PRIME.refinment_title_athletic",
+						"description": "PRIME.refinment_description_athletic"
+					},
+					"craft" :
 					{
 						"value": 0,
 						"max": 10,
 						"related" : ["itr", "str", "int"],
 						"type" : "physical",
-						"title": "PRIME.refinment_title_crafting",
-						"description": "PRIME.refinment_description_crafting"
-					},
-					"physique" :
-					{
-						"value": 0,
-						"max": 10,
-						"related" : ["end", "str", "mov"],
-						"type" : "physical",
-						"title": "PRIME.refinment_title_physique",
-						"description": "PRIME.refinment_description_physique"
+						"title": "PRIME.refinment_title_craft",
+						"description": "PRIME.refinment_description_craft"
 					},
 					"melee" :
 					{
@@ -236,61 +245,61 @@
 						"title": "PRIME.refinment_title_ranged",
 						"description": "PRIME.refinment_description_ranged"
 					},
-					"athletics" :
-					{
-						"value": 0,
-						"max": 10,
-						"related" : ["mov", "str"],
-						"type" : "physical",
-						"title": "PRIME.refinment_title_athletics",
-						"description": "PRIME.refinment_description_athletics"
-					},
-					"handle" :
-					{
-						"value": 0,
-						"max": 10,
-						"related" : ["mov"],
-						"type" : "physical",
-						"title": "PRIME.refinment_title_handle",
-						"description": "PRIME.refinment_description_handle"
-					},
-					"pilot" :
-					{
-						"value": 0,
-						"max": 10,
-						"related" : ["itr"],
-						"type" : "physical",
-						"title": "PRIME.refinment_title_pilot",
-						"description": "PRIME.refinment_description_pilot"
-					},
-					"skulldugery" :
+					"stealth" :
 					{
 						"value": 0,
 						"max": 10,
 						"related" : ["itr", "mov"],
 						"type" : "physical",
-						"title": "PRIME.refinment_title_skulldugery",
-						"description": "PRIME.refinment_description_skulldugery"
+						"title": "PRIME.refinment_title_stealth",
+						"description": "PRIME.refinment_description_stealth"
 					},
-
-
-					"artistry" :
+					"survival" :
 					{
 						"value": 0,
 						"max": 10,
-						"related" : ["man", "int", "itr"],
-						"type" : "mental",
-						"title": "PRIME.refinment_title_artistry",
-						"description": "PRIME.refinment_description_artistry"
+						"related" : ["itr", "mov", "int", "per"],
+						"type" : "physical",
+						"title": "PRIME.refinment_title_survival",
+						"description": "PRIME.refinment_description_survival"
 					},
-					"observation" :
+					"tolerance" :
 					{
 						"value": 0,
 						"max": 10,
-						"related" : ["per"],
+						"related" : ["end"],
+						"type" : "physical",
+						"title": "PRIME.refinment_title_tolerance",
+						"description": "PRIME.refinment_description_tolerance"
+					},
+					"vehicle" :
+					{
+						"value": 0,
+						"max": 10,
+						"related" : ["man", "itr"],
+						"type" : "physical",
+						"title": "PRIME.refinment_title_vehicle",
+						"description": "PRIME.refinment_description_vehicle"
+					},
+
+
+					"bravery" :
+					{
+						"value": 0,
+						"max": 10,
+						"related" : ["res"],
 						"type" : "mental",
-						"title": "PRIME.refinment_title_observation",
-						"description": "PRIME.refinment_description_observation"
+						"title": "PRIME.refinment_title_bravery",
+						"description": "PRIME.refinment_description_bravery"
+					},
+					"deceive" :
+					{
+						"value": 0,
+						"max": 10,
+						"related" : ["man", "per", "int", "itr"],
+						"type" : "mental",
+						"title": "PRIME.refinment_title_deceive",
+						"description": "PRIME.refinment_description_deceive"
 					},
 					"influence" :
 					{
@@ -301,70 +310,61 @@
 						"title": "PRIME.refinment_title_influence",
 						"description": "PRIME.refinment_description_influence"
 					},
-					"discern" :
-					{
-						"value": 0,
-						"max": 10,
-						"related" : ["man", "per", "int", "itr"],
-						"type" : "mental",
-						"title": "PRIME.refinment_title_discern",
-						"description": "PRIME.refinment_description_discern"
-					},
-					"fortitude" :
-					{
-						"value": 0,
-						"max": 10,
-						"related" : ["res"],
-						"type" : "mental",
-						"title": "PRIME.refinment_title_fortitude",
-						"description": "PRIME.refinment_description_fortitude"
-					},
-					"culture" :
-					{
-						"value": 0,
-						"max": 10,
-						"related" : ["man", "per", "int"],
-						"type" : "mental",
-						"title": "PRIME.refinment_title_culture",
-						"description": "PRIME.refinment_description_culture"
-					},
-					"medicine" :
-					{
-						"value": 0,
-						"max": 10,
-						"related" : ["per", "int", "itr"],
-						"type" : "mental",
-						"title": "PRIME.refinment_title_medicine",
-						"description": "PRIME.refinment_description_medicine"
-					},
-					"metaphysics" :
-					{
-						"value": 0,
-						"max": 10,
-						"related" : ["int", "per", "por", "att"],
-						"type" : "mental",
-						"title": "PRIME.refinment_title_metaphysics",
-						"description": "PRIME.refinment_description_metaphysics"
-					},
-					"doctrines" :
-					{
-						"value": 0,
-						"max": 10,
-						"related" : ["man", "per", "int", "mov"],
-						"type" : "mental",
-						"title": "PRIME.refinment_title_doctrines",
-						"description": "PRIME.refinment_description_doctrines"
-					},
-					"sciences" :
+					"knowledge" :
 					{
 						"value": 0,
 						"max": 10,
 						"related" : ["int", "per"],
 						"type" : "mental",
-						"title": "PRIME.refinment_title_sciences",
-						"description": "PRIME.refinment_description_sciences"
+						"title": "PRIME.refinment_title_knowledge",
+						"description": "PRIME.refinment_description_knowledge"
+					},
+					"obscura" :
+					{
+						"value": 0,
+						"max": 10,
+						"related" : ["int", "per", "res"],
+						"type" : "mental",
+						"title": "PRIME.refinment_title_obscura",
+						"description": "PRIME.refinment_description_obscura"
+					},
+					"observe" :
+					{
+						"value": 0,
+						"max": 10,
+						"related" : ["per", "man", "int"],
+						"type" : "mental",
+						"title": "PRIME.refinment_title_observe",
+						"description": "PRIME.refinment_description_observe"
+					},
+					"recover" :
+					{
+						"value": 0,
+						"max": 10,
+						"related" : ["res", "end"],
+						"type" : "mental",
+						"title": "PRIME.refinment_title_recover",
+						"description": "PRIME.refinment_description_recover"
+					},
+					"willpower" :
+					{
+						"value": 0,
+						"max": 10,
+						"related" : ["res"],
+						"type" : "mental",
+						"title": "PRIME.refinment_title_willpower",
+						"description": "PRIME.refinment_description_willpower"
 					},
 					
+					"conduit" :
+					{
+						"value": 0,
+						"max": 10,
+						"related" : ["att"],
+						"type" : "supernaturual",
+						"title": "PRIME.refinment_title_conduit",
+						"description": "PRIME.refinment_description_conduit"
+					},
 					"fury" :
 					{
 						"value": 0,
@@ -374,6 +374,15 @@
 						"title": "PRIME.refinment_title_fury",
 						"description": "PRIME.refinment_description_fury"
 					},
+					"manifest" :
+					{
+						"value": 0,
+						"max": 10,
+						"related" : ["por"],
+						"type" : "supernaturual",
+						"title": "PRIME.refinment_title_manifest",
+						"description": "PRIME.refinment_description_manifest"
+					},
 					"premonition" :
 					{
 						"value": 0,
@@ -382,15 +391,6 @@
 						"type" : "supernaturual",
 						"title": "PRIME.refinment_title_premonition",
 						"description": "PRIME.refinment_description_premonition"
-					},
-					"threads" :
-					{
-						"value": 0,
-						"max": 10,
-						"related" : ["por", "end", "res", "per", "int"],
-						"type" : "supernaturual",
-						"title": "PRIME.refinment_title_threads",
-						"description": "PRIME.refinment_description_threads"
 					},
 					"regeneration" :
 					{
@@ -410,23 +410,14 @@
 						"title": "PRIME.refinment_title_tap",
 						"description": "PRIME.refinment_description_tap"
 					},
-					"release" :
+					"threads" :
 					{
 						"value": 0,
 						"max": 10,
-						"related" : ["att"],
+						"related" : ["por", "end", "res", "per", "int"],
 						"type" : "supernaturual",
-						"title": "PRIME.refinment_title_release",
-						"description": "PRIME.refinment_description_release"
-					},
-					"manifest" :
-					{
-						"value": 0,
-						"max": 10,
-						"related" : ["por"],
-						"type" : "supernaturual",
-						"title": "PRIME.refinment_title_manifest",
-						"description": "PRIME.refinment_description_manifest"
+						"title": "PRIME.refinment_title_threads",
+						"description": "PRIME.refinment_description_threads"
 					}
 				}
 			}
