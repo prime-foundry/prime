@@ -2,7 +2,7 @@
   "name": "prime",
   "title": "Prime system",
   "description": "The foundry VTT system of the Prime RPG as used in the Possession world.",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "minimumCoreVersion": "0.6.5",
   "compatibleCoreVersion": "0.7.7",
   "templateVersion": 2,
@@ -15,7 +15,15 @@
   ],
   "styles": ["css/core_imports.css"],
   "scripts": [],
-  "packs": [],
+  "packs": [
+    {
+      "name": "weapon-combo-actions",
+      "label": "Weapon combo actions",
+      "system": "prime",
+      "path": "./packs/weapon-combo-actions.db",
+      "entity": "Item"
+    }
+  ],
   "languages": [
     {
       "lang": "en",
