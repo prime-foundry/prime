@@ -82,7 +82,7 @@ export class PrimeItemSheet extends ItemSheet
 		let keywordsList = this.cloneAndAddSelectedState(data.itemTables.weapons.keywords, "keywords");
 		//let actionsList = this.cloneAndAddSelectedState(data.itemTables.weapons[subTypeKey + 'WeaponActions'], "actions");
 
-		let actionsList = this.getWeaponComboActionData(data.itemTables.weapons[subTypeKey + 'WeaponActions'], data.data.customActions);		
+		let actionsList = this.getWeaponComboActionData();		
 
 		return {wounds: woundList, keywords: keywordsList, actions: actionsList};	
 	}
