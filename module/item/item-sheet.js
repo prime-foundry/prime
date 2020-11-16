@@ -78,19 +78,79 @@ export class PrimeItemSheet extends ItemSheet
 
 	compileWeaponCheckboxGroups(data, subTypeKey)
 	{
-		let woundList = this.cloneAndAddSelectedState(data.actorTables.woundConditions, data.data.woundConditions, "wound-conditions");
-		let keywordsList = this.cloneAndAddSelectedState(data.itemTables.weapons.keywords, data.data.keywords, "keywords");
-		let actionsList = this.cloneAndAddSelectedState(data.itemTables.weapons[subTypeKey + 'WeaponActions'], data.data.customActions, "actions");
+		let woundList = this.cloneAndAddSelectedState(data.actorTables.woundConditions, "wound-conditions");
+		let keywordsList = this.cloneAndAddSelectedState(data.itemTables.weapons.keywords, "keywords");
+		//let actionsList = this.cloneAndAddSelectedState(data.itemTables.weapons[subTypeKey + 'WeaponActions'], "actions");
+
+		let actionsList = this.getWeaponComboActionData(data.itemTables.weapons[subTypeKey + 'WeaponActions'], data.data.customActions);		
 
 		return {wounds: woundList, keywords: keywordsList, actions: actionsList};	
 	}
 
 	compileArmourCheckboxGroups(data)
 	{
-		let keywordsList = this.cloneAndAddSelectedState(data.itemTables.armour.keywords, data.data.keywords, "keywords");
-		let untrainedPenaltyList = this.cloneAndAddSelectedState(data.itemTables.armour.untrainedPenalities, data.data.untrainedPenalty, "untrained");
+		let keywordsList = this.cloneAndAddSelectedState(data.itemTables.armour.keywords, "keywords");
+		let untrainedPenaltyList = this.cloneAndAddSelectedState(data.itemTables.armour.untrainedPenalities, "untrained");
 
 		return {keywords: keywordsList, untrainedPenalty: untrainedPenaltyList};	
+	}
+
+	getWeaponComboActionData()
+	{
+		var weaponComboActions = PrimeTables.getActionKeysAndTitles(false, ["weaponCombo"]);
+		
+		let checkboxGroupObject =
+		{
+			optionsData: $.extend(true, [], weaponComboActions),
+			selectedItems: []
+		}
+
+		var effectDataArray = this.getEffectsRenderableData("checkbox-actions");
+		if (effectDataArray.length == 1)
+		{
+			var effectData = effectDataArray[0];
+		}
+		else
+		{
+			var effectData = false;
+		}
+
+		var count = 0;
+
+		while (count < checkboxGroupObject.optionsData.length)
+		{
+			let currOption = checkboxGroupObject.optionsData[count];
+
+			if (effectData)
+			{
+				currOption.checked = effectData.flags[currOption.key];
+				currOption.effectID = effectData.id;
+			}
+			else
+			{
+				currOption.checked = false
+				currOption.effectID = "";
+			}
+
+			if (currOption.checked)
+			{
+				let selectedItemData = {title: currOption.title};
+				if (currOption.description)
+				{
+					selectedItemData.description = currOption.description;
+				}
+				checkboxGroupObject.selectedItems.push(selectedItemData);
+			}
+			count++;
+		}
+
+		if (checkboxGroupObject.selectedItems.length == 0)
+		{
+			checkboxGroupObject.selectedItems.push({title: "none"});
+		}
+
+		return checkboxGroupObject;
+
 	}
 
 	getEffectsRenderableData(targetEffectType)
@@ -166,7 +226,7 @@ export class PrimeItemSheet extends ItemSheet
 				dynamicDataForBonusTarget = PrimeTables.getRefinementKeysAndTitles();
 			break;
 			case "extraAction":
-				dynamicDataForBonusTarget = PrimeTables.getActionKeysAndTitles();
+				dynamicDataForBonusTarget = PrimeTables.getActionKeysAndTitles(true);
 			break;
 			case "actionPointBonus":
 				dynamicDataForBonusTarget = PrimeTables.getActionKeysAndTitles();
@@ -293,7 +353,7 @@ export class PrimeItemSheet extends ItemSheet
 		return dynamicDataForActionTarget;
 	}
 
-	cloneAndAddSelectedState(whatRawOptionsArray, whatSelectionData, whatEffectKey)
+	cloneAndAddSelectedState(whatRawOptionsArray, whatEffectKey)
 	{
 		let checkboxGroupObject =
 		{
