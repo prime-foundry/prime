@@ -105,7 +105,10 @@ Ship sheet
 
 //Make dynamic action list in perks popup work.
 
-Link actions in weapons to actual actions somehow
+//Link actions in weapons to actual actions somehow
+
+//Fix filtering for actions
+
 
 
 
