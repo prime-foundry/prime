@@ -68,23 +68,45 @@ Ship sheet
 
 //Add penalty for action reduction e.g. Lob is -1 instead of -2.
 
+//Adjust weapon keywords and actions to be properly dynamic
+
+//Normalise health/wounds/mental/insanities in data layer.
+
+//Adjust resilience to base 4
+
+//Split description into generic description & system details.
+
+//Add mental health to actor stat bonus list
+
+//Amend language from bonus to adjustment in perk effects.
+
+//Rename Prime/Refinement bonus to be mitagate penalty or similar.
+
+//Author / Created etc. not updating in perk
 
 
 
-Adjust weapon keywords and actions to be properly dynamic
+Link actions in weapons to actual actions somehow
 
-Normalise health/wounds/mental/insanities in data layer.
+Make dynamic action list in perks popup work.
 
+Additional melee keywords:
 
+- Well balanced: Unlocks "melee aim (make better name)" combo action (same as normal aim, but combo)
 
-Add mental health to actor stat bonus list
+Additional range keywords:
 
-Adjust resilience to base 4
+- Pistol: No penalty in melee
+- Accurate: Unlocks "Fast aim" combo action (same as normal aim, but combo)
 
-Split description into generic description & system details.
+Additional range action:
 
-Amend language from bonus to adjustment in perk effects.
-Rename Prime/Refinement bonus to be mitagate penalty or similar.
+- Remove burst
+- Remove volley
+- Add Spray and Pray: might hit more targets, more people have to defend but attack at minus
+- Add Concentrated fire: more damage vs. single target but uses more ammo.
+- Surpress: make attack role at area, volumn vs ammo capacity. Anyone moving through the zone must resist attack roll.
+
 
 
 
@@ -93,10 +115,6 @@ Fix aspect ratio of image
 Fix bug with resilience/intellect not being updatable.
 
 
-Author / Created etc. not updating in perk
-
-Link actions in weapons to actual actions somehow
-Make dynamic action list in perks popup work.
 
 Make AP vertical and put available actions next to them.
 
@@ -117,23 +135,6 @@ Check injury/instanity dropdown setting - still required?
 Get expanded list of instanities.
 
 
-
-Additional melee keywords:
-
-- Well balanced: Unlocks "melee aim (make better name)" combo action (same as normal aim, but combo)
-
-Additional range keywords:
-
-- Pistol: No penalty in melee
-- Accurate: Unlocks "Fast aim" combo action (same as normal aim, but combo)
-
-Additional range action:
-
-- Remove burst
-- Remove volley
-- Add Spray and Pray: might hit more targets, more people have to defend but attack at minus
-- Add Concentrated fire: more damage vs. single target but uses more ammo.
-- Surpress: make attack role at area, volumn vs ammo capacity. Anyone moving through the zone must resist attack roll.
 
 
 
