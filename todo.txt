@@ -58,7 +58,7 @@ Ship sheet
 
 /Item swapping - bound by distance
 
-/Journal link to change scene
+//Journal link to change scene
 
 //Message Joh and Hobbsy
 
@@ -85,28 +85,27 @@ Ship sheet
 //Author / Created etc. not updating in perk
 
 
+//Additional melee keywords:
+
+//- Well balanced: Unlocks "melee aim (make better name)" combo action (same as normal aim, but combo)
+
+//Additional range keywords:
+
+//- Pistol: No penalty in melee
+//- Accurate: Unlocks "Fast aim" combo action (same as normal aim, but combo)
+
+//Additional range action:
+
+//- Remove burst
+//- Remove volley
+//- Add Spray and Pray: might hit more targets, more people have to defend but attack at minus
+//- Add Concentrated fire: more damage vs. single target but uses more ammo.
+//- Surpress: make attack role at area, volumn vs ammo capacity. Anyone moving through the zone must resist attack roll.
+
+
+//Make dynamic action list in perks popup work.
 
 Link actions in weapons to actual actions somehow
-
-Make dynamic action list in perks popup work.
-
-Additional melee keywords:
-
-- Well balanced: Unlocks "melee aim (make better name)" combo action (same as normal aim, but combo)
-
-Additional range keywords:
-
-- Pistol: No penalty in melee
-- Accurate: Unlocks "Fast aim" combo action (same as normal aim, but combo)
-
-Additional range action:
-
-- Remove burst
-- Remove volley
-- Add Spray and Pray: might hit more targets, more people have to defend but attack at minus
-- Add Concentrated fire: more damage vs. single target but uses more ammo.
-- Surpress: make attack role at area, volumn vs ammo capacity. Anyone moving through the zone must resist attack roll.
-
 
 
 
