@@ -28,22 +28,22 @@
 	</div>
 
 	<nav class="sheet-tabs tabs" data-group="primary">
-		<a class="item tableTitle" data-tab="description">Description</a>
 		<a class="item tableTitle" data-tab="statistics">Primes</a>
+		<a class="item tableTitle" data-tab="perks">Perks</a>
 		<a class="item tableTitle" data-tab="combat">Combat</a>
 		<a class="item tableTitle" data-tab="inventory">Inventory</a>
-		<a class="item tableTitle" data-tab="perks">Perks</a>
+		<a class="item tableTitle" data-tab="description">Description</a>
 		<a class="item tableTitle" data-tab="notes">Notes</a>
 	</nav>
 
 	<section class="sheet-body tabbedSection">
 
-		<div class="tab description" data-group="primary" data-tab="description">
-			{{> actorTabDescription}}
-		</div>
-
 		<div class="tab statistics" data-group="primary" data-tab="statistics">
 			{{> actorTabStatistics}}
+		</div>
+
+		<div class="tab perks" data-group="primary" data-tab="perks">
+			{{> actorTabPerks}}
 		</div>
 
 		<div class="tab combat" data-group="primary" data-tab="combat">
@@ -54,8 +54,8 @@
 			{{> actorTabInventory}}
 		</div>
 
-		<div class="tab perks" data-group="primary" data-tab="perks">
-			{{> actorTabPerks}}
+		<div class="tab description" data-group="primary" data-tab="description">
+			{{> actorTabDescription}}
 		</div>
 
 		<div class="tab notes" data-group="primary" data-tab="notes">
