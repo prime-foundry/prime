@@ -7,6 +7,8 @@ var primeHandlebarsPartialsPaths =
 	"actorPhysicalHealth": "systems/prime/templates/actor/partials/sheet/actor-physical-health.html",
 	"actorPrimesAndRefinements": "systems/prime/templates/actor/partials/sheet/actor-primes-and-refinements.html",
 	"actorSoulPoints": "systems/prime/templates/actor/partials/sheet/actor-soul-points.html",
+	"actorActionsList": "systems/prime/templates/actor/partials/sheet/actor-actions-list.html",
+	
 
 	"actorTabDescription": "systems/prime/templates/actor/partials/tabs/actor-description-tab.html",
 	"actorTabCombat": "systems/prime/templates/actor/partials/tabs/actor-combat-tab.html",
@@ -41,15 +43,19 @@ export class PrimeHandlebarsPartials
 
 Handlebars.registerHelper('convertHTMLForTitle', function (html, options)
 {
-	html = html.replace(/<style([\s\S]*?)<\/style>/gi, '');
-	html = html.replace(/<script([\s\S]*?)<\/script>/gi, '');
-	html = html.replace(/<\/div>/ig, '\n');
-	html = html.replace(/<\/li>/ig, '\n');
-	html = html.replace(/<li>/ig, '  *  ');
-	html = html.replace(/<\/ul>/ig, '\n');
-	html = html.replace(/<\/p>/ig, '\n');
-	html = html.replace(/<br\s*[\/]?>/gi, "\n");
-	html = html.replace(/<[^>]+>/ig, '');
+	if (html)
+	{
+		html = html.replace(/\&nbsp;/ig, '');
+		html = html.replace(/<style([\s\S]*?)<\/style>/gi, '');
+		html = html.replace(/<script([\s\S]*?)<\/script>/gi, '');
+		html = html.replace(/<\/div>/ig, '\n');
+		html = html.replace(/<\/li>/ig, '\n');
+		html = html.replace(/<li>/ig, '  *  ');
+		html = html.replace(/<\/ul>/ig, '\n');
+		html = html.replace(/<\/p>/ig, '\n');
+		html = html.replace(/<br\s*[\/]?>/gi, "\n");
+		html = html.replace(/<[^>]+>/ig, '');
+	}
 	return html;
 });
 
