@@ -143,7 +143,7 @@ Add weak mind/body perks that reduce soak ability but grant extra soul/XP.
 
 Create perks to map to all existing expertise, perks and quirks.
 
-
+Create a more reliable mechanism to link weapon combo actions to the selections in the weapon, as IDs seem to change when imported from a pack?
 
 De-duplicate the health/instanity event handlers.
 
