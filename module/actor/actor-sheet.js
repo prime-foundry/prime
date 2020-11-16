@@ -55,9 +55,6 @@ export class PrimePCActorSheet extends ActorSheet
 		});
 	}
 
-
-	/* -------------------------------------------- */
-
 	/** @override */
 	getData()
 	{
