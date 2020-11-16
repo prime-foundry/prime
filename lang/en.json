@@ -164,8 +164,29 @@
 	"PRIME.weapon_sizes_huge" : "Huge",
 	
 
+	"PRIME.weapon_keywords_title_accurate" : "Accurate",
+	"PRIME.weapon_keywords_description_accurate" : "Allows the 'Fast Aim' combo action to be performed with this weapon.",
+
+	"PRIME.weapon_keywords_title_cumbersome" : "Cumbersome",
+	"PRIME.weapon_keywords_description_cumbersome" : "Attacks with this weapon cost +1 AP",
+
+	"PRIME.weapon_keywords_title_devastating" : "Devastating",
+	"PRIME.weapon_keywords_description_devastating" : "Counts as two wounds towards Wound Limit, often linked to another wound type, e.g. Devastating Bleeding",
+
 	"PRIME.weapon_keywords_title_flexible" : "Flexible",
 	"PRIME.weapon_keywords_description_flexible" : "This weapon is hard to Parry or Block (-2) and is hard to use to Parry (-2)",
+
+	"PRIME.weapon_keywords_title_heavy" : "Heavy",
+	"PRIME.weapon_keywords_description_heavy" : "Must have Strength Prime of 4 or higher OR relevant perk.",
+
+	"PRIME.weapon_keywords_title_minimum_range" : "Minimum range",
+	"PRIME.weapon_keywords_description_minimum_range" : "Weapon can only be used at more distant targets (not target next to you)",
+
+	"PRIME.weapon_keywords_title_penetrating" : "Penetrating",
+	"PRIME.weapon_keywords_description_penetrating" : "Reduces armour protection by one per rank",
+
+	"PRIME.weapon_keywords_title_pistol" : "Pistol",
+	"PRIME.weapon_keywords_description_pistol" : "Allows the weapon to be fired without penalties whilst in melee range the enemy.",
 
 	"PRIME.weapon_keywords_title_pole" : "Pole",
 	"PRIME.weapon_keywords_description_pole" : "Gains +2 to Set to Recieve Reaction",
@@ -173,27 +194,18 @@
 	"PRIME.weapon_keywords_title_ranked" : "Ranked",
 	"PRIME.weapon_keywords_description_ranked" : "Weapon can be used for ranked fighting",
 
-	"PRIME.weapon_keywords_title_minimum_range" : "Minimum range",
-	"PRIME.weapon_keywords_description_minimum_range" : "Weapon can only be used at more distant targets (not target next to you)",
+	"PRIME.weapon_keywords_title_versatile" : "Versatile",
+	"PRIME.weapon_keywords_description_versatile" : "Choose Strength or Manoeuvre as Prime",
 
 	"PRIME.weapon_keywords_title_weak" : "Weak",
 	"PRIME.weapon_keywords_description_weak" : "If an attack fails by 5 or more steps, the weapon is damaged and can only be used to parry until repaired",
 
-	"PRIME.weapon_keywords_title_heavy" : "Heavy",
-	"PRIME.weapon_keywords_description_heavy" : "Must have Strength Prime of 4 or higher OR relevant perk.",
+	"PRIME.weapon_keywords_title_well_balanced" : "Well balanced",
+	"PRIME.weapon_keywords_description_well_balanced" : "Allows the 'Fast Feint' combo action to be performed with this weapon.",
 
-	"PRIME.weapon_keywords_title_penetrating" : "Penetrating",
-	"PRIME.weapon_keywords_description_penetrating" : "Reduces armour protection by one per rank",
 
-	"PRIME.weapon_keywords_title_devastating" : "Devastating",
-	"PRIME.weapon_keywords_description_devastating" : "Counts as two wounds towards Wound Limit, often linked to another wound type, e.g. Devastating Bleeding",
-
-	"PRIME.weapon_keywords_title_versatile" : "Versatile",
-	"PRIME.weapon_keywords_description_versatile" : "Choose Strength or Manoeuvre as Prime",
-
-	"PRIME.weapon_keywords_title_cumbersome" : "Cumbersome",
-	"PRIME.weapon_keywords_description_cumbersome" : "Attacks with this weapon cost +1 AP",
-
+	"PRIME.weapon_action_title_bash" : "Bash",
+	"PRIME.weapon_action_description_bash" : "Target loses 2 Action Points if Resilience damage caused",
 	
 	"PRIME.weapon_action_title_cleave" : "Cleave",
 	"PRIME.weapon_action_description_cleave" : "This weapon can be swung for more damage (+1 DR)",
@@ -204,24 +216,15 @@
 	"PRIME.weapon_action_title_impale" : "Impale",
 	"PRIME.weapon_action_description_impale" : "Add either +1DR or +2 AP",
 
-	"PRIME.weapon_action_title_bash" : "Bash",
-	"PRIME.weapon_action_description_bash" : "Target loses 2 Action Points if Resilience damage caused",
-
 	"PRIME.weapon_action_title_stab" : "Stab",
 	"PRIME.weapon_action_description_stab" : "Improve Armour Penetration (+2 AP)",
 	
 
-	"PRIME.weapon_action_title_volley" : "Volley",
-	"PRIME.weapon_action_description_volley" : "Fires a lot of shots. (tbc)",
-
 	"PRIME.weapon_action_title_surpress" : "Surpress",
-	"PRIME.weapon_action_description_surpress" : "Restricts targets movement within a given area. (tbc)",
-
-	"PRIME.weapon_action_title_burst" : "Burst",
-	"PRIME.weapon_action_description_burst" : "Fires a few shots. (tbc)",
+	"PRIME.weapon_action_description_surpress" : "Make attack role at area, volume vs ammo capacity. Anyone moving through the zone must resist attack roll.",
 
 	"PRIME.weapon_action_title_lob" : "Lob",
-	"PRIME.weapon_action_description_lob" : "Fires in an arc over cover and stuff. (tbc)",
+	"PRIME.weapon_action_description_lob" : "Fires in an arc over cover and stuff.",
 
 
 	"PRIME.weapon_melee_type" : "Type",
@@ -352,6 +355,8 @@
 	"PRIME.action_type_reaction_description": "Can be used in response to other actions with no limit to number of uses",
 	"PRIME.action_type_combo_title": "Combo",
 	"PRIME.action_type_combo_description": "Must be used in combination with a major action",
+	"PRIME.action_type_weapon_combo_title": "Weapon combo",
+	"PRIME.action_type_weapon_combo_description": "Must be used in combination with a major action and requires a specific weapon to perform.",
 
 	"PRIME.action_effect_type_move": "Movement",
 	"PRIME.action_effect_type_melee_attack": "Attack - Melee",
