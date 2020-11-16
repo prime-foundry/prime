@@ -32,7 +32,7 @@ export class PrimePCActorSheet extends ActorSheet
 				{
 					navSelector: ".sheet-tabs",
 					contentSelector: ".sheet-body",
-					initial: "description"
+					initial: "statistics"
 				}
 			],
 		});
@@ -70,7 +70,7 @@ export class PrimePCActorSheet extends ActorSheet
 		//var a = data.actor.permission
 		data.currentOwners = this.entity.getCurrentOwners();
 		data.combinedResilience = this.entity.getCombinedResilience();
-		data.combinedIntellect = this.entity.getCombinedIntellect();
+		data.combinedPsyche = this.entity.getCombinedPsyche();
 		
 		data.typeSorted = this.entity.getTypeSortedPrimesAndRefinements();
 		
