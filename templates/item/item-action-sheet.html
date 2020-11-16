@@ -25,12 +25,12 @@
 	<div class="flexRow flexBetween flexWrap block infoBlock costsBlock">
 		<div class="blockTitle">Action details</div>
 
-		<div class="cell40 flexRow flexBetween verticalCenter">
+		<div class="cell30 flexRow flexBetween verticalCenter">
 			<label for="data.points" class="resource-label cell50 rightAlign">AP cost:</label>
 			<input type="text" id="data.points" name="data.points" class="cell50" value="{{data.points}}" data-dtype="Number" data-min="0" data-max="6"/>
 		</div>
 
-		<div class="cell60 flexRow flexBetween verticalCenter">
+		<div class="cell50 flexRow flexBetween verticalCenter">
 			<label for="data.cost.attributeType" class="resource-label cell20 rightAlign">Type:</label>
 			<select id="data.cost.attributeType" name="data.cost.attributeType" class="cell80" data-effect-id="{{effectID}}" data-effect-flag-key="path">
 				{{#select data.cost.attributeType}}
@@ -39,6 +39,12 @@
 				{{/each}}
 				{{/select}}
 			</select>
+		</div>
+
+		{{log data.default}}
+		<div class="cell20 flexRow flexBetween verticalCenter">
+			<label for="data.default" class="resource-label cell80 rightAlign" title="Action is available to all characters by default.">Default:</label>
+			<input type="checkbox" id="data.default" name="data.default" class="cell20" {{checked data.default}}/>
 		</div>
 	</div>
 
