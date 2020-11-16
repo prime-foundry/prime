@@ -109,11 +109,12 @@ Ship sheet
 
 //Fix filtering for actions
 
-Action descriptions not appearing as tooltips. Need to add description + system details.
 
-Fix aspect ratio of image
+//Action descriptions not appearing as tooltips. Need to add description + system details.
 
-Fix bug with resilience/intellect not being updatable.
+//Fix aspect ratio of image
+
+//Fix bug with resilience/intellect not being updatable.
 
 
 
@@ -161,7 +162,7 @@ Add dying wound box somehow tbc.
 
 Create code to auto-import compendium content into fresh worlds, see code example at the end of: https://foundryvtt.com/article/compendium/
 
-
+Create "special item" item type with effects as per perks for stuff like magic items.
 
 
 
