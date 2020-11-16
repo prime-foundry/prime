@@ -69,10 +69,9 @@ export class PrimePCActor extends Actor
 		return this.data.data.health.resilience.value + this.data.data.armour.resilience.value;
 	}
 
-
-	getCombinedIntellect()
+	getCombinedPsyche()
 	{
-		return this.data.data.mind.resilience.value + this.data.data.mindArmour.resilience.value;
+		return this.data.data.mind.psyche.value + this.data.data.ward.psyche.value;
 	}
 
 	getTypeSortedPrimesAndRefinements()
