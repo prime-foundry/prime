@@ -109,8 +109,7 @@ Ship sheet
 
 //Fix filtering for actions
 
-
-
+Action descriptions not appearing as tooltips. Need to add description + system details.
 
 Fix aspect ratio of image
 
@@ -160,7 +159,7 @@ Make "NPC" turrets as some sort of actor.
 
 Add dying wound box somehow tbc.
 
-
+Create code to auto-import compendium content into fresh worlds, see code example at the end of: https://foundryvtt.com/article/compendium/
 
 
 
