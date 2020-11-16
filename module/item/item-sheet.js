@@ -135,9 +135,12 @@ export class PrimeItemSheet extends ItemSheet
 			if (currOption.checked)
 			{
 				let selectedItemData = {title: currOption.title};
-				if (currOption.description)
+				var currActionData = currOption.source.data.data;
+				if (currActionData.description || currActionData.settingDescription)
 				{
-					selectedItemData.description = currOption.description;
+					let combinedDescription = (currActionData.description || "") + (currActionData.settingDescription || "");
+					currOption.description = combinedDescription;
+					selectedItemData.description = combinedDescription;
 				}
 				checkboxGroupObject.selectedItems.push(selectedItemData);
 			}
