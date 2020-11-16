@@ -58,56 +58,65 @@ Ship sheet
 
 /Item swapping - bound by distance
 
-Items and perks could both add to a roll.
-
-Make "NPC" turrets as some sort of actor.
-
 /Journal link to change scene
 
-Message Joh and Hobbsy
+//Message Joh and Hobbsy
 
-Link actions in weapons to actual actions somehow
+//Put perks next to primes
+
+//Copy Aethernauts refinements
+
+//Add penalty for action reduction e.g. Lob is -1 instead of -2.
+
+
+
 
 Adjust weapon keywords and actions to be properly dynamic
 
 Normalise health/wounds/mental/insanities in data layer.
 
 
+
+Add mental health to actor stat bonus list
+
+Adjust resilience to base 4
+
+Split description into generic description & system details.
+
+Amend language from bonus to adjustment in perk effects.
+Rename Prime/Refinement bonus to be mitagate penalty or similar.
+
+
+
+Fix aspect ratio of image
+
+Fix bug with resilience/intellect not being updatable.
+
+
+Author / Created etc. not updating in perk
+
+Link actions in weapons to actual actions somehow
+Make dynamic action list in perks popup work.
+
+Make AP vertical and put available actions next to them.
+
+Add current ammo to ranged weapons - only show if owned.
+
 Add NPC checkbox to actor sheet
 
 Make XP field editable short term
 
-De-duplicate the health/instanity event handlers.
-
-Create burn soul popup.
-
-Make heal/couch inactive and grey until parent active.
-
 Player choosen custom refinements
-
-Fix aspect ratio of image
-
-Look into token animation to enable things like extending the ship gunz.
-
-Put perks next to primes
-
-Make AP vertical and put available actions next to them.
-
-Make dynamic action list in perks popup work.
-
-Add current ammo to ranged weapons - only show if owned.
 
 Add perk calc to character values.
 
-Amend language from bonus to adjustment in perk effects.
 
-Author / Created etc. not updating in perk
 
-Rename Prime/Refinement bonus to be mitagate penalty or similar.
+Check injury/instanity dropdown setting - still required?
 
-Copy Aethernauts refinements
+Get expanded list of instanities.
 
-Split description into generic description & system details.
+
 
 Additional melee keywords:
 
@@ -127,19 +136,30 @@ Additional range action:
 - Surpress: make attack role at area, volumn vs ammo capacity. Anyone moving through the zone must resist attack roll.
 
 
-Add penalty for action reduction e.g. Lob is -1 instead of -2.
-
-Add mental health to actor stat bonus list
-
-Add dying wound box somehow tbc.
-
-Adjust resilience to base 4
-
-Fix bug with resilience/intellect not being updatable.
 
 Add weak mind/body perks that reduce soak ability but grant extra soul/XP.
 
 Create perks to map to all existing expertise, perks and quirks.
+
+
+
+De-duplicate the health/instanity event handlers.
+
+Create burn soul popup.
+
+Make heal/couch inactive and grey until parent active.
+
+Look into token animation to enable things like extending the ship gunz.
+
+Items and perks could both add to a roll.
+
+Make "NPC" turrets as some sort of actor.
+
+Add dying wound box somehow tbc.
+
+
+
+
 
 
 
