@@ -34,13 +34,85 @@ export class PrimePCActor extends Actor
 
 		// Make modifications to data here. For example:
 
-		data.soul.spent = this.getTotalCost(data.primes);
-		data.xp.spent = this.getTotalCost(data.refinements);
+		const primeCost = this.getTotalCost(data.primes);
+		const perkSoulCost = this.getTotalPerkCost("perkCostSoul");
+		data.soul.spent = primeCost + perkSoulCost;
+
+
+		const refinementCost = this.getTotalCost(data.refinements);
+		const perkXPCost = this.getTotalPerkCost("perkCostXP");
+		data.xp.spent = refinementCost + perkXPCost;
+
+		this.updateHealthAndMind(data);
+
 		// Loop through ability scores, and add their modifiers to our sheet output.
 
 		data.soul.value = (data.soul.initial + data.soul.awarded) - data.soul.spent;
 		data.xp.value = (data.xp.initial + data.xp.awarded) - data.xp.spent;
 	}
+
+	updateHealthAndMind(data)
+	{
+		data.health.wounds.max = data.health.wounds.base + this.getStateBonusesFromPerks("health.wounds.max");
+		data.health.resilience.max = data.health.resilience.base + this.getStateBonusesFromPerks("health.resilience.max");
+		data.mind.insanities.max = data.mind.insanities.base + this.getStateBonusesFromPerks("mind.insanities.max");
+		data.mind.psyche.max = data.mind.psyche.base + this.getStateBonusesFromPerks("mind.psyche.max");
+		// health.wounds.max
+		// health.resilience.max
+
+		// mind.insanities.max
+		// mind.psyche.max
+	}
+
+	getStateBonusesFromPerks(whatStatDataPath)
+	{
+		var ownedPerkClones = this.getProcessedItems()["perk"];
+		var totalAdjustments = 0;
+
+		if (ownedPerkClones)
+		{
+			var count = 0;
+			while (count < ownedPerkClones.length)
+			{
+				var currPerk = ownedPerkClones[count];
+				var adjustment = this.getPerkAdjustment(currPerk, whatStatDataPath);
+				totalAdjustments += adjustment;
+				// if (currPerk.data.cost.attributeType == perkCostType)
+				// {
+				// 	totalAdjustments += currPerk.data.cost.amount;
+				// }
+				count++;
+			}
+		}
+
+		return totalAdjustments;
+	}
+
+	getPerkAdjustment(whatPerk, whatStatDataPath)
+	{
+		var perkStateAdjustments = 0;
+		var count = 0;
+		while (count < whatPerk.effects.length)
+		{
+			let currEffect = whatPerk.effects[count];
+			if (currEffect.flags.effectType == "bonus" && currEffect.flags.effectSubType == "actorStatBonus" && currEffect.flags.path == whatStatDataPath)
+			{
+				var parseValue = parseInt(currEffect.flags.value);
+				if (!isNaN(parseValue))
+				{
+					perkStateAdjustments += parseValue;
+				}
+				else
+				{
+					console.error("ERROR: Found a stat adjustment value I couldn't turn into a bonus. Perk / Effect", whatPerk, currEffect);
+				}
+			}
+			count++;
+		}
+
+		return perkStateAdjustments
+	}
+
 
 	getCurrentOwners(whatPermissions)
 	{
@@ -199,6 +271,31 @@ export class PrimePCActor extends Actor
 		}
 		return false;
 	}
+
+	getTotalPerkCost(perkCostType)
+	{
+		var ownedPerkClones = this.getProcessedItems()["perk"];
+		var totalCost = 0;
+
+		if (ownedPerkClones)
+		{
+			var count = 0;
+			while (count < ownedPerkClones.length)
+			{
+				var currPerk = ownedPerkClones[count];
+				if (currPerk.data.cost.attributeType == perkCostType)
+				{
+					totalCost += currPerk.data.cost.amount;
+				}
+				count++;
+			}
+		}
+
+		return totalCost;
+		//"perkCostSoul"
+		//("perkCostXP");
+	}
+	
 
 	getTotalCost(whatItems)
 	{
