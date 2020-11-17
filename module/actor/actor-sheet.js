@@ -76,6 +76,10 @@ export class PrimePCActorSheet extends ActorSheet
 
 		data.filteredItems = this.entity.getProcessedItems(data);
 
+		data.inventoryItems = this.getInventoryItems(data.filteredItems);
+
+		data.perks = data.filteredItems["perk"];
+
 		data.sortedActions = this.entity.getSortedActions();
 
 		return data;
@@ -111,6 +115,17 @@ export class PrimePCActorSheet extends ActorSheet
 		{
 			return "tinyNameFont";
 		}
+	}
+
+	getInventoryItems(filteredItems)
+	{
+		var combinedItems = [];
+		combinedItems = combinedItems.concat(filteredItems["melee-weapon"]);
+		combinedItems = combinedItems.concat(filteredItems["ranged-weapon"]);
+		combinedItems = combinedItems.concat(filteredItems["armour"]);
+		combinedItems = combinedItems.concat(filteredItems["item"]);
+
+		return combinedItems;
 	}
 
 	burnSoulPoint()
@@ -282,20 +297,20 @@ export class PrimePCActorSheet extends ActorSheet
 		const data = super.getData();
 		const checked = input.prop("checked");
 		const inputParent = input.parent();
-		data.data.mind.wounds.lastTotal = data.data.mind.wounds.value;
+		data.data.mind.insanities.lastTotal = data.data.mind.insanities.value;
 
 		if (checked || (!checked && !inputParent.hasClass("currentPointTotal")))
 		{
-			data.data.mind.wounds.value = parseInt(value);
+			data.data.mind.insanities.value = parseInt(value);
 		}
 		else
 		{
-			data.data.mind.wounds.value = parseInt(value) - 1;
+			data.data.mind.insanities.value = parseInt(value) - 1;
 		}
 
-		if (data.data.mind.wounds.value < 0)
+		if (data.data.mind.insanities.value < 0)
 		{
-			data.data.mind.wounds.value = 0;
+			data.data.mind.insanities.value = 0;
 		}
 
 		var result = await this.actor.update(data.actor);
@@ -321,7 +336,7 @@ export class PrimePCActorSheet extends ActorSheet
 		const data = super.getData();
 
 		var count = insanityIndex - 1;
-		while (count <= data.data.mind.wounds.max)
+		while (count <= data.data.mind.insanities.max)
 		{
 			var nextInsanity = data.data.insanities["insanity" + (count + 1)]
 			if (nextInsanity)
@@ -335,10 +350,10 @@ export class PrimePCActorSheet extends ActorSheet
 			count++;
 		}
 
-		if (insanityIndex <= data.data.mind.wounds.value)
+		if (insanityIndex <= data.data.mind.insanities.value)
 		{
-			data.data.mind.wounds.lastTotal = data.data.mind.wounds.value;
-			data.data.mind.wounds.value--;
+			data.data.mind.insanities.lastTotal = data.data.mind.insanities.value;
+			data.data.mind.insanities.value--;
 		}
 
 		var result = await this.actor.update(data.actor);
@@ -422,7 +437,12 @@ export class PrimePCActorSheet extends ActorSheet
 		const titleLink = $(event.delegateTarget);
 		const itemID = titleLink.data("item-id");
 
-		const item = this.object.items.get(itemID);
+		var item = this.object.items.get(itemID);
+		if (!item)
+		{
+			item = ItemDirectory.collection.get(itemID);
+		}
+
 		const itemSheet = item.sheet;
 	
 		if (itemSheet.rendered)
