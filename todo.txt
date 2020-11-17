@@ -126,28 +126,43 @@ Ship sheet
 
 //Make AP vertical and put available actions next to them.
 
-Insanity not working.
+//Insanity not working.
 
+// Link actin titles to source action popup
+
+//Add perks output 
+
+//Add means to delete perks.
+
+//Remove perks from inventory
+
+//Add perk calc to character values.
+
+//Add perk stat adjustments to health and mind.
+
+//Add perk stat adjustments to armour and ward.
+
+
+
+Improve inventory layout.
 
 Add current ammo to ranged weapons - only show if owned.
-
-Add NPC checkbox to actor sheet
 
 Make XP field editable short term
 
 Player choosen custom refinements
 
-Add perk calc to character values.
-
-
+Fix issue with 6 wounds/instanties - adjust row heights to fill via flex?
 
 Check injury/instanity dropdown setting - still required?
 
-Get expanded list of instanities.
+Get expanded list of insanities.
 
+Disable effects editing for owned items (and other editing?).
 
+Add NPC checkbox to actor sheet
 
-
+Weapon and armour output to tables duplicates the code to concatinate the selected traits for things like keywords.
 
 Add weak mind/body perks that reduce soak ability but grant extra soul/XP.
 
