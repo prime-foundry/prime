@@ -5,6 +5,7 @@
 	border:1px solid var(--borderGrey);
     flex:1;
     min-width: 200px;
+    min-height: 60px;
     max-width: 49%;
 	padding: 5px 25px 5px 5px;
 	margin: 11px 5px 5px 5px;
@@ -24,7 +25,12 @@
 {
     background-color: var(--actionBackgroundColor);
 }
+.primeCard.itemCardPerk
+{
+    background-color: var(--perkBackgroundColor);
+}
 
+/* 
 .primeCard.itemCardAction:before
 {
     content: "A";
@@ -40,8 +46,7 @@
 	align-items: center;
     z-index: 0;
     opacity: 0.1;
-
-}
+} */
 
 .primeCard .cardTitle
 {
@@ -50,7 +55,8 @@
 }
 
 .primeCard .cardTopRightDetail,
-.primeCard .cardBottomRightDetail
+.primeCard .cardBottomRightDetail,
+.primeCard .cardRightCenterDetail
 {
     position: absolute;
     width: 20px;
@@ -76,6 +82,14 @@
     top:-1px;
     right:-1px;
 	border-top-right-radius: 5px;
+}
+
+.primeCard .cardRightCenterDetail
+{
+    top:50%;
+    margin-top: -10px;
+    height: 20px;
+    right:-1px;
 }
 
 .primeCard .cardBottomRightDetail
