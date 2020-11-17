@@ -603,7 +603,7 @@
 		{
 			"templates": ["base", "metadata"],
 			"points": 0,
-			"type": "",
+			"type": "major",
 			"default": false,
 			"effects": []
 		}
