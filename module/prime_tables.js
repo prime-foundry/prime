@@ -143,7 +143,7 @@ export class PrimeTables
 			while (count < actions.length)
 			{
 				var currAction = actions[count];
-				if ((omitDefaultActions && !currAction.source.data.data.default) || (!allowedActionTypesArray || allowedActionTypesArray.indexOf(currAction.source.data.data.type) > -1))
+				if ((omitDefaultActions && !currAction.source.data.data.default) && (!allowedActionTypesArray || allowedActionTypesArray.indexOf(currAction.source.data.data.type) > -1))
 				{
 					returnActions.push(currAction);
 				}
