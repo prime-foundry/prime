@@ -26,7 +26,8 @@ var primeHandlebarsPartialsPaths =
 	"itemDescription": "systems/prime/templates/item/partials/sheet/item-description.html",
 	"itemMetadata": "systems/prime/templates/item/partials/sheet/item-metadata.html",
 
-	"itemCardAction": "systems/prime/templates/item/partials/cards/item-card-action.html"
+	"itemCardAction": "systems/prime/templates/item/partials/cards/item-card-action.html",
+	"itemCardPerk": "systems/prime/templates/item/partials/cards/item-card-perk.html"
 }
 
 export class PrimeHandlebarsPartials
