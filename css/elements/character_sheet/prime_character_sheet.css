@@ -227,11 +227,15 @@ h1.entityName
 	background-color: var(--textLight);
 }
 
+.perksOuterWrapper
+{
+	overflow: auto;
+}
+
 .actionsOuterWrapper
 {
 	max-height:330px;
 }
-
 .primeCharacterSheet .actionsHolder 
 {
 	height: 100%;
