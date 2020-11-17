@@ -76,6 +76,8 @@ export class PrimePCActorSheet extends ActorSheet
 
 		data.filteredItems = this.entity.getProcessedItems(data);
 
+		data.sortedActions = this.entity.getSortedActions();
+
 		return data;
 	}
 
