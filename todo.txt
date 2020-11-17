@@ -84,7 +84,6 @@ Ship sheet
 
 //Author / Created etc. not updating in perk
 
-
 //Additional melee keywords:
 
 //- Well balanced: Unlocks "melee aim (make better name)" combo action (same as normal aim, but combo)
@@ -116,9 +115,19 @@ Ship sheet
 
 //Fix bug with resilience/intellect not being updatable.
 
+//Exclude default actions from unlock option in perk
+
+//Adjust char name size based on window size.
 
 
-Make AP vertical and put available actions next to them.
+//Add default type to action.
+
+//Amend setting specifics to be System.
+
+//Make AP vertical and put available actions next to them.
+
+Insanity not working.
+
 
 Add current ammo to ranged weapons - only show if owned.
 
