@@ -94,9 +94,13 @@ export class PrimeItem extends Item
 
 		weaponData.data.rarity = PrimeTables.getTitleFromTableByKey(weaponData.data.rarity, "items.rarity");
 
-		weaponData.data.woundConditions = PrimeTables.getTitlesFromTableByCheckboxGroupArray(weaponData.data.woundConditions, "actor.woundConditions");
-		weaponData.data.keywords = PrimeTables.getTitlesFromTableByCheckboxGroupArray(weaponData.data.keywords, "items.weapons.keywords");
-		weaponData.data.customActions = PrimeTables.getTitlesFromTableByCheckboxGroupArray(weaponData.data.customActions, "items.weapons." + catergory + "WeaponActions");
+		//weaponData.data.woundConditions = PrimeTables.getTitlesFromTableByCheckboxGroupArray(weaponData.data.woundConditions, "actor.woundConditions");
+		//weaponData.data.keywords = PrimeTables.getTitlesFromTableByCheckboxGroupArray(weaponData.data.keywords, "items.weapons.keywords");
+		//weaponData.data.customActions = PrimeTables.getTitlesFromTableByCheckboxGroupArray(weaponData.data.customActions, "items.weapons." + catergory + "WeaponActions");
+		
+		weaponData.data.woundConditions = this.getSelectItemTitlesFromEffectData("checkbox-wound-conditions", "actor.woundConditions");
+		weaponData.data.keywords = this.getSelectItemTitlesFromEffectData("checkbox-keywords", "items.weapons.keywords");
+		weaponData.data.customActions = this.getSelectItemTitlesFromEffectData("checkbox-actions", "items.weapons." + catergory + "WeaponActions");
 
 		if (catergory == "ranged")
 		{
@@ -108,10 +112,89 @@ export class PrimeItem extends Item
 
 	processArmour(armourData)
 	{
-		armourData.data.keywords = PrimeTables.getTitlesFromTableByCheckboxGroupArray(armourData.data.keywords, "items.armour.keywords");
-		armourData.data.untrainedPenalty = PrimeTables.getTitlesFromTableByCheckboxGroupArray(armourData.data.untrainedPenalty, "items.armour.untrainedPenalities");
+		//armourData.data.keywords = PrimeTables.getTitlesFromTableByCheckboxGroupArray(armourData.data.keywords, "items.armour.keywords");
+		//armourData.data.untrainedPenalty = PrimeTables.getTitlesFromTableByCheckboxGroupArray(armourData.data.untrainedPenalty, "items.armour.untrainedPenalities");
+		
+		armourData.data.keywords = this.getSelectItemTitlesFromEffectData("checkbox-keywords", "items.armour.keywords");
+		armourData.data.untrainedPenalty = this.getSelectItemTitlesFromEffectData("checkbox-untrained", "items.armour.untrainedPenalities");
 
 		return armourData;
+	}
+
+	// TODO: REFACTOR THIS
+	getSelectItemTitlesFromEffectData(effectType, tableDataPath)
+	{
+		const effect = this.getEffectData(effectType);
+		var titlesArray = [];
+
+		if (effect)	// If no effect, none have been set.
+		{
+		
+			switch (effectType)
+			{
+				case "checkbox-actions":
+					var lookupTable = PrimeTables.getActionKeysAndTitles(false, ["weaponCombo"]);
+				break;
+				case "checkbox-keywords":
+				case "checkbox-wound-conditions":
+				case "checkbox-untrained":
+					var lookupTable = PrimeTables.cloneAndTranslateTables(tableDataPath);
+				break;
+				default:
+					console.error("ERROR: unknown effect type of '" + effectType + "' passed to getSelectItemTitlesFromEffectData(). Unable to find matching effect: ", this.effects);
+				break;
+			}
+
+			var count = 0;
+
+			while (count < lookupTable.length)
+			{
+				let currLookupItem = lookupTable[count];
+				if (effect.data.flags[currLookupItem.key])
+				{
+					if (currLookupItem.description)
+					{
+						var titleText = "<span title='" + currLookupItem.description + "' class='hasTooltip'>" + currLookupItem.title + "</span>"
+					}
+					else
+					{
+						let description = "";
+						if (currLookupItem.source.data.data.description)
+						{
+							description += currLookupItem.source.data.data.description;
+						}
+						if (currLookupItem.source.data.data.settingDescription)
+						{
+							description += currLookupItem.source.data.data.settingDescription;
+						}
+						var titleText = "<span title='" + description + "' class='hasTooltip'>" + currLookupItem.title + "</span>"
+					}
+					
+					titlesArray.push(titleText)
+				}
+				count++;
+			}
+		}
+
+		if (titlesArray.length == 0)
+		{
+			titlesArray.push("None");
+		}
+		return titlesArray.join(", ");
+	}
+
+	getEffectData(effectType)
+	{
+		var targetEffect = null
+		this.effects.forEach((effect, key, effects) =>
+		{
+			if (effect.data.flags.effectType == effectType)
+			{
+				targetEffect = effect;
+			}
+		});
+
+		return targetEffect;
 	}
 
 	getAttackIconHTML(primaryType, subType)
