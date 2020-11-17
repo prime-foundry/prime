@@ -1,6 +1,52 @@
-<div class="{{partialClasses}} block">
+<div class="{{partialClasses}} block actionsOuterWrapper">
     <div class="blockTitle"><span>Actions</span></div>
-    <div class="actionsHolder flexRow flexWrap">
+    <div class="actionsHolder">
+
+        {{#if sortedActions.major}}
+        <div class="actionTitle">{{localize "PRIME.action_type_major_title"}}</div>
+        <div class="actionCardsHolder flexRow flexWrap">
+            {{#each sortedActions.major as |action key|}}
+                {{> itemCardAction action partialClasses='majorAction'}}
+            {{/each}}
+        </div>
+        {{/if}}
+        
+
+        {{#if sortedActions.minor}}
+        <div class="actionTitle">{{localize "PRIME.action_type_minor_title"}}</div>
+        <div class="actionCardsHolder flexRow flexWrap">
+            {{#each sortedActions.minor as |action key|}}
+                {{> itemCardAction action partialClasses='minorAction'}}
+            {{/each}}
+        </div>
+        {{/if}}
+
+        {{#if sortedActions.reaction}}
+        <div class="actionTitle">{{localize "PRIME.action_type_reaction_title"}}</div>
+        <div class="actionCardsHolder flexRow flexWrap">
+            {{#each sortedActions.reaction as |action key|}}
+                {{> itemCardAction action partialClasses='reactionAction'}}
+            {{/each}}
+        </div>
+        {{/if}}
+
+        {{#if sortedActions.combo}}
+        <div class="actionTitle">{{localize "PRIME.action_type_combo_title"}}</div>
+        <div class="actionCardsHolder flexRow flexWrap">
+            {{#each sortedActions.combo as |action key|}}
+                {{> itemCardAction action partialClasses='comboAction'}}
+            {{/each}}
+        </div>
+        {{/if}}
+
+        {{#if sortedActions.weaponCombo}}
+        <div class="actionTitle">{{localize "PRIME.action_type_weapon_combo_title"}}</div>
+        <div class="actionCardsHolder flexRow flexWrap">
+            {{#each sortedActions.weaponCombo as |action key|}}
+                {{> itemCardAction action partialClasses='weaponComboAction'}}
+            {{/each}}
+        </div>
+        {{/if}}
 
     </div>
 </div>
