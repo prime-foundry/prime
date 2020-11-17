@@ -131,6 +131,75 @@ export class PrimePCActor extends Actor
 		return itemClonesByTypes;
 	}
 
+	getSortedActions()
+	{
+		var typeSortedActions = {};
+
+		ItemDirectory.collection.forEach((item, key, items) =>
+		{
+			if (item.type == "action")
+			{
+				let actionType = item.data.data.type
+				if (!typeSortedActions[actionType])
+				{
+					typeSortedActions[actionType] = [];
+				}
+
+				var isAllowedForCharacter = this.isAllowedForCharacter(item)
+				if (isAllowedForCharacter)
+				{
+					typeSortedActions[actionType].push(item);
+				}
+			}
+		});
+
+		return typeSortedActions;
+	}
+
+	isAllowedForCharacter(whatAction)
+	{
+		if (whatAction.data.data.default)
+		{
+			return true;
+		}
+
+		var ownedPerkClones = this.getProcessedItems()["perk"];
+		
+		if (ownedPerkClones)
+		{
+			var count = 0;
+			while (count < ownedPerkClones.length)
+			{
+				var currPerk = ownedPerkClones[count];
+				var unlocksAction = this.checkPerkActionUnlock(currPerk, whatAction);
+				if (unlocksAction)
+				{
+					return unlocksAction;
+				}
+				count++;
+			}
+		}
+
+		return false;		
+	}
+
+	checkPerkActionUnlock(whatPerk, whatAction)
+	{
+		var count = 0
+		while (count < whatPerk.effects.length)
+		{
+			let currPerkEffect = whatPerk.effects[count];
+
+			if (currPerkEffect.flags.effectType == "bonus" && currPerkEffect.flags.effectSubType == "extraAction" && currPerkEffect.flags.path == whatAction.id)
+			{
+				return true;
+			}
+
+			count++;
+		}
+		return false;
+	}
+
 	getTotalCost(whatItems)
 	{
 		var totalCost = 0;
