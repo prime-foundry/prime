@@ -1,0 +1,22 @@
+{{log this}}
+
+<div class="primeCard itemCard itemCardAction {{partialClasses}}">
+    <div class="cardTitle">{{this.data.name}}</div>
+    <div class="cardTopRightDetail titled"><div class="tinyTitle">AP</div>{{this.data.data.points}}</div>
+    
+    <div class="cardDescription">
+        {{#if this.data.data.description}}
+        <div>{{{this.data.data.description}}}</div>
+        {{/if}}
+
+        {{#if this.data.data.settingDescription}}
+        <div>{{{this.data.data.settingDescription}}}</div>
+        {{/if}}
+    </div>
+
+    {{#if this.data.data.default}}
+    <div class="cardBottomRightDetail isDefaultIcon defaultIcon hasTooltip" title="Default free action action">D</div>
+    {{else}}
+    <div class="cardBottomRightDetail isDefaultIcon purchasedIcon hasTooltip" title="Perk purchased to unlock action">$</div>
+    {{/if}}
+</div>

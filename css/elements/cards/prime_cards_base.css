@@ -1,0 +1,108 @@
+.primeCard
+{
+    position: relative;
+	border-radius: 5px;
+	border:1px solid var(--borderGrey);
+    flex:1;
+    min-width: 200px;
+    max-width: 49%;
+	padding: 5px 25px 5px 5px;
+	margin: 11px 5px 5px 5px;
+}
+
+.narrowWidth .primeCard
+{
+    min-width: 175px;
+}
+
+.primeCard .itemCard
+{
+    
+}
+
+.primeCard.itemCardAction
+{
+    background-color: var(--actionBackgroundColor);
+}
+
+.primeCard.itemCardAction:before
+{
+    content: "A";
+
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    font-size:30px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+    z-index: 0;
+    opacity: 0.1;
+
+}
+
+.primeCard .cardTitle
+{
+    margin-bottom:5px;
+    border-bottom:1px solid var(--borderGrey);
+}
+
+.primeCard .cardTopRightDetail,
+.primeCard .cardBottomRightDetail
+{
+    position: absolute;
+    width: 20px;
+	border-radius: 2px;
+    border:1px solid var(--borderGrey);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.primeCard .cardTopRightDetail.titled
+{
+    padding-top: 8px;
+}
+
+.primeCard .cardBottomRightDetail.titled
+{
+    padding-bottom: 8px;
+}
+
+.primeCard .cardTopRightDetail
+{
+    top:-1px;
+    right:-1px;
+	border-top-right-radius: 5px;
+}
+
+.primeCard .cardBottomRightDetail
+{
+    bottom:-1px;
+    right:-1px;
+	border-bottom-right-radius: 5px;
+}
+
+.primeCard .cardTopRightDetail .tinyTitle,
+.primeCard .cardBottomRightDetail .tinyTitle
+{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    font-size: 10px;
+    text-align: center;
+}
+
+.primeCard .cardBottomRightDetail .tinyTitle
+{
+    top: auto;    
+    bottom: 0px;
+}
+
+.cardDescription
+{
+    
+}
