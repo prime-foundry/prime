@@ -14,6 +14,8 @@
     --textLight: hsl(60, 35%, 91%);
 
     --actionBackgroundColor: hsl(53, 100%, 97%);
+    --perkBackgroundColor: hsl(352, 100%, 97%);
+    
     
     /********** Base font values **********/
     --font1: 'Manrope', sans-serif;
