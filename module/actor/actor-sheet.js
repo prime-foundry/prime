@@ -120,10 +120,23 @@ export class PrimePCActorSheet extends ActorSheet
 	getInventoryItems(filteredItems)
 	{
 		var combinedItems = [];
-		combinedItems = combinedItems.concat(filteredItems["melee-weapon"]);
-		combinedItems = combinedItems.concat(filteredItems["ranged-weapon"]);
-		combinedItems = combinedItems.concat(filteredItems["armour"]);
-		combinedItems = combinedItems.concat(filteredItems["item"]);
+
+		if (filteredItems["melee-weapon"])
+		{
+			combinedItems = combinedItems.concat(filteredItems["melee-weapon"]);
+		}
+		if (filteredItems["ranged-weapon"])
+		{
+			combinedItems = combinedItems.concat(filteredItems["ranged-weapon"]);
+		}
+		if (filteredItems["armour"])
+		{
+			combinedItems = combinedItems.concat(filteredItems["armour"]);
+		}
+		if (filteredItems["item"])
+		{
+			combinedItems = combinedItems.concat(filteredItems["item"]);
+		}
 
 		return combinedItems;
 	}
