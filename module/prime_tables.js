@@ -143,7 +143,7 @@ export class PrimeTables
 			while (count < actions.length)
 			{
 				var currAction = actions[count];
-				if ((omitDefaultActions && !currAction.source.data.data.default) && (!allowedActionTypesArray || allowedActionTypesArray.indexOf(currAction.source.data.data.type) > -1))
+				if (((omitDefaultActions && !currAction.source.data.data.default) || !omitDefaultActions) && (!allowedActionTypesArray || allowedActionTypesArray.indexOf(currAction.source.data.data.type) > -1))
 				{
 					returnActions.push(currAction);
 				}
@@ -157,13 +157,16 @@ export class PrimeTables
 	static getItemKeysAndTitlesByType(typeFilter)
 	{
 		var matchingItems = []
-		ItemDirectory.collection.forEach((item, key, items) =>
+		if (ItemDirectory && ItemDirectory.collection)	// Sometimes not defined when interegated.
 		{
-			if (item.type == typeFilter || typeFilter == "*")
+			ItemDirectory.collection.forEach((item, key, items) =>
 			{
-				matchingItems.push({key: key, title: item.name, source: item})
-			}
-		});
+				if (item.type == typeFilter || typeFilter == "*")
+				{
+					matchingItems.push({key: key, title: item.name, source: item})
+				}
+			});
+		}		
 
 		return matchingItems;
 	}
