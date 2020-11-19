@@ -23,8 +23,18 @@ export class PrimePCActorSheet extends ActorSheet
 			this.hooksAdded = true;
 		}
 
-		return mergeObject(superOptions, {
-			classes: ["primeSheet", "primeCharacterSheet", "sheet", "actor"],
+		if (game.user.isGM)
+		{
+			var isGMClass = "userIsGM";
+		}
+		else
+		{
+			var isGMClass = "userIsNotGm";
+		}
+
+		var actorConfig =
+		{
+			classes: ["primeSheet", "primeCharacterSheet", "sheet", "actor", isGMClass],
 			template: "systems/prime/templates/actor/actor-sheet.html",
 			width: 775,
 			height: 765,
@@ -35,7 +45,9 @@ export class PrimePCActorSheet extends ActorSheet
 					initial: "statistics"
 				}
 			],
-		});
+		}
+
+		return mergeObject(superOptions, actorConfig);
 	}
 	
 	static addHooks()
@@ -99,11 +111,11 @@ export class PrimePCActorSheet extends ActorSheet
 		{
 			return "largestNameFont";
 		}
-		else if (nameWidth > 180 && nameWidth <= 230)
+		else if (nameWidth > 180 && nameWidth <= 205)
 		{
 			return "largeNameFont";
 		}
-		else if (nameWidth > 230 && nameWidth <= 320)
+		else if (nameWidth > 205 && nameWidth <= 320)
 		{
 			return "mediumNameFont";
 		}
