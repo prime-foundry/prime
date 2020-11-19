@@ -101,13 +101,11 @@ Ship sheet
 //- Add Concentrated fire: more damage vs. single target but uses more ammo.
 //- Surpress: make attack role at area, volumn vs ammo capacity. Anyone moving through the zone must resist attack roll.
 
-
 //Make dynamic action list in perks popup work.
 
 //Link actions in weapons to actual actions somehow
 
 //Fix filtering for actions
-
 
 //Action descriptions not appearing as tooltips. Need to add description + system details.
 
@@ -118,7 +116,6 @@ Ship sheet
 //Exclude default actions from unlock option in perk
 
 //Adjust char name size based on window size.
-
 
 //Add default type to action.
 
@@ -140,33 +137,52 @@ Ship sheet
 
 //Add perk stat adjustments to health and mind.
 
-//Add perk stat adjustments to armour and ward.
+//Check injury/instanity dropdown setting - still required?
+
+////Add means to roll from a basic "blank" NPC.
+
+//Add instruction text to blank inventory saying drag items.
+
+//Brandish Ghert - name breaks bounds in name box
+
+//Add NPC checkbox to actor sheet
+
+//Disable effects editing for owned items (and other editing?).
+
+//Add icon to denote if item is template or owned.
 
 
+Make roll list filter better - use NPC flag
 
-Improve inventory layout.
+Add perk stat adjustments to armour and ward - look into item bonuses
 
 Add current ammo to ranged weapons - only show if owned.
 
+Add confirm to delete item button.
+
+Improve links between item and action - fixed key required.
+
+
+Improve inventory layout - Add means to organise/sort inventory and make folders.
+
+
+
+
 Make XP field editable short term
 
-Player choosen custom refinements
 
-Fix issue with 6 wounds/instanties - adjust row heights to fill via flex?
 
-Check injury/instanity dropdown setting - still required?
+
+Fix issue with 6 wounds/insanties - adjust row heights to fill via flex?
+
+
+
+
 
 Get expanded list of insanities.
 
-Disable effects editing for owned items (and other editing?).
-
-Add NPC checkbox to actor sheet
-
 Weapon and armour output to tables duplicates the code to concatinate the selected traits for things like keywords.
 
-Add weak mind/body perks that reduce soak ability but grant extra soul/XP.
-
-Create perks to map to all existing expertise, perks and quirks.
 
 Create a more reliable mechanism to link weapon combo actions to the selections in the weapon, as IDs seem to change when imported from a pack?
 
@@ -178,6 +194,8 @@ Make heal/couch inactive and grey until parent active.
 
 Look into token animation to enable things like extending the ship gunz.
 
+
+
 Items and perks could both add to a roll.
 
 Make "NPC" turrets as some sort of actor.
@@ -187,6 +205,12 @@ Add dying wound box somehow tbc.
 Create code to auto-import compendium content into fresh worlds, see code example at the end of: https://foundryvtt.com/article/compendium/
 
 Create "special item" item type with effects as per perks for stuff like magic items.
+
+Player choosen custom refinements - not needed for now, perks can be used.
+
+Add weak mind/body perks that reduce soak ability but grant extra soul/XP.
+
+Create perks to map to all existing expertise, perks and quirks.
 
 
 
