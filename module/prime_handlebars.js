@@ -128,6 +128,25 @@ Handlebars.registerHelper('itemEnabled', function (pointIndex, currentPoints)
 	return "disabled";
 });
 
+Handlebars.registerHelper('disabledIf', function (value)
+{
+	if (value)
+	{
+		return "disabled title='This cannot be edited on an item that is owned.";
+	}
+	return "";
+});
+Handlebars.registerHelper('disabledClassIf', function (value)
+{
+	if (value)
+	{
+		return "elementDisabled";
+	}
+	return "";
+});
+
+
+
 Handlebars.registerHelper('itemChecked', function (checkedState)
 {
 	if (checkedState)
