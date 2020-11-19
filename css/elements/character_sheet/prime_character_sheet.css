@@ -24,6 +24,21 @@
 	min-width:500px;
 }
 
+.actorFormWrapper
+{
+	display: flex;
+	flex-direction: column;
+}
+
+.actorFormWrapper .tabbedSection
+{
+	flex:1;
+}
+
+.actorFormWrapper .tabbedSection .tab
+{
+	height:100%;
+}
 
 .metaDataContentInner
 {
@@ -72,6 +87,18 @@
 	height:30px;
 }
 
+.bigMessageWrapper
+{
+	height: 100%;
+}
+
+.bigMessage
+{
+	font-size: 30px;
+	text-align: center;
+	line-height: normal;
+}
+
 
 h1.entityName
 {
@@ -83,11 +110,13 @@ h1.entityName
 .largestNameFont
 {
 	font-size: 38px;
+	line-height: 85%;
 }
 
 .largeNameFont
 {
 	font-size: 34px;
+	line-height: 85%;
 }
 
 .mediumNameFont
@@ -194,8 +223,21 @@ h1.entityName
 .toggleEditableWrapper
 {
 	position: absolute;
-	top:0px;
-	right:0px;
+	top: 0px;
+	right: 0px;
+}
+
+.isNPCWrapper
+{
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	width:100px;
+}
+
+.userIsNotGm .isNPCWrapper
+{
+	display: none;
 }
 
 .primeCharacterSheet .metaDataContent .metaValues
