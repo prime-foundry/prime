@@ -9,6 +9,7 @@
 				<label for="name">Name:</label>
 				<input name="name" type="text" value="{{item.name}}" placeholder="Name" />
 			</h1>
+			
 			<div class="cell100 flexRow verticalCenter flexBetween lastRow">
 				<label class="cell30" for="data.setting">{{localize "PRIME.core_setting"}}:</label>
 				<select name="data.setting" id="data.setting" class="itemRarity cell70">
@@ -18,6 +19,14 @@
 					{{/each}}
 					{{/select}}
 				</select>
+			</div>
+
+			<div class="ownershipStatusIcon">
+				{{#if isOwned}}
+				<i class="fas fa-user hasTooltip" title="Item is owned by character: '{{owningCharacterName}}'"></i>
+				{{else}}
+				<i class="fas fa-users hasTooltip" title="Main item template - Item is no owned."></i>
+				{{/if}}
 			</div>
 		</div>
 	</div>
@@ -52,7 +61,7 @@
 				{{log bonus}}
 				<div class="cell100 flexRow flexBetween verticalCenter">
 					<label for="data.bonuses.{{key}}.bonusType" class="resource-label cell30 rightAlign">Type:</label>
-					<select id="data.bonuses.{{key}}.bonusType" name="data.bonuses.{{key}}.bonusType" class="cell70 effectFormElement" data-effect-id="{{effectID}}" data-effect-flag-key="effectSubType">
+					<select id="data.bonuses.{{key}}.bonusType" name="data.bonuses.{{key}}.bonusType" class="cell70 effectFormElement" data-effect-id="{{effectID}}" data-effect-flag-key="effectSubType" {{disabledIf ../isOwned}}>
 						{{#select bonus.effectSubType}}
 						{{#each ../perkTables.bonusTypes}}
 						<option value="{{this.key}}">{{this.title}}</option>
@@ -63,7 +72,7 @@
 
 				<div class="cell100 flexRow flexBetween verticalCenter">
 					<label for="data.bonuses.{{key}}.path" class="resource-label cell30 rightAlign">Target:</label>
-					<select id="data.bonuses.{{key}}.path" name="data.bonuses.{{key}}.path" class="cell70 effectFormElement" data-effect-id="{{effectID}}" data-effect-flag-key="path">
+					<select id="data.bonuses.{{key}}.path" name="data.bonuses.{{key}}.path" class="cell70 effectFormElement" data-effect-id="{{effectID}}" data-effect-flag-key="path" {{disabledIf ../isOwned}}>
 						{{#select bonus.path}}
 						{{#each bonus.dynamicDataForEffectTarget}}
 						<option value="{{this.key}}">{{this.title}}</option>
@@ -74,15 +83,15 @@
 
 				<div class="cell100 flexRow flexBetween verticalCenter lastRow">
 					<label for="data.bonuses.{{key}}.value" class="resource-label cell30 rightAlign">Value:</label>
-					<input type="text" id="data.bonuses.{{key}}.value" name="data.bonuses.{{key}}.value" class="cell70 effectFormElement" data-effect-id="{{effectID}}" data-effect-flag-key="value" value="{{bonus.value}}" data-dtype="Number" data-min="-10" data-max="10"/>
+					<input type="text" id="data.bonuses.{{key}}.value" name="data.bonuses.{{key}}.value" class="cell70 effectFormElement" data-effect-id="{{effectID}}" data-effect-flag-key="value" value="{{bonus.value}}" data-dtype="Number" data-min="-10" data-max="10" {{disabledIf ../isOwned}}/>
 				</div>
 
-				<a class="removeEffectIcon" data-effect-id="{{effectID}}"><i class="fas fa-trash"></i></a>
+				<a class="removeEffectIcon {{disabledClassIf ../isOwned}}" data-effect-id="{{effectID}}"><i class="fas fa-trash"></i></a>
 			</div>
 			{{/each}}
 		</div>
 
-		<a class="addEffectIcon" data-effect-type="bonus"><i class="fas fa-plus"></i></a>
+		<a class="addEffectIcon {{disabledClassIf isOwned}}" data-effect-type="bonus"><i class="fas fa-plus"></i></a>
 	</div>
 
 	<div class="flexRow flexBetween flexWrap block infoBlock perkPrerequisitesBlock">
@@ -95,7 +104,7 @@
 
 				<div class="cell100 flexRow flexBetween verticalCenter">
 					<label for="data.prerequisites.{{key}}.prerequisiteType" class="resource-label cell30 rightAlign">Type:</label>
-					<select id="data.prerequisites.{{key}}.prerequisiteType" name="data.prerequisites.{{key}}.prerequisiteType" class="cell70 effectFormElement" data-effect-id="{{effectID}}" data-effect-flag-key="effectSubType">
+					<select id="data.prerequisites.{{key}}.prerequisiteType" name="data.prerequisites.{{key}}.prerequisiteType" class="cell70 effectFormElement" data-effect-id="{{effectID}}" data-effect-flag-key="effectSubType" {{disabledIf ../isOwned}}>
 						{{#select prerequisite.effectSubType}}
 						{{#each ../perkTables.prerequisiteTypes}}
 						<option value="{{this.key}}">{{this.title}}</option>
@@ -106,7 +115,7 @@
 
 				<div class="cell100 flexRow flexBetween verticalCenter">
 					<label for="data.prerequisites.{{key}}.path" class="resource-label cell30 rightAlign">Prerequisite to:</label>
-					<select id="data.prerequisites.{{key}}.path" name="data.prerequisites.{{key}}.path" class="cell70 effectFormElement" data-effect-id="{{effectID}}" data-effect-flag-key="path">
+					<select id="data.prerequisites.{{key}}.path" name="data.prerequisites.{{key}}.path" class="cell70 effectFormElement" data-effect-id="{{effectID}}" data-effect-flag-key="path" {{disabledIf ../isOwned}}>
 						{{#select prerequisite.path}}
 						{{#each prerequisite.dynamicDataForEffectTarget}}
 						<option value="{{this.key}}">{{this.title}}</option>
@@ -117,15 +126,15 @@
 
 				<div class="cell100 flexRow flexBetween verticalCenter lastRow">
 					<label for="data.prerequisites.{{key}}.value" class="resource-label cell30 rightAlign">Target value:</label>
-					<input type="text" id="data.prerequisites.{{key}}.value" name="data.prerequisites.{{key}}.value" class="cell70 effectFormElement" data-effect-id="{{effectID}}" data-effect-flag-key="value" value="{{prerequisite.value}}" data-dtype="Number" data-min="-10" data-max="10"/>
+					<input type="text" id="data.prerequisites.{{key}}.value" name="data.prerequisites.{{key}}.value" class="cell70 effectFormElement" data-effect-id="{{effectID}}" data-effect-flag-key="value" value="{{prerequisite.value}}" data-dtype="Number" data-min="-10" data-max="10" {{disabledIf ../isOwned}}/>
 				</div>
 
-				<a class="removeEffectIcon" data-effect-id="{{effectID}}"><i class="fas fa-trash"></i></a>
+				<a class="removeEffectIcon {{disabledClassIf ../isOwned}}" data-effect-id="{{effectID}}"><i class="fas fa-trash"></i></a>
 			</div>
 			{{/each}}
 		</div>
 
-		<a class="addEffectIcon" data-effect-type="prerequisite"><i class="fas fa-plus"></i></a>
+		<a class="addEffectIcon {{disabledClassIf isOwned}}" data-effect-type="prerequisite"><i class="fas fa-plus"></i></a>
 	</div>
 
 
