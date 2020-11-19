@@ -1,2 +1,7 @@
-
-			{{> itemListGeneral partialClasses=''}}
+{{#if inventoryItems}}
+	{{> itemListGeneral partialClasses=''}}
+{{else}}
+<div class="bigMessageWrapper flexRow flexCenter verticalCenter">
+    <div class="bigMessage">Drag items from the Items Directory <span class="item" title="Items Directory" data-tab="items"><i class="fas fa-suitcase"></i></span> onto the sheet to add items.</div>
+</div>
+{{/if}}
