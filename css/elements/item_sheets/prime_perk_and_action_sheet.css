@@ -48,6 +48,13 @@
 	height:10px;
 }
 
+.perkItem .perkBonusesBlock .perkBonusWrapper .removeEffectIcon.elementDisabled,
+.perkItem .perkPrerequisitesBlock .perkPrerequisiteWrapper .removeEffectIcon.elementDisabled,
+.perkItem .actionEffectBlock .actionEffectWrapper .removeEffectIcon.elementDisabled
+{
+	display: none;
+}
+
 .perkItem .perkBonusesBlock .addEffectIcon,
 .perkItem .perkPrerequisitesBlock .addEffectIcon,
 .perkItem .actionEffectBlock .addEffectIcon
@@ -55,4 +62,11 @@
 	display: block;
 	text-align: center;
 	width: 100%;
+}
+
+.perkItem .perkBonusesBlock .addEffectIcon.elementDisabled,
+.perkItem .perkPrerequisitesBlock .addEffectIcon.elementDisabled,
+.perkItem .actionEffectBlock .addEffectIcon.elementDisabled
+{
+	display: none;
 }
