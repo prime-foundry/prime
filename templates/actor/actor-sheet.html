@@ -1,4 +1,4 @@
-<form class="{{cssClass}} {{#if editable}}isEditable{{/if}}" autocomplete="off">
+<form class="{{cssClass}} {{#if editable}}isEditable{{/if}} actorFormWrapper" autocomplete="off">
 
 	{{!-- Sheet Header --}}
 	<div class="metaDataContent flexColumn">
@@ -17,6 +17,10 @@
 				<a class="toggleCharacterLocked" title="Toggle to locked">
 					<i class="fas fa-lock fa-lg"></i>
 				</a>
+			</div>
+			<div class="isNPCWrapper flexRow verticalCenter flexEnd">
+				<label for="data.metadata.isNPC" class="resource-label rightAlign cell50" title="Tick to denote this is an NPC">NPC:</label>
+				<input type="checkbox" id="data.metadata.isNPC" name="data.metadata.isNPC" class="cell50" {{checked data.metadata.isNPC}}/>
 			</div>
 		</div>
 
