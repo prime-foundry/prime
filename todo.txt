@@ -152,9 +152,18 @@ Ship sheet
 //Add icon to denote if item is template or owned.
 
 
-Make roll list filter better - use NPC flag
+TO DISCUSS:
+===========
+
+How do shields work as a bonus to armour?
+
+What's happening about money?
+
+
 
 Add perk stat adjustments to armour and ward - look into item bonuses
+
+Amend titles in perk char stat dropdown - ward not armour for mind.
 
 Add current ammo to ranged weapons - only show if owned.
 
@@ -165,6 +174,7 @@ Improve links between item and action - fixed key required.
 
 Improve inventory layout - Add means to organise/sort inventory and make folders.
 
+Make roll list filter better - use NPC flag
 
 
 
