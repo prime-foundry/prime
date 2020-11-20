@@ -561,12 +561,14 @@
 
 		"item":
 		{
-			"templates":["base", "physicalItem", "valuable", "metadata"]
+			"templates":["base", "physicalItem", "valuable", "metadata"],
+			"bonuses":[]
 		},
 
 		"melee-weapon":
 		{
 			"templates":["base", "physicalItem", "weapon", "mastercratable", "valuable", "metadata"],
+			"bonuses":[],
 			"isMelee": true,
 			"isRanged": false,
 			"notes": ""
@@ -575,6 +577,7 @@
 		"ranged-weapon":
 		{
 			"templates":["base", "physicalItem", "weapon", "ranged", "mastercratable", "valuable", "metadata"],
+			"bonuses":[],
 			"isMelee": false,
 			"isRanged": true,
 			"notes": ""
@@ -583,6 +586,7 @@
 		"armour":
 		{
 			"templates":["base", "physicalItem", "armour", "mastercratable", "valuable", "metadata"],
+			"bonuses":[],
 			"notes": ""
 		},
 
