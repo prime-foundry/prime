@@ -1,4 +1,4 @@
-.perkItem .perkBonusesBlock .bonusesWrapper,
+.effectBlock .bonusesWrapper,
 .perkItem .perkPrerequisitesBlock .prerequisitesWrapper,
 .perkItem .actionEffectBlock .effectsWrapper
 {
@@ -7,7 +7,7 @@
 	overflow: auto;
 }
 
-.perkItem .perkBonusesBlock .perkBonusWrapper,
+.effectBlock .effectWrapper,
 .perkItem .perkPrerequisitesBlock .perkPrerequisiteWrapper,
 .perkItem .actionEffectBlock .actionEffectWrapper
 {
@@ -17,7 +17,7 @@
 	margin-bottom: 5px;
 }
 
-.perkItem .perkBonusesBlock .perkBonusWrapper:last-child,
+.effectBlock .effectWrapper:last-child,
 .perkItem .perkPrerequisitesBlock .perkPrerequisiteWrapper:last-child,
 .perkItem .actionEffectBlock .actionEffectWrapper:last-child
 {
@@ -25,7 +25,7 @@
 }
 
 
-.perkItem .perkBonusesBlock .perkBonusWrapper .bonusIndex,
+.effectBlock .effectWrapper .bonusIndex,
 .perkItem .perkPrerequisitesBlock .perkPrerequisiteWrapper .prerequisiteIndex,
 .perkItem .actionEffectBlock .actionEffectWrapper .actionEffectIndex
 {
@@ -37,7 +37,7 @@
 	color:black;
 }
 
-.perkItem .perkBonusesBlock .perkBonusWrapper .removeEffectIcon,
+.effectBlock .effectWrapper .removeEffectIcon,
 .perkItem .perkPrerequisitesBlock .perkPrerequisiteWrapper .removeEffectIcon,
 .perkItem .actionEffectBlock .actionEffectWrapper .removeEffectIcon
 {
@@ -48,14 +48,14 @@
 	height:10px;
 }
 
-.perkItem .perkBonusesBlock .perkBonusWrapper .removeEffectIcon.elementDisabled,
+.effectBlock .effectWrapper .removeEffectIcon.elementDisabled,
 .perkItem .perkPrerequisitesBlock .perkPrerequisiteWrapper .removeEffectIcon.elementDisabled,
 .perkItem .actionEffectBlock .actionEffectWrapper .removeEffectIcon.elementDisabled
 {
 	display: none;
 }
 
-.perkItem .perkBonusesBlock .addEffectIcon,
+.effectBlock .addEffectIcon,
 .perkItem .perkPrerequisitesBlock .addEffectIcon,
 .perkItem .actionEffectBlock .addEffectIcon
 {
@@ -64,7 +64,7 @@
 	width: 100%;
 }
 
-.perkItem .perkBonusesBlock .addEffectIcon.elementDisabled,
+.effectBlock .addEffectIcon.elementDisabled,
 .perkItem .perkPrerequisitesBlock .addEffectIcon.elementDisabled,
 .perkItem .actionEffectBlock .addEffectIcon.elementDisabled
 {
