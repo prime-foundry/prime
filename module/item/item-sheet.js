@@ -68,6 +68,7 @@ export class PrimeItemSheet extends ItemSheet
 
 	addItemTypeData(data)
 	{
+		data.bonuses = this.getEffectsRenderableData("bonus");
 		switch(data.item.type)
 		{
 			case "item":
@@ -83,7 +84,6 @@ export class PrimeItemSheet extends ItemSheet
 				data.checkboxGroups = this.compileArmourCheckboxGroups(data);
 			break;
 			case "perk":
-				data.bonuses = this.getEffectsRenderableData("bonus");
 				data.prerequisites = this.getEffectsRenderableData("prerequisite");
 			break;
 			case "action":
@@ -661,7 +661,7 @@ export class PrimeItemSheet extends ItemSheet
 		switch (effectType)
 		{
 			case "bonus":
-				baseEffectData.label = "Perk effect";
+				baseEffectData.label = "Effect";
 				baseEffectData.flags.effectSubType = "situationalPrime";
 				baseEffectData.flags.path = "end";
 			break;
