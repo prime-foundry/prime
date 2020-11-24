@@ -74,6 +74,7 @@ export class PrimeItemSheet extends ItemSheet
 			case "item":
 			break;
 			case "melee-weapon":
+			case "shield":
 				data.checkboxGroups = this.compileWeaponCheckboxGroups(data, "melee");
 			break;
 			case "ranged-weapon":

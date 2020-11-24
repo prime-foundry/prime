@@ -1,0 +1,124 @@
+<form class="{{cssClass}} meleeWeaponItem flexColumn " autocomplete="off">
+	<div class="flexRow">
+		<div class="cell30 block noTitle imageWrapper flexRow flexCenter verticalCenter">
+			<img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+		</div>
+		{{> itemBasic }}
+	</div>
+
+	
+	<div class="flexRow flexWrap block infoBlock">
+		<div class="blockTitle">Block bonus</div>
+		<div class="cell50 flexRow verticalCenter">
+			<label for="data.meleeBlockBonus" class="resource-label cell50">Melee:</label>
+			<input type="text" id="data.meleeBlockBonus" name="data.meleeBlockBonus" class="cell50" value="{{data.meleeBlockBonus}}" data-dtype="Number" data-min="-10" data-max="10"/>
+		</div>
+		<div class="cell50 flexRow verticalCenter">
+			<label for="data.rangedBlockBonus" class="resource-label cell50">Ranged:</label>
+			<input type="text" id="data.rangedBlockBonus" name="data.rangedBlockBonus" class="cell50" value="{{data.rangedBlockBonus}}" data-dtype="Number" data-min="-10" data-max="10"/>
+		</div>
+	</div>
+	
+	<div class="flexRow flexWrap block infoBlock">
+		<div class="blockTitle">Combat abilities (optional)</div>
+		
+		<div class="cell50 flexRow verticalCenter">
+			<label for="data.weaponSize" class="resource-label cell50">Size:</label>
+			<!--<input type="text" name="data.weight" value="{{data.weight}}" data-dtype="Number" />-->
+			<select name="data.weaponSize" class="weaponSize cell50">
+				{{#select data.weaponSize}}
+				{{#each itemTables.weapons.sizes}}
+				<option value="{{this.key}}">{{this.title}}</option>
+				{{/each}}
+				{{/select}}
+			</select>
+		</div>
+		<div class="cell50 flexRow verticalCenter">
+			<label for="data.weaponType" class="resource-label cell50">Type:</label>
+			<!--<input type="text" name="data.weight" value="{{data.weight}}" data-dtype="Number" />-->
+			<select id="data.weaponType" name="data.weaponType" class="cell50">
+				{{#select data.weaponType}}
+				{{#each itemTables.weapons.meleeTypes}}
+				<option value="{{this.key}}">{{this.title}}</option>
+				{{/each}}
+				{{/select}}
+			</select>
+		</div>
+		<div class="cell50 flexRow verticalCenter">
+			<label for="data.damageRating" class="resource-label cell50">Damage rating:</label>
+			<input type="text" id="data.damageRating" name="data.damageRating" class="cell50" value="{{data.damageRating}}" data-dtype="Number" data-min="-5" data-max="5"/>
+		</div>
+		<div class="cell50 flexRow verticalCenter">
+			<label for="data.requiredHands" class="resource-label cell50">Hands required:</label>
+			<select id="data.requiredHands" name="data.requiredHands" class="itemValueType cell50">
+				{{#select data.requiredHands}}
+				<option value="1">One</option>
+				<option value="2">Two</option>
+				{{/select}}
+			</select>
+		</div>
+
+		<div class="cell100 flexRow verticalCenter flexCenter checkboxGroupTitle {{checkboxGroupState checkboxGroupStates.wounds}}" data-checkbox-group="wounds">
+			<div class="cell100">
+				Wound conditions: 
+				{{#each checkboxGroups.wounds.selectedItems as |wound key|}}
+				<span title="{{convertHTMLForTitle wound.description}}" class="hasTooltip">{{wound.title}}</span>{{#isNotLastItem key ../checkboxGroups.wounds.selectedItems.length}}, {{/isNotLastItem}}
+				{{/each}}
+			</div>
+			<i class="fas fa-chevron-circle-up"></i>
+			<i class="fas fa-chevron-circle-down"></i>
+		</div>
+		<div class="cell100 flexRow verticalCenter flexBetween flexWrap checkboxGroupWrapper {{checkboxGroupState checkboxGroupStates.wounds}}" data-checkbox-group="wounds">
+			{{#each checkboxGroups.wounds.optionsData as |wound key|}}
+			<div class="flexRow verticalCenter cell33 flexBetween">
+				<label for="{{wound.key}}" class="resource-label hasTooltip" title="{{convertHTMLForTitle wound.description}}">{{wound.title}}:</label>
+				<input class="checkboxGroup" data-effect-id="{{wound.effectID}}" data-group-type="checkbox-wound-conditions" type="checkbox" id="{{wound.key}}" name="data.woundConditions" value="{{wound.key}}" {{checked wound.checked}}/>
+			</div>
+			{{/each}}
+		</div>
+
+		<div class="cell100 flexRow verticalCenter flexCenter checkboxGroupTitle {{checkboxGroupState checkboxGroupStates.keywords}}" data-checkbox-group="keywords">
+			<div class="cell100">Keywords:
+				{{#each checkboxGroups.keywords.selectedItems as |keyword key|}}
+				<span title="{{convertHTMLForTitle keyword.description}}" class="hasTooltip">{{keyword.title}}</span>{{#isNotLastItem key ../checkboxGroups.keywords.selectedItems.length}}, {{/isNotLastItem}}
+				{{/each}}
+			</div>
+			<i class="fas fa-chevron-circle-up"></i>
+			<i class="fas fa-chevron-circle-down"></i>
+		</div>
+		<div class="cell100 flexRow verticalCenter flexBetween flexWrap checkboxGroupWrapper {{checkboxGroupState checkboxGroupStates.keywords}}" data-checkbox-group="keywords">
+			{{#each checkboxGroups.keywords.optionsData as |keyword key|}}
+			<div class="flexRow verticalCenter cell33 flexBetween">
+				<label for="{{keyword.key}}" class="resource-label hasTooltip" title="{{convertHTMLForTitle keyword.description}}">{{keyword.title}}:</label>
+				<input class="checkboxGroup" data-effect-id="{{keyword.effectID}}" data-group-type="checkbox-keywords" type="checkbox" id="{{keyword.key}}" name="data.keywords" value="{{keyword.key}}" {{checked keyword.checked}}/>
+			</div>
+			{{/each}}
+		</div>
+
+		<div class="cell100 flexRow verticalCenter flexCenter checkboxGroupTitle {{checkboxGroupState checkboxGroupStates.actions}}" data-checkbox-group="actions">
+			<div class="cell100">Custom actions:
+				{{#each checkboxGroups.actions.selectedItems as |action key|}}
+				<span title="{{convertHTMLForTitle action.description}}" class="hasTooltip">{{action.title}}</span>{{#isNotLastItem key ../checkboxGroups.actions.selectedItems.length}}, {{/isNotLastItem}}
+				{{/each}}
+			</div>
+			<i class="fas fa-chevron-circle-up"></i>
+			<i class="fas fa-chevron-circle-down"></i>
+		</div>
+		<div class="cell100 lastRow flexRow verticalCenter flexBetween flexWrap checkboxGroupWrapper {{checkboxGroupState checkboxGroupStates.actions}}" data-checkbox-group="actions">
+			{{#each checkboxGroups.actions.optionsData as |action key|}}
+			<div class="flexRow verticalCenter cell33 flexBetween">
+				<label for="{{action.key}}" class="resource-label hasTooltip" title="{{convertHTMLForTitle action.description}}">{{action.title}}:</label>
+				<input class="checkboxGroup" data-effect-id="{{action.effectID}}" data-group-type="checkbox-actions" type="checkbox" id="{{action.key}}" name="data.customActions" value="{{action.key}}" {{checked action.checked}}/>
+			</div>
+			{{/each}}
+		</div>
+	</div>
+
+	{{> itemValue }}
+
+	{{> itemEffects }}
+
+	{{> itemDescription }}
+
+	{{> itemMetadata }}
+</form>
