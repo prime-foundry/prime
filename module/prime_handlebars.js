@@ -1,3 +1,5 @@
+import { PrimeTables } from "./prime_tables.js";
+
 var primeHandlebarsPartialsPaths =
 {
 	"actorActionPoints": "systems/prime/templates/actor/partials/sheet/actor-action-points.html",
@@ -62,6 +64,17 @@ Handlebars.registerHelper('convertHTMLForTitle', function (html, options)
 		html = html.replace(/<[^>]+>/ig, '');
 	}
 	return html;
+});
+
+
+Handlebars.registerHelper('getStatMin', function (whatStat, options)
+{
+	var statMinTable = PrimeTables.cloneTables("actor.actorStatMinimums");
+	if (statMinTable[whatStat] || statMinTable[whatStat] === 0)
+	{
+		return statMinTable[whatStat];
+	}
+	return 1;
 });
 
 Handlebars.registerHelper('isNotLastItem', function (v1, v2, options)
