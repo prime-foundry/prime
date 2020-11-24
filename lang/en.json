@@ -169,6 +169,9 @@
 	"PRIME.weapon_keywords_title_accurate" : "Accurate",
 	"PRIME.weapon_keywords_description_accurate" : "Allows the 'Fast Aim' combo action to be performed with this weapon.",
 
+	"PRIME.weapon_keywords_title_armour_damaging" : "Armour damaging",
+	"PRIME.weapon_keywords_description_armour_damaging" : "Weapon will cause damage to armour on a successful attack. Causes 1 point of Armour Resilience damage on a hit where armour defended the attack",
+
 	"PRIME.weapon_keywords_title_cumbersome" : "Cumbersome",
 	"PRIME.weapon_keywords_description_cumbersome" : "Attacks with this weapon cost +1 AP",
 
@@ -195,6 +198,9 @@
 
 	"PRIME.weapon_keywords_title_ranked" : "Ranked",
 	"PRIME.weapon_keywords_description_ranked" : "Weapon can be used for ranked fighting",
+
+	"PRIME.weapon_keywords_title_shield_breaker" : "Shield breaker",
+	"PRIME.weapon_keywords_description_shield_breaker" : "Weapon causes additional damage to shields.",
 
 	"PRIME.weapon_keywords_title_versatile" : "Versatile",
 	"PRIME.weapon_keywords_description_versatile" : "Choose Strength or Manoeuvre as Prime",
