@@ -471,6 +471,7 @@ export class PrimeItemSheet extends ItemSheet
 		data["data.created"] = dateString;
 		data["data.updated"] = dateString;
 
+		data["data.sourceKey"] = this.item.data._id;
 		//game.users.get(game.userId);
 	}
 
