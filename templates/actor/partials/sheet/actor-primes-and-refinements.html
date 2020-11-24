@@ -8,7 +8,7 @@
         <div class="primeWrapper">
             <label for="data.primes.{{key}}.value">{{prime.title}}</label>
             <div class="valueWrapper">
-                <input type="text" name="data.primes.{{key}}.value" value="{{prime.value}}" data-dtype="Number" data-min="1" data-max="10" data-lastValue="{{prime.value}}"/>
+                <input type="text" name="data.primes.{{key}}.value" value="{{prime.value}}" data-dtype="Number" data-min="{{getStatMin key}}" data-max="10" data-lastValue="{{prime.value}}"/>
                 <span class="primeValue">{{prime.value}}</span>
             </div>
         </div>
