@@ -464,6 +464,7 @@
 			"item",
 			"melee-weapon",
 			"ranged-weapon",
+			"shield",
 			"armour",
 			"perk",
 			"action"
@@ -492,7 +493,7 @@
 			"mastercratable":
 			{
 				"isMasterCraft": false,
-				"mastercraftTraits": []
+				"bonuses":[]
 			},
 
 			"metadata":
@@ -561,14 +562,12 @@
 
 		"item":
 		{
-			"templates":["base", "physicalItem", "valuable", "metadata"],
-			"bonuses":[]
+			"templates":["base", "physicalItem", "valuable", "metadata"]
 		},
 
 		"melee-weapon":
 		{
 			"templates":["base", "physicalItem", "weapon", "mastercratable", "valuable", "metadata"],
-			"bonuses":[],
 			"isMelee": true,
 			"isRanged": false,
 			"notes": ""
@@ -577,16 +576,23 @@
 		"ranged-weapon":
 		{
 			"templates":["base", "physicalItem", "weapon", "ranged", "mastercratable", "valuable", "metadata"],
-			"bonuses":[],
 			"isMelee": false,
 			"isRanged": true,
 			"notes": ""
 		},
 
+		"shield":
+		{
+			"templates":["base", "physicalItem", "weapon", "mastercratable", "valuable", "metadata"],
+			"meleeBlockBonus": 0,
+			"rangedBlockBonus": 0,
+			"notes": ""
+		},
+
+
 		"armour":
 		{
 			"templates":["base", "physicalItem", "armour", "mastercratable", "valuable", "metadata"],
-			"bonuses":[],
 			"notes": ""
 		},
 
@@ -636,6 +642,11 @@
 
 		"actor":
 		{
+			"actorStatMinimums":
+			{
+				"att": 0
+			},
+
 			"actorStatLookup":
 			[
 				{
