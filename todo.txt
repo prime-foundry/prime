@@ -165,25 +165,30 @@ TO DISCUSS:
 
 //Can't reduce Attunment below 1 once set higher.
 
-What's happening about money?
-- Personal $ box at the top of the inventory.
-- Add total cash cost
-- Add total weight
+//What's happening about money?
+//- Personal $ box at the top of the inventory.
+//- Add total cash cost
+//- Add total weight
+
+/Add perk stat adjustments to armour and ward - look into item bonuses
+
+//Improve links between item and action - fixed key required.
+
+//Create a more reliable mechanism to link weapon combo actions to the selections in the weapon, as IDs seem to change when imported from a pack?
+
+//Create "special item" item type with effects as per perks for stuff like magic items.
+
 
 
 Add bonus weapon/armour mastercraft style options for the effects bonuses if weapon/armour.
 
-
-Add means to adjust starting XP and soul via settings.
-
-/Add perk stat adjustments to armour and ward - look into item bonuses
-
-
 Add current ammo to ranged weapons - only show if owned.
+
+
 
 Add confirm to delete item button.
 
-Improve links between item and action - fixed key required.
+
 
 
 Improve inventory layout - Add means to organise/sort inventory and make folders.
@@ -191,10 +196,10 @@ Improve inventory layout - Add means to organise/sort inventory and make folders
 Make roll list filter better - use NPC flag
 
 
+Add means to adjust starting XP and soul via settings.
 
 
-
-
+Find a way to make PC tokens always link to their sheet.
 
 
 Fix issue with 6 wounds/insanties - adjust row heights to fill via flex?
@@ -207,7 +212,7 @@ Get expanded list of insanities.
 Weapon and armour output to tables duplicates the code to concatinate the selected traits for things like keywords.
 
 
-Create a more reliable mechanism to link weapon combo actions to the selections in the weapon, as IDs seem to change when imported from a pack?
+
 
 De-duplicate the health/instanity event handlers.
 
@@ -227,7 +232,7 @@ Add dying wound box somehow tbc.
 
 Create code to auto-import compendium content into fresh worlds, see code example at the end of: https://foundryvtt.com/article/compendium/
 
-Create "special item" item type with effects as per perks for stuff like magic items.
+
 
 Player choosen custom refinements - not needed for now, perks can be used.
 
