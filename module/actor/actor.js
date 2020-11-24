@@ -248,12 +248,23 @@ export class PrimePCActor extends Actor
 
 	updateOwnedItemValues()
 	{
+		this.updateWeightAndValue();
+
 		this.updateHealthAndMind();
 		this.updateArmourValues();
 		this.updateWardValues();
 
 		//var result = await this.update(this.data);
 	}
+
+	updateWeightAndValue()
+	{
+		this.data.data.totalWeight = this.getTotalWeight();
+		this.data.data.equipmentCostPersonal = this.getTotalCostByType("personal");
+		this.data.data.equipmentCostShip = this.getTotalCostByType("ship");
+		
+	}
+
 
 	updateHealthAndMind()
 	{
@@ -313,6 +324,39 @@ export class PrimePCActor extends Actor
 		}
 		return bestArmour;		
 	}
+	
+	getTotalWeight()
+	{
+		var totalWeight = 0;
+		this.items.forEach(function(currItem, key, map)
+		{
+			var weight = currItem.data.data.weight;
+			var parsedWeight = parseInt(weight);
+			if (weight &&  !isNaN(parsedWeight))
+			{
+				totalWeight += parsedWeight;
+			}
+		});
+		return totalWeight;
+	}
+
+	getTotalCostByType(costType)
+	{
+		var totalCost = 0;
+		this.items.forEach(function(currItem, key, map)
+		{
+			if (currItem.data.data.valueType == costType)
+			{
+				var cost = currItem.data.data.valueAmount;
+				var parsedCost = parseInt(cost);
+				if (cost &&  !isNaN(parsedCost))
+				{
+					totalCost += parsedCost;
+				}
+			}
+		});
+		return totalCost;
+	}
 
 	getStatBonusesFromItems(whatStatDataPath)
 	{
@@ -322,7 +366,7 @@ export class PrimePCActor extends Actor
 		for (var itemType in ownedItemClones)
 		{
 			var currItemClones = ownedItemClones[itemType]
-			if (ownedItemClones)
+			if (ownedItemClones && currItemClones)
 			{
 				var count = 0;
 				while (count < currItemClones.length)
