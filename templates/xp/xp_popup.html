@@ -1,0 +1,29 @@
+<div class="xpDialog">
+	<div class="xpTitle">
+		<span>{{localize "PRIME.xp.title"}}: </span>
+	</div>
+
+	<div class="awardXPDetails">
+		<table class="characters">
+			<thead>
+				<tr>
+					<th colspan="2">Name</th>
+					<th>XP</th>
+					<th>Soul</th>
+				</tr>
+			</thead>
+			<tbody>
+			{{#each actors}}
+			<tr data-id="{{this.id}}">
+				
+				<td class="actorPortrait"><img src="{{this.img}}"/></td>
+				<td class="actorName">{{this.name}}</td>
+				<td class="actorXP"><input class="xpInput" data-id="{{this.id}}" data-award-type="xp" type="number" value="0" step="1" min="0" max="99"></td>
+				<td class="actorSoul"><input class="soulInput" data-id="{{this.id}}" data-award-type="soul" type="number" value="0" step="1" min="0" max="99"></td>
+			</tr>
+			{{/each}}
+		</tbody>
+		</table>
+		<button class="awardXP">Award!</button>
+	</div>
+</div>

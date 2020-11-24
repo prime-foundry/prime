@@ -1,4 +1,5 @@
 import { PRIME_DICE } from "../prime_dice/prime_dice.js";
+import { AWARD_XP } from "../xp/award_xp.js";
 
 Hooks.on("getSceneControlButtons", (controls) => {
 
@@ -14,7 +15,7 @@ Hooks.on("getSceneControlButtons", (controls) => {
     basicControls.tools.push({
         name: "prime-xp",
         title: game.i18n.localize("PRIME.controls_xp_title"),
-        icon: "game-icon game-icon-aura",
+        icon: "game-icon game-icon-trophy-cup",
         visible: isGM,
     });
 });
@@ -25,18 +26,30 @@ Hooks.on("getSceneControlButtons", (controls) => {
 
 
 Hooks.on("renderSceneControls", () => {
-    $('li[data-tool="prime-xp"].control-tool').addClass("prime-control");
 
     let primeRoll = $('li[data-tool="prime-roll"].control-tool');
     primeRoll.addClass("prime-control prime-control-roll");
-    let offset = primeRoll.offset();
-    let width = primeRoll.width();
+    let rollOffset = primeRoll.offset();
+    let rollWidth = primeRoll.width();
     // let height = primeRoll.height();
 
     $(primeRoll).click(instance => {
 
-        PRIME_DICE.openPrimeDice("primeControl", offset.left+width+12, offset.top);
+        PRIME_DICE.openPrimeDice("primeControl", rollOffset.left+rollWidth+12, rollOffset.top);
     });
+
+    
+    let awardXP = $('li[data-tool="prime-xp"].control-tool');
+    awardXP.addClass("prime-control prime-control-xp");
+    
+    let xpOffset = awardXP.offset();
+    let xpWidth = awardXP.width();
+
+    
+    $(awardXP).click(instance => {
+        AWARD_XP.openAwardXP("primeControl", xpOffset.left+xpWidth+12, xpOffset.top);
+    });
+
     // there appears to be something a bit dodgy going on when we click a button when this is evaluated, 
     // the page is rerendered and so the tool tip thinks we are at 0,0 
     // so to fix we get the location of the button (and its dimensions) after the first render.

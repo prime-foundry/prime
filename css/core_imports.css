@@ -17,6 +17,8 @@
 
 @import url('elements/prime_dice.css');
 
+@import url('elements/prime_xp.css');
+
 @import url('elements/character_sheet/prime_character_sheet.css');
 
 @import url('elements/item_sheets/prime_base_item_sheet.css');
