@@ -1,8 +1,8 @@
-import { PrimeMigration_0_1_7_to_0_1_9 } from "./PrimeMigration_0_1_7_to_0_1_9.js";
+import { PrimeMigration_0_1_7_to_0_1_10 } from "./PrimeMigration_0_1_7_to_0_1_10.js";
 
 export class PrimeDataMigrationManager
 {
-	static initialVersionOfImplmentation = "0.1.9";
+	static initialVersionOfImplmentation = "0.1.10";
 
 	static async performIfMigrationRequired()
 	{
@@ -54,8 +54,9 @@ export class PrimeDataMigrationManager
 		switch (currentWorldVersion)
 		{
 			case "": // This should only happen if the world is pre-implmentation of this API
-			case "0.1.11":
-				PrimeMigration_0_1_7_to_0_1_9.update();
+			case "0.1.7":
+			case "0.1.8":
+				PrimeMigration_0_1_7_to_0_1_10.update();
 			break;
 			default:
 				const errorMessage = "ERROR: Attempting to migrate from world version '" + currentWorldVersion + "' to system version '" + systemVersion + "' but unable to find matching migration.";
