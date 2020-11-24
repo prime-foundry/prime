@@ -138,6 +138,7 @@
 	"ITEM.TypeItem" : "General item",
 	"ITEM.TypeMelee-weapon" : "Melee Weapon",
 	"ITEM.TypeRanged-weapon" : "Ranged Weapon",
+	"ITEM.TypeShield" : "Shield",
 	"ITEM.TypeArmour" : "Armour",
 	"ITEM.TypePerk" : "Perk",
 	"ITEM.TypeAction" : "Action",
