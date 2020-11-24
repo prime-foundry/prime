@@ -151,19 +151,27 @@ Ship sheet
 
 //Add icon to denote if item is template or owned.
 
+//Amend titles in perk char stat dropdown - ward not armour for mind.
 
 TO DISCUSS:
 ===========
 
 How do shields work as a bonus to armour?
+- Duplicate weapon item type, add block bonus fields for ranged and melee (seperately)
 
 What's happening about money?
+- Personal $ box at the top of the inventory.
+- Add total cash cost
+- Add total weight
 
+Set max-width for AP circle in combat section.
 
+Add bonus weapon/armour mastercraft style options for the effects bonuses if weapon/armour.
 
-Add perk stat adjustments to armour and ward - look into item bonuses
+Can't reduce Attunment below 1 once set higher.
 
-Amend titles in perk char stat dropdown - ward not armour for mind.
+/Add perk stat adjustments to armour and ward - look into item bonuses
+
 
 Add current ammo to ranged weapons - only show if owned.
 
@@ -185,8 +193,7 @@ Make XP field editable short term
 
 Fix issue with 6 wounds/insanties - adjust row heights to fill via flex?
 
-
-
+Make perks live links rather than copies?
 
 
 Get expanded list of insanities.
