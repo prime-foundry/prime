@@ -24,7 +24,6 @@ export class PrimePCActor extends Actor
 		}
 	}
 
-
 	/**
 	 * Prepare Character type specific data
 	 */
@@ -43,76 +42,13 @@ export class PrimePCActor extends Actor
 		const perkXPCost = this.getTotalPerkCost("perkCostXP");
 		data.xp.spent = refinementCost + perkXPCost;
 
-		this.updateHealthAndMind(data);
+		this.updateOwnedItemValues();
 
 		// Loop through ability scores, and add their modifiers to our sheet output.
 
 		data.soul.value = (data.soul.initial + data.soul.awarded) - data.soul.spent;
 		data.xp.value = (data.xp.initial + data.xp.awarded) - data.xp.spent;
 	}
-
-	updateHealthAndMind(data)
-	{
-		data.health.wounds.max = data.health.wounds.base + this.getStateBonusesFromPerks("health.wounds.max");
-		data.health.resilience.max = data.health.resilience.base + this.getStateBonusesFromPerks("health.resilience.max");
-		data.mind.insanities.max = data.mind.insanities.base + this.getStateBonusesFromPerks("mind.insanities.max");
-		data.mind.psyche.max = data.mind.psyche.base + this.getStateBonusesFromPerks("mind.psyche.max");
-		// health.wounds.max
-		// health.resilience.max
-
-		// mind.insanities.max
-		// mind.psyche.max
-	}
-
-	getStateBonusesFromPerks(whatStatDataPath)
-	{
-		var ownedPerkClones = this.getProcessedItems()["perk"];
-		var totalAdjustments = 0;
-
-		if (ownedPerkClones)
-		{
-			var count = 0;
-			while (count < ownedPerkClones.length)
-			{
-				var currPerk = ownedPerkClones[count];
-				var adjustment = this.getPerkAdjustment(currPerk, whatStatDataPath);
-				totalAdjustments += adjustment;
-				// if (currPerk.data.cost.attributeType == perkCostType)
-				// {
-				// 	totalAdjustments += currPerk.data.cost.amount;
-				// }
-				count++;
-			}
-		}
-
-		return totalAdjustments;
-	}
-
-	getPerkAdjustment(whatPerk, whatStatDataPath)
-	{
-		var perkStateAdjustments = 0;
-		var count = 0;
-		while (count < whatPerk.effects.length)
-		{
-			let currEffect = whatPerk.effects[count];
-			if (currEffect.flags.effectType == "bonus" && currEffect.flags.effectSubType == "actorStatBonus" && currEffect.flags.path == whatStatDataPath)
-			{
-				var parseValue = parseInt(currEffect.flags.value);
-				if (!isNaN(parseValue))
-				{
-					perkStateAdjustments += parseValue;
-				}
-				else
-				{
-					console.error("ERROR: Found a stat adjustment value I couldn't turn into a bonus. Perk / Effect", whatPerk, currEffect);
-				}
-			}
-			count++;
-		}
-
-		return perkStateAdjustments
-	}
-
 
 	getCurrentOwners(whatPermissions)
 	{
@@ -292,8 +228,6 @@ export class PrimePCActor extends Actor
 		}
 
 		return totalCost;
-		//"perkCostSoul"
-		//("perkCostXP");
 	}
 	
 
@@ -310,6 +244,123 @@ export class PrimePCActor extends Actor
 			item.mod = item.cost;
 		}
 		return totalCost;
+	}
+
+	updateOwnedItemValues()
+	{
+		this.updateHealthAndMind();
+		this.updateArmourValues();
+		this.updateWardValues();
+
+		//var result = await this.update(this.data);
+	}
+
+	updateHealthAndMind()
+	{
+		this.data.data.health.wounds.max = this.data.data.health.wounds.base + this.getStatBonusesFromItems("health.wounds.max");
+		this.data.data.health.resilience.max = this.data.data.health.resilience.base + this.getStatBonusesFromItems("health.resilience.max");
+		this.data.data.mind.insanities.max = this.data.data.mind.insanities.base + this.getStatBonusesFromItems("mind.insanities.max");
+		this.data.data.mind.psyche.max = this.data.data.mind.psyche.base + this.getStatBonusesFromItems("mind.psyche.max");
+	}
+
+	updateArmourValues()
+	{
+		var currentArmour = this.getMostResilientArmour(this.data.items);
+		
+		this.data.data.armour.protection.value = currentArmour.data.protection + this.getStatBonusesFromItems("armour.protection.value");
+		this.data.data.armour.protection.max = currentArmour.data.protection + this.getStatBonusesFromItems("armour.protection.max");
+
+		var initialMaxValue = this.data.data.armour.resilience.max
+		this.data.data.armour.resilience.max = currentArmour.data.armourResilience + this.getStatBonusesFromItems("armour.resilience.max");
+		
+		// If they were the same initially or the value is now higher than the max, adjust accordingly.
+		if (this.data.data.armour.resilience.value == initialMaxValue || this.data.data.armour.resilience.value > this.data.data.armour.resilience.max)
+		{
+			this.data.data.armour.resilience.value = currentArmour.data.armourResilience + this.getStatBonusesFromItems("armour.resilience.max");
+		}
+	}
+	updateWardValues()
+	{		
+		this.data.data.ward.stability.value = this.getStatBonusesFromItems("ward.stability.max");
+		this.data.data.ward.stability.max = this.getStatBonusesFromItems("ward.stability.max");
+
+		var initialMaxValue = this.data.data.ward.psyche.max
+		this.data.data.ward.psyche.max = this.getStatBonusesFromItems("ward.psyche.max");
+		
+		// If they were the same initially or the value is now higher than the max, adjust accordingly.
+		if (this.data.data.ward.psyche.value == initialMaxValue || this.data.data.ward.psyche.value > this.data.data.ward.psyche.max)
+		{
+			this.data.data.ward.psyche.value = this.getStatBonusesFromItems("ward.psyche.max");
+		}
+	}
+
+	getMostResilientArmour(items)
+	{
+		var bestArmour =
+		{
+			data: {armourResilience: 0, protection: 0}
+		};
+		var currItem = null;
+		var count = 0;
+		while (count < items.length)
+		{
+			currItem = items[count];
+			if (currItem.type == "armour" && currItem.data.isWorn && currItem.data.armourResilience > bestArmour.data.armourResilience)
+			{
+				bestArmour = currItem;
+			}
+			count++;
+		}
+		return bestArmour;		
+	}
+
+	getStatBonusesFromItems(whatStatDataPath)
+	{
+		var ownedItemClones = this.getProcessedItems();
+		var totalAdjustments = 0;
+
+		for (var itemType in ownedItemClones)
+		{
+			var currItemClones = ownedItemClones[itemType]
+			if (ownedItemClones)
+			{
+				var count = 0;
+				while (count < currItemClones.length)
+				{
+					var currItem = currItemClones[count];
+					var adjustment = this.getItemAdjustment(currItem, whatStatDataPath);
+					totalAdjustments += adjustment;
+					count++;
+				}
+			}
+		}
+
+		return totalAdjustments;
+	}
+
+	getItemAdjustment(whatItem, whatStatDataPath)
+	{
+		var itemStateAdjustments = 0;
+		var count = 0;
+		while (count < whatItem.effects.length)
+		{
+			let currEffect = whatItem.effects[count];
+			if (currEffect.flags.effectType == "bonus" && currEffect.flags.effectSubType == "actorStatBonus" && currEffect.flags.path == whatStatDataPath)
+			{
+				var parseValue = parseInt(currEffect.flags.value);
+				if (!isNaN(parseValue))
+				{
+					itemStateAdjustments += parseValue;
+				}
+				else
+				{
+					console.error("ERROR: Found a stat adjustment value I couldn't turn into a bonus. Item / Effect", whatItem, currEffect);
+				}
+			}
+			count++;
+		}
+
+		return itemStateAdjustments
 	}
 
 	static primeCost(num)

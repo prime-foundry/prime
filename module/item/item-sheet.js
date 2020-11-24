@@ -10,12 +10,23 @@ export class PrimeItemSheet extends ItemSheet
 	/** @override */
 	static get defaultOptions()
 	{
-		return mergeObject(super.defaultOptions, {
-			classes: ["primeSheet", "primeItemSheet", "sheet"],
+		if (game.user.isGM)
+		{
+			var isGMClass = "userIsGM";
+		}
+		else
+		{
+			var isGMClass = "userIsNotGm";
+		}
+		var primeItemOptions =
+		{
+			classes: ["primeSheet", "primeItemSheet", "sheet", isGMClass],
 			width: 420,
 			height: 550,
 			tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
-		});
+		}
+
+		return mergeObject(super.defaultOptions, primeItemOptions);
 	}
 
 	/** @override */
@@ -43,12 +54,21 @@ export class PrimeItemSheet extends ItemSheet
 		
 		this.addItemTypeData(data);
 		data.checkboxGroupStates = this.checkboxGroupStates;
-		//data.allowAdditionalBonuses = this.findDeletedBonus();
+
+		data.isOwned = this.item.isOwned;
+		data.owningCharacterName = null;
+
+		if (this.actor)
+		{
+			data.owningCharacterName = this.actor.name;
+		}		
+
 		return data;
 	}
 
 	addItemTypeData(data)
 	{
+		data.bonuses = this.getEffectsRenderableData("bonus");
 		switch(data.item.type)
 		{
 			case "item":
@@ -64,7 +84,6 @@ export class PrimeItemSheet extends ItemSheet
 				data.checkboxGroups = this.compileArmourCheckboxGroups(data);
 			break;
 			case "perk":
-				data.bonuses = this.getEffectsRenderableData("bonus");
 				data.prerequisites = this.getEffectsRenderableData("prerequisite");
 			break;
 			case "action":
@@ -452,6 +471,7 @@ export class PrimeItemSheet extends ItemSheet
 		data["data.created"] = dateString;
 		data["data.updated"] = dateString;
 
+		data["data.sourceKey"] = this.item.data._id;
 		//game.users.get(game.userId);
 	}
 
@@ -510,8 +530,11 @@ export class PrimeItemSheet extends ItemSheet
 
 		html.find(".effectFormElement").change(this.perkEffectFormElementChanged.bind(this));
 
-		html.find(".removeEffectIcon").click(this.removeEffect.bind(this));
-		html.find(".addEffectIcon").click(this.addBlankEffect.bind(this));
+		if (!this.item.isOwned)
+		{
+			html.find(".removeEffectIcon").click(this.removeEffect.bind(this));
+			html.find(".addEffectIcon").click(this.addBlankEffect.bind(this));
+		}
 
 		// Everything below here is only needed if the sheet is editable
 		if (!this.options.editable) return;
@@ -639,7 +662,7 @@ export class PrimeItemSheet extends ItemSheet
 		switch (effectType)
 		{
 			case "bonus":
-				baseEffectData.label = "Perk effect";
+				baseEffectData.label = "Effect";
 				baseEffectData.flags.effectSubType = "situationalPrime";
 				baseEffectData.flags.path = "end";
 			break;

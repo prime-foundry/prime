@@ -163,7 +163,14 @@ export class PrimeTables
 			{
 				if (item.type == typeFilter || typeFilter == "*")
 				{
-					matchingItems.push({key: key, title: item.name, source: item})
+					if (item.data.data.sourceKey)
+					{
+						matchingItems.push({key: item.data.data.sourceKey, title: item.name, source: item});
+					}
+					else
+					{
+						matchingItems.push({key: key, title: item.name, source: item});
+					}
 				}
 			});
 		}		

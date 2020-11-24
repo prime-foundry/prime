@@ -11,6 +11,7 @@
     --borderGrey: hsl(0, 0%, 50%);
 
     --textDark: hsl(50, 14%, 9%);
+    --textGrey: rgb(109, 109, 109);
     --textLight: hsl(60, 35%, 91%);
 
     --actionBackgroundColor: hsl(53, 100%, 97%);

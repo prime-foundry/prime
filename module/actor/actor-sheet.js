@@ -23,8 +23,18 @@ export class PrimePCActorSheet extends ActorSheet
 			this.hooksAdded = true;
 		}
 
-		return mergeObject(superOptions, {
-			classes: ["primeSheet", "primeCharacterSheet", "sheet", "actor"],
+		if (game.user.isGM)
+		{
+			var isGMClass = "userIsGM";
+		}
+		else
+		{
+			var isGMClass = "userIsNotGm";
+		}
+
+		var actorConfig =
+		{
+			classes: ["primeSheet", "primeCharacterSheet", "sheet", "actor", isGMClass],
 			template: "systems/prime/templates/actor/actor-sheet.html",
 			width: 775,
 			height: 765,
@@ -35,14 +45,15 @@ export class PrimePCActorSheet extends ActorSheet
 					initial: "statistics"
 				}
 			],
-		});
+		}
+
+		return mergeObject(superOptions, actorConfig);
 	}
 	
 	static addHooks()
 	{
 		Hooks.on("preUpdateActor", function(actorData, changeData, options, maybeUpdateID)
 		{
-			console.log("preUpdateActor()")
 			if (changeData.data && changeData.data.actionPoints && changeData.data.actionPoints.lastTotal && !changeData.data.actionPoints.value && changeData.data.actionPoints.value !== 0)
 			{
 				return false;
@@ -62,7 +73,6 @@ export class PrimePCActorSheet extends ActorSheet
 		data.dtypes = ["String", "Number", "Boolean"];
 
 		data.characterNameClass = this.getCharacterNameClass(data.actor.name);
-		console.log("data.characterNameClass: " + data.characterNameClass)
 
 		//var a = data.actor.permission
 		data.currentOwners = this.entity.getCurrentOwners();
@@ -99,11 +109,11 @@ export class PrimePCActorSheet extends ActorSheet
 		{
 			return "largestNameFont";
 		}
-		else if (nameWidth > 180 && nameWidth <= 230)
+		else if (nameWidth > 180 && nameWidth <= 205)
 		{
 			return "largeNameFont";
 		}
-		else if (nameWidth > 230 && nameWidth <= 320)
+		else if (nameWidth > 205 && nameWidth <= 320)
 		{
 			return "mediumNameFont";
 		}
@@ -193,7 +203,6 @@ export class PrimePCActorSheet extends ActorSheet
 			}
 			if (parsed != value)
 			{
-				console.log("Trimmed noise, initial: '" + value + "', parsed:'" + parsed + "'");
 				input.val(parsed);
 			}
 		}
@@ -231,7 +240,6 @@ export class PrimePCActorSheet extends ActorSheet
 		}
 
 		var result = await this.actor.update(data.actor);
-		//console.log(result);
 	}
 
 	async updateInjuryTotal(event)
@@ -392,7 +400,6 @@ export class PrimePCActorSheet extends ActorSheet
 
 	updateWidthClasses()
 	{
-		//console.log(this.position.width);
 		if (this.position.width <= 665)
 		{
 			this.element.addClass("narrowWidth");
@@ -417,7 +424,6 @@ export class PrimePCActorSheet extends ActorSheet
 	resizeUpdateEnd(event)
 	{
 		this.resizeOccuring = false;
-		//console.log("Ending...")
 		this.updateWidthClasses()
 	}
 
@@ -495,41 +501,9 @@ export class PrimePCActorSheet extends ActorSheet
 		
 		var result = await armour.update(armour.data);
 
-		this.updateArmourValues();
+		this.entity.updateWornItemValues();
 	}
 
-	async updateArmourValues()
-	{
-		var data = super.getData();
-		var currentArmour = this.getMostResilientArmour(data.items);
-		
-		data.data.armour.protection.value = currentArmour.data.protection;
-		data.data.armour.protection.max = currentArmour.data.protection;
-		data.data.armour.resilience.value = currentArmour.data.armourResilience;
-		data.data.armour.resilience.max = currentArmour.data.armourResilience;
-
-		var result = await this.actor.update(data.actor);
-	}
-
-	getMostResilientArmour(items)
-	{
-		var bestArmour =
-		{
-			data: {armourResilience: 0, protection: 0}
-		};
-		var currItem = null;
-		var count = 0;
-		while (count < items.length)
-		{
-			currItem = items[count];
-			if (currItem.type == "armour" && currItem.data.isWorn && currItem.data.armourResilience > bestArmour.data.armourResilience)
-			{
-				bestArmour = currItem;
-			}
-			count++;
-		}
-		return bestArmour;		
-	}
 	
 	/** @override */
 	activateListeners(html)

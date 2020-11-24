@@ -3,9 +3,24 @@
 	min-width:350px;
 }
 
+.primeItemSheet h1.entityName
+{
+	text-align: left;
+	margin-top: 0px;
+	margin-bottom: 5px;
+}
+
 .imageWrapper img
 {
 	border-width: 0px;
+}
+
+.ownershipStatusIcon
+{
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	color: var(--textGrey);
 }
 
 .infoBlock

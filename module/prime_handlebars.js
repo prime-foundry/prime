@@ -26,6 +26,9 @@ var primeHandlebarsPartialsPaths =
 	"itemDescription": "systems/prime/templates/item/partials/sheet/item-description.html",
 	"itemMetadata": "systems/prime/templates/item/partials/sheet/item-metadata.html",
 
+	"itemEffects": "systems/prime/templates/item/partials/sheet/item-effects.html",
+	"itemPrerequisites": "systems/prime/templates/item/partials/sheet/item-prerequisites.html",
+
 	"itemCardAction": "systems/prime/templates/item/partials/cards/item-card-action.html",
 	"itemCardPerk": "systems/prime/templates/item/partials/cards/item-card-perk.html"
 }
@@ -127,6 +130,25 @@ Handlebars.registerHelper('itemEnabled', function (pointIndex, currentPoints)
 	}
 	return "disabled";
 });
+
+Handlebars.registerHelper('disabledIf', function (value)
+{
+	if (value)
+	{
+		return "disabled title='This cannot be edited on an item that is owned.";
+	}
+	return "";
+});
+Handlebars.registerHelper('disabledClassIf', function (value)
+{
+	if (value)
+	{
+		return "elementDisabled";
+	}
+	return "";
+});
+
+
 
 Handlebars.registerHelper('itemChecked', function (checkedState)
 {
