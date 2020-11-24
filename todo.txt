@@ -170,6 +170,8 @@ Add bonus weapon/armour mastercraft style options for the effects bonuses if wea
 
 Can't reduce Attunment below 1 once set higher.
 
+Add means to adjust starting XP and soul via settings.
+
 /Add perk stat adjustments to armour and ward - look into item bonuses
 
 
