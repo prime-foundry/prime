@@ -436,6 +436,8 @@
 				"refinements_template"
 			],
 			"perks": [],
+			"personalWealth": 0,
+			"shipWealth": 0,
 			"wounds": 
 			{
 				"wound0": "null",
