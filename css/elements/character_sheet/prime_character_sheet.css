@@ -249,7 +249,7 @@ h1.entityName
 
 .primeCharacterSheet .sheet-tabs.tabs
 {
-	margin: 10px -8px 15px -8px;
+	margin: 10px -8px 6px -8px;
 	background-color: var(--textDark);
 	border-color: var(--borderGrey);
 	height:34px;
@@ -398,6 +398,17 @@ h1.entityName
 .weaponsContent .attackWithWeapon:hover
 {
 	transform: scale(2);
+}
+
+.equipmentCost
+{
+	margin-left:5px;
+}
+
+.equipmentWeight
+{
+	margin-left:5px;
+	margin-right:5px;
 }
 
 .statsContent
