@@ -153,22 +153,26 @@ Ship sheet
 
 //Amend titles in perk char stat dropdown - ward not armour for mind.
 
+//Make XP field editable short term
+
 TO DISCUSS:
 ===========
 
-How do shields work as a bonus to armour?
-- Duplicate weapon item type, add block bonus fields for ranged and melee (seperately)
+//How do shields work as a bonus to armour?
+//- Duplicate weapon item type, add block bonus fields for ranged and melee (seperately)
+
+//Set max-width for AP circle in combat section.
+
+//Can't reduce Attunment below 1 once set higher.
 
 What's happening about money?
 - Personal $ box at the top of the inventory.
 - Add total cash cost
 - Add total weight
 
-Set max-width for AP circle in combat section.
 
 Add bonus weapon/armour mastercraft style options for the effects bonuses if weapon/armour.
 
-Can't reduce Attunment below 1 once set higher.
 
 Add means to adjust starting XP and soul via settings.
 
@@ -188,7 +192,7 @@ Make roll list filter better - use NPC flag
 
 
 
-Make XP field editable short term
+
 
 
 
