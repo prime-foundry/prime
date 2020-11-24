@@ -12,7 +12,9 @@
 
     --textDark: hsl(50, 14%, 9%);
     --textGrey: rgb(109, 109, 109);
-    --textLight: hsl(60, 35%, 91%);
+	--textLight: hsl(60, 35%, 91%);
+	
+	--titleBackground: hsl(51, 26%, 75%);
 
     --actionBackgroundColor: hsl(53, 100%, 97%);
     --perkBackgroundColor: hsl(352, 100%, 97%);
