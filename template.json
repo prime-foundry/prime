@@ -611,6 +611,7 @@
 		{
 			"templates": ["base", "metadata"],
 			"points": 0,
+			"sourceKey": "",
 			"type": "major",
 			"default": false,
 			"effects": []
