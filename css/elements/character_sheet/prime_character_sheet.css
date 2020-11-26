@@ -35,9 +35,18 @@
 	flex:1;
 }
 
-.actorFormWrapper .tabbedSection .tab
+.actorFormWrapper .tabbedSection .tab.active
 {
 	height:100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.actorFormWrapper .tabbedSection .tab>.block
+{
+	margin-top: 0;
+	margin-bottom: 0;
+	flex: 1;
 }
 
 .metaDataContentInner
@@ -274,10 +283,18 @@ h1.entityName
 	overflow: auto;
 }
 
+.perksInnerWrapper
+{
+	max-height: 100%;
+	overflow: visible;
+}
+
+
 .actionsOuterWrapper
 {
 	max-height:330px;
 }
+
 .primeCharacterSheet .actionsHolder 
 {
 	height: 100%;
