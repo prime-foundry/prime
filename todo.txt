@@ -178,20 +178,26 @@ TO DISCUSS:
 
 //Create "special item" item type with effects as per perks for stuff like magic items.
 
+//Look into "ping" module.
 
+Add Dice icon to randomise appearence/background for NPCs (also refinements?)
+
+Compress dice roll message in order to be able to see all.
 
 Add bonus weapon/armour mastercraft style options for the effects bonuses if weapon/armour.
 
 Add current ammo to ranged weapons - only show if owned.
 
-
+Allow mental/armour to exceed.
 
 Add confirm to delete item button.
 
 
 
 
-Improve inventory layout - Add means to organise/sort inventory and make folders.
+Improve inventory & perl layout - Add means to organise/sort inventory and make folders.
+
+
 
 Make roll list filter better - use NPC flag
 
