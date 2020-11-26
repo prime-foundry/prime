@@ -9,6 +9,8 @@
     --mindBlue: hsl(241, 96%, 28%);
     
     --borderGrey: hsl(0, 0%, 50%);
+    --borderGreyAlphaOn: hsl(0, 0%, 50%, 1);
+    --borderGreyAlphaOff: hsl(0, 0%, 50%, 0);
 
     --textDark: hsl(50, 14%, 9%);
     --textGrey: rgb(109, 109, 109);
