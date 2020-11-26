@@ -3,12 +3,13 @@
     position: relative;
 	border-radius: 5px;
 	border:1px solid var(--borderGrey);
-    flex:1;
     min-width: 200px;
-    min-height: 60px;
-    max-width: 49%;
+	max-width: 49%;
+	flex:1;
+	height: 25px;
 	padding: 5px 25px 5px 5px;
-	margin: 11px 5px 5px 5px;
+	margin: 5px 5px 5px 5px;
+	overflow: hidden;
 }
 
 .narrowWidth .primeCard
@@ -16,9 +17,16 @@
     min-width: 175px;
 }
 
-.primeCard .itemCard
+.primeCard.itemCard
 {
-    
+	transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.primeCard.itemCard:hover
+{
+	/* transform: scale3d(1.05, 1.05, 1); */
+	overflow: visible;
+	transform: translate3d(0px, -3px, 0px);
+	z-index: 5;
 }
 
 .primeCard.itemCardAction
@@ -30,28 +38,10 @@
     background-color: var(--perkBackgroundColor);
 }
 
-/* 
-.primeCard.itemCardAction:before
-{
-    content: "A";
-
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    bottom: 0px;
-    right: 0px;
-    font-size:30px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-    z-index: 0;
-    opacity: 0.1;
-} */
-
 .primeCard .cardTitle
 {
-    margin-bottom:5px;
-    border-bottom:1px solid var(--borderGrey);
+    /* margin-bottom:5px;
+    border-bottom:1px solid var(--borderGrey); */
 }
 
 .primeCard .cardTopRightDetail,
@@ -61,7 +51,7 @@
     position: absolute;
     width: 20px;
 	border-radius: 2px;
-    border:1px solid var(--borderGrey);
+    border: 1px solid var(--borderGrey);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -116,7 +106,62 @@
     bottom: 0px;
 }
 
+.cardDetail
+{
+	position: absolute;
+	
+	border:1px solid var(--borderGrey);
+	border-color: var(--borderGreyAlphaOff);
+	transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+	left:5px;
+	right:5px;
+	height: 0px;
+
+	padding:10px;
+
+	overflow:hidden;
+	opacity: 0;
+	z-index: 5;
+}
+
+.cardDetail.popDown
+{
+	border-radius: 0 0 5px 5px;
+	border-top-width: 0px;
+}
+.cardDetail.popUp
+{
+	border-radius: 5px 5px 0 0;
+	border-bottom-width: 0px;
+}
+
+
+.primeCard.itemCard.hoverIntent .cardDetail
+{
+	border-color: var(--borderGreyAlphaOn);
+	opacity: 1;
+}
+
+.primeCard.itemCardAction .cardDetail
+{
+    background-color: var(--actionBackgroundColor);
+}
+.primeCard.itemCardPerk .cardDetail
+{
+    background-color: var(--perkBackgroundColor);
+}
+
 .cardDescription
 {
-    
+    position: relative;
+}
+
+.cardDescription p:first-child
+{
+	margin-top: 0;
+}
+.cardDescription p:last-child
+{
+	margin-bottom: 0;
 }
