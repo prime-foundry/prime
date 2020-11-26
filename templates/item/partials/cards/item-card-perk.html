@@ -2,23 +2,25 @@
     <div class="cardTitle"><a class="itemTitle" data-item-id="{{this._id}}">{{this.name}}</a></div>
     <div class="cardTopRightDetail">{{this.data.cost.amount}}</div>
     
-    <div class="cardDescription">
-        {{#if this.data.description}}
-        <div>{{{this.data.description}}}</div>
-        {{/if}}
+	<div class="cardDetail">
+		<div class="cardDescription">
+			{{#if this.data.description}}
+			<div>{{{this.data.description}}}</div>
+			{{/if}}
 
-        {{#if this.data.settingDescription}}
-        <div>{{{this.data.settingDescription}}}</div>
-        {{/if}}
-    </div>
+			{{#if this.data.settingDescription}}
+			<div>{{{this.data.settingDescription}}}</div>
+			{{/if}}
+		</div>
 
-    <div class="cardRightCenterDetail removePerk"><a class="deleteItemIcon" data-item-id={{this._id}}><i class="fas fa-trash"></i></a></div>
+		<div class="cardRightCenterDetail removePerk"><a class="deleteItemIcon" data-item-id={{this._id}}><i class="fas fa-trash"></i></a></div>
 
-    {{#ifCond this.data.cost.attributeType "==" "perkCostXP" }}
-    <div class="cardBottomRightDetail perkCost hasTooltip" title="Perk cost XP">XP</div>
-    {{/ifCond}}
+		{{#ifCond this.data.cost.attributeType "==" "perkCostXP" }}
+		<div class="cardBottomRightDetail perkCost hasTooltip" title="Perk cost XP">XP</div>
+		{{/ifCond}}
 
-    {{#ifCond this.data.cost.attributeType "==" "perkCostSoul" }}
-    <div class="cardBottomRightDetail perkCost hasTooltip" title="Perk cost Soul">S</div>
-    {{/ifCond}}
+		{{#ifCond this.data.cost.attributeType "==" "perkCostSoul" }}
+		<div class="cardBottomRightDetail perkCost hasTooltip" title="Perk cost Soul">S</div>
+		{{/ifCond}}
+	</div>
 </div>
