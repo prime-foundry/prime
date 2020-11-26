@@ -1,9 +1,7 @@
 import { PrimeTables } from "../prime_tables.js";
+import { ItemCardUI } from "../item/item_card_ui.js";
 
-/**
- * Extend the basic ActorSheet with some very simple modifications
- * @extends {ActorSheet}
- */
+
 export class PrimePCActorSheet extends ActorSheet
 {
 	resizeOccuring = false;
@@ -548,6 +546,10 @@ export class PrimePCActorSheet extends ActorSheet
 
 		html.find(".attackWithWeapon").click(this.attackWithWeapon.bind(this));
 		html.find(".armourWornCheckbox").click(this.updateWornArmour.bind(this));
+
+
+		const perkWrapper = html.find(".perksOuterWrapper");
+		ItemCardUI.bindEvents(perkWrapper);
 
 		this.postActivateListeners(html);
 	}
