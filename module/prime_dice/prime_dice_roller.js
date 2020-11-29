@@ -5,14 +5,20 @@ export class PRIME_DICE_ROLLER {
 
 
 	async rollPrimeDice(diceParams) {
-		var diceResult = this.getDiceResult(diceParams);
-		var messageContent = await this.createContent(diceResult);
+		const diceResult = this.getDiceResult(diceParams);
+		const messageContent = await this.createContent(diceResult);
+		const alias =  diceResult.user +": " + diceResult.actor;
+		const speaker = ChatMessage.getSpeaker({ actor : diceParams.actor, alias });
 		let data =
 		{
+			speaker,
+			user: game.user._id,
+			_roll: diceResult.total,
+			type: CONST.CHAT_MESSAGE_TYPES.ROLL,
 			sound: CONFIG.sounds.dice,
 			content: messageContent
 		};
-		let options = {};
+		let options = {rollMode: 'roll'};
 		ChatMessage.create(data, options);
 
 		//this.testDiceRolling(10000);
@@ -51,35 +57,33 @@ export class PRIME_DICE_ROLLER {
 			actor: diceParams.actor.name,
 			user: diceParams.user.name,
 			actorImg: diceParams.actor.img,
-			userColour: diceParams.user.data.color,
+			userColour: chroma(diceParams.user.data.color).darken(3).hex(),
 			diceRolls: _primeResults,
 			totalDice: _result,
 			total: diceParams.total + _result,
-			calculation: this.getCalculationText(_result, diceParams)
+			modifiers: this.getDiceModifiers(diceParams)
 		};
 		return _primeDiceResults;
 	}
-
-	getCalculationText(diceResult, diceParams) {
+	getDiceModifiers(diceParams) {
 		const primeData = game.system.template.Actor.templates.primes_template.primes
-		const refinementData = game.system.template.Actor.templates.refinements_template.refinements;
-		const result = diceResult < 0 ? " - " + (-diceResult) : " + " + diceResult;
-	
+		const refinementData = game.system.template.Actor.templates.refinements_template.refinements;	
+		let modifiers = [];
+
 		if (diceParams.prime) {
 			const localizedPrime = game.i18n.localize(primeData[diceParams.prime.key].title);
+			modifiers.push({name:localizedPrime, value:diceParams.prime.value});
 			if (diceParams.prime.doubled) {
-				return localizedPrime + " (" + diceParams.prime.value + ") + " + localizedPrime + " (" + diceParams.prime.value + ")" + result;
+				modifiers.push({name:localizedPrime, value:diceParams.prime.value});
 			} else if (diceParams.refinement) {
 				const localizedRefinement = game.i18n.localize(refinementData[diceParams.refinement.key].title);
-				return localizedPrime + " (" + diceParams.prime.value + ") + " + localizedRefinement + " (" + diceParams.refinement.value + ")" + result;
-			} else {
-				return localizedPrime + " (" + diceParams.prime.value + ")" + result;
+				modifiers.push({name:localizedRefinement, value:diceParams.refinement.value});
 			}
 		} else if (diceParams.refinement) {
 			const localizedRefinement = game.i18n.localize(refinementData[diceParams.refinement.key].title);
-			return localizedRefinement + " (" + diceParams.refinement.value + ")" + result;
+			modifiers.push({name:localizedRefinement, value:diceParams.refinement.value});
 		}
-		return "";
+		return modifiers;
 	}
 
 	async createContent(diceResult) {
