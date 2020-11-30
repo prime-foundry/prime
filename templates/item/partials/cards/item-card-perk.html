@@ -13,14 +13,14 @@
 			{{/if}}
 		</div>
 
-		<div class="cardRightCenterDetail removePerk"><a class="deleteItemIcon" data-item-id={{this._id}}><i class="fas fa-trash"></i></a></div>
+		<div class="cardBottomRightDetail removePerk"><a class="deleteItemIcon" data-item-id={{this._id}}><i class="fas fa-trash"></i></a></div>
 
 		{{#ifCond this.data.cost.attributeType "==" "perkCostXP" }}
-		<div class="cardBottomRightDetail perkCost hasTooltip" title="Perk cost XP">XP</div>
+		<div class="cardRightCenterDetail perkCost hasTooltip" title="Perk cost XP">XP</div>
 		{{/ifCond}}
 
 		{{#ifCond this.data.cost.attributeType "==" "perkCostSoul" }}
-		<div class="cardBottomRightDetail perkCost hasTooltip" title="Perk cost Soul">S</div>
+		<div class="cardRightCenterDetail perkCost hasTooltip" title="Perk cost Soul">S</div>
 		{{/ifCond}}
 	</div>
 </div>
