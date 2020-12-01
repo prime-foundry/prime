@@ -57,6 +57,7 @@ export class PrimeDataMigrationManager
 			case "": // This should only happen if the world is pre-implmentation of this API
 			case "0.1.7":
 			case "0.1.8":
+			case "0.1.9":
 				PrimeMigration_0_1_7_to_0_1_10.update();
 			break;
 			case "0.1.10":
