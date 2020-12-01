@@ -27,6 +27,7 @@
 			{{#if autoclose}}checked{{/if}}
 			>
 		</span>
+		
 	</div>
 
 	<div class="primeDiceRollWrapper">
@@ -58,7 +59,17 @@
 			</div>
 			{{/each}}
 		</div>
-		<button class="rollPrimeDice">Roll!</button>
+		<div class="roll-footer">
+			<div class="number-field">
+				<label class="number-label" for="raw-modifier">Modifier:</label>
+				<input class="number-input" id="raw-modifier" data-modifier="raw" type="number" value="0" step="1" min="-20" max="20">
+				<div class="number-buttons">
+					<i class="number-button increment fas fa-plus-circle"></i>
+					<i class="number-button decrement fas fa-minus-circle"></i>
+				</div>
+			</div>
+			<button class="rollPrimeDice">Roll!</button>
+		</div>
 	</div>
 
 
