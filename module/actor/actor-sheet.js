@@ -87,7 +87,14 @@ export class PrimePCActorSheet extends ActorSheet
 
 		data.inventoryItems = this.getInventoryItems(data.filteredItems);
 
-		data.perks = data.filteredItems["perk"].sort(this.sortByItemOrder);
+		if (data.filteredItems["perk"])
+		{
+			data.perks = data.filteredItems["perk"].sort(this.sortByItemOrder);
+		}
+		else
+		{
+			data.perks = [];
+		}
 
 		data.sortedActions = this.entity.getSortedActions();
 
