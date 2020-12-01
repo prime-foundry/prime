@@ -1,65 +1,52 @@
-
-#chat-controls .chat-control-icon i.fas.fa-dice-d20
-{
-    position:relative;
+#chat-controls .chat-control-icon i.fas.fa-dice-d20 {
+    position: relative;
     color: #ff6400;
-    background:#ffffff;
-    width:26px;
-    line-height:26px;
-    text-align:center;
+    background: #ffffff;
+    width: 26px;
+    line-height: 26px;
+    text-align: center;
     border-radius: 5px;
-    margin-right:3px;
-    cursor:pointer;
+    margin-right: 3px;
+    cursor: pointer;
     transition: box-shadow 0.2s ease-in-out, text-shadow 0.2s ease-in-out;
 }
 
-
-#chat-controls .chat-control-icon i.fas.fa-dice-d20:active
-{
+#chat-controls .chat-control-icon i.fas.fa-dice-d20:active {
     transform: translate(0px, 1px);
 }
 
-#chat-controls .chat-control-icon i.fas.fa-dice-d20::before
-{
+#chat-controls .chat-control-icon i.fas.fa-dice-d20::before {
     font-size: 24px;
     vertical-align: bottom;
 }
 
-#chat-controls .chat-control-icon i.fas.fa-dice-d20:hover
-{
+#chat-controls .chat-control-icon i.fas.fa-dice-d20:hover {
     box-shadow: inset 0 0 3px #ff6400, 0 0 5px #ff6400;
     text-shadow: 0 0 3px #ff6400;
 }
 
-#chat-controls .chat-control-icon i.fas.fa-dice-d20::after
-{
-    position:absolute;
-    top:1px;
-    left:0px;
-    bottom:0px;
-    right:0px;
+#chat-controls .chat-control-icon i.fas.fa-dice-d20::after {
+    position: absolute;
+    top: 1px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
     content: "P";
-    text-align:center;
-    color:black;
+    text-align: center;
+    color: black;
     font-family: 'New Rocker', cursive;
 }
 
-.primeDiceRollWrapper .statsContent .primesGroup .primeWrapper input,
-.primeDiceRollWrapper .statsContent .primesGroup .primeWrapper .primeValue,
-.primeDiceRollWrapper .statsContent .refinementsGroup .refinementWrapper input,
-.primeDiceRollWrapper .statsContent .refinementsGroup .refinementWrapper .refinementValue,
-.primeDiceRollWrapper .statsContent .primesGroup .primeWrapper .valueWrapper,
-.primeDiceRollWrapper .statsContent .refinementsGroup .refinementWrapper .valueWrapper
-{
-	width:auto;
-	height:auto;
+.primeDiceRollWrapper .statsContent .primesGroup .primeWrapper input, .primeDiceRollWrapper .statsContent .primesGroup .primeWrapper .primeValue, .primeDiceRollWrapper .statsContent .refinementsGroup .refinementWrapper input, .primeDiceRollWrapper .statsContent .refinementsGroup .refinementWrapper .refinementValue, .primeDiceRollWrapper .statsContent .primesGroup .primeWrapper .valueWrapper, .primeDiceRollWrapper .statsContent .refinementsGroup .refinementWrapper .valueWrapper {
+    width: auto;
+    height: auto;
 }
-.primeDiceRollWrapper .statsContent .primesGroup .primeWrapper .primeValue,
-.primeDiceRollWrapper .statsContent .refinementsGroup .refinementWrapper .refinementValue {
+
+.primeDiceRollWrapper .statsContent .primesGroup .primeWrapper .primeValue, .primeDiceRollWrapper .statsContent .refinementsGroup .refinementWrapper .refinementValue {
     margin-left: 0.5em;
 }
-.primeDiceRollWrapper .statsContent .refinementsGroup button.refinementWrapper,
-.primeDiceRollWrapper .statsContent .primesGroup button.primeWrapper {
+
+.primeDiceRollWrapper .statsContent .refinementsGroup button.refinementWrapper, .primeDiceRollWrapper .statsContent .primesGroup button.primeWrapper {
     margin-bottom: 5px;
     background: rgba(255, 255, 240, 0.8);
     border: 1px solid #b5b3a4;
@@ -68,75 +55,176 @@
     line-height: 18px;
 }
 
-.primeDiceRollWrapper .statsContent .refinementsGroup button.refinementWrapper.selectedPrime,
-.primeDiceRollWrapper .statsContent .primesGroup button.primeWrapper.selectedPrime {
+.primeDiceRollWrapper .statsContent .refinementsGroup button.refinementWrapper.selectedPrime, .primeDiceRollWrapper .statsContent .primesGroup button.primeWrapper.selectedPrime {
     background-color: rgba(225, 247, 255, 0.8);
     box-shadow: 0 0 5px #00A8E1;
 }
-.primeDiceRollWrapper .statsContent .refinementsGroup button.refinementWrapper.selectedRefinement,
-.primeDiceRollWrapper .statsContent .primesGroup button.primeWrapper.selectedRefinement {
+
+.primeDiceRollWrapper .statsContent .refinementsGroup button.refinementWrapper.selectedRefinement, .primeDiceRollWrapper .statsContent .primesGroup button.primeWrapper.selectedRefinement {
     background-color: rgba(255, 225, 247, 0.8);
     box-shadow: 0 0 5px #E13212;
 }
-.primeDiceRollWrapper .statsContent .refinementsGroup button.refinementWrapper.selectedPrime.doubled,
-.primeDiceRollWrapper .statsContent .primesGroup button.primeWrapper.selectedPrime.doubled {
-    background: linear-gradient(to right, #b3e8fc , #ffa2c9);
+
+.primeDiceRollWrapper .statsContent .refinementsGroup button.refinementWrapper.selectedPrime.doubled, .primeDiceRollWrapper .statsContent .primesGroup button.primeWrapper.selectedPrime.doubled {
+    background: linear-gradient(to right, #b3e8fc, #ffa2c9);
     box-shadow: 0 0 5px #b8860b;
 }
+
 /*
-	<div class="primeDiceWrapper">
+<div class="diceMessage">
+	<div class="prime-dice-actor">
+		<img class="actorPortrait" style="border-color: {{this.userColour}};" src="{{this.actorImg}}" />
+	</div>
+	<div class="prime-dice-modifiers">
+		{{#each modifiers}}
+		<span class="modifier">{{this.name}}</span>
+		<span class="value">{{this.value}}</span>
+		{{/each}}
+	</div>
+	<div class="prime-dice-group">
 		{{#each diceRolls}}
-		<div class="primeDieWrapper {{primeDiceClass this.roll}}">
-			<div class="primeDie"><i class="fas fa-dice-d20"></i> <span class="primeDieModifier">{{this.primeModifier}}</span></div>
-			<div class="primeResultRaw">{{this.roll}}</div>
+		<div class="prime-die-wrapper {{primeDiceClass this.result}}">
+			<div class="prime-die">
+				<i class="fas fa-dice-d20"></i>
+				<span class="primeDieModifierOuter">
+					<span class="primeDieModifierInner">{{this.primeModifier}}</span>
+				</span>
+			</div>
+			<div class="primeResultRaw">({{this.result}})</div>
 		</div>
 		{{/each}}
 	</div>
-	<div class="primeDiceModiferTotal {{primeDiceModiferClass total}}">Total: {{total}}</div>
+	<div class="prime-dice-total {{primeDiceModiferClass total}}">
+		<span class="value">{{total}}</span>
+	</div>
+</div>
 */
 
-.primeDiceWrapper
-{
-    margin-top: 5px;
-	display: flex;
+.diceMessage {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    align-content: center;
 }
 
-.primeDiceWrapper .primeDieWrapper:not(:first-child) {
-    margin-left: 4px;
+.diceMessage .prime-dice-actor {
+    flex-basis: 15%;
+    min-width:15%;
+    justify-self: left;
 }
 
-.primeDiceWrapper .primeDie {
+.diceMessage .prime-dice-actor .actorPortrait {
+    /* max-width: 50px;
+    width: 50px; */
+    border: 1px solid black;
+}
+
+.diceMessage .prime-dice-group {
+    flex-basis: 35%;
+    max-width:35%;
+    display: flex;
+    padding: 0 0.25em 0 0;
+    justify-self: left;
+}
+
+.diceMessage .prime-dice-modifiers {
+    flex-basis: 33%;
+    max-width: 33%;
+    padding: 0 0 0 0.25em;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-self: right;
+    text-align: right;
+}
+
+.diceMessage .prime-dice-modifiers .prime-dice-modifier {
+    display: block;
+    white-space: nowrap;
+}
+
+.diceMessage .prime-dice-modifiers .prime-dice-modifier .name {
+    font-size: 12px;
+    text-align: left;
+}
+
+.diceMessage .prime-dice-modifiers .prime-dice-modifier .value {
+    font-size: 8px;
+}
+
+.diceMessage .prime-dice-total {
+    justify-self: right;
+    flex-basis: 12%;
+    min-width:12%;
+    min-height: 20px;
+    padding: 4px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border: 1px solid #e3e3e3;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+    text-align: center;
+    vertical-align: middle;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.diceMessage .prime-dice-total.highPrimeModifierResult {
+    color: #004100;
+}
+
+.diceMessage .prime-dice-total.lowPrimeModifierResult {
+    color: #410000;
+}
+
+.diceMessage .prime-dice-total.highPrimeModifierResult .value::before {
+    content: "+"
+}
+
+.diceMessage .prime-dice-total .value {
+    text-align: center;
+    font-weight: 600;
+    font-size: 24px;
+}
+
+.prime-dice-group .prime-die-wrapper {
+    margin-right: 2px;
+    margin-left: 2px;
+}
+
+.prime-dice-group .prime-die {
     position: relative;
-    width: 30px; 
+    width: 30px;
     height: 17.32px;
     background-color: #000033;
     margin: 8.66px 0;
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-  
-  .primeDiceWrapper .primeDie:before,
-  .primeDiceWrapper .primeDie:after {
+}
+
+.prime-dice-group .prime-die:before, .prime-dice-group .prime-die:after {
     content: "";
     position: absolute;
     width: 0;
     border-left: 15px solid transparent;
     border-right: 15px solid transparent;
-  }
-  
-  .primeDiceWrapper .primeDie:before {
+}
+
+.prime-dice-group .prime-die:before {
     bottom: 100%;
     border-bottom: 8.66px solid #000033;
-  }
-  
-  .primeDiceWrapper .primeDie:after {
+}
+
+.prime-dice-group .prime-die:after {
     top: 100%;
     width: 0;
     border-top: 8.66px solid #000033;
-  }
+}
 
-/* .primeDiceWrapper .primeDieWrapper .primeDie
+/* .prime-dice-group .prime-die-wrapper .prime-die
 {
     position:relative;
     border-radius: 100%;
@@ -150,142 +238,90 @@
     align-items: center;
 } */
 
-.primeDiceWrapper .primeDieWrapper .primeDie .fas.fa-dice-d20
-{
-	margin:0.1em;
-	color:#444477;
+.prime-dice-group .prime-die-wrapper .prime-die .fas.fa-dice-d20 {
+    margin: 0.1em;
+    color: #444477;
     font-size: 2em;
     z-index: 1;
-	/* margin-top: 4px; */
+    /* margin-top: 4px; */
 }
 
-.primeDiceWrapper .primeDieWrapper .primeDie .primeDieModifierOuter
-{
-    position:absolute;
-    top:0px;
-    left:0px;
-    right:0px;
-	bottom:0px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+.prime-dice-group .prime-die-wrapper .prime-die .primeDieModifierOuter {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     z-index: 2;
 }
 
-.primeDiceWrapper .primeDieWrapper .primeDie .primeDieModifierInner
-{
-    font-size:1.5em;
-    
+.prime-dice-group .prime-die-wrapper .prime-die .primeDieModifierInner {
+    font-size: 1.5em;
     color: #eeeeee;
     text-shadow: 0px 0px 4px #000000;
-
 }
 
-.primeDiceWrapper .primeDieWrapper.highPrimeRoll .primeDie .primeDieModifierInner::before
-{
-	content: "+";
+.prime-dice-group .prime-die-wrapper.highPrimeRoll .prime-die .primeDieModifierInner::before {
+    content: "+";
 }
 
-.primeDiceWrapper .primeDieWrapper .primeResultRaw
-{
-	text-align:center;
-	font-size: 0.6em;
+.prime-dice-group .prime-die-wrapper .primeResultRaw {
+    text-align: center;
+    font-size: 8px;
 }
 
-
-.primeDiceWrapper .primeDieWrapper.lowPrimeRoll .fas.fa-dice-d20
-{
+.prime-dice-group .prime-die-wrapper.lowPrimeRoll .fas.fa-dice-d20 {
     color: #883333;
 }
-.primeDiceWrapper .primeDieWrapper.highPrimeRoll .fas.fa-dice-d20
-{
+
+.prime-dice-group .prime-die-wrapper.highPrimeRoll .fas.fa-dice-d20 {
     color: #338833;
 }
 
-.primeDiceWrapper .primeDieWrapper.misfortunePrimeRoll .fas.fa-dice-d20
-{
+.prime-dice-group .prime-die-wrapper.misfortunePrimeRoll .fas.fa-dice-d20 {
     color: #bb0000;
-    font-weight:bold;
+    font-weight: bold;
 }
-.primeDiceWrapper .primeDieWrapper.fortunePrimeRoll .fas.fa-dice-d20
-{
-    color: #00bb00;
-    font-weight:bold;
-}
-.primeDiceWrapper .primeDieWrapper.fortunePrimeRoll .primeDie {
-    background-color: #003300;
-  }
-  
-  .primeDiceWrapper .primeDieWrapper.fortunePrimeRoll .primeDie:before {
-    border-bottom-color: #003300;
-  }
-  
-  .primeDiceWrapper .primeDieWrapper.fortunePrimeRoll .primeDie:after {
-    border-top-color: #003300;
-  }
 
-.primeDiceWrapper .primeDieWrapper.misfortunePrimeRoll .primeDie {
+.prime-dice-group .prime-die-wrapper.fortunePrimeRoll .fas.fa-dice-d20 {
+    color: #00bb00;
+    font-weight: bold;
+}
+
+.prime-dice-group .prime-die-wrapper.fortunePrimeRoll .prime-die {
+    background-color: #003300;
+}
+
+.prime-dice-group .prime-die-wrapper.fortunePrimeRoll .prime-die:before {
+    border-bottom-color: #003300;
+}
+
+.prime-dice-group .prime-die-wrapper.fortunePrimeRoll .prime-die:after {
+    border-top-color: #003300;
+}
+
+.prime-dice-group .prime-die-wrapper.misfortunePrimeRoll .prime-die {
     background-color: #330000;
 }
 
-.primeDiceWrapper .primeDieWrapper.misfortunePrimeRoll .primeDie:before {
+.prime-dice-group .prime-die-wrapper.misfortunePrimeRoll .prime-die:before {
     border-bottom-color: #330000;
 }
 
-.primeDiceWrapper .primeDieWrapper.misfortunePrimeRoll .primeDie:after {
+.prime-dice-group .prime-die-wrapper.misfortunePrimeRoll .prime-die:after {
     border-top-color: #330000;
 }
 
-.primeDiceWrapper .primeDieWrapper.fortunePrimeRoll .fas.fa-dice-d20::before
-{
-    font-weight:bold;
-}
-
-.primeDiceModiferTotal.highPrimeModifierResult
-{
-	color: #004100;
-}
-
-.primeDiceModiferTotal.lowPrimeModifierResult
-{
-	color: #410000;
-}
-
-.primeDiceModiferTotal.highPrimeModifierResult .value::before
-{
-	content: "+"
-}
-.primeDiceModiferTotal {
-    /* background-color: rgba(245, 245, 245, 0.4); */
-    /* border-radius: 8px; */
-    margin: 0 10px;
-    padding: 3px;
-    display: inline-flex;
-    width: 100%;
-    text-align: center;
-    justify-content: space-evenly;
-}
-
-.primeDiceModiferTotal .value
-{
-    text-align: center;
-    font-weight: 600;
-    font-size: 24px;
-}
-
-.totalBox {
-    margin-top: 8px;
-    border-top: 1px solid black;
-    display: flex;
-    align-items: baseline;
-    justify-content: flex-start;
-    width: 100%;
-    font-size: 16px;
+.prime-dice-group .prime-die-wrapper.fortunePrimeRoll .fas.fa-dice-d20::before {
+    font-weight: bold;
 }
 
 .primeDiceModiferCalculation {
     margin-top: 10px;
-    color:  #444;
+    color: #444;
 }
 
 .primeRollActor {
@@ -295,12 +331,13 @@
     padding-left: 3px;
     margin-bottom: 3px;
 }
+
 .primeRollActor .actorPortrait {
     width: 50px;
     border: 1px solid black;
     border-top: 3px solid black;
     float: right;
-    padding:3px;
+    padding: 3px;
 }
 
 .primeRollActor .actorname {

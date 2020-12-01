@@ -14,7 +14,7 @@
     "module/prime_controls/prime_controls_core.js"
   ],
   "styles": ["css/core_imports.css"],
-  "scripts": [],
+  "scripts": ["lib/chroma.min.js"],
   "packs": [
     {
       "name": "weapon-combo-actions",

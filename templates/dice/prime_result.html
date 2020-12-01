@@ -1,15 +1,11 @@
-<!--
-			diceRolls: [{roll:1-20, prime: +/-X}...],
-			total: +/- X
--->
 <div class="diceMessage">
-	<div class="primeRollActor">
-		<div class="actorname">{{this.actor}}</div>
-		<img class="actorPortrait" style="border-top-color: {{this.userColour}};" src="{{this.actorImg}}"/></div>
-	<div class="primeDiceWrapper">
+	<div class="prime-dice-actor">
+		<img class="actorPortrait" style="border-color: {{this.userColour}};" src="{{this.actorImg}}" />
+	</div>
+	<div class="prime-dice-group">
 		{{#each diceRolls}}
-		<div class="primeDieWrapper {{primeDiceClass this.result}}">
-			<div class="primeDie">
+		<div class="prime-die-wrapper {{primeDiceClass this.result}}">
+			<div class="prime-die">
 				<i class="fas fa-dice-d20"></i>
 				<span class="primeDieModifierOuter">
 					<span class="primeDieModifierInner">{{this.primeModifier}}</span>
@@ -19,8 +15,15 @@
 		</div>
 		{{/each}}
 	</div>
-	<div class="primeDiceModiferCalculation"><span class="calculation">{{calculation}}</span></div>
-	<div class="totalBox"><span>Total:</span> <div class="primeDiceModiferTotal {{primeDiceModiferClass total}}">
-		<span class="value">{{total}}</span></div>
+	<div class="prime-dice-modifiers">
+		{{#each modifiers}}
+		<div class="prime-dice-modifier">
+			<span class="name">{{this.name}}</span>
+			<span class="value">({{this.value}})</span>
+		</div>
+		{{/each}}
+	</div>
+	<div class="prime-dice-total {{primeDiceModiferClass total}}">
+		<span class="value">{{total}}</span>
 	</div>
 </div>
