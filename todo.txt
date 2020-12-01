@@ -180,6 +180,31 @@ TO DISCUSS:
 
 //Look into "ping" module.
 
+Drag code improvments
+========================
+
+	Add displacement class based on direction and allowed directions
+
+	Add non-draggable class check - or draggable class check?
+
+	Add opens new window icon to item title <a> tags.
+
+	Measure sample margin and store?
+
+	Remove 10px fudge factor?
+
+	Set as default width?
+
+	Make icon one sided on edges?
+
+	Fix bounds testing - currently failing if the items are mis-matched
+
+	Double check the re-ordering works once bounds checking fixed.
+	
+	Check if required: Add index to items as dropped - highest within catergory + 1
+
+Check item over with intent timeout's - add console log and make sure they're clearing correctly.
+
 Add Dice icon to randomise appearence/background for NPCs (also refinements?)
 
 Compress dice roll message in order to be able to see all.
@@ -192,10 +217,10 @@ Allow mental/armour to exceed.
 
 Add confirm to delete item button.
 
+Improve inventory & perk layout - Add means to organise/sort inventory and make folders.
 
+Check how popdown/up works with scrolling
 
-
-Improve inventory & perl layout - Add means to organise/sort inventory and make folders.
 
 
 
