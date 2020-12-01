@@ -1,0 +1,60 @@
+.itemDragging
+{
+	opacity: 0.3;
+}
+
+.dragItemDragging
+{
+	position: absolute !important;
+	margin:0px !important;
+	display: block;
+	opacity: 0.7;
+	z-index: 100;
+}
+
+.dragContainerActive
+{
+	box-shadow: 0 0 6px inset #ff6400;
+}
+
+.matchingTarget
+{
+	border:1px solid hotpink !important;
+}
+
+.matchingTarget.bestMatchingTarget
+{
+	border:1px solid red !important;
+}
+
+.matchingTarget.secondBestMatchingTarget
+{
+	border:1px solid purple !important;
+}
+
+.itemInsertMarker
+{
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 50;
+}
+
+.itemInsertMarker .insertIcon
+{
+	border: 3px solid var(--text-dark);
+	border-radius: 4px;
+	height: 10px;
+	width: 10px;
+}
+
+.itemInsertMarker.horizontalInsert .insertIcon
+{
+	border-width: 0 3px 0 3px;
+}
+
+.itemInsertMarker.verticalInsert .insertIcon
+{
+	border-width: 3px 0 3px 0;
+}

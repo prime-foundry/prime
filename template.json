@@ -476,7 +476,9 @@
 			{
 				"description":"",
 				"settingDescription":"",
-				"setting":""
+				"setting":"",
+				"position": -1,
+				"parentContainer": ""
 			},
 
 			"physicalItem":

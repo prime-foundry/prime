@@ -22,8 +22,7 @@
 @import url('elements/character_sheet/prime_character_sheet.css');
 
 @import url('elements/item_sheets/prime_base_item_sheet.css');
-
 @import url('elements/item_sheets/prime_effects_perks_and_actions_sheet.css');
+@import url('elements/item_sheets/item_drag_sort.css');
 
 @import url('elements/cards/prime_cards_base.css');
-

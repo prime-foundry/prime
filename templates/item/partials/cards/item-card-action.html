@@ -2,19 +2,21 @@
     <div class="cardTitle"><a class="itemTitle" data-item-id="{{this.data._id}}">{{this.data.name}}</a></div>
     <div class="cardTopRightDetail titled"><div class="tinyTitle">AP</div>{{this.data.data.points}}</div>
     
-    <div class="cardDescription">
-        {{#if this.data.data.description}}
-        <div>{{{this.data.data.description}}}</div>
-        {{/if}}
+	<div class="cardDetail">
+		<div class="cardDescription">
+			{{#if this.data.data.description}}
+			<div>{{{this.data.data.description}}}</div>
+			{{/if}}
 
-        {{#if this.data.data.settingDescription}}
-        <div>{{{this.data.data.settingDescription}}}</div>
-        {{/if}}
-    </div>
+			{{#if this.data.data.settingDescription}}
+			<div>{{{this.data.data.settingDescription}}}</div>
+			{{/if}}
+		</div>
 
-    {{#if this.data.data.default}}
-    <div class="cardBottomRightDetail isDefaultIcon defaultIcon hasTooltip" title="Default action">D</div>
-    {{else}}
-    <div class="cardBottomRightDetail isDefaultIcon purchasedIcon hasTooltip" title="Perk purchased to unlock action">$</div>
-    {{/if}}
+		{{#if this.data.data.default}}
+		<div class="cardBottomRightDetail isDefaultIcon defaultIcon hasTooltip" title="Default action">D</div>
+		{{else}}
+		<div class="cardBottomRightDetail isDefaultIcon purchasedIcon hasTooltip" title="Perk purchased to unlock action">$</div>
+		{{/if}}
+	</div>
 </div>
