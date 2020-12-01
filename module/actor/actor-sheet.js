@@ -1,5 +1,6 @@
 import { PrimeTables } from "../prime_tables.js";
 import { ItemCardUI } from "../item/item_card_ui.js";
+import { ItemDragSort } from "../item/item_drag_sort.js";
 
 
 export class PrimePCActorSheet extends ActorSheet
@@ -82,11 +83,11 @@ export class PrimePCActorSheet extends ActorSheet
 		data.itemTables = PrimeTables.cloneAndTranslateTables("items");
 		data.actorTables = PrimeTables.cloneAndTranslateTables("actor");
 
-		data.filteredItems = this.entity.getProcessedItems(data);
+		data.filteredItems = this.entity.getProcessedItems();
 
 		data.inventoryItems = this.getInventoryItems(data.filteredItems);
 
-		data.perks = data.filteredItems["perk"];
+		data.perks = data.filteredItems["perk"].sort(this.sortByItemOrder);
 
 		data.sortedActions = this.entity.getSortedActions();
 
@@ -147,6 +148,25 @@ export class PrimePCActorSheet extends ActorSheet
 		}
 
 		return combinedItems;
+	}
+
+	sortByItemOrder(itemA, itemB)
+	{
+		if ((!itemA.data.position && itemA.data.position !== 0) || itemA.data.position == -1)	// Sorting data is missing or not generated yet - leave with initial order
+		{
+			return 0;
+		}
+
+		if (itemA.data.position < itemB.data.position)
+		{
+			return -1;
+		}
+		if (itemA.data.position > itemB.data.position)
+		{
+			return 1;
+		}
+		
+		return 0;
 	}
 
 	burnSoulPoint()
@@ -497,9 +517,10 @@ export class PrimePCActorSheet extends ActorSheet
 			armour.data.data.isWorn = true;
 		}
 		
-		var result = await armour.update(armour.data);
+		//var result = await armour.update(armour.data);
+		this.entity.updateOwnedItem(armour.data);
 
-		this.entity.updateWornItemValues();
+		//this.entity.updateWornItemValues();
 	}
 
 	
@@ -547,11 +568,46 @@ export class PrimePCActorSheet extends ActorSheet
 		html.find(".attackWithWeapon").click(this.attackWithWeapon.bind(this));
 		html.find(".armourWornCheckbox").click(this.updateWornArmour.bind(this));
 
-
 		const perkWrapper = html.find(".perksOuterWrapper");
 		ItemCardUI.bindEvents(perkWrapper);
+		ItemDragSort.bindEvents(perkWrapper, ".itemCard", true, false, this.updateSortOrder.bind(this), "perk");
+
+		const actionWrapper = html.find(".actionsHolder");
+		ItemCardUI.bindEvents(actionWrapper);
 
 		this.postActivateListeners(html);
+	}
+
+	async updateSortOrder(itemIndex, insertAfterIndex, itemType)
+	{
+		//console.log("I would insert item '" + itemIndex + "' after item '" + insertAfterIndex + "'");
+		//a = b;
+		var processedItems = this.entity.getProcessedItems();
+		var itemsToSort = processedItems[itemType]
+		
+		if (itemsToSort)
+		{
+			// Should match initial page order after this sort
+			itemsToSort.sort(this.sortByItemOrder);
+			let itemToReInsert = itemsToSort.splice(itemIndex, 1)[0];
+			itemsToSort.splice(insertAfterIndex, 0, itemToReInsert);
+
+			var count = 0;
+			while (count < itemsToSort.length)
+			{
+				let itemData = itemsToSort[count];
+
+				let itemClass = this.object.items.get(itemData._id);
+				itemClass.data.data.position = count;
+				
+				await this.entity.updateOwnedItem(itemClass.data);
+				count++;
+			}
+		}
+		else
+		{
+			console.error("ERROR: Unable to find items of type '" + itemType + "' in updateSortOrder(). processedItems: ", processedItems);
+		}
 	}
 
 	async postActivateListeners(html)
