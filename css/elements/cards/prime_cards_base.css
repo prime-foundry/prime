@@ -6,7 +6,7 @@
     min-width: 200px;
 	max-width: 49%;
 	flex:1;
-	height: 25px;
+	min-height: 25px;
 	padding: 5px 25px 5px 5px;
 	margin: 5px 5px 5px 5px;
 	overflow: hidden;
@@ -28,6 +28,16 @@
 	overflow: visible;
 	transform: translate3d(0px, -3px, 0px);
 	z-index: 5;
+}
+
+
+.primeCard.itemCard.itemDragging:hover,
+.primeCard.itemCard.dragItemDragging,
+.primeCard.itemCard.dragItemDragging:hover
+{
+	overflow: hidden;
+	transition: none;
+	transform: translate3d(0px, 0px, 0px);
 }
 
 .primeCard.itemCard.hoverIntent
