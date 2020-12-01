@@ -1,4 +1,4 @@
-export class PrimeMigration_0_1_10_to_0_1_11
+export class PrimeMigration_0_1_10_to_0_1_12
 {
 	static async update()
 	{
