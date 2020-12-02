@@ -262,7 +262,7 @@ export class PRIME_DICE_POPUP extends Application {
 			if (this.doubled) {
 				rollButton.text("Roll " + localizedPrime
 					+ " twice. (" + this.selectedPrimeValue + " + " + this.selectedPrimeValue + " + ?)");
-					
+
 				if (this.autoroll) {
 					this.doAutoRoll();
 				}
@@ -271,7 +271,7 @@ export class PRIME_DICE_POPUP extends Application {
 
 				rollButton.text("Roll " + localizedPrime + " with " + localizedRefinement
 					+ ". (" + this.selectedPrimeValue + " + " + this.selectedRefinementValue + " + ?)");
-					
+
 				if (this.autoroll) {
 					this.doAutoRoll();
 				}
@@ -294,7 +294,7 @@ export class PRIME_DICE_POPUP extends Application {
 		this.selectedPrimeValue = 0;
 		this.selectedRefinementValue = 0;
 		this.doubled = false;
-		
+
 		const selectedRefinementClass = "selectedRefinement";
 		const selectedPrimeClass = "selectedPrime";
 		const doubledSelectedClass = "doubled";
@@ -308,8 +308,8 @@ export class PRIME_DICE_POPUP extends Application {
 	doRoll() {
 		const users = Array.from(game.users.values()).filter(user => user.isSelf);
 		var diceParams = {
-			"user" : users[0],
-			"actor" : this.currentActor
+			"user": users[0],
+			"actor": this.currentActor
 		};
 		var total = 0;
 		if (this.selectedPrime) {
@@ -319,7 +319,7 @@ export class PRIME_DICE_POPUP extends Application {
 				doubled: this.doubled
 			};
 			total += this.selectedPrimeValue;
-			if(this.doubled){
+			if (this.doubled) {
 				total += this.selectedPrimeValue;
 			}
 		}
@@ -330,10 +330,16 @@ export class PRIME_DICE_POPUP extends Application {
 			};
 			total += this.selectedRefinementValue;
 		}
+		
+		const raw = parseInt(this.element.find("#raw-modifier").val())
+		if(raw != 0){
+			diceParams["modifier"] = raw;
+			total += raw;
+		}
 		diceParams["total"] = total;
 		this.diceRoller.rollPrimeDice(diceParams);
 		console.log("rolled", diceParams);
-		
+
 		if (this.autoclose) {
 			this.close();
 		}
@@ -367,13 +373,52 @@ export class PRIME_DICE_POPUP extends Application {
 		}
 		this.element.find("#autoroll").click((event) => {
 			this.autoroll = !this.autoroll;
-			 $(event.delegateTarget).prop( "checked",  this.autoroll);
-			 event.stopPropagation();
+			$(event.delegateTarget).prop("checked", this.autoroll);
+			event.stopPropagation();
 		});
 		this.element.find("#autoclose").click((event) => {
 			this.autoclose = !this.autoclose;
-			$(event.delegateTarget).prop( "checked",  this.autoclose);
+			$(event.delegateTarget).prop("checked", this.autoclose);
 			event.stopPropagation();
 		});
+		this.activateIncrementButtons(html);
+	}
+
+	activateIncrementButtons(html) {
+		this.element.find(".number-field")
+			.each(function (index) {
+				const input = $(this).find(".number-input");
+				const increment = $(this).find(".number-button.increment");
+				const decrement = $(this).find(".number-button.decrement");
+				increment.click((event) => {
+					const val = parseInt(input.val()) + 1;
+					var max = $(input).attr('max');
+
+					// For some browsers, `attr` is undefined; for others, `attr` is false. Check for both.
+					if (typeof max !== typeof undefined && max !== false) {
+						// Element has this attribute
+						if (val <= parseInt(max)) {
+							input.val(val);
+						}
+					} else {
+						input.val(val);
+					}
+				});
+				decrement.click((event) => {
+					const val = parseInt(input.val()) - 1;
+					var min = $(input).attr('min');
+
+					// For some browsers, `attr` is undefined; for others, `attr` is false. Check for both.
+					if (typeof min !== typeof undefined && min !== false) {
+						// Element has this attribute
+						if (val >= parseInt(min)) {
+							input.val(val);
+						}
+					} else {
+						input.val(val);
+					}
+				});
+
+			});
 	}
 }

@@ -83,6 +83,9 @@ export class PRIME_DICE_ROLLER {
 			const localizedRefinement = game.i18n.localize(refinementData[diceParams.refinement.key].title);
 			modifiers.push({name:localizedRefinement, value:diceParams.refinement.value});
 		}
+		if(diceParams.modifier){
+			modifiers.push({name:"Modifier", value:diceParams.modifier});
+		}
 		return modifiers;
 	}
 
