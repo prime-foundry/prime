@@ -203,6 +203,12 @@ Drag code improvments
 	
 	Check if required: Add index to items as dropped - highest within catergory + 1
 
+Improve migration pattern - if no migration found, assume all is well. Also, add single point for version number.
+
+Item is "no" owned typo.
+
+Add is Monster flag?
+
 Check item over with intent timeout's - add console log and make sure they're clearing correctly.
 
 Add Dice icon to randomise appearence/background for NPCs (also refinements?)
