@@ -12,24 +12,50 @@
 	z-index: 100;
 }
 
+.showDebugOverlays .dragOverlapDebug
+{
+	position: absolute;
+	background-color: green;
+	cursor: help;
+	opacity: 0.75;
+}
+
 .dragContainerActive
 {
 	box-shadow: 0 0 6px inset #ff6400;
 }
 
-.matchingTarget
+.showDebugOverlays .matchingTarget
 {
 	border:1px solid hotpink !important;
 }
 
-.matchingTarget.bestMatchingTarget
+.showDebugOverlays .matchingTarget.bestMatchingTarget
 {
 	border:1px solid red !important;
 }
 
-.matchingTarget.secondBestMatchingTarget
+.showDebugOverlays .matchingTarget.secondBestMatchingTarget
 {
 	border:1px solid purple !important;
+}
+
+
+.showDebugOverlays .matchingTarget.dragOverlapFromLeft
+{
+	border-left-color: green !important;
+}
+.showDebugOverlays .matchingTarget.dragOverlapFromRight
+{
+	border-right-color: green !important;
+}
+.showDebugOverlays .matchingTarget.dragOverlapFromTop
+{
+	border-top-color: green !important;
+}
+.showDebugOverlays .matchingTarget.dragOverlapFromBottom
+{
+	border-bottom-color: green !important;
 }
 
 .itemInsertMarker
