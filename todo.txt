@@ -197,7 +197,7 @@ Drag code improvments
 
 	Make icon one sided on edges?
 
-	Fix bounds testing - currently failing if the items are mis-matched
+	//Fix bounds testing - currently failing if the items are mis-matched
 
 	Double check the re-ordering works once bounds checking fixed.
 	
