@@ -1,5 +1,5 @@
 import { PrimeMigration_0_1_7_to_0_1_10 } from "./PrimeMigration_0_1_7_to_0_1_10.js";
-import { PrimeMigration_0_1_10_to_0_1_12 } from "./PrimeMigration_0_1_10_to_0_1_12.js";
+import { PrimeMigration_0_1_10_to_0_1_13 } from "./PrimeMigration_0_1_10_to_0_1_13.js";
 
 export class PrimeDataMigrationManager
 {
