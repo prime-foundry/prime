@@ -62,7 +62,8 @@ export class PrimeDataMigrationManager
 			break;
 			case "0.1.10":
 			case "0.1.11":
-				PrimeMigration_0_1_10_to_0_1_12.update();
+			case "0.1.12":
+				PrimeMigration_0_1_10_to_0_1_13.update();
 			break;
 			default:
 				const errorMessage = "ERROR: Attempting to migrate from world version '" + currentWorldVersion + "' to system version '" + systemVersion + "' but unable to find matching migration.";
