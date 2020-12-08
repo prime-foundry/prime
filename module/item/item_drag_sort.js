@@ -20,15 +20,17 @@ export class ItemDragSort
 	static dragItemLeftOffset = null;
 
 	static globalEventsBound = false;
+	static canDrag = false;
 
 	// Show the overlap div's, match types by border and match direction by border.
-	static showDebugOverlays = true;
+	static showDebugOverlays = false;
 
 	// Keep the match classes attached after mouse up.
-	static persistMatchClasses = true;
+	static persistMatchClasses = false;
 
 	// Whether or not to remove the overlap markers (only applies if debug overlays are on)
-	static persistOverlapMarkers = true;
+	static persistOverlapMarkers = false;
+
 	
 
 	static bindEvents(whatContainer, whatDraggableClass, allowHorizontalMatches, allowVerticalMatches, matchHandler, whatItemType)
@@ -48,6 +50,7 @@ export class ItemDragSort
 
 		var items = whatContainer.find(whatDraggableClass);
 		items.mousedown(this.itemMouseDown.bind(this));
+		items.addClass("draggableItem");
 
 		if (!this.globalEventsBound)
 		{
@@ -55,6 +58,8 @@ export class ItemDragSort
 			$("body").mouseup(this.itemMouseUp.bind(this));
 			this.globalEventsBound = true;
 		}
+
+		this.canDrag = true;
 	}
 
 	static itemContainerMouseMove(event)
@@ -68,7 +73,7 @@ export class ItemDragSort
 
 	static itemMouseDown(event)
 	{
-		if ($(event.target).hasClass("stopDrag"))
+		if ($(event.target).hasClass("stopDrag") || !this.canDrag)
 		{
 			return;
 		}
@@ -137,13 +142,15 @@ export class ItemDragSort
 			this.dragItemTopOffset = null;
 			this.dragItemLeftOffset = null;
 
-			console.log("this.minCoordsMatrix: ", this.minCoordsMatrix);
+			//console.log("this.minCoordsMatrix: ", this.minCoordsMatrix);
 
 			this.minCoordsMatrix = {rows: {}, cols:{}};
 	
 			if (triggerUpdate)
 			{
-				//await this.triggerMatchHandler(matchHandler, itemIndex, insertAfterIndex, itemType);
+				this.canDrag = false;
+				await this.triggerMatchHandler(matchHandler, itemIndex, insertAfterIndex, itemType);
+				this.canDrag = true;
 			}
 		}
 	}
