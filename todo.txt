@@ -203,6 +203,13 @@ Drag code improvments
 	
 	Check if required: Add index to items as dropped - highest within catergory + 1
 
+
+Add title attribute to the dice rolls to you get the full info at readable size.
+
+Add veil break roll option as an option somewhere.
+
+Need make Prime dice honour private dice roll settings.
+
 Improve migration pattern - if no migration found, assume all is well. Also, add single point for version number.
 
 Item is "no" owned typo.
