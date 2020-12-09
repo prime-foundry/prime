@@ -25,11 +25,10 @@
 .primeCard.itemCard:hover
 {
 	/* transform: scale3d(1.05, 1.05, 1); */
-	overflow: visible;
+	/*overflow: visible;*/
 	transform: translate3d(0px, -3px, 0px);
 	z-index: 5;
 }
-
 
 .primeCard.itemCard.itemDragging:hover,
 .primeCard.itemCard.dragItemDragging,
@@ -42,6 +41,8 @@
 
 .primeCard.itemCard.hoverIntent
 {
+	z-index: 10;
+	overflow: visible;
 	border-bottom-right-radius: 0px;
 	box-shadow: 5px 5px 15px -9px #000000;
 }
@@ -155,6 +156,7 @@
 	padding-right: 30px;
 
 	overflow:hidden;
+	display: none;
 	opacity: 0;
 	z-index: 5;
 }
@@ -173,6 +175,7 @@
 .primeCard.itemCard.hoverIntent .cardDetail
 {
 	border-color: var(--borderGreyAlphaOn);
+	display: block;
 	opacity: 1;
 }
 
