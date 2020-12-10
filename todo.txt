@@ -204,6 +204,8 @@ Drag code improvments
 	Check if required: Add index to items as dropped - highest within catergory + 1
 
 
+Create global config pattern - auto set debug to false if on live URL.
+
 Add title attribute to the dice rolls to you get the full info at readable size.
 
 Add veil break roll option as an option somewhere.
