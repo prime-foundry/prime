@@ -31,8 +31,6 @@ export class ItemDragSort
 	// Whether or not to remove the overlap markers (only applies if debug overlays are on)
 	static persistOverlapMarkers = false;
 
-	
-
 	static bindEvents(whatContainer, whatDraggableClass, allowHorizontalMatches, allowVerticalMatches, matchHandler, whatItemType)
 	{
 		if (this.showDebugOverlays)
@@ -66,6 +64,7 @@ export class ItemDragSort
 	{
 		if (this.currDragItem)
 		{
+			this.bestTargetsData = null;
 			this.updateDragItemCoords(event, false);
 			this.showInsertionPosition();
 		}
@@ -107,10 +106,15 @@ export class ItemDragSort
 			{
 				var itemIndex = this.currDragItem.data("itemIndex");
 				var insertAfterIndex = this.getInsertAfterIndex();
-				var itemType = this.currDragContainer.data("itemType");
-				var matchHandler = this.currDragContainer[0].matchHandler;
-				triggerUpdate = true;
+				
+				if (itemIndex != insertAfterIndex && (itemIndex - 1) != insertAfterIndex)
+				{
+					var itemType = this.currDragContainer.data("itemType");
+					var matchHandler = this.currDragContainer[0].matchHandler;
+					triggerUpdate = true;
+				}
 			}
+
 			this.bestTargetsData = null;
 
 			this.currSourceItem.removeClass("itemDragging");
