@@ -109,6 +109,7 @@ export class ItemDragSort
 				
 				if (itemIndex != insertAfterIndex && (itemIndex - 1) != insertAfterIndex)
 				{
+					insertAfterIndex = Math.max(insertAfterIndex, 0);
 					var itemType = this.currDragContainer.data("itemType");
 					var matchHandler = this.currDragContainer[0].matchHandler;
 					triggerUpdate = true;
