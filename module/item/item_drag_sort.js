@@ -105,9 +105,9 @@ export class ItemDragSort
 			if (this.bestTargetsData && this.bestTargetsData.bestMatch)
 			{
 				var itemIndex = this.currDragItem.data("itemIndex");
-				var insertAfterIndex = this.getInsertAfterIndex();
-				
-				if (itemIndex != insertAfterIndex && (itemIndex - 1) != insertAfterIndex)
+				var insertAfterIndex = this.getInsertData(true).insertIndex;
+
+				if (insertAfterIndex || insertAfterIndex === 0)
 				{
 					insertAfterIndex = Math.max(insertAfterIndex, 0);
 					var itemType = this.currDragContainer.data("itemType");
@@ -613,7 +613,7 @@ export class ItemDragSort
 		while (count < whatOtherMatches.length)
 		{
 			currMatch = whatOtherMatches[count];
-			isValidDirection = this.checkMatchDirection(currMatch, validMatchDirections);
+			isValidDirection = this.checkMatchDirection(whatBestMatch, currMatch, validMatchDirections);
 			if (isValidDirection && currMatch.percentageVolume > bestMatchPercentage)
 			{
 				bestMatchPercentage = currMatch.percentageVolume;
@@ -659,13 +659,19 @@ export class ItemDragSort
 		return validDirections;
 	}
 
-	static checkMatchDirection(whatMatch, whatValidDirections)
+	static checkMatchDirection(whatBestMatch, currMatch, whatValidDirections)
 	{
-		if ((whatMatch.fromLeft && whatValidDirections.fromLeft) ||
-			(whatMatch.fromRight && whatValidDirections.fromRight) ||
-			(whatMatch.fromTop && whatValidDirections.fromTop) ||
-			(whatMatch.fromBottom && whatValidDirections.fromBottom))
+		if ((currMatch.fromLeft && whatValidDirections.fromLeft) ||
+			(currMatch.fromRight && whatValidDirections.fromRight) ||
+			(currMatch.fromTop && whatValidDirections.fromTop) ||
+			(currMatch.fromBottom && whatValidDirections.fromBottom))
 		{
+			// If we're a horizontal match, but on different rows, we're not valid.
+			if ((currMatch.fromLeft || currMatch.fromRight) && whatBestMatch.globalTop != currMatch.globalTop)
+			{
+				return false;
+			}
+
 			return true;
 		}
 		return false;
@@ -737,11 +743,11 @@ export class ItemDragSort
 
 	static setInsertMarker(whatTargetsData)
 	{
-		var insertAfterIndex = this.getInsertAfterIndex();
+		var insertMarkerAfterIndex = this.getMarkerInsertionIndex();
 		var currDragIndex = this.currDragItem.data("itemIndex");
 		//console.log("insertAfterIndex: " + insertAfterIndex + ", currDragIndex: " + currDragIndex);
 
-		if (!this.bestTargetsData.bestMatch || currDragIndex == insertAfterIndex || (currDragIndex - 1) == insertAfterIndex)
+		if (!this.bestTargetsData.bestMatch || currDragIndex == insertMarkerAfterIndex || (currDragIndex - 1) == insertMarkerAfterIndex)
 		{
 			this.removeInsertMarker();
 		}
@@ -762,7 +768,7 @@ export class ItemDragSort
 
 	static addInsertMarker()
 	{
-		var cssData = this.getInsertMarkerCSSObject();
+		var cssData = this.getInsertData().css;
 
 		if (!this.currInsertMarker)
 		{
@@ -784,8 +790,9 @@ export class ItemDragSort
 		this.currInsertMarker.css(cssData);
 	}
 
-	static getInsertMarkerCSSObject()
+	static getInsertData(logResults)
 	{
+		var insertIndex = null;
 		var markerCSS = {top: "auto", left: "auto", bottom: "auto", right: "auto"};
 
 		const bestTargetOffsets = this.collateOffsetsToAncestor(this.bestTargetsData.bestMatch.element, "dragContainerActive");
@@ -804,32 +811,45 @@ export class ItemDragSort
 
 			if (secondBestTargetOffsets && (!this.bestTargetsData.bestMatch.forceToLeft && !this.bestTargetsData.bestMatch.forceToRight))
 			{
-				//console.log("Has 2nd best");
+				if (logResults)
+					console.log("Has 2nd best");
+
 				if (this.bestTargetsData.bestMatch.fromRight)
 				{
-					//console.log("From right");
+					if (logResults)
+						console.log("From right");
 					markerCSS.left = bestTargetOffsets.left + this.bestTargetsData.bestMatch.element.outerWidth() + 5;
 					markerCSS.width = (secondBestTargetOffsets.left + 5) - markerCSS.left;
+					insertIndex = this.bestTargetsData.bestMatch.element.data("itemIndex");
 				}
 				else
 				{
-					//console.log("From left");
+					if (logResults)
+						console.log("From left");
 					markerCSS.left = secondBestTargetOffsets.left + this.bestTargetsData.secondBestMatch.element.outerWidth() + 5;
 					markerCSS.width = (bestTargetOffsets.left + 5) - markerCSS.left;
+					insertIndex = this.bestTargetsData.bestMatch.element.data("itemIndex") - 1;
 				}
 			}
 			else
 			{
-				//console.log("NO 2nd best");
+				if (logResults)
+					console.log("NO 2nd best");
 				if ((this.bestTargetsData.bestMatch.fromRight || this.bestTargetsData.bestMatch.forceToRight) && (!this.bestTargetsData.bestMatch.forceToLeft))
 				{
-					//console.log("From right");
+					
+					if (logResults)
+						console.log("From right");
 					markerCSS.left = bestTargetOffsets.left + this.bestTargetsData.bestMatch.element.outerWidth() + 5;
+					insertIndex = this.bestTargetsData.bestMatch.element.data("itemIndex");
 				}
 				else
 				{
-					//console.log("From left");
+					
+					if (logResults)
+						console.log("From left");
 					markerCSS.left = (bestTargetOffsets.left + 5) - 10;
+					insertIndex = this.bestTargetsData.bestMatch.element.data("itemIndex") - 1;
 				}
 			}
 		}
@@ -844,11 +864,13 @@ export class ItemDragSort
 				{
 					markerCSS.top = bestTargetOffsets.top + this.bestTargetsData.bestMatch.element.outerHeight() + 5;
 					markerCSS.height = (secondBestTargetOffsets.top + 5) - markerCSS.top;
+					insertIndex = this.bestTargetsData.bestMatch.element.data("itemIndex") + 1;
 				}
 				else
 				{
 					markerCSS.top = secondBestTargetOffsets.top + this.bestTargetsData.secondBestMatch.element.outerHeight() + 5;
 					markerCSS.height = (bestTargetOffsets.top + 5) - markerCSS.top;
+					insertIndex = this.bestTargetsData.bestMatch.element.data("itemIndex") - 1;
 				}
 			}
 			else
@@ -856,17 +878,26 @@ export class ItemDragSort
 				if (this.bestTargetsData.bestMatch.fromBottom || !this.bestTargetsData.bestMatch.forceToBottom)
 				{
 					markerCSS.top = bestTargetOffsets.top + this.bestTargetsData.bestMatch.element.outerHeight() + 5;
+					insertIndex = this.bestTargetsData.bestMatch.element.data("itemIndex") + 1;
 				}
 				else
 				{
 					markerCSS.top = (bestTargetOffsets.top + 5) - 10;
+					insertIndex = this.bestTargetsData.bestMatch.element.data("itemIndex") - 1;
 				}
 			}
 		}
-		return markerCSS;
+
+		var returnData =
+		{
+			insertIndex: insertIndex,
+			css: markerCSS
+		}
+
+		return returnData;
 	}
 
-	static getInsertAfterIndex()
+	static getMarkerInsertionIndex()
 	{
 		if (!this.bestTargetsData.bestMatch)
 		{
