@@ -1,0 +1,8 @@
+Alternative Rotation
+Hex token size support
+Navigation presets
+Pings
+Point of interest teleporter
+PopOut!
+Roofs & Overhead Tiles
+Tabbed Chatlog
