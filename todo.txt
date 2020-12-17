@@ -203,6 +203,7 @@ Drag code improvments
 	
 	Check if required: Add index to items as dropped - highest within catergory + 1
 
+Add a means to put a "request X dice roll" header into the dice roll chat.
 
 Create global config pattern - auto set debug to false if on live URL.
 
