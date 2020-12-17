@@ -864,7 +864,7 @@ export class ItemDragSort
 				{
 					markerCSS.top = bestTargetOffsets.top + this.bestTargetsData.bestMatch.element.outerHeight() + 5;
 					markerCSS.height = (secondBestTargetOffsets.top + 5) - markerCSS.top;
-					insertIndex = this.bestTargetsData.bestMatch.element.data("itemIndex") + 1;
+					insertIndex = this.bestTargetsData.bestMatch.element.data("itemIndex");
 				}
 				else
 				{
@@ -878,7 +878,7 @@ export class ItemDragSort
 				if (this.bestTargetsData.bestMatch.fromBottom || !this.bestTargetsData.bestMatch.forceToBottom)
 				{
 					markerCSS.top = bestTargetOffsets.top + this.bestTargetsData.bestMatch.element.outerHeight() + 5;
-					insertIndex = this.bestTargetsData.bestMatch.element.data("itemIndex") + 1;
+					insertIndex = this.bestTargetsData.bestMatch.element.data("itemIndex");
 				}
 				else
 				{

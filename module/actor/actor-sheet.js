@@ -594,6 +594,14 @@ export class PrimePCActorSheet extends ActorSheet
 		
 		if (itemsToSort)
 		{
+			// If we're going to be shrinking the array before the
+			// insertion point, we need to increase the insert index
+			// to compensate.
+			if (itemIndex > insertAfterIndex)
+			{
+				insertAfterIndex++
+			}
+
 			// Should match initial page order after this sort
 			itemsToSort.sort(this.sortByItemOrder);
 			let itemToReInsert = itemsToSort.splice(itemIndex, 1)[0];
