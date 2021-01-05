@@ -26,10 +26,10 @@ export class ItemDragSort
 	static showDebugOverlays = false;
 
 	// Keep the match classes attached after mouse up.
-	static persistMatchClasses = false;
+	static persistMatchClasses = true;
 
 	// Whether or not to remove the overlap markers (only applies if debug overlays are on)
-	static persistOverlapMarkers = false;
+	static persistOverlapMarkers = true;
 
 	static bindEvents(whatContainer, whatDraggableClass, allowHorizontalMatches, allowVerticalMatches, matchHandler, whatItemType)
 	{
@@ -39,6 +39,17 @@ export class ItemDragSort
 		}
 
 		whatContainer.addClass(this.dragClass);
+		
+		if (allowHorizontalMatches)
+		{
+			whatContainer.addClass("allowHorizontalMatches");
+		}
+
+		if (allowVerticalMatches)
+		{
+			whatContainer.addClass("allowVerticalMatches");
+		}
+
 		whatContainer.data("dragClass", whatDraggableClass);
 		whatContainer.data("allowHorizontalMatches", allowHorizontalMatches);
 		whatContainer.data("allowVerticalMatches", allowVerticalMatches);
@@ -127,7 +138,7 @@ export class ItemDragSort
 				this.currInsertMarker.remove();
 			}
 
-			if (this.showDebugOverlays && !this.persistOverlapMarkers)
+			if (!this.persistOverlapMarkers)
 			{
 				var overlapDebugs = this.currDragContainer.find(".dragOverlapDebug");
 				overlapDebugs.remove();
@@ -279,8 +290,8 @@ export class ItemDragSort
 			if (this.showDebugOverlays)
 			{
 				this.showMatchDebugOverlay(overlapData, currPossible);
-				this.showDirectionDebugOverlay(overlapData, currPossible);
 			}
+			this.showDirectionDebugOverlay(overlapData, currPossible);
 
 			if (overlapData.overlapVolume > 0)
 			{
@@ -349,8 +360,8 @@ export class ItemDragSort
 		let targetVolume = possibleTargetWidth * possibleTargetHeight;
 		let percentageVolume = (overlapVolume / targetVolume) * 100;
 
-		whatOverlapData.verticalPercent = (whatOverlapData.height / possibleTargetHeight) * 100;;
-		whatOverlapData.horizontalPercent = (whatOverlapData.width / possibleTargetWidth) * 100;;
+		whatOverlapData.verticalPercent = (whatOverlapData.height / possibleTargetHeight) * 100;
+		whatOverlapData.horizontalPercent = (whatOverlapData.width / possibleTargetWidth) * 100;
 
 		whatOverlapData.overlapVolume = overlapVolume;
 		whatOverlapData.percentageVolume = percentageVolume;
@@ -749,10 +760,12 @@ export class ItemDragSort
 
 		if (!this.bestTargetsData.bestMatch || currDragIndex == insertMarkerAfterIndex || (currDragIndex - 1) == insertMarkerAfterIndex)
 		{
+			this.currDragContainer.removeClass("validDropFound");
 			this.removeInsertMarker();
 		}
 		else
 		{
+			this.currDragContainer.addClass("validDropFound");
 			this.addInsertMarker();
 		}
 	}
