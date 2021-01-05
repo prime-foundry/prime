@@ -197,11 +197,17 @@ Drag code improvments
 
 	Make icon one sided on edges?
 
+	Catch issue whereby description is draggable but causes offset problems.
+
 	//Fix bounds testing - currently failing if the items are mis-matched
 
 	Double check the re-ordering works once bounds checking fixed.
 	
 	Check if required: Add index to items as dropped - highest within catergory + 1
+
+Add huge indicator to show that the actor sheet is token based.
+
+Wounds - these are healed, but stay greyed out until regen. If second injuries occour without said regen, then deep injuries may occur. 
 
 Add a means to put a "request X dice roll" header into the dice roll chat.
 
