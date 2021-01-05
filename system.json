@@ -2,9 +2,9 @@
   "name": "prime",
   "title": "Prime system",
   "description": "The foundry VTT system of the Prime RPG as used in the Possession world.",
-  "version": "0.1.15",
+  "version": "0.1.16",
   "minimumCoreVersion": "0.6.5",
-  "compatibleCoreVersion": "0.7.8",
+  "compatibleCoreVersion": "0.7.9",
   "templateVersion": 2,
   "author": "Matt Henderson, Johnathan Castle, Jack Moxley & co",
   "esmodules": [

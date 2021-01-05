@@ -207,7 +207,7 @@ Drag code improvments
 
 	Catch issue whereby description is draggable but causes offset problems.
 
-Add huge indicator to show that the actor sheet is token based.
+//Add huge indicator to show that the actor sheet is token based.
 
 Wounds - these are healed, but stay greyed out until regen. If second injuries occour without said regen, then deep injuries may occur. 
 

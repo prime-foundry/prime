@@ -1,5 +1,5 @@
 import { PrimeMigration_0_1_7_to_0_1_10 } from "./PrimeMigration_0_1_7_to_0_1_10.js";
-import { PrimeMigration_0_1_10_to_0_1_15 } from "./PrimeMigration_0_1_10_to_0_1_15.js";
+import { PrimeMigration_0_1_10_to_0_1_16 } from "./PrimeMigration_0_1_10_to_0_1_16.js";
 
 export class PrimeDataMigrationManager
 {
@@ -65,7 +65,8 @@ export class PrimeDataMigrationManager
 			case "0.1.12":
 			case "0.1.13":
 			case "0.1.14":
-				PrimeMigration_0_1_10_to_0_1_15.update();
+			case "0.1.15":
+				PrimeMigration_0_1_10_to_0_1_16.update();
 			break;
 			default:
 				const errorMessage = "ERROR: Attempting to migrate from world version '" + currentWorldVersion + "' to system version '" + systemVersion + "' but unable to find matching migration.";
