@@ -13,6 +13,14 @@ export class PrimePCActorSheet extends ActorSheet
 
 	bulkUpdatingOwnedItems = false;
 
+	async _render(force=false, options={})
+	{
+		if (!this.bulkUpdatingOwnedItems)
+		{
+			return await super._render(force, options);
+		}
+	}
+
 	/** @override */
 	static get defaultOptions()
 	{
@@ -63,7 +71,8 @@ export class PrimePCActorSheet extends ActorSheet
 			{
 				return false;
 			}
-			return true;			
+
+			return true;
 		});
 	}
 
@@ -74,6 +83,11 @@ export class PrimePCActorSheet extends ActorSheet
 		data.dtypes = ["String", "Number", "Boolean"];
 
 		data.characterNameClass = this.getCharacterNameClass(data.actor.name);
+		data.isFromTokenClass = "";
+		if (this.actor.isToken)
+		{
+			data.isFromTokenClass = "isCloneActor";
+		}
 
 		//var a = data.actor.permission
 		data.currentOwners = this.entity.getCurrentOwners();
@@ -601,7 +615,7 @@ export class PrimePCActorSheet extends ActorSheet
 			// to compensate.
 			if (itemIndex > insertAfterIndex)
 			{
-				insertAfterIndex++
+				insertAfterIndex++;
 			}
 
 			// Should match initial page order after this sort
@@ -619,9 +633,11 @@ export class PrimePCActorSheet extends ActorSheet
 				itemClass.data.data.position = count;
 				
 				await this.entity.updateOwnedItem(itemClass.data);
+				console.log("Count: " + count);
 				count++;
 			}
 			this.bulkUpdatingOwnedItems = false;
+			this.render();
 		}
 		else
 		{
