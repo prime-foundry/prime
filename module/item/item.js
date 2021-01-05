@@ -74,7 +74,8 @@ export class PrimeItem extends Item
 				itemData = this.processWeapon(itemData, "ranged");
 			break;
 			case "perk":
-				break;
+			case "action":
+			break;
 			case "armour":
 				itemData = this.processArmour(itemData);
 			break;
