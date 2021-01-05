@@ -24,6 +24,30 @@
 	min-width:500px;
 }
 
+.primeCharacterSheet .actorIsCloneWrapper
+{
+	position: absolute;
+	top:0px;
+	left:0px;
+	bottom:0px;
+	right:0px;
+	display: none;
+	justify-content: center;
+	align-items: center;
+
+}
+
+.primeCharacterSheet .isCloneActor .actorIsCloneWrapper
+{
+	display: flex;
+}
+
+.primeCharacterSheet .actorIsCloneWrapper i::before
+{
+	font-size:60px;
+	text-shadow: #FFF 0px 0px 5px, #FFF 0px 0px 10px, #FFF 0px 0px 15px, 2px 2px 2px rgba(206,89,55,0);
+}
+
 .actorFormWrapper
 {
 	display: flex;
