@@ -30,6 +30,39 @@
 	box-shadow: 0 0 6px inset #ff6400;
 }
 
+.matchingTarget.dragOverlapFromLeft,
+.matchingTarget.dragOverlapFromLeft
+{
+	transition: 0.3s;
+}
+
+.validDropFound.allowHorizontalMatches .bestMatchingTarget.matchingTarget.dragOverlapFromLeft,
+.validDropFound.allowHorizontalMatches .secondBestMatchingTarget.matchingTarget.dragOverlapFromLeft
+{
+	border-left-color: green !important;
+	transform: translate3d(5px, 0, 10px);
+}
+.validDropFound.allowHorizontalMatches .bestMatchingTarget.matchingTarget.dragOverlapFromRight,
+.validDropFound.allowHorizontalMatches .secondBestMatchingTarget.matchingTarget.dragOverlapFromRight
+{
+	border-right-color: green !important;
+	transform: translate3d(-5px, 0, 10px);
+}
+
+.validDropFound.allowVerticalMatches .bestMatchingTarget.matchingTarget.dragOverlapFromTop,
+.validDropFound.allowVerticalMatches .secondBestMatchingTarget.matchingTarget.dragOverlapFromTop
+{
+	border-top-color: green !important;
+	transform: translate3d(0, -5px, 10px);
+}
+.validDropFound.allowVerticalMatches .bestMatchingTarget.matchingTarget.dragOverlapFromBottom,
+.validDropFound.allowVerticalMatches .secondBestMatchingTarget.matchingTarget.dragOverlapFromBottom
+{
+	border-bottom-color: green !important;
+	transform: translate3d(0, 5px, 10px);
+}
+
+
 .showDebugOverlays .matchingTarget
 {
 	border:1px solid hotpink !important;
@@ -69,7 +102,7 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	z-index: 50;
+	z-index: 3;
 }
 
 .itemInsertMarker .insertIcon
