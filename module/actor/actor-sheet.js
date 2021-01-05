@@ -11,6 +11,8 @@ export class PrimePCActorSheet extends ActorSheet
 
 	hooksAdded = false;
 
+	bulkUpdatingOwnedItems = false;
+
 	/** @override */
 	static get defaultOptions()
 	{
@@ -607,6 +609,7 @@ export class PrimePCActorSheet extends ActorSheet
 			let itemToReInsert = itemsToSort.splice(itemIndex, 1)[0];
 			itemsToSort.splice(insertAfterIndex, 0, itemToReInsert);
 
+			this.bulkUpdatingOwnedItems = true;
 			var count = 0;
 			while (count < itemsToSort.length)
 			{
@@ -618,6 +621,7 @@ export class PrimePCActorSheet extends ActorSheet
 				await this.entity.updateOwnedItem(itemClass.data);
 				count++;
 			}
+			this.bulkUpdatingOwnedItems = false;
 		}
 		else
 		{
