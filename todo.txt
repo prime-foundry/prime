@@ -183,9 +183,19 @@ TO DISCUSS:
 Drag code improvments
 ========================
 
-	Add displacement class based on direction and allowed directions
+	//Add displacement class based on direction and allowed directions
 
-	Add non-draggable class check - or draggable class check?
+	//Add non-draggable class check - or draggable class check?
+
+	//Set as default width?
+
+	//Fix bounds testing - currently failing if the items are mis-matched
+
+	//Double check the re-ordering works once bounds checking fixed.
+	
+	//Check if required: Add index to items as dropped - highest within catergory + 1
+
+	Shift to lookup table storing index > ID in hash table.
 
 	Add opens new window icon to item title <a> tags.
 
@@ -193,17 +203,9 @@ Drag code improvments
 
 	Remove 10px fudge factor?
 
-	Set as default width?
-
 	Make icon one sided on edges?
 
 	Catch issue whereby description is draggable but causes offset problems.
-
-	//Fix bounds testing - currently failing if the items are mis-matched
-
-	Double check the re-ordering works once bounds checking fixed.
-	
-	Check if required: Add index to items as dropped - highest within catergory + 1
 
 Add huge indicator to show that the actor sheet is token based.
 
@@ -213,7 +215,7 @@ Add a means to put a "request X dice roll" header into the dice roll chat.
 
 Create global config pattern - auto set debug to false if on live URL.
 
-Add title attribute to the dice rolls to you get the full info at readable size.
+//Add title attribute to the dice rolls to you get the full info at readable size.
 
 Add veil break roll option as an option somewhere.
 
