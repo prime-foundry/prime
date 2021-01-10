@@ -31,13 +31,6 @@ export class PRIME_DICE_POPUP extends Application {
 		}
 	}
 
-	async close(){
-		if(controlTokenHookId) {
-			Hooks.off("controlToken",controlTokenHookId);
-		}
-		return super.close();
-	}
-
 	static get defaultOptions() {
 		const options = super.defaultOptions;
 		options.title = game.i18n.localize("PRIME.diceRoller.title");
