@@ -47,7 +47,19 @@ export class PRIME_DICE_POPUP extends Application {
 
 	async getData() {
 		// Return data to the template
-		const actors = Array.from(game.actors.values()).filter(actor => actor.owner);
+		const actors = Array.from(game.actors.values())
+		.filter(actor => actor.owner)
+		.sort(function(actor1, actor2){
+			if(actor1.isNPC() ^ actor2.isNPC()){
+				if(actor1.isNPC()) {
+					return 1;
+				} else {
+					return -1;
+				}
+			} else {
+				return actor1.name.localeCompare(actor2.name);
+			}
+		});
 		const users = game.users.entities;
 
 		const primes = this.getPrimes();

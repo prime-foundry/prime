@@ -24,6 +24,14 @@ export class PrimePCActor extends Actor
 		}
 	}
 
+	isNPC() {
+		try {
+			return this.data.data.metadata.isNPC;
+		} catch (error) {
+			return true;
+		}
+	}
+
 	/**
 	 * Prepare Character type specific data
 	 */
