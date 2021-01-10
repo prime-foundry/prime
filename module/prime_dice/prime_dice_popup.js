@@ -11,10 +11,31 @@ export class PRIME_DICE_POPUP extends Application {
 	doublePrime = false;
 	autoroll = false;
 	autoclose = true;
+	controlTokenHookId = Hooks.on("controlToken", this.selectTokenFn());
 
 	constructor(...args) {
 		super(...args)
 		game.users.apps.push(this);
+	}
+
+	selectTokenFn(){
+		let self = this;
+		return function(...args){
+			self.selectToken(...args);
+		}
+	}
+
+	selectToken( token) {
+		if(token.actor){
+			this.selectActor(token.actor);
+		}
+	}
+
+	async close(){
+		if(controlTokenHookId) {
+			Hooks.off("controlToken",controlTokenHookId);
+		}
+		return super.close();
 	}
 
 	static get defaultOptions() {
@@ -346,9 +367,9 @@ export class PRIME_DICE_POPUP extends Application {
 	}
 
 
-	selectActor(event) {
-		const newActor = game.actors.get(event.target.value);
-		if (this.currentActor != newActor) {
+
+	selectActor(newActor) {
+		if (newActor.owner && this.currentActor != newActor) {
 			this.currentActor = newActor;
 			this.getSortedActorStats(this.currentActor);
 			this.selectedPrimeValue = 0;
@@ -369,7 +390,10 @@ export class PRIME_DICE_POPUP extends Application {
 		if (actorSelect.length > 0) {
 			const currentSelect = this.element.find("#primeDiceRollerActorSelect option[value='" + this.currentActor.id + "']");
 			currentSelect.attr('selected', 'selected');
-			actorSelect.change((event) => this.selectActor(event));
+			actorSelect.change((event) => {
+				const newActor = game.actors.get(event.target.value);
+				this.selectActor(newActor);
+			});
 		}
 		this.element.find("#autoroll").click((event) => {
 			this.autoroll = !this.autoroll;
