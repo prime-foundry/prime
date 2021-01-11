@@ -56,6 +56,12 @@ export class PRIME_DICE_POPUP extends Application {
 				} else {
 					return -1;
 				}
+			} else if(actor1.isPC ^ actor2.isPC){
+				if(actor1.isPC) {
+					return -1;
+				} else {
+					return 1;
+				}
 			} else {
 				return actor1.name.localeCompare(actor2.name);
 			}
@@ -192,10 +198,6 @@ export class PRIME_DICE_POPUP extends Application {
 	}
 
 	selectPrime(event) {
-		const selectedRefinementClass = "selectedRefinement";
-		const doubledSelectedClass = "doubled";
-
-		const selectedPrimeClass = "selectedPrime";
 		const primeDataKey = "data-prime-key"
 		const primeDataValue = "data-prime-value";
 
@@ -207,74 +209,87 @@ export class PRIME_DICE_POPUP extends Application {
 			if (this.doubled) {
 				this.selectedPrime = null;
 				this.doubled = false;
-				thisElement.removeClass(doubledSelectedClass);
-				thisElement.removeClass(selectedPrimeClass);
 				this.selectedPrimeValue = 0;
 			} else {
 				this.doubled = true;
-				thisElement.addClass(doubledSelectedClass);
-				this.element.find("." + selectedRefinementClass).removeClass(selectedRefinementClass);
 
 				this.selectedRefinement = null;
 				this.selectedRefinementValue = 0;
 
 			}
 		} else {
-			if (this.selectedPrime) {
-				this.element.find("." + selectedPrimeClass).removeClass(selectedPrimeClass);
-			}
-			thisElement.addClass(selectedPrimeClass);
 			this.selectedPrime = thisKey;
 			this.selectedPrimeValue = Number.parseInt(thisElement.attr(primeDataValue), 10);
 		}
 
+		this.updateSelectionView(event);
 		this.updateRoll(event);
 	}
 
 
 	selectRefinement(event) {
-		const selectedRefinementClass = "selectedRefinement";
 		const refinementDataKey = "data-refinement-key"
 		const refinementDataValue = "data-refinement-value";
 		const refinementDataDefault = "data-refinement-default-prime"
-
-		const selectedPrimeClass = "selectedPrime";
 		const primeDataKey = "data-prime-key"
+
 		const primeDataValue = "data-prime-value";
-		const doubledSelectedClass = "doubled";
 
 		const thisElement = $(event.delegateTarget);
 		const thisKey = thisElement.attr(refinementDataKey);
+		
 
 		if (this.selectedRefinement == thisKey) {
-			thisElement.removeClass(selectedRefinementClass);
 			this.selectedRefinement = null;
 			this.selectedRefinementValue = 0;
 		} else {
 
-			if (this.selectedRefinement) {
-				this.element.find("." + selectedRefinementClass).removeClass(selectedRefinementClass);
-			} else if (this.selectedPrime) {
+			if (this.selectedPrime) {
 				if (this.doubled) {
 					this.doubled = false;
-					this.element.find("." + doubledSelectedClass).removeClass(doubledSelectedClass);
 				}
 			} else {
 				const defaultPrime = thisElement.attr(refinementDataDefault);
 				if (defaultPrime) {
 					this.selectedPrime = defaultPrime;
-					const primeElement = this.element.find('.selectPrime[' + primeDataKey + '="' + defaultPrime + '"]');
-					primeElement.addClass(selectedPrimeClass);
+					
+					const primeElement = this.element.find('.selectPrime[' + primeDataKey + '="' + this.selectedPrime + '"]');
 					this.selectedPrimeValue = Number.parseInt(primeElement.attr(primeDataValue), 10);
 				}
 			}
-
-			thisElement.addClass(selectedRefinementClass);
 			this.selectedRefinement = thisKey;
 			this.selectedRefinementValue = Number.parseInt(thisElement.attr(refinementDataValue), 10);
 
 		}
+		this.updateSelectionView(event);
 		this.updateRoll(event);
+	}
+
+	updateSelectionView(event) {
+
+		const selectedRefinementClass = "selectedRefinement";
+		const refinementDataKey = "data-refinement-key"
+
+		const selectedPrimeClass = "selectedPrime";
+		const primeDataKey = "data-prime-key"
+		const doubledSelectedClass = "doubled";
+
+		this.element.find("." + selectedRefinementClass).removeClass(selectedRefinementClass);
+		this.element.find("." + selectedPrimeClass).removeClass(selectedPrimeClass);
+		this.element.find("." + doubledSelectedClass).removeClass(doubledSelectedClass);
+		
+		if(this.selectedPrime) {
+
+			const primeElement = this.element.find('.selectPrime[' + primeDataKey + '="' + this.selectedPrime + '"]');
+			primeElement.addClass(selectedPrimeClass);
+			if(this.doubled) {
+				primeElement.addClass(doubledSelectedClass);
+			}
+		}
+		if(this.selectedRefinement) {
+			const refinementElement = this.element.find('.selectRefinement[' + refinementDataKey + '="' + this.selectedRefinement + '"]');
+			refinementElement.addClass(selectedRefinementClass);
+		}
 	}
 
 	updateRoll(event) {
