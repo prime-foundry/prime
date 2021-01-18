@@ -19,6 +19,7 @@ var primeHandlebarsPartialsPaths =
 	"actorTabStatistics": "systems/prime/templates/actor/partials/tabs/actor-statistics-tab.html",
 
 	"itemListArmour": "systems/prime/templates/item/partials/list/item-list-armour.html",
+	"itemListShield": "systems/prime/templates/item/partials/list/item-list-shield.html",
 	"itemListGeneral": "systems/prime/templates/item/partials/list/item-list-general.html",
 	"itemListMeleeWeapons": "systems/prime/templates/item/partials/list/item-list-melee-weapons.html",
 	"itemListRangedWeapons": "systems/prime/templates/item/partials/list/item-list-ranged-weapons.html",
