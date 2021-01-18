@@ -833,7 +833,7 @@ export class ItemDragSort
 						console.log("From right");
 					markerCSS.left = bestTargetOffsets.left + this.bestTargetsData.bestMatch.element.outerWidth() + 5;
 					markerCSS.width = (secondBestTargetOffsets.left + 5) - markerCSS.left;
-					insertIndex = this.bestTargetsData.bestMatch.element.data("itemIndex");
+					insertIndex = this.bestTargetsData.bestMatch.element.data("itemIndex") + 1;
 				}
 				else
 				{
@@ -841,7 +841,7 @@ export class ItemDragSort
 						console.log("From left");
 					markerCSS.left = secondBestTargetOffsets.left + this.bestTargetsData.secondBestMatch.element.outerWidth() + 5;
 					markerCSS.width = (bestTargetOffsets.left + 5) - markerCSS.left;
-					insertIndex = this.bestTargetsData.bestMatch.element.data("itemIndex") - 1;
+					insertIndex = this.bestTargetsData.bestMatch.element.data("itemIndex");
 				}
 			}
 			else
@@ -854,7 +854,7 @@ export class ItemDragSort
 					if (logResults)
 						console.log("From right");
 					markerCSS.left = bestTargetOffsets.left + this.bestTargetsData.bestMatch.element.outerWidth() + 5;
-					insertIndex = this.bestTargetsData.bestMatch.element.data("itemIndex");
+					insertIndex = this.bestTargetsData.bestMatch.element.data("itemIndex") + 1;
 				}
 				else
 				{
@@ -862,7 +862,7 @@ export class ItemDragSort
 					if (logResults)
 						console.log("From left");
 					markerCSS.left = (bestTargetOffsets.left + 5) - 10;
-					insertIndex = this.bestTargetsData.bestMatch.element.data("itemIndex") - 1;
+					insertIndex = this.bestTargetsData.bestMatch.element.data("itemIndex");
 				}
 			}
 		}
@@ -877,13 +877,13 @@ export class ItemDragSort
 				{
 					markerCSS.top = bestTargetOffsets.top + this.bestTargetsData.bestMatch.element.outerHeight() + 5;
 					markerCSS.height = (secondBestTargetOffsets.top + 5) - markerCSS.top;
-					insertIndex = this.bestTargetsData.bestMatch.element.data("itemIndex");
+					insertIndex = this.bestTargetsData.bestMatch.element.data("itemIndex") + 1;
 				}
 				else
 				{
 					markerCSS.top = secondBestTargetOffsets.top + this.bestTargetsData.secondBestMatch.element.outerHeight() + 5;
 					markerCSS.height = (bestTargetOffsets.top + 5) - markerCSS.top;
-					insertIndex = this.bestTargetsData.bestMatch.element.data("itemIndex") - 1;
+					insertIndex = this.bestTargetsData.bestMatch.element.data("itemIndex");
 				}
 			}
 			else
@@ -891,12 +891,12 @@ export class ItemDragSort
 				if (this.bestTargetsData.bestMatch.fromBottom || !this.bestTargetsData.bestMatch.forceToBottom)
 				{
 					markerCSS.top = bestTargetOffsets.top + this.bestTargetsData.bestMatch.element.outerHeight() + 5;
-					insertIndex = this.bestTargetsData.bestMatch.element.data("itemIndex");
+					insertIndex = this.bestTargetsData.bestMatch.element.data("itemIndex") + 1;
 				}
 				else
 				{
 					markerCSS.top = (bestTargetOffsets.top + 5) - 10;
-					insertIndex = this.bestTargetsData.bestMatch.element.data("itemIndex") - 1;
+					insertIndex = this.bestTargetsData.bestMatch.element.data("itemIndex");
 				}
 			}
 		}
