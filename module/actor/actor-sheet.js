@@ -165,6 +165,10 @@ export class PrimePCActorSheet extends ActorSheet
 		{
 			combinedItems = combinedItems.concat(filteredItems["armour"]);
 		}
+		if (filteredItems["shield"])
+		{
+			combinedItems = combinedItems.concat(filteredItems["shield"]);
+		}
 		if (filteredItems["item"])
 		{
 			combinedItems = combinedItems.concat(filteredItems["item"]);
