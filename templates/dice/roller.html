@@ -1,7 +1,5 @@
 <div class="primeDiceRollDialog">
 	<div class="primeDiceTitle">
-		<span>{{localize "PRIME.diceRoller.title"}}: </span>
-
 		{{#ifCond actors.length ">" 0}}
 		<span class="character">
 			{{#ifCond actors.length ">" 1}}
@@ -28,6 +26,12 @@
 			>
 		</span>
 		
+		<select class="roll-type-select" name="primeDiceRollMode">
+            <option value="roll" selected="">Public</option>
+            <option value="gmroll">GM</option>
+            <option value="blindroll">Blind</option>
+            <option value="selfroll">Self</option>
+        </select>
 	</div>
 
 	<div class="primeDiceRollWrapper">

@@ -5,7 +5,10 @@ export class PRIME_DICE_ROLLER {
 
 
 	async rollPrimeDice(diceParams) {
-		const diceResult = this.getDiceResult(diceParams);
+		
+		const currentRoll = new Roll("1d20x1x20");
+		currentRoll.evaluate();
+		const diceResult = this.getDiceResult(currentRoll, diceParams);
 		const messageContent = await this.createContent(diceResult);
 		const alias =  diceResult.user +": " + diceResult.actor;
 		const speaker = ChatMessage.getSpeaker({ actor : diceParams.actor, alias });
@@ -13,40 +16,22 @@ export class PRIME_DICE_ROLLER {
 		{
 			speaker,
 			user: game.user._id,
-			_roll: diceResult.total,
 			type: CONST.CHAT_MESSAGE_TYPES.ROLL,
 			sound: CONFIG.sounds.dice,
-			content: messageContent
+			content: messageContent,
 		};
-		let options = {rollMode: 'roll'};
-		ChatMessage.create(data, options);
+		data.roll = currentRoll;
+		let options = {rollMode: diceParams.rollMode};
+		CONFIG.ChatMessage.entityClass.create(data, options);
 
 		//this.testDiceRolling(10000);
 
 	}
 
-	getDiceResult(diceParams) {
-		const currentDie = new Die({ faces: 20 });
-		this.rollDie(currentDie);
-		const primeDiceResult = this.getPrimeDiceResultData(currentDie, diceParams);
-		//if (primeDiceResult.diceRolls.length > 2)
-		//{
-		//	console.log(primeDiceResult);
-		//}
-		return primeDiceResult;
-	}
 
-	rollDie(whatDie) {
-		whatDie.roll(1);
-		var lastDice = whatDie.results[whatDie.results.length - 1]
-		if (lastDice.result == 1 || lastDice.result == 20) {
-			this.rollDie(whatDie);
-		}
-	}
-
-	getPrimeDiceResultData(foundryDice, diceParams) {
+	getDiceResult(roll, diceParams) {
 		var _result = 0;
-		var _primeResults = foundryDice.results.map(currResult => {
+		var _primeResults = roll.dice[0].results.map(currResult => {
 			let _primeModifier = this.primeTable[currResult.result - 1];
 			_result += _primeModifier;
 			return { ...currResult, primeModifier: _primeModifier };
@@ -61,6 +46,7 @@ export class PRIME_DICE_ROLLER {
 			diceRolls: _primeResults,
 			totalDice: _result,
 			total: diceParams.total + _result,
+			rollMode: diceParams.rollMode,
 			modifiers: this.getDiceModifiers(diceParams)
 		};
 		return _primeDiceResults;

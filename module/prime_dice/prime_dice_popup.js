@@ -348,9 +348,12 @@ export class PRIME_DICE_POPUP extends Application {
 
 	doRoll() {
 		const users = Array.from(game.users.values()).filter(user => user.isSelf);
+		const rollModeField = this.element.find('select[name="primeDiceRollMode"] option:selected');
+		const rollMode = rollModeField.val() || "roll";
 		var diceParams = {
 			"user": users[0],
-			"actor": this.currentActor
+			"actor": this.currentActor,
+			"rollMode": rollMode
 		};
 		var total = 0;
 		if (this.selectedPrime) {
