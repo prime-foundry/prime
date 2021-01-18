@@ -424,6 +424,10 @@
 						"description": "PRIME.refinment_description_threads"
 					}
 				}
+			},
+			"orderingTables":
+			{
+				"perkOrder":{}
 			}
 		},
 		"character":{
@@ -433,9 +437,9 @@
 				"mental_template",
 				"metadata_template",
 				"primes_template",
-				"refinements_template"
+				"refinements_template",
+				"orderingTables"
 			],
-			"perks": [],
 			"personalWealth": 0,
 			"shipWealth": 0,
 			"wounds": 

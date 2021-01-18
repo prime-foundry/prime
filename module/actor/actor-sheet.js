@@ -13,6 +13,8 @@ export class PrimePCActorSheet extends ActorSheet
 
 	bulkUpdatingOwnedItems = false;
 
+	currentItemSortList = null;
+
 	async _render(force=false, options={})
 	{
 		if (!this.bulkUpdatingOwnedItems)
@@ -105,7 +107,8 @@ export class PrimePCActorSheet extends ActorSheet
 
 		if (data.filteredItems["perk"])
 		{
-			data.perks = data.filteredItems["perk"].sort(this.sortByItemOrder);
+			this.currentItemSortList = this.object.data.data.perkOrder;
+			data.perks = data.filteredItems["perk"].sort(this.sortByItemOrder.bind(this));
 		}
 		else
 		{
@@ -179,16 +182,19 @@ export class PrimePCActorSheet extends ActorSheet
 
 	sortByItemOrder(itemA, itemB)
 	{
-		if ((!itemA.data.position && itemA.data.position !== 0) || itemA.data.position == -1)	// Sorting data is missing or not generated yet - leave with initial order
+		var itemAPosition = this.currentItemSortList[itemA._id];
+		var itemBPosition = this.currentItemSortList[itemB._id];
+
+		if ((!itemAPosition && itemAPosition !== 0) || itemAPosition == -1)	// Sorting data is missing or not generated yet - leave with initial order
 		{
 			return 0;
 		}
 
-		if (itemA.data.position < itemB.data.position)
+		if (itemAPosition < itemBPosition)
 		{
 			return -1;
 		}
-		if (itemA.data.position > itemB.data.position)
+		if (itemAPosition > itemBPosition)
 		{
 			return 1;
 		}
@@ -603,6 +609,8 @@ export class PrimePCActorSheet extends ActorSheet
 		ItemCardUI.bindEvents(actionWrapper);
 
 		this.postActivateListeners(html);
+
+		
 	}
 
 	async updateSortOrder(itemIndex, insertAfterIndex, itemType)
@@ -610,20 +618,23 @@ export class PrimePCActorSheet extends ActorSheet
 		//console.log("I would insert item '" + itemIndex + "' after item '" + insertAfterIndex + "'");
 		//a = b;
 		var processedItems = this.entity.getProcessedItems();
-		var itemsToSort = processedItems[itemType]
+		var itemsToSort = processedItems[itemType];
+		var itemOrder = {};
 		
 		if (itemsToSort)
 		{
 			// If we're going to be shrinking the array before the
 			// insertion point, we need to increase the insert index
 			// to compensate.
-			if (itemIndex > insertAfterIndex)
+			if (insertAfterIndex >= itemIndex)
 			{
-				insertAfterIndex++;
+				insertAfterIndex--;
 			}
 
+			this.currentItemSortList = this.object.data.data.perkOrder;
+
 			// Should match initial page order after this sort
-			itemsToSort.sort(this.sortByItemOrder);
+			itemsToSort.sort(this.sortByItemOrder.bind(this));
 			let itemToReInsert = itemsToSort.splice(itemIndex, 1)[0];
 			itemsToSort.splice(insertAfterIndex, 0, itemToReInsert);
 
@@ -635,11 +646,15 @@ export class PrimePCActorSheet extends ActorSheet
 
 				let itemClass = this.object.items.get(itemData._id);
 				itemClass.data.data.position = count;
-				
+				itemOrder[itemData._id] = count
 				await this.entity.updateOwnedItem(itemClass.data);
 				console.log("Count: " + count);
 				count++;
 			}
+
+			let updateData = {"data": {"perkOrder": itemOrder}};
+			this.object.update(updateData)
+
 			this.bulkUpdatingOwnedItems = false;
 			this.render();
 		}
