@@ -11,16 +11,16 @@ export class PrimePCActorSheet extends ActorSheet
 
 	hooksAdded = false;
 
-	bulkUpdatingOwnedItems = false;
+	//bulkUpdatingOwnedItems = false;
 
 	currentItemSortList = null;
 
 	async _render(force=false, options={})
 	{
-		if (!this.bulkUpdatingOwnedItems)
-		{
+		//if (!this.bulkUpdatingOwnedItems)
+		//{
 			return await super._render(force, options);
-		}
+		//}
 	}
 
 	/** @override */
@@ -613,7 +613,7 @@ export class PrimePCActorSheet extends ActorSheet
 		
 	}
 
-	async updateSortOrder(itemIndex, insertAfterIndex, itemType)
+	updateSortOrder(itemIndex, insertAfterIndex, itemType)
 	{
 		//console.log("I would insert item '" + itemIndex + "' after item '" + insertAfterIndex + "'");
 		//a = b;
@@ -638,16 +638,16 @@ export class PrimePCActorSheet extends ActorSheet
 			let itemToReInsert = itemsToSort.splice(itemIndex, 1)[0];
 			itemsToSort.splice(insertAfterIndex, 0, itemToReInsert);
 
-			this.bulkUpdatingOwnedItems = true;
+			//this.bulkUpdatingOwnedItems = true;
 			var count = 0;
 			while (count < itemsToSort.length)
 			{
 				let itemData = itemsToSort[count];
 
-				let itemClass = this.object.items.get(itemData._id);
-				itemClass.data.data.position = count;
+				//let itemClass = this.object.items.get(itemData._id);
+				//itemClass.data.data.position = count;
 				itemOrder[itemData._id] = count
-				await this.entity.updateOwnedItem(itemClass.data);
+				//await this.entity.updateOwnedItem(itemClass.data);
 				console.log("Count: " + count);
 				count++;
 			}
@@ -655,8 +655,8 @@ export class PrimePCActorSheet extends ActorSheet
 			let updateData = {"data": {"perkOrder": itemOrder}};
 			this.object.update(updateData)
 
-			this.bulkUpdatingOwnedItems = false;
-			this.render();
+			//this.bulkUpdatingOwnedItems = false;
+			//this.render();
 		}
 		else
 		{
