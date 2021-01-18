@@ -1,0 +1,41 @@
+<div class="{{partialClasses}} meleeWeapons block">
+    <div class="blockTitle">Melee Weapons</div>
+    <div class="primeTableWrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th class="center"><i class="game-icon game-icon-fist icon-md"></i></th>
+                    <th>Title</th>
+                    <th class="center">Size</th>
+                    <th class="center">Type</th>
+                    <th class="center">Melee Block</th>
+                    <th class="center">Ranged Block</th>
+                    <th class="center" title="Damage rating">DR</th>
+                    <th class="center">Hands</th>
+                    <th>Wounds</th>
+                    <th>Keywords</th>
+					<th>Actions</th>
+					
+                </tr>
+            </thead>
+        <!-- <div>Title(Description) | (Size) | (Type) | (DR) | Hands | Wounds | Keywords | Actions</div> -->
+            <tbody>
+                {{#each filteredItems.shield as |shield index|}}
+                <tr>
+                    <td class="center"><div class="attackIconWrapper"><a class="attackWithWeapon" data-weapon-id={{shield._id}}>{{{shield.data.attackIcon}}}</a></div></td>
+                    <td title="{{convertHTMLForTitle shield.data.description}}"><a class="itemTitle" data-item-id="{{shield._id}}"><i class="fas fa-info-circle fa-xs"></i> {{shield.name}}</a></td>
+                    <td class="center">{{shield.data.weaponSize}}</td>
+                    <td class="center">{{shield.data.weaponType}}</td>
+                    <td class="center">{{shield.data.meleeBlockBonus}}</td>
+                    <td class="center">{{shield.data.rangedBlockBonus}}</td>
+                    <td class="center">{{shield.data.damageRating}}</td>
+                    <td class="center">{{shield.data.requiredHands}}</td>
+                    <td>{{{shield.data.woundConditions}}}</td>
+                    <td>{{{shield.data.keywords}}}</td>
+                    <td>{{{shield.data.customActions}}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>
