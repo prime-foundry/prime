@@ -295,6 +295,11 @@ Add weak mind/body perks that reduce soak ability but grant extra soul/XP.
 
 Create perks to map to all existing expertise, perks and quirks.
 
+Comments from Jonny:
+
+* limit display of full item description to a single line.. therefore it can fit a full list of items and you dont have to scroll down a long page to get to items.  (the item can still have paragraphs of description, its just only the first line gets displayed on the main list.
+* increase width of the title column at expense of the description column, so that items with long titles dont get mangled or pushed into multiple lines. Preferably allow the user to slide the bar from side to side and control the respective widths themselves.  This is because many of my items have long names and full descriptions and so they take up multiple lines of space and make my sheet look messy.
+* Any kind of sorting buttons - alphabetical, recently added, frequently accessed?
 
 
 BUGS
