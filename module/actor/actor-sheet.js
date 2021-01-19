@@ -107,7 +107,7 @@ export class PrimePCActorSheet extends ActorSheet
 
 		if (data.filteredItems["perk"])
 		{
-			this.currentItemSortList = this.object.data.data.perkOrder;
+			this.currentItemSortList = this.object.data.data.perkOrder || {};
 			data.perks = data.filteredItems["perk"].sort(this.sortByItemOrder.bind(this));
 		}
 		else
@@ -176,6 +176,9 @@ export class PrimePCActorSheet extends ActorSheet
 		{
 			combinedItems = combinedItems.concat(filteredItems["item"]);
 		}
+
+		this.currentItemSortList = this.object.data.data.inventoryOrder || {};
+		combinedItems = combinedItems.sort(this.sortByItemOrder.bind(this));
 
 		return combinedItems;
 	}
@@ -603,14 +606,15 @@ export class PrimePCActorSheet extends ActorSheet
 
 		const perkWrapper = html.find(".perksOuterWrapper");
 		ItemCardUI.bindEvents(perkWrapper);
-		ItemDragSort.bindEvents(perkWrapper, ".itemCard", true, false, this.updateSortOrder.bind(this), "perk");
+		ItemDragSort.bindEvents(perkWrapper, ".itemCard", true, false, true, this.updateSortOrder.bind(this), "perk");
 
 		const actionWrapper = html.find(".actionsHolder");
 		ItemCardUI.bindEvents(actionWrapper);
 
-		this.postActivateListeners(html);
+		const inventoryWrapper = html.find(".generalItems");
+		ItemDragSort.bindEvents(inventoryWrapper, ".inventoryItem", false, true, false, this.updateSortOrder.bind(this), "inventory");
 
-		
+		this.postActivateListeners(html);		
 	}
 
 	updateSortOrder(itemIndex, insertAfterIndex, itemType)
@@ -618,7 +622,15 @@ export class PrimePCActorSheet extends ActorSheet
 		//console.log("I would insert item '" + itemIndex + "' after item '" + insertAfterIndex + "'");
 		//a = b;
 		var processedItems = this.entity.getProcessedItems();
-		var itemsToSort = processedItems[itemType];
+
+		if (itemType == "inventory")
+		{
+			var itemsToSort = this.getInventoryItems(processedItems);
+		}
+		else
+		{
+			var itemsToSort = processedItems[itemType];
+		}
 		var itemOrder = {};
 		
 		if (itemsToSort)
@@ -631,7 +643,7 @@ export class PrimePCActorSheet extends ActorSheet
 				insertAfterIndex--;
 			}
 
-			this.currentItemSortList = this.object.data.data.perkOrder;
+			this.currentItemSortList = this.object.data.data[itemType + "Order"] || {};
 
 			// Should match initial page order after this sort
 			itemsToSort.sort(this.sortByItemOrder.bind(this));
@@ -652,7 +664,10 @@ export class PrimePCActorSheet extends ActorSheet
 				count++;
 			}
 
-			let updateData = {"data": {"perkOrder": itemOrder}};
+			let updateData = {};
+			updateData.data = {}
+			updateData.data[itemType + "Order"] = itemOrder;
+			
 			this.object.update(updateData)
 
 			//this.bulkUpdatingOwnedItems = false;
