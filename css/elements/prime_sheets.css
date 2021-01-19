@@ -30,9 +30,15 @@
 	cursor: help;
 }
 
-.itemTitle .fas.fa-info-circle
+.itemTitle .fas.fa-info-circle,
+.itemTitle .fas.fa-external-link-alt
 {
 	float: right;
 	margin-left: 5px;
 	margin-right: 5px;
+}
+
+.itemTitle .fas.fa-info-circle
+{
+	margin-right: 0px;
 }
