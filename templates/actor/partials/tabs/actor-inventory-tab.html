@@ -2,23 +2,23 @@
 	<div class="cell30 flexRow verticalCenter flexStart block">
 		<div class="blockTitle">Wealth</div>
 		<div class="cell60 flexRow verticalCenter flexEnd">
-			<label for="data.personalWealth" class="resource-label cell70 rightAlign" title="Personal Wealth">Personal:</label>
+			<label for="data.personalWealth" class="resource-label cell70 rightAlign" title="Personal Wealth">Personal: </label>
 			<input type="text" id="data.personalWealth" name="data.personalWealth" class="personalWealth cell30" value="{{data.personalWealth}}" data-dtype="Number"/>
 		</div>
 		
 		<div class="cell40 flexRow verticalCenter flexEnd">
-			<label for="data.shipWealth" class="resource-label cell70 rightAlign">Ship:</label>
+			<label for="data.shipWealth" class="resource-label cell70 rightAlign">Ship: </label>
 			<input type="text" id="data.shipWealth" name="data.shipWealth" class="shipWealth cell30" value="{{data.shipWealth}}" data-dtype="Number"/>
 		</div>
 	</div>
 	<div class="cell30 flexRow verticalCenter flexEnd block">
 		<div class="blockTitle">Inventory</div>
 		<div class="cell40 flexRow flexStart verticalCenter">
-			<label class="resource-label">Weight:</label>
+			<label class="resource-label">Weight: </label>
 			<span class="equipmentWeight">{{data.totalWeight}}</span>
 		</div>
 		<div class="cell60 flexRow flexStart verticalCenter">
-			<label class="resource-label">Value:</label>
+			<label class="resource-label">Value: </label>
 			<span class="equipmentCost hasTooltip" title="Personal wealth total">{{data.equipmentCostPersonal}} </span>&nbsp;/ <span class="equipmentCost hasTooltip" title="Ship wealth total">{{data.equipmentCostShip}}</span>
 		</div>
 	</div>
