@@ -3,6 +3,15 @@
 	cursor: move;
 }
 
+.stopDrag
+{
+	cursor: initial;
+}
+a.stopDrag
+{
+	cursor: pointer;
+}
+
 .itemDragging
 {
 	opacity: 0.3;
