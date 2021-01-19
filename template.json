@@ -427,7 +427,8 @@
 			},
 			"orderingTables":
 			{
-				"perkOrder":{}
+				"perkOrder":{},
+				"inventoryOrder":{}
 			}
 		},
 		"character":{
