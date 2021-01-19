@@ -112,7 +112,8 @@
 					"gender": "",
 					"age": "",
 					"biography": ""
-				}
+				},
+				"notes": ""
 			},
 
 			"primes_template":

@@ -728,3 +728,19 @@ h1.entityName
 {
 	width: 48%;
 }
+
+.primeCharacterSheet .tabbedSection .tab.notes .tabContentWrapper
+{
+	min-height: 100%;
+	display: flex;
+    flex-direction: column;
+}
+
+.primeCharacterSheet .tabbedSection .tab.notes .tabContentWrapper .block,
+.primeCharacterSheet .tabbedSection .tab.notes .tabContentWrapper .block .characterNotesHolder,
+.primeCharacterSheet .tabbedSection .tab.notes .tabContentWrapper .block .characterNotesHolder .editor
+{
+	flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
