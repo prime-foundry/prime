@@ -31,7 +31,7 @@ export class ItemDragSort
 	// Whether or not to remove the overlap markers (only applies if debug overlays are on)
 	static persistOverlapMarkers = true;
 
-	static bindEvents(whatContainer, whatDraggableClass, allowHorizontalMatches, allowVerticalMatches, matchHandler, whatItemType)
+	static bindEvents(whatContainer, whatDraggableClass, allowHorizontalMatches, allowVerticalMatches, displaceTargets, matchHandler, whatItemType)
 	{
 		if (this.showDebugOverlays)
 		{
@@ -48,6 +48,11 @@ export class ItemDragSort
 		if (allowVerticalMatches)
 		{
 			whatContainer.addClass("allowVerticalMatches");
+		}
+
+		if (displaceTargets)
+		{
+			whatContainer.addClass("displaceTargets");
 		}
 
 		whatContainer.data("dragClass", whatDraggableClass);
