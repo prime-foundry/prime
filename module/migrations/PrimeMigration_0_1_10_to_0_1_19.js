@@ -1,20 +1,20 @@
-export class PrimeMigration_0_1_10_to_0_1_18
+export class PrimeMigration_0_1_10_to_0_1_19
 {
 	static async update()
 	{
-		ui.notifications.info("Migrating world from 0.1.10+ to version 0.1.18.");
+		ui.notifications.info("Migrating world from 0.1.10+ to version 0.1.19.");
 		var success = await this.updateItems()
 
 		if (success)
 		{
-			const message = "Migration to version 0.1.18 successful, goats were herded."
+			const message = "Migration to version 0.1.19 successful, goats were herded."
 			ui.notifications.info(message);
 			console.log(message);
 			game.settings.set("prime", "notAutoIncrementedBeforeICanCheckItWorldVersionNumber", game.system.data.version);
 		}
 		else
 		{
-			const error = "Migration to version 0.1.18 failed, goats were not herded. See console for more details.";
+			const error = "Migration to version 0.1.19 failed, goats were not herded. See console for more details.";
 			ui.notifications.error(error);
 			console.error(error);
 		}

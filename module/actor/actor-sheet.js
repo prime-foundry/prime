@@ -612,7 +612,10 @@ export class PrimePCActorSheet extends ActorSheet
 		ItemCardUI.bindEvents(actionWrapper);
 
 		const inventoryWrapper = html.find(".generalItems");
-		ItemDragSort.bindEvents(inventoryWrapper, ".inventoryItem", false, true, false, this.updateSortOrder.bind(this), "inventory");
+		if (inventoryWrapper.length > 0)
+		{
+			ItemDragSort.bindEvents(inventoryWrapper, ".inventoryItem", false, true, false, this.updateSortOrder.bind(this), "inventory");
+		}
 
 		this.postActivateListeners(html);		
 	}
