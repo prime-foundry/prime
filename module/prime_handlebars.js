@@ -213,3 +213,17 @@ Handlebars.registerHelper("humanIndex", function(value, options)
 {
     return parseInt(value) + 1;
 });
+
+Handlebars.registerHelper('cropToLength', function(value, cropLength)
+{
+	if (!cropLength)
+	{
+		cropLength = 10
+	}
+
+	if (value.length > cropLength)
+	{
+		return value.substring(0, cropLength) + '...';
+	}
+	return value;
+});

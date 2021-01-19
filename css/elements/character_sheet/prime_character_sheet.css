@@ -717,3 +717,14 @@ h1.entityName
 	opacity: 0;
 	z-index: 0;
 }
+
+.primeCharacterSheet .tabbedSection .inventoryTable
+{
+	
+}
+
+.primeCharacterSheet .tabbedSection .inventoryTable th,
+.primeCharacterSheet .tabbedSection .inventoryTable td
+{
+	width: 48%;
+}

@@ -1,6 +1,6 @@
 <div class="{{partialClasses}} generalItems">
     <div class="primeTableWrapper">
-        <table>
+        <table class="inventoryTable">
             <thead>
                 <tr>
                     <th>Title</th>
@@ -12,8 +12,8 @@
             <tbody>
                 {{#each inventoryItems as |item index|}}
                 <tr class="draggableItem inventoryItem" data-item-index="{{index}}">
-                    <td title="{{convertHTMLForTitle item.data.description}}"><a class="itemTitle" data-item-id="{{item._id}}"><i class="fas fa-info-circle fa-xs"></i> {{item.name}}</a></td>
-                    <td>{{{item.data.description}}}</td>
+                    <td title="{{convertHTMLForTitle item.name}}"><a class="itemTitle stopDrag" data-item-id="{{item._id}}"><i class="fas fa-info-circle fa-xs"></i> {{cropToLength item.name 55}}</a></td>
+                    <td title="{{convertHTMLForTitle item.data.description}}">{{{cropToLength item.data.description 55}}}</td>
                     <td class="center"><a class="deleteItemIcon" data-item-id={{item._id}}><i class="fas fa-trash"></i></a></td>
                 </tr>
                 {{/each}}
