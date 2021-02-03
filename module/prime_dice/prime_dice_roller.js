@@ -6,7 +6,7 @@ export class PRIME_DICE_ROLLER {
 
 	async rollPrimeDice(diceParams) {
 		
-		const currentRoll = new Roll("1d20x1x20");
+		const currentRoll = new Roll("1d20x1x20x1x20");
 		currentRoll.evaluate();
 		const diceResult = this.getDiceResult(currentRoll, diceParams);
 		const messageContent = await this.createContent(diceResult);
