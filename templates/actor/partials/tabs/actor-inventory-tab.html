@@ -25,7 +25,19 @@
 </div>
 
 {{#if inventoryItems}}
+<div class="combatInventoryItems">
+	{{> itemListMeleeWeapons partialClasses=''}}
+
+	{{> itemListRangedWeapons partialClasses=''}}
+
+	{{> itemListShield partialClasses=''}}
+
+	{{> itemListArmour partialClasses=''}}
+</div>
+
+<div class="generalInventoryItems">
 	{{> itemListGeneral partialClasses=''}}
+</div>
 {{else}}
 <div class="bigMessageWrapper flexRow flexCenter verticalCenter">
     <div class="bigMessage">Drag items from the Items Directory <span class="item" title="Items Directory" data-tab="items"><i class="fas fa-suitcase"></i></span> onto the sheet to add items.</div>
