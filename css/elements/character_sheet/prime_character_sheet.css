@@ -120,6 +120,12 @@
 	height:30px;
 }
 
+.primeCharacterSheet.narrowWidth .shrinkFontForNarrow
+{
+	font-size: 10px;
+}
+
+
 .bigMessageWrapper
 {
 	height: 100%;
@@ -236,7 +242,7 @@ h1.entityName
 .primeCharacterSheet .campaignTitle
 {
 	font-family: 'Viaoda Libre', cursive;
-	font-size: 35px;
+	font-size: 30px;
 }
 
 .primeCharacterSheet.narrowWidth .campaignTitle
@@ -263,7 +269,7 @@ h1.entityName
 .isNPCWrapper
 {
 	position: absolute;
-	bottom: 0px;
+	bottom: 50%;
 	right: 0px;
 	width:100px;
 }
@@ -316,13 +322,11 @@ h1.entityName
 
 .actionsOuterWrapper
 {
-	max-height:330px;
 }
 
 .primeCharacterSheet .actionsHolder 
 {
 	height: 100%;
-	overflow: auto;
 }
 
 .primeCharacterSheet .actionsHolder .actionTitle
@@ -334,7 +338,6 @@ h1.entityName
 .metaValueContent.actionPointsWrapper
 {
 	display: flex;
-	flex-direction: column-reverse;
 	justify-content: space-between;
 	align-items: center;
 }
