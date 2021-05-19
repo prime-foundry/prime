@@ -142,6 +142,8 @@
 	"ITEM.TypeArmour" : "Armour",
 	"ITEM.TypePerk" : "Perk",
 	"ITEM.TypeAction" : "Action",
+	"ITEM.TypePrime" : "Prime",
+	"ITEM.TypeRefinement" : "Refinement",
 	
 	"PRIME.weapons_ranges" : "Weapon ranges",
 	"PRIME.weapons_ranges_point_blank" : "Point blank",
