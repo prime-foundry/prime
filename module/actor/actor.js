@@ -39,12 +39,15 @@ export class PrimePCActor extends Actor
 	{
 		const data = actorData.data;
 
-		// Make modifications to data here. For example:
-
+		if (data.sheetVersion && data.sheetVersion == "v2.0")
+		{
+			data.primes = Object.assign(this._getStatsObjects(actorData.items, "prime"), data.primes);
+			data.refinements = Object.assign(this._getStatsObjects(actorData.items, "refinement"), data.refinements);
+		}
+		
 		const primeCost = this.getTotalCost(data.primes);
 		const perkSoulCost = this.getTotalPerkCost("perkCostSoul");
 		data.soul.spent = primeCost + perkSoulCost;
-
 
 		const refinementCost = this.getTotalCost(data.refinements);
 		const perkXPCost = this.getTotalPerkCost("perkCostXP");
@@ -311,6 +314,90 @@ export class PrimePCActor extends Actor
 		{
 			this.data.data.ward.psyche.value = this.getStatBonusesFromItems("ward.psyche.max");
 		}
+	}
+
+	_getStatsObjects(items, statType)
+	{
+		let matchingStatItems = {};
+		let count = 0;
+		let currItem = null;
+		let statItem = null;
+		while (count < items.length)
+		{
+			currItem = items[count];
+			if (currItem.type == statType)
+			{
+				//matchingStatItems.push(currItem);
+				statItem = this._getItemDataAsStat(currItem);
+				matchingStatItems[statItem.key] = statItem
+			}
+			count++;
+		}
+
+		if (Object.keys(matchingStatItems).length === 0)
+		{
+			matchingStatItems = this._getStatObjectsFromWorld(statType);
+		}
+
+		return matchingStatItems;
+	}
+
+	_getStatObjectsFromWorld(statType)
+	{
+		const currActor = this;
+		let actorItem = null;
+		let instancedItems = {};
+		let statItem = null;
+		if (ItemDirectory && ItemDirectory.collection)	// Sometimes not defined when interegated.
+		{
+			ItemDirectory.collection.forEach((item, key, items) =>
+			{
+				if (item.type == statType)
+				{
+					//actorItem = Item.createOwned(item, currActor);
+					currActor.createOwnedItem(item);
+					statItem = this._getItemDataAsStat(item.data);
+					instancedItems[statItem.key] = statItem;
+				}
+			});
+			
+			//this.getStatsObjects(actorData.items, statType);
+		}
+		else
+		{
+			console.error("getStatObjectsFromWorld() was called to soon. The world (and the items) weren't ready yet.")
+		}
+		return instancedItems;
+	}
+
+	// "athletic" :
+	// {
+	// 	"value": 0,
+	// 	"max": 10,
+	// 	"related" : ["mov", "str"],
+	// 	"type" : "physical",
+	// 	"title": "PRIME.refinment_title_athletic",
+	// 	"description": "PRIME.refinment_description_athletic"
+	// },
+
+	_getItemDataAsStat(itemData)
+	{
+		let statData =
+		{
+			"value": itemData.data.value,
+			"max": itemData.data.max,
+			"type" : itemData.data.type,
+			"title": itemData.name,
+			"description": itemData.data.description,
+			"key": itemData.data.sourceKey
+		}
+
+		if (itemData.related)
+		{
+			statData.related = itemData.related;
+		}		
+
+		return statData;
 	}
 
 	getMostResilientArmour(items)
