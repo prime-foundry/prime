@@ -438,12 +438,13 @@
 				"base_template",
 				"mental_template",
 				"metadata_template",
-				"primes_template",
-				"refinements_template",
 				"orderingTables"
 			],
 			"personalWealth": 0,
 			"shipWealth": 0,
+			"sheetVersion": "v2.0",
+			"primes" : {},
+			"refinements" : {},
 			"wounds": 
 			{
 				"wound0": "null",
@@ -475,7 +476,9 @@
 			"shield",
 			"armour",
 			"perk",
-			"action"
+			"action",
+			"prime",
+			"refinement"
 		],
 		"templates":{
 			"base":
@@ -599,7 +602,6 @@
 			"notes": ""
 		},
 
-
 		"armour":
 		{
 			"templates":["base", "physicalItem", "armour", "mastercratable", "valuable", "metadata"],
@@ -631,6 +633,27 @@
 			"type": "major",
 			"default": false,
 			"effects": []
+		},
+
+		"prime":
+		{
+			"templates": ["base", "metadata"],
+			"value": 0,
+			"max": 10,
+			"sourceKey": "",
+			"type" : "physical",
+			"default": false
+		},
+
+		"refinement":
+		{
+			"templates": ["base", "metadata"],
+			"value": 0,
+			"max": 10,
+			"related" : [],
+			"sourceKey": "",
+			"type" : "physical",
+			"default": false
 		}
 	},
 	"Tables":
