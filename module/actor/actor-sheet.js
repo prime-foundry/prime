@@ -618,7 +618,7 @@ export class PrimePCActorSheet extends ActorSheet
 
 		html.find(".primeWrapper, .refinementWrapper").dblclick(this.toggleValueEditMode.bind(this));
 		html.find(".primeWrapper, .refinementWrapper").click(this.checkPreventClose.bind(this));
-		html.find(".primeWrapper, .refinementWrapper").click(this.openStatItem.bind(this));
+		html.find(".showStatInfoIcon").click(this.openStatItem.bind(this));
 		
 		html.find("input[data-dtype='Number']").change(this.validateNumber.bind(this));
 

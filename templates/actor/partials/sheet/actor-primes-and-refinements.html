@@ -5,8 +5,9 @@
         <div class="blockTitle">Primes</div>
         {{/ifCond}}
         {{#each typeGroup.primes as |prime key|}}
-        <div class="primeWrapper" title="{{convertHTMLForTitle prime.description 150}}&#xD;*DOUBLE CLICK TO EDIT*" data-sourceKey="{{prime.sourceKey}}">
-			<a class="deleteItemIcon" data-item-id={{prime.itemID}} title="Delete prime"><i class="fas fa-trash stopDrag"></i></a>
+        <div class="primeWrapper" title="{{convertHTMLForTitle prime.description 150}}&#xD;*DOUBLE CLICK TO EDIT*">
+			<a class="deleteItemIcon" data-item-id={{prime.itemID}} title="Delete prime"><i class="fas fa-trash"></i></a>
+			<a class="showStatInfoIcon" data-sourceKey="{{prime.sourceKey}}"><i class="fas fa-info-circle fa-xs"></i></a>
             <label for="data.primes.{{key}}.value">{{prime.title}}</label>
             <div class="valueWrapper">
                 <input type="text" name="data.primes.{{key}}.value" value="{{prime.value}}"
@@ -27,8 +28,9 @@
         <div class="blockTitle">Refinements</div>
         {{/ifCond}}
         {{#each typeGroup.refinements as |refinement key|}}
-        <div class="refinementWrapper" title="{{convertHTMLForTitle refinement.description 150}}&#xD;*DOUBLE CLICK TO EDIT*" data-sourceKey="{{refinement.sourceKey}}">
-			<a class="deleteItemIcon" data-item-id={{refinement.itemID}} title="Delete refinement"><i class="fas fa-trash stopDrag"></i></a>
+        <div class="refinementWrapper" title="{{convertHTMLForTitle refinement.description 150}}&#xD;*DOUBLE CLICK TO EDIT*">
+			<a class="deleteItemIcon" data-item-id={{refinement.itemID}} title="Delete refinement"><i class="fas fa-trash"></i></a>
+			<a class="showStatInfoIcon" data-sourceKey="{{refinement.sourceKey}}"><i class="fas fa-info-circle fa-xs"></i></a>
             <label for="data.refinements.{{key}}.value">{{refinement.title}}</label>
             <div class="valueWrapper">
                 <input type="text" name="data.refinements.{{key}}.value" value="{{refinement.value}}"

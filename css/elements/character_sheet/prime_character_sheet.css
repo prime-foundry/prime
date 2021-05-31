@@ -536,6 +536,7 @@ h1.entityName
 
 .statsContent .primesGroup .primeWrapper label
 {
+	padding-left:5px;
 	margin-right:5px;
 	cursor: pointer;
 }
@@ -583,6 +584,7 @@ h1.entityName
 
 .statsContent .refinementsGroup .refinementWrapper label
 {
+	padding-left:5px;
 	margin-right:5px;
 	cursor: pointer;
 }
@@ -699,7 +701,8 @@ h1.entityName
 .primeCharacterSheet .statsContent .primesGroup .primeWrapper .primeValue,
 .primeCharacterSheet .statsContent .refinementsGroup .refinementWrapper input,
 .primeCharacterSheet .statsContent .primesGroup .primeWrapper input,
-.primeCharacterSheet .statsContent .deleteItemIcon
+.primeCharacterSheet .statsContent .deleteItemIcon,
+.primeCharacterSheet .statsContent .showStatInfoIcon
 {
 	transition: opacity ease-in 0.2s;
 }
@@ -716,14 +719,16 @@ h1.entityName
 .primeCharacterSheet .valueEditable.valueEditable input
 .primeCharacterSheet .valueEditable .descriptionValue,
 .primeCharacterSheet.sheetEditable .statsContent .deleteItemIcon,
-.primeCharacterSheet .statsContent .valueEditable .deleteItemIcon
+.primeCharacterSheet .statsContent .valueEditable .deleteItemIcon,
+.primeCharacterSheet .statsContent .primeWrapper:hover .showStatInfoIcon,
+.primeCharacterSheet .statsContent .refinementWrapper:hover .showStatInfoIcon
 {
 	opacity: 1;
 	z-index: 1;
 }
 
-.primeCharacterSheet.sheetEditable .statsContent .deleteItemIcon,
-.primeCharacterSheet .statsContent .valueEditable .deleteItemIcon
+.primeCharacterSheet.sheetEditable .characterSheetV2 .statsContent .deleteItemIcon,
+.primeCharacterSheet  .characterSheetV2 .statsContent .valueEditable .deleteItemIcon
 {
 	display: block;
 }
@@ -740,6 +745,8 @@ h1.entityName
 .primeCharacterSheet .valueEditable .actorValue,
 .primeCharacterSheet .valueEditable .descriptionValue,
 .primeCharacterSheet .statsContent .deleteItemIcon
+.primeCharacterSheet.sheetEditable .statsContent .showStatInfoIcon,
+.primeCharacterSheet .statsContent .showStatInfoIcon
 {
 	opacity: 0;
 	z-index: 0;
