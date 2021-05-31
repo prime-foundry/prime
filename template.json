@@ -641,7 +641,7 @@
 			"value": 0,
 			"max": 10,
 			"sourceKey": "",
-			"type" : "physical",
+			"statType" : "physical",
 			"default": false
 		},
 
@@ -652,7 +652,7 @@
 			"max": 10,
 			"related" : [],
 			"sourceKey": "",
-			"type" : "physical",
+			"statType" : "physical",
 			"default": false
 		}
 	},
