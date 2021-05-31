@@ -41,8 +41,7 @@ export class PrimePCActor extends Actor
 
 		if (data.sheetVersion && data.sheetVersion == "v2.0")
 		{
-			data.primes = Object.assign(this._getStatsObjects(actorData.items, "prime"), data.primes);
-			data.refinements = Object.assign(this._getStatsObjects(actorData.items, "refinement"), data.refinements);
+			this._prepareCharacterDataV2(data, actorData);
 		}
 		
 		const primeCost = this.getTotalCost(data.primes);
@@ -56,9 +55,23 @@ export class PrimePCActor extends Actor
 		this.updateOwnedItemValues();
 
 		// Loop through ability scores, and add their modifiers to our sheet output.
-
 		data.soul.value = (data.soul.initial + data.soul.awarded) - data.soul.spent;
 		data.xp.value = (data.xp.initial + data.xp.awarded) - data.xp.spent;
+	}
+
+	_prepareCharacterDataV2(data, actorData)
+	{
+		const primesStatData = this._getStatsObjects(actorData.items, "prime");
+		const refinementsStatData = this._getStatsObjects(actorData.items, "refinement");
+
+		if (data.primes)
+		{
+			data.primes = Object.assign(primesStatData, data.primes);
+		}
+		if (data.refinements)
+		{
+			data.refinements = Object.assign(refinementsStatData, data.refinements);
+		}
 	}
 
 	getCurrentOwners(whatPermissions)
@@ -95,6 +108,47 @@ export class PrimePCActor extends Actor
 
 	getTypeSortedPrimesAndRefinements()
 	{
+		let results = {};
+		if (this.data.data.sheetVersion && this.data.data.sheetVersion == "v2.0")
+		{
+			results = this.getTypeSortedPrimesAndRefinementsV2();
+		}
+		else
+		{
+			results = this.getTypeSortedPrimesAndRefinementsV1();
+		}
+		return results;
+	}
+
+	getTypeSortedPrimesAndRefinementsV2()
+	{
+		let sortedData = {};
+		this.data.items.forEach((item) => 
+		{
+			let itemType = item.type
+			if (itemType == "prime" || itemType == "refinement")
+			{
+				let statType = item.data.statType;
+				if (!sortedData[statType])
+				{
+					let localisedTitle = game.i18n.localize("PRIME.stat_type_" + statType);
+					sortedData[statType] =
+					{
+						primes: {},
+						refinements: {},
+						title: localisedTitle
+					}
+				}
+				let itemDataAsStat = this._getItemDataAsStat(item);
+				sortedData[statType][itemType + "s"][itemDataAsStat.itemID] = itemDataAsStat;
+			}
+		});
+		
+		return sortedData;
+	}
+
+	getTypeSortedPrimesAndRefinementsV1()
+	{
 		var sortedData = {};
 		var currEntry = null;
 		for (var key in this.data.data.primes)
@@ -102,7 +156,7 @@ export class PrimePCActor extends Actor
 			currEntry = this.data.data.primes[key];
 			if (!sortedData[currEntry.type])
 			{
-				let localisedTitle = game.i18n.localize("PRIME.refinment_type_" + currEntry.type);
+				let localisedTitle = game.i18n.localize("PRIME.stat_type_" + currEntry.type);
 				sortedData[currEntry.type] =
 				{
 					primes: {},
@@ -322,6 +376,7 @@ export class PrimePCActor extends Actor
 		let count = 0;
 		let currItem = null;
 		let statItem = null;
+		let atLeastOnePrimeFound = false;	// If we've found one prime, then the other stats are on their way asyncronously.
 		while (count < items.length)
 		{
 			currItem = items[count];
@@ -331,10 +386,14 @@ export class PrimePCActor extends Actor
 				statItem = this._getItemDataAsStat(currItem);
 				matchingStatItems[statItem.key] = statItem
 			}
+			if (currItem.type == "prime" || currItem.type == "refinement")
+			{
+				atLeastOnePrimeFound = true;
+			}
 			count++;
 		}
 
-		if (Object.keys(matchingStatItems).length === 0)
+		if (Object.keys(matchingStatItems).length === 0 && !atLeastOnePrimeFound)
 		{
 			matchingStatItems = this._getStatObjectsFromWorld(statType);
 		}
@@ -345,6 +404,7 @@ export class PrimePCActor extends Actor
 	_getStatObjectsFromWorld(statType)
 	{
 		const currActor = this;
+
 		let actorItem = null;
 		let instancedItems = {};
 		let statItem = null;
@@ -360,8 +420,6 @@ export class PrimePCActor extends Actor
 					instancedItems[statItem.key] = statItem;
 				}
 			});
-			
-			//this.getStatsObjects(actorData.items, statType);
 		}
 		else
 		{
@@ -382,14 +440,26 @@ export class PrimePCActor extends Actor
 
 	_getItemDataAsStat(itemData)
 	{
+		let sourceItem = null;
+		let itemTitle = itemData.name;
+		let itemDescription = itemData.data.description;
+		if (ItemDirectory.collection)
+		{
+			sourceItem = ItemDirectory.collection.get(itemData.data.sourceKey)
+			itemTitle = sourceItem.data.name;
+			itemDescription = sourceItem.data.data.description;
+		}
+
 		let statData =
 		{
 			"value": itemData.data.value,
 			"max": itemData.data.max,
-			"type" : itemData.data.type,
-			"title": itemData.name,
-			"description": itemData.data.description,
-			"key": itemData.data.sourceKey
+			"type" : itemData.data.statType,
+			"title": itemTitle,
+			"description": itemDescription,
+			"sourceKey": itemData.data.sourceKey,
+			"itemID": itemData._id,
+			"itemBasedStat" : true
 		}
 
 		if (itemData.related)
@@ -507,6 +577,4 @@ export class PrimePCActor extends Actor
 		if (num === 0) return 0;
 		return (num * (num + 1)) / 2;
 	}
-
-	
 }
