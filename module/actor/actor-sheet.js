@@ -105,6 +105,8 @@ export class PrimePCActorSheet extends ActorSheet
 
 		data.inventoryItems = this.getInventoryItems(data.filteredItems);
 
+		data.isV2CharacterClass = (data.data.sheetVersion == "v2.0") ? "characterSheetV2" : "";
+
 		if (data.filteredItems["perk"])
 		{
 			this.currentItemSortList = this.object.data.data.perkOrder || {};
