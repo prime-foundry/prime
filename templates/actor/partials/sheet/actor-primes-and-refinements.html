@@ -5,10 +5,18 @@
         <div class="blockTitle">Primes</div>
         {{/ifCond}}
         {{#each typeGroup.primes as |prime key|}}
-        <div class="primeWrapper">
+        <div class="primeWrapper" title="{{convertHTMLForTitle prime.description 150}}&#xD;*DOUBLE CLICK TO EDIT*" data-sourceKey="{{prime.sourceKey}}">
+			<a class="deleteItemIcon" data-item-id={{prime.itemID}} title="Delete prime"><i class="fas fa-trash stopDrag"></i></a>
             <label for="data.primes.{{key}}.value">{{prime.title}}</label>
             <div class="valueWrapper">
-                <input type="text" name="data.primes.{{key}}.value" value="{{prime.value}}" data-dtype="Number" data-min="{{getStatMin key}}" data-max="10" data-lastValue="{{prime.value}}"/>
+                <input type="text" name="data.primes.{{key}}.value" value="{{prime.value}}"
+				data-itemStat="{{prime.itemBasedStat}}"
+				data-dtype="Number"
+				data-min="{{getStatMin key}}"
+				data-max="10"
+				data-lastValue="{{prime.value}}"
+				data-itemID="{{prime.itemID}}"
+				class="statInput primeInput"/>
                 <span class="primeValue">{{prime.value}}</span>
             </div>
         </div>
@@ -19,10 +27,19 @@
         <div class="blockTitle">Refinements</div>
         {{/ifCond}}
         {{#each typeGroup.refinements as |refinement key|}}
-        <div class="refinementWrapper">
+        <div class="refinementWrapper" title="{{convertHTMLForTitle refinement.description 150}}&#xD;*DOUBLE CLICK TO EDIT*" data-sourceKey="{{refinement.sourceKey}}">
+			<a class="deleteItemIcon" data-item-id={{refinement.itemID}} title="Delete refinement"><i class="fas fa-trash stopDrag"></i></a>
             <label for="data.refinements.{{key}}.value">{{refinement.title}}</label>
             <div class="valueWrapper">
-                <input type="text" name="data.refinements.{{key}}.value" value="{{refinement.value}}" data-dtype="Number" data-min="0" data-max="10" data-lastValue="{{refinement.value}}"/>
+                <input type="text" name="data.refinements.{{key}}.value" value="{{refinement.value}}"
+				 data-itemStat="{{refinement.itemBasedStat}}"
+				 data-dtype="Number"
+				 data-min="0"
+				 data-max="10"
+				 data-lastValue="{{refinement.value}}"
+				 data-itemID="{{refinement.itemID}}"
+				 data-sourceKey="{{prime.sourceKey}}"
+				 class="statInput refinementInput"/>
                 <span class="refinementValue">{{refinement.value}}</span>
             </div>
         </div>
