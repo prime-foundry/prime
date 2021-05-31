@@ -527,15 +527,17 @@ h1.entityName
 
 .statsContent .primesGroup .primeWrapper
 {
+	position: relative;
 	display: flex;
 	justify-content: flex-end;
     align-items: center;
-	
+	cursor: pointer;
 }
 
 .statsContent .primesGroup .primeWrapper label
 {
 	margin-right:5px;
+	cursor: pointer;
 }
 
 .statsContent .primesGroup .primeWrapper input
@@ -569,17 +571,20 @@ h1.entityName
 
 .statsContent .refinementsGroup .refinementWrapper
 {
+	position: relative;
 	display: flex;
 	justify-content: flex-end;
     align-items: center;
 	min-width:100px;
 	width:30%;
-	margin:0 1.5%
+	margin:0 1.5%;
+	cursor: pointer;
 }
 
 .statsContent .refinementsGroup .refinementWrapper label
 {
-	margin-right:5px;	
+	margin-right:5px;
+	cursor: pointer;
 }
 
 .primeCharacterSheet input
@@ -599,6 +604,14 @@ h1.entityName
 	width:25px;
 	height:25px;
 	text-align: center;
+}
+
+.primeCharacterSheet .statsContent .deleteItemIcon
+{
+	position: absolute;
+	top:50%;
+	margin-top: -8.5px;
+	left:0px;
 }
 
 .primeCharacterSheet .tabbedSection .tabContentWrapper .block.leftBlockTitle
@@ -685,7 +698,8 @@ h1.entityName
 .primeCharacterSheet .statsContent .refinementsGroup .refinementWrapper .refinementValue,
 .primeCharacterSheet .statsContent .primesGroup .primeWrapper .primeValue,
 .primeCharacterSheet .statsContent .refinementsGroup .refinementWrapper input,
-.primeCharacterSheet .statsContent .primesGroup .primeWrapper input
+.primeCharacterSheet .statsContent .primesGroup .primeWrapper input,
+.primeCharacterSheet .statsContent .deleteItemIcon
 {
 	transition: opacity ease-in 0.2s;
 }
@@ -700,9 +714,18 @@ h1.entityName
 .primeCharacterSheet .descriptionValue,
 .primeCharacterSheet.sheetEditable .valueWrapper input,
 .primeCharacterSheet .valueEditable.valueEditable input
+.primeCharacterSheet .valueEditable .descriptionValue,
+.primeCharacterSheet.sheetEditable .statsContent .deleteItemIcon,
+.primeCharacterSheet .statsContent .valueEditable .deleteItemIcon
 {
 	opacity: 1;
 	z-index: 1;
+}
+
+.primeCharacterSheet.sheetEditable .statsContent .deleteItemIcon,
+.primeCharacterSheet .statsContent .valueEditable .deleteItemIcon
+{
+	display: block;
 }
 
 .primeCharacterSheet .statsContent .refinementsGroup .refinementWrapper input,
@@ -715,10 +738,15 @@ h1.entityName
 .primeCharacterSheet.sheetEditable .descriptionValue,
 .primeCharacterSheet .valueWrapper input,
 .primeCharacterSheet .valueEditable .actorValue,
-.primeCharacterSheet .valueEditable .descriptionValue
+.primeCharacterSheet .valueEditable .descriptionValue,
+.primeCharacterSheet .statsContent .deleteItemIcon
 {
 	opacity: 0;
 	z-index: 0;
+}
+.primeCharacterSheet .statsContent .deleteItemIcon
+{
+	display: none;
 }
 
 .primeCharacterSheet .tabbedSection .inventoryTable
