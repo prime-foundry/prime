@@ -16,6 +16,11 @@
 	flex-wrap: wrap;
 }
 
+.flexGrow
+{
+	flex-grow: 1;
+}
+
 .flexRow.flexStart,
 .flexColumn.flexStart,
 .flexColumn .flexRow.flexStart,
@@ -167,7 +172,7 @@ input.cell100,
 
 .block.bottomBlockTitle
 {
-	padding: 5px 5px 14px 5px;
+	padding: 5px 5px 12px 5px;
 	margin: 5px 5px 11px 5px;
 }
 

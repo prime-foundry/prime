@@ -11,14 +11,16 @@ export class PrimePCActorSheet extends ActorSheet
 
 	hooksAdded = false;
 
-	bulkUpdatingOwnedItems = false;
+	//bulkUpdatingOwnedItems = false;
+
+	currentItemSortList = null;
 
 	async _render(force=false, options={})
 	{
-		if (!this.bulkUpdatingOwnedItems)
-		{
+		//if (!this.bulkUpdatingOwnedItems)
+		//{
 			return await super._render(force, options);
-		}
+		//}
 	}
 
 	/** @override */
@@ -105,7 +107,8 @@ export class PrimePCActorSheet extends ActorSheet
 
 		if (data.filteredItems["perk"])
 		{
-			data.perks = data.filteredItems["perk"].sort(this.sortByItemOrder);
+			this.currentItemSortList = this.object.data.data.perkOrder || {};
+			data.perks = data.filteredItems["perk"].sort(this.sortByItemOrder.bind(this));
 		}
 		else
 		{
@@ -165,26 +168,36 @@ export class PrimePCActorSheet extends ActorSheet
 		{
 			combinedItems = combinedItems.concat(filteredItems["armour"]);
 		}
+		if (filteredItems["shield"])
+		{
+			combinedItems = combinedItems.concat(filteredItems["shield"]);
+		}
 		if (filteredItems["item"])
 		{
 			combinedItems = combinedItems.concat(filteredItems["item"]);
 		}
+
+		this.currentItemSortList = this.object.data.data.inventoryOrder || {};
+		combinedItems = combinedItems.sort(this.sortByItemOrder.bind(this));
 
 		return combinedItems;
 	}
 
 	sortByItemOrder(itemA, itemB)
 	{
-		if ((!itemA.data.position && itemA.data.position !== 0) || itemA.data.position == -1)	// Sorting data is missing or not generated yet - leave with initial order
+		var itemAPosition = this.currentItemSortList[itemA._id];
+		var itemBPosition = this.currentItemSortList[itemB._id];
+
+		if ((!itemAPosition && itemAPosition !== 0) || itemAPosition == -1)	// Sorting data is missing or not generated yet - leave with initial order
 		{
 			return 0;
 		}
 
-		if (itemA.data.position < itemB.data.position)
+		if (itemAPosition < itemBPosition)
 		{
 			return -1;
 		}
-		if (itemA.data.position > itemB.data.position)
+		if (itemAPosition > itemBPosition)
 		{
 			return 1;
 		}
@@ -593,51 +606,75 @@ export class PrimePCActorSheet extends ActorSheet
 
 		const perkWrapper = html.find(".perksOuterWrapper");
 		ItemCardUI.bindEvents(perkWrapper);
-		ItemDragSort.bindEvents(perkWrapper, ".itemCard", true, false, this.updateSortOrder.bind(this), "perk");
+		ItemDragSort.bindEvents(perkWrapper, ".itemCard", true, false, true, this.updateSortOrder.bind(this), "perk");
 
 		const actionWrapper = html.find(".actionsHolder");
 		ItemCardUI.bindEvents(actionWrapper);
 
-		this.postActivateListeners(html);
+		const inventoryWrapper = html.find(".generalItems");
+		if (inventoryWrapper.length > 0)
+		{
+			ItemDragSort.bindEvents(inventoryWrapper, ".inventoryItem", false, true, false, this.updateSortOrder.bind(this), "inventory");
+		}
+
+		this.postActivateListeners(html);		
 	}
 
-	async updateSortOrder(itemIndex, insertAfterIndex, itemType)
+	updateSortOrder(itemIndex, insertAfterIndex, itemType)
 	{
 		//console.log("I would insert item '" + itemIndex + "' after item '" + insertAfterIndex + "'");
 		//a = b;
 		var processedItems = this.entity.getProcessedItems();
-		var itemsToSort = processedItems[itemType]
+
+		if (itemType == "inventory")
+		{
+			var itemsToSort = this.getInventoryItems(processedItems);
+		}
+		else
+		{
+			var itemsToSort = processedItems[itemType];
+		}
+		var itemOrder = {};
 		
 		if (itemsToSort)
 		{
 			// If we're going to be shrinking the array before the
 			// insertion point, we need to increase the insert index
 			// to compensate.
-			if (itemIndex > insertAfterIndex)
+			if (insertAfterIndex >= itemIndex)
 			{
-				insertAfterIndex++;
+				insertAfterIndex--;
 			}
 
+			this.currentItemSortList = this.object.data.data[itemType + "Order"] || {};
+
 			// Should match initial page order after this sort
-			itemsToSort.sort(this.sortByItemOrder);
+			itemsToSort.sort(this.sortByItemOrder.bind(this));
 			let itemToReInsert = itemsToSort.splice(itemIndex, 1)[0];
 			itemsToSort.splice(insertAfterIndex, 0, itemToReInsert);
 
-			this.bulkUpdatingOwnedItems = true;
+			//this.bulkUpdatingOwnedItems = true;
 			var count = 0;
 			while (count < itemsToSort.length)
 			{
 				let itemData = itemsToSort[count];
 
-				let itemClass = this.object.items.get(itemData._id);
-				itemClass.data.data.position = count;
-				
-				await this.entity.updateOwnedItem(itemClass.data);
+				//let itemClass = this.object.items.get(itemData._id);
+				//itemClass.data.data.position = count;
+				itemOrder[itemData._id] = count
+				//await this.entity.updateOwnedItem(itemClass.data);
 				console.log("Count: " + count);
 				count++;
 			}
-			this.bulkUpdatingOwnedItems = false;
-			this.render();
+
+			let updateData = {};
+			updateData.data = {}
+			updateData.data[itemType + "Order"] = itemOrder;
+			
+			this.object.update(updateData)
+
+			//this.bulkUpdatingOwnedItems = false;
+			//this.render();
 		}
 		else
 		{

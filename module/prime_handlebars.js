@@ -19,6 +19,7 @@ var primeHandlebarsPartialsPaths =
 	"actorTabStatistics": "systems/prime/templates/actor/partials/tabs/actor-statistics-tab.html",
 
 	"itemListArmour": "systems/prime/templates/item/partials/list/item-list-armour.html",
+	"itemListShield": "systems/prime/templates/item/partials/list/item-list-shield.html",
 	"itemListGeneral": "systems/prime/templates/item/partials/list/item-list-general.html",
 	"itemListMeleeWeapons": "systems/prime/templates/item/partials/list/item-list-melee-weapons.html",
 	"itemListRangedWeapons": "systems/prime/templates/item/partials/list/item-list-ranged-weapons.html",
@@ -211,4 +212,18 @@ Handlebars.registerHelper('addStateClasses', function (pointIndex, basePointData
 Handlebars.registerHelper("humanIndex", function(value, options)
 {
     return parseInt(value) + 1;
+});
+
+Handlebars.registerHelper('cropToLength', function(value, cropLength)
+{
+	if (!cropLength)
+	{
+		cropLength = 10
+	}
+
+	if (value.length > cropLength)
+	{
+		return value.substring(0, cropLength) + '...';
+	}
+	return value;
 });

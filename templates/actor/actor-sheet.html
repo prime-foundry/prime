@@ -5,11 +5,14 @@
 		<div class="metaDataContentInner flexRow">
 			{{> actorBaseMetadata partialClasses='cell50'}}
 
-			<div class="flexColumn cell50 verticalCenter">
-				<h2 class="systemTitle"><span class="bigCaps">P</span>OSSESSIO<span class="bigCaps">N</span></h2>
-				<h3 class="campaignTitle"><span class="bigCaps">A</span>ETHERNAUTS</h2>
+			<div class="flexColumn cell50 flexBetween">
+				<div class="flexColumn verticalCenter flexGrow">
+					<h2 class="systemTitle"><span class="bigCaps">P</span>OSSESSIO<span class="bigCaps">N</span></h2>
+					<h3 class="campaignTitle"><span class="bigCaps">A</span>ETHERNAUTS</h2>
+				</div>
+				{{> actorActionPoints partialClasses='cell100 bottomBlockTitle flexGrow'}}
 			</div>
-			
+
 			<div class="toggleEditableWrapper">
 				<a class="toggleCharacterEditing" title="Toggle to editable">
 					<i class="fas fa-edit fa-lg"></i>
@@ -19,7 +22,7 @@
 				</a>
 			</div>
 			<div class="isNPCWrapper flexRow verticalCenter flexEnd">
-				<label for="data.metadata.isNPC" class="resource-label rightAlign cell50" title="Tick to denote this is an NPC">NPC:</label>
+				<label for="data.metadata.isNPC" class="resource-label rightAlign cell50 shrinkFontForNarrow" title="Tick to denote this is an NPC">NPC:</label>
 				<input type="checkbox" id="data.metadata.isNPC" name="data.metadata.isNPC" class="cell50" {{checked data.metadata.isNPC}}/>
 			</div>
 		</div>

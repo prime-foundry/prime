@@ -2,7 +2,7 @@
   "name": "prime",
   "title": "Prime system",
   "description": "The foundry VTT system of the Prime RPG as used in the Possession world.",
-  "version": "0.1.17",
+  "version": "0.2.2",
   "minimumCoreVersion": "0.6.5",
   "compatibleCoreVersion": "0.7.9",
   "templateVersion": 2,

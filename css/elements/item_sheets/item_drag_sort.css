@@ -3,6 +3,15 @@
 	cursor: move;
 }
 
+.stopDrag
+{
+	cursor: initial;
+}
+a.stopDrag
+{
+	cursor: pointer;
+}
+
 .itemDragging
 {
 	opacity: 0.3;
@@ -27,6 +36,7 @@
 
 .dragContainerActive
 {
+	position: relative;
 	box-shadow: 0 0 6px inset #ff6400;
 }
 
@@ -36,27 +46,27 @@
 	transition: 0.3s;
 }
 
-.validDropFound.allowHorizontalMatches .bestMatchingTarget.matchingTarget.dragOverlapFromLeft,
-.validDropFound.allowHorizontalMatches .secondBestMatchingTarget.matchingTarget.dragOverlapFromLeft
+.validDropFound.allowHorizontalMatches.displaceTargets .bestMatchingTarget.matchingTarget.dragOverlapFromLeft,
+.validDropFound.allowHorizontalMatches.displaceTargets .secondBestMatchingTarget.matchingTarget.dragOverlapFromLeft
 {
 	border-left-color: green !important;
 	transform: translate3d(5px, 0, 10px);
 }
-.validDropFound.allowHorizontalMatches .bestMatchingTarget.matchingTarget.dragOverlapFromRight,
-.validDropFound.allowHorizontalMatches .secondBestMatchingTarget.matchingTarget.dragOverlapFromRight
+.validDropFound.allowHorizontalMatches.displaceTargets .bestMatchingTarget.matchingTarget.dragOverlapFromRight,
+.validDropFound.allowHorizontalMatches.displaceTargets .secondBestMatchingTarget.matchingTarget.dragOverlapFromRight
 {
 	border-right-color: green !important;
 	transform: translate3d(-5px, 0, 10px);
 }
 
-.validDropFound.allowVerticalMatches .bestMatchingTarget.matchingTarget.dragOverlapFromTop,
-.validDropFound.allowVerticalMatches .secondBestMatchingTarget.matchingTarget.dragOverlapFromTop
+.validDropFound.allowVerticalMatches.displaceTargets .bestMatchingTarget.matchingTarget.dragOverlapFromTop,
+.validDropFound.allowVerticalMatches.displaceTargets .secondBestMatchingTarget.matchingTarget.dragOverlapFromTop
 {
 	border-top-color: green !important;
 	transform: translate3d(0, -5px, 10px);
 }
-.validDropFound.allowVerticalMatches .bestMatchingTarget.matchingTarget.dragOverlapFromBottom,
-.validDropFound.allowVerticalMatches .secondBestMatchingTarget.matchingTarget.dragOverlapFromBottom
+.validDropFound.allowVerticalMatches.displaceTargets .bestMatchingTarget.matchingTarget.dragOverlapFromBottom,
+.validDropFound.allowVerticalMatches.displaceTargets .secondBestMatchingTarget.matchingTarget.dragOverlapFromBottom
 {
 	border-bottom-color: green !important;
 	transform: translate3d(0, 5px, 10px);

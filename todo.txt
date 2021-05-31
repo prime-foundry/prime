@@ -195,9 +195,9 @@ Drag code improvments
 	
 	//Check if required: Add index to items as dropped - highest within catergory + 1
 
-	Shift to lookup table storing index > ID in hash table.
+	//Shift to lookup table storing index > ID in hash table.
 
-	Add opens new window icon to item title <a> tags.
+	//Add opens new window icon to item title <a> tags.
 
 	Measure sample margin and store?
 
@@ -205,7 +205,7 @@ Drag code improvments
 
 	Make icon one sided on edges?
 
-	Catch issue whereby description is draggable but causes offset problems.
+	//Catch issue whereby description is draggable but causes offset problems.
 
 //Add huge indicator to show that the actor sheet is token based.
 
@@ -219,7 +219,7 @@ Create global config pattern - auto set debug to false if on live URL.
 
 Add veil break roll option as an option somewhere.
 
-Need make Prime dice honour private dice roll settings.
+//Need make Prime dice honour private dice roll settings.
 
 Improve migration pattern - if no migration found, assume all is well. Also, add single point for version number.
 
@@ -231,7 +231,7 @@ Check item over with intent timeout's - add console log and make sure they're cl
 
 Add Dice icon to randomise appearence/background for NPCs (also refinements?)
 
-Compress dice roll message in order to be able to see all.
+//Compress dice roll message in order to be able to see all.
 
 Add bonus weapon/armour mastercraft style options for the effects bonuses if weapon/armour.
 
@@ -241,14 +241,16 @@ Allow mental/armour to exceed.
 
 Add confirm to delete item button.
 
-Improve inventory & perk layout - Add means to organise/sort inventory and make folders.
+//Improve inventory & perk layout - Add means to organise/sort inventory and make folders.
+
+Add means to sort inventory and make folders.
 
 Check how popdown/up works with scrolling
 
 
 
 
-Make roll list filter better - use NPC flag
+//Make roll list filter better - use NPC flag
 
 
 Add means to adjust starting XP and soul via settings.
@@ -295,6 +297,11 @@ Add weak mind/body perks that reduce soak ability but grant extra soul/XP.
 
 Create perks to map to all existing expertise, perks and quirks.
 
+Comments from Jonny:
+
+//* limit display of full item description to a single line.. therefore it can fit a full list of items and you dont have to scroll down a long page to get to items.  (the item can still have paragraphs of description, its just only the first line gets displayed on the main list.
+//* increase width of the title column at expense of the description column, so that items with long titles dont get mangled or pushed into multiple lines. Preferably allow the user to slide the bar from side to side and control the respective widths themselves.  This is because many of my items have long names and full descriptions and so they take up multiple lines of space and make my sheet look messy.
+//* Any kind of sorting buttons - alphabetical, recently added, frequently accessed?
 
 
 BUGS
