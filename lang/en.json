@@ -128,6 +128,7 @@
 	"PRIME.refinment_description_threads" : "Threads - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
 
 	
+	"PRIME.core_stat_type" : "Physical",
 	"PRIME.stat_type_physical" : "Physical",
 	"PRIME.stat_type_mental" : "Mental",
 	"PRIME.stat_type_supernaturual" : "Supernaturual",

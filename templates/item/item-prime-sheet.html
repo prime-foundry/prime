@@ -11,13 +11,27 @@
 			</h1>
 			<div class="cell100 flexRow verticalCenter flexBetween lastRow">
 				<label class="cell30" for="data.setting">{{localize "PRIME.core_setting"}}:</label>
-				<select name="data.setting" id="data.setting" class="itemRarity cell70">
+				<select name="data.setting" id="data.setting" class="primeSetting cell70">
 					{{#select data.setting}}
 					{{#each coreTables.settings}}
 					<option value="{{this.key}}">{{this.title}}</option>
 					{{/each}}
 					{{/select}}
 				</select>
+			</div>
+			<div class="cell100 flexRow verticalCenter flexBetween lastRow">
+				<label class="cell30" for="data.statType">{{localize "PRIME.core_stat_type"}}:</label>
+				<select name="data.statType" id="data.statType" class="primeSetting cell70">
+					{{#select data.statType}}
+					<option value="{{this.physical}}">{{localize "PRIME.stat_type_physical"}}</option>
+					<option value="{{this.mental}}">{{localize "PRIME.stat_type_mental"}}</option>
+					<option value="{{this.supernaturual}}">{{localize "PRIME.stat_type_supernaturual"}}</option>
+					{{/select}}
+				</select>
+			</div>
+			<div class="cell100 flexRow verticalCenter lastRow">
+				<label for="data.default" class="resource-label cell80 rightAlign" title="Action is available to all characters by default.">Default:</label>
+				<input type="checkbox" id="data.default" name="data.default" class="cell20" {{checked data.default}}/>
 			</div>
 		</div>
 	</div>
