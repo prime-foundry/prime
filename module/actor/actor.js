@@ -327,7 +327,6 @@ export class PrimePCActor extends Actor
 		this.data.data.totalWeight = this.getTotalWeight();
 		this.data.data.equipmentCostPersonal = this.getTotalCostByType("personal");
 		this.data.data.equipmentCostShip = this.getTotalCostByType("ship");
-		
 	}
 
 
@@ -376,24 +375,23 @@ export class PrimePCActor extends Actor
 		let count = 0;
 		let currItem = null;
 		let statItem = null;
-		let atLeastOnePrimeFound = false;	// If we've found one prime, then the other stats are on their way asyncronously.
+		let atLeastOneStatFound = false;	// If we've found one prime, then the other stats are on their way asyncronously.
 		while (count < items.length)
 		{
 			currItem = items[count];
 			if (currItem.type == statType)
 			{
-				//matchingStatItems.push(currItem);
 				statItem = this._getItemDataAsStat(currItem);
-				matchingStatItems[statItem.key] = statItem
+				matchingStatItems[statItem.itemID] = statItem
 			}
 			if (currItem.type == "prime" || currItem.type == "refinement")
 			{
-				atLeastOnePrimeFound = true;
+				atLeastOneStatFound = true;
 			}
 			count++;
 		}
 
-		if (Object.keys(matchingStatItems).length === 0 && !atLeastOnePrimeFound)
+		if (Object.keys(matchingStatItems).length === 0 && !atLeastOneStatFound)
 		{
 			matchingStatItems = this._getStatObjectsFromWorld(statType);
 		}
@@ -405,21 +403,22 @@ export class PrimePCActor extends Actor
 	{
 		const currActor = this;
 
-		let actorItem = null;
+		let actorItemsToCreate = []
 		let instancedItems = {};
 		let statItem = null;
 		if (ItemDirectory && ItemDirectory.collection)	// Sometimes not defined when interegated.
 		{
 			ItemDirectory.collection.forEach((item, key, items) =>
 			{
-				if (item.type == statType)
+				if (item.type == statType && item.data.data.default)
 				{
-					//actorItem = Item.createOwned(item, currActor);
-					currActor.createOwnedItem(item);
+					actorItemsToCreate.push(item.data);
 					statItem = this._getItemDataAsStat(item.data);
-					instancedItems[statItem.key] = statItem;
+					instancedItems[statItem.itemID] = statItem;
 				}
 			});
+
+			this.createEmbeddedEntity("OwnedItem", actorItemsToCreate);
 		}
 		else
 		{
@@ -445,9 +444,16 @@ export class PrimePCActor extends Actor
 		let itemDescription = itemData.data.description;
 		if (ItemDirectory.collection)
 		{
-			sourceItem = ItemDirectory.collection.get(itemData.data.sourceKey)
-			itemTitle = sourceItem.data.name;
-			itemDescription = sourceItem.data.data.description;
+			sourceItem = ItemDirectory.collection.get(itemData.data.sourceKey);
+			if (sourceItem)
+			{
+				itemTitle = sourceItem.data.name;
+				itemDescription = sourceItem.data.data.description;
+			}
+			else
+			{
+				console.error("Unable to find source stat item for: ", itemData);
+			}
 		}
 
 		let statData =
