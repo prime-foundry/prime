@@ -122,22 +122,35 @@ export class PrimePCActor extends Actor
 
 	getTypeSortedPrimesAndRefinementsV2()
 	{
-		let sortedData = {};
+		//HACKY: Workaround to force the order.
+		let sortedData =
+		{
+			"physical": {
+				primes: {},
+				refinements: {},
+				title: null
+			},
+			"mental": {
+				primes: {},
+				refinements: {},
+				title: null
+			},
+			"supernaturual": {
+				primes: {},
+				refinements: {},
+				title: null
+			},
+		};
 		this.data.items.forEach((item) => 
 		{
 			let itemType = item.type
 			if (itemType == "prime" || itemType == "refinement")
 			{
 				let statType = item.data.statType;
-				if (!sortedData[statType])
+				if (!sortedData[statType].title)
 				{
 					let localisedTitle = game.i18n.localize("PRIME.stat_type_" + statType);
-					sortedData[statType] =
-					{
-						primes: {},
-						refinements: {},
-						title: localisedTitle
-					}
+					sortedData[statType].title = localisedTitle;
 				}
 				let itemDataAsStat = this._getItemDataAsStat(item);
 				sortedData[statType][itemType + "s"][itemDataAsStat.itemID] = itemDataAsStat;
