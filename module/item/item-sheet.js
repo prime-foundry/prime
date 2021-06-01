@@ -72,6 +72,8 @@ export class PrimeItemSheet extends ItemSheet
 		switch(data.item.type)
 		{
 			case "item":
+			case "prime":
+			case "refinement":
 			break;
 			case "melee-weapon":
 			case "shield":
