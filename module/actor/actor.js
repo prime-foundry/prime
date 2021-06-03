@@ -135,7 +135,7 @@ export class PrimePCActor extends Actor
 				refinements: {},
 				title: null
 			},
-			"supernaturual": {
+			"supernatural": {
 				primes: {},
 				refinements: {},
 				title: null
@@ -323,7 +323,7 @@ export class PrimePCActor extends Actor
 		{
 			// Calculate the modifier using d20 rules.
 			// prime.mod = Math.floor((prime.value - 10) / 2);
-			item.cost = PrimePCActor.primeCost(item.value);
+			item.cost = PrimePCActor.primeCost(parseInt(item.value));
 			totalCost += item.cost;
 			// mod will go but lets see what we get
 			item.mod = item.cost;
@@ -493,7 +493,8 @@ export class PrimePCActor extends Actor
 			"sourceKey": itemData.data.sourceKey,
 			"itemID": itemData._id,
 			"itemBasedStat" : true,
-			"customisableStatClass" : itemData.data.customisable ? "customisableStat" : ""
+			"customisableStatClass" : itemData.data.customisable ? "customisableStat" : "",
+			"defaultItemClass" : itemData.data.default ? "defaultStat" : "expandedStat",
 		}
 
 		if (itemData.related)
