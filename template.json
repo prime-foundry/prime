@@ -179,14 +179,14 @@
 					"att":{
 						"value":0,
 						"max": 10,
-						"type" : "supernaturual",
+						"type" : "supernatural",
 						"title": "PRIME.prime_title_att",
 						"description": "PRIME.prime_description_att"
 					},
 					"por":{
 						"value":1,
 						"max": 10,
-						"type" : "supernaturual",
+						"type" : "supernatural",
 						"title": "PRIME.prime_title_por",
 						"description": "PRIME.prime_description_por"
 					}
@@ -366,7 +366,7 @@
 						"value": 0,
 						"max": 10,
 						"related" : ["att"],
-						"type" : "supernaturual",
+						"type" : "supernatural",
 						"title": "PRIME.refinment_title_conduit",
 						"description": "PRIME.refinment_description_conduit"
 					},
@@ -375,7 +375,7 @@
 						"value": 0,
 						"max": 10,
 						"related" : ["por"],
-						"type" : "supernaturual",
+						"type" : "supernatural",
 						"title": "PRIME.refinment_title_fury",
 						"description": "PRIME.refinment_description_fury"
 					},
@@ -384,7 +384,7 @@
 						"value": 0,
 						"max": 10,
 						"related" : ["por"],
-						"type" : "supernaturual",
+						"type" : "supernatural",
 						"title": "PRIME.refinment_title_manifest",
 						"description": "PRIME.refinment_description_manifest"
 					},
@@ -393,7 +393,7 @@
 						"value": 0,
 						"max": 10,
 						"related" : ["por"],
-						"type" : "supernaturual",
+						"type" : "supernatural",
 						"title": "PRIME.refinment_title_premonition",
 						"description": "PRIME.refinment_description_premonition"
 					},
@@ -402,7 +402,7 @@
 						"value": 0,
 						"max": 10,
 						"related" : ["por"],
-						"type" : "supernaturual",
+						"type" : "supernatural",
 						"title": "PRIME.refinment_title_regeneration",
 						"description": "PRIME.refinment_description_regeneration"
 					},
@@ -411,7 +411,7 @@
 						"value": 0,
 						"max": 10,
 						"related" : ["att"],
-						"type" : "supernaturual",
+						"type" : "supernatural",
 						"title": "PRIME.refinment_title_tap",
 						"description": "PRIME.refinment_description_tap"
 					},
@@ -420,7 +420,7 @@
 						"value": 0,
 						"max": 10,
 						"related" : ["por", "end", "res", "per", "int"],
-						"type" : "supernaturual",
+						"type" : "supernatural",
 						"title": "PRIME.refinment_title_threads",
 						"description": "PRIME.refinment_description_threads"
 					}
