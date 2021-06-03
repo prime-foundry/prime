@@ -29,9 +29,15 @@
 					{{/select}}
 				</select>
 			</div>
-			<div class="cell100 flexRow verticalCenter lastRow">
-				<label for="data.default" class="resource-label cell80 rightAlign" title="Action is available to all characters by default.">Default:</label>
-				<input type="checkbox" id="data.default" name="data.default" class="cell20" {{checked data.default}}/>
+			<div class="cell100 flexRow verticalCenter flexBetween">
+				<div class="cell50 flexRow verticalCenter lastRow">
+					<label for="data.default" class="resource-label cell80 rightAlign" title="Action is available to all characters by default.">Default:</label>
+					<input type="checkbox" id="data.default" name="data.default" class="cell20" {{checked data.default}}/>
+				</div>
+				<div class="cell50 flexRow verticalCenter lastRow">
+					<label for="data.customisable" class="resource-label cell80 rightAlign" title="Action can be edited when added to the character.">Customisable:</label>
+					<input type="checkbox" id="data.customisable" name="data.customisable" class="cell20" {{checked data.customisable}}/>
+				</div>
 			</div>
 		</div>
 	</div>

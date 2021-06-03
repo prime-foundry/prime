@@ -642,7 +642,8 @@
 			"max": 10,
 			"sourceKey": "",
 			"statType" : "physical",
-			"default": false
+			"default": false,
+			"customisable": false
 		},
 
 		"refinement":
@@ -653,7 +654,8 @@
 			"related" : [],
 			"sourceKey": "",
 			"statType" : "physical",
-			"default": false
+			"default": false,
+			"customisable": false
 		}
 	},
 	"Tables":

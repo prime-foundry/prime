@@ -526,20 +526,35 @@ export class PrimePCActorSheet extends ActorSheet
 	openStatItem(event)
 	{
 		const statItemLink = $(event.delegateTarget);
-		const sourceKey = statItemLink.data("sourcekey");
 		
-		const item = ItemDirectory.collection.get(sourceKey);
-		const itemSheet = item.sheet;
+		let item = null;
+		const sourceKey = statItemLink.data("sourcekey");
+		item = ItemDirectory.collection.get(sourceKey);
 
-		if (itemSheet.rendered)
+		if (item.data.data.customisable)
 		{
-			itemSheet.maximize();
-			itemSheet.bringToTop();
+			const itemID = statItemLink.data("item-id");
+			item = this.object.items.get(itemID);
+		}
+
+		if (item)
+		{
+			const itemSheet = item.sheet;			
+
+			if (itemSheet.rendered)
+			{
+				itemSheet.maximize();
+				itemSheet.bringToTop();
+			}
+			else
+			{
+				itemSheet.render(true);
+			}
 		}
 		else
 		{
-			itemSheet.render(true);
-		}	
+			console.log()
+		}
 	}
 
 	
