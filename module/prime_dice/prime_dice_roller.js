@@ -52,21 +52,24 @@ export class PRIME_DICE_ROLLER {
 		return _primeDiceResults;
 	}
 	getDiceModifiers(diceParams) {
-		const primeData = game.system.template.Actor.templates.primes_template.primes
-		const refinementData = game.system.template.Actor.templates.refinements_template.refinements;	
 		let modifiers = [];
+		const primes = diceParams.actor.getPrimes();
+		const refinements = diceParams.actor.getRefinements();
 
 		if (diceParams.prime) {
-			const localizedPrime = game.i18n.localize(primeData[diceParams.prime.key].title);
+			const prime = diceParams.actor.getPrimes()[diceParams.prime.key];
+			const localizedPrime = game.i18n.localize(prime.title);
 			modifiers.push({name:localizedPrime, value:diceParams.prime.value});
 			if (diceParams.prime.doubled) {
 				modifiers.push({name:localizedPrime, value:diceParams.prime.value});
 			} else if (diceParams.refinement) {
-				const localizedRefinement = game.i18n.localize(refinementData[diceParams.refinement.key].title);
+				const refinement = diceParams.actor.getRefinements()[diceParams.refinement.key];
+				const localizedRefinement = game.i18n.localize(refinement.title);
 				modifiers.push({name:localizedRefinement, value:diceParams.refinement.value});
 			}
 		} else if (diceParams.refinement) {
-			const localizedRefinement = game.i18n.localize(refinementData[diceParams.refinement.key].title);
+			const refinement = diceParams.actor.getRefinements()[diceParams.refinement.key];
+			const localizedRefinement = game.i18n.localize(refinement.title);
 			modifiers.push({name:localizedRefinement, value:diceParams.refinement.value});
 		}
 		if(diceParams.modifier){

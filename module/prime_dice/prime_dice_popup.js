@@ -68,11 +68,11 @@ export class PRIME_DICE_POPUP extends Application {
 		});
 		const users = game.users.entities;
 
-		const primes = this.getPrimes();
-		const refinements = this.getRefinements();
 		if (!this.currentActor) {
 			this.currentActor = actors[0];
 		}
+		const primes = this.getPrimes();
+		const refinements = this.getRefinements();
 		//this.getSortedActorStats(this.currentActor);
 		
 		this.sortedStats = this.currentActor.getTypeSortedPrimesAndRefinements();
@@ -132,7 +132,7 @@ export class PRIME_DICE_POPUP extends Application {
 	// }
 
 	getPrimes() {
-		const primeData = game.system.template.Actor.templates.primes_template.primes
+		const primeData = this.currentActor.getPrimes();
 		if (primeData) {
 			let primes = [];
 			let currPrime = null;
@@ -147,7 +147,7 @@ export class PRIME_DICE_POPUP extends Application {
 	}
 
 	getRefinements() {
-		const refinementData = game.system.template.Actor.templates.refinements_template.refinements;
+		const refinementData = this.currentActor.getRefinements();
 		if (refinementData) {
 			var localisedRefinments = this.getLocalisedRefinments(refinementData);
 			var catergorisedRefinementsList = [];

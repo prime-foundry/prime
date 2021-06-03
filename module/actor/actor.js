@@ -17,7 +17,7 @@ export class PrimePCActor extends Actor
 		const actorData = this.data;
 		const data = actorData.data;
 		const flags = actorData.flags;
-		
+
 		if (actorData.type === 'character')
 		{
 			this._prepareCharacterData(actorData);
@@ -39,11 +39,11 @@ export class PrimePCActor extends Actor
 	{
 		const data = actorData.data;
 
-		if (data.sheetVersion && data.sheetVersion == "v2.0")
+		if (this.isVersion2())
 		{
 			this._prepareCharacterDataV2(data, actorData);
 		}
-		
+
 		const primeCost = this.getTotalCost(data.primes);
 		const perkSoulCost = this.getTotalPerkCost("perkCostSoul");
 		data.soul.spent = primeCost + perkSoulCost;
@@ -106,10 +106,76 @@ export class PrimePCActor extends Actor
 		return this.data.data.mind.psyche.value + this.data.data.ward.psyche.value;
 	}
 
+	/**
+	 * Returns if this is a version 2 sheet or not. needed as part of migration.
+	 * @return {boolean}
+	 */
+	isVersion2(){
+		return !!this.data.data.sheetVersion && this.data.data.sheetVersion === "v2.0";
+	}
+
+	/**
+	 * Fetches all the items off the actor.
+	 * If a type filter is provided (string or an array of strings), then the items are filtered by the provided types,
+	 * if the string or array is empty, it will return all items.
+	 * if you provide any non string or array, that it will return all the items.
+	 *
+	 * @param {string, Array.<string>} (typeFilter) a single type filter, or an array of type filters.
+	 * @return {*} a list of items.
+	 * @private
+	 */
+	_getItems(typeFilter) {
+		if(typeFilter && typeFilter.length > 0){
+			const typeFilterArr = Array.isArray(typeFilter) ? typeFilter : [typeFilter];
+			return this.data.items.filter((item) => typeFilterArr.includes(item.type))
+		}
+		return this.data.items;
+	}
+
+	/**
+	 * Returns all the primes for this actor
+	 * @return {{}} an object where the property names are equal to the itemIDs.
+	 * TODO: this is a legacy structure and I hate it, use a Map maybe?)
+	 */
+	getPrimes() {
+		let results;
+		if(this.isVersion2()){
+			results = {}
+			this._getItems('prime')
+				.map(this._getItemDataAsStat)
+				.forEach(item => {
+					results[item.itemID] = item;
+				});
+		} else {
+			results = this.data.data.primes;
+		}
+		return results;
+	}
+
+	/**
+	 * Returns all the refinements for this actor
+	 * @return {{}} an object where the property names are equal to the itemIDs.
+	 * TODO: this is a legacy structure and I hate it, use a Map maybe?)
+	 */
+	getRefinements() {
+		let results;
+		if(this.isVersion2()){
+			results = {};
+			this._getItems('refinement')
+				.map(this._getItemDataAsStat)
+				.forEach(item => {
+					results[item.itemID] = item;
+				});
+		} else {
+			results = this.data.data.refinements;
+		}
+		return results;
+	}
+
 	getTypeSortedPrimesAndRefinements()
 	{
 		let results = {};
-		if (this.data.data.sheetVersion && this.data.data.sheetVersion == "v2.0")
+		if (this.isVersion2())
 		{
 			results = this.getTypeSortedPrimesAndRefinementsV2();
 		}
@@ -141,22 +207,19 @@ export class PrimePCActor extends Actor
 				title: null
 			},
 		};
-		this.data.items.forEach((item) => 
+		this._getItems(['prime' ,'refinement']).forEach((item) =>
 		{
 			let itemType = item.type
-			if (itemType == "prime" || itemType == "refinement")
+			let statType = item.data.statType;
+			if (!sortedData[statType].title)
 			{
-				let statType = item.data.statType;
-				if (!sortedData[statType].title)
-				{
-					let localisedTitle = game.i18n.localize("PRIME.stat_type_" + statType);
-					sortedData[statType].title = localisedTitle;
-				}
-				let itemDataAsStat = this._getItemDataAsStat(item);
-				sortedData[statType][itemType + "s"][itemDataAsStat.itemID] = itemDataAsStat;
+				let localisedTitle = game.i18n.localize("PRIME.stat_type_" + statType);
+				sortedData[statType].title = localisedTitle;
 			}
+			let itemDataAsStat = this._getItemDataAsStat(item);
+			sortedData[statType][itemType + "s"][itemDataAsStat.itemID] = itemDataAsStat;
 		});
-		
+
 		return sortedData;
 	}
 
@@ -213,7 +276,7 @@ export class PrimePCActor extends Actor
 
 			itemClonesByTypes[currItem.type].push(processedCloneItem);
 		});
-		
+
 		return itemClonesByTypes;
 	}
 
@@ -250,7 +313,7 @@ export class PrimePCActor extends Actor
 		}
 
 		var ownedPerkClones = this.getProcessedItems()["perk"];
-		
+
 		if (ownedPerkClones)
 		{
 			var count = 0;
@@ -266,7 +329,7 @@ export class PrimePCActor extends Actor
 			}
 		}
 
-		return false;		
+		return false;
 	}
 
 	checkPerkActionUnlock(whatPerk, whatAction)
@@ -307,7 +370,7 @@ export class PrimePCActor extends Actor
 
 		return totalCost;
 	}
-	
+
 
 	getTotalCost(whatItems)
 	{
@@ -361,13 +424,13 @@ export class PrimePCActor extends Actor
 	updateArmourValues()
 	{
 		var currentArmour = this.getMostResilientArmour(this.data.items);
-		
+
 		this.data.data.armour.protection.value = currentArmour.data.protection + this.getStatBonusesFromItems("armour.protection.value");
 		this.data.data.armour.protection.max = currentArmour.data.protection + this.getStatBonusesFromItems("armour.protection.max");
 
 		var initialMaxValue = this.data.data.armour.resilience.max
 		this.data.data.armour.resilience.max = currentArmour.data.armourResilience + this.getStatBonusesFromItems("armour.resilience.max");
-		
+
 		// If they were the same initially or the value is now higher than the max, adjust accordingly.
 		if (this.data.data.armour.resilience.value == initialMaxValue || this.data.data.armour.resilience.value > this.data.data.armour.resilience.max)
 		{
@@ -375,13 +438,13 @@ export class PrimePCActor extends Actor
 		}
 	}
 	updateWardValues()
-	{		
+	{
 		this.data.data.ward.stability.value = this.getStatBonusesFromItems("ward.stability.max");
 		this.data.data.ward.stability.max = this.getStatBonusesFromItems("ward.stability.max");
 
 		var initialMaxValue = this.data.data.ward.psyche.max
 		this.data.data.ward.psyche.max = this.getStatBonusesFromItems("ward.psyche.max");
-		
+
 		// If they were the same initially or the value is now higher than the max, adjust accordingly.
 		if (this.data.data.ward.psyche.value == initialMaxValue || this.data.data.ward.psyche.value > this.data.data.ward.psyche.max)
 		{
@@ -500,7 +563,7 @@ export class PrimePCActor extends Actor
 		if (itemData.related)
 		{
 			statData.related = itemData.related;
-		}		
+		}
 
 		return statData;
 	}
@@ -522,9 +585,9 @@ export class PrimePCActor extends Actor
 			}
 			count++;
 		}
-		return bestArmour;		
+		return bestArmour;
 	}
-	
+
 	getTotalWeight()
 	{
 		var totalWeight = 0;
