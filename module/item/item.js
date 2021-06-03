@@ -75,6 +75,8 @@ export class PrimeItem extends Item
 			break;
 			case "perk":
 			case "action":
+			case "prime":
+			case "refinement":
 			break;
 			case "armour":
 				itemData = this.processArmour(itemData);

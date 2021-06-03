@@ -105,6 +105,8 @@ export class PrimePCActorSheet extends ActorSheet
 
 		data.inventoryItems = this.getInventoryItems(data.filteredItems);
 
+		data.isV2CharacterClass = (data.data.sheetVersion == "v2.0") ? "characterSheetV2" : "";
+
 		if (data.filteredItems["perk"])
 		{
 			this.currentItemSortList = this.object.data.data.perkOrder || {};
@@ -210,6 +212,21 @@ export class PrimePCActorSheet extends ActorSheet
 		alert("Go'on, you know you want too...\n\n   (coming soon)");
 	}
 
+	statChanged(event)
+	{
+		const statDOMObject = $(event.delegateTarget);
+		const isItemStat = statDOMObject.data("itemstat");
+		if (isItemStat)
+		{
+			const statKey = statDOMObject.data("itemid");
+			
+			const statItem = this.object.items.get(statKey);
+
+			statItem.data.data.value = statDOMObject.val();			
+			this.entity.updateOwnedItem(statItem.data);
+		}
+	}
+
 	toggleSheetEditMode()
 	{
 		this.element.toggleClass("sheetEditable");
@@ -217,7 +234,8 @@ export class PrimePCActorSheet extends ActorSheet
 
 	toggleValueEditMode(event)
 	{
-		var valueWrapper = $(event.delegateTarget);
+		const outerWrapper = $(event.delegateTarget);
+		const valueWrapper = outerWrapper.find(".valueWrapper");
 		if (!valueWrapper.hasClass("valueEditable"))
 		{
 			var input = valueWrapper.find("input");
@@ -225,6 +243,7 @@ export class PrimePCActorSheet extends ActorSheet
 			input.select();
 			input.data("lastValue", input.val());
 		}
+		outerWrapper.toggleClass("valueEditable");
 		valueWrapper.toggleClass("valueEditable");
 		//this.element.toggleClass("sheetEditable");
 	}
@@ -503,6 +522,42 @@ export class PrimePCActorSheet extends ActorSheet
 		const itemID = deleteLink.data("item-id");
 		this.actor.deleteOwnedItem(itemID);
 	}
+	
+	openStatItem(event)
+	{
+		const statItemLink = $(event.delegateTarget);
+		
+		let item = null;
+		const sourceKey = statItemLink.data("sourcekey");
+		item = ItemDirectory.collection.get(sourceKey);
+
+		if (item.data.data.customisable)
+		{
+			const itemID = statItemLink.data("item-id");
+			item = this.object.items.get(itemID);
+		}
+
+		if (item)
+		{
+			const itemSheet = item.sheet;			
+
+			if (itemSheet.rendered)
+			{
+				itemSheet.maximize();
+				itemSheet.bringToTop();
+			}
+			else
+			{
+				itemSheet.render(true);
+			}
+		}
+		else
+		{
+			console.log()
+		}
+	}
+
+	
 
 	showOwnedItem(event)
 	{
@@ -568,13 +623,17 @@ export class PrimePCActorSheet extends ActorSheet
 		// Everything below here is only needed if the sheet is editable
 		if (!this.options.editable) return;
 
+		
+		html.find(".statInput").change(this.statChanged.bind(this));
+
 		html.find(".toggleCharacterEditing").click(this.toggleSheetEditMode.bind(this));
 		html.find(".toggleCharacterLocked").click(this.toggleSheetEditMode.bind(this));
 
 		html.find(".soulAndXP").click(this.burnSoulPoint.bind(this));
 
-		html.find(".valueWrapper").dblclick(this.toggleValueEditMode.bind(this));
-		html.find(".valueWrapper").click(this.checkPreventClose.bind(this));
+		html.find(".primeWrapper, .refinementWrapper").dblclick(this.toggleValueEditMode.bind(this));
+		html.find(".primeWrapper, .refinementWrapper").click(this.checkPreventClose.bind(this));
+		html.find(".showStatInfoIcon").click(this.openStatItem.bind(this));
 		
 		html.find("input[data-dtype='Number']").change(this.validateNumber.bind(this));
 

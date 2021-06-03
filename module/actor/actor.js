@@ -39,12 +39,14 @@ export class PrimePCActor extends Actor
 	{
 		const data = actorData.data;
 
-		// Make modifications to data here. For example:
-
+		if (data.sheetVersion && data.sheetVersion == "v2.0")
+		{
+			this._prepareCharacterDataV2(data, actorData);
+		}
+		
 		const primeCost = this.getTotalCost(data.primes);
 		const perkSoulCost = this.getTotalPerkCost("perkCostSoul");
 		data.soul.spent = primeCost + perkSoulCost;
-
 
 		const refinementCost = this.getTotalCost(data.refinements);
 		const perkXPCost = this.getTotalPerkCost("perkCostXP");
@@ -53,9 +55,23 @@ export class PrimePCActor extends Actor
 		this.updateOwnedItemValues();
 
 		// Loop through ability scores, and add their modifiers to our sheet output.
-
 		data.soul.value = (data.soul.initial + data.soul.awarded) - data.soul.spent;
 		data.xp.value = (data.xp.initial + data.xp.awarded) - data.xp.spent;
+	}
+
+	_prepareCharacterDataV2(data, actorData)
+	{
+		const primesStatData = this._getStatsObjects(actorData.items, "prime");
+		const refinementsStatData = this._getStatsObjects(actorData.items, "refinement");
+
+		if (data.primes)
+		{
+			data.primes = primesStatData;
+		}
+		if (data.refinements)
+		{
+			data.refinements = refinementsStatData;
+		}
 	}
 
 	getCurrentOwners(whatPermissions)
@@ -92,6 +108,60 @@ export class PrimePCActor extends Actor
 
 	getTypeSortedPrimesAndRefinements()
 	{
+		let results = {};
+		if (this.data.data.sheetVersion && this.data.data.sheetVersion == "v2.0")
+		{
+			results = this.getTypeSortedPrimesAndRefinementsV2();
+		}
+		else
+		{
+			results = this.getTypeSortedPrimesAndRefinementsV1();
+		}
+		return results;
+	}
+
+	getTypeSortedPrimesAndRefinementsV2()
+	{
+		//HACKY: Workaround to force the order.
+		let sortedData =
+		{
+			"physical": {
+				primes: {},
+				refinements: {},
+				title: null
+			},
+			"mental": {
+				primes: {},
+				refinements: {},
+				title: null
+			},
+			"supernatural": {
+				primes: {},
+				refinements: {},
+				title: null
+			},
+		};
+		this.data.items.forEach((item) => 
+		{
+			let itemType = item.type
+			if (itemType == "prime" || itemType == "refinement")
+			{
+				let statType = item.data.statType;
+				if (!sortedData[statType].title)
+				{
+					let localisedTitle = game.i18n.localize("PRIME.stat_type_" + statType);
+					sortedData[statType].title = localisedTitle;
+				}
+				let itemDataAsStat = this._getItemDataAsStat(item);
+				sortedData[statType][itemType + "s"][itemDataAsStat.itemID] = itemDataAsStat;
+			}
+		});
+		
+		return sortedData;
+	}
+
+	getTypeSortedPrimesAndRefinementsV1()
+	{
 		var sortedData = {};
 		var currEntry = null;
 		for (var key in this.data.data.primes)
@@ -99,7 +169,7 @@ export class PrimePCActor extends Actor
 			currEntry = this.data.data.primes[key];
 			if (!sortedData[currEntry.type])
 			{
-				let localisedTitle = game.i18n.localize("PRIME.refinment_type_" + currEntry.type);
+				let localisedTitle = game.i18n.localize("PRIME.stat_type_" + currEntry.type);
 				sortedData[currEntry.type] =
 				{
 					primes: {},
@@ -242,11 +312,18 @@ export class PrimePCActor extends Actor
 	getTotalCost(whatItems)
 	{
 		var totalCost = 0;
+		// Mostly a failsafe, hopefully new characters will only be created
+		// after the world has prime & refinement items added.
+		if (!whatItems)
+		{
+			return totalCost;
+		}
+
 		for (let [key, item] of Object.entries(whatItems))
 		{
 			// Calculate the modifier using d20 rules.
 			// prime.mod = Math.floor((prime.value - 10) / 2);
-			item.cost = PrimePCActor.primeCost(item.value);
+			item.cost = PrimePCActor.primeCost(parseInt(item.value));
 			totalCost += item.cost;
 			// mod will go but lets see what we get
 			item.mod = item.cost;
@@ -270,7 +347,6 @@ export class PrimePCActor extends Actor
 		this.data.data.totalWeight = this.getTotalWeight();
 		this.data.data.equipmentCostPersonal = this.getTotalCostByType("personal");
 		this.data.data.equipmentCostShip = this.getTotalCostByType("ship");
-		
 	}
 
 
@@ -311,6 +387,122 @@ export class PrimePCActor extends Actor
 		{
 			this.data.data.ward.psyche.value = this.getStatBonusesFromItems("ward.psyche.max");
 		}
+	}
+
+	_getStatsObjects(items, statType)
+	{
+		let matchingStatItems = {};
+		let count = 0;
+		let currItem = null;
+		let statItem = null;
+		let atLeastOneStatFound = false;	// If we've found one prime, then the other stats are on their way asyncronously.
+		while (count < items.length)
+		{
+			currItem = items[count];
+			if (currItem.type == statType)
+			{
+				statItem = this._getItemDataAsStat(currItem);
+				matchingStatItems[statItem.itemID] = statItem
+			}
+			if (currItem.type == "prime" || currItem.type == "refinement")
+			{
+				atLeastOneStatFound = true;
+			}
+			count++;
+		}
+
+		if (Object.keys(matchingStatItems).length === 0 && !atLeastOneStatFound)
+		{
+			matchingStatItems = this._getStatObjectsFromWorld(statType);
+		}
+
+		return matchingStatItems;
+	}
+
+	_getStatObjectsFromWorld(statType)
+	{
+		const currActor = this;
+
+		let actorItemsToCreate = []
+		let instancedItems = {};
+		let statItem = null;
+		if (ItemDirectory && ItemDirectory.collection)	// Sometimes not defined when interegated.
+		{
+			ItemDirectory.collection.forEach((item, key, items) =>
+			{
+				if (item.type == statType && item.data.data.default)
+				{
+					// If imported from a compendium the source key won't have been
+					// set. So we copy it from the item, into the raw data we're about
+					// to make the embedded entities from.
+					if (!item.data.data.sourceKey)
+					{
+						item.data.data.sourceKey = item.data._id;
+					}
+					actorItemsToCreate.push(item.data);
+					statItem = this._getItemDataAsStat(item.data);
+					instancedItems[statItem.itemID] = statItem;
+				}
+			});
+
+			this.createEmbeddedEntity("OwnedItem", actorItemsToCreate);
+		}
+		else
+		{
+			console.warn("getStatObjectsFromWorld() was called to soon. The world (and the items) weren't ready yet.")
+		}
+		return instancedItems;
+	}
+
+	// "athletic" :
+	// {
+	// 	"value": 0,
+	// 	"max": 10,
+	// 	"related" : ["mov", "str"],
+	// 	"type" : "physical",
+	// 	"title": "PRIME.refinment_title_athletic",
+	// 	"description": "PRIME.refinment_description_athletic"
+	// },
+
+	_getItemDataAsStat(itemData)
+	{
+		let sourceItem = null;
+		let itemTitle = itemData.name;
+		let itemDescription = itemData.data.description;
+		if (ItemDirectory.collection && !itemData.data.customisable)
+		{
+			sourceItem = ItemDirectory.collection.get(itemData.data.sourceKey);
+			if (sourceItem)
+			{
+				itemTitle = sourceItem.data.name;
+				itemDescription = sourceItem.data.data.description;
+			}
+			else
+			{
+				console.error("Unable to find source stat item for: ", itemData);
+			}
+		}
+
+		let statData =
+		{
+			"value": itemData.data.value,
+			"max": itemData.data.max,
+			"type" : itemData.data.statType,
+			"title": itemTitle,
+			"description": itemData.data.customisable ? "*EDITABLE STAT, CLICK INFO TO EDIT* \n" + itemDescription : itemDescription,
+			"sourceKey": itemData.data.sourceKey,
+			"itemID": itemData._id,
+			"itemBasedStat" : true,
+			"customisableStatClass" : itemData.data.customisable ? "customisableStat" : "",
+			"defaultItemClass" : itemData.data.default ? "defaultStat" : "expandedStat",
+		}
+
+		if (itemData.related)
+		{
+			statData.related = itemData.related;
+		}		
+
+		return statData;
 	}
 
 	getMostResilientArmour(items)
@@ -420,6 +612,4 @@ export class PrimePCActor extends Actor
 		if (num === 0) return 0;
 		return (num * (num + 1)) / 2;
 	}
-
-	
 }

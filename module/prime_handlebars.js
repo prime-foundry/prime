@@ -49,7 +49,7 @@ export class PrimeHandlebarsPartials
 	}
 }
 
-Handlebars.registerHelper('convertHTMLForTitle', function (html, options)
+Handlebars.registerHelper('convertHTMLForTitle', function (html, maxChars)
 {
 	if (html)
 	{
@@ -62,7 +62,12 @@ Handlebars.registerHelper('convertHTMLForTitle', function (html, options)
 		html = html.replace(/<\/ul>/ig, '\n');
 		html = html.replace(/<\/p>/ig, '\n');
 		html = html.replace(/<br\s*[\/]?>/gi, "\n");
-		html = html.replace(/<[^>]+>/ig, '');
+		html = html.replace(/(<([^>]+)>)/ig, '');
+
+		if (maxChars && html.length > maxChars)
+		{
+			html = html.slice(0,150) + "...";
+		}
 	}
 	return html;
 });
