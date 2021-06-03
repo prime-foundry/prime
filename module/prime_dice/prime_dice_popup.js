@@ -73,7 +73,9 @@ export class PRIME_DICE_POPUP extends Application {
 		if (!this.currentActor) {
 			this.currentActor = actors[0];
 		}
-		this.getSortedActorStats(this.currentActor);
+		//this.getSortedActorStats(this.currentActor);
+		
+		this.sortedStats = this.currentActor.getTypeSortedPrimesAndRefinements();
 		return {
 			actors,
 			users,
@@ -92,42 +94,42 @@ export class PRIME_DICE_POPUP extends Application {
 		};
 	}
 
-	getSortedActorStats(currentActor) {
+	// getSortedActorStats(currentActor) {
 
-		const primes = currentActor.data.data.primes;
-		const refinements = currentActor.data.data.refinements;
-		var currEntry = null;
-		this.sortedStats = {};
-		for (var key in primes) {
-			currEntry = primes[key];
-			if (!this.sortedStats[currEntry.type]) {
-				let localisedTitle = game.i18n.localize("PRIME.refinment_type_" + currEntry.type);
-				this.sortedStats[currEntry.type] =
-				{
-					primes: {},
-					refinements: {},
-					title: localisedTitle
-				}
-			}
-			this.sortedStats[currEntry.type].primes[key] =
-			{
-				value: currEntry.value,
-				title: game.i18n.localize(currEntry.title),
-				description: game.i18n.localize(currEntry.description)
-			};
-		}
-		for (var key in refinements) {
-			currEntry = refinements[key];
-			this.sortedStats[currEntry.type].refinements[key] =
-			{
-				defaultPrime: currEntry.related && currEntry.related.length > 0 ? currEntry.related[0] : "",
-				value: currEntry.value,
-				title: game.i18n.localize(currEntry.title),
-				description: game.i18n.localize(currEntry.description)
-			};
-		}
-		return this.sortedStats;
-	}
+	// 	const primes = currentActor.data.data.primes;
+	// 	const refinements = currentActor.data.data.refinements;
+	// 	var currEntry = null;
+	// 	this.sortedStats = {};
+	// 	for (var key in primes) {
+	// 		currEntry = primes[key];
+	// 		if (!this.sortedStats[currEntry.type]) {
+	// 			let localisedTitle = game.i18n.localize("PRIME.refinment_type_" + currEntry.type);
+	// 			this.sortedStats[currEntry.type] =
+	// 			{
+	// 				primes: {},
+	// 				refinements: {},
+	// 				title: localisedTitle
+	// 			}
+	// 		}
+	// 		this.sortedStats[currEntry.type].primes[key] =
+	// 		{
+	// 			value: currEntry.value,
+	// 			title: game.i18n.localize(currEntry.title),
+	// 			description: game.i18n.localize(currEntry.description)
+	// 		};
+	// 	}
+	// 	for (var key in refinements) {
+	// 		currEntry = refinements[key];
+	// 		this.sortedStats[currEntry.type].refinements[key] =
+	// 		{
+	// 			defaultPrime: currEntry.related && currEntry.related.length > 0 ? currEntry.related[0] : "",
+	// 			value: currEntry.value,
+	// 			title: game.i18n.localize(currEntry.title),
+	// 			description: game.i18n.localize(currEntry.description)
+	// 		};
+	// 	}
+	// 	return this.sortedStats;
+	// }
 
 	getPrimes() {
 		const primeData = game.system.template.Actor.templates.primes_template.primes
@@ -394,7 +396,8 @@ export class PRIME_DICE_POPUP extends Application {
 	selectActor(newActor) {
 		if (newActor.owner && this.currentActor != newActor) {
 			this.currentActor = newActor;
-			this.getSortedActorStats(this.currentActor);
+			//this.getSortedActorStats(this.currentActor);
+			this.sortedStats = this.currentActor.getTypeSortedPrimesAndRefinements();
 			this.selectedPrimeValue = 0;
 			this.selectedRefinementValue = 0;
 			this.selectedPrime = null;
