@@ -591,6 +591,12 @@ h1.entityName
 	text-align: right;
 }
 
+.statsContent .refinementsGroup .primeWrapper.customisableStat label,
+.statsContent .refinementsGroup .refinementWrapper.customisableStat label
+{
+	font-style: italic;
+}
+
 .primeCharacterSheet input
 {
 	position: relative;
