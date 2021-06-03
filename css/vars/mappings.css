@@ -5,6 +5,7 @@
 	--text-dark: var(--dark-grey);
 
 	--primaryHighlight: var(--foundryOrange);
+	--primaryHighlightHalfAlpha: var(--foundryOrangeHalfAlpha);
 
 	/********** Mapped font values **********/
 	--title-font: var(--font2);

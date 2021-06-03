@@ -517,8 +517,8 @@ h1.entityName
 	border-radius: 0;
 }
 
-.statsContent .primesGroup.primeGroup_supernaturual,
-.statsContent .refinementsGroup.refinementGroup_supernaturual
+.statsContent .primesGroup.primeGroup_supernatural,
+.statsContent .refinementsGroup.refinementGroup_supernatural
 {
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
@@ -622,6 +622,15 @@ h1.entityName
 	top:50%;
 	margin-top: -8.5px;
 	left:0px;
+}
+
+.primeCharacterSheet .statsContent .defaultStat
+{
+}
+
+.primeCharacterSheet .statsContent .expandedStat
+{
+	text-shadow: 1px 1px 5px var(--primaryHighlightHalfAlpha);
 }
 
 .primeCharacterSheet .tabbedSection .tabContentWrapper .block.leftBlockTitle

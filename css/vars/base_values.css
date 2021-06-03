@@ -4,6 +4,7 @@
 	--dark-grey: hsl(50, 14%, 9%);
 
 	--foundryOrange: hsl(24, 100%, 50%);
+	--foundryOrangeHalfAlpha: hsla(24, 100%, 50%, 50%);
 	--disabledGrey: hsl(0, 0%, 83%);
     --darkBloodRed: hsl(0, 96%, 28%);
     --mindBlue: hsl(241, 96%, 28%);
