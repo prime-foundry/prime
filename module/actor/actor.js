@@ -66,11 +66,11 @@ export class PrimePCActor extends Actor
 
 		if (data.primes)
 		{
-			data.primes = Object.assign(primesStatData, data.primes);
+			data.primes = primesStatData;
 		}
 		if (data.refinements)
 		{
-			data.refinements = Object.assign(refinementsStatData, data.refinements);
+			data.refinements = refinementsStatData;
 		}
 	}
 
@@ -312,6 +312,13 @@ export class PrimePCActor extends Actor
 	getTotalCost(whatItems)
 	{
 		var totalCost = 0;
+		// Mostly a failsafe, hopefully new characters will only be created
+		// after the world has prime & refinement items added.
+		if (!whatItems)
+		{
+			return totalCost;
+		}
+
 		for (let [key, item] of Object.entries(whatItems))
 		{
 			// Calculate the modifier using d20 rules.
@@ -425,6 +432,13 @@ export class PrimePCActor extends Actor
 			{
 				if (item.type == statType && item.data.data.default)
 				{
+					// If imported from a compendium the source key won't have been
+					// set. So we copy it from the item, into the raw data we're about
+					// to make the embedded entities from.
+					if (!item.data.data.sourceKey)
+					{
+						item.data.data.sourceKey = item.data._id;
+					}
 					actorItemsToCreate.push(item.data);
 					statItem = this._getItemDataAsStat(item.data);
 					instancedItems[statItem.itemID] = statItem;
@@ -435,7 +449,7 @@ export class PrimePCActor extends Actor
 		}
 		else
 		{
-			console.error("getStatObjectsFromWorld() was called to soon. The world (and the items) weren't ready yet.")
+			console.warn("getStatObjectsFromWorld() was called to soon. The world (and the items) weren't ready yet.")
 		}
 		return instancedItems;
 	}
@@ -455,7 +469,7 @@ export class PrimePCActor extends Actor
 		let sourceItem = null;
 		let itemTitle = itemData.name;
 		let itemDescription = itemData.data.description;
-		if (ItemDirectory.collection)
+		if (ItemDirectory.collection && !itemData.data.customisable)
 		{
 			sourceItem = ItemDirectory.collection.get(itemData.data.sourceKey);
 			if (sourceItem)
@@ -475,10 +489,11 @@ export class PrimePCActor extends Actor
 			"max": itemData.data.max,
 			"type" : itemData.data.statType,
 			"title": itemTitle,
-			"description": itemDescription,
+			"description": itemData.data.customisable ? "*EDITABLE STAT, CLICK INFO TO EDIT* \n" + itemDescription : itemDescription,
 			"sourceKey": itemData.data.sourceKey,
 			"itemID": itemData._id,
-			"itemBasedStat" : true
+			"itemBasedStat" : true,
+			"customisableStatClass" : itemData.data.customisable ? "customisableStat" : ""
 		}
 
 		if (itemData.related)
