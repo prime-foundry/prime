@@ -1,12 +1,10 @@
-//import Mustache from 'mustache';
-
+import PrimeDie from './PrimeDie.js';
 export class PRIME_DICE_ROLLER {
-	primeTable = [-5, -4, -3, -2, -2, -1, -1, -1, 0, 0, 0, 0, 1, 1, 1, 2, 2, 3, 4, 5];
 
 
 	async rollPrimeDice(diceParams) {
 		
-		const currentRoll = new Roll("1d20x1x20");
+		const currentRoll = new Roll("1dp");
 		currentRoll.evaluate();
 		const diceResult = this.getDiceResult(currentRoll, diceParams);
 		const messageContent = await this.createContent(diceResult);
@@ -30,31 +28,20 @@ export class PRIME_DICE_ROLLER {
 
 
 	getDiceResult(roll, diceParams) {
-		var _result = 0;
-		var _primeResults = roll.dice[0].results.map(currResult => {
-			let _primeModifier = this.primeTable[currResult.result - 1];
-			_result += _primeModifier;
-			return { ...currResult, primeModifier: _primeModifier };
-		});
-
-		var _primeDiceResults =
-		{
+		return {
 			actor: diceParams.actor.name,
 			user: diceParams.user.name,
 			actorImg: diceParams.actor.img,
 			userColour: chroma(diceParams.user.data.color).darken(3).hex(),
-			diceRolls: _primeResults,
-			totalDice: _result,
-			total: diceParams.total + _result,
+			diceRolls:  roll.dice[0].results,
+			totalDice: roll.total,
+			total: diceParams.total + roll.total,
 			rollMode: diceParams.rollMode,
 			modifiers: this.getDiceModifiers(diceParams)
 		};
-		return _primeDiceResults;
 	}
 	getDiceModifiers(diceParams) {
 		let modifiers = [];
-		const primes = diceParams.actor.getPrimes();
-		const refinements = diceParams.actor.getRefinements();
 
 		if (diceParams.prime) {
 			const prime = diceParams.actor.getPrimes()[diceParams.prime.key];
