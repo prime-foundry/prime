@@ -1,3 +1,45 @@
+//Discuss current changes in branches, merge & sync.
+
+//Your last commit was "there is horrible bug"???
+
+
+
+//Display expanded stats after core.
+//Fix prime/refinment cost calculation.
+Fix dice roller.
+
+//Give Jack GM access to test server.
+
+//Double check data is instaced.
+
+Physical title in prime/refinement stat
+
+Add v2.0 version to the character sheet.
+
+Update test server.
+
+Review version 8.6 and required testing.
+
+Make titles from the dice results tab open the character sheet if allowed.
+
+Soul / XP as hidden items (or maybe shown on new tab?)
+
+Upgrade migrations pattern
+
+
+Create ticket for compendium upgrades
+=====================================
+
+Write code to add folder paths to all items - run it once.
+Set it to update on item update.
+Add code to migration hook to sync. up compendium data with new keys.
+Offer to update data that already exists? 
+
+
+
+
+
+
 Remove non-schema data from the template.json.
 
 Global edit mode
@@ -31,6 +73,8 @@ Ship sheet
 - Rooms
 - Upgrades
 - Weapons
+
+
 
 /Convert text in template to lang file.
 
