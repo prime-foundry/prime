@@ -20,7 +20,16 @@ export class PrimePCActor extends Actor
 		
 		if (actorData.type === 'character')
 		{
+			this._checkV2CharacterUpgrade();
 			this._prepareCharacterData(actorData);
+		}
+	}
+
+	_checkV2CharacterUpgrade()
+	{
+		if (this.data.data.sheetVersion == "v1.0" && Object.keys(this.data.data.primes).length === 0)
+		{
+			this.data.data.sheetVersion = "v2.0";
 		}
 	}
 
@@ -307,7 +316,6 @@ export class PrimePCActor extends Actor
 
 		return totalCost;
 	}
-	
 
 	getTotalCost(whatItems)
 	{
@@ -349,7 +357,6 @@ export class PrimePCActor extends Actor
 		this.data.data.equipmentCostShip = this.getTotalCostByType("ship");
 	}
 
-
 	updateHealthAndMind()
 	{
 		this.data.data.health.wounds.max = this.data.data.health.wounds.base + this.getStatBonusesFromItems("health.wounds.max");
@@ -374,6 +381,7 @@ export class PrimePCActor extends Actor
 			this.data.data.armour.resilience.value = currentArmour.data.armourResilience + this.getStatBonusesFromItems("armour.resilience.max");
 		}
 	}
+
 	updateWardValues()
 	{		
 		this.data.data.ward.stability.value = this.getStatBonusesFromItems("ward.stability.max");
@@ -432,20 +440,21 @@ export class PrimePCActor extends Actor
 			{
 				if (item.type == statType && item.data.data.default)
 				{
-					// If imported from a compendium the source key won't have been
-					// set. So we copy it from the item, into the raw data we're about
-					// to make the embedded entities from.
-					if (!item.data.data.sourceKey)
-					{
-						item.data.data.sourceKey = item.data._id;
-					}
+					item.data.data.sourceKey = item.data._id;
 					actorItemsToCreate.push(item.data);
 					statItem = this._getItemDataAsStat(item.data);
 					instancedItems[statItem.itemID] = statItem;
 				}
 			});
 
-			this.createEmbeddedEntity("OwnedItem", actorItemsToCreate);
+			if (actorItemsToCreate.length > 0)
+			{
+				this.createEmbeddedEntity("OwnedItem", actorItemsToCreate);
+			}
+			else
+			{
+				console.error(`No stat items of type ${statType} were found in _getStatObjectsFromWorld(). Did you forget to import from Compendium?`);
+			}
 		}
 		else
 		{
