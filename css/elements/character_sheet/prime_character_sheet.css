@@ -518,7 +518,9 @@ h1.entityName
 }
 
 .statsContent .primesGroup.primeGroup_supernatural,
-.statsContent .refinementsGroup.refinementGroup_supernatural
+.statsContent .refinementsGroup.refinementGroup_supernatural,
+.statsContent .primesGroup.primeGroup_supernaturual,	/* Legacy characters have mis-spelling of supernatural */
+.statsContent .refinementsGroup.refinementGroup_supernaturual
 {
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
