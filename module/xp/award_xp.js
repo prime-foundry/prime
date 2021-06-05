@@ -9,7 +9,6 @@ export class AWARD_XP {
 	static ready() {
 	}
 
-
 	static openAwardXP(title, left, top) {
 		let options = { left: left, top: top, log: title };
 		if (!AWARD_XP.xpPopup) {
@@ -20,7 +19,6 @@ export class AWARD_XP {
 		}
 		AWARD_XP.xpPopup.render(true, options);
 	}
-
 }
 
 Hooks.once('init', AWARD_XP.init);
