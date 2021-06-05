@@ -1,14 +1,12 @@
-import PrimeDie from './PrimeDie.js';
 export class PRIME_DICE_ROLLER {
-
 
 	async rollPrimeDice(diceParams) {
 		
-		const currentRoll = new Roll("1dp");
+		const currentRoll = new Roll('1dp');
 		currentRoll.evaluate();
 		const diceResult = this.getDiceResult(currentRoll, diceParams);
 		const messageContent = await this.createContent(diceResult);
-		const alias =  diceResult.user +": " + diceResult.actor;
+		const alias =  `${diceResult.user}: ${diceResult.actor}`;
 		const speaker = ChatMessage.getSpeaker({ actor : diceParams.actor, alias });
 		let data =
 		{
@@ -21,14 +19,11 @@ export class PRIME_DICE_ROLLER {
 		data.roll = currentRoll;
 		let options = {rollMode: diceParams.rollMode};
 		CONFIG.ChatMessage.entityClass.create(data, options);
-
-		//this.testDiceRolling(10000);
-
 	}
-
 
 	getDiceResult(roll, diceParams) {
 		return {
+			actorID: diceParams.actor.id,
 			actor: diceParams.actor.name,
 			user: diceParams.user.name,
 			actorImg: diceParams.actor.img,
@@ -66,31 +61,20 @@ export class PRIME_DICE_ROLLER {
 	}
 
 	async createContent(diceResult) {
-		var handlebarsTemplate = await getTemplate("systems/prime/templates/dice/prime_result.html");
-		var messageContent = handlebarsTemplate(diceResult);
+		const handlebarsTemplate = await getTemplate("systems/prime/templates/dice/prime_result.html");
+		const messageContent = handlebarsTemplate(diceResult);
 		return messageContent
 	}
 
-	testDiceRolling(_testIterations) {
-		var count = 0
-		var _resultsObject = {}
-		while (count < _testIterations) {
-			let result = this.getDiceResult().total;
-			if (!_resultsObject[result]) {
-				_resultsObject[result] = { total: 0 };
-			}
-			_resultsObject[result].total++;
-			count++;
+	static onRenderChatMessage(message, html, data) {
+		if(message.data.speaker && message.data.speaker.actor){
+			const actorID = message.data.speaker.actor;
+			html.find('.actorPortrait').click((() => {
+				const actors = CONFIG.Actor.collection.instance;
+				const actor = actors.get(actorID);
+				actor.sheet.render(true);
+			}));
 		}
-
-		count = 0;
-
-		for (var _currResult in _resultsObject) {
-			_resultsObject[_currResult].percentage = (_resultsObject[_currResult].total / _testIterations) * 100;
-			count++;
-		}
-
-		console.log(_resultsObject);
 	}
 }
 
@@ -101,7 +85,6 @@ Handlebars.registerHelper('primeDiceClass', function (value) {
 	if (value === 20) {
 		return "fortunePrimeRoll highPrimeRoll"
 	}
-
 	if (value < 9) {
 		return "lowPrimeRoll";
 	}
@@ -111,7 +94,7 @@ Handlebars.registerHelper('primeDiceClass', function (value) {
 	return "";
 });
 
-Handlebars.registerHelper('primeDiceModiferClass', function (value) {
+Handlebars.registerHelper('primeDiceModifierClass', function (value) {
 	if (value > 0) {
 		return "highPrimeModifierResult";
 	}
@@ -120,3 +103,8 @@ Handlebars.registerHelper('primeDiceModiferClass', function (value) {
 	}
 	return "";
 });
+Handlebars.registerHelper('loadActorSheet', function (value) {
+	return `function() {CONFIG.Actor.get('${value}').sheet.render(true);}`;
+});
+
+Hooks.on('renderChatMessage', PRIME_DICE_ROLLER.onRenderChatMessage);

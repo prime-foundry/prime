@@ -31,7 +31,6 @@ export class PRIME_DICE {
 		}
 		PRIME_DICE.dicePopup.render(true, options);
 	}
-
 }
 
 Hooks.once('init', PRIME_DICE.init);

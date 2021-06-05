@@ -70,36 +70,6 @@
     box-shadow: 0 0 5px #b8860b;
 }
 
-/*
-<div class="diceMessage">
-	<div class="prime-dice-actor">
-		<img class="actorPortrait" style="border-color: {{this.userColour}};" src="{{this.actorImg}}" />
-	</div>
-	<div class="prime-dice-modifiers">
-		{{#each modifiers}}
-		<span class="modifier">{{this.name}}</span>
-		<span class="value">{{this.value}}</span>
-		{{/each}}
-	</div>
-	<div class="prime-dice-group">
-		{{#each diceRolls}}
-		<div class="prime-die-wrapper {{primeDiceClass this.result}}">
-			<div class="prime-die">
-				<i class="fas fa-dice-d20"></i>
-				<span class="primeDieModifierOuter">
-					<span class="primeDieModifierInner">{{this.primeModifier}}</span>
-				</span>
-			</div>
-			<div class="primeResultRaw">({{this.result}})</div>
-		</div>
-		{{/each}}
-	</div>
-	<div class="prime-dice-total {{primeDiceModiferClass total}}">
-		<span class="value">{{total}}</span>
-	</div>
-</div>
-*/
-
 .diceMessage {
     display: flex;
     justify-content: space-between;
