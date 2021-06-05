@@ -15,6 +15,20 @@ export class PrimePCActorSheet extends ActorSheet
 
 	currentItemSortList = null;
 
+	getActor () {
+		return super.getData().actor;
+	}
+
+	getActorData () {
+		return super.getData().data;
+	}
+	getActorProperties () {
+		return this.getActorData().data;
+	}
+	getActionPoints() {
+		return this.getActorProperties().actionPoints;
+	}
+
 	async _render(force=false, options={})
 	{
 		//if (!this.bulkUpdatingOwnedItems)
@@ -82,6 +96,7 @@ export class PrimePCActorSheet extends ActorSheet
 	getData()
 	{
 		const data = super.getData();
+		const actorProperties = this.getActorProperties();
 		data.dtypes = ["String", "Number", "Boolean"];
 
 		data.characterNameClass = this.getCharacterNameClass(data.actor.name);
@@ -92,24 +107,25 @@ export class PrimePCActorSheet extends ActorSheet
 		}
 
 		//var a = data.actor.permission
-		data.currentOwners = this.entity.getCurrentOwners();
-		data.combinedResilience = this.entity.getCombinedResilience();
-		data.combinedPsyche = this.entity.getCombinedPsyche();
+		data.actorProperties = actorProperties;
+		data.currentOwners = this.actor.getCurrentOwners();
+		data.combinedResilience = this.actor.getCombinedResilience();
+		data.combinedPsyche = this.actor.getCombinedPsyche();
 		
-		data.typeSorted = this.entity.getTypeSortedPrimesAndRefinements();
+		data.typeSorted = this.actor.getTypeSortedPrimesAndRefinements();
 		
 		data.itemTables = PrimeTables.cloneAndTranslateTables("items");
 		data.actorTables = PrimeTables.cloneAndTranslateTables("actor");
 
-		data.filteredItems = this.entity.getProcessedItems();
+		data.filteredItems = this.actor.getProcessedItems();
 
 		data.inventoryItems = this.getInventoryItems(data.filteredItems);
 
-		data.isV2CharacterClass = (data.data.sheetVersion == "v2.0") ? "characterSheetV2" : "";
+		data.isV2CharacterClass = (actorProperties.sheetVersion == "v2.0") ? "characterSheetV2" : "";
 
 		if (data.filteredItems["perk"])
 		{
-			this.currentItemSortList = this.object.data.data.perkOrder || {};
+			this.currentItemSortList = actorProperties.perkOrder || {};
 			data.perks = data.filteredItems["perk"].sort(this.sortByItemOrder.bind(this));
 		}
 		else
@@ -117,7 +133,7 @@ export class PrimePCActorSheet extends ActorSheet
 			data.perks = [];
 		}
 
-		data.sortedActions = this.entity.getSortedActions();
+		data.sortedActions = this.actor.getSortedActions();
 
 		return data;
 	}
@@ -179,7 +195,7 @@ export class PrimePCActorSheet extends ActorSheet
 			combinedItems = combinedItems.concat(filteredItems["item"]);
 		}
 
-		this.currentItemSortList = this.object.data.data.inventoryOrder || {};
+		this.currentItemSortList = this.getActorProperties().inventoryOrder || {};
 		combinedItems = combinedItems.sort(this.sortByItemOrder.bind(this));
 
 		return combinedItems;
@@ -220,7 +236,7 @@ export class PrimePCActorSheet extends ActorSheet
 		{
 			const statKey = statDOMObject.data("itemid");
 			
-			const statItem = this.object.items.get(statKey);
+			const statItem = this.getActorData().items.get(statKey);
 
 			statItem.data.data.value = statDOMObject.val();			
 			this.entity.updateOwnedItem(statItem.data);
@@ -296,23 +312,24 @@ export class PrimePCActorSheet extends ActorSheet
 		const data = super.getData();
 		const checked = input.prop("checked");
 		const inputParent = input.parent();
-		data.data.actionPoints.lastTotal = data.data.actionPoints.value;
+		const actionPoints = this.getActionPoints();
+		actionPoints.lastTotal = actionPoints.value;
 
 		if (checked || (!checked && !inputParent.hasClass("currentPointTotal")))
 		{
-			data.data.actionPoints.value = parseInt(value);
+			actionPoints.value = parseInt(value);
 		}
 		else
 		{
-			data.data.actionPoints.value = parseInt(value) - 1;
+			actionPoints.value = parseInt(value) - 1;
 		}
 
-		if (data.data.actionPoints.value < 0)
+		if (actionPoints.value < 0)
 		{
-			data.data.actionPoints.value = 0;
+			actionPoints.value = 0;
 		}
 
-		var result = await this.actor.update(data.actor);
+		await this.actor.update(this.getActorData());
 	}
 
 	async updateInjuryTotal(event)
@@ -534,7 +551,7 @@ export class PrimePCActorSheet extends ActorSheet
 		if (item.data.data.customisable)
 		{
 			const itemID = statItemLink.data("item-id");
-			item = this.object.items.get(itemID);
+			item = this.getActorData().items.get(itemID);
 		}
 
 		if (item)
@@ -588,7 +605,7 @@ export class PrimePCActorSheet extends ActorSheet
 	{
 		const titleLink = $(event.delegateTarget);
 		const weaponID = titleLink.data("weapon-id");
-		const weapon = this.object.items.get(weaponID);
+		const weapon = this.getActorData().items.get(weaponID);
 		alert("Attack with: " + weapon.name)
 	}
 	
@@ -596,7 +613,7 @@ export class PrimePCActorSheet extends ActorSheet
 	{
 		const titleLink = $(event.delegateTarget);
 		const armourID = titleLink.data("armour-id");
-		const armour = this.object.items.get(armourID);
+		const armour = this.getActorData().items.get(armourID);
 
 		var isWorn = armour.data.data.isWorn;
 		if (isWorn)
@@ -743,25 +760,26 @@ export class PrimePCActorSheet extends ActorSheet
 
 	async postActivateListeners(html)
 	{
-		const data = super.getData();
+		const actorProperties = this.getActorProperties();
+		const actionPoints = this.getActionPoints();
 
 		html.find(".injurySelect").each(function(index, element)
 		{
-			$(element).val(data.data.wounds["wound" + index]);
+			$(element).val(actorProperties.wounds["wound" + index]);
 		});
 
 		html.find(".insanitySelect").each(function(index, element)
 		{
-			$(element).val(data.data.insanities["insanity" + index]);
+			$(element).val(actorProperties.insanities["insanity" + index]);
 		});
 
 		html.find(".fillAnimation").removeClass("fillAnimation");
 		html.find(".emptyAnimation").removeClass("emptyAnimation");
 
-		if (data.data.actionPoints.lastTotal != data.data.actionPoints.value)
+		if (actionPoints.lastTotal != actionPoints.value)
 		{
-			data.data.actionPoints.lastTotal = data.data.actionPoints.value;
-			var result = await this.actor.update(data.actor, {render: false});
+			actionPoints.lastTotal = actionPoints.value;
+			await this.actor.update(this.getActorData(), {render: false});
 		}
 	}
 }

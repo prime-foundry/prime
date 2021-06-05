@@ -422,11 +422,23 @@ export class PrimePCActor extends Actor
 
 	updateHealthAndMind()
 	{
-		this.data.data.health.wounds.max = this.data.data.health.wounds.base + this.getStatBonusesFromItems("health.wounds.max");
-		this.data.data.health.resilience.max = this.data.data.health.resilience.base + this.getStatBonusesFromItems("health.resilience.max");
-		this.data.data.mind.insanities.max = this.data.data.mind.insanities.base + this.getStatBonusesFromItems("mind.insanities.max");
-		this.data.data.mind.psyche.max = this.data.data.mind.psyche.base + this.getStatBonusesFromItems("mind.psyche.max");
+		const health = this.data.data.health;
+		const mind = this.data.data.mind;
+		health.wounds.max = health.wounds.base + this.getStatBonusesFromItems("health.wounds.max");
+		health.resilience.max = health.resilience.base + this.getStatBonusesFromItems("health.resilience.max");
+		mind.insanities.max = mind.insanities.base + this.getStatBonusesFromItems("mind.insanities.max");
+		mind.psyche.max = mind.psyche.base + this.getStatBonusesFromItems("mind.psyche.max");
+		const setValueToMaxIfNull = (obj) => {
+			if (obj.value == null) {
+				obj.value = obj.max;
+			}
+		}
+		setValueToMaxIfNull(health.wounds);
+		setValueToMaxIfNull(health.resilience);
+		setValueToMaxIfNull(mind.insanities);
+		setValueToMaxIfNull(mind.psyche);
 	}
+
 
 	updateArmourValues()
 	{
