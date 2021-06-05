@@ -57,8 +57,8 @@ export class PRIME_DICE_POPUP extends Application {
                     } else {
                         return -1;
                     }
-                } else if (actor1.isPC ^ actor2.isPC) {
-                    if (actor1.isPC) {
+                } else if (actor1.hasPlayerOwner ^ actor2.hasPlayerOwner) {
+                    if (actor1.hasPlayerOwner) {
                         return -1;
                     } else {
                         return 1;
