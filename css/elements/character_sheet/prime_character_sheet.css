@@ -780,6 +780,11 @@ h1.entityName
 	
 }
 
+.primeCharacterSheet  .characterSheetV1 .statsContent .showStatInfoIcon
+{
+	display: none;
+}
+
 .primeCharacterSheet .tabbedSection .inventoryTable th,
 .primeCharacterSheet .tabbedSection .inventoryTable td
 {

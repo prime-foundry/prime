@@ -27,7 +27,7 @@ export class PrimePCActor extends Actor
 
 	_checkV2CharacterUpgrade()
 	{
-		if (this.data.data.sheetVersion == "v1.0" && Object.keys(this.data.data.primes).length === 0)
+		if (!this.isVersion2() && Object.keys(this.data.data.primes).length === 0)
 		{
 			this.data.data.sheetVersion = "v2.0";
 		}
