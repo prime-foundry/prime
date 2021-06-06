@@ -82,6 +82,7 @@
     flex-basis: 15%;
     min-width:15%;
     justify-self: left;
+	cursor: pointer;
 }
 
 .diceMessage .prime-dice-actor .actorPortrait {
