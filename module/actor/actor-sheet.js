@@ -107,6 +107,8 @@ export class PrimePCActorSheet extends ActorSheet
 
 		data.isV2CharacterClass = (data.data.sheetVersion == "v2.0") ? "characterSheetV2" : "characterSheetV1";
 
+		data.sheetVersion = data.data.sheetVersion;
+
 		if (data.filteredItems["perk"])
 		{
 			this.currentItemSortList = this.object.data.data.perkOrder || {};
