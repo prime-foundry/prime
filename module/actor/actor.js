@@ -644,25 +644,24 @@ export class PrimePCActor extends Actor
 
 	getStatBonusesFromItems(whatStatDataPath)
 	{
-		var ownedItemClones = this.getProcessedItems();
-		var totalAdjustments = 0;
+		const ownedItemClones = this.getProcessedItems();
+		let totalAdjustments = 0;
 
-		for (var itemType in ownedItemClones)
+		for (let itemType in ownedItemClones)
 		{
-			var currItemClones = ownedItemClones[itemType]
+			const currItemClones = ownedItemClones[itemType]
 			if (ownedItemClones && currItemClones)
 			{
-				var count = 0;
+				let count = 0;
 				while (count < currItemClones.length)
 				{
-					var currItem = currItemClones[count];
-					var adjustment = this.getItemAdjustment(currItem, whatStatDataPath);
+					const currItem = currItemClones[count];
+					const adjustment = this.getItemAdjustment(currItem, whatStatDataPath);
 					totalAdjustments += adjustment;
 					count++;
 				}
 			}
 		}
-
 		return totalAdjustments;
 	}
 
