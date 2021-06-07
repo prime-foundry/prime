@@ -69,7 +69,7 @@ class Injurable extends BaseMaxComponent {
      * @return {*}
      */
     get slots() {
-        return Math.max(this.value, this.max + this._injuriesData.filter(injury => !!injury && injury.tended).length);
+        return Math.max(this.value, this.max)  + this._injuriesData.filter(injury => !!injury && injury.tended).length;
     }
 
     get value() {
