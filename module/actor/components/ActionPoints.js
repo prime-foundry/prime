@@ -1,14 +1,23 @@
 
 import BaseValueMaxComponent from './util/BaseValueMaxComponent.js';
 export default class ActionPoints extends BaseValueMaxComponent {
-    constructor(actor) {
-        super(actor);
+    constructor(parent) {
+        super(parent);
     }
 
-    getStatBonuses(){
-        return this.actor.getStatBonusesFromItems("actionPoints");
+    get base() {
+        let base = super.base;
+        // fix for old sheets
+        if(base == null) {
+            base = this._data.base = 6;
+            this._update();
+        }
+        return base;
     }
-    getData() {
-        return this.actorDataProperties.actionPoints;
+    get bonus() {
+        return this._actor.getStatBonusesFromItems("actionPoints");
+    }
+   get _data() {
+        return this._actorSystemData.actionPoints;
     }
 }

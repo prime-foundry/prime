@@ -1,42 +1,39 @@
-import ActorComponent from './ActorComponent.js';
+import BaseMaxComponent from './BaseMaxComponent.js';
 
-export default class BaseValueMaxComponent extends ActorComponent{
-    constructor(actor) {
-        super(actor);
+export default class BaseValueMaxComponent extends BaseMaxComponent{
+    constructor(parent) {
+        super(parent);
     }
-    get base() {
-        return this.getData().base;
+
+    // Really is only a UI concern, we should attach to this.
+    get lastTotal() {
+        return this._data.lastTotal || 0;
     }
-    get max() {
-        return this.base + this.getStatBonuses();
+    set lastTotal(value) {
+        this._data.lastTotal = value;
+        this._update();
     }
     get value() {
-        return this.getData().value;
+        return this._data.value;
     }
     set value(value) {
-        this.getData().value = Math.min(0, Math.max( this.max, value));
-        this.update();
+        this._data.lastTotal = this.value;
+        this._data.value = Math.max(0, Math.min( this.max, value));
+        this._update();
     }
 
-    increment(){
+    _increment(){
         this.value += 1;
     }
-    decrement(){
+    _decrement(){
         this.value -= 1;
-    }
-    /**
-     * To be optionally overriden
-     * @return {{value: number, base: number}}
-     */
-    getStatBonuses(){
-        return 0;
     }
 
     /**
      * To be overriden
      * @return {{value: number, base: number}}
      */
-    getData() {
+    get _data() {
         return {value:0,base:0};
     }
 }

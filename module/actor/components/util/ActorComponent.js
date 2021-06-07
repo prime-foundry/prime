@@ -18,57 +18,66 @@
  */
 export default class ActorComponent {
 
-    constructor(actor) {
-        this._actor = actor;
+    constructor(parent) {
+        const isRoot = !(parent instanceof ActorComponent);
+        this.__isRoot = isRoot;
+        this.__actor = isRoot ? parent : parent._actor;
+        this.__root = isRoot ? this : parent._root;
     }
 
-    /**
-     * Although this navigates up the tree, it only does it once, and persists the root as the parent.
-     * @return {ActorComponent}
-     */
-    get root(){
-        if(this._actor instanceof ActorComponent){
-            this._actor = this._actor.root;
+    get _root(){
+        return this.__root;
+    }
+
+    get _dataProvider() {
+        return this._root.__dataProvider;
+    }
+
+    get _isRoot() {
+        return this.__isRoot;
+    }
+
+    get _actor() {
+        return this.__actor;
+    }
+
+    set _dataProvider(dataProvider) {
+        if(this._isRoot){
+            this.__dataProvider = dataProvider;
         } else {
-            return this;
+            this._root._dataProvider = dataProvider;
         }
     }
-    get actor(){
-        return this.root._actor;
-    }
 
-    get dataProvider(){
-        return this.root._dataProvider;
-    }
-
-    set dataProvider(dataProvider){
-        this.root._dataProvider = dataProvider
-        this.reset();
-    }
 
     /**
      * We need one single data object between these changes.
      */
-    get actorData() {
-        if(this.root._actorData == null){
-            if(this.dataProvider == null) {
-                this.root._actorData = this.actor.data;
-            } else {
-                this.root._actorData = this.dataProvider.getData();
+    get _actorData() {
+        if(this._isRoot){
+            if (this.__actorData == null) {
+                if (this.__dataProvider == null) {
+                    this.__actorData = this.__actor.data;
+                } else {
+                    this.__actorData = this.__dataProvider.data;;
+                }
             }
+            return this.__actorData;
+        } else {
+            return this._root._actorData;
         }
-        return this.root._actorData;
     }
 
-    get actorDataProperties(){
-        return this.actorData.data;
+    get _actorSystemData() {
+        return this._actorData.data;
     }
 
-    update() {
-        this.dataProvider.markDirty = true;
-    }
-
-    reset(){
-        this.root._actorData = undefined;
+    _update() {
+        const dataProvider = this._dataProvider;
+        if(dataProvider == null){
+            this._actor.markedDirty = true;
+        } else {
+            this._dataProvider.markedDirty = true;
+        }
     }
 }

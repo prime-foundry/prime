@@ -1,11 +1,13 @@
 <div class="{{partialClasses}} actionPoints block flexColumn">
+    {{#with primeChar.stats}}
     <div class="blockTitle"><span>Action points</span></div>
     <div class="metaValueContent actionPointsWrapper flexGrow">
-        {{#for 0 actorProperties.actionPoints.max 1}}
-        <div class='actionPointWrapper{{addStateClasses this ../actorProperties.actionPoints}}'>
-            <input id="actionPoint{{this}}" value="{{this}}" class="actionPointCheckbox" type="checkbox" name="actionPoints" {{itemSelected this ../actorProperties.actionPoints.value}}/>
+        {{#for 0 actionPoints.max 1}}
+        <div class='actionPointWrapper{{addStateClasses this ../actionPoints}}'>
+            <input id="actionPoint{{this}}" value="{{this}}" class="actionPointCheckbox" type="checkbox" name="actionPoints" {{itemSelected this ../actionPoints.value}}/>
             <label for="actionPoint{{this}}">{{this}}</label>
         </div>
         {{/for}}
     </div>
+    {{/with}}
 </div>

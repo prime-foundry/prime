@@ -2,8 +2,8 @@ import ActorComponent from './util/ActorComponent.js';
 import Health from './Health.js';
 import ActionPoints from './ActionPoints.js';
 export default class Stats extends ActorComponent{
-    constructor(actor) {
-        super(actor);
+    constructor(parent) {
+        super(parent);
     }
 
     get health() {

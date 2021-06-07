@@ -1,7 +1,7 @@
 import {PrimeTables} from "../prime_tables.js";
 import {ItemCardUI} from "../item/item_card_ui.js";
 import {ItemDragSort} from "../item/item_drag_sort.js";
-
+import PrimeCharacter from "./components/PrimeCharacter.js";
 
 export class PrimePCActorSheet extends ActorSheet {
     static hooksAdded = false;
@@ -78,6 +78,7 @@ export class PrimePCActorSheet extends ActorSheet {
         // because we don't want an infinite loop, we ensure we use only the super data, to fetch actor data and properties.
         const data = super.getData(options);
         const actorProperties = this.getActorProperties(data);
+        data.primeChar = new PrimeCharacter(data);
 
         data.dtypes = ["String", "Number", "Boolean"];
 
@@ -252,9 +253,8 @@ export class PrimePCActorSheet extends ActorSheet {
         const value = input.val();
         const checked = input.prop("checked");
         const inputParent = input.parent();
-        const data = super.getData();
-        const actionPoints = this.getActionPoints(data);
-        actionPoints.lastTotal = actionPoints.value;
+        const data = this.getData();
+        const actionPoints = data.primeChar.stats.actionPoints;
 
         if (checked || (!checked && !inputParent.hasClass("currentPointTotal"))) {
             actionPoints.value = parseInt(value);
@@ -262,130 +262,93 @@ export class PrimePCActorSheet extends ActorSheet {
             actionPoints.value = parseInt(value) - 1;
         }
 
-        if (actionPoints.value < 0) {
-            actionPoints.value = 0;
-        }
-
-        await this.actor.update(data.data);
+        await this.updateIfDirty(data);
     }
 
-    async updateInjuryTotal(event) {
+    async updateIfDirty(data){
+        if(data.markedDirty){
+            await this.actor.update(data.data);
+        }
+    }
+
+    async tendToWound(event) {
         const input = $(event.delegateTarget);
         const value = input.val();
-        const data = super.getData();
-        const actorProperties = this.getActorProperties(data);
         const checked = input.prop("checked");
-        const inputParent = input.parent();
-        actorProperties.health.wounds.lastTotal = actorProperties.health.wounds.value;
+        const data = this.getData();
+        const wounds = data.primeChar.stats.health.wounds;
+        const index = parseInt(value) - 1;
 
-        if (checked || (!checked && !inputParent.hasClass("currentPointTotal"))) {
-            actorProperties.health.wounds.value = parseInt(value);
+        if (checked) {
+            wounds.aggravateOrInjure(index);
         } else {
-            actorProperties.health.wounds.value = parseInt(value) - 1;
+            wounds.alliviate(index);
         }
 
-        if (actorProperties.health.wounds.value < 0) {
-            actorProperties.health.wounds.value = 0;
-        }
-
-        var result = await this.actor.update(data.data);
+        await this.updateIfDirty(data);
     }
 
-    async updateInjuryDetail(event) {
+    async updateWoundDetail(event) {
         const select = $(event.delegateTarget);
         const value = select.val();
-        const injuryIndex = select.data("injury-index");
+        const injuryIndex = select.data("injury-index") - 1;
 
-        const data = super.getData();
-        const actorProperties = this.getActorProperties(data);
-        actorProperties.wounds["wound" + (injuryIndex - 1)] = value;
+        const data = this.getData();
+        const wounds = data.primeChar.stats.health.wounds;
+        wounds.setInjuryDetail(injuryIndex, value);
 
-        await this.actor.update(data.data);
+        await this.updateIfDirty(data);
     }
 
-    async healInjury(event) {
-        const anchor = $(event.delegateTarget);
-        const injuryIndex = anchor.data("injury-index");
+    async cureWound(event) {
+        const select = $(event.delegateTarget);
+        const injuryIndex = select.data("injury-index") - 1;
 
-        const data = super.getData();
-        const actorProperties = this.getActorProperties(data);
+        const data = this.getData();
+        const wounds = data.primeChar.stats.health.wounds;
+        wounds.cure(injuryIndex);
 
-        let count = injuryIndex - 1;
-        while (count <= actorProperties.health.wounds.max) {
-            const _nextInjury = actorProperties.wounds["wound" + (count + 1)]
-            if (_nextInjury) {
-                actorProperties.wounds["wound" + count] = _nextInjury;
-            } else {
-                actorProperties.wounds["wound" + count] = 0;
-            }
-            count++;
-        }
-
-        if (injuryIndex <= actorProperties.health.wounds.value) {
-            actorProperties.health.wounds.lastTotal = actorProperties.health.wounds.value;
-            actorProperties.health.wounds.value--;
-        }
-
-        await this.actor.update(data.data);
+        await this.updateIfDirty(data);
     }
 
-    async updateInsanityTotal(event) {
+    async tendToInsanity(event) {
         const input = $(event.delegateTarget);
         const value = input.val();
-        const data = super.getData();
-        const actorProperties = this.getActorProperties(data);
+        const index = parseInt(value) - 1;
         const checked = input.prop("checked");
-        const inputParent = input.parent();
-        actorProperties.mind.insanities.lastTotal = actorProperties.mind.insanities.value;
+        const data = this.getData();
+        const insanities = data.primeChar.stats.health.insanities;
 
-        if (checked || (!checked && !inputParent.hasClass("currentPointTotal"))) {
-            actorProperties.mind.insanities.value = parseInt(value);
+        if (checked) {
+            insanities.aggravateOrInjure(index);
         } else {
-            actorProperties.mind.insanities.value = parseInt(value) - 1;
+            insanities.alliviate(index);
         }
 
-        if (actorProperties.mind.insanities.value < 0) {
-            actorProperties.mind.insanities.value = 0;
-        }
-
-        await this.actor.update(data.data);
+        await this.updateIfDirty(data);
     }
 
     async updateInsanityDetail(event) {
         const select = $(event.delegateTarget);
         const value = select.val();
-        const insanityIndex = select.data("insanity-index");
+        const insanityIndex = select.data("insanity-index") - 1;
+        const data = this.getData();
+        const insanities = data.primeChar.stats.health.insanities;
 
-        const data = super.getData();
-        const actorProperties = this.getActorProperties(data);
-        actorProperties.insanities["insanity" + (insanityIndex - 1)] = value;
+        insanities.setInjuryDetail(insanityIndex, value);
 
-        await this.actor.update(data.data);
+        await this.updateIfDirty(data);
     }
 
-    async healInsanity(event) {
-        const anchor = $(event.delegateTarget);
-        const insanityIndex = anchor.data("insanity-index");
+    async cureInsanity(event) {
+        const select = $(event.delegateTarget);
+        const insanityIndex = select.data("insanity-index") - 1;
 
-        const data = super.getData();
+        const data = this.getData();
+        const insanities = data.primeChar.stats.health.insanities;
+        insanities.cure(insanityIndex);
 
-        let count = insanityIndex - 1;
-        while (count <= data.data.mind.insanities.max) {
-            var nextInsanity = data.data.insanities["insanity" + (count + 1)]
-            if (nextInsanity) {
-                data.data.insanities["insanity" + count] = nextInsanity;
-            } else {
-                data.data.insanities["insanity" + count] = 0;
-            }
-            count++;
-        }
-
-        if (insanityIndex <= data.data.mind.insanities.value) {
-            data.data.mind.insanities.lastTotal = data.data.mind.insanities.value;
-            data.data.mind.insanities.value--;
-        }
-
-        await this.actor.update(data.actor);
+        await this.updateIfDirty(data);
     }
 
     resizeUpdateStart(event) {
@@ -537,13 +500,13 @@ export class PrimePCActorSheet extends ActorSheet {
 
         //html.find(".injuryRow").click(this.checkEnableInjury.bind(this));
 
-        html.find(".injuryCheckbox").change(this.updateInjuryTotal.bind(this));
-        html.find(".injurySelect").change(this.updateInjuryDetail.bind(this));
-        html.find(".healInjury").click(this.healInjury.bind(this));
+        html.find(".injuryCheckbox").change(this.tendToWound.bind(this));
+        html.find(".injurySelect").change(this.updateWoundDetail.bind(this));
+        html.find(".healInjury").click(this.cureWound.bind(this));
 
-        html.find(".insanityCheckbox").change(this.updateInsanityTotal.bind(this));
+        html.find(".insanityCheckbox").change(this.tendToInsanity.bind(this));
         html.find(".insanitySelect").change(this.updateInsanityDetail.bind(this));
-        html.find(".healInsanity").click(this.healInsanity.bind(this));
+        html.find(".healInsanity").click(this.cureInsanity.bind(this));
 
         const resizeHandle = html.parent().parent().find(".window-resizable-handle");
 
@@ -623,16 +586,17 @@ export class PrimePCActorSheet extends ActorSheet {
     }
 
     async postActivateListeners(html) {
-        const data = super.getData();
-        const actorProperties = this.getActorProperties(data);
-        const actionPoints = this.getActionPoints(data);
+        const data = this.getData();
+        const stats = data.primeChar.stats
+        const actionPoints = stats.actionPoints;
+        const {wounds, insanities} = stats.health;
 
         html.find(".injurySelect").each(function (index, element) {
-            $(element).val(actorProperties.wounds["wound" + index]);
+            $(element).val((wounds.getInjury(index) || {}).detail);
         });
 
         html.find(".insanitySelect").each(function (index, element) {
-            $(element).val(actorProperties.insanities["insanity" + index]);
+            $(element).val((insanities.getInjury(index) || {}).detail);
         });
 
         html.find(".fillAnimation").removeClass("fillAnimation");
@@ -640,7 +604,7 @@ export class PrimePCActorSheet extends ActorSheet {
 
         if (actionPoints.lastTotal != actionPoints.value) {
             actionPoints.lastTotal = actionPoints.value;
-            await this.actor.update(data.data, {render: false});
+            await this.updateIfDirty(data);
         }
     }
 }

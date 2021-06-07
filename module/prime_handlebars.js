@@ -149,6 +149,38 @@ Handlebars.registerHelper('itemEnabled', function (pointIndex, currentPoints)
 	}
 	return "disabled";
 });
+Handlebars.registerHelper('disableIfTended', function (index, injurable)
+{
+	const injury = injurable.getInjury(index-1);
+	if (!injury || injury.tended)
+	{
+		return "disabled";
+	}
+	return "";
+});
+
+Handlebars.registerHelper('selectIfWounded', function (index, injurable)
+{
+	const injury = injurable.getInjury(index-1);
+	if (injury && !injury.tended)
+	{
+		return "checked";
+	}
+	return "";
+});
+
+Handlebars.registerHelper('addInjuryClasses', function (index, injurable)
+{
+	const injury = injurable.getInjury(index-1);
+	var classes = []
+
+	if (injury && !injury.tended)
+	{
+		classes.push("activePoint");
+		return " activePoint";
+	}
+	return "";
+});
 
 Handlebars.registerHelper('disabledIf', function (value)
 {
