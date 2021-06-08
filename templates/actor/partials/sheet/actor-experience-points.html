@@ -1,6 +1,8 @@
 <div class="{{partialClasses}} block bottomBlockTitle flexRow flexCenter verticalCenter">
+    {{#with primeChar.xp}}
     <div class="blockTitle">XP</div>
-    <div class="metaValueContent hasTooltip" title="Initial: {{actorProperties.xp.initial}}, Awarded: {{actorProperties.xp.awarded}}, Spent: {{actorProperties.xp.spent}}">
-        {{actorProperties.xp.value}}
+    <div class="metaValueContent hasTooltip" title="Initial: {{initial}}, Awarded: {{awarded}}, Spent: {{spent}}">
+        {{value}}
     </div>
+    {{/with}}
 </div>

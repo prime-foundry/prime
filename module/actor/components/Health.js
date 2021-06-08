@@ -1,50 +1,45 @@
 import ActorComponent from './util/ActorComponent.js';
-import BaseValueMaxComponent from './util/BaseValueMaxComponent.js';
-import BaseMaxComponent from "./util/BaseMaxComponent.js";
+import {BaseValueMaxComponent,BaseMaxComponent} from './util/ComponentSupport.js';
 
 export default class Health extends ActorComponent {
     constructor(parent) {
         super(parent);
     }
-
+    /**
+     * @return {Wounds}
+     */
     get wounds() {
-        if (!this._wounds) {
-            this._wounds = new Wounds(this);
-        }
-        return this._wounds;
+        return this._getComponentLazily('wounds', Wounds);
     }
 
     set wounds(value) {
         this.wounds.value = value;
     }
-
+    /**
+     * @return {Resilience}
+     */
     get resilience() {
-        if (!this._resilience) {
-            this._resilience = new Resilience(this);
-        }
-        return this._resilience;
+        return this._getComponentLazily('resilience', Resilience);
     }
 
     set resilience(value) {
         this.resilience.value = value;
     }
-
+    /**
+     * @return {Insanities}
+     */
     get insanities() {
-        if (!this._insanities) {
-            this._insanities = new Insanities(this);
-        }
-        return this._insanities;
+        return this._getComponentLazily('insanities', Insanities);
     }
 
     set insanities(value) {
         this.insanities.value = value;
     }
-
+    /**
+     * @return {Psyche}
+     */
     get psyche() {
-        if (!this._psyche) {
-            this._psyche = new Psyche(this);
-        }
-        return this._psyche;
+        return this._getComponentLazily('psyche', Psyche);
     }
 
     set psyche(value) {

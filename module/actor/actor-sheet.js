@@ -183,8 +183,21 @@ export class PrimePCActorSheet extends ActorSheet {
         return 0;
     }
 
-    burnSoulPoint() {
-        alert("Go'on, you know you want too...\n\n   (coming soon)");
+    async burnSoulPoint() {
+        const data = this.getData();
+        data.primeChar.soul.burn();
+        const messageContent = 'A Soul Point Has Been Burnt';
+        const alias =  `${data.primeChar.userName}: ${data.primeChar.name}`;
+        const speaker = ChatMessage.getSpeaker({ actor : data.actor, alias });
+        let chatData = {
+                speaker,
+                user: game.user._id,
+                type: CONST.CHAT_MESSAGE_TYPES.IC,
+                sound: CONFIG.sounds.combat,
+                content: messageContent,
+            };
+        CONFIG.ChatMessage.entityClass.create(chatData);
+        await this.updateIfDirty(data);
     }
 
     statChanged(event) {
@@ -254,7 +267,7 @@ export class PrimePCActorSheet extends ActorSheet {
         const checked = input.prop("checked");
         const inputParent = input.parent();
         const data = this.getData();
-        const actionPoints = data.primeChar.stats.actionPoints;
+        const actionPoints = data.primeChar.actionPoints;
 
         if (checked || (!checked && !inputParent.hasClass("currentPointTotal"))) {
             actionPoints.value = parseInt(value);
@@ -267,6 +280,7 @@ export class PrimePCActorSheet extends ActorSheet {
 
     async updateIfDirty(data){
         if(data.markedDirty){
+            data.markedDirty = false;
             await this.actor.update(data.data);
         }
     }
@@ -276,7 +290,7 @@ export class PrimePCActorSheet extends ActorSheet {
         const value = input.val();
         const checked = input.prop("checked");
         const data = this.getData();
-        const wounds = data.primeChar.stats.health.wounds;
+        const wounds = data.primeChar.health.wounds;
         const index = parseInt(value) - 1;
 
         if (checked) {
@@ -294,7 +308,7 @@ export class PrimePCActorSheet extends ActorSheet {
         const injuryIndex = select.data("injury-index") - 1;
 
         const data = this.getData();
-        const wounds = data.primeChar.stats.health.wounds;
+        const wounds = data.primeChar.health.wounds;
         wounds.setInjuryDetail(injuryIndex, value);
 
         await this.updateIfDirty(data);
@@ -305,7 +319,7 @@ export class PrimePCActorSheet extends ActorSheet {
         const injuryIndex = select.data("injury-index") - 1;
 
         const data = this.getData();
-        const wounds = data.primeChar.stats.health.wounds;
+        const wounds = data.primeChar.health.wounds;
         wounds.cure(injuryIndex);
 
         await this.updateIfDirty(data);
@@ -317,7 +331,7 @@ export class PrimePCActorSheet extends ActorSheet {
         const index = parseInt(value) - 1;
         const checked = input.prop("checked");
         const data = this.getData();
-        const insanities = data.primeChar.stats.health.insanities;
+        const insanities = data.primeChar.health.insanities;
 
         if (checked) {
             insanities.aggravateOrInjure(index);
@@ -333,7 +347,7 @@ export class PrimePCActorSheet extends ActorSheet {
         const value = select.val();
         const insanityIndex = select.data("insanity-index") - 1;
         const data = this.getData();
-        const insanities = data.primeChar.stats.health.insanities;
+        const insanities = data.primeChar.health.insanities;
 
         insanities.setInjuryDetail(insanityIndex, value);
 
@@ -345,7 +359,7 @@ export class PrimePCActorSheet extends ActorSheet {
         const insanityIndex = select.data("insanity-index") - 1;
 
         const data = this.getData();
-        const insanities = data.primeChar.stats.health.insanities;
+        const insanities = data.primeChar.health.insanities;
         insanities.cure(insanityIndex);
 
         await this.updateIfDirty(data);
@@ -486,7 +500,7 @@ export class PrimePCActorSheet extends ActorSheet {
         html.find(".toggleCharacterEditing").click(this.toggleSheetEditMode.bind(this));
         html.find(".toggleCharacterLocked").click(this.toggleSheetEditMode.bind(this));
 
-        html.find(".soulAndXP").click(this.burnSoulPoint.bind(this));
+        html.find(".soulAndXP .burnSoulpoint").click(this.burnSoulPoint.bind(this));
 
         html.find(".primeWrapper, .refinementWrapper").dblclick(this.toggleValueEditMode.bind(this));
         html.find(".primeWrapper, .refinementWrapper").click(this.checkPreventClose.bind(this));
@@ -587,9 +601,9 @@ export class PrimePCActorSheet extends ActorSheet {
 
     async postActivateListeners(html) {
         const data = this.getData();
-        const stats = data.primeChar.stats
-        const actionPoints = stats.actionPoints;
-        const {wounds, insanities} = stats.health;
+        const primeChar = data.primeChar
+        const actionPoints = primeChar.actionPoints;
+        const {wounds, insanities} = primeChar.health;
 
         html.find(".injurySelect").each(function (index, element) {
             $(element).val((wounds.getInjury(index) || {}).detail);

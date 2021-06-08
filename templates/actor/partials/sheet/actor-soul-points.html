@@ -1,9 +1,12 @@
 <div class="{{partialClasses}} block bottomBlockTitle flexRow flexCenter verticalCenter">
+
+    {{#with primeChar.soul}}
     <div class="blockTitle">Soul</div>
-    <div class="metaValueContent hasTooltip" title="Initial: {{actorProperties.soul.initial}}, Awarded: {{actorProperties.soul.awarded}}, Spent: {{actorProperties.soul.spent}}">
-        {{actorProperties.soul.value}}
+    <div class="metaValueContent hasTooltip" title="Initial: {{initial}}, Awarded: {{awarded}}, Spent: {{spent}}, Burnt: {{burnt}}">
+        {{value}}
     </div>
     <div class="burnSoulpoint">
         <i class="game-icon game-icon-fire-silhouette icon-md"></i>
     </div>
+    {{/with}}
 </div>
