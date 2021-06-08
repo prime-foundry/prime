@@ -61,7 +61,7 @@ export class XP extends Awardable {
     }
 
     award(value) {
-        this._actorSystemData.soul.xp += value;
+        this._actorSystemData.xp.awarded += value;
         this._update();
     }
 
