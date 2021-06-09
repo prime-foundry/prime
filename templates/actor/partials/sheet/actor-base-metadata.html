@@ -1,21 +1,25 @@
 <div class="{{partialClasses}} flexRow flexBetween">
+	{{#with prime.actor}}
     <div class="cell33 block noTitle imageWrapper flexRow flexCenter verticalCenter">
-		<img class="profileImg" src="{{actor.img}}" data-edit="img" title="{{actor.name}}"/>
+		<img class="profileImg" src="{{portrait}}" data-edit="img" title="{{name}}"/>
 		<div class="actorIsCloneWrapper hasTooltip" title="This is a clone of an actor based on a token. To link your actual actor:&#10;1) Right click on the token&#10;2) Select the cog icon&#10;3) Check the 'Link Actor Data' box.">
 			<i class="game-icon game-icon-two-shadows icon-md"></i>
 		</div>
     </div>
+	{{/with}}
     <div class="cell66 flexColumn">
+		{{#with prime.actor}}
 		<div class="block flexColumn flexBetween">
 			<div class="blockTitle">Name</div>
-			<h1 class="entityName {{characterNameClass}}">
+			<h1 class="entityName {{characterNameClass name}}">
 				<div class="valueWrapper">
-					<input name="name" type="text" value="{{actor.name}}" placeholder="Name"/>
-					<div class="actorValue">{{actor.name}}</div>
+					<input name="name" type="text" value="{{name}}" placeholder="Name"/>
+					<div class="actorValue">{{name}}</div>
 				</div>
 			</h1>
-			<h2 class="characterOwners"><label for="charName">Player: {{currentOwners}}</h2>
+			<h2 class="characterOwners"><label for="charName">Player: {{ownersNames}}</h2>
 		</div>
+		{{/with}}
 
         <div class="soulAndXP flexRow">
             {{> actorSoulPoints partialClasses='cell50'}}

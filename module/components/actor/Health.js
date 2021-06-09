@@ -1,5 +1,5 @@
-import ActorComponent from './util/ActorComponent.js';
-import {BaseValueMaxComponent,BaseMaxComponent} from './util/ComponentSupport.js';
+import ActorComponent from './ActorComponent.js';
+import {BaseValueMaxComponent,BaseMaxComponent} from './util/ActorComponentSupport.js';
 
 export default class Health extends ActorComponent {
     constructor(parent) {

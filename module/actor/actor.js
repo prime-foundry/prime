@@ -83,6 +83,11 @@ export class PrimePCActor extends Actor
 		}
 	}
 
+	/**
+	 * FIXME: Obsolete moved to handlebars
+	 * @param whatPermissions
+	 * @return {string}
+	 */
 	getCurrentOwners(whatPermissions)
 	{
 		var whatPermissions = this.data.permission;
@@ -459,7 +464,7 @@ export class PrimePCActor extends Actor
 
 	updateWardValues()
 	{
-		this.data.data.ward.stability.value = this.getStatBonusesFromItems("ward.stability.max");
+		this.data.data.ward.stability.value = this.getStatBonusesFromItems("ward.stability.value");
 		this.data.data.ward.stability.max = this.getStatBonusesFromItems("ward.stability.max");
 
 		var initialMaxValue = this.data.data.ward.psyche.max

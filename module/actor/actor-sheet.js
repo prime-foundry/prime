@@ -1,7 +1,7 @@
 import {PrimeTables} from "../prime_tables.js";
 import {ItemCardUI} from "../item/item_card_ui.js";
 import {ItemDragSort} from "../item/item_drag_sort.js";
-import PrimeCharacter from "./components/PrimeCharacter.js";
+import Prime from "../components/Prime.js";
 
 export class PrimePCActorSheet extends ActorSheet {
     static hooksAdded = false;
@@ -78,7 +78,7 @@ export class PrimePCActorSheet extends ActorSheet {
         // because we don't want an infinite loop, we ensure we use only the super data, to fetch actor data and properties.
         const data = super.getData(options);
         const actorProperties = this.getActorProperties(data);
-        data.primeChar = new PrimeCharacter(data);
+        data.prime = new Prime(data);
 
         data.dtypes = ["String", "Number", "Boolean"];
 
@@ -185,9 +185,9 @@ export class PrimePCActorSheet extends ActorSheet {
 
     async burnSoulPoint() {
         const data = this.getData();
-        data.primeChar.soul.burn();
+        data.prime.actor.soul.burn();
         const messageContent = 'A Soul Point Has Been Burnt';
-        const alias =  `${data.primeChar.userName}: ${data.primeChar.name}`;
+        const alias =  `${data.prime.user.name}: ${data.prime.actor.name}`;
         const speaker = ChatMessage.getSpeaker({ actor : data.actor, alias });
         let chatData = {
                 speaker,
@@ -267,7 +267,7 @@ export class PrimePCActorSheet extends ActorSheet {
         const checked = input.prop("checked");
         const inputParent = input.parent();
         const data = this.getData();
-        const actionPoints = data.primeChar.actionPoints;
+        const actionPoints = data.prime.actor.actionPoints;
 
         if (checked || (!checked && !inputParent.hasClass("currentPointTotal"))) {
             actionPoints.value = parseInt(value);
@@ -290,7 +290,7 @@ export class PrimePCActorSheet extends ActorSheet {
         const value = input.val();
         const checked = input.prop("checked");
         const data = this.getData();
-        const wounds = data.primeChar.health.wounds;
+        const wounds = data.prime.actor.health.wounds;
         const index = parseInt(value) - 1;
 
         if (checked) {
@@ -308,7 +308,7 @@ export class PrimePCActorSheet extends ActorSheet {
         const injuryIndex = select.data("injury-index") - 1;
 
         const data = this.getData();
-        const wounds = data.primeChar.health.wounds;
+        const wounds = data.prime.actor.health.wounds;
         wounds.setInjuryDetail(injuryIndex, value);
 
         await this.updateIfDirty(data);
@@ -319,7 +319,7 @@ export class PrimePCActorSheet extends ActorSheet {
         const injuryIndex = select.data("injury-index") - 1;
 
         const data = this.getData();
-        const wounds = data.primeChar.health.wounds;
+        const wounds = data.prime.actor.health.wounds;
         wounds.cure(injuryIndex);
 
         await this.updateIfDirty(data);
@@ -331,7 +331,7 @@ export class PrimePCActorSheet extends ActorSheet {
         const index = parseInt(value) - 1;
         const checked = input.prop("checked");
         const data = this.getData();
-        const insanities = data.primeChar.health.insanities;
+        const insanities = data.prime.actor.health.insanities;
 
         if (checked) {
             insanities.aggravateOrInjure(index);
@@ -347,7 +347,7 @@ export class PrimePCActorSheet extends ActorSheet {
         const value = select.val();
         const insanityIndex = select.data("insanity-index") - 1;
         const data = this.getData();
-        const insanities = data.primeChar.health.insanities;
+        const insanities = data.prime.actor.health.insanities;
 
         insanities.setInjuryDetail(insanityIndex, value);
 
@@ -359,7 +359,7 @@ export class PrimePCActorSheet extends ActorSheet {
         const insanityIndex = select.data("insanity-index") - 1;
 
         const data = this.getData();
-        const insanities = data.primeChar.health.insanities;
+        const insanities = data.prime.actor.health.insanities;
         insanities.cure(insanityIndex);
 
         await this.updateIfDirty(data);
@@ -601,9 +601,8 @@ export class PrimePCActorSheet extends ActorSheet {
 
     async postActivateListeners(html) {
         const data = this.getData();
-        const primeChar = data.primeChar
-        const actionPoints = primeChar.actionPoints;
-        const {wounds, insanities} = primeChar.health;
+        const actionPoints = data.prime.actor.actionPoints;
+        const {wounds, insanities} = data.prime.actor.health;
 
         html.find(".injurySelect").each(function (index, element) {
             $(element).val((wounds.getInjury(index) || {}).detail);

@@ -182,6 +182,29 @@ Handlebars.registerHelper('addInjuryClasses', function (index, injurable)
 	return "";
 });
 
+Handlebars.registerHelper('characterNameClass', function (whatName)
+{
+	const canvas = document.createElement('canvas');
+	const canvasContext = canvas.getContext('2d');
+	canvasContext.font = "34px Signika";
+
+	const nameText = canvasContext.measureText(whatName);
+	const nameWidth = nameText.width;
+
+	// 215 is width of name field on default open.
+	if (nameWidth <= 180) {
+		return "largestNameFont";
+	} else if (nameWidth > 180 && nameWidth <= 205) {
+		return "largeNameFont";
+	} else if (nameWidth > 205 && nameWidth <= 320) {
+		return "mediumNameFont";
+	} else if (nameWidth > 320 && nameWidth <= 450) {
+		return "smallNameFont";
+	} else {
+		return "tinyNameFont";
+	}
+});
+
 Handlebars.registerHelper('disabledIf', function (value)
 {
 	if (value)

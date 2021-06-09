@@ -1,4 +1,4 @@
-import ActorComponent from './ActorComponent.js';
+import ActorComponent from '../ActorComponent.js';
 
 export class BaseMaxComponent extends ActorComponent {
     constructor(parent) {
