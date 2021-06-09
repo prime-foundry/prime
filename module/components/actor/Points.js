@@ -1,5 +1,5 @@
 import {BaseValueMaxComponent} from './util/ActorComponentSupport.js';
-import ActorComponent from "./ActorComponent.js";
+import ActorComponent from "./util/ActorComponent.js";
 
 class Awardable extends ActorComponent {
 

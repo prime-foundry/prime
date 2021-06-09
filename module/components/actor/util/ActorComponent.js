@@ -1,4 +1,4 @@
-import Component from "../util/Component.js";
+import Component from "../../util/Component.js";
 
 /**
  * An ActorComponent is just a proxy for an existing data store.

@@ -1,4 +1,4 @@
-import ActorComponent from './ActorComponent.js';
+import ActorComponent from './util/ActorComponent.js';
 import Health from './Health.js';
 import {ActionPoints, XP, Soul} from './Points.js';
 
