@@ -650,6 +650,13 @@ export class PrimePCActorSheet extends ActorSheet {
             switch (el.type) {
                 case 'checkbox':
                     return this._onChangePrimeValue(path, el.checked);
+                case 'text':
+                    // if its a number fall through.
+                    if(!(el.dataset && el.dataset.dtype == 'Number')){
+                        return this._onChangePrimeValue(path, el.value);
+                    }
+                case 'number':
+                    return this._onChangePrimeValue(path, Number.parseInt(el.value) || 0);
             }
         }
         return super._onChangeInput(event);
