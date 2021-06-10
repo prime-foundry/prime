@@ -58,7 +58,7 @@ export class PrimePCActorSheet extends ActorSheet {
         return data.data;
     }
 
-    getActorProperties(data = super.getData() ){
+    getActorProperties(data = super.getData()) {
         return this.getActorData(data).data;
     }
 
@@ -187,15 +187,15 @@ export class PrimePCActorSheet extends ActorSheet {
         const data = this.getData();
         data.prime.actor.soul.burn();
         const messageContent = 'A Soul Point Has Been Burnt';
-        const alias =  `${data.prime.user.name}: ${data.prime.actor.name}`;
-        const speaker = ChatMessage.getSpeaker({ actor : data.actor, alias });
+        const alias = `${data.prime.user.name}: ${data.prime.actor.name}`;
+        const speaker = ChatMessage.getSpeaker({actor: data.actor, alias});
         let chatData = {
-                speaker,
-                user: game.user._id,
-                type: CONST.CHAT_MESSAGE_TYPES.IC,
-                sound: CONFIG.sounds.combat,
-                content: messageContent,
-            };
+            speaker,
+            user: game.user._id,
+            type: CONST.CHAT_MESSAGE_TYPES.IC,
+            sound: CONFIG.sounds.combat,
+            content: messageContent,
+        };
         CONFIG.ChatMessage.entityClass.create(chatData);
         await this.updateIfDirty(data);
     }
@@ -278,11 +278,13 @@ export class PrimePCActorSheet extends ActorSheet {
         await this.updateIfDirty(data);
     }
 
-    async updateIfDirty(data){
-        if(data.markedDirty){
+    async updateIfDirty(data) {
+        if (data.markedDirty) {
             data.markedDirty = false;
             await this.actor.update(data.data);
+            return true;
         }
+        return false;
     }
 
     async tendToWound(event) {
@@ -619,5 +621,50 @@ export class PrimePCActorSheet extends ActorSheet {
             actionPoints.lastTotal = actionPoints.value;
             await this.updateIfDirty(data);
         }
+    }
+
+/// Here we do some clever stuff.
+
+    /**
+     * The default on change event, has 2 problems,
+     * firstly it is increadibly heavy weight,it takes the entire form, and everything in it and submits it,
+     * rather than just modifying a single value.
+     *
+     * secondly it forces us to align to the data structure in our forms rather than the component structure.
+     * If your input starts with 'prime' now we will follow the path modify let the prime object decide where
+     * in the data to modify things (this includes calling any methods we may want). I will add inputs as we go along.
+     *
+     * if it starts with anything else we will proceed in the old way of doing things. (you have a choice)
+     *
+     * TODO: move to a mixin class, where we can decorate our application form classes so the functionality can be anywhere.
+     *
+     * @param {Event} event  The initial change event
+     * @protected
+     */
+    async _onChangeInput(event) {
+
+        // Handle prime changes
+        const el = event.target;
+        const path = el.name;
+        if (path.startsWith('prime')) {
+            switch (el.type) {
+                case 'checkbox':
+                    return this._onChangePrimeValue(path, el.checked);
+            }
+        }
+        return super._onChangeInput(event);
+
+    }
+
+    async _onChangePrimeValue(path, value) {
+        const parts = path.split('.');
+        const data = this.getData();
+        const lastIdx = parts.length - 1;
+        let current = data;
+        for (let idx = 0; idx < lastIdx; idx++) {
+            current = current[parts[idx]];
+        }
+        current[parts[lastIdx]] = value;
+        return this.updateIfDirty(data);
     }
 }

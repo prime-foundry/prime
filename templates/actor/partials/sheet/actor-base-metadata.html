@@ -1,5 +1,5 @@
 <div class="{{partialClasses}} flexRow flexBetween">
-	{{#with prime.actor}}
+	{{#with prime.actor.profile}}
     <div class="cell33 block noTitle imageWrapper flexRow flexCenter verticalCenter">
 		<img class="profileImg" src="{{portrait}}" data-edit="img" title="{{name}}"/>
 		<div class="actorIsCloneWrapper hasTooltip" title="This is a clone of an actor based on a token. To link your actual actor:&#10;1) Right click on the token&#10;2) Select the cog icon&#10;3) Check the 'Link Actor Data' box.">
@@ -8,7 +8,7 @@
     </div>
 	{{/with}}
     <div class="cell66 flexColumn">
-		{{#with prime.actor}}
+		{{#with prime.actor.profile}}
 		<div class="block flexColumn flexBetween">
 			<div class="blockTitle">Name</div>
 			<h1 class="entityName {{characterNameClass name}}">

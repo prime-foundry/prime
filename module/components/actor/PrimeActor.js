@@ -1,6 +1,7 @@
 import ActorComponent from './util/ActorComponent.js';
 import Health from './Health.js';
 import {ActionPoints, XP, Soul} from './Points.js';
+import Profile from "./Profile.js";
 
 export default class PrimeActor extends ActorComponent {
     constructor(data) {
@@ -8,17 +9,11 @@ export default class PrimeActor extends ActorComponent {
         this._dataProvider = data;
     }
 
-    get name(){
-        return this._actor.name;
-    }
-
-    get portrait() {
-        return this._actor.img;
-    }
-
-    get ownersNames() {
-        const owners = this._owners;
-        return owners.length === 0 ? "Not Assigned" : owners.map(owner => owner.name).join(", ");
+    /**
+     * @return {Profile}
+     */
+    get profile() {
+        return this._getComponentLazily('profile', Profile);
     }
 
     /**

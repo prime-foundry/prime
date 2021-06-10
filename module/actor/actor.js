@@ -7,6 +7,7 @@ import { PrimeTables } from "../prime_tables.js";
 export class PrimePCActor extends Actor
 {
 
+
 	/**
 	 * Augment the basic actor data with additional dynamic data.
 	 */
