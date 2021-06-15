@@ -300,7 +300,7 @@ export class PrimePCActorSheet extends ActorSheet {
         } else {
             wounds.alliviate(index);
         }
-
+        const primes = data.prime.actor.primes.physical;
         await this.updateIfDirty(data);
     }
 
@@ -624,6 +624,27 @@ export class PrimePCActorSheet extends ActorSheet {
     }
 
 /// Here we do some clever stuff.
+    datasetToObject(elem) {
+        const data = {};
+        const isDataRegex = /^data-/;
+        Array.from(elem.attributes)
+            .filter(attr => isDataRegex.test(attr.name))
+            .forEach((attr) => {
+                const paths = attr.name.split('-');
+                const lastIdx = paths.length - 1;
+                let node = data;
+                // we ignore the first 'data' and the last value.
+                for (let idx = 1; idx < lastIdx; idx += 1) {
+                    const name = paths[idx];
+                    if (node[name] == null) {
+                        node[name] = {};
+                    }
+                    node = node[name];
+                }
+                node[paths[lastIdx]] = attr.value;
+            });
+        return data;
+    }
 
     /**
      * The default on change event, has 2 problems,
@@ -645,6 +666,9 @@ export class PrimePCActorSheet extends ActorSheet {
 
         // Handle prime changes
         const el = event.target;
+        const data = Object.assign({}, el.dataset);
+        const data2 = this.datasetToObject(el);
+
         const path = el.name;
         if (path.startsWith('prime')) {
             switch (el.type) {
@@ -652,7 +676,7 @@ export class PrimePCActorSheet extends ActorSheet {
                     return this._onChangePrimeValue(path, el.checked);
                 case 'text':
                     // if its a number fall through.
-                    if(!(el.dataset && el.dataset.dtype == 'Number')){
+                    if (!(el.dataset && el.dataset.dtype == 'Number')) {
                         return this._onChangePrimeValue(path, el.value);
                     }
                 case 'number':

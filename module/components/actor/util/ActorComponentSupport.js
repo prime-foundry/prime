@@ -1,5 +1,60 @@
 import ActorComponent from './ActorComponent.js';
 
+export class MapLikeComponent extends ActorComponent {
+    constructor(parent) {
+        super(parent);
+        this._prepareMapLikeComponent();
+    }
+
+    /**
+     * Takes all the provided keys, and creates properties on the object, with its own getters and setters.
+     * Useful for non static lists such as primes and refinements
+     * @private
+     */
+    _prepareMapLikeComponent() {
+        const keys = this._getKeys();
+        const obj = this;
+        keys.map((item) => {
+            let key = item;
+            let config = undefined;
+            if (Array.isArray(item)) {
+                [key, config] = item;
+            }
+            const property = {
+                // enumerable: true,
+                get:() => obj._getValueForKey(key, config),
+                set:(value) => obj._setValueForKey(key, value, config),
+            };
+            return [key, property];
+        }).forEach(([key,property]) => {
+            Object.defineProperty(obj, key, property)
+        });
+    }
+
+    /**
+     * @abstract
+     * @protected
+     */
+    _getKeys() {
+        return [];
+    }
+
+    /**
+     * @abstract
+     * @protected
+     */
+    _getValueForKey(key) {
+        return undefined;
+    }
+
+    /**
+     * @abstract
+     * @protected
+     */
+    _setValueForKey(key, value) {
+    }
+}
+
 export class BaseMaxComponent extends ActorComponent {
     constructor(parent) {
         super(parent);

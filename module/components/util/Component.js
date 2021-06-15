@@ -59,14 +59,15 @@ export default class Component {
      *
      * @param {string} name the fieldName
      * @param {Class.<ActorComponent>} Type the class we want to instantiate
+     * @param {object} (config) any additional parameters we want to send to its constructor.
      * @return {Class.<Type>} the actor component we generate
      * @protected
      */
-    _getComponentLazily(name, Type) {
+    _getComponentLazily(name, Type, config = {}) {
         const fieldName = `__${name}`;
         const property = Object.getOwnPropertyDescriptor(this, fieldName);
         if (property == null) {
-            const value = new Type(this);
+            const value = new Type(this, config);
             Object.defineProperty(this, fieldName, {value});
             return value;
         }

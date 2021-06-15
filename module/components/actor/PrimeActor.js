@@ -2,6 +2,7 @@ import ActorComponent from './util/ActorComponent.js';
 import Health from './Health.js';
 import {ActionPoints, XP, Soul} from './Points.js';
 import Profile from "./Profile.js";
+import {Primes, Refinements} from "./PrimesAndRefinements.js";
 
 export default class PrimeActor extends ActorComponent {
     constructor(data) {
@@ -17,6 +18,20 @@ export default class PrimeActor extends ActorComponent {
     }
 
     /**
+     * @return {Primes}
+     */
+    get primes() {
+        return this._getComponentLazily('primes', Primes);
+    }
+
+    /**
+     * @return {Primes}
+     */
+    get refinements() {
+        return this._getComponentLazily('refinements', Refinements);
+    }
+
+    /**
      * @return {Health}
      */
     get health() {
@@ -27,6 +42,16 @@ export default class PrimeActor extends ActorComponent {
      */
     get actionPoints() {
         return this._getComponentLazily('actionPoints', ActionPoints);
+    }
+
+    get version() {
+        if(this._actorSystemData.sheetVersion) {
+            switch (this._actorSystemData.sheetVersion) {
+                case "v2.0":
+                    return 2;
+            }
+        }
+        return 1;
     }
 
     /**

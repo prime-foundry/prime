@@ -11,6 +11,7 @@
             <label for="data.primes.{{key}}.value">{{prime.title}}</label>
             <div class="valueWrapper">
                 <input type="text" name="data.primes.{{key}}.value" value="{{prime.value}}"
+                       data-prime-path="prime.actor.{{key}}.value"
 				data-itemStat="{{prime.itemBasedStat}}"
 				data-dtype="Number"
 				data-min="{{getStatMin key}}"

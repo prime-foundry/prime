@@ -225,7 +225,7 @@ export class PrimePCActor extends Actor
 		this._getItems(['prime' ,'refinement']).forEach((item) =>
 		{
 			let itemType = item.type
-			let statType = item.data.statType;
+			let statType = item.data.data.statType;
 			if (!sortedData[statType].title)
 			{
 				let localisedTitle = game.i18n.localize("PRIME.stat_type_" + statType);

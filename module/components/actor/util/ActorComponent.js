@@ -18,7 +18,7 @@ import Component from "../../util/Component.js";
  * @example <caption>or, there is a shortcut.</caption>
  * this.actor.stats.health.psyche = 5
  */
-export default class ActorComponent extends Component{
+export default class ActorComponent extends Component {
 
     constructor(actor) {
         super(actor);
@@ -39,6 +39,10 @@ export default class ActorComponent extends Component{
      */
     get _actor() {
         return this.__actor;
+    }
+
+    get _items() {
+        return this._actor.items || new Map();
     }
 
     /**
@@ -71,16 +75,43 @@ export default class ActorComponent extends Component{
      * @protected
      */
     get _owners() {
-        return this._calculateValueOnce('spent', () =>
-            Object.entries(this._actorData.permission || {})
-                .filter(([key, permission]) => {
-                    return key != 'default' && permission == 3;
-                })
-                .map(([key,]) => {
-                    return game.users.get(key);
-                })
-                .filter((user) => !!user && !user.isGM)
-        );
+        if (this._isRoot) {
+            return this._calculateValueOnce('owners', () =>
+                Object.entries(this._actorData.permission || {})
+                    .filter(([key, permission]) => {
+                        return key != 'default' && permission == 3;
+                    })
+                    .map(([key,]) => {
+                        return game.users.get(key);
+                    })
+                    .filter((user) => !!user && !user.isGM)
+            );
+        } else {
+            return this._root._owners;
+        }
+    }
+
+    _getItemsByType(type) {
+        if (this._isRoot) {
+            return this._calculateValueOnce(`items_by_type_${type}`, () => this._items.filter((item) => {
+               return type === item.type;
+            }));
+        } else {
+            return this._root._getItemsByType(type);
+        }
+    }
+
+    _getItemById(id) {
+        // JS MAP is fast, no point in saving the value, it will be faster than the property lookup.
+        return this._items.get(id);
+    }
+
+    _getItemBySourceKey(key) {
+        if (this._isRoot) {
+            return this._calculateValueOnce(`item_by_sk_${key}`, () => this._items.find((item) => key === item.data.sourceKey));
+        } else {
+            return this._root._getItemBySourceKey(key);
+        }
     }
 
     /**
