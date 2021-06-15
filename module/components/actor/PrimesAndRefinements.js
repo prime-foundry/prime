@@ -1,6 +1,6 @@
 import ActorComponent from "./util/ActorComponent.js";
 import ItemComponent from "../item/ItemComponent.js";
-import {Prime_V1, Refinement_V1} from "./v1/PrimesAndRefinements.v1.js";
+import {Prime_V1, Refinement_V1} from "./legacy/PrimesAndRefinements.v1.js";
 
 class Stat extends ItemComponent {
 
@@ -86,14 +86,8 @@ class Stats extends ActorComponent {
     }
 
     get supernatural() {
-        // version 1 has a spelling mistake.
-        if(this._root.version === 1){
-            return this._calculateValueOnce('supernatural',
-                () => this._getTransformedItems().filter(stat => stat.statType === 'supernaturual'));
-        } else {
-            return this._calculateValueOnce('supernatural',
-                () => this._getTransformedItems().filter(stat => stat.statType === 'supernatural'));
-        }
+        return this._calculateValueOnce('supernatural',
+            () => this._getTransformedItems().filter(stat => stat.statType === 'supernatural'));
     }
 
     get cost() {
@@ -113,16 +107,16 @@ export class Primes extends Stats {
     }
 
     _getTransformedItems() {
-        if(this._root.version === 2) {
-            return this._calculateValueOnce('getTransformedItems',
-                () => this._root._getItemsByType('prime')
-                    .sort((one, two) => one.name.localeCompare(two.name))
-                    .map(item => new Prime(this, item)));
-        } else {
+        if (this._root.version === 1) {
+            // TODO: Migrate: version 1 takes its data from the actor system data and not items.
             return this._calculateValueOnce('getTransformedItems',
                 () => Object.entries(this._actorSystemData.primes)
-                .map(statData => new Prime_V1(this, statData)));
+                    .map(statData => new Prime_V1(this, statData)));
         }
+        return this._calculateValueOnce('getTransformedItems',
+            () => this._root._getItemsByType('prime')
+                .sort((one, two) => one.name.localeCompare(two.name))
+                .map(item => new Prime(this, item)));
     }
 }
 
@@ -132,15 +126,15 @@ export class Refinements extends Stats {
     }
 
     _getTransformedItems() {
-        if(this._root.version === 2) {
-            return this._calculateValueOnce('getTransformedItems',
-                () => this._root._getItemsByType('refinement')
-                    .sort((one, two) => one.name.localeCompare(two.name))
-                    .map(item => new Refinement(this, item)));
-        } else {
+        if (this._root.version === 1) {
+            // TODO: Migrate: version 1 takes its data from the actor system data and not items.
             return this._calculateValueOnce('getTransformedItems',
                 () => Object.entries(this._actorSystemData.refinements)
                     .map(statData => new Refinement_V1(this, statData)));
         }
+        return this._calculateValueOnce('getTransformedItems',
+            () => this._root._getItemsByType('refinement')
+                .sort((one, two) => one.name.localeCompare(two.name))
+                .map(item => new Refinement(this, item)));
     }
 }

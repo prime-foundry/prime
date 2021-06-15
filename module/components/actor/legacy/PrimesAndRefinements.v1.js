@@ -1,5 +1,6 @@
 import ActorComponent from "../util/ActorComponent.js";
 
+// TODO: Migrate: version 1 managements of stats, moved to a seperate file, for easy removal once migrated..
 class Stat_V1 extends ActorComponent {
 
     constructor(parent, statData) {
@@ -21,7 +22,12 @@ class Stat_V1 extends ActorComponent {
     }
 
     get statType() {
-        return this._statData.type;
+        const statType = this._statData.type;
+        // V1 has a spelling mistake.
+        if(statType === 'supernaturual'){
+            return 'supernatural'
+        }
+        return statType;
     }
 
     get description() {
