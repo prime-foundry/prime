@@ -2,6 +2,7 @@ import {PrimeTables} from "../prime_tables.js";
 import {ItemCardUI} from "../item/item_card_ui.js";
 import {ItemDragSort} from "../item/item_drag_sort.js";
 import Prime from "../components/Prime.js";
+import PrimeController from "../components/PrimeController.js";
 
 export class PrimePCActorSheet extends ActorSheet {
     static hooksAdded = false;
@@ -54,6 +55,7 @@ export class PrimePCActorSheet extends ActorSheet {
         });
     }
 
+
     getActorData(data = super.getData()) {
         return data.data;
     }
@@ -73,12 +75,28 @@ export class PrimePCActorSheet extends ActorSheet {
         //}
     }
 
+    async updateIfDirty(data) {
+        if (data.markedDirty) {
+            data.markedDirty = false;
+            await this.actor.update(data.data);
+            return true;
+        }
+        return false;
+    }
+
+    getPrimeController(){
+        if(!this._primeController){
+            this._primeController = new PrimeController(this);
+        }
+        return this._primeController;
+    }
+
     /** @override */
     getData(options) {
         // because we don't want an infinite loop, we ensure we use only the super data, to fetch actor data and properties.
         const data = super.getData(options);
         const actorProperties = this.getActorProperties(data);
-        data.prime = new Prime(data);
+        data.prime = new Prime({actor:this.actor}, this, data);
 
         data.dtypes = ["String", "Number", "Boolean"];
 
@@ -261,48 +279,6 @@ export class PrimePCActorSheet extends ActorSheet {
         }
     }
 
-    async updateActionPoints(event) {
-        const input = $(event.delegateTarget);
-        const value = input.val();
-        const checked = input.prop("checked");
-        const inputParent = input.parent();
-        const data = this.getData();
-        const actionPoints = data.prime.actor.actionPoints;
-
-        if (checked || (!checked && !inputParent.hasClass("currentPointTotal"))) {
-            actionPoints.value = parseInt(value);
-        } else {
-            actionPoints.value = parseInt(value) - 1;
-        }
-
-        await this.updateIfDirty(data);
-    }
-
-    async updateIfDirty(data) {
-        if (data.markedDirty) {
-            data.markedDirty = false;
-            await this.actor.update(data.data);
-            return true;
-        }
-        return false;
-    }
-
-    async tendToWound(event) {
-        const input = $(event.delegateTarget);
-        const value = input.val();
-        const checked = input.prop("checked");
-        const data = this.getData();
-        const wounds = data.prime.actor.health.wounds;
-        const index = parseInt(value) - 1;
-
-        if (checked) {
-            wounds.aggravateOrInjure(index);
-        } else {
-            wounds.alliviate(index);
-        }
-        const primes = data.prime.actor.primes.physical;
-        await this.updateIfDirty(data);
-    }
 
     async updateWoundDetail(event) {
         const select = $(event.delegateTarget);
@@ -323,23 +299,6 @@ export class PrimePCActorSheet extends ActorSheet {
         const data = this.getData();
         const wounds = data.prime.actor.health.wounds;
         wounds.cure(injuryIndex);
-
-        await this.updateIfDirty(data);
-    }
-
-    async tendToInsanity(event) {
-        const input = $(event.delegateTarget);
-        const value = input.val();
-        const index = parseInt(value) - 1;
-        const checked = input.prop("checked");
-        const data = this.getData();
-        const insanities = data.prime.actor.health.insanities;
-
-        if (checked) {
-            insanities.aggravateOrInjure(index);
-        } else {
-            insanities.alliviate(index);
-        }
 
         await this.updateIfDirty(data);
     }
@@ -512,15 +471,10 @@ export class PrimePCActorSheet extends ActorSheet {
 
         html.click(this.clearValueEditMode.bind(this));
 
-        html.find(".actionPointCheckbox").change(this.updateActionPoints.bind(this));
 
-        //html.find(".injuryRow").click(this.checkEnableInjury.bind(this));
-
-        html.find(".injuryCheckbox").change(this.tendToWound.bind(this));
         html.find(".injurySelect").change(this.updateWoundDetail.bind(this));
         html.find(".healInjury").click(this.cureWound.bind(this));
 
-        html.find(".insanityCheckbox").change(this.tendToInsanity.bind(this));
         html.find(".insanitySelect").change(this.updateInsanityDetail.bind(this));
         html.find(".healInsanity").click(this.cureInsanity.bind(this));
 
@@ -624,27 +578,6 @@ export class PrimePCActorSheet extends ActorSheet {
     }
 
 /// Here we do some clever stuff.
-    datasetToObject(elem) {
-        const data = {};
-        const isDataRegex = /^data-/;
-        Array.from(elem.attributes)
-            .filter(attr => isDataRegex.test(attr.name))
-            .forEach((attr) => {
-                const paths = attr.name.split('-');
-                const lastIdx = paths.length - 1;
-                let node = data;
-                // we ignore the first 'data' and the last value.
-                for (let idx = 1; idx < lastIdx; idx += 1) {
-                    const name = paths[idx];
-                    if (node[name] == null) {
-                        node[name] = {};
-                    }
-                    node = node[name];
-                }
-                node[paths[lastIdx]] = attr.value;
-            });
-        return data;
-    }
 
     /**
      * The default on change event, has 2 problems,
@@ -657,45 +590,17 @@ export class PrimePCActorSheet extends ActorSheet {
      *
      * if it starts with anything else we will proceed in the old way of doing things. (you have a choice)
      *
-     * TODO: move to a mixin class, where we can decorate our application form classes so the functionality can be anywhere.
-     *
      * @param {Event} event  The initial change event
      * @protected
      */
     async _onChangeInput(event) {
 
-        // Handle prime changes
-        const el = event.target;
-        const data = Object.assign({}, el.dataset);
-        const data2 = this.datasetToObject(el);
-
-        const path = el.name;
-        if (path.startsWith('prime')) {
-            switch (el.type) {
-                case 'checkbox':
-                    return this._onChangePrimeValue(path, el.checked);
-                case 'text':
-                    // if its a number fall through.
-                    if (!(el.dataset && el.dataset.dtype == 'Number')) {
-                        return this._onChangePrimeValue(path, el.value);
-                    }
-                case 'number':
-                    return this._onChangePrimeValue(path, Number.parseInt(el.value) || 0);
-            }
-        }
-        return super._onChangeInput(event);
-
-    }
-
-    async _onChangePrimeValue(path, value) {
-        const parts = path.split('.');
+        const element = event.target;
         const data = this.getData();
-        const lastIdx = parts.length - 1;
-        let current = data;
-        for (let idx = 0; idx < lastIdx; idx++) {
-            current = current[parts[idx]];
+        const prime = data.prime;
+        if(!await prime._controller.onChangeInput(element)){
+            return super._onChangeInput(event);
         }
-        current[parts[lastIdx]] = value;
-        return this.updateIfDirty(data);
     }
+
 }

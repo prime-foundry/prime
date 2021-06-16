@@ -66,21 +66,21 @@ export class XP extends Awardable {
     }
 
     _calculateInitial() {
-        if (this._isCharacter()) {
+        if (this._root._isCharacter()) {
             return this._actorSystemData.xp.initial;
         }
         return 0;
     }
 
     _calculateAwarded() {
-        if (this._isCharacter()) {
+        if (this._root._isCharacter()) {
             return this._actorSystemData.xp.awarded;
         }
         return 0;
     }
 
     _calculateSpent() {
-        if (this._isCharacter()) {
+        if (this._root._isCharacter()) {
             const refinementCost = this._actor.getTotalCost(this._actorSystemData.refinements);
             const perkXPCost = this._actor.getTotalPerkCost("perkCostXP");
             return refinementCost + perkXPCost;
@@ -104,7 +104,7 @@ export class Soul extends Awardable {
     }
 
     get burnt() {
-        return this._calculateValueOnce('burnt', () => this._isCharacter() ? this._actorSystemData.soul.burnt || 0 : 0);
+        return this._calculateValueOnce('burnt', () => this._root._isCharacter() ? this._actorSystemData.soul.burnt || 0 : 0);
     }
 
     burn() {
@@ -113,21 +113,21 @@ export class Soul extends Awardable {
     }
 
     _calculateInitial() {
-        if (this._isCharacter()) {
+        if (this._root._isCharacter()) {
             return this._actorSystemData.soul.initial;
         }
         return 0;
     }
 
     _calculateAwarded() {
-        if (this._isCharacter()) {
+        if (this._root._isCharacter()) {
             return this._actorSystemData.soul.awarded ;
         }
         return 0;
     }
 
     _calculateSpent() {
-        if (this._isCharacter()) {
+        if (this._root._isCharacter()) {
 
             const primeCost = this._actor.getTotalCost(this._actorSystemData.primes);
             const perkSoulCost = this._actor.getTotalPerkCost("perkCostSoul");

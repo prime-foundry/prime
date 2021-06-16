@@ -1,5 +1,5 @@
 /**
- * An Component is just a proxy for an existing data store.
+ * A Component is just a proxy for an existing data store.
  * It doesn't store any real data, just the references to the data store,
  * however it should contain all the modification and utility functions, you might need.
  * Think of it as a cross between an Entity class and a Repository class in Domain Driven Design, (which is a bit like an Object Orientated DAO, or an ORM)
@@ -9,43 +9,44 @@
  */
 export default class Component {
 
+    /**
+     * @param {Component} parent
+     */
     constructor(parent) {
-        const isRoot = !(parent instanceof Component);
-        this.__isRoot = isRoot;
         this.__parent = parent;
-        this.__root = isRoot ? this : parent._root;
+        this.__root = parent == null ? this : parent._root;
     }
 
+    /**
+     * @returns {ParentComponent}
+     * @protected
+     */
     get _root() {
         return this.__root;
     }
 
-    get _parent() {
-        return this.__parent;
-    }
-    get _dataProvider() {
-        return this._root.__dataProvider;
-    }
-
-    set _dataProvider(dataProvider) {
-        if (this._isRoot) {
-            this.__dataProvider = dataProvider;
-        } else {
-            this._root._dataProvider = dataProvider;
-        }
+    /**
+     * @returns {PrimeController}
+     * @protected
+     */
+    get _controller() {
+        return this._root._controller;
     }
 
     get _isRoot() {
-        return this.__isRoot;
+        return false;
+    }
+
+    /**
+     * @returns {Component}
+     * @protected
+     */
+    get _parent() {
+        return this.__parent;
     }
 
     _update() {
-        const dataProvider = this._dataProvider;
-        if (dataProvider == null) {
-            this._parent.markedDirty = true;
-        } else {
-            this._dataProvider.markedDirty = true;
-        }
+        this._controller._update();
     }
 
     /**
@@ -58,9 +59,9 @@ export default class Component {
      * return this.name;
      *
      * @param {string} name the fieldName
-     * @param {Class.<ActorComponent>} Type the class we want to instantiate
+     * @param {Class.<Component>} Type the class we want to instantiate
      * @param {object} (config) any additional parameters we want to send to its constructor.
-     * @return {Class.<Type>} the actor component we generate
+     * @return {Component} the actor component we generate
      * @protected
      */
     _getComponentLazily(name, Type, config = {}) {
@@ -91,17 +92,15 @@ export default class Component {
      * const value = this._calculateValueOnce('myName', (a,b) => a+b, this, 3,5);
      * // returns 8
      * @param {string} name the fieldName
-     * @param {function} func the class we want to instantiate
-     * @param {*} (thisArg=this) the scope we execute in.
-     * @param {*} (rest) the rest of the arguments for the function.
+     * @param {function} func the class we want to instantiate.
      * @return {any}
      * @protected
      */
-    _calculateValueOnce(name, func, thisArg = this, ...rest) {
+    _calculateValueOnce(name, func) {
         const fieldName = `__${name}`;
         const property = Object.getOwnPropertyDescriptor(this, fieldName);
         if (property == null) {
-            const value = (!!rest && rest.length > 0) ? func.call(thisArg, ...rest) : func.call(thisArg);
+            const value = func.call(this);
             Object.defineProperty(this, fieldName, {value});
             return value;
         }

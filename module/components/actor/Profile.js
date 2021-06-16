@@ -23,7 +23,7 @@ export default class Profile extends ActorComponent {
     }
 
     get ownersNames() {
-        const owners = this._owners;
+        const owners = this._root._owners;
         return owners.length === 0 ? "Not Assigned" : owners.map(owner => owner.name).join(", ");
     }
 

@@ -3,11 +3,11 @@ import Health from './Health.js';
 import {ActionPoints, XP, Soul} from './Points.js';
 import Profile from "./Profile.js";
 import {Primes, Refinements} from "./PrimesAndRefinements.js";
+import ParentComponent from "../util/ParentComponent.js";
 
-export default class PrimeActor extends ActorComponent {
-    constructor(data) {
-        super(data.actor);
-        this._dataProvider = data;
+export default class PrimeActor extends ParentComponent {
+    constructor(actor, controller) {
+        super(actor, controller);
     }
 
     /**
@@ -70,5 +70,58 @@ export default class PrimeActor extends ActorComponent {
 
     set actionPoints(value) {
         this.actionPoints.value = value;
+    }
+
+
+    /**
+     * @returns {PrimePCActor}
+     */
+    get _actor() {
+        return super._document;
+    }
+
+    get _actorData() {
+        if (this.__actorData == null) {
+            if (this._controller && this._controller._sheet && this._controller._sheetData) {
+                this.__actorData = this._controller._sheetData.data;
+            } else {
+                this.__actorData = this.__actor.data;
+            }
+        }
+        return this.__actorData;
+    }
+
+    /**
+     * @return {User[]}
+     * @protected
+     */
+    get _owners() {
+        return this._calculateValueOnce('owners', () =>
+            Object.entries(this._actorData.permission || {})
+                .filter(([key, permission]) => {
+                    return key != 'default' && permission == 3;
+                })
+                .map(([key,]) => {
+                    return game.users.get(key);
+                })
+                .filter((user) => !!user && !user.isGM)
+        );
+    }
+
+    _getItemsByType(type) {
+        return this._calculateValueOnce(`items_by_type_${type}`, () => this._items.filter((item) => {
+            return type === item.type;
+        }));
+    }
+
+    _getItemBySourceKey(key) {
+        return this._calculateValueOnce(`item_by_sk_${key}`, () => this._items.find((item) => key === item.data.sourceKey));
+    }
+    /**
+     * Is this actor a character
+     * @return {boolean}
+     */
+    _isCharacter() {
+        return this._actorData.type === 'character';
     }
 }

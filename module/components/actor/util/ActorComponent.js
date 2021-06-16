@@ -20,9 +20,8 @@ import Component from "../../util/Component.js";
  */
 export default class ActorComponent extends Component {
 
-    constructor(actor) {
-        super(actor);
-        this.__actor = this.__isRoot ? actor : actor._actor;
+    constructor(parent) {
+        super(parent);
     }
 
     /**
@@ -33,12 +32,9 @@ export default class ActorComponent extends Component {
         return super._root;
     }
 
-    /**
-     * @return {PrimePCActor}
-     * @protected
-     */
+
     get _actor() {
-        return this.__actor;
+        return this._root._actor;
     }
 
     get _items() {
@@ -51,74 +47,11 @@ export default class ActorComponent extends Component {
      * @protected
      */
     get _actorData() {
-        if (this._isRoot) {
-            if (this.__actorData == null) {
-                if (this.__dataProvider == null) {
-                    this.__actorData = this.__actor.data;
-                } else {
-                    this.__actorData = this.__dataProvider.data;
-
-                }
-            }
-            return this.__actorData;
-        } else {
-            return this._root._actorData;
-        }
+        return this._root._actorData;
     }
 
     get _actorSystemData() {
         return this._actorData.data;
     }
 
-    /**
-     * @return {User[]}
-     * @protected
-     */
-    get _owners() {
-        if (this._isRoot) {
-            return this._calculateValueOnce('owners', () =>
-                Object.entries(this._actorData.permission || {})
-                    .filter(([key, permission]) => {
-                        return key != 'default' && permission == 3;
-                    })
-                    .map(([key,]) => {
-                        return game.users.get(key);
-                    })
-                    .filter((user) => !!user && !user.isGM)
-            );
-        } else {
-            return this._root._owners;
-        }
-    }
-
-    _getItemsByType(type) {
-        if (this._isRoot) {
-            return this._calculateValueOnce(`items_by_type_${type}`, () => this._items.filter((item) => {
-               return type === item.type;
-            }));
-        } else {
-            return this._root._getItemsByType(type);
-        }
-    }
-
-    _getItemById(id) {
-        // JS MAP is fast, no point in saving the value, it will be faster than the property lookup.
-        return this._items.get(id);
-    }
-
-    _getItemBySourceKey(key) {
-        if (this._isRoot) {
-            return this._calculateValueOnce(`item_by_sk_${key}`, () => this._items.find((item) => key === item.data.sourceKey));
-        } else {
-            return this._root._getItemBySourceKey(key);
-        }
-    }
-
-    /**
-     * Is this actor a character
-     * @return {boolean}
-     */
-    _isCharacter() {
-        return this._actorData.type === 'character';
-    }
 }

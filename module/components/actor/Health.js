@@ -1,10 +1,11 @@
 import ActorComponent from './util/ActorComponent.js';
-import {BaseValueMaxComponent,BaseMaxComponent} from './util/ActorComponentSupport.js';
+import {BaseValueMaxComponent, BaseMaxComponent} from './util/ActorComponentSupport.js';
 
 export default class Health extends ActorComponent {
     constructor(parent) {
         super(parent);
     }
+
     /**
      * @return {Wounds}
      */
@@ -15,6 +16,7 @@ export default class Health extends ActorComponent {
     set wounds(value) {
         this.wounds.value = value;
     }
+
     /**
      * @return {Resilience}
      */
@@ -25,6 +27,7 @@ export default class Health extends ActorComponent {
     set resilience(value) {
         this.resilience.value = value;
     }
+
     /**
      * @return {Insanities}
      */
@@ -35,6 +38,7 @@ export default class Health extends ActorComponent {
     set insanities(value) {
         this.insanities.value = value;
     }
+
     /**
      * @return {Psyche}
      */
@@ -64,11 +68,11 @@ class Injurable extends BaseMaxComponent {
      * @return {*}
      */
     get slots() {
-        return Math.max(this.value, this.max)  + this._injuriesData.filter(injury => !!injury && injury.tended).length;
+        return this.max;
     }
 
     get value() {
-        return this._injuriesData.filter(injury => !!injury && !injury.tended).length
+        return this._injuriesData.filter(injury => !!injury).length
     }
 
     get injuries() {
@@ -77,9 +81,17 @@ class Injurable extends BaseMaxComponent {
         })
     }
 
+    get _injuriesData() {
+        const data = this._data;
+        if (!data.injuries) {
+            data.injuries = [];
+        }
+        return data.injuries;
+    }
+
     cleanUpData() {
         const injuriesOnly = this._injuriesData.filter(injury => !!injury);
-        if(injuriesOnly.length != this._data.injuries.length) {
+        if (injuriesOnly.length != this._data.injuries.length) {
             this._data.injuries = injuriesOnly;
             this._update();
         }
@@ -87,14 +99,6 @@ class Injurable extends BaseMaxComponent {
 
     getInjury(index) {
         return this._injuriesData[index];
-    }
-
-    get _injuriesData() {
-        const data = this._data;
-        if (!data.injuries) {
-            data.injuries = [];
-        }
-        return data.injuries;
     }
 
     injure(detail = null) {
@@ -121,17 +125,6 @@ class Injurable extends BaseMaxComponent {
         }
     }
 
-    alliviate(index) {
-        let injury = this._injuriesData[index];
-        if (injury && !injury.tended) {
-            injury.tended = true;
-            if((!injury.detail) || injury.detail == 'null') {
-                this._injuriesData[index] = null;
-            }
-            this._update();
-        }
-    }
-
     aggravate(index) {
         const injury = this._injuriesData[index];
         if (injury && injury.tended) {
@@ -140,20 +133,43 @@ class Injurable extends BaseMaxComponent {
         }
     }
 
-    aggravateOrInjure(index) {
-        const injury = this._injuriesData[index];
-        if(injury){
-            this.aggravate(index);
-        } else {
-            const injuryCount = this._injuriesData.filter(injury => !!injury).length;
-            let count = index;
-            do {
-                this._injuriesData[count] = {tended:false, detail:null};
-                count -= 1;
-            } while(injuryCount <= count)
+    /**
+     * UI Function
+     * @param activate
+     * @param inputPrimeData
+     */
+    aggravateOrAlleviate({activate, inputPrimeData}) {
+        // TODO: Make ui follow 0 indexing
+        const value = (Number.parseInt(inputPrimeData.value) || 1) - 1;
+        const injury = this._injuriesData[value];
+        // if we have activated this wound,
+        if (activate) {
+            // and we have an injury already in this slot
+            if (injury) {
+                // and the wound is dormant lets aggravate it.
+                this.aggravate(value);
+            } else {
+                // or the wound is not there lets fill with injuries until we have achieved the recommended number of values.
+                const injuryCount = this._injuriesData.filter(injury => !!injury).length;
+                let count = value;
+                do {
+                    this._injuriesData[count] = {tended: false, detail: null};
+                    count -= 1;
+                } while (injuryCount <= count)
+                this._update();
+            }
+            // if we are not activating a wound, and the wound is not tended
+        } else if (injury && !injury.tended) {
+            // tend the wound
+            injury.tended = true;
+            // if there are no details on this wound, then lets heal it completely. its a mistake, lets be friendly in our UI
+            if ((!injury.detail) || injury.detail == 'null') {
+                this._injuriesData[value] = null;
+            }
             this._update();
         }
     }
+
 }
 
 class Wounds extends Injurable {
@@ -168,6 +184,7 @@ class Wounds extends Injurable {
     get _data() {
         return this._actorSystemData.health.wounds;
     }
+
     get _injuriesData() {
         const data = this._actorSystemData;
         // Fix for old data structure.

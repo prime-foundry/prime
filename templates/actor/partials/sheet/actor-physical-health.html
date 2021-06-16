@@ -27,7 +27,13 @@
         {{#for 1 wounds.slots 1}}
         <div class="flexRow injuryRow">
             <div class="injuryCheckBoxWrapper flexRow flexCenter verticalCenter{{addInjuryClasses this ../wounds}}">
-                <input type="checkbox" id="injuryCheckbox{{this}}" name="injuryCheckboxes" class="injuryCheckbox" value="{{this}}" {{selectIfWounded this ../wounds}}/>
+                <input type="checkbox"
+                       id="injuryCheckbox{{this}}"
+                       name="injuryCheckboxes"
+                       class="injuryCheckbox"
+                       data-prime-at="actor.health.wounds.aggravateOrAlleviate()"
+                       data-prime-value="{{this}}"
+                       {{selectIfWounded this ../wounds}}/>
                 <label for="injuryCheckbox{{this}}" class="flexRow flexCenter verticalCenter">{{this}}</label>
             </div>
             <select name="injurySelect{{this}}" class="injurySelect" {{disableIfTended this ../wounds}} data-injury-index="{{this}}">

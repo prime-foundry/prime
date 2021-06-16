@@ -4,7 +4,13 @@
     <div class="metaValueContent actionPointsWrapper flexGrow">
         {{#for 0 actionPoints.max 1}}
         <div class='actionPointWrapper{{addStateClasses this ../actionPoints}}'>
-            <input id="actionPoint{{this}}" value="{{this}}" class="actionPointCheckbox" type="checkbox" name="actionPoints" {{itemSelected this ../actionPoints.value}}/>
+            <input id="actionPoint{{this}}" class="actionPointCheckbox" type="checkbox"
+                   name="actionPoints"
+                   data-prime-at="actor.actionPoints"
+                   data-prime-type="counter"
+                   data-prime-value="{{this}}"
+                   data-prime-currentValue="{{../actionPoints.value}}"
+                   {{itemSelected this ../actionPoints.value}}/>
             <label for="actionPoint{{this}}">{{this}}</label>
         </div>
         {{/for}}
