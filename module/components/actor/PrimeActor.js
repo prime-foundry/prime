@@ -1,4 +1,3 @@
-import ActorComponent from './util/ActorComponent.js';
 import Health from './Health.js';
 import {ActionPoints, XP, Soul} from './Points.js';
 import Profile from "./Profile.js";

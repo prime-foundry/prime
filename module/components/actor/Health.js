@@ -140,7 +140,7 @@ class Injurable extends BaseMaxComponent {
      */
     aggravateOrAlleviate({activate, inputPrimeData}) {
         // TODO: Make ui follow 0 indexing
-        const value = (Number.parseInt(inputPrimeData.value) || 1) - 1;
+        const value = (Number.parseInt(inputPrimeData.value) || 0);
         const injury = this._injuriesData[value];
         // if we have activated this wound,
         if (activate) {

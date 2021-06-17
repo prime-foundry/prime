@@ -25,7 +25,7 @@
     <div class="insanitiesBlock block rightBlockTitle flexColumn">
         <div class="blockTitle"><span>Insanities</span></div>
 
-        {{#for 1 insanities.slots 1}}
+        {{#range 0 insanities.slots 1 true}}
         <div class="flexRow insanityRow">
             <div class="couchIcon flexRow flexStart verticalCenter"><a class="healInsanity" title="Heal this insanity" data-insanity-index="{{this}}"><i class="fas fa-couch"></i></a></div>
             <select name="insanitySelect{{this}}" class="insanitySelect" {{disableIfTended this ../insanities}} data-insanity-index="{{this}}">
@@ -42,7 +42,7 @@
                 <label for="insanityCheckbox{{this}}" class="flexRow flexCenter verticalCenter">{{this}}</label>
             </div>
         </div>
-        {{/for}}
+        {{/range}}
     </div>
     {{/with}}
     <div class="flexRow flexStart block bottomBlockTitle bottomHalfBlock">

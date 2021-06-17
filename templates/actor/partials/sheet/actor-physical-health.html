@@ -24,7 +24,7 @@
     <div class="injuriesBlock block leftBlockTitle flexColumn">
         <div class="blockTitle"><span>Wounds</span></div>
 
-        {{#for 1 wounds.slots 1}}
+        {{#range 0 wounds.slots 1 true}}
         <div class="flexRow injuryRow">
             <div class="injuryCheckBoxWrapper flexRow flexCenter verticalCenter{{addInjuryClasses this ../wounds}}">
                 <input type="checkbox"
@@ -44,7 +44,7 @@
             </select>
             <div class="medkitIcon flexRow flexEnd verticalCenter"><a class="healInjury" title="Heal this injury" data-injury-index="{{this}}"><i class="fas fa-medkit"></i></a></div>
         </div>
-        {{/for}}
+        {{/range}}
     </div>
 
     {{/with}}
