@@ -43,6 +43,30 @@ export default class PrimeController {
         this._sheetData.markedDirty = true;
     }
 
+    static activateListeners(html, sheet){
+
+        async function listener(event) {
+            const element = event.target;
+            const data = sheet.getData();
+            const prime = data.prime;
+            event.preventDefault();
+            event.stopPropagation();
+            return prime._controller.onLinkClick(event.type, element, prime);
+        }
+        html.find('a[data-prime-at]').click(listener.bind(sheet));
+        html.find('a[data-prime-at]').dblclick(listener.bind(sheet));
+    }
+
+    async onLinkClick(eventType, element, prime) {
+        const data = datasetToObject(element);
+        switch (eventType) {
+            case 'click':
+                break;
+            case 'dblclick':
+                break;
+        }
+    }
+
     async onChangeInput(element) {
         const data = datasetToObject(element);
         const isPrimeInput = data && data.prime && data.prime.at;
@@ -85,13 +109,14 @@ export default class PrimeController {
             } else {
                 value = Number.parseInt(inputPrimeData.value);
             }
-            if(isFunction) {
+            if (isFunction) {
                 return this.__updateWithFunction(inputPrimeData, {value, activate: !!checked});
             } else {
                 return this.__updateWithSetValue(value, inputPrimeData);
             }
 
-        } if(isFunction) {
+        }
+        if (isFunction) {
             return this.__updateWithFunction(inputPrimeData, {activate: !!checked});
         } else {
             return this.__updateWithSetValue(!!checked, inputPrimeData);

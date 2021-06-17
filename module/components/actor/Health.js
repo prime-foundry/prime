@@ -163,7 +163,7 @@ class Injurable extends BaseMaxComponent {
             // tend the wound
             injury.tended = true;
             // if there are no details on this wound, then lets heal it completely. its a mistake, lets be friendly in our UI
-            if ((!injury.detail) || injury.detail == 'null') {
+            if ((!injury.detail) || injury.detail == '') {
                 this._injuriesData[value] = null;
             }
             this._update();

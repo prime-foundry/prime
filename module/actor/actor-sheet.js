@@ -283,7 +283,7 @@ export class PrimePCActorSheet extends ActorSheet {
     async updateWoundDetail(event) {
         const select = $(event.delegateTarget);
         const value = select.val();
-        const injuryIndex = select.data("injury-index") - 1;
+        const injuryIndex = select.data("injury-index");
 
         const data = this.getData();
         const wounds = data.prime.actor.health.wounds;
@@ -294,7 +294,7 @@ export class PrimePCActorSheet extends ActorSheet {
 
     async cureWound(event) {
         const select = $(event.delegateTarget);
-        const injuryIndex = select.data("injury-index") - 1;
+        const injuryIndex = select.data("injury-index");
 
         const data = this.getData();
         const wounds = data.prime.actor.health.wounds;
@@ -306,7 +306,7 @@ export class PrimePCActorSheet extends ActorSheet {
     async updateInsanityDetail(event) {
         const select = $(event.delegateTarget);
         const value = select.val();
-        const insanityIndex = select.data("insanity-index") - 1;
+        const insanityIndex = select.data("insanity-index");
         const data = this.getData();
         const insanities = data.prime.actor.health.insanities;
 
@@ -317,7 +317,7 @@ export class PrimePCActorSheet extends ActorSheet {
 
     async cureInsanity(event) {
         const select = $(event.delegateTarget);
-        const insanityIndex = select.data("insanity-index") - 1;
+        const insanityIndex = select.data("insanity-index");
 
         const data = this.getData();
         const insanities = data.prime.actor.health.insanities;
@@ -454,7 +454,7 @@ export class PrimePCActorSheet extends ActorSheet {
 
         // Everything below here is only needed if the sheet is editable
         if (!this.options.editable) return;
-
+        PrimeController.activateListeners(html, this);
 
         html.find(".statInput").change(this.statChanged.bind(this));
 
@@ -589,7 +589,7 @@ export class PrimePCActorSheet extends ActorSheet {
      * in the data to modify things (this includes calling any methods we may want). I will add inputs as we go along.
      *
      * if it starts with anything else we will proceed in the old way of doing things. (you have a choice)
-     *
+     * //todo switch this to the activate listeners link onClickLink
      * @param {Event} event  The initial change event
      * @protected
      */
@@ -602,5 +602,6 @@ export class PrimePCActorSheet extends ActorSheet {
             return super._onChangeInput(event);
         }
     }
+
 
 }

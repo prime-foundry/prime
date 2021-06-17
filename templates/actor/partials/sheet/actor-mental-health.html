@@ -27,9 +27,11 @@
 
         {{#range 0 insanities.slots 1 true}}
         <div class="flexRow insanityRow">
-            <div class="couchIcon flexRow flexStart verticalCenter"><a class="healInsanity" title="Heal this insanity" data-insanity-index="{{this}}"><i class="fas fa-couch"></i></a></div>
+            <div class="couchIcon flexRow flexStart verticalCenter">
+                <a class="healInsanity" title="Heal this insanity"
+                data-insanity-index="{{this}}"><i class="fas fa-couch"></i></a></div>
             <select name="insanitySelect{{this}}" class="insanitySelect" {{disableIfTended this ../insanities}} data-insanity-index="{{this}}">
-                <option value="null"></option>
+                <option value=""></option>
 				{{#each ../../actorTables.mentalConditions}}
 				<option value="{{this.key}}">{{this.title}}</option>
 				{{/each}}

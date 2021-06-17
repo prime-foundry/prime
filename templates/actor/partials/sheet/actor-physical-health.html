@@ -37,7 +37,7 @@
                 <label for="injuryCheckbox{{this}}" class="flexRow flexCenter verticalCenter">{{this}}</label>
             </div>
             <select name="injurySelect{{this}}" class="injurySelect" {{disableIfTended this ../wounds}} data-injury-index="{{this}}">
-                <option value="0"></option>
+                <option value=""></option>
 				{{#each ../../actorTables.woundConditions}}
 				<option value="{{this.key}}">{{this.title}}</option>
 				{{/each}}
