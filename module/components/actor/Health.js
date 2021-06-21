@@ -116,20 +116,25 @@ class Injurable extends BaseMaxComponent {
         this._update();
     }
 
-    cure(index) {
-        const injury = this._injuriesData[index];
-        if (injury) {
-            // delete item at index.
-            this._injuriesData[index] = null;
-            this.cleanUpData();
-        }
-    }
-
     aggravate(index) {
         const injury = this._injuriesData[index];
         if (injury && injury.tended) {
             injury.tended = false;
             this._update();
+        }
+    }
+
+
+    /**
+     * UI Function
+     * @param index
+     */
+    cure({inputPrimeData:{value:index}}) {
+        const injury = this._injuriesData[index];
+        if (injury) {
+            // delete item at index.
+            this._injuriesData[index] = null;
+            this.cleanUpData();
         }
     }
 

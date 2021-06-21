@@ -10,9 +10,11 @@
             </div>
         </div>
         <div class="cell25 flexColumn resilienceBlock">
-            <label for="data.wounds.value" class="shrinkFontForNarrow">Resilience</label>
+            <label for="actor.health.resilience" class="shrinkFontForNarrow">Resilience</label>
             <div class="metaValueContent flexRow healthResilienceWrapper">
-                <input type="text" class="bigNumberInput" name="data.health.resilience.value" value="{{resilience.value}}" data-dtype="Number" data-min="0" data-max="{{resilience.max}}" data-lastValue="{{resilience.value}}"/>
+                <input type="text" class="bigNumberInput" id="actor.health.resilience" value="{{resilience.value}}"
+                       data-prime-at="actor.health.resilience"
+                       data-prime.type="number"/>
                 <span class="healthMaxResilience">Max: {{resilience.max}}</span>
             </div>
         </div>
@@ -33,16 +35,24 @@
                        class="injuryCheckbox"
                        data-prime-at="actor.health.wounds.aggravateOrAlleviate()"
                        data-prime-value="{{this}}"
+                       data-prime-uid="../../../../uid"
                        {{selectIfWounded this ../wounds}}/>
                 <label for="injuryCheckbox{{this}}" class="flexRow flexCenter verticalCenter">{{this}}</label>
             </div>
-            <select name="injurySelect{{this}}" class="injurySelect" {{disableIfTended this ../wounds}} data-injury-index="{{this}}">
-                <option value=""></option>
-				{{#each ../../actorTables.woundConditions}}
-				<option value="{{this.key}}">{{this.title}}</option>
-				{{/each}}
+            <select name="injurySelect{{this}}" class="injurySelect" {{disableIfTended this ../wounds}}
+            data-injury-index="{{this}}">
+            <option value=""></option>
+            {{#each ../../actorTables.woundConditions}}
+            <option value="{{this.key}}">{{this.title}}</option>
+            {{/each}}
             </select>
-            <div class="medkitIcon flexRow flexEnd verticalCenter"><a class="healInjury" title="Heal this injury" data-injury-index="{{this}}"><i class="fas fa-medkit"></i></a></div>
+            <div class="medkitIcon flexRow flexEnd verticalCenter">
+                <a class="healInjury" title="Heal this injury"
+                   data-prime-click-at="actor.health.wounds.cure()"
+                   data-prime-value="{{this}}">
+                    <i class="fas fa-medkit"></i>
+                </a>
+            </div>
         </div>
         {{/range}}
     </div>
@@ -59,7 +69,10 @@
         </div>
         <div class="cell25 flexColumn resilienceBlock">
             <div class="metaValueContent flexRow armourResilienceWrapper">
-                <input type="text" class="bigNumberInput" name="data.armour.resilience.value" value="{{data.armour.resilience.value}}" data-dtype="Number" data-min="0" data-max="{{data.armour.resilience.max}}" data-lastValue="{{data.armour.resilience.value}}"/>
+                <input type="text" class="bigNumberInput" name="data.armour.resilience.value"
+                       value="{{data.armour.resilience.value}}"
+                       data-dtype="Number" data-min="0" data-max="{{data.armour.resilience.max}}"
+                       data-lastValue="{{data.armour.resilience.value}}"/>
                 <span class="armourMaxResilience">Max: {{data.armour.resilience.max}}</span>
             </div>
             <div class="shrinkFontForNarrow">Resilience</div>

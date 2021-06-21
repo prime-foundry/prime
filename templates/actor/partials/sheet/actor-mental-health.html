@@ -4,9 +4,12 @@
     <div class="flexRow flexStart block topHalfBlock">
         <div class="blockTitle">Mind</div>
         <div class="cell25 flexColumn intellectBlock">
-            <label for="data.mind.psyche.value" class="shrinkFontForNarrow">Psyche</label>
+            <label for="actor.health.psyche" class="shrinkFontForNarrow">Psyche</label>
             <div class="metaValueContent flexRow flexEnd mindIntellectWrapper">
-                <input type="text" class="bigNumberInput" name="data.mind.psyche.value" value="{{psyche.value}}" data-dtype="Number" data-min="0" data-max="{{psyche.max}}" data-lastValue="{{psyche.value}}"/>
+                <input type="text" class="bigNumberInput" id="actor.health.psyche" value="{{psyche.value}}"
+                       data-prime-at="actor.health.psyche"
+                       data-prime.type="number"
+                />
                 <span class="mindMaxIntellect">Max: {{psyche.max}}</span>
             </div>
         </div>
@@ -29,7 +32,10 @@
         <div class="flexRow insanityRow">
             <div class="couchIcon flexRow flexStart verticalCenter">
                 <a class="healInsanity" title="Heal this insanity"
-                data-insanity-index="{{this}}"><i class="fas fa-couch"></i></a></div>
+                   data-prime-click-at="actor.health.insanities.cure()"
+                   data-prime-value="{{this}}">
+                    <i class="fas fa-couch"></i>
+                </a></div>
             <select name="insanitySelect{{this}}" class="insanitySelect" {{disableIfTended this ../insanities}} data-insanity-index="{{this}}">
                 <option value=""></option>
 				{{#each ../../actorTables.mentalConditions}}

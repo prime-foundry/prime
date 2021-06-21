@@ -39,31 +39,59 @@ export default class PrimeController {
         return this.__sheetData;
     }
 
+    static activateListeners(html, sheet) {
+        async function changeListener(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            const data = this.getData();
+            const prime = data.prime;
+            const element = event.target;
+            return prime._controller.onChangeInput(element);
+        }
+        async function clickListener(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            const clickedElement = event.target;
+            const targetElement = event.delegateTarget;
+            const data = this.getData();
+            const prime = data.prime;
+            const inputPrimeDataClicked = datasetToObject(clickedElement).prime || {};
+            const inputPrimeDataTarget = datasetToObject(targetElement).prime || {};
+            /* allows for common and overridden properties
+             * order of priority
+             * 1. the clicked elements prime object i.e. data-prime-at
+             * 2. the event prime object on the element we attached the event too i.e. data-prime-click-at
+             * 2. the  prime object on the element we attached the event too i.e. data-prime-at
+             *
+             * or given element <a data-prime-at="something" data-prime-click-at="else"><i data-prime-at="entirely"></i></a>
+             * the result for data-prime-at would be 'entirely',
+             * if the user clicked the 'a' element and somehow didn't hit the 'i' the result would be 'else'
+             */
+            const inputPrimeData = {...inputPrimeDataTarget, ...inputPrimeDataTarget[event.type], ...inputPrimeDataClicked};
+            return prime._controller.onLinkClick(event.type, inputPrimeData);
+        }
+
+        const id = `#appId_${sheet.appId} `;
+        const fixedHtml = html.parent();
+        const found = fixedHtml.find(id+'*[data-prime-click-at]');
+        found.click(clickListener.bind(sheet));
+        fixedHtml.find(id+'*[data-prime-dblclick-at]').dblclick(clickListener.bind(sheet));
+        fixedHtml.find(id+'input[data-prime-at]').change(changeListener.bind(sheet));
+
+        // html.on("change", "input,select,textarea", this._onChangeInput.bind(this));
+    }
+
     _update() {
         this._sheetData.markedDirty = true;
     }
 
-    static activateListeners(html, sheet){
+    async onLinkClick(eventType, inputPrimeData) {
+        const isFunction = inputPrimeData.at.endsWith('()');
+        if (isFunction) {
+            return this.__updateWithFunction(inputPrimeData, {eventType});
 
-        async function listener(event) {
-            const element = event.target;
-            const data = sheet.getData();
-            const prime = data.prime;
-            event.preventDefault();
-            event.stopPropagation();
-            return prime._controller.onLinkClick(event.type, element, prime);
-        }
-        html.find('a[data-prime-at]').click(listener.bind(sheet));
-        html.find('a[data-prime-at]').dblclick(listener.bind(sheet));
-    }
-
-    async onLinkClick(eventType, element, prime) {
-        const data = datasetToObject(element);
-        switch (eventType) {
-            case 'click':
-                break;
-            case 'dblclick':
-                break;
+        } else {
+            return this._onPrimeChangeValue(inputPrimeData.value, inputPrimeData);
         }
     }
 
@@ -78,27 +106,30 @@ export default class PrimeController {
                 case 'checkbox':
                     await this._onPrimeChangeCheckbox(element.checked, inputPrimeData, isFunction);
                     break;
-                case 'text':
-                    await this._onPrimeChangeTextBox(element.value, inputPrimeData, isFunction);
-                    break;
-                case 'number':
-                    await this._onPrimeChangeNumber(element.value, inputPrimeData, isFunction);
+                default:
+                    await this._onPrimeChangeValue(element.value, inputPrimeData);
                     break;
             }
         }
         return isPrimeInput;
     }
 
-    async _onPrimeChangeTextBox(value, inputPrimeData, isFunction) {
+    async _onPrimeChangeValue(value, inputPrimeData) {
         if (inputPrimeData.type === 'number') {
             return this._onPrimeChangeNumber(value, inputPrimeData);
+        } else if (inputPrimeData.type === 'boolean') {
+            return this._onPrimeChangeBoolean(value, inputPrimeData);
         } else {
             return this.__updateWithSetValue(value, inputPrimeData);
         }
     }
 
-    async _onPrimeChangeNumber(value, inputPrimeData, isFunction) {
+    async _onPrimeChangeNumber(value, inputPrimeData) {
         return this.__updateWithSetValue(Number.parseInt(value) || 0, inputPrimeData);
+    }
+
+    async _onPrimeChangeBoolean(value, inputPrimeData) {
+        return this.__updateWithSetValue((value || '').toLowerCase() === 'true', inputPrimeData);
     }
 
     async _onPrimeChangeCheckbox(checked, inputPrimeData, isFunction) {

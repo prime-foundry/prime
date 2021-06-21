@@ -292,17 +292,6 @@ export class PrimePCActorSheet extends ActorSheet {
         await this.updateIfDirty(data);
     }
 
-    async cureWound(event) {
-        const select = $(event.delegateTarget);
-        const injuryIndex = select.data("injury-index");
-
-        const data = this.getData();
-        const wounds = data.prime.actor.health.wounds;
-        wounds.cure(injuryIndex);
-
-        await this.updateIfDirty(data);
-    }
-
     async updateInsanityDetail(event) {
         const select = $(event.delegateTarget);
         const value = select.val();
@@ -311,17 +300,6 @@ export class PrimePCActorSheet extends ActorSheet {
         const insanities = data.prime.actor.health.insanities;
 
         insanities.setInjuryDetail(insanityIndex, value);
-
-        await this.updateIfDirty(data);
-    }
-
-    async cureInsanity(event) {
-        const select = $(event.delegateTarget);
-        const insanityIndex = select.data("insanity-index");
-
-        const data = this.getData();
-        const insanities = data.prime.actor.health.insanities;
-        insanities.cure(insanityIndex);
 
         await this.updateIfDirty(data);
     }
@@ -450,11 +428,13 @@ export class PrimePCActorSheet extends ActorSheet {
 
     /** @override */
     activateListeners(html) {
+        // const sheetHtml = html.find(`#primeactorsheet${this.appId}`)
         super.activateListeners(html);
+        html.off("change", "input");
+        PrimeController.activateListeners(html, this);
 
         // Everything below here is only needed if the sheet is editable
         if (!this.options.editable) return;
-        PrimeController.activateListeners(html, this);
 
         html.find(".statInput").change(this.statChanged.bind(this));
 
@@ -473,10 +453,8 @@ export class PrimePCActorSheet extends ActorSheet {
 
 
         html.find(".injurySelect").change(this.updateWoundDetail.bind(this));
-        html.find(".healInjury").click(this.cureWound.bind(this));
 
         html.find(".insanitySelect").change(this.updateInsanityDetail.bind(this));
-        html.find(".healInsanity").click(this.cureInsanity.bind(this));
 
         const resizeHandle = html.parent().parent().find(".window-resizable-handle");
 

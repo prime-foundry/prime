@@ -1,4 +1,6 @@
-<form class="{{cssClass}} {{isV2CharacterClass}} {{#if editable}}isEditable{{/if}} actorFormWrapper {{isFromTokenClass}}" autocomplete="off">
+<form id="appId_{{prime.uid}}"
+	  class="{{cssClass}} {{isV2CharacterClass}} {{#if editable}}isEditable{{/if}} actorFormWrapper {{isFromTokenClass}}"
+	  autocomplete="off">
 
 	{{!-- Sheet Header --}}
 	<div class="metaDataContent flexColumn">
@@ -8,7 +10,7 @@
 			<div class="flexColumn cell50 flexBetween">
 				<div class="flexColumn verticalCenter flexGrow">
 					<h2 class="systemTitle"><span class="bigCaps">P</span>OSSESSIO<span class="bigCaps">N</span></h2>
-					<h3 class="campaignTitle"><span class="bigCaps">A</span>ETHERNAUTS</h2>
+					<h3 class="campaignTitle"><span class="bigCaps">A</span>ETHERNAUTS</h3>
 				</div>
 				{{> actorActionPoints partialClasses='cell100 bottomBlockTitle flexGrow'}}
 			</div>

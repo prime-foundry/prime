@@ -9,11 +9,16 @@ export default class Prime {
 
     constructor(data, sheet, sheetData) {
         this.__data = data;
+        this.__sheet = sheet;
         this.__controller = new PrimeController(sheet,sheetData);
     }
 
     get _controller() {
         return this.__controller;
+    }
+
+    get uid(){
+        return this.__sheet.appId;
     }
 
     get actor() {
