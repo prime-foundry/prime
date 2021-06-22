@@ -430,7 +430,6 @@ export class PrimePCActorSheet extends ActorSheet {
     activateListeners(html) {
         // const sheetHtml = html.find(`#primeactorsheet${this.appId}`)
         super.activateListeners(html);
-        html.off("change", "input");
         PrimeController.activateListeners(html, this);
 
         // Everything below here is only needed if the sheet is editable
@@ -567,7 +566,7 @@ export class PrimePCActorSheet extends ActorSheet {
      * in the data to modify things (this includes calling any methods we may want). I will add inputs as we go along.
      *
      * if it starts with anything else we will proceed in the old way of doing things. (you have a choice)
-     * //todo switch this to the activate listeners link onClickLink
+     * //todo support select and textareas in Prime Controller and then delete this.
      * @param {Event} event  The initial change event
      * @protected
      */

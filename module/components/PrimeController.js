@@ -24,7 +24,36 @@ function datasetToObject(elem) {
         });
     return data;
 }
-
+async function changeListener(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    const data = this.getData();
+    const prime = data.prime;
+    const element = event.target;
+    return prime._controller.onChangeInput(element);
+}
+async function clickListener(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    const clickedElement = event.target;
+    const targetElement = event.delegateTarget;
+    const data = this.getData();
+    const prime = data.prime;
+    const inputPrimeDataClicked = datasetToObject(clickedElement).prime || {};
+    const inputPrimeDataTarget = datasetToObject(targetElement).prime || {};
+    /* allows for common and overridden properties
+     * order of priority
+     * 1. the clicked elements prime object i.e. data-prime-at
+     * 2. the event prime object on the element we attached the event too i.e. data-prime-click-at
+     * 2. the  prime object on the element we attached the event too i.e. data-prime-at
+     *
+     * or given element <a data-prime-at="something" data-prime-click-at="else"><i data-prime-at="entirely"></i></a>
+     * the result for data-prime-at would be 'entirely',
+     * if the user clicked the 'a' element and somehow didn't hit the 'i' the result would be 'else'
+     */
+    const inputPrimeData = {...inputPrimeDataTarget, ...inputPrimeDataTarget[event.type], ...inputPrimeDataClicked};
+    return prime._controller.onLinkClick(event.type, inputPrimeData);
+}
 export default class PrimeController {
     constructor(sheet, sheetData) {
         this.__sheet = sheet;
@@ -40,45 +69,35 @@ export default class PrimeController {
     }
 
     static activateListeners(html, sheet) {
-        async function changeListener(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            const data = this.getData();
-            const prime = data.prime;
-            const element = event.target;
-            return prime._controller.onChangeInput(element);
-        }
-        async function clickListener(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            const clickedElement = event.target;
-            const targetElement = event.delegateTarget;
-            const data = this.getData();
-            const prime = data.prime;
-            const inputPrimeDataClicked = datasetToObject(clickedElement).prime || {};
-            const inputPrimeDataTarget = datasetToObject(targetElement).prime || {};
-            /* allows for common and overridden properties
-             * order of priority
-             * 1. the clicked elements prime object i.e. data-prime-at
-             * 2. the event prime object on the element we attached the event too i.e. data-prime-click-at
-             * 2. the  prime object on the element we attached the event too i.e. data-prime-at
-             *
-             * or given element <a data-prime-at="something" data-prime-click-at="else"><i data-prime-at="entirely"></i></a>
-             * the result for data-prime-at would be 'entirely',
-             * if the user clicked the 'a' element and somehow didn't hit the 'i' the result would be 'else'
-             */
-            const inputPrimeData = {...inputPrimeDataTarget, ...inputPrimeDataTarget[event.type], ...inputPrimeDataClicked};
-            return prime._controller.onLinkClick(event.type, inputPrimeData);
-        }
+        this._fixIds(html,sheet);
+        this._attachListener(html,sheet,'*[data-prime-click-at]', 'click', clickListener);
+        this._attachListener(html,sheet,'*[data-prime-dblclick-at]', 'dblclick', clickListener);
+        this._attachListener(html,sheet,'input[data-prime-at], input[data-prime-change-at]', 'change', changeListener);
+        //TODO: select,textarea
+    }
 
-        const id = `#appId_${sheet.appId} `;
-        const fixedHtml = html.parent();
-        const found = fixedHtml.find(id+'*[data-prime-click-at]');
-        found.click(clickListener.bind(sheet));
-        fixedHtml.find(id+'*[data-prime-dblclick-at]').dblclick(clickListener.bind(sheet));
-        fixedHtml.find(id+'input[data-prime-at]').change(changeListener.bind(sheet));
+    /**
+     * Removes the jquery nonsense from our event listeners and just uses the js native ones instead.
+     * These is nothing in the jquery elements we need.
+     * @private
+     */
+    static _attachListener(html, sheet, selector, type, listener) {
+        const elements = html.find(selector).get();
+        elements.forEach(element => {
+            element.addEventListener(type, listener.bind(sheet), {capture:true});
+        });
+    }
 
-        // html.on("change", "input,select,textarea", this._onChangeInput.bind(this));
+    static _fixIds(html, sheet){
+        const idPostpend = `-appId-${sheet.appId}`
+        html.find('input').each(function(){
+            const oldId = this.id;
+            if(oldId){
+                const newId = oldId+idPostpend;
+                html.find(`label[for="${oldId}"]`).attr('for',newId);
+                this.id = newId;
+            }
+        });
     }
 
     _update() {

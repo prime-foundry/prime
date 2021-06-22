@@ -54,4 +54,8 @@ export default class ActorComponent extends Component {
         return this._actorData.data;
     }
 
+    get _actorId(){
+        return this._actor.id;
+    }
+
 }

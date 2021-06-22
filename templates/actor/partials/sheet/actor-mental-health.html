@@ -43,11 +43,11 @@
 				{{/each}}
             </select>
             <div class="insanityCheckBoxWrapper flexRow flexCenter verticalCenter{{addInjuryClasses this ../insanities}}">
-                <input type="checkbox" id="insanityCheckbox{{this}}" name="insanityCheckboxes" class="insanityCheckbox"
+                <input type="checkbox" id="insanityCheckbox-{{this}}" name="insanityCheckboxes" class="insanityCheckbox"
                        data-prime-at="actor.health.insanities.aggravateOrAlleviate()"
                        data-prime-value="{{this}}"
                        {{selectIfWounded this ../insanities}}/>
-                <label for="insanityCheckbox{{this}}" class="flexRow flexCenter verticalCenter">{{this}}</label>
+                <label for="insanityCheckbox-{{this}}" class="flexRow flexCenter verticalCenter">{{this}}</label>
             </div>
         </div>
         {{/range}}
