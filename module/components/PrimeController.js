@@ -89,7 +89,7 @@ export default class PrimeController {
     }
 
     static _fixIds(html, sheet){
-        const idPostpend = `-appId-${sheet.appId}`
+        const idPostpend = `-appId-${sheet.appId}`;
         html.find('input').each(function(){
             const oldId = this.id;
             if(oldId){
