@@ -32,11 +32,16 @@
         <div class="flexRow insanityRow">
             <div class="couchIcon flexRow flexStart verticalCenter">
                 <a class="healInsanity" title="Heal this insanity"
+                   data-prime-hidden-on="actor.health.insanities.isHealthy()"
                    data-prime-click-at="actor.health.insanities.cure()"
-                   data-prime-value="{{this}}">
+                   data-prime-index="{{this}}">
                     <i class="fas fa-couch"></i>
                 </a></div>
-            <select name="insanitySelect{{this}}" class="insanitySelect" {{disableIfTended this ../insanities}} data-insanity-index="{{this}}">
+            <select name="insanitySelect{{this}}" class="insanitySelect"
+                    data-prime-change-at="actor.health.insanities.injure()"
+                    data-prime-select-on="actor.health.insanities.injuryDetail()"
+                    data-prime-disable-on="actor.health.insanities.isTended()"
+                    data-prime-index="{{this}}">
                 <option value=""></option>
 				{{#each ../../actorTables.mentalConditions}}
 				<option value="{{this.key}}">{{this.title}}</option>

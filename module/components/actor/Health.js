@@ -101,19 +101,36 @@ class Injurable extends BaseMaxComponent {
         return this._injuriesData[index];
     }
 
-    injure(detail = null) {
-        this._injuriesData.push({detail, tended: false});
-        this._update();
-    }
-
-    setInjuryDetail(index, detail) {
-        const injury = this._injuriesData[index];
-        if (injury) {
-            injury.detail = detail;
+    injure({index, selected:detail}) {
+        const oldInjury = this._injuriesData[index];
+        if(oldInjury){
+            oldInjury.detail = detail;
         } else {
             this._injuriesData[index] = {detail, tended: false};
         }
         this._update();
+    }
+
+    isInjured({index}){
+        return this._injuriesData[index] != null;
+    }
+
+    isHealthy({index}){
+        return this._injuriesData[index] == null;
+    }
+    isTended({index}){
+        const injury = this._injuriesData[index];
+        return !!injury && !!injury.tended;
+    }
+
+    /**
+     * UI function
+     * @param index
+     * @returns {null|T|number|T|*}
+     */
+    injuryDetail({index}) {
+        const injury = this._injuriesData[Number.parseInt(index)] || {};
+        return injury.detail
     }
 
     aggravate(index) {
@@ -129,12 +146,13 @@ class Injurable extends BaseMaxComponent {
      * UI Function
      * @param index
      */
-    cure({inputPrimeData:{value:index}}) {
+    cure({index}) {
         const injury = this._injuriesData[index];
         if (injury) {
             // delete item at index.
             this._injuriesData[index] = null;
-            this.cleanUpData();
+            this._update();
+            // this.cleanUpData();
         }
     }
 
@@ -143,20 +161,18 @@ class Injurable extends BaseMaxComponent {
      * @param activate
      * @param inputPrimeData
      */
-    aggravateOrAlleviate({activate, inputPrimeData}) {
-        // TODO: Make ui follow 0 indexing
-        const value = (Number.parseInt(inputPrimeData.value) || 0);
-        const injury = this._injuriesData[value];
+    aggravateOrAlleviate({activate, value:index}) {
+        const injury = this._injuriesData[index];
         // if we have activated this wound,
         if (activate) {
             // and we have an injury already in this slot
             if (injury) {
                 // and the wound is dormant lets aggravate it.
-                this.aggravate(value);
+                this.aggravate(index);
             } else {
                 // or the wound is not there lets fill with injuries until we have achieved the recommended number of values.
                 const injuryCount = this._injuriesData.filter(injury => !!injury).length;
-                let count = value;
+                let count = index;
                 do {
                     this._injuriesData[count] = {tended: false, detail: null};
                     count -= 1;
@@ -169,7 +185,7 @@ class Injurable extends BaseMaxComponent {
             injury.tended = true;
             // if there are no details on this wound, then lets heal it completely. its a mistake, lets be friendly in our UI
             if ((!injury.detail) || injury.detail == '') {
-                this._injuriesData[value] = null;
+                this._injuriesData[index] = null;
             }
             this._update();
         }

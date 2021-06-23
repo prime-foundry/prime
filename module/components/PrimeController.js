@@ -5,38 +5,42 @@
  */
 function datasetToObject(elem) {
     const data = {};
-    const isDataRegex = /^data-/;
-    Array.from(elem.attributes)
-        .filter(attr => isDataRegex.test(attr.name))
-        .forEach((attr) => {
-            const paths = attr.name.split('-');
-            const lastIdx = paths.length - 1;
-            let node = data;
-            // we ignore the first 'data' and the last value.
-            for (let idx = 1; idx < lastIdx; idx += 1) {
-                const name = paths[idx];
-                if (node[name] == null) {
-                    node[name] = {};
+    if (elem && elem.attributes) {
+        const isDataRegex = /^data-/;
+        Array.from(elem.attributes)
+            .filter(attr => isDataRegex.test(attr.name))
+            .forEach((attr) => {
+                const paths = attr.name.split('-');
+                const lastIdx = paths.length - 1;
+                let node = data;
+                // we ignore the first 'data' and the last value.
+                for (let idx = 1; idx < lastIdx; idx += 1) {
+                    const name = paths[idx];
+                    if (node[name] == null) {
+                        node[name] = {};
+                    }
+                    node = node[name];
                 }
-                node = node[name];
-            }
-            node[paths[lastIdx]] = attr.value;
-        });
+                node[paths[lastIdx]] = attr.value;
+            });
+    }
     return data;
 }
+
 async function changeListener(event) {
     event.preventDefault();
     event.stopPropagation();
     const data = this.getData();
     const prime = data.prime;
-    const element = event.target;
+    const element = event.delegateTarget || event.target;
     return prime._controller.onChangeInput(element);
 }
+
 async function clickListener(event) {
     event.preventDefault();
     event.stopPropagation();
-    const clickedElement = event.target;
-    const targetElement = event.delegateTarget;
+    const clickedElement = event.delegateTarget || event.target;
+    const targetElement = event.currentTarget;
     const data = this.getData();
     const prime = data.prime;
     const inputPrimeDataClicked = datasetToObject(clickedElement).prime || {};
@@ -54,6 +58,28 @@ async function clickListener(event) {
     const inputPrimeData = {...inputPrimeDataTarget, ...inputPrimeDataTarget[event.type], ...inputPrimeDataClicked};
     return prime._controller.onLinkClick(event.type, inputPrimeData);
 }
+
+function executePrime(path, prime, func) {
+    const parts = path.split('.');
+    const lastIdx = parts.length - 1;
+    let current = prime; // this is the prime access, can be the current user or the actor.
+    for (let idx = 0; idx < lastIdx; idx++) {
+        current = current[parts[idx]];
+    }
+    return func(current, parts[lastIdx]);
+}
+
+function getPrimeValue(path, prime, inputPrimeData) {
+    return executePrime(path, prime, (parent, key) => {
+        if (key.endsWith('()')) {
+            const newKey = key.slice(0, -2);
+            return parent[newKey](inputPrimeData);
+        } else {
+            return parent[key];
+        }
+    });
+}
+
 export default class PrimeController {
     constructor(sheet, sheetData) {
         this.__sheet = sheet;
@@ -68,12 +94,60 @@ export default class PrimeController {
         return this.__sheetData;
     }
 
-    static activateListeners(html, sheet) {
-        this._fixIds(html,sheet);
-        this._attachListener(html,sheet,'*[data-prime-click-at]', 'click', clickListener);
-        this._attachListener(html,sheet,'*[data-prime-dblclick-at]', 'dblclick', clickListener);
-        this._attachListener(html,sheet,'input[data-prime-at], input[data-prime-change-at]', 'change', changeListener);
+    static initializeForm(html, sheet) {
+
+        this._fixIds(html, sheet);
+
+        const data = sheet.getData();
+        const prime = data.prime;
+        this._preselectValues(html, prime);
+        this._predisableElements(html, prime);
+        this._prehideElements(html,prime);
+
+        this._attachListener(html, sheet, '*[data-prime-click-at]', 'click', clickListener);
+        this._attachListener(html, sheet, '*[data-prime-dblclick-at]', 'dblclick', clickListener);
+        this._attachListener(html, sheet, 'input[data-prime-at], input[data-prime-change-at]', 'change', changeListener);
+        this._attachListener(html, sheet, 'select[data-prime-at], select[data-prime-change-at]', 'change', changeListener);
         //TODO: select,textarea
+    }
+
+    static _prehideElements(html, prime) {
+        html.find("*[data-prime-hidden-on]").each(function (index, element) {
+            const inputPrimeData = datasetToObject(element).prime || {};
+            const hidden = inputPrimeData.hidden.on;
+
+            if (inputPrimeData.index && !isNaN(inputPrimeData.index)) {
+                inputPrimeData.index = Number.parseInt(inputPrimeData.index);
+            }
+            const val = getPrimeValue(hidden, prime, inputPrimeData);
+            element.hidden = !!val ? true : undefined;
+        });
+    }
+    static _predisableElements(html, prime) {
+        html.find("*[data-prime-disable-on]").each(function (index, element) {
+            const inputPrimeData = datasetToObject(element).prime || {};
+            const disable = inputPrimeData.disable.on;
+
+            if (inputPrimeData.index && !isNaN(inputPrimeData.index)) {
+                inputPrimeData.index = Number.parseInt(inputPrimeData.index);
+            }
+            const val = getPrimeValue(disable, prime, inputPrimeData);
+            element.disabled = !!val;
+        });
+    }
+
+    static _preselectValues(html, prime) {
+
+        html.find("select[data-prime-select-on]").each(function (index, element) {
+            const inputPrimeData = datasetToObject(element).prime || {};
+            const select = inputPrimeData.select.on;
+            // converts strings to an integer.
+            if (inputPrimeData.index && !isNaN(inputPrimeData.index)) {
+                inputPrimeData.index = Number.parseInt(inputPrimeData.index);
+            }
+            const val = getPrimeValue(select, prime, inputPrimeData);
+            $(element).val(val || '');
+        });
     }
 
     /**
@@ -84,17 +158,17 @@ export default class PrimeController {
     static _attachListener(html, sheet, selector, type, listener) {
         const elements = html.find(selector).get();
         elements.forEach(element => {
-            element.addEventListener(type, listener.bind(sheet), {capture:true});
+            element.addEventListener(type, listener.bind(sheet), {capture: true});
         });
     }
 
-    static _fixIds(html, sheet){
+    static _fixIds(html, sheet) {
         const idPostpend = `-appId-${sheet.appId}`;
-        html.find('input').each(function(){
+        html.find('input').each(function () {
             const oldId = this.id;
-            if(oldId){
-                const newId = oldId+idPostpend;
-                html.find(`label[for="${oldId}"]`).attr('for',newId);
+            if (oldId) {
+                const newId = oldId + idPostpend;
+                html.find(`label[for="${oldId}"]`).attr('for', newId);
                 this.id = newId;
             }
         });
@@ -116,21 +190,33 @@ export default class PrimeController {
 
     async onChangeInput(element) {
         const data = datasetToObject(element);
-        const isPrimeInput = data && data.prime && data.prime.at;
+        const isPrimeInput = !!data.prime;
         if (isPrimeInput) {
-            const inputPrimeData = data.prime;
+            const inputPrimeData = {...data.prime, ...(data.prime.change || {})};
             const isFunction = inputPrimeData.at.endsWith('()');
-
-            switch (element.type) {
-                case 'checkbox':
-                    await this._onPrimeChangeCheckbox(element.checked, inputPrimeData, isFunction);
-                    break;
-                default:
-                    await this._onPrimeChangeValue(element.value, inputPrimeData);
-                    break;
+            if (element.tagName === 'SELECT') {
+                await this._onPrimeChangeSelect(element, inputPrimeData, isFunction);
+            } else if (element.tagName === 'INPUT') {
+                switch (element.type) {
+                    case 'checkbox':
+                        await this._onPrimeChangeCheckbox(element.checked, inputPrimeData, isFunction);
+                        break;
+                    default:
+                        await this._onPrimeChangeValue(element.value, inputPrimeData);
+                        break;
+                }
             }
         }
         return isPrimeInput;
+    }
+
+    async _onPrimeChangeSelect(element, inputPrimeData, isFunction) {
+        const selected = $(element).val();
+        if (isFunction) {
+            return this.__updateWithFunction(inputPrimeData, {selected});
+        } else {
+            return this.__updateWithSetValue(selected, inputPrimeData);
+        }
     }
 
     async _onPrimeChangeValue(value, inputPrimeData) {
@@ -186,7 +272,7 @@ export default class PrimeController {
                 const newKey = key.slice(0, -2);
                 parent[newKey](
                     {
-                        inputPrimeData,
+                        ...inputPrimeData,
                         ...optArgs
                     }
                 );
@@ -201,15 +287,8 @@ export default class PrimeController {
 
     async __updatePrime(inputPrimeData, func) {
         const path = inputPrimeData.at;
-        const parts = path.split('.');
         const data = this.__sheetData;
-        const prime = data.prime;
-        const lastIdx = parts.length - 1;
-        let current = prime; // this is the prime access, can be the current user or the actor.
-        for (let idx = 0; idx < lastIdx; idx++) {
-            current = current[parts[idx]];
-        }
-        await func(current, parts[lastIdx]);
+        executePrime(path, data.prime, func);
         return this.__sheet.updateIfDirty(data);
     }
 }

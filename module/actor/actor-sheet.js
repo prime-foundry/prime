@@ -279,31 +279,6 @@ export class PrimePCActorSheet extends ActorSheet {
         }
     }
 
-
-    async updateWoundDetail(event) {
-        const select = $(event.delegateTarget);
-        const value = select.val();
-        const injuryIndex = select.data("injury-index");
-
-        const data = this.getData();
-        const wounds = data.prime.actor.health.wounds;
-        wounds.setInjuryDetail(injuryIndex, value);
-
-        await this.updateIfDirty(data);
-    }
-
-    async updateInsanityDetail(event) {
-        const select = $(event.delegateTarget);
-        const value = select.val();
-        const insanityIndex = select.data("insanity-index");
-        const data = this.getData();
-        const insanities = data.prime.actor.health.insanities;
-
-        insanities.setInjuryDetail(insanityIndex, value);
-
-        await this.updateIfDirty(data);
-    }
-
     resizeUpdateStart(event) {
         this.resizeOccuring = true;
         this.createWidthUpdateTimer();
@@ -430,7 +405,7 @@ export class PrimePCActorSheet extends ActorSheet {
     activateListeners(html) {
         // const sheetHtml = html.find(`#primeactorsheet${this.appId}`)
         super.activateListeners(html);
-        PrimeController.activateListeners(html, this);
+        PrimeController.initializeForm(html, this);
 
         // Everything below here is only needed if the sheet is editable
         if (!this.options.editable) return;
@@ -449,11 +424,6 @@ export class PrimePCActorSheet extends ActorSheet {
         html.find("input[data-dtype='Number']").change(this.validateNumber.bind(this));
 
         html.click(this.clearValueEditMode.bind(this));
-
-
-        html.find(".injurySelect").change(this.updateWoundDetail.bind(this));
-
-        html.find(".insanitySelect").change(this.updateInsanityDetail.bind(this));
 
         const resizeHandle = html.parent().parent().find(".window-resizable-handle");
 
@@ -535,15 +505,15 @@ export class PrimePCActorSheet extends ActorSheet {
     async postActivateListeners(html) {
         const data = this.getData();
         const actionPoints = data.prime.actor.actionPoints;
-        const {wounds, insanities} = data.prime.actor.health;
-
-        html.find(".injurySelect").each(function (index, element) {
-            $(element).val((wounds.getInjury(index) || {}).detail);
-        });
-
-        html.find(".insanitySelect").each(function (index, element) {
-            $(element).val((insanities.getInjury(index) || {}).detail);
-        });
+        // const {wounds, insanities} = data.prime.actor.health;
+        //
+        // html.find(".injurySelect").each(function (index, element) {
+        //     $(element).val((wounds.getInjury(index) || {}).detail);
+        // });
+        //
+        // html.find(".insanitySelect").each(function (index, element) {
+        //     $(element).val((insanities.getInjury(index) || {}).detail);
+        // });
 
         html.find(".fillAnimation").removeClass("fillAnimation");
         html.find(".emptyAnimation").removeClass("emptyAnimation");

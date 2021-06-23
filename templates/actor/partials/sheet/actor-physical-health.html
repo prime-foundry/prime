@@ -38,8 +38,11 @@
                        {{selectIfWounded this ../wounds}}/>
                 <label for="injuryCheckbox-{{this}}" class="flexRow flexCenter verticalCenter">{{this}}</label>
             </div>
-            <select name="injurySelect{{this}}" class="injurySelect" {{disableIfTended this ../wounds}}
-            data-injury-index="{{this}}">
+            <select name="injurySelect{{this}}" class="injurySelect"
+                    data-prime-change-at="actor.health.wounds.injure()"
+                    data-prime-select-on="actor.health.wounds.injuryDetail()"
+                    data-prime-disable-on="actor.health.wounds.isTended()"
+                    data-prime-index="{{this}}">
             <option value=""></option>
             {{#each ../../actorTables.woundConditions}}
             <option value="{{this.key}}">{{this.title}}</option>
@@ -48,7 +51,8 @@
             <div class="medkitIcon flexRow flexEnd verticalCenter">
                 <a class="healInjury" title="Heal this injury"
                    data-prime-click-at="actor.health.wounds.cure()"
-                   data-prime-value="{{this}}">
+                   data-prime-hidden-on="actor.health.wounds.isHealthy()"
+                   data-prime-index="{{this}}">
                     <i class="fas fa-medkit"></i>
                 </a>
             </div>
