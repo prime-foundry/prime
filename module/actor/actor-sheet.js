@@ -505,15 +505,6 @@ export class PrimePCActorSheet extends ActorSheet {
     async postActivateListeners(html) {
         const data = this.getData();
         const actionPoints = data.prime.actor.actionPoints;
-        // const {wounds, insanities} = data.prime.actor.health;
-        //
-        // html.find(".injurySelect").each(function (index, element) {
-        //     $(element).val((wounds.getInjury(index) || {}).detail);
-        // });
-        //
-        // html.find(".insanitySelect").each(function (index, element) {
-        //     $(element).val((insanities.getInjury(index) || {}).detail);
-        // });
 
         html.find(".fillAnimation").removeClass("fillAnimation");
         html.find(".emptyAnimation").removeClass("emptyAnimation");
@@ -523,32 +514,4 @@ export class PrimePCActorSheet extends ActorSheet {
             await this.updateIfDirty(data);
         }
     }
-
-/// Here we do some clever stuff.
-
-    /**
-     * The default on change event, has 2 problems,
-     * firstly it is increadibly heavy weight,it takes the entire form, and everything in it and submits it,
-     * rather than just modifying a single value.
-     *
-     * secondly it forces us to align to the data structure in our forms rather than the component structure.
-     * If your input starts with 'prime' now we will follow the path modify let the prime object decide where
-     * in the data to modify things (this includes calling any methods we may want). I will add inputs as we go along.
-     *
-     * if it starts with anything else we will proceed in the old way of doing things. (you have a choice)
-     * //todo support select and textareas in Prime Controller and then delete this.
-     * @param {Event} event  The initial change event
-     * @protected
-     */
-    async _onChangeInput(event) {
-
-        const element = event.target;
-        const data = this.getData();
-        const prime = data.prime;
-        if(!await prime._controller.onChangeInput(element)){
-            return super._onChangeInput(event);
-        }
-    }
-
-
 }
