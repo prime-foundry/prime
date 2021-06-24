@@ -24,7 +24,8 @@
         <div>{{combinedResilience}}</div>
     </div>
     <div class="injuriesBlock block leftBlockTitle flexColumn">
-        <div class="blockTitle"><span>Wounds</span></div>
+        <div class="blockTitle"
+             data-prime-click-at="actor.health.wounds.sort()"><span>Wounds</span></div>
 
         {{#range 0 wounds.slots 1 true}}
         <div class="flexRow injuryRow">
@@ -32,10 +33,11 @@
                 <input type="checkbox"
                        id="injuryCheckbox-{{this}}"
                        name="injuryCheckboxes"
-                       class="injuryCheckbox blah"
+                       class="injuryCheckbox"
                        data-prime-at="actor.health.wounds.aggravateOrAlleviate()"
                        data-prime-value="{{this}}"
-                       {{selectIfWounded this ../wounds}}/>
+                       data-prime-index="{{this}}"
+                       data-prime-select-on="actor.health.wounds.isUntended()"/>
                 <label for="injuryCheckbox-{{this}}" class="flexRow flexCenter verticalCenter">{{this}}</label>
             </div>
             <select name="injurySelect{{this}}" class="injurySelect"

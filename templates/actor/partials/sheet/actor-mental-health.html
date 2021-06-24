@@ -8,8 +8,7 @@
             <div class="metaValueContent flexRow flexEnd mindIntellectWrapper">
                 <input type="text" class="bigNumberInput" id="actor.health.psyche" value="{{psyche.value}}"
                        data-prime-at="actor.health.psyche"
-                       data-prime.type="number"
-                />
+                       data-prime.type="number"/>
                 <span class="mindMaxIntellect">Max: {{psyche.max}}</span>
             </div>
         </div>
@@ -26,7 +25,8 @@
     </div>
 
     <div class="insanitiesBlock block rightBlockTitle flexColumn">
-        <div class="blockTitle"><span>Insanities</span></div>
+        <div class="blockTitle"
+             data-prime-click-at="actor.health.insanities.sort()"><span>Insanities</span></div>
 
         {{#range 0 insanities.slots 1 true}}
         <div class="flexRow insanityRow">
@@ -48,10 +48,14 @@
 				{{/each}}
             </select>
             <div class="insanityCheckBoxWrapper flexRow flexCenter verticalCenter{{addInjuryClasses this ../insanities}}">
-                <input type="checkbox" id="insanityCheckbox-{{this}}" name="insanityCheckboxes" class="insanityCheckbox"
+                <input type="checkbox"
+                       id="insanityCheckbox-{{this}}"
+                       name="insanityCheckboxes"
+                       class="insanityCheckbox"
                        data-prime-at="actor.health.insanities.aggravateOrAlleviate()"
                        data-prime-value="{{this}}"
-                       {{selectIfWounded this ../insanities}}/>
+                       data-prime-index="{{this}}"
+                       data-prime-select-on="actor.health.insanities.isUntended()"/>
                 <label for="insanityCheckbox-{{this}}" class="flexRow flexCenter verticalCenter">{{this}}</label>
             </div>
         </div>

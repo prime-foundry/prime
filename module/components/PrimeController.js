@@ -148,6 +148,21 @@ export default class PrimeController {
             const val = getPrimeValue(select, prime, inputPrimeData);
             $(element).val(val || '');
         });
+        html.find("input[type=checkbox][data-prime-select-on]").each(function (index, element) {
+            const inputPrimeData = datasetToObject(element).prime || {};
+            const select = inputPrimeData.select.on;
+            // converts strings to an integer.
+            if (inputPrimeData.index && !isNaN(inputPrimeData.index)) {
+                inputPrimeData.index = Number.parseInt(inputPrimeData.index);
+            }
+            const val = getPrimeValue(select, prime, inputPrimeData);
+            $(element).attr('checked', !!val);
+        });
+        html.find("input[type=checkbox][data-prime-type='counter']").each(function (index, element) {
+            const inputPrimeData = datasetToObject(element).prime || {};
+            const checked = inputPrimeData.current === inputPrimeData.value
+            $(element).attr('checked', !!checked);
+        });
     }
 
     /**
@@ -240,7 +255,7 @@ export default class PrimeController {
     async _onPrimeChangeCheckbox(checked, inputPrimeData, isFunction) {
         if (inputPrimeData.type === 'counter') {
             let value;
-            if (!checked && inputPrimeData.currentvalue === inputPrimeData.value) {
+            if (!checked && inputPrimeData.current === inputPrimeData.value) {
                 value = (Number.parseInt(inputPrimeData.value) || 0) - 1;
             } else {
                 value = Number.parseInt(inputPrimeData.value);

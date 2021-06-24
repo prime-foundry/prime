@@ -89,21 +89,31 @@ class Injurable extends BaseMaxComponent {
         return data.injuries;
     }
 
-    cleanUpData() {
-        const injuriesOnly = this._injuriesData.filter(injury => !!injury);
-        if (injuriesOnly.length != this._data.injuries.length) {
-            this._data.injuries = injuriesOnly;
-            this._update();
-        }
+    sort() {
+        // tended first
+        // followed by injuries with details, ordered alphabetcally
+        const injuries = this._injuriesData
+            .filter(injury => !!injury)
+            .sort((firstInjury, secondInjury) => {
+                if(firstInjury.tended ^ secondInjury.tended){
+                    return firstInjury.tended ? -1 : +1;
+                }
+                if(firstInjury.detail != null){
+                    return secondInjury.detail == null ? - 1 : firstInjury.detail.localeCompare(secondInjury.detail);
+                }
+                return secondInjury.detail == null ? 0 : +1;
+            });
+        this._data.injuries = injuries;
+        this._update();
     }
 
     getInjury(index) {
         return this._injuriesData[index];
     }
 
-    injure({index, selected:detail}) {
+    injure({index, selected: detail}) {
         const oldInjury = this._injuriesData[index];
-        if(oldInjury){
+        if (oldInjury) {
             oldInjury.detail = detail;
         } else {
             this._injuriesData[index] = {detail, tended: false};
@@ -111,16 +121,22 @@ class Injurable extends BaseMaxComponent {
         this._update();
     }
 
-    isInjured({index}){
+    isInjured({index}) {
         return this._injuriesData[index] != null;
     }
 
-    isHealthy({index}){
+    isHealthy({index}) {
         return this._injuriesData[index] == null;
     }
-    isTended({index}){
+
+    isTended({index}) {
         const injury = this._injuriesData[index];
         return !!injury && !!injury.tended;
+    }
+
+    isUntended({index}) {
+        const injury = this._injuriesData[index];
+        return !!injury && !injury.tended;
     }
 
     /**
@@ -161,8 +177,9 @@ class Injurable extends BaseMaxComponent {
      * @param activate
      * @param inputPrimeData
      */
-    aggravateOrAlleviate({activate, value:index}) {
-        const injury = this._injuriesData[index];
+    aggravateOrAlleviate({activate, value: index}) {
+        const injuriesData = this._injuriesData;
+        const injury = injuriesData[index];
         // if we have activated this wound,
         if (activate) {
             // and we have an injury already in this slot
@@ -171,12 +188,15 @@ class Injurable extends BaseMaxComponent {
                 this.aggravate(index);
             } else {
                 // or the wound is not there lets fill with injuries until we have achieved the recommended number of values.
-                const injuryCount = this._injuriesData.filter(injury => !!injury).length;
-                let count = index;
-                do {
-                    this._injuriesData[count] = {tended: false, detail: null};
-                    count -= 1;
-                } while (injuryCount <= count)
+                // if there are no wounds above.
+                if (injuriesData.slice(index).filter(injury => !!injury).length === 0) {
+                    let count = index - 1;
+                    while (count >= 0 && injuriesData[count] == null) {
+                        injuriesData[count] = {tended: false, detail: null};
+                        count -= 1;
+                    }
+                }
+                injuriesData[index] = {tended: false, detail: null};
                 this._update();
             }
             // if we are not activating a wound, and the wound is not tended
@@ -185,7 +205,7 @@ class Injurable extends BaseMaxComponent {
             injury.tended = true;
             // if there are no details on this wound, then lets heal it completely. its a mistake, lets be friendly in our UI
             if ((!injury.detail) || injury.detail == '') {
-                this._injuriesData[index] = null;
+                injuriesData[index] = null;
             }
             this._update();
         }

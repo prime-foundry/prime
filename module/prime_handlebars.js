@@ -156,21 +156,6 @@ Handlebars.registerHelper('itemEnabled', function (pointIndex, currentPoints) {
     }
     return "disabled";
 });
-Handlebars.registerHelper('disableIfTended', function (index, injurable) {
-    const injury = injurable.getInjury(index);
-    if (!injury || injury.tended) {
-        return "disabled";
-    }
-    return "";
-});
-
-Handlebars.registerHelper('selectIfWounded', function (index, injurable) {
-    const injury = injurable.getInjury(index);
-    if (injury && !injury.tended) {
-        return "checked";
-    }
-    return "";
-});
 
 Handlebars.registerHelper('addInjuryClasses', function (index, injurable) {
     const injury = injurable.getInjury(index);
@@ -238,15 +223,17 @@ Handlebars.registerHelper('addStateClasses', function (pointIndex, basePointData
         classes.push("currentPointTotal");
     }
 
-    if (lastTotal > current) {
-        if (pointIndex > current && pointIndex <= lastTotal) {
-            classes.push("emptyAnimation");
-        }
-    } else if (lastTotal < current) {
-        if (pointIndex > lastTotal && pointIndex <= current) {
-            classes.push("fillAnimation");
-        }
-    }
+    // the following is a bit broken.
+
+    // if (lastTotal > current) {
+    //     if (pointIndex > current && pointIndex <= lastTotal) {
+    //         classes.push("emptyAnimation");
+    //     }
+    // } else if (lastTotal < current) {
+    //     if (pointIndex > lastTotal && pointIndex <= current) {
+    //         classes.push("fillAnimation");
+    //     }
+    // }
     if (classes.length > 0) {
         return " " + classes.join(" ");
     }
