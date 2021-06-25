@@ -42,16 +42,12 @@ class Stat_V1 extends ActorComponent {
         return this._statData.max;
     }
 
-    get value() {
-        return this._statData.value;
-    }
-
     get related() {
         return this._statData.related;
     }
 
-    get name() {
-        return this._statData.id;
+    get title() {
+        return game.i18n.localize(this._statData.title);
     }
 
     get id() {
@@ -69,6 +65,9 @@ export class Prime_V1 extends Stat_V1 {
         super(parent, statData);
     }
 
+    get value() {
+        return this._statData.value;
+    }
 
     set value(value) {
         if (value <= this.max && value >= 0) {
@@ -81,6 +80,10 @@ export class Prime_V1 extends Stat_V1 {
 export class Refinement_V1 extends Stat_V1 {
     constructor(parent, statData) {
         super(parent, statData);
+    }
+
+    get value() {
+        return this._statData.value;
     }
 
     set value(value) {

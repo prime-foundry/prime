@@ -108,11 +108,11 @@ export class PrimePCActorSheet extends ActorSheet {
 
         //var a = data.actor.permission
         data.actorProperties = actorProperties;
-        data.currentOwners = this.actor.getCurrentOwners();
-        data.combinedResilience = this.actor.getCombinedResilience();
-        data.combinedPsyche = this.actor.getCombinedPsyche();
+       // data.currentOwners = this.actor.getCurrentOwners();
+       data.combinedResilience = this.actor.getCombinedResilience();
+       data.combinedPsyche = this.actor.getCombinedPsyche();
 
-        data.typeSorted = this.actor.getTypeSortedPrimesAndRefinements();
+      //  data.typeSorted = this.actor.getTypeSortedPrimesAndRefinements();
 
         data.itemTables = PrimeTables.cloneAndTranslateTables("items");
         data.actorTables = PrimeTables.cloneAndTranslateTables("actor");

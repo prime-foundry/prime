@@ -1,52 +1,57 @@
 <div class="{{partialClasses}} statsContent flexRow flexWrap flexBetween">
-    {{#each typeSorted as |typeGroup key|}}
-    <div class="primesGroup primeGroup_{{key}}">
-        {{#ifCond key "==" "physical" }}
+    {{#with prime.actor.stats}}
+    {{#each sorted}}
+    <div class="primesGroup primeGroup_{{statType}}">
+        {{#ifCond @index "==" 0 }}
         <div class="blockTitle">Primes</div>
         {{/ifCond}}
-        {{#each typeGroup.primes as |prime key|}}
-        <div class="primeWrapper {{prime.customisableStatClass}} {{prime.defaultItemClass}}" title="{{convertHTMLForTitle prime.description 150}}&#xD;*DOUBLE CLICK TO EDIT VALUE*">
-			<a class="deleteItemIcon" data-item-id={{prime.itemID}} title="Delete prime"><i class="fas fa-trash"></i></a>
-			<a class="showStatInfoIcon" data-item-id={{prime.itemID}} data-sourceKey="{{prime.sourceKey}}"><i class="fas fa-info-circle fa-xs"></i></a>
-            <label for="data.primes.{{key}}.value">{{prime.title}}</label>
+        {{#each primes}}
+        <div class="primeWrapper {{customisableStatClass}} {{defaultItemClass}}" title="{{convertHTMLForTitle description 150}}&#xD;*DOUBLE CLICK TO EDIT VALUE*">
+			<a class="deleteItemIcon" data-item-id={{itemID}} title="Delete prime"><i class="fas fa-trash"></i></a>
+			<a class="showStatInfoIcon" data-item-id={{itemID}} data-sourceKey="{{sourceKey}}"><i class="fas fa-info-circle fa-xs"></i></a>
+            <label for="data.primes.{{key}}.value">{{title}}</label>
             <div class="valueWrapper">
-                <input type="text" name="data.primes.{{key}}.value" value="{{prime.value}}"
-                       data-prime-path="prime.actor.{{key}}.value"
-				data-itemStat="{{prime.itemBasedStat}}"
+                <input type="text" id="data.primes.{{key}}.value" value="{{value}}"
+                       data-prime-at="actor.stats.primes.value"
+				data-itemStat="{{itemBasedStat}}"
 				data-dtype="Number"
 				data-min="{{getStatMin key}}"
 				data-max="10"
-				data-lastValue="{{prime.value}}"
-				data-itemID="{{prime.itemID}}"
+				data-lastValue="{{value}}"
+				data-itemID="{{itemID}}"
 				class="statInput primeInput"/>
-                <span class="primeValue">{{prime.value}}</span>
+                <span class="primeValue">{{value}}</span>
             </div>
         </div>
         {{/each}}
     </div>
-    <div class="refinementsGroup refinementGroup_{{key}}">
-        {{#ifCond key "==" "physical" }}
+    <div class="refinementsGroup refinementGroup_{{statType}}">
+        {{#ifCond @index "==" 0 }}
         <div class="blockTitle">Refinements</div>
         {{/ifCond}}
-        {{#each typeGroup.refinements as |refinement key|}}
-        <div class="refinementWrapper {{refinement.customisableStatClass}} {{refinement.defaultItemClass}}" title="{{convertHTMLForTitle refinement.description 150}}&#xD;*DOUBLE CLICK TO EDIT VALUE*">
-			<a class="deleteItemIcon" data-item-id={{refinement.itemID}} title="Delete refinement"><i class="fas fa-trash"></i></a>
-			<a class="showStatInfoIcon" data-item-id={{refinement.itemID}} data-sourceKey="{{refinement.sourceKey}}"><i class="fas fa-info-circle fa-xs"></i></a>
-            <label for="data.refinements.{{key}}.value">{{refinement.title}}</label>
+        {{#each refinements}}
+        <div class="refinementWrapper {{customisableStatClass}} {{defaultItemClass}}"
+             title="{{convertHTMLForTitle description 150}}&#xD;*DOUBLE CLICK TO EDIT VALUE*"
+             data-prime-class-if="customisableStat actor.stats.refinement"
+             data-prime-class-if="defaultStat ">
+			<a class="deleteItemIcon" data-item-id={{itemID}} title="Delete refinement"><i class="fas fa-trash"></i></a>
+			<a class="showStatInfoIcon" data-item-id={{itemID}} data-sourceKey="{{sourceKey}}"><i class="fas fa-info-circle fa-xs"></i></a>
+            <label for="data.refinements.{{key}}.value">{{title}}</label>
             <div class="valueWrapper">
-                <input type="text" name="data.refinements.{{key}}.value" value="{{refinement.value}}"
-				 data-itemStat="{{refinement.itemBasedStat}}"
+                <input type="text" id="data.refinements.{{key}}.value" value="{{value}}"
+				 data-itemStat="{{itemBasedStat}}"
 				 data-dtype="Number"
 				 data-min="0"
 				 data-max="10"
-				 data-lastValue="{{refinement.value}}"
-				 data-itemID="{{refinement.itemID}}"
-				 data-sourceKey="{{prime.sourceKey}}"
+				 data-lastValue="{{value}}"
+				 data-itemID="{{itemID}}"
+				 data-sourceKey="{{sourceKey}}"
 				 class="statInput refinementInput"/>
-                <span class="refinementValue">{{refinement.value}}</span>
+                <span class="refinementValue">{{value}}</span>
             </div>
         </div>
         {{/each}}
     </div>
     {{/each}}
+    {{/with}}
 </div>

@@ -1,7 +1,7 @@
 import Health from './Health.js';
 import {ActionPoints, XP, Soul} from './Points.js';
 import Profile from "./Profile.js";
-import {Primes, Refinements} from "./PrimesAndRefinements.js";
+import Stats from "./Stats.js";
 import ParentComponent from "../util/ParentComponent.js";
 
 export default class PrimeActor extends ParentComponent {
@@ -15,19 +15,11 @@ export default class PrimeActor extends ParentComponent {
     get profile() {
         return this._getComponentLazily('profile', Profile);
     }
-
     /**
-     * @return {Primes}
+     * @return {Stats}
      */
-    get primes() {
-        return this._getComponentLazily('primes', Primes);
-    }
-
-    /**
-     * @return {Primes}
-     */
-    get refinements() {
-        return this._getComponentLazily('refinements', Refinements);
+    get stats(){
+        return this._getComponentLazily('stats', Stats);
     }
 
     /**
@@ -89,7 +81,9 @@ export default class PrimeActor extends ParentComponent {
         }
         return this.__actorData;
     }
-
+    get _actorSystemData() {
+        return this._actorData.data;
+    }
     /**
      * @return {User[]}
      * @protected
@@ -105,6 +99,10 @@ export default class PrimeActor extends ParentComponent {
                 })
                 .filter((user) => !!user && !user.isGM)
         );
+    }
+
+    get _items() {
+        return this._actor.items || new Map();
     }
 
     _getItemsByType(type) {

@@ -24,6 +24,10 @@ class Stat extends ItemComponent {
         return this._itemSystemData.description;
     }
 
+    get title() {
+        return this._itemData.name;
+    }
+
     get sourceKey() {
         return this._itemSystemData.sourceKey;
     }
@@ -65,29 +69,21 @@ class Refinement extends Stat {
     }
 }
 
-class Stats extends ActorComponent {
+
+class StatCollection extends ActorComponent {
     constructor(parent) {
         super(parent);
     }
 
+    // at some point this needs to work out the correct values depending on the compendium.
+    get statTypes() {
+        return ['physical', 'mental', 'supernatural'];
+    }
+
     get all() {
-        const {physical, mental, supernatural} = this;
-        return {physical, mental, supernatural}
-    }
-
-    get physical() {
-        return this._calculateValueOnce('physical',
-            () => this._getTransformedItems().filter(stat => stat.statType === 'physical'));
-    }
-
-    get mental() {
-        return this._calculateValueOnce('mental',
-            () => this._getTransformedItems().filter(stat => stat.statType === 'mental'));
-    }
-
-    get supernatural() {
-        return this._calculateValueOnce('supernatural',
-            () => this._getTransformedItems().filter(stat => stat.statType === 'supernatural'));
+        return this._calculateValueOnce('all',
+            () => Object.fromEntries(this.statTypes.map(statType => [statType, this.getStatsForType(statType)]))
+        );
     }
 
     get cost() {
@@ -95,12 +91,16 @@ class Stats extends ActorComponent {
             () => this._getTransformedItems().reduce((accumulator, stat) => accumulator + stat.cost, 0));
     }
 
+    getStatsForType(statType) {
+        return this._getTransformedItems().filter(stat => stat.statType === statType);
+    }
+
     _getTransformedItems() {
         return [];
     }
 }
 
-export class Primes extends Stats {
+class Primes extends StatCollection {
 
     constructor(parent) {
         super(parent);
@@ -120,7 +120,7 @@ export class Primes extends Stats {
     }
 }
 
-export class Refinements extends Stats {
+class Refinements extends StatCollection {
     constructor(parent) {
         super(parent);
     }
@@ -136,5 +136,39 @@ export class Refinements extends Stats {
             () => this._root._getItemsByType('refinement')
                 .sort((one, two) => one.name.localeCompare(two.name))
                 .map(item => new Refinement(this, item)));
+    }
+}
+
+
+export default class Stats extends ActorComponent {
+    constructor(parent) {
+        super(parent);
+    }
+
+    /**
+     * @return {Primes}
+     */
+    get primes() {
+        return this._getComponentLazily('primes', Primes);
+    }
+
+    /**
+     * @return {Primes}
+     */
+    get refinements() {
+        return this._getComponentLazily('refinements', Refinements);
+    }
+
+    get sorted() {
+        const primes = this.primes.all;
+        const refinements = this.refinements.all;
+        return Object.entries(primes).map(([statType, stats]) =>
+            ({
+                statType,
+                primes: stats,
+                refinements: refinements[statType],
+                title: game.i18n.localize(`PRIME.stat_type_${statType}`),
+            })
+        );
     }
 }
