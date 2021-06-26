@@ -22,16 +22,10 @@ export default class ItemComponent extends Component {
 
     constructor(parent, item) {
         super(parent);
-        this.__item = item;
+        this._item = item;
     }
 
-    /**
-     * @return {PrimeItem}
-     * @protected
-     */
-    get _item() {
-        return this.__item;
-    }
+
 
     /**
      * We need one single data object between these changes.
@@ -57,5 +51,8 @@ export default class ItemComponent extends Component {
     get name() {
         return this._item.name;
     }
-
+    _update() {
+        // do we need to get the embedded document, or is this the embedded document?
+        this._item.update(this._itemData.toObject(false));
+    }
 }

@@ -49,10 +49,10 @@ export class PrimePCActor extends Actor
 	{
 		const data = actorData.data;
 
-		if (this.isVersion2())
-		{
-			this._prepareCharacterDataV2(data, actorData);
-		}
+		// if (this.isVersion2())
+		// {
+		// 	this._prepareCharacterDataV2(data, actorData);
+		// }
 
 		const primeCost = this.getTotalCost(data.primes);
 		const perkSoulCost = this.getTotalPerkCost("perkCostSoul");
@@ -69,20 +69,20 @@ export class PrimePCActor extends Actor
 		data.xp.value = (data.xp.initial + data.xp.awarded) - data.xp.spent;
 	}
 
-	_prepareCharacterDataV2(data, actorData)
-	{
-		const primesStatData = this._getStatsObjects(actorData.items, "prime");
-		const refinementsStatData = this._getStatsObjects(actorData.items, "refinement");
-
-		if (data.primes)
-		{
-			data.primes = primesStatData;
-		}
-		if (data.refinements)
-		{
-			data.refinements = refinementsStatData;
-		}
-	}
+	// _prepareCharacterDataV2(data, actorData)
+	// {
+	// 	const primesStatData = this._getStatsObjects(actorData.items, "prime");
+	// 	const refinementsStatData = this._getStatsObjects(actorData.items, "refinement");
+	//
+	// 	if (data.primes)
+	// 	{
+	// 		data.primes = primesStatData;
+	// 	}
+	// 	if (data.refinements)
+	// 	{
+	// 		data.refinements = refinementsStatData;
+	// 	}
+	// }
 
 	/**
 	 * FIXME: Obsolete moved to handlebars
@@ -478,71 +478,71 @@ export class PrimePCActor extends Actor
 		}
 	}
 
-	_getStatsObjects(items, statType)
-	{
-		let matchingStatItems = {};
-		let count = 0;
-		let currItem = null;
-		let statItem = null;
-		let atLeastOneStatFound = false;	// If we've found one prime, then the other stats are on their way asyncronously.
-		while (count < items.length)
-		{
-			currItem = items[count];
-			if (currItem.type == statType)
-			{
-				statItem = this._getItemDataAsStat(currItem);
-				matchingStatItems[statItem.itemID] = statItem
-			}
-			if (currItem.type == "prime" || currItem.type == "refinement")
-			{
-				atLeastOneStatFound = true;
-			}
-			count++;
-		}
+	// _getStatsObjects(items, statType)
+	// {
+	// 	let matchingStatItems = {};
+	// 	let count = 0;
+	// 	let currItem = null;
+	// 	let statItem = null;
+	// 	let atLeastOneStatFound = false;	// If we've found one prime, then the other stats are on their way asyncronously.
+	// 	while (count < items.length)
+	// 	{
+	// 		currItem = items[count];
+	// 		if (currItem.type == statType)
+	// 		{
+	// 			statItem = this._getItemDataAsStat(currItem);
+	// 			matchingStatItems[statItem.itemID] = statItem
+	// 		}
+	// 		if (currItem.type == "prime" || currItem.type == "refinement")
+	// 		{
+	// 			atLeastOneStatFound = true;
+	// 		}
+	// 		count++;
+	// 	}
+	//
+	// 	if (Object.keys(matchingStatItems).length === 0 && !atLeastOneStatFound)
+	// 	{
+	// 		matchingStatItems = this._getStatObjectsFromWorld(statType);
+	// 	}
+	//
+	// 	return matchingStatItems;
+	// }
 
-		if (Object.keys(matchingStatItems).length === 0 && !atLeastOneStatFound)
-		{
-			matchingStatItems = this._getStatObjectsFromWorld(statType);
-		}
-
-		return matchingStatItems;
-	}
-
-	_getStatObjectsFromWorld(statType)
-	{
-		const currActor = this;
-
-		let actorItemsToCreate = []
-		let instancedItems = {};
-		let statItem = null;
-		if (ItemDirectory && ItemDirectory.collection)	// Sometimes not defined when interegated.
-		{
-			ItemDirectory.collection.forEach((item, key, items) =>
-			{
-				if (item.type == statType && item.data.data.default)
-				{
-					item.data.data.sourceKey = item.data._id;
-					actorItemsToCreate.push(item.data);
-					statItem = this._getItemDataAsStat(item.data);
-					instancedItems[statItem.itemID] = statItem;
-				}
-			});
-
-			if (actorItemsToCreate.length > 0)
-			{
-				this.createEmbeddedEntity("OwnedItem", actorItemsToCreate);
-			}
-			else
-			{
-				console.error(`No stat items of type ${statType} were found in _getStatObjectsFromWorld(). Did you forget to import from Compendium?`);
-			}
-		}
-		else
-		{
-			console.warn("getStatObjectsFromWorld() was called to soon. The world (and the items) weren't ready yet.")
-		}
-		return instancedItems;
-	}
+	// _getStatObjectsFromWorld(statType)
+	// {
+	// 	const currActor = this;
+	//
+	// 	let actorItemsToCreate = []
+	// 	let instancedItems = {};
+	// 	let statItem = null;
+	// 	if (ItemDirectory && ItemDirectory.collection)	// Sometimes not defined when interegated.
+	// 	{
+	// 		ItemDirectory.collection.forEach((item, key, items) =>
+	// 		{
+	// 			if (item.type == statType && item.data.data.default)
+	// 			{
+	// 				item.data.data.sourceKey = item.data._id;
+	// 				actorItemsToCreate.push(item.data);
+	// 				statItem = this._getItemDataAsStat(item.data);
+	// 				instancedItems[statItem.itemID] = statItem;
+	// 			}
+	// 		});
+	//
+	// 		if (actorItemsToCreate.length > 0)
+	// 		{
+	// 			this.createEmbeddedEntity("OwnedItem", actorItemsToCreate);
+	// 		}
+	// 		else
+	// 		{
+	// 			console.error(`No stat items of type ${statType} were found in _getStatObjectsFromWorld(). Did you forget to import from Compendium?`);
+	// 		}
+	// 	}
+	// 	else
+	// 	{
+	// 		console.warn("getStatObjectsFromWorld() was called to soon. The world (and the items) weren't ready yet.")
+	// 	}
+	// 	return instancedItems;
+	// }
 
 	// "athletic" :
 	// {

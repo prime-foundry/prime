@@ -1,6 +1,6 @@
 import ActorComponent from "../util/ActorComponent.js";
 
-// TODO: Migrate: version 1 managements of stats, moved to a seperate file, for easy removal once migrated..
+// TODO: Migrate: version 1 managements of stats, moved to a separate file, for easy removal once migrated..
 class Stat_V1 extends ActorComponent {
 
     constructor(parent, statData) {
@@ -71,7 +71,7 @@ export class Prime_V1 extends Stat_V1 {
 
     set value(value) {
         if (value <= this.max && value >= 0) {
-            this._actorSystemData.primes[this.id] = value;
+            this._actorSystemData.primes[this.id].value = value;
             this._update();
         }
     }

@@ -102,7 +102,7 @@ export default class PrimeController {
         const prime = data.prime;
         this._preselectValues(html, prime);
         this._predisableElements(html, prime);
-        this._prehideElements(html,prime);
+        this._prehideElements(html, prime);
 
         this._attachListener(html, sheet, '*[data-prime-click-at]', 'click', clickListener);
         this._attachListener(html, sheet, '*[data-prime-dblclick-at]', 'dblclick', clickListener);
@@ -123,6 +123,7 @@ export default class PrimeController {
             element.hidden = !!val ? true : undefined;
         });
     }
+
     static _predisableElements(html, prime) {
         html.find("*[data-prime-disable-on]").each(function (index, element) {
             const inputPrimeData = datasetToObject(element).prime || {};
@@ -217,7 +218,7 @@ export default class PrimeController {
                         await this._onPrimeChangeCheckbox(element.checked, inputPrimeData, isFunction);
                         break;
                     default:
-                        await this._onPrimeChangeValue(element.value, inputPrimeData);
+                        await this._onPrimeChangeValue(element.value, inputPrimeData, isFunction);
                         break;
                 }
             }
@@ -234,26 +235,28 @@ export default class PrimeController {
         }
     }
 
-    async _onPrimeChangeValue(value, inputPrimeData) {
-        if (inputPrimeData.type === 'number') {
-            return this._onPrimeChangeNumber(value, inputPrimeData);
-        } else if (inputPrimeData.type === 'boolean') {
-            return this._onPrimeChangeBoolean(value, inputPrimeData);
+    async _onPrimeChangeValue(value, inputPrimeData, isFunction) {
+        const type = (inputPrimeData.type || '').toLowerCase();
+        if (type === 'number') {
+            return this._onPrimeChangeNumber(value, inputPrimeData, isFunction);
+        } else if (type === 'boolean') {
+            return this._onPrimeChangeBoolean(value, inputPrimeData, isFunction);
         } else {
-            return this.__updateWithSetValue(value, inputPrimeData);
+            return this.__updateWithSetValue(value, inputPrimeData, isFunction);
         }
     }
 
-    async _onPrimeChangeNumber(value, inputPrimeData) {
-        return this.__updateWithSetValue(Number.parseInt(value) || 0, inputPrimeData);
+    async _onPrimeChangeNumber(value, inputPrimeData, isFunction) {
+        return this.__updateWithSetValue(Number.parseInt(value) || 0, inputPrimeData, isFunction);
     }
 
-    async _onPrimeChangeBoolean(value, inputPrimeData) {
-        return this.__updateWithSetValue((value || '').toLowerCase() === 'true', inputPrimeData);
+    async _onPrimeChangeBoolean(value, inputPrimeData, isFunction) {
+        return this.__updateWithSetValue((value || '').toLowerCase() === 'true', inputPrimeData, isFunction);
     }
 
     async _onPrimeChangeCheckbox(checked, inputPrimeData, isFunction) {
-        if (inputPrimeData.type === 'counter') {
+        const type = (inputPrimeData.type || '').toLowerCase();
+        if (type === 'counter') {
             let value;
             if (!checked && inputPrimeData.current === inputPrimeData.value) {
                 value = (Number.parseInt(inputPrimeData.value) || 0) - 1;
@@ -295,9 +298,13 @@ export default class PrimeController {
         );
     }
 
-    async __updateWithSetValue(value, inputPrimeData) {
-        return this.__updatePrime(inputPrimeData,
-            (parent, key) => parent[key] = value);
+    async __updateWithSetValue(value, inputPrimeData, isFunction=false) {
+
+        if (isFunction) {
+            return this.__updateWithFunction(inputPrimeData, {value});
+        } else {
+            return this.__updatePrime(inputPrimeData, (parent, key) => parent[key] = value);
+        }
     }
 
     async __updatePrime(inputPrimeData, func) {

@@ -1,6 +1,6 @@
 import ActorComponent from "./util/ActorComponent.js";
 import ItemComponent from "../item/ItemComponent.js";
-import {Prime_V1, Refinement_V1} from "./legacy/PrimesAndRefinements.v1.js";
+import {Prime_V1, Refinement_V1} from "./legacy/Stats.v1.js";
 
 class Stat extends ItemComponent {
 
@@ -93,6 +93,15 @@ class StatCollection extends ActorComponent {
 
     getStatsForType(statType) {
         return this._getTransformedItems().filter(stat => stat.statType === statType);
+    }
+
+    getStatById(id){
+       return this._getTransformedItems().find((stat) => stat.id === id);
+    }
+
+    setStatValue({value, key}){
+        const stat = this.getStatById(key);
+        stat.value = value;
     }
 
     _getTransformedItems() {

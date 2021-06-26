@@ -7,19 +7,14 @@
         {{/ifCond}}
         {{#each primes}}
         <div class="primeWrapper {{customisableStatClass}} {{defaultItemClass}}" title="{{convertHTMLForTitle description 150}}&#xD;*DOUBLE CLICK TO EDIT VALUE*">
-			<a class="deleteItemIcon" data-item-id={{itemID}} title="Delete prime"><i class="fas fa-trash"></i></a>
-			<a class="showStatInfoIcon" data-item-id={{itemID}} data-sourceKey="{{sourceKey}}"><i class="fas fa-info-circle fa-xs"></i></a>
-            <label for="data.primes.{{key}}.value">{{title}}</label>
+			<a class="deleteItemIcon" data-item-id={{id}} title="Delete prime"><i class="fas fa-trash"></i></a>
+			<a class="showStatInfoIcon" data-item-id={{id}} data-sourceKey="{{sourceKey}}"><i class="fas fa-info-circle fa-xs"></i></a>
+            <label for="data.primes.{{id}}.value">{{title}}</label>
             <div class="valueWrapper">
-                <input type="text" id="data.primes.{{key}}.value" value="{{value}}"
-                       data-prime-at="actor.stats.primes.value"
-				data-itemStat="{{itemBasedStat}}"
-				data-dtype="Number"
-				data-min="{{getStatMin key}}"
-				data-max="10"
-				data-lastValue="{{value}}"
-				data-itemID="{{itemID}}"
-				class="statInput primeInput"/>
+                <input type="text" id="data.primes.{{id}}.value" value="{{value}}"
+                       data-prime-type="Number"
+                       data-prime-change-at="actor.stats.primes.setStatValue()"
+                       data-prime-change-key="{{id}}"/>
                 <span class="primeValue">{{value}}</span>
             </div>
         </div>
