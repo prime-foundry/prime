@@ -9,12 +9,13 @@
         <div class="primeWrapper {{customisableStatClass}} {{defaultItemClass}}" title="{{convertHTMLForTitle description 150}}&#xD;*DOUBLE CLICK TO EDIT VALUE*">
 			<a class="deleteItemIcon" data-item-id={{id}} title="Delete prime"><i class="fas fa-trash"></i></a>
 			<a class="showStatInfoIcon" data-item-id={{id}} data-sourceKey="{{sourceKey}}"><i class="fas fa-info-circle fa-xs"></i></a>
-            <label for="data.primes.{{id}}.value">{{title}}</label>
+            <label for="primes-{{id}}">{{title}}</label>
             <div class="valueWrapper">
-                <input type="text" id="data.primes.{{id}}.value" value="{{value}}"
+                <input type="text" id="primes-{{id}}" value="{{value}}"
                        data-prime-type="Number"
                        data-prime-change-at="actor.stats.primes.setStatValue()"
-                       data-prime-change-key="{{id}}"/>
+                       data-prime-change-key="{{id}}"
+                       class="statInput primeInput"/>
                 <span class="primeValue">{{value}}</span>
             </div>
         </div>
@@ -29,18 +30,14 @@
              title="{{convertHTMLForTitle description 150}}&#xD;*DOUBLE CLICK TO EDIT VALUE*"
              data-prime-class-if="customisableStat actor.stats.refinement"
              data-prime-class-if="defaultStat ">
-			<a class="deleteItemIcon" data-item-id={{itemID}} title="Delete refinement"><i class="fas fa-trash"></i></a>
-			<a class="showStatInfoIcon" data-item-id={{itemID}} data-sourceKey="{{sourceKey}}"><i class="fas fa-info-circle fa-xs"></i></a>
-            <label for="data.refinements.{{key}}.value">{{title}}</label>
+			<a class="deleteItemIcon" data-item-id={{id}} title="Delete refinement"><i class="fas fa-trash"></i></a>
+			<a class="showStatInfoIcon" data-item-id={{id}} data-sourceKey="{{sourceKey}}"><i class="fas fa-info-circle fa-xs"></i></a>
+            <label for="refinements-{{id}}">{{title}}</label>
             <div class="valueWrapper">
-                <input type="text" id="data.refinements.{{key}}.value" value="{{value}}"
-				 data-itemStat="{{itemBasedStat}}"
-				 data-dtype="Number"
-				 data-min="0"
-				 data-max="10"
-				 data-lastValue="{{value}}"
-				 data-itemID="{{itemID}}"
-				 data-sourceKey="{{sourceKey}}"
+                <input type="text" id="refinements-{{id}}" value="{{value}}"
+                       data-prime-type="Number"
+                       data-prime-change-at="actor.stats.refinements.setStatValue()"
+                       data-prime-change-key="{{id}}"
 				 class="statInput refinementInput"/>
                 <span class="refinementValue">{{value}}</span>
             </div>

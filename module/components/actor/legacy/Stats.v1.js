@@ -88,7 +88,7 @@ export class Refinement_V1 extends Stat_V1 {
 
     set value(value) {
         if (value <= this.max && value >= 0) {
-            this._actorSystemData.refinements[this.id] = value;
+            this._actorSystemData.refinements[this.id].value = value;
             this._update();
         }
     }
