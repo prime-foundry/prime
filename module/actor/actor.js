@@ -120,7 +120,7 @@ export class PrimePCActor extends PrimeDocumentMixin(Actor)
 	 * Is this actor a character
 	 * @return {boolean}
 	 */
-	_isCharacter() {
+	isCharacter() {
 		return this._actorData.type === 'character';
 	}
 

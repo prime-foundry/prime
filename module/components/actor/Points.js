@@ -10,17 +10,40 @@ class Awardable extends ActorComponent {
     get value() {
         return this.initial + this.awarded - this.spent;
     }
-
+    
+    award(value) {
+        if (this._actor.isCharacter()) {
+            this._pointsWrite.awarded += value;
+        }
+    }
+    
     get initial() {
+        if (this._actor.isCharacter()) {
+            return this._pointsRead.initial;
+        }
         return 0;
     }
 
     get awarded() {
+        if (this._actor.isCharacter()) {
+            return this._pointsRead.awarded;
+        }
         return 0;
     }
 
     get spent() {
+        if (this._actor.isCharacter()) {
+            return this._pointsRead.spent;
+        }
         return 0;
+    }
+
+
+    get _pointsRead() {
+        return {};
+    }
+    get _pointsWrite() {
+        return {};
     }
 }
 
@@ -29,29 +52,19 @@ export class XP extends Awardable {
     constructor(parent) {
         super(parent);
     }
-
-    award(value) {
-        this._actorSystemData.xp.awarded += value;
-        this._update();
+    get _pointsRead() {
+        return this._systemRead.xp;
     }
 
-    get initial() {
-        if (this._root._isCharacter()) {
-            return this._actorSystemData.xp.initial;
-        }
-        return 0;
-    }
-
-    get awarded() {
-        if (this._root._isCharacter()) {
-            return this._actorSystemData.xp.awarded;
-        }
-        return 0;
+    get _pointsWrite() {
+        return this._systemWrite.xp;
     }
 
     get spent() {
-        if (this._root._isCharacter()) {
-            const refinementCost = this._actor.getTotalCost(this._actorSystemData.refinements);
+        if (this._actor.isCharacter()) {
+            // TODO: totalcost and totalperkcost don't belong in the actor class directly.
+            // TODO will not work with V2 chars.
+            const refinementCost = this._actor.getTotalCost(this._systemRead.refinements);
             const perkXPCost = this._actor.getTotalPerkCost("perkCostXP");
             return refinementCost + perkXPCost;
         }
@@ -65,41 +78,31 @@ export class Soul extends Awardable {
         super(parent);
     }
 
-    award(value) {
-        this._actorSystemData.soul.awarded += value;
-        this._update();
+    get _pointsRead() {
+        return this._systemRead.soul;
     }
+
+    get _pointsWrite() {
+        return this._systemWrite.soul;
+    }
+
     get value() {
         return super.value - this.burnt;
     }
 
     get burnt() {
-        return this._root._isCharacter() ? this._actorSystemData.soul.burnt || 0 : 0
+        return this._actor.isCharacter() ? this._pointsRead.burnt || 0 : 0
     }
 
     burn() {
-        this._actorSystemData.soul.burnt = (this._actorSystemData.soul.burnt || 0) + 1;
-        this._update();
-    }
-
-    get initial() {
-        if (this._root._isCharacter()) {
-            return this._actorSystemData.soul.initial;
-        }
-        return 0;
-    }
-
-    get awarded() {
-        if (this._root._isCharacter()) {
-            return this._actorSystemData.soul.awarded ;
-        }
-        return 0;
+        this._pointsWrite.burnt = (this._pointsRead.burnt || 0) + 1;
     }
 
     get spent() {
-        if (this._root._isCharacter()) {
-
-            const primeCost = this._actor.getTotalCost(this._actorSystemData.primes);
+        if (this._actor.isCharacter()) {
+            // TODO: totalcost and totalperkcost don't belong in the actor class directly.
+            // TODO will not work with V2 chars.
+            const primeCost = this._actor.getTotalCost(this._systemRead.primes);
             const perkSoulCost = this._actor.getTotalPerkCost("perkCostSoul");
             return primeCost + perkSoulCost;
         }
@@ -116,17 +119,21 @@ export class ActionPoints extends BaseValueMaxComponent {
         let base = super.base;
         // fix for old sheets
         if (base == null) {
-            base = this._data.base = 6;
-            this._update();
+            base = this._pointsRead.base = 6;
         }
         return base;
     }
 
     get bonus() {
+        //TODO: move this out of actor.
         return this._actor.getStatBonusesFromItems("actionPoints");
     }
 
-    get _data() {
-        return this._actorSystemData.actionPoints;
+    get _pointsRead() {
+        return this._systemRead.actionPoints;
+    }
+
+    get _pointsWrite() {
+        return this._systemWrite.actionPoints;
     }
 }

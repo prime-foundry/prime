@@ -1,67 +1,12 @@
 import ActorComponent from './ActorComponent.js';
 
-export class MapLikeComponent extends ActorComponent {
-    constructor(parent) {
-        super(parent);
-        this._prepareMapLikeComponent();
-    }
-
-    /**
-     * Takes all the provided keys, and creates properties on the object, with its own getters and setters.
-     * Useful for non static lists such as primes and refinements
-     * @private
-     */
-    _prepareMapLikeComponent() {
-        const keys = this._getKeys();
-        const obj = this;
-        keys.map((item) => {
-            let key = item;
-            let config = undefined;
-            if (Array.isArray(item)) {
-                [key, config] = item;
-            }
-            const property = {
-                // enumerable: true,
-                get:() => obj._getValueForKey(key, config),
-                set:(value) => obj._setValueForKey(key, value, config),
-            };
-            return [key, property];
-        }).forEach(([key,property]) => {
-            Object.defineProperty(obj, key, property)
-        });
-    }
-
-    /**
-     * @abstract
-     * @protected
-     */
-    _getKeys() {
-        return [];
-    }
-
-    /**
-     * @abstract
-     * @protected
-     */
-    _getValueForKey(key) {
-        return undefined;
-    }
-
-    /**
-     * @abstract
-     * @protected
-     */
-    _setValueForKey(key, value) {
-    }
-}
-
 export class BaseMaxComponent extends ActorComponent {
     constructor(parent) {
         super(parent);
     }
 
     get base() {
-        return this._data.base;
+        return this._pointsRead.base;
     }
 
     get max() {
@@ -75,12 +20,20 @@ export class BaseMaxComponent extends ActorComponent {
     get bonus() {
         return 0;
     }
+    
 
     /**
      * To be overriden
-     * @return {{value: number, base: number}}
+     * @return {{ base: number}}
      */
-    get _data() {
+    get _pointsRead() {
+        return {base: 0};
+    }
+    /**
+     * To be overriden
+     * @return {{base: number}}
+     */
+    get _pointsWrite() {
         return {base: 0};
     }
 }
@@ -92,30 +45,35 @@ export class BaseValueMaxComponent extends BaseMaxComponent {
 
     // Really is only a UI concern, we should attach to this.
     get lastTotal() {
-        const lastTotal = this._data.lastTotal || 0;
+        const lastTotal = this._pointsRead.lastTotal || 0;
         return lastTotal;
     }
 
     set lastTotal(value) {
-        this._data.lastTotal = value;
-        this._update();
+        this._pointsWrite.lastTotal = value;
     }
 
     get value() {
-        return this._data.value;
+        return this._pointsRead.value;
     }
 
     set value(value) {
         this.lastTotal = this.value;
-        this._data.value = Math.max(0, Math.min(this.max, value));
-        this._update();
+        this._pointsWrite.value = Math.max(0, Math.min(this.max, value));
     }
 
     /**
      * To be overriden
      * @return {{value: number, base: number}}
      */
-    get _data() {
-        return {value: 0, base: 0};
+    get _pointsRead() {
+        return {value: 0,base: 0};
+    }
+    /**
+     * To be overriden
+     * @return {{value: number, base: number}}
+     */
+    get _pointsWrite() {
+        return {value: 0,base: 0};
     }
 }

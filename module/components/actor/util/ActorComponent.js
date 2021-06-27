@@ -35,14 +35,4 @@ export default class ActorComponent extends Component {
     get _items() {
         return this._actor.items || new Map();
     }
-
-
-    get _actorSystemData() {
-        return this._actorData.data;
-    }
-
-    get _actorId(){
-        return this._actor.id;
-    }
-
 }

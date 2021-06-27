@@ -10,55 +10,72 @@
 export default class Component {
 
     /**
-     * @param {ComponentManager} manager
+     * @param {PrimeDocument | Component} parent
      */
     constructor(parent) {
         this.__parent = parent;
-        this.__document = parent._primeDocumentMixin ? parent : parent._document;
+        this.__document = parent instanceof Component ? parent._document : parent;
     }
 
+    /**
+     * @returns {PrimeDocument|Component}
+     * @protected
+     */
     get _parent() {
         return this.__parent;
     }
 
+    /**
+     * @returns {PrimeDocument}
+     * @protected
+     */
     get _document() {
         return this.__document;
     }
 
     /**
-     * We could just let the data editor manage, we can probably do more funky things, if we do,
-     * but this is something we can do later, and would involve just changing the return path of this get.
-     * @returns {*}
-     */
-    get _readData() {
-        return this._document.data;
-    }
-
-    get _readSystemData() {
-        return this._readData.data;
-    }
-
-    /**
+     * The write and the read maybe changed, so we don't store the editor directly, we simply reference it.
      * @returns {DataEditor}
      * @protected
      */
-    get _dataEditor() {
+    get _editor() {
         return this._document.prime.editor;
     }
 
-    get _writeData() {
-        return this._dataEditor.write;
-    }
-
-    get _writeSystemData() {
-        return this._writeData.data;
+    /**
+     * return a proxy to the data object that we can write too.
+     *
+     * @returns {{proxy: DocumentData}}
+     * @protected
+     */
+    get _write() {
+        return this._editor.write;
     }
 
     /**
-     * @param {DocumentModificationContext} (context)
+     * return the data object that we can read from
+     * @returns {DocumentData}
      * @protected
      */
-    _commit(context) {
-        return this._dataEditor.commit(context);
+    get _read() {
+        return this._document.data;
+    }
+
+    /**
+     * return the readable system data object (document.data.data),
+     * @returns {{}}
+     * @protected
+     */
+    get _systemRead(){
+        this._read.data;
+    }
+
+    /**
+     * return a writable proxy to the system data (document.data.data)
+     * @returns {{proxy: {}}}
+     * @protected
+     */
+    get _systemWrite(){
+        this._write.data;
     }
 }

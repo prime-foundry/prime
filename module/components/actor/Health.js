@@ -82,7 +82,7 @@ class Injurable extends BaseMaxComponent {
         })
     }
 
-    get _injuriesData() {
+    _injuriesData(write = false) {
         const data = this._data;
         if (!data.injuries) {
             data.injuries = [];
