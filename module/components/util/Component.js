@@ -18,7 +18,7 @@ export default class Component {
     }
 
     /**
-     * @returns {ParentComponent}
+     * @returns {DataEditor}
      * @protected
      */
     get _root() {

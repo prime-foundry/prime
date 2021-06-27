@@ -1,6 +1,6 @@
-import ParentComponent from "../util/ParentComponent.js";
+import DataEditor from "../util/DataEditor.js";
 
-export default class PrimeUser extends ParentComponent{
+export default class PrimeUser extends DataEditor{
     constructor(user, controller) {
         super(user, controller);
     }

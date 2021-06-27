@@ -2,10 +2,10 @@ import Health from './Health.js';
 import {ActionPoints, XP, Soul} from './Points.js';
 import Profile from "./Profile.js";
 import Stats from "./Stats.js";
-import ParentComponent from "../util/ParentComponent.js";
+import DataEditor from "../util/DataEditor.js";
 import Util from "../util/Util.js";
 
-export default class PrimeActor extends ParentComponent {
+export default class PrimeActor extends DataEditor {
     constructor(actor, controller) {
         super(actor, controller);
     }
