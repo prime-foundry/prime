@@ -1,5 +1,6 @@
 import ActorComponent from './util/ActorComponent.js';
 import {BaseValueMaxComponent, BaseMaxComponent} from './util/ActorComponentSupport.js';
+import Util from "../util/Util.js";
 
 export default class Health extends ActorComponent {
     constructor(parent) {
@@ -10,7 +11,7 @@ export default class Health extends ActorComponent {
      * @return {Wounds}
      */
     get wounds() {
-        return this._getComponentLazily('wounds', Wounds);
+        return Util.getComponentLazily(this, 'wounds', Wounds);
     }
 
     set wounds(value) {
@@ -21,7 +22,7 @@ export default class Health extends ActorComponent {
      * @return {Resilience}
      */
     get resilience() {
-        return this._getComponentLazily('resilience', Resilience);
+        return Util.getComponentLazily(this, 'resilience', Resilience);
     }
 
     set resilience(value) {
@@ -32,7 +33,7 @@ export default class Health extends ActorComponent {
      * @return {Insanities}
      */
     get insanities() {
-        return this._getComponentLazily('insanities', Insanities);
+        return Util.getComponentLazily(this, 'insanities', Insanities);
     }
 
     set insanities(value) {
@@ -43,7 +44,7 @@ export default class Health extends ActorComponent {
      * @return {Psyche}
      */
     get psyche() {
-        return this._getComponentLazily('psyche', Psyche);
+        return Util.getComponentLazily(this, 'psyche', Psyche);
     }
 
     set psyche(value) {

@@ -1,6 +1,7 @@
 import ActorComponent from "./util/ActorComponent.js";
 import ItemComponent from "../item/ItemComponent.js";
 import {Prime_V1, Refinement_V1} from "./legacy/Stats.v1.js";
+import Util from "../util/Util.js";
 
 class Stat extends ItemComponent {
 
@@ -81,14 +82,11 @@ class StatCollection extends ActorComponent {
     }
 
     get all() {
-        return this._calculateValueOnce('all',
-            () => Object.fromEntries(this.statTypes.map(statType => [statType, this.getStatsForType(statType)]))
-        );
+        return Object.fromEntries(this.statTypes.map(statType => [statType, this.getStatsForType(statType)]));
     }
 
     get cost() {
-        return this._calculateValueOnce('cost',
-            () => this._getTransformedItems().reduce((accumulator, stat) => accumulator + stat.cost, 0));
+        return this._getTransformedItems().reduce((accumulator, stat) => accumulator + stat.cost, 0);
     }
 
     getStatsForType(statType) {
@@ -118,14 +116,12 @@ class Primes extends StatCollection {
     _getTransformedItems() {
         if (this._root.version === 1) {
             // TODO: Migrate: version 1 takes its data from the actor system data and not items.
-            return this._calculateValueOnce('getTransformedItems',
-                () => Object.entries(this._actorSystemData.primes)
-                    .map(statData => new Prime_V1(this, statData)));
+            return Object.entries(this._actorSystemData.primes)
+                    .map(statData => new Prime_V1(this, statData));
         }
-        return this._calculateValueOnce('getTransformedItems',
-            () => this._root._getItemsByType('prime')
+        return this._root._getItemsByType('prime')
                 .sort((one, two) => one.name.localeCompare(two.name))
-                .map(item => new Prime(this, item)));
+                .map(item => new Prime(this, item));
     }
 }
 
@@ -137,14 +133,12 @@ class Refinements extends StatCollection {
     _getTransformedItems() {
         if (this._root.version === 1) {
             // TODO: Migrate: version 1 takes its data from the actor system data and not items.
-            return this._calculateValueOnce('getTransformedItems',
-                () => Object.entries(this._actorSystemData.refinements)
-                    .map(statData => new Refinement_V1(this, statData)));
+            return  Object.entries(this._actorSystemData.refinements)
+                    .map(statData => new Refinement_V1(this, statData));
         }
-        return this._calculateValueOnce('getTransformedItems',
-            () => this._root._getItemsByType('refinement')
+        return this._root._getItemsByType('refinement')
                 .sort((one, two) => one.name.localeCompare(two.name))
-                .map(item => new Refinement(this, item)));
+                .map(item => new Refinement(this, item));
     }
 }
 
@@ -158,14 +152,14 @@ export default class Stats extends ActorComponent {
      * @return {Primes}
      */
     get primes() {
-        return this._getComponentLazily('primes', Primes);
+        return Util.getComponentLazily(this, 'primes', Primes);
     }
 
     /**
      * @return {Primes}
      */
     get refinements() {
-        return this._getComponentLazily('refinements', Refinements);
+        return Util.getComponentLazily(this, 'refinements', Refinements);
     }
 
     get sorted() {

@@ -3,6 +3,7 @@ import {ActionPoints, XP, Soul} from './Points.js';
 import Profile from "./Profile.js";
 import Stats from "./Stats.js";
 import ParentComponent from "../util/ParentComponent.js";
+import Util from "../util/Util.js";
 
 export default class PrimeActor extends ParentComponent {
     constructor(actor, controller) {
@@ -13,26 +14,26 @@ export default class PrimeActor extends ParentComponent {
      * @return {Profile}
      */
     get profile() {
-        return this._getComponentLazily('profile', Profile);
+        return Util.getComponentLazily(this, 'profile', Profile);
     }
     /**
      * @return {Stats}
      */
     get stats(){
-        return this._getComponentLazily('stats', Stats);
+        return Util.getComponentLazily(this, 'stats', Stats);
     }
 
     /**
      * @return {Health}
      */
     get health() {
-        return this._getComponentLazily('health', Health);
+        return Util.getComponentLazily(this, 'health', Health);
     }
     /**
      * @return {ActionPoints}
      */
     get actionPoints() {
-        return this._getComponentLazily('actionPoints', ActionPoints);
+        return Util.getComponentLazily(this, 'actionPoints', ActionPoints);
     }
 
     get version() {
@@ -49,14 +50,14 @@ export default class PrimeActor extends ParentComponent {
      * @return {XP}
      */
     get xp() {
-        return this._getComponentLazily('xp', XP);
+        return Util.getComponentLazily(this, 'xp', XP);
     }
 
     /**
      * @return {Soul}
      */
     get soul() {
-        return this._getComponentLazily('soul', Soul);
+        return Util.getComponentLazily(this, 'soul', Soul);
     }
 
     set actionPoints(value) {
@@ -89,16 +90,14 @@ export default class PrimeActor extends ParentComponent {
      * @protected
      */
     get _owners() {
-        return this._calculateValueOnce('owners', () =>
-            Object.entries(this._actorData.permission || {})
+        return Object.entries(this._actorData.permission || {})
                 .filter(([key, permission]) => {
                     return key != 'default' && permission == 3;
                 })
                 .map(([key,]) => {
                     return game.users.get(key);
                 })
-                .filter((user) => !!user && !user.isGM)
-        );
+                .filter((user) => !!user && !user.isGM);
     }
 
     get _items() {
@@ -106,13 +105,13 @@ export default class PrimeActor extends ParentComponent {
     }
 
     _getItemsByType(type) {
-        return this._calculateValueOnce(`items_by_type_${type}`, () => this._items.filter((item) => {
+        return  this._items.filter((item) => {
             return type === item.type;
-        }));
+        });
     }
 
     _getItemBySourceKey(key) {
-        return this._calculateValueOnce(`item_by_sk_${key}`, () => this._items.find((item) => key === item.data.sourceKey));
+        return this._items.find((item) => key === item.data.sourceKey);
     }
     /**
      * Is this actor a character

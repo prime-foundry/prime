@@ -12,44 +12,14 @@ class Awardable extends ActorComponent {
     }
 
     get initial() {
-        return this._calculateValueOnce('initial', this._calculateInitial);
+        return 0;
     }
 
     get awarded() {
-        return this._calculateValueOnce('awarded', this._calculateAwarded);
+        return 0;
     }
 
     get spent() {
-        return this._calculateValueOnce('spent', this._calculateSpent);
-    }
-
-    /**
-     * @abstract
-     * @return {number}
-     * @protected
-     */
-    _calculateInitial() {
-        console.warn(`${this.constructor}._calculateInitial has not been implemented`)
-        return 0;
-    }
-
-    /**
-     * @abstract
-     * @return {number}
-     * @protected
-     */
-    _calculateAwarded() {
-        console.warn(`${this.constructor}._calculateAwarded has not been implemented`)
-        return 0;
-    }
-
-    /**
-     * @abstract
-     * @return {number}
-     * @protected
-     */
-    _calculateSpent() {
-        console.warn(`${this.constructor}._calculateSpent has not been implemented`)
         return 0;
     }
 }
@@ -65,21 +35,21 @@ export class XP extends Awardable {
         this._update();
     }
 
-    _calculateInitial() {
+    get initial() {
         if (this._root._isCharacter()) {
             return this._actorSystemData.xp.initial;
         }
         return 0;
     }
 
-    _calculateAwarded() {
+    get awarded() {
         if (this._root._isCharacter()) {
             return this._actorSystemData.xp.awarded;
         }
         return 0;
     }
 
-    _calculateSpent() {
+    get spent() {
         if (this._root._isCharacter()) {
             const refinementCost = this._actor.getTotalCost(this._actorSystemData.refinements);
             const perkXPCost = this._actor.getTotalPerkCost("perkCostXP");
@@ -104,7 +74,7 @@ export class Soul extends Awardable {
     }
 
     get burnt() {
-        return this._calculateValueOnce('burnt', () => this._root._isCharacter() ? this._actorSystemData.soul.burnt || 0 : 0);
+        return this._root._isCharacter() ? this._actorSystemData.soul.burnt || 0 : 0
     }
 
     burn() {
@@ -112,21 +82,21 @@ export class Soul extends Awardable {
         this._update();
     }
 
-    _calculateInitial() {
+    get initial() {
         if (this._root._isCharacter()) {
             return this._actorSystemData.soul.initial;
         }
         return 0;
     }
 
-    _calculateAwarded() {
+    get awarded() {
         if (this._root._isCharacter()) {
             return this._actorSystemData.soul.awarded ;
         }
         return 0;
     }
 
-    _calculateSpent() {
+    get spent() {
         if (this._root._isCharacter()) {
 
             const primeCost = this._actor.getTotalCost(this._actorSystemData.primes);

@@ -59,7 +59,7 @@ export default class Component {
      * return this.name;
      *
      * @param {string} name the fieldName
-     * @param {Class.<Component>} Type the class we want to instantiate
+     * @param {Class.<typeof Component>} Type the class we want to instantiate
      * @param {object} (config) any additional parameters we want to send to its constructor.
      * @return {Component} the actor component we generate
      * @protected
@@ -94,6 +94,7 @@ export default class Component {
      * @param {string} name the fieldName
      * @param {function} func the class we want to instantiate.
      * @return {any}
+     * @deprecated keepin
      * @protected
      */
     _calculateValueOnce(name, func) {
