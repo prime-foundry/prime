@@ -44,8 +44,12 @@ class PartialsEditor {
         return false;
     }
 
-
-
+    /**
+     * returns the editiable object, we also double utitlise this method to optionally mark the context dirty,
+     * this is generally because its multiple steps up and down.
+     * @param markdirty
+     * @returns {{}|*}
+     */
     getEditableObject(markdirty = false) {
         const parentObject = this.parent.getEditableObject(markdirty);
         const thisObject = parentObject[this.propertyName];
@@ -70,10 +74,10 @@ export default class DataEditor {
     }
 
     resetEditor(data){
-        if(this.edit != null && data != null){
-            this.edit.revoke()
+        if(this.write != null && data != null){
+            this.write.revoke()
             this._editor_handler = new PartialsEditor(this, 'data')
-            this.edit = Proxy.revocable(data, this._editor_handler);
+            this.write = Proxy.revocable(data, this._editor_handler);
         }
     }
 

@@ -10,101 +10,55 @@
 export default class Component {
 
     /**
-     * @param {Component} parent
+     * @param {ComponentManager} manager
      */
     constructor(parent) {
         this.__parent = parent;
-        this.__root = parent == null ? this : parent._root;
+        this.__document = parent._primeDocumentMixin ? parent : parent._document;
+    }
+
+    get _parent() {
+        return this.__parent;
+    }
+
+    get _document() {
+        return this.__document;
+    }
+
+    /**
+     * We could just let the data editor manage, we can probably do more funky things, if we do,
+     * but this is something we can do later, and would involve just changing the return path of this get.
+     * @returns {*}
+     */
+    get _readData() {
+        return this._document.data;
+    }
+
+    get _readSystemData() {
+        return this._readData.data;
     }
 
     /**
      * @returns {DataEditor}
      * @protected
      */
-    get _root() {
-        return this.__root;
+    get _dataEditor() {
+        return this._document.prime.editor;
+    }
+
+    get _writeData() {
+        return this._dataEditor.write;
+    }
+
+    get _writeSystemData() {
+        return this._writeData.data;
     }
 
     /**
-     * @returns {PrimeController}
+     * @param {DocumentModificationContext} (context)
      * @protected
      */
-    get _controller() {
-        return this._root._controller;
-    }
-
-    get _isRoot() {
-        return false;
-    }
-
-    /**
-     * @returns {Component}
-     * @protected
-     */
-    get _parent() {
-        return this.__parent;
-    }
-
-    _update() {
-        this._controller._update();
-    }
-
-    /**
-     * Lazily loads an ActorComponent on request. This keeps our object model small, as we only generate instances we need.
-     * We use the property descriptors of Object to keep the fields private.
-     * @example <caption>equivalent to the following: when provided a *name* and a *Type* </caption
-     * if(!this._name) {
-     *     return this.__name = new Type(this);
-     * }
-     * return this.name;
-     *
-     * @param {string} name the fieldName
-     * @param {Class.<typeof Component>} Type the class we want to instantiate
-     * @param {object} (config) any additional parameters we want to send to its constructor.
-     * @return {Component} the actor component we generate
-     * @protected
-     */
-    _getComponentLazily(name, Type, config = {}) {
-        const fieldName = `__${name}`;
-        const property = Object.getOwnPropertyDescriptor(this, fieldName);
-        if (property == null) {
-            const value = new Type(this, config);
-            Object.defineProperty(this, fieldName, {value});
-            return value;
-        }
-        return property.value;
-    }
-
-    /**
-     * calculates a value once. This prevents calculating values more than once a request.
-     * Specifically we may have some expensive calculations iterating
-     * through loads of items, and we want to reduce that load.
-     *
-     * We use the property descriptors of Object to keep the fields private.
-     * if a thisArg is provided then the *this* scope will be of the thisArg otherwise it defaults to the calling actor component.
-     * You can also provide an array of arguments you want to send to the function.
-     * @example <caption>equivalent to the following: when provided a *name* and a *func* </caption
-     * if(!this._name) {
-     *     return this.__name = func();
-     * }
-     * return this.name;
-     * @example <caption> call a function with arguments </caption>
-     * const value = this._calculateValueOnce('myName', (a,b) => a+b, this, 3,5);
-     * // returns 8
-     * @param {string} name the fieldName
-     * @param {function} func the class we want to instantiate.
-     * @return {any}
-     * @deprecated keepin
-     * @protected
-     */
-    _calculateValueOnce(name, func) {
-        const fieldName = `__${name}`;
-        const property = Object.getOwnPropertyDescriptor(this, fieldName);
-        if (property == null) {
-            const value = func.call(this);
-            Object.defineProperty(this, fieldName, {value});
-            return value;
-        }
-        return property.value;
+    _commit(context) {
+        return this._dataEditor.commit(context);
     }
 }

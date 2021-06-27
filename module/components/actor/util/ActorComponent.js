@@ -25,30 +25,17 @@ export default class ActorComponent extends Component {
     }
 
     /**
-     * @return {PrimeActor}
+     * @return {PrimePCActor}
      * @protected
      */
-    get _root() {
-        return super._root;
-    }
-
-
     get _actor() {
-        return this._root._actor;
+        return this._document;
     }
 
     get _items() {
         return this._actor.items || new Map();
     }
 
-    /**
-     * We need one single data object between these changes.
-     * @return {ActorData}
-     * @protected
-     */
-    get _actorData() {
-        return this._root._actorData;
-    }
 
     get _actorSystemData() {
         return this._actorData.data;
