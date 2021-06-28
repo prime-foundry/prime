@@ -59,7 +59,7 @@ export default class Health extends ActorComponent {
  * Healed,
  * Healed wounds are gone.
  */
-class Injurable extends BaseMaxComponent {
+class InjurableStat extends BaseMaxComponent {
     constructor(parent) {
         super(parent);
     }
@@ -73,27 +73,18 @@ class Injurable extends BaseMaxComponent {
     }
 
     get value() {
-        return this._injuriesData.filter(injury => !!injury).length
+        return this._injuriesRead.filter(injury => !!injury).length
     }
 
     get injuries() {
-        return this._injuriesData.filter(injury => !!injury).map(injury => {
+        return this._injuriesRead.filter(injury => !!injury).map(injury => {
             return {tended: injury.tended, detail: injury.detail}
         })
     }
-
-    _injuriesData(write = false) {
-        const data = this._data;
-        if (!data.injuries) {
-            data.injuries = [];
-        }
-        return data.injuries;
-    }
-
     sort() {
         // tended first
         // followed by injuries with details, ordered alphabetcally
-        const injuries = this._injuriesData
+        const injuries = this._injuriesRead
             .filter(injury => !!injury)
             .sort((firstInjury, secondInjury) => {
                 if(firstInjury.tended ^ secondInjury.tended){
@@ -104,39 +95,38 @@ class Injurable extends BaseMaxComponent {
                 }
                 return secondInjury.detail == null ? 0 : +1;
             });
-        this._data.injuries = injuries;
-        this._update();
+        // We just override the injuries with the whole array.
+        this._statsWrite.injuries = injuries;
     }
 
     getInjury(index) {
-        return this._injuriesData[index];
+        return this._injuriesRead[index];
     }
 
     injure({index, selected: detail}) {
-        const oldInjury = this._injuriesData[index];
+        const oldInjury = this._injuriesRead[index];
         if (oldInjury) {
-            oldInjury.detail = detail;
+            this._injuriesWrite[index].detail = detail;
         } else {
-            this._injuriesData[index] = {detail, tended: false};
+            this._injuriesWrite[index] = {detail, tended: false};
         }
-        this._update();
     }
 
     isInjured({index}) {
-        return this._injuriesData[index] != null;
+        return this._injuriesRead[index] != null;
     }
 
     isHealthy({index}) {
-        return this._injuriesData[index] == null;
+        return this._injuriesRead[index] == null;
     }
 
     isTended({index}) {
-        const injury = this._injuriesData[index];
+        const injury = this._injuriesRead[index];
         return !!injury && !!injury.tended;
     }
 
     isUntended({index}) {
-        const injury = this._injuriesData[index];
+        const injury = this._injuriesRead[index];
         return !!injury && !injury.tended;
     }
 
@@ -146,15 +136,14 @@ class Injurable extends BaseMaxComponent {
      * @returns {null|T|number|T|*}
      */
     injuryDetail({index}) {
-        const injury = this._injuriesData[Number.parseInt(index)] || {};
+        const injury = this._injuriesRead[Number.parseInt(index)] || {};
         return injury.detail
     }
 
     aggravate(index) {
-        const injury = this._injuriesData[index];
+        const injury = this._injuriesRead[index];
         if (injury && injury.tended) {
-            injury.tended = false;
-            this._update();
+            this._injuriesWrite[index].tended = false;
         }
     }
 
@@ -164,12 +153,10 @@ class Injurable extends BaseMaxComponent {
      * @param index
      */
     cure({index}) {
-        const injury = this._injuriesData[index];
+        const injury = this._injuriesRead[index];
         if (injury) {
             // delete item at index.
-            this._injuriesData[index] = null;
-            this._update();
-            // this.cleanUpData();
+            this._injuriesWrite[index] = null;
         }
     }
 
@@ -179,8 +166,8 @@ class Injurable extends BaseMaxComponent {
      * @param inputPrimeData
      */
     aggravateOrAlleviate({activate, value: index}) {
-        const injuriesData = this._injuriesData;
-        const injury = injuriesData[index];
+        const injuriesRead = this._injuriesRead;
+        const injury = injuriesRead[index];
         // if we have activated this wound,
         if (activate) {
             // and we have an injury already in this slot
@@ -190,28 +177,52 @@ class Injurable extends BaseMaxComponent {
             } else {
                 // or the wound is not there lets fill with injuries until we have achieved the recommended number of values.
                 // if there are no wounds above.
-                if (injuriesData.slice(index).filter(injury => !!injury).length === 0) {
+                const injuriesWrite = this._injuriesWrite;
+                if (injuriesRead.slice(index).filter(injury => !!injury).length === 0) {
                     let count = index - 1;
-                    while (count >= 0 && injuriesData[count] == null) {
-                        injuriesData[count] = {tended: false, detail: null};
+                    while (count >= 0 && injuriesRead[count] == null) {
+                        injuriesWrite[count] = {tended: false, detail: null};
                         count -= 1;
                     }
                 }
-                injuriesData[index] = {tended: false, detail: null};
-                this._update();
+                injuriesWrite[index] = {tended: false, detail: null};
             }
             // if we are not activating a wound, and the wound is not tended
         } else if (injury && !injury.tended) {
             // tend the wound
-            injury.tended = true;
+            const injuriesWrite = this._injuriesWrite;
+            injuriesWrite[index].tended = true;
             // if there are no details on this wound, then lets heal it completely. its a mistake, lets be friendly in our UI
             if ((!injury.detail) || injury.detail == '') {
-                injuriesData[index] = null;
+                injuriesWrite[index] = null;
             }
-            this._update();
         }
     }
 
+    get _pointsRead() {
+        return this._statsRead.wounds;
+    }
+
+    get _pointsWrite() {
+        return this._statsWrite.wounds;
+    }
+
+    get _injuriesWrite() {
+        this._fixInjuriesData();
+        return this._statsWrite.injuries;
+    }
+
+    get _injuriesRead() {
+        this._fixInjuriesData();
+        return this._statsRead.injuries;
+    }
+
+    /**
+     * Override
+     * @protected
+     * @abstract
+     */
+    _fixInjuriesData() {}
 }
 
 class Wounds extends Injurable {
@@ -223,24 +234,25 @@ class Wounds extends Injurable {
         return this._actor.getStatBonusesFromItems("mind.health.wounds");
     }
 
-    get _data() {
-        return this._actorSystemData.health.wounds;
+    get _statsRead() {
+        return this._systemRead.health;
     }
 
-    get _injuriesData() {
-        const data = this._actorSystemData;
+    get _statsWrite() {
+        return this._systemWrite.health;
+    }
+
+    _fixInjuriesData() {
+        // TODO migration
         // Fix for old data structure.
-        if (data.wounds != null) {
-            const arr = Object.values(data.wounds);
+        const read = this._systemRead;
+        if (read.wounds != null) {
+            const arr = Object.values(read.wounds);
             const length = arr.length;
-            data.wounds = arr.forEach((injury, idx) => {
-                super._injuriesData.push({detail: injury, tended: idx >= length});
-            });
-            data.wounds = null;
-            this._data.injuries = [];
-            this._update();
+
+            this._statsWrite.injuries =  arr.map((injury, idx) => ({detail: injury, tended: idx >= length}));
+            this._systemWrite.wounds = null;
         }
-        return super._injuriesData;
     }
 }
 
@@ -253,9 +265,14 @@ class Resilience extends BaseValueMaxComponent {
         return this._actor.getStatBonusesFromItems("mind.health.resilience");
     }
 
-    get _data() {
-        return this._actorSystemData.health.resilience;
+    get _pointsRead() {
+        return this._systemRead.health.resilience;
     }
+
+    get _pointsWrite() {
+        return this._systemWrite.health.resilience;
+    }
+
 }
 
 class Insanities extends Injurable {
@@ -267,24 +284,25 @@ class Insanities extends Injurable {
         return this._actor.getStatBonusesFromItems("mind.insanities.max");
     }
 
-    get _data() {
-        return this._actorSystemData.mind.insanities;
+    get _statsRead() {
+        return this._systemRead.mind;
     }
 
-    get _injuriesData() {
-        const data = this._actorSystemData;
+    get _statsWrite() {
+        return this._systemWrite.mind;
+    }
+
+    _fixInjuriesData() {
+        // TODO migration
         // Fix for old data structure.
-        if (data.insanities != null) {
-            const arr = Object.values(data.insanities);
+        const read = this._systemRead;
+        if (read.insanities != null) {
+            const arr = Object.values(read.insanities);
             const length = arr.length;
-            data.insanities = arr.forEach((injury, idx) => {
-                super._injuriesData.push({detail: injury, tended: idx >= length});
-            });
-            data.insanities = null;
-            this._data.injuries = [];
-            this._update();
+
+            this._statsWrite.injuries =  arr.map((injury, idx) => ({detail: injury, tended: idx >= length}));
+            this._systemWrite.insanities = null;
         }
-        return super._injuriesData;
     }
 }
 
@@ -297,8 +315,12 @@ class Psyche extends BaseValueMaxComponent {
         return this._actor.getStatBonusesFromItems("mind.psyche.max");
     }
 
-    get _data() {
-        return this._actorSystemData.mind.psyche;
+    get _pointsRead() {
+        return this._systemRead.mind.psyche;
+    }
+
+    get _pointsWrite() {
+        return this._systemWrite.mind.psyche;
     }
 }
 

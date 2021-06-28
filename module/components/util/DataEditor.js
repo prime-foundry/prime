@@ -12,36 +12,43 @@ class DataEditorProxyHandler {
      * We need to do this, as we may be traversing the object graph, before setting a value.
      *
      * @param target The target object.
-     * @param prop The name or Symbol of the property to get
+     * @param propertyName The name or Symbol of the property to get
      * @returns {any}
      */
-    get(target, prop) {
+    get(target, propertyName) {
        const value = Reflect.get(...arguments);
-       if(value != null && !this.editors.has(prop)){
-           this.editors.set(prop, Proxy.revocable(value, new DataEditorProxyHandler(this, prop)));
+       if(value == null){
+           return value; // null or undefined, we don't care, we can't attach a proxy to it.
        }
-       return value;
+       if(!this.editors.has(propertyName)){
+           return this._setProxy(propertyName, value);
+       }
+       return this.editors.get(propertyName).proxy;
     }
 
     /**
      * @param target - The target object
-     * @param prop - The name or Symbol of the property to set.
-     * @param value - The new value of the property to set.
+     * @param propertyName - The name or Symbol of the property to set.
      * @returns {boolean}
      */
-    set(target, prop, value) {
-        if(this.editors.has(prop)){
-            const oldProxy = this.editors.get(prop);
-            oldProxy.revoke();
-            if(value != null) {
-                this.editors.set(prop, Proxy.revocable(value, new DataEditorProxyHandler(this, prop)));
-            } else {
-                this.editors.delete(prop);
-            }
-        }
+    set(target, propertyName) {
+        this._revokeProperty(propertyName);
         if(Reflect.set(...arguments)){
-            this._getEditableObject(true)[prop] = value;
-            return true;
+            return Reflect.set(this._getEditableObject(true), ...[...arguments].slice(1));
+        }
+        return false;
+    }
+
+
+    /**
+     * @param target - The target object
+     * @param propertyName - The name or Symbol of the property whose description is to be retrieved.
+     * @returns {boolean} indicating whether or not the property has been successfully defined.
+     */
+    defineProperty(target, propertyName) {
+        this._revokeProperty(propertyName);
+        if(Reflect.defineProperty(...arguments)) {
+            return Reflect.defineProperty(this._getEditableObject(true), ...[...arguments].slice(1));
         }
         return false;
     }
@@ -49,7 +56,9 @@ class DataEditorProxyHandler {
     /**
      * This is mostly for functions such as push, get, or delete on an array etc, generally we shouldn't be calling functions on the edit objects,
      * the function has to be called twice and its going to be a pain to intercept in a debugger. In most cases on an array, the get handler (above) will
-     * suffice
+     * suffice.
+     * Basically avoid array manipulation beyond the basic set, get and deletes, when using write objects.
+     *
      * However I suspect we may need it for some manipulations, so I have put a console output in there so we can identify when it is happening.
      * Fingers Crossed it never logs.
      * TODO: Recognise collection types and create a specialised proxy handler for those. Then remove this method as a general one.
@@ -63,9 +72,10 @@ class DataEditorProxyHandler {
     apply(target, thisArg, argumentsList) {
         console.warn("Try and avoid calling functions on the edit objects");
         const ret = Reflect.apply(...arguments);
+        Reflect.apply(...arguments);
         if(thisArg == null || thisArg == target) {
             const editTarget = this._getEditableObject(true);
-            target.apply(editTarget, ...argumentsList);
+            target.apply(editTarget, argumentsList);
         }
         return ret;
     }
@@ -84,6 +94,30 @@ class DataEditorProxyHandler {
         }
         return thisObject;
     }
+
+    _setProxy(propertyName, value){
+        const editor = new DataEditorProxyHandler(this, propertyName);
+        const proxy = Proxy.revocable(value, editor)
+        this.editors.set(propertyName, {proxy, editor});
+        return proxy;
+    }
+
+    _revoke() {
+        this.editors.forEach(({proxy, editor, map}, propertyName) => {
+            proxy.revoke();
+            editor._revoke();
+        });
+        this.editors.clear();
+    }
+    _revokeProperty(propertyName) {
+        if(this.editors.has(propertyName)){
+            const {proxy, editor} = this.editors.get(propertyName);
+            proxy.revoke();
+            editor._revoke();
+            this.editors.delete(propertyName);
+        }
+    }
+
 }
 
 /**
@@ -105,6 +139,7 @@ export default class DataEditor {
     resetEditor(data = this.read){
         if(this.write != null){
             this.write.revoke()
+            this._editor_handler._revoke();
             this.write = null;
         }
         if(data != null) {

@@ -16,6 +16,7 @@ export default class PrimeActor extends DataEditor {
     get profile() {
         return Util.getComponentLazily(this, 'profile', Profile);
     }
+
     /**
      * @return {Stats}
      */
@@ -29,6 +30,7 @@ export default class PrimeActor extends DataEditor {
     get health() {
         return Util.getComponentLazily(this, 'health', Health);
     }
+
     /**
      * @return {ActionPoints}
      */
@@ -82,9 +84,11 @@ export default class PrimeActor extends DataEditor {
         }
         return this.__actorData;
     }
+
     get _actorSystemData() {
         return this._actorData.data;
     }
+
     /**
      * @return {User[]}
      * @protected
@@ -113,6 +117,7 @@ export default class PrimeActor extends DataEditor {
     _getItemBySourceKey(key) {
         return this._items.find((item) => key === item.data.sourceKey);
     }
+
     /**
      * Is this actor a character
      * @return {boolean}
