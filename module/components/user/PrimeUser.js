@@ -1,4 +1,4 @@
-import DataEditor from "../util/DataEditor.js";
+import DataEditor from "../util/DataManager.js";
 
 export default class PrimeUser extends DataEditor{
     constructor(user, controller) {

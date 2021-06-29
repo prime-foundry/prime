@@ -8,74 +8,32 @@
  * It should also make migration between versions a bit more manageable.
  */
 export default class Component {
+    parent;
+    document;
 
     /**
      * @param {PrimeDocument | Component} parent
      */
     constructor(parent) {
-        this.__parent = parent;
-        this.__document = parent instanceof Component ? parent._document : parent;
-    }
-
-    /**
-     * @returns {PrimeDocument|Component}
-     * @protected
-     */
-    get _parent() {
-        return this.__parent;
-    }
-
-    /**
-     * @returns {PrimeDocument}
-     * @protected
-     */
-    get _document() {
-        return this.__document;
+        this.parent = parent;
+        this.document = parent instanceof Component ? parent.document : parent;
     }
 
     /**
      * The write and the read maybe changed, so we don't store the editor directly, we simply reference it.
-     * @returns {DataEditor}
+     * @returns {DataManager}
      * @protected
      */
-    get _editor() {
-        return this._document.prime.editor;
+    get manager() {
+        return this.document.prime.manager;
     }
 
-    /**
-     * return a proxy to the data object that we can write too.
-     *
-     * @returns {{proxy: DocumentData}}
-     * @protected
-     */
-    get _write() {
-        return this._editor.write;
+    get read(){
+        return this.manager.data;
     }
 
-    /**
-     * return the data object that we can read from
-     * @returns {DocumentData}
-     * @protected
-     */
-    get _read() {
-        return this._document.data;
+    write(path, value) {
+        return this.manager.write(path, value);
     }
 
-    /**
-     * return the readable system data object (document.data.data),
-     * @returns {{}}
-     * @protected
-     */
-    get _systemRead(){
-        this._read.data;
-    }
-
-    /**
-     * return a writable proxy to the system data (document.data.data)
-     * @returns {{proxy: {}}}
-     * @protected
-     */
-    get _systemWrite(){
-        this._write.data;
-    }
 }

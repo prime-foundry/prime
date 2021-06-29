@@ -1,34 +1,31 @@
-import DataEditor from "./DataEditor.js";
+import DataManager from "./DataManager.js";
 
 /**
+ * @exports PrimeDocument
  * @param {typeof foundry.abstract.Document} FoundryDocumentType
- * @returns {typeof PrimeDocument}
+ * @returns {module:PrimeDocument~mixin}
  * @constructor
  */
-export default function PrimeDocumentMixin( FoundryDocumentType )  {
+const PrimeDocumentMixin = (FoundryDocumentType) =>
     /**
-     * @typedef PrimeDocument
-     * @extends {foundry.abstract.Document}
-     * @property {PrimeDocumentPrime} prime
+     * @mixin
+     * @alias module:PrimeDocument~mixin
      */
-    return class extends FoundryDocumentType {
+    class extends FoundryDocumentType {
 
         /**
-         * @typedef PrimeDocumentPrime
-         * @property {DataEditor} editor
-         */
-        /**
          * Because we are a mixin, we can't do this in the constructor without making ourselves brittle to change.
-         * @returns {*|{editor: DataEditor}}
+         * @returns {{manager: DataManager}}
          */
         get prime() {
-            if(this._prime == null){
-                const editor = new DataEditor(this);
+            if (this._prime == null) {
+                const manager = new DataManager(this);
                 this._prime = {
-                    editor
-                }
+                    manager
+                };
             }
             return this._prime;
         }
-    }
-}
+    };
+
+export default PrimeDocumentMixin

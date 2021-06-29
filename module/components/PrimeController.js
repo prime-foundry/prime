@@ -59,7 +59,7 @@ async function clickListener(event) {
     return prime._controller.onLinkClick(event.type, inputPrimeData);
 }
 
-function executePrime(path, prime, func) {
+function traversePath(path, prime, func) {
     const parts = path.split('.');
     const lastIdx = parts.length - 1;
     let current = prime; // this is the prime access, can be the current user or the actor.
@@ -70,7 +70,7 @@ function executePrime(path, prime, func) {
 }
 
 function getPrimeValue(path, prime, inputPrimeData) {
-    return executePrime(path, prime, (parent, key) => {
+    return traversePath(path, prime, (parent, key) => {
         if (key.endsWith('()')) {
             const newKey = key.slice(0, -2);
             return parent[newKey](inputPrimeData);
@@ -310,7 +310,7 @@ export default class PrimeController {
     async __updatePrime(inputPrimeData, func) {
         const path = inputPrimeData.at;
         const data = this.__sheetData;
-        executePrime(path, data.prime, func);
+        traversePath(path, data.prime, func);
         return this.__sheet.updateIfDirty(data);
     }
 }

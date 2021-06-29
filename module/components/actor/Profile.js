@@ -5,28 +5,30 @@ export default class Profile extends ActorComponent {
         super(parent);
     }
 
-    get _metadataRead() {
-        return this._systemRead.metadata;
+    get metadata() {
+        return this.read.systemData.metadata;
     }
-    
-    get _metadataWrite() {
-        return this._systemWrite.metadata;
+
+    writeMetadata(propertyName, value) {
+        const path = `${this.manager.systemDataPath}.metadata.${propertyName}`;
+        this.write(path, value);
     }
     
     get name() {
-        return this._actor.name;
+        return this.read.data.name;
     }
 
     set name(name) {
-        this._write.name = name;
+        const path = `${this.manager.dataPath}.metadata.name`;
+        this.write(path, name);
     }
 
     get portrait() {
-        return this._actor.img;
+        return this.actor.img;
     }
 
     get ownersNames() {
-        const owners = this._actor._owners;
+        const owners = this.actor._owners;
         return owners.length === 0 ? "Not Assigned" : owners.map(owner => owner.name).join(", ");
     }
 
@@ -34,118 +36,118 @@ export default class Profile extends ActorComponent {
      * @return {boolean}
      */
     get npc() {
-        return !!this._metadataRead.isNPC;
+        return !!this.metadata.isNPC;
     }
 
     /**
      * @param {boolean} npc
      */
     set npc(npc) {
-        this._metadataWrite.isNPC = !!npc;
+        this.writeMetadata('isNPC',!!npc);
     }
 
     get race() {
-        return this._metadataRead.race;
+        return this.metadata.race;
     }
 
     set race(race) {
-        this._metadataWrite.race = race;
+        this.writeMetadata('race',race);
     }
 
     get faction() {
-        return this._metadataRead.faction;
+        return this.metadata.faction;
     }
 
-    set faction(faction) {
-        this._metadataWrite.faction = faction;
+    set faction(faction) {;
+        this.writeMetadata('faction',faction);
     }
 
     get occupation() {
-        return this._metadataRead.occupation;
+        return this.metadata.occupation;
     }
 
     set occupation(occupation) {
-        this._metadataWrite.occupation = occupation;
+        this.writeMetadata('occupation',occupation);
     }
 
 
     get celestial() {
-        return this._metadataRead.celestial;
+        return this.metadata.celestial;
     }
 
     set celestial(celestial) {
-        this._metadataWrite.celestial = celestial;
+        this.writeMetadata('celestial',celestial);
     }
 
     get birthplace() {
-        return this._metadataRead.birthplace;
+        return this.metadata.birthplace;
     }
 
     set birthplace(birthplace) {
-        this._metadataWrite.birthplace = birthplace;
+        this.writeMetadata('birthplace',birthplace);
     }
 
     get rankOrTitle() {
-        return this._metadataRead.rankOrTitle;
+        return this.metadata.rankOrTitle;
     }
 
     set rankOrTitle(rankOrTitle) {
-        this._metadataWrite.rankOrTitle = rankOrTitle;
+        this.writeMetadata('rankOrTitle',rankOrTitle);
     }
 
     get height() {
-        return this._metadataRead.height;
+        return this.metadata.height;
     }
 
     set height(height) {
-        this._metadataWrite.height = height;
+        this.writeMetadata('height',height);
     }
 
     get weight() {
-        return this._metadataRead.weight;
+        return this.metadata.weight;
     }
 
     set weight(weight) {
-        this._metadataWrite.weight = weight;
+        this.writeMetadata('weight',weight);
     }
 
     get hair() {
-        return this._metadataRead.hair;
+        return this.metadata.hair;
     }
 
     set hair(hair) {
-        this._metadataWrite.hair = hair;
+        this.writeMetadata('hair',hair);
     }
 
     get eyes() {
-        return this._metadataRead.eyes;
+        return this.metadata.eyes;
     }
 
     set eyes(eyes) {
-        this._metadataWrite.eyes = eyes;
+        this.writeMetadata('eyes',eyes);
     }
 
     get gender() {
-        return this._metadataRead.gender;
+        return this.metadata.gender;
     }
 
     set gender(gender) {
-        this._metadataWrite.gender = gender;
+        this.writeMetadata('gender',gender);
     }
 
     get age() {
-        return this._metadataRead.age;
+        return this.metadata.age;
     }
 
     set age(age) {
-        this._metadataWrite.age = age;
+        this.writeMetadata('age',age);
     }
 
     get biography() {
-        return this._metadataRead.biography;
+        return this.metadata.biography;
     }
 
     set biography(biography) {
-        this._metadataWrite.biography = biography;
+        this.writeMetadata('biography',biography);
     }
 }

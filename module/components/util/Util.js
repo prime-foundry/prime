@@ -1,5 +1,5 @@
 export default class Util {
-     /**
+    /**
      * Lazily loads an ActorComponent on request. This keeps our object model small, as we only generate instances we need.
      * We use the property descriptors of Object to keep the fields private.
      * @example <caption>equivalent to the following: when provided a *name* and a *Type* </caption
@@ -13,7 +13,7 @@ export default class Util {
      * @param {object} (config) any additional parameters we want to send to its constructor.
      * @return {typeof Component} the actor component we generate
      */
-     static getComponentLazily(target, name, Type, config = {}) {
+    static getComponentLazily(target, name, Type, config = {}) {
         const fieldName = `__${name}`;
         const property = Object.getOwnPropertyDescriptor(target, fieldName);
         if (property == null) {
@@ -53,5 +53,61 @@ export default class Util {
             return value;
         }
         return property.value;
+    }
+
+    /**
+     * @param {string} path - the dot seperated path to an object
+     * @param {{}} root - the root object to traverse.
+     * @param {boolean} (createIfMissing=false) - fills in missing fields, if set to true; or throws an error if set to false, defaults to false.
+     * @returns {{previous: {}, lastName: string}}
+     */
+    static traversePath(path, root, createIfMissing = false) {
+        const parts = path.split('.');
+        const lastIdx = parts.length - 1;
+        let previous = root; // this is the prime access, can be the current user or the actor.
+
+        const numbers = /^\d+$/;
+        for (let idx = 0; idx < lastIdx; idx++) {
+            let previousName = parts[idx];
+            if(numbers.test(parts[idx]) && Array.isArray(previous)) {
+                previousName = Number.parseInt(previousName);
+            }
+            if (previous[previousName] == null) {
+                if (createIfMissing) {
+                    previous[previousName] = numbers.test(parts[idx+1]) ? [] : {};
+                } else {
+                    throw `Undefined path element '${previousName}' at ${idx} whilst traversing path: '${path}'`;
+                }
+            }
+            previous = previous[previousName];
+        }
+        const lastName = parts[lastIdx];
+        if (previous[lastName] == null) {
+            if (createIfMissing) {
+                if(lastName.endsWith('[]')) {
+                    previous[lastName.slice(-2)] = [];
+                } else {
+                    previous[lastName] =  {};
+                }
+            } else {
+                throw `Undefined last element '${lastName}' at ${lastIdx} whilst traversing path: '${path}'`;
+            }
+        }
+        return {previous, lastName};
+    }
+
+    /**
+     * @param {string} path - the dot seperated path to an object
+     * @param {{}} root - the root object to traverse.
+     * @param {*} (value) - the rvalue object to set.
+     * @param {boolean} (createIfMissing=true) - fills in missing fields, if set to true; or throws an error if set to false, unlike traversePath this
+     * defaults to true.
+     * @returns {*} the lastValue
+     */
+    static traverseAndSet(path, root, value, createIfMissing= true) {
+        const {previous, lastName } = Util.traversePath(path, root, createIfMissing);
+        const lastValue = previous[lastName];
+        previous[lastName] = value;
+        return lastValue;
     }
 };

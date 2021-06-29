@@ -28,11 +28,11 @@ export default class ActorComponent extends Component {
      * @return {PrimePCActor}
      * @protected
      */
-    get _actor() {
-        return this._document;
+    get actor() {
+        return this.document;
     }
 
-    get _items() {
-        return this._actor.items || new Map();
+    get items() {
+        return this.actor.items || new Map();
     }
 }
