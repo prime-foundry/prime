@@ -6,30 +6,20 @@ export default class DataManager {
     /**
      * @param {foundry.abstract.Document} (document)
      */
-    constructor(document) {
+    constructor(documentContainer) {
         this.document = document;
         this.clear();
     }
 
     /**
-     * @returns {(foundry.abstract.DocumentData)}
+     * Given a path and a value set the value at that path point.
+     * Generally avoid using this method directly, and use writeToDocument and writeToSystem,
+     * as they help to decouple as from the base implementation better.
+     *
+     * @param path
+     * @param value
+     * @returns {*}
      */
-    get data(){
-        return this.document.data;
-    }
-
-    get systemData() {
-        return this.data.data;
-    }
-
-    writeData(path, value) {
-        return this.write(`data.${path}`, value);
-    }
-
-    writeSystemData(path, value) {
-        return this.write(`data.data.${path}`, value);
-    }
-
     write(path, value){
         // write to the read.
         const lastValue = Util.traverseAndSet(path, this, value);

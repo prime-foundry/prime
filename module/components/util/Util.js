@@ -110,4 +110,24 @@ export default class Util {
         previous[lastName] = value;
         return lastValue;
     }
+
+    /**
+     * class MyClass extends mix(SuperClass).with(Mixin1, Mixin2);
+     *
+     * @param superclass
+     * @returns {MixinBuilder}
+     */
+    static mixin(superclass) {
+        return new MixinBuilder(superclass);
+    }
 };
+
+class MixinBuilder {
+    constructor(superclass) {
+        this.superclass = superclass;
+    }
+
+    with(...mixins) {
+        return mixins.reduce((c, mixin) => mixin(c), this.superclass);
+    }
+}

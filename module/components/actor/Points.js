@@ -1,7 +1,69 @@
-import {BaseValueMaxComponent} from './util/ActorComponentSupport.js';
-import ActorComponent from "./util/ActorComponent.js";
+import Component from "../util/Component.js";
 
-class Awardable extends ActorComponent {
+/**
+ * @abstract
+ */
+export class PointsBase extends Component {
+    constructor(parent) {
+        super(parent);
+    }
+
+    /**
+     * @returns {number}
+     */
+    get base() {
+        return this.points.base;
+    }
+
+    /**
+     * @returns {number}
+     */
+    get max() {
+        return this.base + this.bonus;
+    }
+
+    /**
+     * To be optionally overriden
+     * @return {number}
+     */
+    get bonus() {
+        return this.points.bonus || 0;
+    }
+
+    /**
+     * @returns {number}
+     */
+    get value() {
+        return this.points.value || 0;
+    }
+
+    /**
+     * @param {number} value
+     */
+    set value(value) {
+        this.writeToPoints('value', Math.max(0, Math.min(this.max, value)));
+    }
+
+    /**
+     * To be overriden
+     * @interface
+     * @return {{value: number, base: number}}
+     */
+    get points() {
+        return {value: 0,base: 0};
+    }
+
+    /**
+     * To be overriden
+     * @interface
+     */
+    writeToPoints(parameterName, value) {}
+}
+
+/**
+ * @abstract
+ */
+export class AwardableBase extends Component {
 
     constructor(parent) {
         super(parent);
@@ -11,79 +73,102 @@ class Awardable extends ActorComponent {
         return this.initial + this.awarded - this.spent;
     }
     
-    award(value) {
-        if (this._actor.isCharacter()) {
-            this._pointsWrite.awarded += value;
-        }
-    }
-    
     get initial() {
-        if (this._actor.isCharacter()) {
-            return this._pointsRead.initial;
+        if (this.document.isCharacter()) {
+            return this.points.initial;
         }
         return 0;
     }
 
     get awarded() {
-        if (this._actor.isCharacter()) {
-            return this._pointsRead.awarded;
+        if (this.document.isCharacter()) {
+            return this.points.awarded;
         }
         return 0;
     }
 
     get spent() {
-        if (this._actor.isCharacter()) {
-            return this._pointsRead.spent;
+        if (this.document.isCharacter()) {
+            return this.points.spent;
         }
         return 0;
     }
 
+    award(value) {
+        if (this.document.isCharacter()) {
+            this.writeToPoints('awarded', this.points.awarded + value);
+        }
+    }
 
-    get _pointsRead() {
-        return {};
+    /**
+     * @interface
+     * @returns {{initial: number, awarded: number, spent: number}}
+     */
+    get points() {
+        return {initial:0, awarded:0, spent:0};
     }
-    get _pointsWrite() {
-        return {};
-    }
+
+    /**
+     * @interface
+     * @param propertyName
+     */
+    writeToPoints(propertyName){}
 }
 
-export class XP extends Awardable {
+export class XP extends AwardableBase {
 
     constructor(parent) {
         super(parent);
     }
-    get _pointsRead() {
-        return this._systemRead.xp;
+
+    /**
+     * @interface
+     * @returns {{initial: number, awarded: number}}
+     */
+    get points() {
+        return this.system.xp;
     }
 
-    get _pointsWrite() {
-        return this._systemWrite.xp;
+    /**
+     * @interface
+     * @param propertyName
+     */
+    writeToPoints(propertyName, value){
+        this.writeToSystem(`xp.${propertyName}`, value)
     }
 
     get spent() {
-        if (this._actor.isCharacter()) {
+        if (this.document.isCharacter()) {
             // TODO: totalcost and totalperkcost don't belong in the actor class directly.
             // TODO will not work with V2 chars.
-            const refinementCost = this._actor.getTotalCost(this._systemRead.refinements);
-            const perkXPCost = this._actor.getTotalPerkCost("perkCostXP");
+            const refinementCost = this.document.getTotalCost(this.system.refinements);
+            const perkXPCost = this.document.getTotalPerkCost("perkCostXP");
             return refinementCost + perkXPCost;
         }
         return 0;
     }
 }
 
-export class Soul extends Awardable {
+export class Soul extends AwardableBase {
 
     constructor(parent) {
         super(parent);
     }
 
-    get _pointsRead() {
-        return this._systemRead.soul;
+    /**
+     * @interface
+     * @returns {{initial: number, awarded: number}}
+     */
+    get points() {
+        return this.system.soul;
     }
 
-    get _pointsWrite() {
-        return this._systemWrite.soul;
+    /**
+     * @interface
+     * @param propertyName
+     */
+    writeToPoints(propertyName, value){
+        this.writeToSystem(`soul.${propertyName}`, value)
     }
 
     get value() {
@@ -91,26 +176,26 @@ export class Soul extends Awardable {
     }
 
     get burnt() {
-        return this._actor.isCharacter() ? this._pointsRead.burnt || 0 : 0
+        return this.document.isCharacter() ? this.points.burnt || 0 : 0
     }
 
     burn() {
-        this._pointsWrite.burnt = (this._pointsRead.burnt || 0) + 1;
+        this.writeToPoints('burnt', this.burnt + 1);
     }
 
     get spent() {
-        if (this._actor.isCharacter()) {
+        if (this.document.isCharacter()) {
             // TODO: totalcost and totalperkcost don't belong in the actor class directly.
             // TODO will not work with V2 chars.
-            const primeCost = this._actor.getTotalCost(this._systemRead.primes);
-            const perkSoulCost = this._actor.getTotalPerkCost("perkCostSoul");
+            const primeCost = this.document.getTotalCost(this.system.primes);
+            const perkSoulCost = this.document.getTotalPerkCost("perkCostSoul");
             return primeCost + perkSoulCost;
         }
         return 0;
     }
 }
 
-export class ActionPoints extends BaseValueMaxComponent {
+export class ActionPoints extends PointsBase {
     constructor(parent) {
         super(parent);
     }
@@ -119,21 +204,24 @@ export class ActionPoints extends BaseValueMaxComponent {
         let base = super.base;
         // fix for old sheets
         if (base == null) {
-            base = this._pointsRead.base = 6;
+            base = 6;
+            this.writeToPoints('base',base);
         }
         return base;
     }
 
     get bonus() {
         //TODO: move this out of actor.
-        return this._actor.getStatBonusesFromItems("actionPoints");
+        return this.document.getStatBonusesFromItems("actionPoints");
     }
 
-    get _pointsRead() {
-        return this._systemRead.actionPoints;
+
+    get points() {
+        return this.system.actionPoints;
     }
 
-    get _pointsWrite() {
-        return this._systemWrite.actionPoints;
+
+    writeToPoints(parameterName, value) {
+        return this.writeToSystem(`actionPoints.${parameterName}`, value)
     }
 }

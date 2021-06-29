@@ -1,8 +1,8 @@
-import ActorComponent from './util/ActorComponent.js';
-import {BaseValueMaxComponent, BaseMaxComponent} from './util/ActorComponentSupport.js';
 import Util from "../util/Util.js";
+import {PointsBase} from "./Points.js";
+import Component from "../util/Component.js";
 
-export default class Health extends ActorComponent {
+export default class Health extends Component {
     constructor(parent) {
         super(parent);
     }
@@ -59,7 +59,8 @@ export default class Health extends ActorComponent {
  * Healed,
  * Healed wounds are gone.
  */
-class InjurableStat extends BaseMaxComponent {
+class InjurableBase extends PointsBase {
+
     constructor(parent) {
         super(parent);
     }
@@ -73,18 +74,13 @@ class InjurableStat extends BaseMaxComponent {
     }
 
     get value() {
-        return this._injuriesRead.filter(injury => !!injury).length
+        return this.injuries.filter(injury => !!injury).length
     }
 
-    get injuries() {
-        return this._injuriesRead.filter(injury => !!injury).map(injury => {
-            return {tended: injury.tended, detail: injury.detail}
-        })
-    }
     sort() {
         // tended first
         // followed by injuries with details, ordered alphabetcally
-        const injuries = this._injuriesRead
+        const injuries = this.injuries
             .filter(injury => !!injury)
             .sort((firstInjury, secondInjury) => {
                 if(firstInjury.tended ^ secondInjury.tended){
@@ -96,37 +92,37 @@ class InjurableStat extends BaseMaxComponent {
                 return secondInjury.detail == null ? 0 : +1;
             });
         // We just override the injuries with the whole array.
-        this._statsWrite.injuries = injuries;
+        this.overwriteInjuries(injuries);
     }
 
     getInjury(index) {
-        return this._injuriesRead[index];
+        return this.injuries[index];
     }
 
     injure({index, selected: detail}) {
-        const oldInjury = this._injuriesRead[index];
+        const oldInjury = this.injuries[index];
         if (oldInjury) {
-            this._injuriesWrite[index].detail = detail;
+            this.writeToInjury(index, 'detail', detail);
         } else {
-            this._injuriesWrite[index] = {detail, tended: false};
+            this.overwriteInjury(index, {detail, tended: false});
         }
     }
 
     isInjured({index}) {
-        return this._injuriesRead[index] != null;
+        return this.injuries[index] != null;
     }
 
     isHealthy({index}) {
-        return this._injuriesRead[index] == null;
+        return this.injuries[index] == null;
     }
 
     isTended({index}) {
-        const injury = this._injuriesRead[index];
+        const injury = this.injuries[index];
         return !!injury && !!injury.tended;
     }
 
     isUntended({index}) {
-        const injury = this._injuriesRead[index];
+        const injury = this.injuries[index];
         return !!injury && !injury.tended;
     }
 
@@ -136,14 +132,14 @@ class InjurableStat extends BaseMaxComponent {
      * @returns {null|T|number|T|*}
      */
     injuryDetail({index}) {
-        const injury = this._injuriesRead[Number.parseInt(index)] || {};
+        const injury = this.injuries[Number.parseInt(index)] || {};
         return injury.detail
     }
 
     aggravate(index) {
-        const injury = this._injuriesRead[index];
+        const injury = this.injuries[index];
         if (injury && injury.tended) {
-            this._injuriesWrite[index].tended = false;
+            this.writeToInjury(index, 'tended', false);
         }
     }
 
@@ -153,10 +149,9 @@ class InjurableStat extends BaseMaxComponent {
      * @param index
      */
     cure({index}) {
-        const injury = this._injuriesRead[index];
+        const injury = this.injuries[index];
         if (injury) {
-            // delete item at index.
-            this._injuriesWrite[index] = null;
+            this.overwriteInjury(index, null);
         }
     }
 
@@ -166,8 +161,7 @@ class InjurableStat extends BaseMaxComponent {
      * @param inputPrimeData
      */
     aggravateOrAlleviate({activate, value: index}) {
-        const injuriesRead = this._injuriesRead;
-        const injury = injuriesRead[index];
+        const injury = this.injuries[index];
         // if we have activated this wound,
         if (activate) {
             // and we have an injury already in this slot
@@ -177,45 +171,94 @@ class InjurableStat extends BaseMaxComponent {
             } else {
                 // or the wound is not there lets fill with injuries until we have achieved the recommended number of values.
                 // if there are no wounds above.
-                const injuriesWrite = this._injuriesWrite;
-                if (injuriesRead.slice(index).filter(injury => !!injury).length === 0) {
+                if (this.injuries.slice(index).filter(injury => !!injury).length === 0) {
                     let count = index - 1;
-                    while (count >= 0 && injuriesRead[count] == null) {
-                        injuriesWrite[count] = {tended: false, detail: null};
+                    while (count >= 0 && this.injuries[count] == null) {
+                        this.overwriteInjury(count, {tended: false, detail: null})
                         count -= 1;
                     }
                 }
-                injuriesWrite[index] = {tended: false, detail: null};
+                this.overwriteInjury(index, {tended: false, detail: null})
             }
             // if we are not activating a wound, and the wound is not tended
         } else if (injury && !injury.tended) {
             // tend the wound
-            const injuriesWrite = this._injuriesWrite;
-            injuriesWrite[index].tended = true;
+            this.writeToInjury(index, 'tended', true)
             // if there are no details on this wound, then lets heal it completely. its a mistake, lets be friendly in our UI
             if ((!injury.detail) || injury.detail == '') {
-                injuriesWrite[index] = null;
+                this.overwriteInjury(index, null)
             }
         }
     }
 
-    get _pointsRead() {
-        return this._statsRead.wounds;
+
+    /**
+     * @protected
+     */
+    get points() {
+        return this.stats.wounds;
     }
 
-    get _pointsWrite() {
-        return this._statsWrite.wounds;
+
+    /**
+     * @protected
+     */
+    writeToPoints(parameterName, value) {
+        return this.writeToStats(`wounds.${parameterName}`, value)
     }
 
-    get _injuriesWrite() {
+
+    /**
+     * @protected
+     */
+    get injuries(){
         this._fixInjuriesData();
-        return this._statsWrite.injuries;
+        return this.stats.injuries;
     }
 
-    get _injuriesRead() {
+    /**
+     * @protected
+     */
+    writeToInjuries(parameterName, value) {
         this._fixInjuriesData();
-        return this._statsRead.injuries;
+        return this.writeToStats(`injuries.${parameterName}`, value)
     }
+
+    /**
+     * @protected
+     */
+    writeToInjury(index, parameterName, value) {
+        return this.writeToInjuries(`${index}.${parameterName}`, value)
+    }
+
+    /**
+     * @protected
+     */
+    overwriteInjuries(injuries) {
+        this._fixInjuriesData();
+        return this.writeToStats(`injuries`, injuries)
+    }
+    /**
+     * @protected
+     */
+    overwriteInjury(index, injury) {
+        return this.writeToInjuries(`${index}`, injury)
+    }
+    /**
+     * Override
+     * @protected
+     * @abstract
+     */
+    get stats() {
+
+    }
+
+    /**
+     * Override
+     * @protected
+     * @abstract
+     */
+    writeToStats(parameterPath, value) {};
 
     /**
      * Override
@@ -225,102 +268,130 @@ class InjurableStat extends BaseMaxComponent {
     _fixInjuriesData() {}
 }
 
-class Wounds extends Injurable {
+class Wounds extends InjurableBase {
     constructor(parent) {
         super(parent);
     }
 
     get bonus() {
-        return this._actor.getStatBonusesFromItems("mind.health.wounds");
+        // TODO Move
+        return this.document.getStatBonusesFromItems("mind.health.wounds");
     }
 
-    get _statsRead() {
-        return this._systemRead.health;
+    get stats() {
+        return this.system.health;
     }
 
-    get _statsWrite() {
-        return this._systemWrite.health;
-    }
+    /**
+     * @protected
+     */
+    writeToStats(parameterPath, value) {
+        return this.writeToSystem(`health.${parameterPath}`, value);
+    };
 
+    /**
+     * @protected
+     */
     _fixInjuriesData() {
         // TODO migration
         // Fix for old data structure.
-        const read = this._systemRead;
-        if (read.wounds != null) {
-            const arr = Object.values(read.wounds);
+        if (this.stats.wounds != null) {
+            const arr = Object.values(this.stats.wounds);
             const length = arr.length;
-
-            this._statsWrite.injuries =  arr.map((injury, idx) => ({detail: injury, tended: idx >= length}));
-            this._systemWrite.wounds = null;
+            const injuries = arr.map((injury, idx) => ({detail: injury, tended: idx >= length}));
+            this.writeToStats('injuries', injuries);
+            this.writeToSystem('wounds', null);
         }
     }
 }
 
-class Resilience extends BaseValueMaxComponent {
+class Resilience extends PointsBase {
     constructor(parent) {
         super(parent);
     }
 
     get bonus() {
+        // TODO Move
         return this._actor.getStatBonusesFromItems("mind.health.resilience");
     }
 
-    get _pointsRead() {
-        return this._systemRead.health.resilience;
+    /**
+     * @protected
+     */
+    get points() {
+        return this.system.health.resilience;
     }
 
-    get _pointsWrite() {
-        return this._systemWrite.health.resilience;
+    /**
+     * @protected
+     */
+    writeToPoints(parameterName, value) {
+        return this.writeToSystem(`health.resilience.${parameterName}`, value)
     }
-
 }
 
-class Insanities extends Injurable {
+class Insanities extends InjurableBase {
     constructor(parent) {
         super(parent);
     }
 
     get bonus() {
-        return this._actor.getStatBonusesFromItems("mind.insanities.max");
+        // TODO Move
+        return this.document.getStatBonusesFromItems("mind.insanities.max");
     }
 
-    get _statsRead() {
-        return this._systemRead.mind;
+    /**
+     * @protected
+     */
+    get stats() {
+        return this.system.mind;
     }
 
-    get _statsWrite() {
-        return this._systemWrite.mind;
-    }
+    /**
+     * @protected
+     */
+    writeToStats(parameterPath, value) {
+        return this.writeToSystem(`mind.${parameterPath}`, value);
+    };
 
+    /**
+     * @protected
+     */
     _fixInjuriesData() {
         // TODO migration
         // Fix for old data structure.
-        const read = this._systemRead;
-        if (read.insanities != null) {
-            const arr = Object.values(read.insanities);
+        if (this.stats.insanities != null) {
+            const arr = Object.values(this.stats.insanities);
             const length = arr.length;
-
-            this._statsWrite.injuries =  arr.map((injury, idx) => ({detail: injury, tended: idx >= length}));
-            this._systemWrite.insanities = null;
+            const injuries = arr.map((injury, idx) => ({detail: injury, tended: idx >= length}));
+            this.writeToStats('injuries', injuries);
+            this.writeToSystem('insanities', null);
         }
     }
 }
 
-class Psyche extends BaseValueMaxComponent {
+class Psyche extends PointsBase {
     constructor(parent) {
         super(parent);
     }
 
     get bonus() {
-        return this._actor.getStatBonusesFromItems("mind.psyche.max");
+        // TODO Move
+        return this.document.getStatBonusesFromItems("mind.psyche.max");
     }
 
-    get _pointsRead() {
-        return this._systemRead.mind.psyche;
+    /**
+     * @protected
+     */
+    get points() {
+        return this.system.mind.psyche;
     }
 
-    get _pointsWrite() {
-        return this._systemWrite.mind.psyche;
+    /**
+     * @protected
+     */
+    writeToPoints(parameterName, value) {
+        return this.writeToSystem(`mind.psyche.${parameterName}`, value)
     }
 }
 

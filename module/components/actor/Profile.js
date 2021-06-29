@@ -1,33 +1,17 @@
 import ActorComponent from './util/ActorComponent.js';
 
 export default class Profile extends ActorComponent {
+
     constructor(parent) {
         super(parent);
     }
 
     get metadata() {
-        return this.readSystemData.metadata;
+        return this.system.metadata;
     }
 
-    writeMetadata(propertyName, value) {
-        this.writeSystemData(`metadata.${propertyName}`, value);
-    }
-    
-    get name() {
-        return this.readData.name;
-    }
-
-    set name(name) {
-        this.writeData('name', name);
-    }
-
-    get portrait() {
-        return this.actor.img;
-    }
-
-    get ownersNames() {
-        const owners = this.actor._owners;
-        return owners.length === 0 ? "Not Assigned" : owners.map(owner => owner.name).join(", ");
+    writeToMetadata(propertyName, value) {
+        this.writeToSystem(`metadata.${propertyName}`, value);
     }
 
     /**
@@ -41,7 +25,7 @@ export default class Profile extends ActorComponent {
      * @param {boolean} npc
      */
     set npc(npc) {
-        this.writeMetadata('isNPC',!!npc);
+        this.writeToMetadata('isNPC', npc);
     }
 
     get race() {
@@ -49,7 +33,7 @@ export default class Profile extends ActorComponent {
     }
 
     set race(race) {
-        this.writeMetadata('race',race);
+        this.writeToMetadata('race',race);
     }
 
     get faction() {
@@ -57,7 +41,7 @@ export default class Profile extends ActorComponent {
     }
 
     set faction(faction) {;
-        this.writeMetadata('faction',faction);
+        this.writeToMetadata('faction',faction);
     }
 
     get occupation() {
@@ -65,7 +49,7 @@ export default class Profile extends ActorComponent {
     }
 
     set occupation(occupation) {
-        this.writeMetadata('occupation',occupation);
+        this.writeToMetadata('occupation',occupation);
     }
 
 
@@ -74,7 +58,7 @@ export default class Profile extends ActorComponent {
     }
 
     set celestial(celestial) {
-        this.writeMetadata('celestial',celestial);
+        this.writeToMetadata('celestial',celestial);
     }
 
     get birthplace() {
@@ -82,7 +66,7 @@ export default class Profile extends ActorComponent {
     }
 
     set birthplace(birthplace) {
-        this.writeMetadata('birthplace',birthplace);
+        this.writeToMetadata('birthplace',birthplace);
     }
 
     get rankOrTitle() {
@@ -90,7 +74,7 @@ export default class Profile extends ActorComponent {
     }
 
     set rankOrTitle(rankOrTitle) {
-        this.writeMetadata('rankOrTitle',rankOrTitle);
+        this.writeToMetadata('rankOrTitle',rankOrTitle);
     }
 
     get height() {
@@ -98,7 +82,7 @@ export default class Profile extends ActorComponent {
     }
 
     set height(height) {
-        this.writeMetadata('height',height);
+        this.writeToMetadata('height',height);
     }
 
     get weight() {
@@ -106,7 +90,7 @@ export default class Profile extends ActorComponent {
     }
 
     set weight(weight) {
-        this.writeMetadata('weight',weight);
+        this.writeToMetadata('weight',weight);
     }
 
     get hair() {
@@ -114,7 +98,7 @@ export default class Profile extends ActorComponent {
     }
 
     set hair(hair) {
-        this.writeMetadata('hair',hair);
+        this.writeToMetadata('hair',hair);
     }
 
     get eyes() {
@@ -122,7 +106,7 @@ export default class Profile extends ActorComponent {
     }
 
     set eyes(eyes) {
-        this.writeMetadata('eyes',eyes);
+        this.writeToMetadata('eyes',eyes);
     }
 
     get gender() {
@@ -130,7 +114,7 @@ export default class Profile extends ActorComponent {
     }
 
     set gender(gender) {
-        this.writeMetadata('gender',gender);
+        this.writeToMetadata('gender',gender);
     }
 
     get age() {
@@ -138,7 +122,7 @@ export default class Profile extends ActorComponent {
     }
 
     set age(age) {
-        this.writeMetadata('age',age);
+        this.writeToMetadata('age',age);
     }
 
     get biography() {
@@ -146,6 +130,6 @@ export default class Profile extends ActorComponent {
     }
 
     set biography(biography) {
-        this.writeMetadata('biography',biography);
+        this.writeToMetadata('biography',biography);
     }
 }

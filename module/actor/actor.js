@@ -19,6 +19,7 @@ export class PrimePCActor extends PrimeDocumentMixin(Actor)
 	get profile() {
 		return Util.getComponentLazily(this, 'profile', Profile);
 	}
+
 	/**
 	 * @return {Stats}
 	 */
@@ -37,6 +38,32 @@ export class PrimePCActor extends PrimeDocumentMixin(Actor)
 	 */
 	get actionPoints() {
 		return Util.getComponentLazily(this, 'actionPoints', ActionPoints);
+	}
+
+	get name() {
+		return this.content.name;
+	}
+
+	get type() {
+		return this.content.type;
+	}
+
+	isCharacter() {
+		return this.type === "character";
+	}
+
+	set name(name) {
+		this.writeToContent('name', name);
+	}
+
+	get portrait() {
+		return this.content.img;
+	}
+
+	//TODO relook at ownersNames
+	get ownersNames() {
+		const owners = this.actor._owners;
+		return owners.length === 0 ? "Not Assigned" : owners.map(owner => owner.name).join(", ");
 	}
 
 	get version() {
