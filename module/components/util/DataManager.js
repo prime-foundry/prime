@@ -22,12 +22,12 @@ export default class DataManager {
         return this.data.data;
     }
 
-    dataPath(){
-        return 'data';
+    writeData(path, value) {
+        return this.write(`data.${path}`, value);
     }
 
-    systemDataPath(){
-        return 'data.data';
+    writeSystemData(path, value) {
+        return this.write(`data.data.${path}`, value);
     }
 
     write(path, value){

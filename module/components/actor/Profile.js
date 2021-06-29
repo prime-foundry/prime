@@ -6,21 +6,19 @@ export default class Profile extends ActorComponent {
     }
 
     get metadata() {
-        return this.read.systemData.metadata;
+        return this.readSystemData.metadata;
     }
 
     writeMetadata(propertyName, value) {
-        const path = `${this.manager.systemDataPath}.metadata.${propertyName}`;
-        this.write(path, value);
+        this.writeSystemData(`metadata.${propertyName}`, value);
     }
     
     get name() {
-        return this.read.data.name;
+        return this.readData.name;
     }
 
     set name(name) {
-        const path = `${this.manager.dataPath}.metadata.name`;
-        this.write(path, name);
+        this.writeData('name', name);
     }
 
     get portrait() {

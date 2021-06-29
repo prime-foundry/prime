@@ -28,12 +28,20 @@ export default class Component {
         return this.document.prime.manager;
     }
 
-    get read(){
+    get readData(){
         return this.manager.data;
     }
 
-    write(path, value) {
-        return this.manager.write(path, value);
+    get readSystemData(){
+        return this.manager.systemData;
+    }
+
+    writeData(path, value) {
+        return this.manager.writeData(path, value);
+    }
+
+    writeSystemData(path, value) {
+        return this.manager.writeSystemData(path, value);
     }
 
 }
