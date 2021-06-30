@@ -40,9 +40,6 @@ export default class DataManager {
     clear() {
         this.dirty = false;
         this.editObject = {data:{}};
-        this.embeddedDataManagers.forEach(embedded => {
-            embedded.clear();
-        })
         // we don't call clear, because we want to pass the object off,
         // this will help prevent infinite recurssion in the commit method.
         this.embeddedDataManagers = new Set();
