@@ -1,10 +1,11 @@
 import { PrimeTables } from "../prime_tables.js";
+import PrimeDocumentMixin from "../util/PrimeDocumentMixin.js";
 
 /**
  * Extend the basic Item with some very simple modifications.
  * @extends {Item}
  */
-export class PrimeItem extends Item
+export class PrimeItem extends PrimeDocumentMixin(Item)
 {
 
 	// static get config()

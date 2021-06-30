@@ -1,6 +1,6 @@
-import Util from "../util/Util.js";
+import {getComponentLazily} from "../../util/support.js";
 import {PointsBase} from "./Points.js";
-import Component from "../util/Component.js";
+import Component from "../../util/Component.js";
 
 export default class Health extends Component {
     constructor(parent) {
@@ -11,7 +11,7 @@ export default class Health extends Component {
      * @return {Wounds}
      */
     get wounds() {
-        return Util.getComponentLazily(this, 'wounds', Wounds);
+        return getComponentLazily(this, 'wounds', Wounds);
     }
 
     set wounds(value) {
@@ -22,7 +22,7 @@ export default class Health extends Component {
      * @return {Resilience}
      */
     get resilience() {
-        return Util.getComponentLazily(this, 'resilience', Resilience);
+        return getComponentLazily(this, 'resilience', Resilience);
     }
 
     set resilience(value) {
@@ -33,7 +33,7 @@ export default class Health extends Component {
      * @return {Insanities}
      */
     get insanities() {
-        return Util.getComponentLazily(this, 'insanities', Insanities);
+        return getComponentLazily(this, 'insanities', Insanities);
     }
 
     set insanities(value) {
@@ -44,7 +44,7 @@ export default class Health extends Component {
      * @return {Psyche}
      */
     get psyche() {
-        return Util.getComponentLazily(this, 'psyche', Psyche);
+        return getComponentLazily(this, 'psyche', Psyche);
     }
 
     set psyche(value) {

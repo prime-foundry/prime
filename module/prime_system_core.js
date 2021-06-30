@@ -1,8 +1,8 @@
 // Import Modules
-import { PrimePCActor } from "./actor/actor.js";
-import { PrimePCActorSheet } from "./actor/actor-sheet.js";
-import { PrimeItem as PrimeItem } from "./item/item.js";
-import { PrimeItemSheet } from "./item/item-sheet.js";
+import { PrimeActor } from "./actor/PrimeActor.js";
+import { PrimeActorSheet } from "./actor/PrimeActorSheet.js";
+import { PrimeItem as PrimeItem } from "./item/PrimeItem.js";
+import { PrimeItemSheet } from "./item/PrimeItemSheet.js";
 
 import { PrimeSettingsManager } from "./prime_settings.js";
 import { PrimeHandlebarsPartials } from "./prime_handlebars.js";
@@ -12,7 +12,7 @@ Hooks.once('init', async function ()
 {
 
 	game.prime = {
-		PrimePCActor,
+		PrimeActor,
 		PrimeItem
 	};
 
@@ -27,12 +27,12 @@ Hooks.once('init', async function ()
 	};
 
 	// Define custom Entity classes
-	CONFIG.Actor.entityClass = PrimePCActor;
+	CONFIG.Actor.entityClass = PrimeActor;
 	CONFIG.Item.entityClass = PrimeItem;
 
 	// Register sheet application classes
 	Actors.unregisterSheet("core", ActorSheet);
-	Actors.registerSheet("prime", PrimePCActorSheet, { makeDefault: true });
+	Actors.registerSheet("prime", PrimeActorSheet, { makeDefault: true });
 	Items.unregisterSheet("core", ItemSheet);
 	Items.registerSheet("prime", PrimeItemSheet, { makeDefault: true });
 

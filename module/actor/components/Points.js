@@ -1,4 +1,4 @@
-import Component from "../util/Component.js";
+import Component from "../../util/Component.js";
 
 /**
  * @abstract

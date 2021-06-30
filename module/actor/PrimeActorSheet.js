@@ -2,9 +2,9 @@ import {PrimeTables} from "../prime_tables.js";
 import {ItemCardUI} from "../item/item_card_ui.js";
 import {ItemDragSort} from "../item/item_drag_sort.js";
 import Prime from "../components/Prime.js";
-import PrimeController from "../components/PrimeController.js";
+import PrimeController from "../util/PrimeController.js";
 
-export class PrimePCActorSheet extends ActorSheet {
+export class PrimeActorSheet extends ActorSheet {
     static hooksAdded = false;
     resizeOccuring = false;
     actorSheetMeasureTimer = false;

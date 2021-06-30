@@ -1,40 +1,40 @@
-import ActorComponent from "./util/ActorComponent.js";
-import ItemComponent from "../item/ItemComponent.js";
+import EmbeddedDocumentComponent from "../../util/EmbeddedDocumentComponent.js";
 import {Prime_V1, Refinement_V1} from "./legacy/Stats.v1.js";
-import Util from "../util/Util.js";
+import {getComponentLazily} from "../../util/support.js";
+import Component from "../../util/Component.js";
 
-class Stat extends ItemComponent {
+class Stat extends EmbeddedDocumentComponent {
 
     constructor(parent, item) {
         super(parent, item);
     }
 
     get customisable() {
-        return !!this._itemSystemData.customisable;
+        return !!this.system.customisable;
     }
 
     get default() {
-        return !!this._itemSystemData.default;
+        return !!this.system.default;
     }
 
     get statType() {
-        return this._itemSystemData.statType;
+        return this.system.statType;
     }
 
     get description() {
-        return this._itemSystemData.description;
+        return this.system.description;
     }
 
     get title() {
-        return this._itemData.name;
+        return this.system.name;
     }
 
     get sourceKey() {
-        return this._itemSystemData.sourceKey;
+        return this.system.sourceKey;
     }
 
     get max() {
-        return this._itemSystemData.max;
+        return this.system.max;
     }
 
     get related() {
@@ -42,13 +42,12 @@ class Stat extends ItemComponent {
     }
 
     get value() {
-        return this._itemSystemData.value;
+        return this.system.value;
     }
 
     set value(value) {
         if (value <= this.max && value >= 0) {
-            this._itemSystemData.value = value;
-            this._update();
+            this.writeToSystem('value', value);
         }
     }
 
@@ -71,7 +70,7 @@ class Refinement extends Stat {
 }
 
 
-class StatCollection extends ActorComponent {
+class StatCollection extends Component {
     constructor(parent) {
         super(parent);
     }
@@ -143,7 +142,7 @@ class Refinements extends StatCollection {
 }
 
 
-export default class Stats extends ActorComponent {
+export default class Stats extends Component {
     constructor(parent) {
         super(parent);
     }
@@ -152,14 +151,14 @@ export default class Stats extends ActorComponent {
      * @return {Primes}
      */
     get primes() {
-        return Util.getComponentLazily(this, 'primes', Primes);
+        return getComponentLazily(this, 'primes', Primes);
     }
 
     /**
      * @return {Primes}
      */
     get refinements() {
-        return Util.getComponentLazily(this, 'refinements', Refinements);
+        return getComponentLazily(this, 'refinements', Refinements);
     }
 
     get sorted() {

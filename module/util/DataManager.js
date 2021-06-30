@@ -1,13 +1,15 @@
-import Util from "./Util.js";
+import {traverseAndSet} from "./support.js";
 
 export default class DataManager {
     document;
+    embeddedDataManagers;
 
     /**
      * @param {foundry.abstract.Document} (document)
      */
-    constructor(documentContainer) {
+    constructor(document) {
         this.document = document;
+        this.embeddedDataManagers = new Set();
         this.clear();
     }
 
@@ -22,18 +24,26 @@ export default class DataManager {
      */
     write(path, value){
         // write to the read.
-        const lastValue = Util.traverseAndSet(path, this, value);
+        const lastValue = traverseAndSet(path, this, value);
         if(lastValue !== value){
             // write to the write
-            Util.traverseAndSet(path, this.editObject, value);
+            traverseAndSet(path, this.editObject, value);
             this.dirty = true;
         }
         return lastValue;
     }
 
+    embedDirtyDataManager(embeddedDataManager) {
+        this.embeddedDataManagers.add(embeddedDataManager);
+    }
+
     clear() {
         this.dirty = false;
         this.editObject = {data:{}};
+        this.embeddedDataManagers.forEach(embedded => {
+            embedded.clear();
+        })
+        this.embeddedDataManagers.clear();
     }
 
     /**
@@ -44,16 +54,18 @@ export default class DataManager {
      * @param {DocumentModificationContext} (context)
      */
     async commit(context = {}) {
+        for(const embedded of this.embeddedDataManagers) {
+            embedded.commit(context);
+        }
         if(this.dirty){
             if(context.render == null){
                 context.render = false;
             }
             const editObject = this.editObject;
             await this.document.update(editObject, context);
-            this.clear();
         }
+        this.clear();
     }
-
 }
 
 /**

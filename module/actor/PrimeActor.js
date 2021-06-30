@@ -1,43 +1,43 @@
 import { PrimeTables } from "../prime_tables.js";
-import Util from "../components/util/Util.js";
-import Profile from "../components/actor/Profile.js";
-import Stats from "../components/actor/Stats.js";
-import Health from "../components/actor/Health.js";
-import {ActionPoints, Soul, XP} from "../components/actor/Points.js";
-import PrimeDocumentMixin from "../components/util/PrimeDocumentMixin.js";
+import {getComponentLazily} from "../util/support.js";
+import Profile from "./components/Profile.js";
+import Stats from "./components/Stats.js";
+import Health from "./components/Health.js";
+import {ActionPoints, Soul, XP} from "./components/Points.js";
+import PrimeDocumentMixin from "../util/PrimeDocumentMixin.js";
 
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
  * @extends {Actor}
  */
-export class PrimePCActor extends PrimeDocumentMixin(Actor)
+export class PrimeActor extends PrimeDocumentMixin(Actor)
 {
 
 	/**
 	 * @return {Profile}
 	 */
 	get profile() {
-		return Util.getComponentLazily(this, 'profile', Profile);
+		return getComponentLazily(this, 'profile', Profile);
 	}
 
 	/**
 	 * @return {Stats}
 	 */
 	get stats(){
-		return Util.getComponentLazily(this, 'stats', Stats);
+		return getComponentLazily(this, 'stats', Stats);
 	}
 
 	/**
 	 * @return {Health}
 	 */
 	get health() {
-		return Util.getComponentLazily(this, 'health', Health);
+		return getComponentLazily(this, 'health', Health);
 	}
 	/**
 	 * @return {ActionPoints}
 	 */
 	get actionPoints() {
-		return Util.getComponentLazily(this, 'actionPoints', ActionPoints);
+		return getComponentLazily(this, 'actionPoints', ActionPoints);
 	}
 
 	get name() {
@@ -80,14 +80,14 @@ export class PrimePCActor extends PrimeDocumentMixin(Actor)
 	 * @return {XP}
 	 */
 	get xp() {
-		return Util.getComponentLazily(this, 'xp', XP);
+		return getComponentLazily(this, 'xp', XP);
 	}
 
 	/**
 	 * @return {Soul}
 	 */
 	get soul() {
-		return Util.getComponentLazily(this, 'soul', Soul);
+		return getComponentLazily(this, 'soul', Soul);
 	}
 
 	set actionPoints(value) {
@@ -96,7 +96,7 @@ export class PrimePCActor extends PrimeDocumentMixin(Actor)
 
 
 	/**
-	 * @returns {PrimePCActor}
+	 * @returns {PrimeActor}
 	 */
 	get _actor() {
 		return super._document;
@@ -543,7 +543,7 @@ export class PrimePCActor extends PrimeDocumentMixin(Actor)
 		{
 			// Calculate the modifier using d20 rules.
 			// prime.mod = Math.floor((prime.value - 10) / 2);
-			item.cost = PrimePCActor.primeCost(parseInt(item.value));
+			item.cost = PrimeActor.primeCost(parseInt(item.value));
 			totalCost += item.cost;
 			// mod will go but lets see what we get
 			item.mod = item.cost;
