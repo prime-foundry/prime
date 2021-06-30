@@ -115,7 +115,7 @@ class Primes extends StatCollection {
     _getTransformedItems() {
         if (this._root.version === 1) {
             // TODO: Migrate: version 1 takes its data from the actor system data and not items.
-            return Object.entries(this._actorSystemData.primes)
+            return Object.entries(this.system.primes)
                     .map(statData => new Prime_V1(this, statData));
         }
         return this._root._getItemsByType('prime')
@@ -132,7 +132,7 @@ class Refinements extends StatCollection {
     _getTransformedItems() {
         if (this._root.version === 1) {
             // TODO: Migrate: version 1 takes its data from the actor system data and not items.
-            return  Object.entries(this._actorSystemData.refinements)
+            return  Object.entries(this.system.refinements)
                     .map(statData => new Refinement_V1(this, statData));
         }
         return this._root._getItemsByType('refinement')
