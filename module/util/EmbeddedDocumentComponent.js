@@ -13,6 +13,7 @@ export default class EmbeddedDocumentComponent extends Component {
     writeToContent(path, value) {
         const lastValue = super.writeToContent(path, value);
         if(lastValue != value){
+            this.updateOwnerDataManager();
         }
         return lastValue;
     }
