@@ -26,7 +26,7 @@ export default class EmbeddedDocumentComponent extends Component {
     }
 
     updateOwnerDataManager(){
-        const embededDataManager = this.document.dataManager;
-        this.owningDocument.dataManager.embedDirtyDataManager(embededDataManager);
+        const embeddedDataManager = this.document.dataManager;
+        this.owningDocument.dataManager.embedDirtyDataManager(embeddedDataManager);
     }
 }
