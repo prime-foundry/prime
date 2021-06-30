@@ -1,4 +1,4 @@
-.effectBlock .bonusesWrapper,
+.effectBlock .effectsWrapper,
 .perkItem .perkPrerequisitesBlock .prerequisitesWrapper,
 .perkItem .actionEffectBlock .effectsWrapper
 {
@@ -25,7 +25,7 @@
 }
 
 
-.effectBlock .effectWrapper .bonusIndex,
+.effectBlock .effectWrapper .effectIndex,
 .perkItem .perkPrerequisitesBlock .perkPrerequisiteWrapper .prerequisiteIndex,
 .perkItem .actionEffectBlock .actionEffectWrapper .actionEffectIndex
 {

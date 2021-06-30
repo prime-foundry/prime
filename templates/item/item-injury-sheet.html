@@ -1,0 +1,19 @@
+<form class="{{cssClass}} meleeWeaponItem flexColumn " autocomplete="off">
+	<div class="flexRow">
+		<div class="cell30 block noTitle imageWrapper flexRow flexCenter verticalCenter">
+			<img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+		</div>
+		{{> itemBasic }}
+	</div>
+
+	{{> itemEffects effectsData=untendedEffects effectTitle="Untended Effect(s)" effectType="untendedEffect"}}
+
+	{{> itemEffects effectsData=tendedEffects effectTitle="Tended Effect(s)" effectType="tendedEffect" }}
+
+	{{> itemEffects effectsData=permanentEffects effectTitle="Permanent Effect(s)" effectType="permanentEffect" }}
+
+
+	{{> itemDescription }}
+
+	{{> itemMetadata }}
+</form>

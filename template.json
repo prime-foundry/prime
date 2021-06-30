@@ -458,7 +458,8 @@
 			"perk",
 			"action",
 			"prime",
-			"refinement"
+			"refinement",
+			"injury"
 		],
 		"templates":{
 			"base":
@@ -636,6 +637,16 @@
 			"statType" : "physical",
 			"default": false,
 			"customisable": false
+		},
+
+		"injuries":
+		{
+			"templates": ["base", "metadata"],
+			"sourceKey": "",
+			"untendedEffects": [],
+			"tendedEffects": [],
+			"permanentEffects": [],
+			"type": "wound"
 		}
 	},
 	"Tables":

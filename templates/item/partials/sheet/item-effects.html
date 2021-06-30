@@ -1,15 +1,14 @@
 	<div class="flexRow flexBetween flexWrap block infoBlock effectBlock">
-		<div class="blockTitle">Effects</div>
+		<div class="blockTitle">{{#if effectTitle}}{{effectTitle}}{{else}}Effects{{/if}}</div>
 
-		<div class="bonusesWrapper">
-			{{#each bonuses as |bonus key|}}
+		<div class="effectsWrapper">			
+			{{#each effectsData as |effect key|}}
 			<div class="cell100 flexRow flexBetween flexWrap infoBlock effectWrapper">
-				<div class="bonusIndex">{{bonus.actualCount}}</div>
-				{{log bonus}}
+				<div class="effectIndex">{{effect.actualCount}}</div>
 				<div class="cell100 flexRow flexBetween verticalCenter">
-					<label for="data.bonuses.{{key}}.bonusType" class="resource-label cell30 rightAlign">Type:</label>
-					<select id="data.bonuses.{{key}}.bonusType" name="data.bonuses.{{key}}.bonusType" class="cell70 effectFormElement" data-effect-id="{{effectID}}" data-effect-flag-key="effectSubType" {{disabledIf ../isOwned}}>
-						{{#select bonus.effectSubType}}
+					<label for="data.{{#if ../effectType}}{{../effectType}}{{else}}effect{{/if}}s.{{key}}.effectType" class="resource-label cell30 rightAlign">Type:</label>
+					<select id="data.{{#if ../effectType}}{{../effectType}}{{else}}effect{{/if}}s.{{key}}.effectType" name="data.{{#if ../effectType}}{{../effectType}}{{else}}effect{{/if}}ts.{{key}}.effectType" class="cell70 effectFormElement" data-effect-id="{{effectID}}" data-effect-flag-key="effectSubType" {{disabledIf ../isOwned}}>
+						{{#select effect.effectSubType}}
 						{{#each ../perkTables.bonusTypes}}
 						<option value="{{this.key}}">{{this.title}}</option>
 						{{/each}}
@@ -18,10 +17,10 @@
 				</div>
 
 				<div class="cell100 flexRow flexBetween verticalCenter">
-					<label for="data.bonuses.{{key}}.path" class="resource-label cell30 rightAlign">Target:</label>
-					<select id="data.bonuses.{{key}}.path" name="data.bonuses.{{key}}.path" class="cell70 effectFormElement" data-effect-id="{{effectID}}" data-effect-flag-key="path" {{disabledIf ../isOwned}}>
-						{{#select bonus.path}}
-						{{#each bonus.dynamicDataForEffectTarget}}
+					<label for="data.{{#if ../effectType}}{{../effectType}}{{else}}effect{{/if}}s.{{key}}.path" class="resource-label cell30 rightAlign">Target:</label>
+					<select id="data.{{#if ../effectType}}{{../effectType}}{{else}}effect{{/if}}s.{{key}}.path" name="data.{{#if ../effectType}}{{../effectType}}{{else}}effect{{/if}}s.{{key}}.path" class="cell70 effectFormElement" data-effect-id="{{effectID}}" data-effect-flag-key="path" {{disabledIf ../isOwned}}>
+						{{#select effect.path}}
+						{{#each effect.dynamicDataForEffectTarget}}
 						<option value="{{this.key}}">{{this.title}}</option>
 						{{/each}}
 						{{/select}}
@@ -29,14 +28,15 @@
 				</div>
 
 				<div class="cell100 flexRow flexBetween verticalCenter lastRow">
-					<label for="data.bonuses.{{key}}.value" class="resource-label cell30 rightAlign">Value:</label>
-					<input type="text" id="data.bonuses.{{key}}.value" name="data.bonuses.{{key}}.value" class="cell70 effectFormElement" data-effect-id="{{effectID}}" data-effect-flag-key="value" value="{{bonus.value}}" data-dtype="Number" data-min="-10" data-max="10" {{disabledIf ../isOwned}}/>
+					<label for="data.{{#if ../effectType}}{{../effectType}}{{else}}effect{{/if}}s.{{key}}.value" class="resource-label cell30 rightAlign">Value:</label>
+					<input type="text" id="data.{{#if ../effectType}}{{../effectType}}{{else}}effect{{/if}}s.{{key}}.value" name="data.{{#if ../effectType}}{{../effectType}}{{else}}effect{{/if}}s.{{key}}.value" class="cell70 effectFormElement" data-effect-id="{{effectID}}" data-effect-flag-key="value" value="{{effect.value}}" data-dtype="Number" data-min="-10" data-max="10" {{disabledIf ../isOwned}}/>
 				</div>
 
-				<a class="removeEffectIcon {{disabledClassIf ../isOwned}}" data-effect-id="{{effectID}}"><i class="fas fa-trash"></i></a>
+				<a class="removeEffectIcon {{disabledClassIf .../isOwned}}" data-effect-id="{{effectID}}"><i class="fas fa-trash"></i></a>
 			</div>
 			{{/each}}
+			
 		</div>
 
-		<a class="addEffectIcon {{disabledClassIf isOwned}}" data-effect-type="bonus"><i class="fas fa-plus"></i></a>
+		<a class="addEffectIcon {{disabledClassIf isOwned}}" data-effect-type="{{#if effectType}}{{effectType}}{{else}}effect{{/if}}"><i class="fas fa-plus"></i></a>
 	</div>
