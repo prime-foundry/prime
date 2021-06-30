@@ -43,7 +43,9 @@ export default class DataManager {
         this.embeddedDataManagers.forEach(embedded => {
             embedded.clear();
         })
-        this.embeddedDataManagers.clear();
+        // we don't call clear, because we want to pass the object off,
+        // this will help prevent infinite recurssion in the commit method.
+        this.embeddedDataManagers = new Set();
     }
 
     /**
@@ -54,17 +56,19 @@ export default class DataManager {
      * @param {DocumentModificationContext} (context)
      */
     async commit(context = {}) {
-        for(const embedded of this.embeddedDataManagers) {
+        const {dirty, editObject, embeddedDataManagers, document} = this;
+        this.clear();
+
+        for(const embedded of embeddedDataManagers) {
             embedded.commit(context);
         }
-        if(this.dirty){
+        if(dirty){
             if(context.render == null){
                 context.render = false;
             }
-            const editObject = this.editObject;
-            await this.document.update(editObject, context);
+            const editObject = editObject;
+            await document.update(editObject, context);
         }
-        this.clear();
     }
 }
 
