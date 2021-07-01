@@ -113,12 +113,12 @@ class Primes extends StatCollection {
     }
 
     _getTransformedItems() {
-        if (this._root.version === 1) {
+        if (this.document.version === 1) {
             // TODO: Migrate: version 1 takes its data from the actor system data and not items.
             return Object.entries(this.system.primes)
                     .map(statData => new Prime_V1(this, statData));
         }
-        return this._root._getItemsByType('prime')
+        return this.document._getItemsByType('prime')
                 .sort((one, two) => one.name.localeCompare(two.name))
                 .map(item => new Prime(this, item));
     }
@@ -130,12 +130,12 @@ class Refinements extends StatCollection {
     }
 
     _getTransformedItems() {
-        if (this._root.version === 1) {
+        if (this.document.version === 1) {
             // TODO: Migrate: version 1 takes its data from the actor system data and not items.
             return  Object.entries(this.system.refinements)
                     .map(statData => new Refinement_V1(this, statData));
         }
-        return this._root._getItemsByType('refinement')
+        return this.document._getItemsByType('refinement')
                 .sort((one, two) => one.name.localeCompare(two.name))
                 .map(item => new Refinement(this, item));
     }
