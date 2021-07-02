@@ -1,24 +1,14 @@
-/**
- * A Component is just a proxy for an existing data store.
- * It doesn't store any real data, just the references to the data store,
- * however it should contain all the modification and utility functions, you might need.
- * Think of it as a cross between an Entity class and a Repository class in Domain Driven Design, (which is a bit like an Object Orientated DAO, or an ORM)
- *
- * This allows us to have clean separation of logical model and physical data store, the data store being a horrible mess.
- * It should also make migration between versions a bit more manageable.
- */
-export default class Component {
-    parent;
-    document;
-    dyn;
+import DataManager from "./DataManager.js";
+import Controller from "./Controller.js";
 
-    /**
-     * @param {PrimeDocument | Component} parent
-     */
-    constructor(parent) {
-        this.parent = parent;
-        this.document = parent instanceof Component ? parent.document : parent;
-        this.dyn = this.document.dyn;
+class Dyn {
+    managed;
+    dataManager;
+
+    constructor(managed){
+        this.managed = managed;
+        this.dataManager = new DataManager(this.managed);
+        this.controller = new Controller(this.managed);
     }
 
     /**
@@ -29,7 +19,7 @@ export default class Component {
      * @returns {typeof foundry.abstract.DocumentData}
      */
     get content(){
-        return this.dyn.content;
+        return this.managed.data;
     }
 
 
@@ -39,7 +29,7 @@ export default class Component {
      * @returns {Object}
      */
     get system() {
-        return this.dyn.system;
+        return this.dataManager.data;
     }
 
     /**
@@ -53,7 +43,7 @@ export default class Component {
      * @returns {*} the last value that had been set.
      */
     writeToContent(path, value) {
-        return this.dyn.writeToContent(`data.${path}`, value);
+        return this.dataManager.write(`data.${path}`, value);
     }
 
     /**
@@ -64,6 +54,33 @@ export default class Component {
      * @returns {*} the last value that had been set.
      */
     writeToSystem(path, value) {
-        return this.dyn.writeToSystem(`data.data.${path}`, value);
+        return this.dataManager.write(`data.data.${path}`, value);
+    }
+
+    get primeControllerKey() {
+        return 'prime';
     }
 }
+/**
+ * @exports PrimeDocument
+ * @param {foundry.abstract.Document} FoundryDocumentType
+ * @returns {module:PrimeDocument~mixin}
+ * @constructor
+ */
+const DynDocumentMixin = (FoundryDocumentType) =>
+
+    /**
+     * @mixin
+     * @alias module:PrimeDocument~mixin
+     * @extends foundry.abstract.Document
+     */
+    class extends FoundryDocumentType {
+        get dyn() {
+            if(this._dyn == null) {
+                this._dyn = new Dyn(this);
+            }
+            return this._dyn;
+        }
+    };
+
+export default DynDocumentMixin

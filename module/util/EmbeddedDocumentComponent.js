@@ -2,11 +2,12 @@ import Component from "./Component.js";
 
 export default class EmbeddedDocumentComponent extends Component {
     owningComponent;
-    owningDocument;
+    owningDyn;
+
     constructor(owningComponent, embedded) {
         super(embedded);
         this.owningComponent = owningComponent;
-        this.owningDocument = owningComponent instanceof Component ? owningComponent.document : owningComponent;;
+        this.owningDyn = this.owningComponent.dyn;
     }
 
 
@@ -27,7 +28,7 @@ export default class EmbeddedDocumentComponent extends Component {
     }
 
     updateOwnerDataManager(){
-        const embeddedDataManager = this.document.dataManager;
-        this.owningDocument.dataManager.embedDirtyDataManager(embeddedDataManager);
+        const embeddedDataManager = this.dyn.dataManager;
+        this.owningDyn.dataManager.embedDirtyDataManager(embeddedDataManager);
     }
 }

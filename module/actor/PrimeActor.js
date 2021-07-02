@@ -4,13 +4,13 @@ import Profile from "./components/Profile.js";
 import Stats from "./components/Stats.js";
 import Health from "./components/Health.js";
 import {ActionPoints, Soul, XP} from "./components/Points.js";
-import PrimeDocumentMixin from "../util/PrimeDocumentMixin.js";
+import DynDocumentMixin from "../util/DynDocumentMixin.js";
 
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
  * @extends {Actor}
  */
-export class PrimeActor extends PrimeDocumentMixin(Actor)
+export class PrimeActor extends DynDocumentMixin(Actor)
 {
 
 	/**
