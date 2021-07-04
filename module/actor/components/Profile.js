@@ -13,6 +13,23 @@ export default class Profile extends Component {
     writeToMetadata(propertyName, value) {
         this.writeToSystem(`metadata.${propertyName}`, value);
     }
+    get name() {
+        return this.content.name;
+    }
+
+    set name(name) {
+        this.writeToContent('name', name);
+    }
+
+    get portrait() {
+        return this.content.img;
+    }
+
+    //TODO relook at ownersNames
+    get ownersNames() {
+        const owners = this.document._owners;
+        return owners.length === 0 ? "Not Assigned" : owners.map(owner => owner.name).join(", ");
+    }
 
     /**
      * @return {boolean}

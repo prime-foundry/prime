@@ -40,9 +40,6 @@ export class PrimeActor extends DynDocumentMixin(Actor, 'actor')
 		return getComponentLazily(this, 'actionPoints', ActionPoints);
 	}
 
-	get name() {
-		return this.dyn.content.name ?? null;
-	}
 
 	get type() {
 		return this.dyn.content.type;
@@ -52,19 +49,6 @@ export class PrimeActor extends DynDocumentMixin(Actor, 'actor')
 		return this.type === "character";
 	}
 
-	set name(name) {
-		this.dyn.writeToContent('name', name);
-	}
-
-	get portrait() {
-		return this.dyn.content.img;
-	}
-
-	//TODO relook at ownersNames
-	get ownersNames() {
-		const owners = this.actor._owners;
-		return owners.length === 0 ? "Not Assigned" : owners.map(owner => owner.name).join(", ");
-	}
 
 	get version() {
 		if(this.data.data.sheetVersion) {
