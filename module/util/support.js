@@ -81,18 +81,30 @@ export function traversePath(path, root, createIfMissing = false) {
         previous = previous[previousName];
     }
     const lastName = parts[lastIdx];
-    if (previous[lastName] == null) {
+    const isArray = lastName.endsWith('[]');
+    const isFunction = lastName.endsWith('()');
+    const noBracketsLastName = (isArray || isFunction) ? lastName.slice(0, -2) : lastName;
+    if (previous[noBracketsLastName] == null) {
         if (createIfMissing) {
-            if (lastName.endsWith('[]')) {
-                previous[lastName.slice(0, -2)] = [];
+            if (isArray) {
+                previous[noBracketsLastName] = [];
+            } if (isFunction) {
+                previous[noBracketsLastName] = () => {};
             } else {
                 previous[lastName] = {};
             }
         } else {
-            throw `Undefined last element '${lastName}' at ${lastIdx} whilst traversing path: '${path}'`;
+            throw new DynError(`Undefined last element '${lastName}' at ${lastIdx} whilst traversing path: '${path}'`);
         }
     }
-    return {previous, lastName};
+    return {previous, lastName, isArray, isFunction};
+}
+
+export class DynError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = 'DynError';
+    }
 }
 
 /**
@@ -104,7 +116,7 @@ export function traversePath(path, root, createIfMissing = false) {
  * @returns {*} the lastValue
  */
 export function traverseAndSet(path, root, value, createIfMissing = true) {
-    const {previous, lastName} = Util.traversePath(path, root, createIfMissing);
+    const {previous, lastName} = traversePath(path, root, createIfMissing);
     const lastValue = previous[lastName];
     previous[lastName] = value;
     return lastValue;
@@ -140,7 +152,7 @@ export function datasetToObject(htmlElement, key = undefined) {
 
 export function sanitizeView(view){
     if(view['jquery']){
-        return view.get();
+        return view.get()[0];
     }
     return view;
 }

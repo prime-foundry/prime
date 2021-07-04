@@ -24,7 +24,7 @@ export default class DataManager {
      */
     write(path, value){
         // write to the read.
-        const lastValue = traverseAndSet(path, this, value);
+        const lastValue = traverseAndSet(path, this.document, value);
         if(lastValue !== value){
             // write to the write
             traverseAndSet(path, this.editObject, value);

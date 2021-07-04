@@ -30,7 +30,7 @@ class Dyn {
      * @returns {Object}
      */
     get system() {
-        return this.dataManager.data;
+        return this.content.data;
     }
 
     /**

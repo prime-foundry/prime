@@ -32,15 +32,15 @@
         <div class="flexRow insanityRow">
             <div class="couchIcon flexRow flexStart verticalCenter">
                 <a class="healInsanity" title="Heal this insanity"
-                   data-dyn-hidden-on="actor.health.insanities.isHealthy()"
+                   data-dyn-hide="actor.health.insanities.isHealthy()"
                    data-dyn-click-at="actor.health.insanities.cure()"
                    data-dyn-index="{{this}}">
                     <i class="fas fa-couch"></i>
                 </a></div>
             <select name="insanitySelect{{this}}" class="insanitySelect"
                     data-dyn-change-at="actor.health.insanities.injure()"
-                    data-dyn-select-on="actor.health.insanities.injuryDetail()"
-                    data-dyn-disable-on="actor.health.insanities.isTended()"
+                    data-dyn-select="actor.health.insanities.injuryDetail()"
+                    data-dyn-disable="actor.health.insanities.isTended()"
                     data-dyn-index="{{this}}">
                 <option value=""></option>
 				{{#each ../../actorTables.mentalConditions}}
@@ -55,7 +55,7 @@
                        data-dyn-at="actor.health.insanities.aggravateOrAlleviate()"
                        data-dyn-value="{{this}}"
                        data-dyn-index="{{this}}"
-                       data-dyn-select-on="actor.health.insanities.isUntended()"/>
+                       data-dyn-select="actor.health.insanities.isUntended()"/>
                 <label for="insanityCheckbox-{{this}}" class="flexRow flexCenter verticalCenter">{{this}}</label>
             </div>
         </div>

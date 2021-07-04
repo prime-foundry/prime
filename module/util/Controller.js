@@ -6,15 +6,16 @@
 import {traversePath, datasetToObject, sanitizeView} from "./support.js";
 
 let UID = 0;
+
 /**
  * @returns {number} - a uniqueID
  */
-function nextUid(){
+function nextUid() {
     return UID += 1;
 }
 
-function random32BitInt(){
-    return (Math.random()*4294967296)>>>0;
+function random32BitInt() {
+    return (Math.random() * 4294967296) >>> 0;
 }
 
 export default class Controller {
@@ -33,30 +34,34 @@ export default class Controller {
         this.uid = nextUid();
     }
 
-    get _support(){
-        if(this.__support == null){
+    get _support() {
+        if (this.__support == null) {
             this.__support = new ControllerSupport(this);
         }
         return this.__support;
     }
 
     control(view) {
-        const theView = sanitizeView(view);
-        this._support.fixIds(theView);
-        this._support.hideShowElements(theView);
-        this._support.disableEnableElements(theView);
-        this._support.preselectValues(theView);
-        // we take advantage of lambdas, to sidestep problems with 'this' changing.
-        const onClick = this._support.clickListener(this);
-        const onChange = this._support.changeListener(this);
+        try {
+            const theView = sanitizeView(view);
+            this._support.fixIds(theView);
+            this._support.hideShowElements(theView);
+            this._support.disableEnableElements(theView);
+            this._support.preselectValues(theView);
+            // we take advantage of lambdas, to sidestep problems with 'this' changing.
+            const onClick = this._support.clickListener(this);
+            const onChange = this._support.changeListener(this);
 
-        Object.values(this.models).forEach((model) => {
-            this._support.attachListener(theView, model, 'click', "*", onClick);
-            this._support.attachListener(theView, model, 'dblclick', "*", onClick);
-            this._support.attachListener(theView, model, 'change', "input", onChange);
-            this._support.attachListener(theView, model, 'change', "select", onChange);
-            //TODO: textarea
-        });
+            Object.values(this.models).forEach((model) => {
+                this._support.attachListener(theView, model, 'click', "*", onClick);
+                this._support.attachListener(theView, model, 'dblclick', "*", onClick);
+                this._support.attachListener(theView, model, 'change', "input", onChange);
+                this._support.attachListener(theView, model, 'change', "select", onChange);
+                //TODO: textarea
+            });
+        } catch (err) {
+            console.error('unable to bind view', err);
+        }
     }
 }
 
@@ -74,17 +79,18 @@ class ControllerSupport {
         this.dataKey = `data-${this.controller.dynKey}`;
     }
 
-    get models(){
+    get models() {
         return this.controller.models;
     }
 
-    get dynKey(){
+    get dynKey() {
         return this.controller.dynKey;
     }
 
     get uid() {
         return this.controller.uid;
     }
+
     /**
      * #MARKED_SAFE_FROM_JQUERY
      *
@@ -104,11 +110,11 @@ class ControllerSupport {
         const inputsOnView = view.querySelectorAll(':scope input');
         inputsOnView.forEach((input) => {
             const oldId = input.id;
-            if(oldId){
+            if (oldId) {
                 const documentElement = document.getElementById(oldId);
                 if (documentElement && documentElement !== input) {
                     const labelsForInputOnView = view.querySelectorAll(`:scope label[for="${oldId}"]`);
-                    if(labelsForInputOnView.length > 0) {
+                    if (labelsForInputOnView.length > 0) {
                         const newId = `${oldId}-${this.dynKey}-${this.uid}-${random32BitInt()}`;
                         console.warn(`Multiple elements with id: ${oldId} detected, changing id for input to ${newId} and repointing related labels.`)
                         labelsForInputOnView.forEach((label) => label.htmlFor = newId);
@@ -128,15 +134,15 @@ class ControllerSupport {
      * @param cssElement
      * @param listener
      */
-    attachListener(view, model, eventType, cssElement,listener) {
+    attachListener(view, model, eventType, cssElement, listener) {
         const attribute = `${this.dataKey}-${eventType}-at`;
         const selector = `:scope ${cssElement}[${attribute}]`;
         const elements = view.querySelectorAll(selector);
         elements.forEach(element => {
             const path = element.getAttribute(attribute)
-            const {previous,lastName} = traversePath(path, this.models);
+            const {previous, lastName} = traversePath(path, this.models);
             // this is typically the owning parent, not the function itself.
-            element.addEventListener(eventType, listener.bind({controller:this, model, component:previous, at:lastName}), {capture: true});
+            element.addEventListener(eventType, listener.bind({controller: this, model, component: previous, at: lastName}), {capture: true});
         }, this);
     }
 
@@ -147,7 +153,7 @@ class ControllerSupport {
             event.stopPropagation();
             const element = event.delegateTarget || event.target;
             const inputDyn = this.inputDyn(element);
-            return controller.onChangeInput( element,inputDyn);
+            return controller.onChangeInput(element, inputDyn);
         };
     }
 
@@ -174,26 +180,26 @@ class ControllerSupport {
             const inputDyn = {...inputDynCommon, ...(inputDynCommon[event.type] || {})};
             const isFunction = inputDyn.at.endsWith('()');
             if (isFunction) {
-                return controller._updateWithFunction( inputDyn, {eventType:event.type});
+                return controller._updateWithFunction(inputDyn, {eventType: event.type});
             } else {
-                return controller._onChangeValue( inputDyn.value, inputDyn);
+                return controller._onChangeValue(inputDyn.value, inputDyn);
             }
         };
     }
 
-    inputDyn(element){
-        const inputDyn = datasetToObject(element,this.dynKey);
+    inputDyn(element) {
+        const inputDyn = datasetToObject(element, this.dynKey);
         const newIndex = Number.parseInt(inputDyn.index);
         if (!Number.isNaN(newIndex)) {
             inputDyn.index = newIndex;
         }
-        if(inputDyn.type === 'number' || inputDyn.type === 'counter') {
+        if (inputDyn.type === 'number' || inputDyn.type === 'counter') {
             const newValue = Number.parseInt(inputDyn.value);
             if (!Number.isNaN(newValue)) {
                 inputDyn.value = newValue;
             }
         }
-        if(inputDyn.type === 'counter') {
+        if (inputDyn.type === 'counter') {
             const newCurrent = Number.parseInt(inputDyn.current);
             if (!Number.isNaN(newCurrent)) {
                 inputDyn.current = newCurrent;
@@ -203,14 +209,12 @@ class ControllerSupport {
     }
 
     getModelValue(path, inputDyn) {
-        return traversePath(path, this.models, (parent, key) => {
-            if (key.endsWith('()')) {
-                const newKey = key.slice(0, -2);
-                return parent[newKey](inputDyn);
-            } else {
-                return parent[key];
-            }
-        });
+        const {previous: obj, lastName: key, isFunction} = traversePath(path, this.models);
+        if (isFunction) {
+            return obj[key](inputDyn);
+        } else {
+            return obj[key];
+        }
     }
 
     /**
@@ -224,22 +228,22 @@ class ControllerSupport {
             const inputDyn = this.inputDyn(element);
             const hide = inputDyn.hide;
             const show = inputDyn.show;
-            if(hide != null) {
-                if(hide === 'true'){
+            if (hide != null) {
+                if (hide === 'true') {
                     element.hidden = true;
-                } else if(hide === 'false'){
+                } else if (hide === 'false') {
                     element.hidden = false;
                 } else {
-                    element.hidden =  !!this.getModelValue(hide,inputDyn);
+                    element.hidden = !!this.getModelValue(hide, inputDyn);
                 }
             }
-            if(show != null) {
-                if(show === 'false'){
+            if (show != null) {
+                if (show === 'false') {
                     element.hidden = true;
-                } else if(show === 'true'){
+                } else if (show === 'true') {
                     element.hidden = false;
                 } else {
-                    element.hidden =  !this.getModelValue(show,inputDyn);
+                    element.hidden = !this.getModelValue(show, inputDyn);
                 }
             }
         }, this);
@@ -256,22 +260,22 @@ class ControllerSupport {
             const inputDyn = this.inputDyn(element);
             const disable = inputDyn.disable;
             const enable = inputDyn.enable;
-            if(disable != null) {
-                if(disable === 'true'){
+            if (disable != null) {
+                if (disable === 'true') {
                     element.disabled = true;
-                } else if(disable === 'false'){
+                } else if (disable === 'false') {
                     element.disabled = false;
                 } else {
-                    element.disabled =  !!this.getModelValue(disable,inputDyn);
+                    element.disabled = !!this.getModelValue(disable, inputDyn);
                 }
             }
-            if(enable != null) {
-                if(enable === 'false'){
+            if (enable != null) {
+                if (enable === 'false') {
                     element.disabled = true;
-                } else if(enable === 'true'){
+                } else if (enable === 'true') {
                     element.disabled = false;
                 } else {
-                    element.disabled =  !this.getModelValue(enable,inputDyn);
+                    element.disabled = !this.getModelValue(enable, inputDyn);
                 }
             }
         }, this);
@@ -282,13 +286,13 @@ class ControllerSupport {
      * #MARKED_SAFE_FROM_JQUERY
      * @param view
      */
-    preselectValues(view){
+    preselectValues(view) {
         const selects = view.querySelectorAll(`:scope select[${this.dataKey}-select]`);
         selects.forEach(element => {
             const inputDyn = this.inputDyn(element);
             const path = inputDyn.select;
-            if(path.startsWith("'") && path.endsWith("'")){
-                element.value = path.slice(1,-1);
+            if (path.startsWith("'") && path.endsWith("'")) {
+                element.value = path.slice(1, -1);
             } else {
                 element.value = this.getModelValue(path, inputDyn);
             }
@@ -303,12 +307,12 @@ class ControllerSupport {
         checkboxes.forEach(element => {
             const inputDyn = this.inputDyn(element);
             const select = inputDyn.select;
-            if(select === 'false'){
+            if (select === 'false') {
                 element.checked = false;
-            } else if(select === 'true'){
+            } else if (select === 'true') {
                 element.checked = true;
             } else {
-                element.checked =  !!this.getModelValue(select,inputDyn);
+                element.checked = !!this.getModelValue(select, inputDyn);
             }
         });
     }
@@ -321,50 +325,47 @@ class ControllerSupport {
 
 
     async onChangeInput(element, inputDyn) {
-        const isFunction = inputDyn.at.endsWith('()');
         if (element.tagName === 'SELECT') {
-            await this._onChangeSelect(element, inputDyn, isFunction);
+            await this.onChangeSelect(element, inputDyn);
         } else if (element.tagName === 'INPUT') {
             switch (element.type) {
                 case 'checkbox':
-                    await this._onChangeCheckbox(element.checked, inputDyn, isFunction);
+                    await this.onChangeCheckbox(element.checked, inputDyn);
                     break;
                 default:
-                    await this._onChangeValue(element.value, inputDyn, isFunction);
+                    await this.onChangeValue(element.value, inputDyn);
                     break;
             }
         }
     }
 
-    async _onChangeSelect(element, inputDyn, isFunction) {
-        const selected = $(element).val();
-        if (isFunction) {
-            return this._updateWithFunction(inputDyn, {selected});
-        } else {
-            return this._updateWithSetValue(selected, inputDyn);
-        }
+    async onChangeSelect(element, inputDyn) {
+        const selected = element.value;
+        return this._update(inputDyn, {selected}, 'selected');
     }
 
-    async _onChangeValue(value, inputDyn, isFunction) {
+    async onChangeValue(value, inputDyn) {
         const type = (inputDyn.type || '').toLowerCase();
         if (type === 'number') {
-            return this._onChangeNumber(value, inputDyn, isFunction);
+            return this.onChangeNumber(value, inputDyn);
         } else if (type === 'boolean') {
-            return this._onChangeBoolean(value, inputDyn, isFunction);
+            return this.onChangeBoolean(value, inputDyn);
         } else {
-            return this._updateWithSetValue(value, inputDyn, isFunction);
+           return this._update(inputDyn, {value});
         }
     }
 
-    async _onChangeNumber(value, inputDyn, isFunction) {
-        return this._updateWithSetValue(Number.parseInt(value) || 0, inputDyn, isFunction);
+    async onChangeNumber(number, inputDyn) {
+        const value = Number.parseInt(number) || 0;
+        return this._update(inputDyn, {value});
     }
 
-    async _onChangeBoolean(value, inputDyn, isFunction) {
-        return this._updateWithSetValue((value || '').toLowerCase() === 'true', inputDyn, isFunction);
+    async onChangeBoolean(boolean, inputDyn) {
+        const value = (boolean || '').toLowerCase() === 'true';
+        return this._update(inputDyn, {value});
     }
 
-    async _onChangeCheckbox(checked, inputDyn, isFunction) {
+    async onChangeCheckbox(checked, inputDyn) {
         const type = (inputDyn.type || '').toLowerCase();
         if (type === 'counter') {
             let value;
@@ -373,54 +374,21 @@ class ControllerSupport {
             } else {
                 value = Number.parseInt(inputDyn.value);
             }
-            if (isFunction) {
-                return this._updateWithFunction(inputDyn, {value, activate: !!checked});
-            } else {
-                return this._updateWithSetValue(value, inputDyn);
-            }
+            return this._update(inputDyn, {value, activate: !!checked});
 
         }
-        if (isFunction) {
-            return this._updateWithFunction(inputDyn, {activate: !!checked});
-        } else {
-            return this._updateWithSetValue(!!checked, inputDyn);
-        }
+        return this._update(inputDyn, {activate: !!checked}, 'activate');
     }
 
-    /**
-     *
-     * @param inputDyn
-     * @param rest
-     * @returns {Promise<*>}
-     * @private
-     */
-    async _updateWithFunction(inputDyn, optArgs) {
-        return this._updateModel(inputDyn,
-            (parent, key) => {
-                const newKey = key.slice(0, -2);
-                parent[newKey](
-                    {
-                        ...inputDyn,
-                        ...optArgs
-                    }
-                );
-            }
-        );
-    }
 
-    async _updateWithSetValue(value, inputDyn, isFunction=false) {
-
-        if (isFunction) {
-            return this._updateWithFunction(inputDyn, {value});
-        } else {
-            return this._updateModel(inputDyn, (parent, key) => parent[key] = value);
-        }
-    }
-
-    async _updateModel(inputDyn, func) {
+    async _update(inputDyn, args = {}, setParameter = 'value') {
         const path = inputDyn.at;
-        const {previous, lastName} = traversePath(path, this.models);
-        func(previous, lastName);
+        const {previous, lastName, isFunction} = traversePath(path, this.models);
+        if (isFunction) {
+            previous[lastName]({...inputDyn, ...args});
+        } else {
+            previous[lastName] = args[setParameter];
+        }
         return this.commit();
     }
 }

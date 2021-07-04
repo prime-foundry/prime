@@ -53,7 +53,7 @@ export default class Component {
      * @returns {*} the last value that had been set.
      */
     writeToContent(path, value) {
-        return this.dyn.writeToContent(`data.${path}`, value);
+        return this.dyn.writeToContent(`${path}`, value);
     }
 
     /**
@@ -64,6 +64,6 @@ export default class Component {
      * @returns {*} the last value that had been set.
      */
     writeToSystem(path, value) {
-        return this.dyn.writeToSystem(`data.data.${path}`, value);
+        return this.dyn.writeToSystem(`${path}`, value);
     }
 }

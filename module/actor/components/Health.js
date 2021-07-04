@@ -195,14 +195,6 @@ class InjurableBase extends PointsBase {
     /**
      * @protected
      */
-    get points() {
-        return this.stats.wounds;
-    }
-
-
-    /**
-     * @protected
-     */
     writeToPoints(parameterName, value) {
         return this.writeToStats(`wounds.${parameterName}`, value)
     }
@@ -213,7 +205,13 @@ class InjurableBase extends PointsBase {
      */
     get injuries(){
         this._fixInjuriesData();
-        return this.stats.injuries;
+
+        const injuries = this.stats.injuries;
+        if(injuries == null){
+            this.writeToSystem('injuries', []);
+            return this.stats.injuries;
+        }
+        return injuries;
     }
 
     /**
@@ -281,6 +279,12 @@ class Wounds extends InjurableBase {
     get stats() {
         return this.system.health;
     }
+    /**
+     * @protected
+     */
+    get points() {
+        return this.stats.wounds;
+    }
 
     /**
      * @protected
@@ -295,12 +299,19 @@ class Wounds extends InjurableBase {
     _fixInjuriesData() {
         // TODO migration
         // Fix for old data structure.
-        if (this.stats.wounds != null) {
-            const arr = Object.values(this.stats.wounds);
-            const length = arr.length;
-            const injuries = arr.map((injury, idx) => ({detail: injury, tended: idx >= length}));
-            this.writeToStats('injuries', injuries);
-            this.writeToSystem('wounds', null);
+
+        if(this.stats.injuries == null){
+
+            if (this.system.wounds != null) {
+                const arr = Object.values(this.system.wounds);
+                const length = arr.length;
+                const injuries = arr.map((injury, idx) => ({detail: injury, tended: idx >= length}));
+                this.writeToStats('injuries', injuries);
+                this.writeToSystem('wounds', null);
+            } else if(this.stats.wounds.injuries != null) {
+                this.writeToStats('injuries', this.stats.wounds.injuries);
+                this.writeToStats('wounds.injuries', null);
+            }
         }
     }
 }
@@ -350,6 +361,13 @@ class Insanities extends InjurableBase {
     /**
      * @protected
      */
+    get points() {
+        return this.stats.insanities;
+    }
+
+    /**
+     * @protected
+     */
     writeToStats(parameterPath, value) {
         return this.writeToSystem(`mind.${parameterPath}`, value);
     };
@@ -360,12 +378,17 @@ class Insanities extends InjurableBase {
     _fixInjuriesData() {
         // TODO migration
         // Fix for old data structure.
-        if (this.stats.insanities != null) {
-            const arr = Object.values(this.stats.insanities);
-            const length = arr.length;
-            const injuries = arr.map((injury, idx) => ({detail: injury, tended: idx >= length}));
-            this.writeToStats('injuries', injuries);
-            this.writeToSystem('insanities', null);
+        if(this.stats.injuries == null){
+            if (this.system.insanities != null) {
+                const arr = Object.values(this.system.insanities);
+                const length = arr.length;
+                const injuries = arr.map((injury, idx) => ({detail: injury, tended: idx >= length}));
+                this.writeToStats('injuries', injuries);
+                this.writeToSystem('insanities', null);
+            } else if(this.stats.insanities.injuries != null) {
+                this.writeToStats('injuries', this.stats.insanities.injuries);
+                this.writeToStats('insanities.injuries', null);
+            }
         }
     }
 }

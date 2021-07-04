@@ -5,7 +5,7 @@ class Dyn {
     controller;
 
     constructor(managed){
-        this.controller = new Controller(managed.dynModels());
+        this.controller = new Controller(managed.dynModels);
     }
 
 }

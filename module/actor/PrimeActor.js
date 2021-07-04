@@ -41,11 +41,11 @@ export class PrimeActor extends DynDocumentMixin(Actor, 'actor')
 	}
 
 	get name() {
-		return this.content.name;
+		return this.dyn.content.name ?? null;
 	}
 
 	get type() {
-		return this.content.type;
+		return this.dyn.content.type;
 	}
 
 	isCharacter() {
@@ -53,11 +53,11 @@ export class PrimeActor extends DynDocumentMixin(Actor, 'actor')
 	}
 
 	set name(name) {
-		this.writeToContent('name', name);
+		this.dyn.writeToContent('name', name);
 	}
 
 	get portrait() {
-		return this.content.img;
+		return this.dyn.content.img;
 	}
 
 	//TODO relook at ownersNames
@@ -67,8 +67,8 @@ export class PrimeActor extends DynDocumentMixin(Actor, 'actor')
 	}
 
 	get version() {
-		if(this._actorSystemData.sheetVersion) {
-			switch (this._actorSystemData.sheetVersion) {
+		if(this.data.data.sheetVersion) {
+			switch (this.data.data.sheetVersion) {
 				case "v2.0":
 					return 2;
 			}
@@ -94,27 +94,12 @@ export class PrimeActor extends DynDocumentMixin(Actor, 'actor')
 		this.actionPoints.value = value;
 	}
 
-
-
-	get _actorData() {
-		if (this.__actorData == null) {
-			if (this._controller && this._controller._sheet && this._controller._sheetData) {
-				this.__actorData = this._controller._sheetData.data;
-			} else {
-				this.__actorData = this.__actor.data;
-			}
-		}
-		return this.__actorData;
-	}
-	get _actorSystemData() {
-		return this._actorData.data;
-	}
 	/**
 	 * @return {User[]}
 	 * @protected
 	 */
 	get _owners() {
-		return Object.entries(this._actorData.permission || {})
+		return Object.entries(this.data.permission || {})
 			.filter(([key, permission]) => {
 				return key != 'default' && permission == 3;
 			})
@@ -133,13 +118,7 @@ export class PrimeActor extends DynDocumentMixin(Actor, 'actor')
 	_getItemBySourceKey(key) {
 		return this.items.find((item) => key === item.data.sourceKey);
 	}
-	/**
-	 * Is this actor a character
-	 * @return {boolean}
-	 */
-	isCharacter() {
-		return this._actorData.type === 'character';
-	}
+
 
 	/**
 	 * Augment the basic actor data with additional dynamic data.

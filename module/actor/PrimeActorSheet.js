@@ -52,19 +52,12 @@ export class PrimeActorSheet extends DynSheetMixin(ActorSheet) {
 
             return true;
         });
-        /**
-         * @param {Application} app     The Application instance being rendered
-         * @param {jQuery} html         The inner HTML of the document that will be displayed and may be modified
-         * @param {object} data         The object of data used when rendering the application
-         */
-        Hooks.on("renderPrimeActorSheet", (app,html, data) => {
-           app.dyn.controller.control(html);
-        });
     }
 
-    dynModels(){
-        const models = super.dynModels();
+    get dynModels() {
+        const models = super.dynModels;
         models.actor = this.actor;
+        return models;
     }
 
 
@@ -411,6 +404,8 @@ export class PrimeActorSheet extends DynSheetMixin(ActorSheet) {
     activateListeners(html) {
         // const sheetHtml = html.find(`#primeactorsheet${this.appId}`)
         super.activateListeners(html);
+
+        this.dyn.controller.control(html);
         // PrimeController.initializeForm(html, this);
 
         // Everything below here is only needed if the sheet is editable
@@ -509,15 +504,7 @@ export class PrimeActorSheet extends DynSheetMixin(ActorSheet) {
     }
 
     async postActivateListeners(html) {
-        const data = this.getData();
-        const actionPoints = data.prime.actor.actionPoints;
-
         html.find(".fillAnimation").removeClass("fillAnimation");
         html.find(".emptyAnimation").removeClass("emptyAnimation");
-
-        if (actionPoints.lastTotal != actionPoints.value) {
-            actionPoints.lastTotal = actionPoints.value;
-            await this.updateIfDirty(data);
-        }
     }
 }
