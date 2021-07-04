@@ -3,316 +3,368 @@
  * @param elem
  * @returns {{}}
  */
-function datasetToObject(elem) {
-    const data = {};
-    if (elem && elem.attributes) {
-        const isDataRegex = /^data-/;
-        Array.from(elem.attributes)
-            .filter(attr => isDataRegex.test(attr.name))
-            .forEach((attr) => {
-                const paths = attr.name.split('-');
-                const lastIdx = paths.length - 1;
-                let node = data;
-                // we ignore the first 'data' and the last value.
-                for (let idx = 1; idx < lastIdx; idx += 1) {
-                    const name = paths[idx];
-                    if (node[name] == null) {
-                        node[name] = {};
-                    }
-                    node = node[name];
-                }
-                node[paths[lastIdx]] = attr.value;
-            });
-    }
-    return data;
-}
+import {traversePath, datasetToObject, sanitizeView} from "./support.js";
 
-async function changeListener(controller, modelKey) {
-    return (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        const element = event.delegateTarget || event.target;
-        return controller.onChangeInput(modelKey, element);
-    };
-}
-
-async function clickListener(controller, modelKey) {
-    return (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        const clickedElement = event.delegateTarget || event.target;
-        const targetElement = event.currentTarget;
-        const inputDynClicked = (datasetToObject(clickedElement).dyn || {})[key] || {};
-        const inputDynTarget = (datasetToObject(targetElement).dyn || {})[key] || {};
-        /* allows for common and overridden properties
-         * order of priority
-         * 1. the clicked elements prime object i.e. data-prime-at
-         * 2. the event prime object on the element we attached the event too i.e. data-prime-click-at
-         * 2. the  prime object on the element we attached the event too i.e. data-prime-at
-         *
-         * or given element <a data-prime-at="something" data-prime-click-at="else"><i data-prime-at="entirely"></i></a>
-         * the result for data-prime-at would be 'entirely',
-         * if the user clicked the 'a' element and somehow didn't hit the 'i' the result would be 'else'
-         */
-        const inputDyn = {...inputDynTarget, ...inputDynTarget[event.type], ...inputDynClicked};
-        return controller.onLinkClick(modelKey, event.type, inputDyn);
-    };
-}
-
-//TODO take the version from support.js
-function traversePath(path, prime, func) {
-    const parts = path.split('.');
-    const lastIdx = parts.length - 1;
-    let current = prime; // this is the prime access, can be the current user or the actor.
-    for (let idx = 0; idx < lastIdx; idx++) {
-        current = current[parts[idx]];
-    }
-    return func(current, parts[lastIdx]);
-}
-
-function getModelValue(path, model, inputDyn) {
-    return traversePath(path, model, (parent, key) => {
-        if (key.endsWith('()')) {
-            const newKey = key.slice(0, -2);
-            return parent[newKey](inputDyn);
-        } else {
-            return parent[key];
-        }
-    });
-}
-
+let UID = 0;
 /**
- * takes a list of values in the form of [model1, key1, model2, key2 ...]
- * and transforms it into a set of tuples with the keys and model positions flipped.
- * [[key1,model1],[key2,model2]...]
- * presumes the initialiser is an array,
- * @param {[]} tuples - the accumulating array,
- * @param modelOrKey - a model or key variable
- * @param idx - the current index.
- * @returns {*}
+ * @returns {number} - a uniqueID
  */
-function flippedTupleArrayFromListReducer(tuples, modelOrKey, idx) {
-    if (idx % 2 === 0) {
-        // first model in the second half of the array
-        tuples[tuples.length] = ['', modelOrKey];
-    } else {
-        // second key in the first half of the array (it is made lowercase, because data attributes are always converted to lower case)
-        tuples[tuples.length - 1][0] = modelOrKey.toLowerCase();
-    }
-    return tuples;
+function nextUid(){
+    return UID += 1;
 }
 
-function dataDynKey(key){
-    return key === '' ? 'data-dyn' : `data-dyn-${key}`;
+function random32BitInt(){
+    return (Math.random()*4294967296)>>>0;
 }
 
 export default class Controller {
     models;
-    id;
-    static UID = 0;
+    dynKey;
+    uid;
+
     /**
      *
      * @param {*} model
-     * @param {string} (key='')
-     * @param {...(*, string)} (otherModelKeys)
+     * @param {string} (dynKey='')
      */
-    constructor(model, key, ...otherModelKeys) {
-        let keyModels;
-        if(arguments.length === 1){
-            keyModels = [['',model]];
-        } else {
-            keyModels = [['',model],[key, model]];
-            if(arguments.length > 2){
-                keyModels = otherModelKeys.reduce(flippedTupleArrayFromListReducer, keyModels);
-            }
-        }
-        this.models = new Map(keyModels);
-        this.id = Controller.nextId();
+    constructor(models, dynKey = 'dyn') {
+        this.models = models;
+        this.dynKey = dynKey;
+        this.uid = nextUid();
     }
+
+    get _support(){
+        if(this.__support == null){
+            this.__support = new ControllerSupport(this);
+        }
+        return this.__support;
+    }
+
+    control(view) {
+        const theView = sanitizeView(view);
+        this._support.fixIds(theView);
+        this._support.hideShowElements(theView);
+        this._support.disableEnableElements(theView);
+        this._support.preselectValues(theView);
+        // we take advantage of lambdas, to sidestep problems with 'this' changing.
+        const onClick = this._support.clickListener(this);
+        const onChange = this._support.changeListener(this);
+
+        Object.values(this.models).forEach((model) => {
+            this._support.attachListener(theView, model, 'click', "*", onClick);
+            this._support.attachListener(theView, model, 'dblclick', "*", onClick);
+            this._support.attachListener(theView, model, 'change', "input", onChange);
+            this._support.attachListener(theView, model, 'change', "select", onChange);
+            //TODO: textarea
+        });
+    }
+}
+
+class ControllerSupport {
+    controller;
+    dataKey;
 
     /**
-     * @returns {number} - a uniqueID
+     *
+     * @param {*} model
+     * @param {string} (dynKey='')
      */
-    static nextId(){
-        return Controller.UID += 1;
+    constructor(controller) {
+        this.controller = controller;
+        this.dataKey = `data-${this.controller.dynKey}`;
     }
 
-    modelForKey(key){
-        if(this.models.has(key)) {
-            return this.models.get(key);
-        } else {
-            return this.models.get('');
-        }
+    get models(){
+        return this.controller.models;
     }
 
-    initializeView(view) {
-        this._fixIds(view);
-        this.models.forEach((model, key) => {
-
-            const dynKey = dataDynKey(key);
-            const onClick = clickListener(this, key);
-            const onChange = changeListener(this, key);
-
-            this._prehideElements(view, model, key);
-            this._preselectValues(view, model, key);
-            this._predisableElements(view, model, key);
-            this._prehideElements(view, model, key);
-
-            this._attachListener(view, model,`*[${dynKey}-click-at]`, 'click', onClick);
-            this._attachListener(view, model,`*[${dynKey}-dblclick-at]`, 'dblclick', onClick);
-            this._attachListener(view, model,`input[${dynKey}-at], input[${dynKey}-change-at]`, 'change', onChange);
-            this._attachListener(view, model,`select[${dynKey}-at], select[${dynKey}-change-at]`, 'change', onChange);
-        });
-        //TODO: select,textarea
+    get dynKey(){
+        return this.controller.dynKey;
     }
 
-    _prehideElements(view, model, key) {
-        const dynKey = dataDynKey(key);
-        html.find(`*[${dynKey}-hidden-on]`).each(function (index, element) {
-            const inputDyn = datasetToObject(element).dyn || {};
-            const hidden = inputDyn.hidden.on;
+    get uid() {
+        return this.controller.uid;
+    }
+    /**
+     * #MARKED_SAFE_FROM_JQUERY
+     *
+     * ids are meant to be unique, however since we are working with repeated document fragments often they are not,
+     * which plays havoc with labels. So if we have a repeated id, and the input is not the first in the document,
+     * and we have at least one label pointing at it,  we extend the id fields to make them unique.
+     *
+     * We also add a unique id the view to match it to the controller, for debugging purposes and quick css selection.
+     *
+     * @param view
+     */
+    fixIds(view) {
+        // Set a unique id as a data attribute.
+        view.setAttribute(`${this.dataKey}-controller-uid`, this.uid);
 
-            if (inputDyn.index && !isNaN(inputDyn.index)) {
-                inputDyn.index = Number.parseInt(inputDyn.index);
+        // fix non unique ids.
+        const inputsOnView = view.querySelectorAll(':scope input');
+        inputsOnView.forEach((input) => {
+            const oldId = input.id;
+            if(oldId){
+                const documentElement = document.getElementById(oldId);
+                if (documentElement && documentElement !== input) {
+                    const labelsForInputOnView = view.querySelectorAll(`:scope label[for="${oldId}"]`);
+                    if(labelsForInputOnView.length > 0) {
+                        const newId = `${oldId}-${this.dynKey}-${this.uid}-${random32BitInt()}`;
+                        console.warn(`Multiple elements with id: ${oldId} detected, changing id for input to ${newId} and repointing related labels.`)
+                        labelsForInputOnView.forEach((label) => label.htmlFor = newId);
+                        input.id = newId;
+                    }
+                }
             }
-            const val = getModelValue(hidden, model, inputDyn);
-            element.hidden = !!val ? true : undefined;
-        });
-    }
-
-    _predisableElements(view, model, key) {
-        const dynKey = dataDynKey(key);
-        html.find(`*[${dynKey}-disable-on]`).each(function (index, element) {
-            const inputDyn = datasetToObject(element).dyn || {};
-            const disable = inputDyn.disable.on;
-
-            if (inputDyn.index && !isNaN(inputDyn.index)) {
-                inputDyn.index = Number.parseInt(inputDyn.index);
-            }
-            const val = getModelValue(disable, model, inputDyn);
-            element.disabled = !!val;
-        });
-    }
-
-    _preselectValues(view, model, key) {
-
-        const dynKey = dataDynKey(key);
-        html.find(`select[${dynKey}-select-on]`).each(function (index, element) {
-            const inputDyn = datasetToObject(element).dyn || {};
-            const select = inputDyn.select.on;
-            // converts strings to an integer.
-            if (inputDyn.index && !isNaN(inputDyn.index)) {
-                inputDyn.index = Number.parseInt(inputDyn.index);
-            }
-            const val = getModelValue(select, model, inputDyn);
-            $(element).val(val || '');
-        });
-        html.find(`input[type=checkbox][${dynKey}-select-on]`).each(function (index, element) {
-            const inputDyn = datasetToObject(element).dyn || {};
-            const select = inputDyn.select.on;
-            // converts strings to an integer.
-            if (inputDyn.index && !isNaN(inputDyn.index)) {
-                inputDyn.index = Number.parseInt(inputDyn.index);
-            }
-            const val = getModelValue(select, model, inputDyn);
-            $(element).attr('checked', !!val);
-        });
-        html.find(`input[type=checkbox][${dynKey}-type='counter']`).each(function (index, element) {
-            const inputDyn = datasetToObject(element).dyn || {};
-            const checked = inputDyn.current === inputDyn.value
-            $(element).attr('checked', !!checked);
         });
     }
 
     /**
-     * Removes the jquery nonsense from our event listeners and just uses the js native ones instead.
-     * These is nothing in the jquery elements we need.
-     * @private
+     * #MARKED_SAFE_FROM_JQUERY
+     * @param view
+     * @param model
+     * @param modelKey
+     * @param eventType
+     * @param cssElement
+     * @param listener
      */
-    _attachListener(view, model, selector, type, listener) {
-        const elements = view.find(selector).get();
+    attachListener(view, model, eventType, cssElement,listener) {
+        const attribute = `${this.dataKey}-${eventType}-at`;
+        const selector = `:scope ${cssElement}[${attribute}]`;
+        const elements = view.querySelectorAll(selector);
         elements.forEach(element => {
-            element.addEventListener(type, listener.bind(model), {capture: true});
+            const path = element.getAttribute(attribute)
+            const {previous,lastName} = traversePath(path, this.models);
+            // this is typically the owning parent, not the function itself.
+            element.addEventListener(eventType, listener.bind({controller:this, model, component:previous, at:lastName}), {capture: true});
+        }, this);
+    }
+
+
+    async changeListener(controller) {
+        return (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            const element = event.delegateTarget || event.target;
+            const inputDyn = this.inputDyn(element);
+            return controller.onChangeInput( element,inputDyn);
+        };
+    }
+
+    async clickListener(controller) {
+        return (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            const clickedElement = event.delegateTarget || event.target;
+            const targetElement = event.currentTarget;
+            const inputDynClicked = this.inputDyn(clickedElement);
+            const inputDynTarget = this.inputDyn(targetElement);
+            /* allows for common and overridden properties
+             * order of priority
+             * 1. the clicked elements event prime object i.e. data-prime-click-at (specific values)
+             * 2. the parent element we attached the event too's, event prime object i.e. data-prime-click-at (specific values)
+             * 3. the clicked elements prime object, base (common values)
+             * 4. the parent element we attached the event too's, prime object, base i.e. (common values)
+             *
+             * or given element <a data-prime-at="something" data-prime-click-at="else"><i data-prime-at="entirely"></i></a>
+             * the result for data-prime-at would be 'else',
+             * if the user clicked the 'a' element and somehow didn't hit the 'i' the result would still be 'else'
+             */
+            const inputDynCommon = {...inputDynTarget, ...inputDynClicked};
+            const inputDyn = {...inputDynCommon, ...(inputDynCommon[event.type] || {})};
+            const isFunction = inputDyn.at.endsWith('()');
+            if (isFunction) {
+                return controller._updateWithFunction( inputDyn, {eventType:event.type});
+            } else {
+                return controller._onChangeValue( inputDyn.value, inputDyn);
+            }
+        };
+    }
+
+    inputDyn(element){
+        const inputDyn = datasetToObject(element,this.dynKey);
+        const newIndex = Number.parseInt(inputDyn.index);
+        if (!Number.isNaN(newIndex)) {
+            inputDyn.index = newIndex;
+        }
+        if(inputDyn.type === 'number' || inputDyn.type === 'counter') {
+            const newValue = Number.parseInt(inputDyn.value);
+            if (!Number.isNaN(newValue)) {
+                inputDyn.value = newValue;
+            }
+        }
+        if(inputDyn.type === 'counter') {
+            const newCurrent = Number.parseInt(inputDyn.current);
+            if (!Number.isNaN(newCurrent)) {
+                inputDyn.current = newCurrent;
+            }
+        }
+        return inputDyn;
+    }
+
+    getModelValue(path, inputDyn) {
+        return traversePath(path, this.models, (parent, key) => {
+            if (key.endsWith('()')) {
+                const newKey = key.slice(0, -2);
+                return parent[newKey](inputDyn);
+            } else {
+                return parent[key];
+            }
         });
     }
 
-    _fixIds(view) {
-        const idPostpend = `-dynid-${this.id}`;
-        view.find('input').each(function () {
-            const oldId = this.id;
-            if (oldId) {
-                const newId = oldId + idPostpend;
-                view.find(`label[for="${oldId}"]`).attr('for', newId);
-                this.id = newId;
+    /**
+     *
+     * #MARKED_SAFE_FROM_JQUERY
+     * @param view
+     */
+    hideShowElements(view) {
+        const elements = view.querySelectorAll(`:scope *[${this.dataKey}-hide], *[${this.dataKey}-show]`);
+        elements.forEach(element => {
+            const inputDyn = this.inputDyn(element);
+            const hide = inputDyn.hide;
+            const show = inputDyn.show;
+            if(hide != null) {
+                if(hide === 'true'){
+                    element.hidden = true;
+                } else if(hide === 'false'){
+                    element.hidden = false;
+                } else {
+                    element.hidden =  !!this.getModelValue(hide,inputDyn);
+                }
+            }
+            if(show != null) {
+                if(show === 'false'){
+                    element.hidden = true;
+                } else if(show === 'true'){
+                    element.hidden = false;
+                } else {
+                    element.hidden =  !this.getModelValue(show,inputDyn);
+                }
+            }
+        }, this);
+    }
+
+    /**
+     *
+     * #MARKED_SAFE_FROM_JQUERY
+     * @param view
+     */
+    disableEnableElements(view) {
+        const elements = view.querySelectorAll(`:scope *[${this.dataKey}-disable], *[${this.dataKey}-enable]`);
+        elements.forEach(element => {
+            const inputDyn = this.inputDyn(element);
+            const disable = inputDyn.disable;
+            const enable = inputDyn.enable;
+            if(disable != null) {
+                if(disable === 'true'){
+                    element.disabled = true;
+                } else if(disable === 'false'){
+                    element.disabled = false;
+                } else {
+                    element.disabled =  !!this.getModelValue(disable,inputDyn);
+                }
+            }
+            if(enable != null) {
+                if(enable === 'false'){
+                    element.disabled = true;
+                } else if(enable === 'true'){
+                    element.disabled = false;
+                } else {
+                    element.disabled =  !this.getModelValue(enable,inputDyn);
+                }
+            }
+        }, this);
+    }
+
+    /**
+     *
+     * #MARKED_SAFE_FROM_JQUERY
+     * @param view
+     */
+    preselectValues(view){
+        const selects = view.querySelectorAll(`:scope select[${this.dataKey}-select]`);
+        selects.forEach(element => {
+            const inputDyn = this.inputDyn(element);
+            const path = inputDyn.select;
+            if(path.startsWith("'") && path.endsWith("'")){
+                element.value = path.slice(1,-1);
+            } else {
+                element.value = this.getModelValue(path, inputDyn);
+            }
+        });
+        const counters = view.querySelectorAll(`:scope input[type=checkbox][${this.dataKey}-type='counter']`);
+        counters.forEach(element => {
+            const inputDyn = this.inputDyn(element);
+            const checked = inputDyn.current === inputDyn.value
+            element.checked = checked;
+        });
+        const checkboxes = view.querySelectorAll(`:scope input[type=checkbox][${this.dataKey}-select]`);
+        checkboxes.forEach(element => {
+            const inputDyn = this.inputDyn(element);
+            const select = inputDyn.select;
+            if(select === 'false'){
+                element.checked = false;
+            } else if(select === 'true'){
+                element.checked = true;
+            } else {
+                element.checked =  !!this.getModelValue(select,inputDyn);
             }
         });
     }
 
     async commit(model) {
-        return model.dyn.dataManager.commit();
+        Object.values(this.models).forEach((model) => {
+            return model.dyn.dataManager.commit();
+        })
     }
 
-    async onLinkClick(modelKey, eventType, inputDyn) {
+
+    async onChangeInput(element, inputDyn) {
         const isFunction = inputDyn.at.endsWith('()');
-        if (isFunction) {
-            return this.__updateWithFunction(modelKey, inputDyn, {eventType});
-
-        } else {
-            return this._onChangeValue(modelKey, inputDyn.value, inputDyn);
-        }
-    }
-
-    async onChangeInput(modelKey, element) {
-        const data = datasetToObject(element);
-        const isDynInput = !!data.dyn;
-        if (isDynInput) {
-            const inputDyn = {...data.prime, ...(data.prime.change || {})};
-            const isFunction = inputDyn.at.endsWith('()');
-            if (element.tagName === 'SELECT') {
-                await this._onChangeSelect(modelKey,element, inputDyn, isFunction);
-            } else if (element.tagName === 'INPUT') {
-                switch (element.type) {
-                    case 'checkbox':
-                        await this._onChangeCheckbox(modelKey,element.checked, inputDyn, isFunction);
-                        break;
-                    default:
-                        await this._onChangeValue(modelKey,element.value, inputDyn, isFunction);
-                        break;
-                }
+        if (element.tagName === 'SELECT') {
+            await this._onChangeSelect(element, inputDyn, isFunction);
+        } else if (element.tagName === 'INPUT') {
+            switch (element.type) {
+                case 'checkbox':
+                    await this._onChangeCheckbox(element.checked, inputDyn, isFunction);
+                    break;
+                default:
+                    await this._onChangeValue(element.value, inputDyn, isFunction);
+                    break;
             }
         }
-        return isDynInput;
     }
 
-    async _onChangeSelect(modelKey,element, inputDyn, isFunction) {
+    async _onChangeSelect(element, inputDyn, isFunction) {
         const selected = $(element).val();
         if (isFunction) {
-            return this.__updateWithFunction(modelKey,inputDyn, {selected});
+            return this._updateWithFunction(inputDyn, {selected});
         } else {
-            return this.__updateWithSetValue(modelKey,selected, inputDyn);
+            return this._updateWithSetValue(selected, inputDyn);
         }
     }
 
-    async _onChangeValue(modelKey,value, inputDyn, isFunction) {
+    async _onChangeValue(value, inputDyn, isFunction) {
         const type = (inputDyn.type || '').toLowerCase();
         if (type === 'number') {
-            return this._onChangeNumber(modelKey,value, inputDyn, isFunction);
+            return this._onChangeNumber(value, inputDyn, isFunction);
         } else if (type === 'boolean') {
-            return this._onChangeBoolean(modelKey,value, inputDyn, isFunction);
+            return this._onChangeBoolean(value, inputDyn, isFunction);
         } else {
-            return this.__updateWithSetValue(modelKey,value, inputDyn, isFunction);
+            return this._updateWithSetValue(value, inputDyn, isFunction);
         }
     }
 
-    async _onChangeNumber(modelKey,value, inputDyn, isFunction) {
-        return this.__updateWithSetValue(modelKey,Number.parseInt(value) || 0, inputDyn, isFunction);
+    async _onChangeNumber(value, inputDyn, isFunction) {
+        return this._updateWithSetValue(Number.parseInt(value) || 0, inputDyn, isFunction);
     }
 
-    async _onChangeBoolean(modelKey,value, inputDyn, isFunction) {
-        return this.__updateWithSetValue(modelKey,(value || '').toLowerCase() === 'true', inputDyn, isFunction);
+    async _onChangeBoolean(value, inputDyn, isFunction) {
+        return this._updateWithSetValue((value || '').toLowerCase() === 'true', inputDyn, isFunction);
     }
 
-    async _onChangeCheckbox(modelKey,checked, inputDyn, isFunction) {
+    async _onChangeCheckbox(checked, inputDyn, isFunction) {
         const type = (inputDyn.type || '').toLowerCase();
         if (type === 'counter') {
             let value;
@@ -322,16 +374,16 @@ export default class Controller {
                 value = Number.parseInt(inputDyn.value);
             }
             if (isFunction) {
-                return this.__updateWithFunction(modelKey,inputDyn, {value, activate: !!checked});
+                return this._updateWithFunction(inputDyn, {value, activate: !!checked});
             } else {
-                return this.__updateWithSetValue(modelKey,value, inputDyn);
+                return this._updateWithSetValue(value, inputDyn);
             }
 
         }
         if (isFunction) {
-            return this.__updateWithFunction(modelKey,inputDyn, {activate: !!checked});
+            return this._updateWithFunction(inputDyn, {activate: !!checked});
         } else {
-            return this.__updateWithSetValue(modelKey,!!checked, inputDyn);
+            return this._updateWithSetValue(!!checked, inputDyn);
         }
     }
 
@@ -342,8 +394,8 @@ export default class Controller {
      * @returns {Promise<*>}
      * @private
      */
-    async __updateWithFunction(modelKey,inputDyn, optArgs) {
-        return this.__updateModel(modelKey,inputDyn,
+    async _updateWithFunction(inputDyn, optArgs) {
+        return this._updateModel(inputDyn,
             (parent, key) => {
                 const newKey = key.slice(0, -2);
                 parent[newKey](
@@ -356,19 +408,19 @@ export default class Controller {
         );
     }
 
-    async __updateWithSetValue(modelKey,value, inputDyn, isFunction=false) {
+    async _updateWithSetValue(value, inputDyn, isFunction=false) {
 
         if (isFunction) {
-            return this.__updateWithFunction(modelKey,inputDyn, {value});
+            return this._updateWithFunction(inputDyn, {value});
         } else {
-            return this.__updateModel(modelKey,inputDyn, (parent, key) => parent[key] = value);
+            return this._updateModel(inputDyn, (parent, key) => parent[key] = value);
         }
     }
 
-    async __updateModel(modelKey,inputDyn, func) {
+    async _updateModel(inputDyn, func) {
         const path = inputDyn.at;
-        const model = this.modelForKey(modelKey);
-        traversePath(path, model, func);
-        return this.commit(model);
+        const {previous, lastName} = traversePath(path, this.models);
+        func(previous, lastName);
+        return this.commit();
     }
 }

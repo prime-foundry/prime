@@ -4,11 +4,12 @@ import Controller from "./Controller.js";
 class Dyn {
     managed;
     dataManager;
+    modelName;
 
-    constructor(managed){
+    constructor(managed, modelName){
         this.managed = managed;
         this.dataManager = new DataManager(this.managed);
-        this.controller = new Controller(this.managed);
+        this.modelName = modelName;
     }
 
     /**
@@ -57,9 +58,6 @@ class Dyn {
         return this.dataManager.write(`data.data.${path}`, value);
     }
 
-    get primeControllerKey() {
-        return 'prime';
-    }
 }
 /**
  * @exports PrimeDocument
@@ -67,7 +65,7 @@ class Dyn {
  * @returns {module:PrimeDocument~mixin}
  * @constructor
  */
-const DynDocumentMixin = (FoundryDocumentType) =>
+const DynDocumentMixin = (FoundryDocumentType, modelName='doc') =>
 
     /**
      * @mixin
@@ -77,10 +75,11 @@ const DynDocumentMixin = (FoundryDocumentType) =>
     class extends FoundryDocumentType {
         get dyn() {
             if(this._dyn == null) {
-                this._dyn = new Dyn(this);
+                this._dyn = new Dyn(this, modelName);
             }
             return this._dyn;
         }
+
     };
 
 export default DynDocumentMixin

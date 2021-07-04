@@ -3,8 +3,9 @@ import {ItemCardUI} from "../item/item_card_ui.js";
 import {ItemDragSort} from "../item/item_drag_sort.js";
 import Prime from "../components/Prime.js";
 import PrimeController from "../util/PrimeController.js";
+import DynSheetMixin from "../util/DynSheetMixin.js";
 
-export class PrimeActorSheet extends ActorSheet {
+export class PrimeActorSheet extends DynSheetMixin(ActorSheet) {
     static hooksAdded = false;
     resizeOccuring = false;
     actorSheetMeasureTimer = false;
@@ -53,7 +54,21 @@ export class PrimeActorSheet extends ActorSheet {
 
             return true;
         });
+        /**
+         * @param {Application} app     The Application instance being rendered
+         * @param {jQuery} html         The inner HTML of the document that will be displayed and may be modified
+         * @param {object} data         The object of data used when rendering the application
+         */
+        Hooks.on("renderPrimeActorSheet", (app,html, data) => {
+           app.dyn.controller.control(html);
+        });
     }
+
+    dynModels(){
+        const models = super.dynModels();
+        models.actor = this.actor;
+    }
+
 
 
     getActorData(data = super.getData()) {
@@ -405,7 +420,7 @@ export class PrimeActorSheet extends ActorSheet {
     activateListeners(html) {
         // const sheetHtml = html.find(`#primeactorsheet${this.appId}`)
         super.activateListeners(html);
-        PrimeController.initializeForm(html, this);
+        // PrimeController.initializeForm(html, this);
 
         // Everything below here is only needed if the sheet is editable
         if (!this.options.editable) return;

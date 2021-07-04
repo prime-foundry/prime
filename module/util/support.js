@@ -84,7 +84,7 @@ export function traversePath(path, root, createIfMissing = false) {
     if (previous[lastName] == null) {
         if (createIfMissing) {
             if (lastName.endsWith('[]')) {
-                previous[lastName.slice(-2)] = [];
+                previous[lastName.slice(0, -2)] = [];
             } else {
                 previous[lastName] = {};
             }
@@ -110,6 +110,40 @@ export function traverseAndSet(path, root, value, createIfMissing = true) {
     return lastValue;
 }
 
+export function datasetToObject(htmlElement, key = undefined) {
+    const data = {};
+    if (htmlElement && htmlElement.attributes) {
+        const isDataRegex = /^data-/;
+        Array.from(htmlElement.attributes)
+            .filter(attr => isDataRegex.test(attr.name))
+            .forEach((attr) => {
+                const paths = attr.name.split('-');
+                const lastIdx = paths.length - 1;
+                let node = data;
+                // we ignore the first 'data' and the last value.
+                for (let idx = 1; idx < lastIdx; idx += 1) {
+                    const name = paths[idx];
+                    if (node[name] == null) {
+                        node[name] = {};
+                    }
+                    node = node[name];
+                }
+                node[paths[lastIdx]] = attr.value;
+            });
+
+    }
+    if(key == null) {
+        return data;
+    }
+    return data[key] || {};
+}
+
+export function sanitizeView(view){
+    if(view['jquery']){
+        return view.get();
+    }
+    return view;
+}
 /**
  * class MyClass extends mix(SuperClass).with(Mixin1, Mixin2);
  *
