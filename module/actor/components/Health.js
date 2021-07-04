@@ -312,7 +312,7 @@ class Resilience extends PointsBase {
 
     get bonus() {
         // TODO Move
-        return this._actor.getStatBonusesFromItems("mind.health.resilience");
+        return this.document.getStatBonusesFromItems("mind.health.resilience");
     }
 
     /**

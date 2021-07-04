@@ -95,12 +95,6 @@ export class PrimeActor extends DynDocumentMixin(Actor, 'actor')
 	}
 
 
-	/**
-	 * @returns {PrimeActor}
-	 */
-	get _actor() {
-		return super._document;
-	}
 
 	get _actorData() {
 		if (this.__actorData == null) {
@@ -130,18 +124,14 @@ export class PrimeActor extends DynDocumentMixin(Actor, 'actor')
 			.filter((user) => !!user && !user.isGM);
 	}
 
-	get _items() {
-		return this._actor.items || new Map();
-	}
-
 	_getItemsByType(type) {
-		return  this._items.filter((item) => {
+		return  this.items.filter((item) => {
 			return type === item.type;
 		});
 	}
 
 	_getItemBySourceKey(key) {
-		return this._items.find((item) => key === item.data.sourceKey);
+		return this.items.find((item) => key === item.data.sourceKey);
 	}
 	/**
 	 * Is this actor a character
