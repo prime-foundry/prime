@@ -145,6 +145,7 @@
 	"ITEM.TypeAction" : "Action",
 	"ITEM.TypePrime" : "Prime",
 	"ITEM.TypeRefinement" : "Refinement",
+	"ITEM.TypeInjury" : "Injury",
 	
 	"PRIME.weapons_ranges" : "Weapon ranges",
 	"PRIME.weapons_ranges_point_blank" : "Point blank",
@@ -357,7 +358,6 @@
 	"PRIME.actor_mental_condition_title_scared" : "Scared",
 	"PRIME.actor_mental_condition_description_scared" : "Boo!",
 
-
 	"PRIME.action_type_major_title": "Major",
 	"PRIME.action_type_major_description": "Only one major action per tick",
 	"PRIME.action_type_minor_title": "Minor",
@@ -376,5 +376,8 @@
 	"PRIME.action_effect_type_ranged_block": "Block - Ranged",
 	"PRIME.action_effect_type_magic": "Magic",
 	"PRIME.action_effect_type_gain_points": "Points adjustment",
-	"PRIME.action_effect_type_misc": "Miscellaneous"
+	"PRIME.action_effect_type_misc": "Miscellaneous",
+
+	"PRIME.injury_type_wound": "Wound",
+	"PRIME.injury_type_insanity": "Insanity"
 }

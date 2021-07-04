@@ -74,6 +74,10 @@ export class PrimeItemSheet extends ItemSheet
 			case "item":
 			case "prime":
 			case "refinement":
+			case "injury":
+				data.untendedEffects = this.getEffectsRenderableData("untendedEffect");
+				data.tendedEffects = this.getEffectsRenderableData("tendedEffect");
+				data.permanentEffects = this.getEffectsRenderableData("permanentEffect");
 			break;
 			case "melee-weapon":
 			case "shield":
@@ -200,6 +204,9 @@ export class PrimeItemSheet extends ItemSheet
 		switch (targetEffectType)
 		{
 			case "bonus":
+			case "untendedEffect":
+			case "tendedEffect":
+			case "permanentEffect":
 				var renderableData = this.getRenderableBonusDataFromEffect(whatEffect, matchingEffectsCount)
 			break;
 			case "prerequisite":
@@ -233,7 +240,7 @@ export class PrimeItemSheet extends ItemSheet
 			path: whatEffect.data.flags.path,
 			value: whatEffect.data.flags.value,
 			actualCount: matchingEffectsCount
-		}
+		};
 
 		return renderableEffectData;
 	}
@@ -611,7 +618,8 @@ export class PrimeItemSheet extends ItemSheet
 		const effectID = formElement.data("effect-id");
 		const flagKey = formElement.data("effect-flag-key");
 
-		const updateData = {flags:{}};
+		var effectToUpdate = await this.item.effects.get(effectID);
+		const updateData = {flags:{}, _id:effectToUpdate._id};
 		updateData.flags[flagKey] = formElement.val();
 
 		// If we've changed effect subtype, reset the data path as it will be meaningless.
@@ -620,8 +628,9 @@ export class PrimeItemSheet extends ItemSheet
 			updateData.flags.path = "";
 		}
 
-		var effectToUpdate = await this.item.effects.get(effectID);
-		var result = await effectToUpdate.update(updateData);
+		//var result = await effectToUpdate.update(updateData);
+
+		const result = await this.item.updateEmbeddedDocuments("ActiveEffect", [updateData]);
 
 		console.log("Perk update result: ", result);
 	}
@@ -645,8 +654,11 @@ export class PrimeItemSheet extends ItemSheet
 
 		var effectData = this.getBlankEffectByType(effectType);
 
-		var result = await ActiveEffect.create(effectData, this.item).create();
-		console.log("Created? Result: ", result);
+		const result = this.item.createEmbeddedDocuments("ActiveEffect", [effectData]);
+
+		//var newActiveEffect = await ActiveEffect.create(effectData, this.item);
+		//var endResult = newActiveEffect.create();
+		//console.log("Created? Result: ", endResult);
 	}
 
 	getBlankEffectByType(effectType)
@@ -659,12 +671,17 @@ export class PrimeItemSheet extends ItemSheet
 			{
 				"effectType": effectType,
 				"value": 0,
-			}
-		}
+			},
+			changes: [],
+		};
 
 		switch (effectType)
 		{
 			case "bonus":
+			case "effect":
+			case "untendedEffect":
+			case "tendedEffect":
+			case "permanentEffect":
 				baseEffectData.label = "Effect";
 				baseEffectData.flags.effectSubType = "situationalPrime";
 				baseEffectData.flags.path = "end";
