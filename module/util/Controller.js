@@ -42,26 +42,8 @@ export default class Controller {
     }
 
     control(view) {
-        try {
-            const theView = sanitizeView(view);
-            this._support.fixIds(theView);
-            this._support.hideShowElements(theView);
-            this._support.disableEnableElements(theView);
-            this._support.preselectValues(theView);
-            // we take advantage of lambdas, to sidestep problems with 'this' changing.
-            const onClick = this._support.clickListener(this);
-            const onChange = this._support.changeListener(this);
-
-            Object.values(this.models).forEach((model) => {
-                this._support.attachListener(theView, model, 'click', "*", onClick);
-                this._support.attachListener(theView, model, 'dblclick', "*", onClick);
-                this._support.attachListener(theView, model, 'change', "input", onChange);
-                this._support.attachListener(theView, model, 'change', "select", onChange);
-                //TODO: textarea
-            });
-        } catch (err) {
-            console.error('unable to bind view', err);
-        }
+        const theView = sanitizeView(view);
+        this._support.control(theView);
     }
 }
 
@@ -89,6 +71,29 @@ class ControllerSupport {
 
     get uid() {
         return this.controller.uid;
+    }
+
+
+    control(view) {
+        try {
+            this.fixIds(view);
+            this.hideShowElements(view);
+            this.disableEnableElements(view);
+            this.preselectValues(view);
+            // we take advantage of lambdas, to sidestep problems with 'this' changing.
+            const onClick = this.clickListener(this);
+            const onChange = this.changeListener(this);
+
+            Object.values(this.models).forEach((model) => {
+                this.attachListener(view, model, 'click', "*", onClick);
+                this.attachListener(view, model, 'dblclick', "*", onClick);
+                this.attachListener(view, model, 'change', "input", onChange);
+                this.attachListener(view, model, 'change', "select", onChange);
+                //TODO: textarea
+            });
+        } catch (err) {
+            console.error('unable to bind view', err);
+        }
     }
 
     /**
@@ -138,26 +143,28 @@ class ControllerSupport {
         const attribute = `${this.dataKey}-${eventType}-at`;
         const selector = `:scope ${cssElement}[${attribute}]`;
         const elements = view.querySelectorAll(selector);
+        const controller = this.controller;
         elements.forEach(element => {
             const path = element.getAttribute(attribute)
-            const {previous, lastName} = traversePath(path, this.models);
+            const {previous:component, lastName:at} = traversePath(path, this.models);
             // this is typically the owning parent, not the function itself.
-            element.addEventListener(eventType, listener.bind({controller: this, model, component: previous, at: lastName}), {capture: true});
+            element.addEventListener(eventType, listener.bind({controller, model, component, at}), {capture: true});
         }, this);
     }
 
 
-    async changeListener(controller) {
+    changeListener(controller) {
         return (event) => {
             event.preventDefault();
             event.stopPropagation();
             const element = event.delegateTarget || event.target;
-            const inputDyn = this.inputDyn(element);
+            const inputDynCommon = this.inputDyn(element);
+            const inputDyn = {...inputDynCommon, ...(inputDynCommon[event.type] || {})};
             return controller.onChangeInput(element, inputDyn);
         };
     }
 
-    async clickListener(controller) {
+    clickListener(controller) {
         return (event) => {
             event.preventDefault();
             event.stopPropagation();
@@ -178,12 +185,8 @@ class ControllerSupport {
              */
             const inputDynCommon = {...inputDynTarget, ...inputDynClicked};
             const inputDyn = {...inputDynCommon, ...(inputDynCommon[event.type] || {})};
-            const isFunction = inputDyn.at.endsWith('()');
-            if (isFunction) {
-                return controller._updateWithFunction(inputDyn, {eventType: event.type});
-            } else {
-                return controller._onChangeValue(inputDyn.value, inputDyn);
-            }
+
+            return controller.onChangeValue(inputDyn.value, inputDyn);
         };
     }
 
@@ -317,11 +320,6 @@ class ControllerSupport {
         });
     }
 
-    async commit(model) {
-        Object.values(this.models).forEach((model) => {
-            return model.dyn.dataManager.commit();
-        })
-    }
 
 
     async onChangeInput(element, inputDyn) {
@@ -389,6 +387,16 @@ class ControllerSupport {
         } else {
             previous[lastName] = args[setParameter];
         }
-        return this.commit();
+        return this._commit();
+    }
+
+
+    async _commit(model) {
+        Object.values(this.models).forEach((model) => {
+            // sheets don't have data managers (for now)
+            if(model && model.dyn && model.dyn.dataManager){
+                return model.dyn.dataManager.commit();
+            }
+        })
     }
 }

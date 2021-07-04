@@ -63,8 +63,7 @@ export default class DataManager {
             if(context.render == null){
                 context.render = false;
             }
-            const editObject = editObject;
-            await document.update(editObject, context);
+            await document.update(editObject.data, context);
         }
     }
 }

@@ -80,21 +80,21 @@ export function traversePath(path, root, createIfMissing = false) {
         }
         previous = previous[previousName];
     }
-    const lastName = parts[lastIdx];
-    const isArray = lastName.endsWith('[]');
-    const isFunction = lastName.endsWith('()');
-    const noBracketsLastName = (isArray || isFunction) ? lastName.slice(0, -2) : lastName;
-    if (previous[noBracketsLastName] == null) {
+    const untransformedLastName = parts[lastIdx];
+    const isArray = untransformedLastName.endsWith('[]');
+    const isFunction = untransformedLastName.endsWith('()');
+    const lastName = (isArray || isFunction) ? untransformedLastName.slice(0, -2) : untransformedLastName;
+    if (previous[lastName] == null) {
         if (createIfMissing) {
             if (isArray) {
-                previous[noBracketsLastName] = [];
+                previous[lastName] = [];
             } if (isFunction) {
-                previous[noBracketsLastName] = () => {};
+                previous[lastName] = () => {};
             } else {
                 previous[lastName] = {};
             }
         } else {
-            throw new DynError(`Undefined last element '${lastName}' at ${lastIdx} whilst traversing path: '${path}'`);
+            throw new DynError(`Undefined last element '${untransformedLastName}' at ${lastIdx} whilst traversing path: '${path}'`);
         }
     }
     return {previous, lastName, isArray, isFunction};
