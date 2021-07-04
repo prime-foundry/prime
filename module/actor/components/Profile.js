@@ -1,6 +1,6 @@
-import ActorComponent from './util/ActorComponent.js';
+import Component from "../../util/Component.js";
 
-export default class Profile extends ActorComponent {
+export default class Profile extends Component {
 
     constructor(parent) {
         super(parent);

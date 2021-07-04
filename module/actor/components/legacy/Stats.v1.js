@@ -1,7 +1,7 @@
-import ActorComponent from "../util/ActorComponent.js";
+import Component from "../../../util/Component.js";
 
 // TODO: Migrate: version 1 managements of stats, moved to a separate file, for easy removal once migrated..
-class Stat_V1 extends ActorComponent {
+class Stat_V1 extends Component {
 
     constructor(parent, statData) {
         super(parent);

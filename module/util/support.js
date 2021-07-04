@@ -1,5 +1,5 @@
 /**
- * Lazily loads an ActorComponent on request. This keeps our object model small, as we only generate instances we need.
+ * Lazily loads a Component on request. This keeps our object model small, as we only generate instances we need.
  * We use the property descriptors of Object to keep the fields private.
  * @example <caption>equivalent to the following: when provided a *name* and a *Type* </caption
  * if(!this._name) {

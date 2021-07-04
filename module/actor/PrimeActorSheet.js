@@ -1,8 +1,6 @@
 import {PrimeTables} from "../prime_tables.js";
 import {ItemCardUI} from "../item/item_card_ui.js";
 import {ItemDragSort} from "../item/item_drag_sort.js";
-import Prime from "../components/Prime.js";
-import PrimeController from "../util/PrimeController.js";
 import DynSheetMixin from "../util/DynSheetMixin.js";
 
 export class PrimeActorSheet extends DynSheetMixin(ActorSheet) {
@@ -99,19 +97,12 @@ export class PrimeActorSheet extends DynSheetMixin(ActorSheet) {
         return false;
     }
 
-    getPrimeController(){
-        if(!this._primeController){
-            this._primeController = new PrimeController(this);
-        }
-        return this._primeController;
-    }
-
     /** @override */
     getData(options) {
         // because we don't want an infinite loop, we ensure we use only the super data, to fetch actor data and properties.
         const data = super.getData(options);
         const actorProperties = this.getActorProperties(data);
-        data.prime = new Prime({actor:this.actor}, this, data);
+        // data.prime = new Prime({actor:this.actor}, this, data);
 
         data.dtypes = ["String", "Number", "Boolean"];
 
