@@ -1,6 +1,6 @@
 <div class="{{partialClasses}} flexColumn healthAndArmourOuter">
 
-    {{#with prime.actor.health}}
+    {{#with actor.health}}
     <div class="flexRow flexEnd block topHalfBlock">
         <div class="blockTitle">Health</div>
         <div class="cell25 flexColumn flexCenter">
@@ -13,8 +13,8 @@
             <label for="actor.health.resilience" class="shrinkFontForNarrow">Resilience</label>
             <div class="metaValueContent flexRow healthResilienceWrapper">
                 <input type="text" class="bigNumberInput" id="actor.health.resilience" value="{{resilience.value}}"
-                       data-prime-at="actor.health.resilience"
-                       data-prime.type="number"/>
+                       data-dyn-at="actor.health.resilience"
+                       data-dyn-type="number"/>
                 <span class="healthMaxResilience">Max: {{resilience.max}}</span>
             </div>
         </div>
@@ -25,7 +25,7 @@
     </div>
     <div class="injuriesBlock block leftBlockTitle flexColumn">
         <div class="blockTitle"
-             data-prime-click-at="actor.health.wounds.sort()"><span>Wounds</span></div>
+             data-dyn-click-at="actor.health.wounds.sort()"><span>Wounds</span></div>
 
         {{#range 0 wounds.slots 1 true}}
         <div class="flexRow injuryRow">
@@ -34,17 +34,17 @@
                        id="injuryCheckbox-{{this}}"
                        name="injuryCheckboxes"
                        class="injuryCheckbox"
-                       data-prime-at="actor.health.wounds.aggravateOrAlleviate()"
-                       data-prime-value="{{this}}"
-                       data-prime-index="{{this}}"
-                       data-prime-select-on="actor.health.wounds.isUntended()"/>
+                       data-dyn-at="actor.health.wounds.aggravateOrAlleviate()"
+                       data-dyn-value="{{this}}"
+                       data-dyn-index="{{this}}"
+                       data-dyn-select-on="actor.health.wounds.isUntended()"/>
                 <label for="injuryCheckbox-{{this}}" class="flexRow flexCenter verticalCenter">{{this}}</label>
             </div>
             <select name="injurySelect{{this}}" class="injurySelect"
-                    data-prime-change-at="actor.health.wounds.injure()"
-                    data-prime-select-on="actor.health.wounds.injuryDetail()"
-                    data-prime-disable-on="actor.health.wounds.isTended()"
-                    data-prime-index="{{this}}">
+                    data-dyn-change-at="actor.health.wounds.injure()"
+                    data-dyn-select-on="actor.health.wounds.injuryDetail()"
+                    data-dyn-disable-on="actor.health.wounds.isTended()"
+                    data-dyn-index="{{this}}">
             <option value=""></option>
             {{#each ../../actorTables.woundConditions}}
             <option value="{{this.key}}">{{this.title}}</option>
@@ -52,9 +52,9 @@
             </select>
             <div class="medkitIcon flexRow flexEnd verticalCenter">
                 <a class="healInjury" title="Heal this injury"
-                   data-prime-click-at="actor.health.wounds.cure()"
-                   data-prime-hidden-on="actor.health.wounds.isHealthy()"
-                   data-prime-index="{{this}}">
+                   data-dyn-click-at="actor.health.wounds.cure()"
+                   data-dyn-hidden-on="actor.health.wounds.isHealthy()"
+                   data-dyn-index="{{this}}">
                     <i class="fas fa-medkit"></i>
                 </a>
             </div>

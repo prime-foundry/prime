@@ -1,15 +1,15 @@
 <div class="{{partialClasses}} actionPoints block flexColumn">
-    {{#with prime.actor}}
+    {{#with actor}}
     <div class="blockTitle"><span>Action points</span></div>
     <div class="metaValueContent actionPointsWrapper flexGrow">
         {{#range 0 actionPoints.max 1 false}}
         <div class='actionPointWrapper{{addStateClasses this ../actionPoints}}'>
             <input id="actionPoint-{{this}}" class="actionPointCheckbox" type="checkbox"
                    name="actionPoints"
-                   data-prime-at="actor.actionPoints"
-                   data-prime-type="counter"
-                   data-prime-value="{{this}}"
-                   data-prime-current="{{../actionPoints.value}}"/>
+                   data-dyn-at="actor.actionPoints"
+                   data-dyn-type="counter"
+                   data-dyn-value="{{this}}"
+                   data-dyn-current="{{../actionPoints.value}}"/>
             <label for="actionPoint-{{this}}">{{this}}</label>
         </div>
         {{/range}}

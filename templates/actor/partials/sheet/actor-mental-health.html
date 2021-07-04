@@ -1,14 +1,14 @@
 <div class="{{partialClasses}} flexColumn mindAndProtectionsOuter">
 
-    {{#with prime.actor.health}}
+    {{#with actor.health}}
     <div class="flexRow flexStart block topHalfBlock">
         <div class="blockTitle">Mind</div>
         <div class="cell25 flexColumn intellectBlock">
             <label for="actor.health.psyche" class="shrinkFontForNarrow">Psyche</label>
             <div class="metaValueContent flexRow flexEnd mindIntellectWrapper">
                 <input type="text" class="bigNumberInput" id="actor.health.psyche" value="{{psyche.value}}"
-                       data-prime-at="actor.health.psyche"
-                       data-prime.type="number"/>
+                       data-dyn-at="actor.health.psyche"
+                       data-dyn-type="number"/>
                 <span class="mindMaxIntellect">Max: {{psyche.max}}</span>
             </div>
         </div>
@@ -26,22 +26,22 @@
 
     <div class="insanitiesBlock block rightBlockTitle flexColumn">
         <div class="blockTitle"
-             data-prime-click-at="actor.health.insanities.sort()"><span>Insanities</span></div>
+             data-dyn-click-at="actor.health.insanities.sort()"><span>Insanities</span></div>
 
         {{#range 0 insanities.slots 1 true}}
         <div class="flexRow insanityRow">
             <div class="couchIcon flexRow flexStart verticalCenter">
                 <a class="healInsanity" title="Heal this insanity"
-                   data-prime-hidden-on="actor.health.insanities.isHealthy()"
-                   data-prime-click-at="actor.health.insanities.cure()"
-                   data-prime-index="{{this}}">
+                   data-dyn-hidden-on="actor.health.insanities.isHealthy()"
+                   data-dyn-click-at="actor.health.insanities.cure()"
+                   data-dyn-index="{{this}}">
                     <i class="fas fa-couch"></i>
                 </a></div>
             <select name="insanitySelect{{this}}" class="insanitySelect"
-                    data-prime-change-at="actor.health.insanities.injure()"
-                    data-prime-select-on="actor.health.insanities.injuryDetail()"
-                    data-prime-disable-on="actor.health.insanities.isTended()"
-                    data-prime-index="{{this}}">
+                    data-dyn-change-at="actor.health.insanities.injure()"
+                    data-dyn-select-on="actor.health.insanities.injuryDetail()"
+                    data-dyn-disable-on="actor.health.insanities.isTended()"
+                    data-dyn-index="{{this}}">
                 <option value=""></option>
 				{{#each ../../actorTables.mentalConditions}}
 				<option value="{{this.key}}">{{this.title}}</option>
@@ -52,10 +52,10 @@
                        id="insanityCheckbox-{{this}}"
                        name="insanityCheckboxes"
                        class="insanityCheckbox"
-                       data-prime-at="actor.health.insanities.aggravateOrAlleviate()"
-                       data-prime-value="{{this}}"
-                       data-prime-index="{{this}}"
-                       data-prime-select-on="actor.health.insanities.isUntended()"/>
+                       data-dyn-at="actor.health.insanities.aggravateOrAlleviate()"
+                       data-dyn-value="{{this}}"
+                       data-dyn-index="{{this}}"
+                       data-dyn-select-on="actor.health.insanities.isUntended()"/>
                 <label for="insanityCheckbox-{{this}}" class="flexRow flexCenter verticalCenter">{{this}}</label>
             </div>
         </div>
