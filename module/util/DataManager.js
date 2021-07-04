@@ -1,5 +1,23 @@
-import {traverseAndSet} from "./support.js";
-
+import {traversePath} from "./support.js";
+function fixArrays(viewParts, editParts, viewObj, editObj) {
+    viewParts.forEach(({object: viewArray, isArray}, idx) => {
+        if (isArray) {
+            const {object: editArray} = editParts[idx];
+            viewArray.forEach((value, index) => {
+                if (editArray[index] == null) {
+                    editArray[index] = value;
+                }
+            });
+        }
+    });
+    if (Array.isArray(viewObj)) {
+        viewObj.forEach((value, index) => {
+            if (editObj[index] == null) {
+                editObj[index] = value;
+            }
+        });
+    }
+}
 export default class DataManager {
     document;
     embeddedDataManagers;
@@ -24,10 +42,17 @@ export default class DataManager {
      */
     write(path, value){
         // write to the read.
-        const lastValue = traverseAndSet(path, this.document, value);
+        const {object:viewObj, property:viewProperty, parts:viewParts} = traversePath(path, this.document, true, true);
+        const lastValue = viewObj[viewProperty];
+
         if(lastValue !== value){
-            // write to the write
-            traverseAndSet(path, this.editObject, value);
+            viewObj[viewProperty] = value;
+
+            const {object:editObj, property:editProperty, parts:editParts} = traversePath(path, this.editObject, true, true);
+            // copy over missing information to the edited array, as foundry can't diff arrays properly.
+            fixArrays(viewParts, editParts, viewObj, editObj);
+            editObj[editProperty] = value;
+
             this.dirty = true;
         }
         return lastValue;
@@ -86,6 +111,6 @@ export default class DataManager {
  * @property {boolean} [renderSheet=false]    Automatically create and render the Document sheet when the Document is first created.
  * @property {boolean} [diff=true]            Difference each update object against current Document data to reduce the size of the transferred data. Only used during update.
  * @property {boolean} [recursive=true]       Merge objects recursively. If false, inner objects will be replaced explicitly. Use with caution!
- * @property {boolean} [isUndo]               Is the operation undoing a previous operation, only used by embedded Documents within a Scene
+ * @property {boolean} [isUndo]               Is the operation undoing a object operation, only used by embedded Documents within a Scene
  * @property {boolean} [deleteAll]            Whether to delete all documents of a given type, regardless of the array of ids provided. Only used during a delete operation.
  */

@@ -58,46 +58,58 @@ export function calculateValueOnce(target, name, func) {
  * @param {string} path - the dot seperated path to an object
  * @param {{}} root - the root object to traverse.
  * @param {boolean} (createIfMissing=false) - fills in missing fields, if set to true; or throws an error if set to false, defaults to false.
- * @returns {{previous: {}, lastName: string}}
+ * @returns {{object: {}, property: string}}
  */
-export function traversePath(path, root, createIfMissing = false) {
-    const parts = path.split('.');
-    const lastIdx = parts.length - 1;
-    let previous = root; // this is the prime access, can be the current user or the actor.
-
+export function traversePath(path, root, createIfMissing = false, collectParts = false) {
+    const pathParts = path.split('.');
+    const lastIdx = pathParts.length - 1;
+    let object = root; // this is the prime access, can be the current user or the actor.
+    const parts = collectParts ? [] : undefined;
     const numbers = /^\d+$/;
     for (let idx = 0; idx < lastIdx; idx++) {
-        let previousName = parts[idx];
-        if (numbers.test(parts[idx]) && Array.isArray(previous)) {
-            previousName = Number.parseInt(previousName);
+        let property = pathParts[idx];
+        let isArray = false;
+        if(Array.isArray(object)) {
+            if (numbers.test(pathParts[idx])) {
+                property = Number.parseInt(property);
+            }
+            isArray = true;
         }
-        if (previous[previousName] == null) {
+        if (object[property] == null) {
             if (createIfMissing) {
-                previous[previousName] = numbers.test(parts[idx + 1]) ? [] : {};
+                object[property] = numbers.test(pathParts[idx + 1]) ? [] : {};
             } else {
-                throw `Undefined path element '${previousName}' at ${idx} whilst traversing path: '${path}'`;
+                throw `Undefined path element '${property}' at ${idx} whilst traversing path: '${path}'`;
             }
         }
-        previous = previous[previousName];
+        if(collectParts){
+            parts.push({object, property, isArray});
+        }
+        object = object[property];
     }
-    const untransformedLastName = parts[lastIdx];
+    const untransformedLastName = pathParts[lastIdx];
     const isArray = untransformedLastName.endsWith('[]');
     const isFunction = untransformedLastName.endsWith('()');
-    const lastName = (isArray || isFunction) ? untransformedLastName.slice(0, -2) : untransformedLastName;
-    if (previous[lastName] == null) {
+    const property = (isArray || isFunction) ? untransformedLastName.slice(0, -2) : untransformedLastName;
+    if (object[property] == null) {
         if (createIfMissing) {
+            let missing;
             if (isArray) {
-                previous[lastName] = [];
-            } if (isFunction) {
-                previous[lastName] = () => {};
+                missing = [];
+            } else if (isFunction) {
+                missing = () => {};
             } else {
-                previous[lastName] = {};
+                missing = {};
             }
+            object[property] = missing;
         } else {
             throw new DynError(`Undefined last element '${untransformedLastName}' at ${lastIdx} whilst traversing path: '${path}'`);
         }
     }
-    return {previous, lastName, isArray, isFunction};
+    if(collectParts){
+        return {object, property, isArray, isFunction, parts};
+    }
+    return {object, property, isArray, isFunction};
 }
 
 export class DynError extends Error {
@@ -105,21 +117,6 @@ export class DynError extends Error {
         super(message);
         this.name = 'DynError';
     }
-}
-
-/**
- * @param {string} path - the dot seperated path to an object
- * @param {{}} root - the root object to traverse.
- * @param {*} (value) - the rvalue object to set.
- * @param {boolean} (createIfMissing=true) - fills in missing fields, if set to true; or throws an error if set to false, unlike traversePath this
- * defaults to true.
- * @returns {*} the lastValue
- */
-export function traverseAndSet(path, root, value, createIfMissing = true) {
-    const {previous, lastName} = traversePath(path, root, createIfMissing);
-    const lastValue = previous[lastName];
-    previous[lastName] = value;
-    return lastValue;
 }
 
 export function datasetToObject(htmlElement, key = undefined) {

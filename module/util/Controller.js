@@ -146,9 +146,9 @@ class ControllerSupport {
         const controller = this.controller;
         elements.forEach(element => {
             const path = element.getAttribute(attribute)
-            const {previous:component, lastName:at} = traversePath(path, this.models);
+            const {object, property} = traversePath(path, this.models);
             // this is typically the owning parent, not the function itself.
-            element.addEventListener(eventType, listener.bind({controller, model, component, at}), {capture: true});
+            element.addEventListener(eventType, listener.bind({controller, model, object, property}), {capture: true});
         }, this);
     }
 
@@ -212,11 +212,11 @@ class ControllerSupport {
     }
 
     getModelValue(path, inputDyn) {
-        const {previous: obj, lastName: key, isFunction} = traversePath(path, this.models);
+        const {object, property, isFunction} = traversePath(path, this.models);
         if (isFunction) {
-            return obj[key](inputDyn);
+            return object[property](inputDyn);
         } else {
-            return obj[key];
+            return object[property];
         }
     }
 
@@ -381,11 +381,11 @@ class ControllerSupport {
 
     async _update(inputDyn, args = {}, setParameter = 'value') {
         const path = inputDyn.at;
-        const {previous, lastName, isFunction} = traversePath(path, this.models);
+        const {object, property, isFunction} = traversePath(path, this.models);
         if (isFunction) {
-            previous[lastName]({...inputDyn, ...args});
+            object[property]({...inputDyn, ...args});
         } else {
-            previous[lastName] = args[setParameter];
+            object[property] = args[setParameter];
         }
         return this._commit();
     }
@@ -395,7 +395,7 @@ class ControllerSupport {
         Object.values(this.models).forEach((model) => {
             // sheets don't have data managers (for now)
             if(model && model.dyn && model.dyn.dataManager){
-                return model.dyn.dataManager.commit();
+                return model.dyn.dataManager.commit({render:true});
             }
         })
     }
