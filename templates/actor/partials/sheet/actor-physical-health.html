@@ -34,16 +34,16 @@
                        id="injuryCheckbox-{{this}}"
                        name="injuryCheckboxes"
                        class="injuryCheckbox"
-                       data-dyn-at="actor.health.wounds.aggravateOrAlleviate()"
+                       data-dyn-change-at="actor.health.wounds.aggravateOrAlleviate()"
                        data-dyn-value="{{this}}"
                        data-dyn-index="{{this}}"
-                       data-dyn-select-on="actor.health.wounds.isUntended()"/>
+                       data-dyn-select="actor.health.wounds.isUntended()"/>
                 <label for="injuryCheckbox-{{this}}" class="flexRow flexCenter verticalCenter">{{this}}</label>
             </div>
             <select name="injurySelect{{this}}" class="injurySelect"
                     data-dyn-change-at="actor.health.wounds.injure()"
-                    data-dyn-select-on="actor.health.wounds.injuryDetail()"
-                    data-dyn-disable-on="actor.health.wounds.isTended()"
+                    data-dyn-select="actor.health.wounds.injuryDetail()"
+                    data-dyn-disable="actor.health.wounds.isTended()"
                     data-dyn-index="{{this}}">
             <option value=""></option>
             {{#each ../../actorTables.woundConditions}}
@@ -53,7 +53,7 @@
             <div class="medkitIcon flexRow flexEnd verticalCenter">
                 <a class="healInjury" title="Heal this injury"
                    data-dyn-click-at="actor.health.wounds.cure()"
-                   data-dyn-hidden-on="actor.health.wounds.isHealthy()"
+                   data-dyn-hide="actor.health.wounds.isHealthy()"
                    data-dyn-index="{{this}}">
                     <i class="fas fa-medkit"></i>
                 </a>
