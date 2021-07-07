@@ -69,7 +69,6 @@ export default class Profile extends Component {
         this.writeToMetadata('occupation',occupation);
     }
 
-
     get celestial() {
         return this.metadata.celestial;
     }

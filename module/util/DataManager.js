@@ -84,7 +84,7 @@ export default class DataManager {
         for(const embedded of embeddedDataManagers) {
             embedded.commit(context);
         }
-        if(dirty){
+        if(dirty) {
             if(context.render == null){
                 context.render = false;
             }

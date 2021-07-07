@@ -1,12 +1,11 @@
 import DataManager from "./DataManager.js";
-import Controller from "./Controller.js";
 
 class Dyn {
     managed;
     dataManager;
     modelName;
 
-    constructor(managed, modelName){
+    constructor(managed, modelName) {
         this.managed = managed;
         this.dataManager = new DataManager(this.managed);
         this.modelName = modelName;
@@ -19,7 +18,7 @@ class Dyn {
      * @see ActorData.defineSchema()
      * @returns {typeof foundry.abstract.DocumentData}
      */
-    get content(){
+    get content() {
         return this.managed.data;
     }
 

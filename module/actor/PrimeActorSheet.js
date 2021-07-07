@@ -57,6 +57,7 @@ export class PrimeActorSheet extends DynSheetMixin(ActorSheet) {
     get dynModels() {
         const models = super.dynModels;
         models.actor = this.actor;
+        models.sheet = this;
         return models;
     }
 

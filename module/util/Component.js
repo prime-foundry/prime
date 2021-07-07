@@ -32,7 +32,6 @@ export default class Component {
         return this.dyn.content;
     }
 
-
     /**
      * system data is the freeform add whatever you want to data, it is generally based on the template set for the system.
      * Because it is defined by the schema, is not guaranteed to be there, however I can't see any document that doesn't use it,
