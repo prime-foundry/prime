@@ -4,6 +4,7 @@
  * @returns {{}}
  */
 import {traversePath, datasetToObject, sanitizeView} from "./support.js";
+import {attachEditor} from "./DynEditor.js";
 
 let UID = 0;
 
@@ -73,6 +74,27 @@ class ControllerSupport {
         return this.controller.uid;
     }
 
+    inputDyn(element) {
+        const inputDyn = datasetToObject(element, this.dynKey);
+        const newIndex = Number.parseInt(inputDyn.index);
+        if (!Number.isNaN(newIndex)) {
+            inputDyn.index = newIndex;
+        }
+        if (inputDyn.type === 'number' || inputDyn.type === 'counter') {
+            const newValue = Number.parseInt(inputDyn.value);
+            if (!Number.isNaN(newValue)) {
+                inputDyn.value = newValue;
+            }
+        }
+        if (inputDyn.type === 'counter') {
+            const newCurrent = Number.parseInt(inputDyn.current);
+            if (!Number.isNaN(newCurrent)) {
+                inputDyn.current = newCurrent;
+            }
+        }
+        return inputDyn;
+    }
+
 
     control(view) {
         try {
@@ -80,6 +102,7 @@ class ControllerSupport {
             this.hideShowElements(view);
             this.disableEnableElements(view);
             this.preselectValues(view);
+            this.attachEditors(view);
             // we take advantage of lambdas, to sidestep problems with 'this' changing.
             const onClick = this.clickListener(this);
             const onChange = this.changeListener(this);
@@ -190,27 +213,6 @@ class ControllerSupport {
         };
     }
 
-    inputDyn(element) {
-        const inputDyn = datasetToObject(element, this.dynKey);
-        const newIndex = Number.parseInt(inputDyn.index);
-        if (!Number.isNaN(newIndex)) {
-            inputDyn.index = newIndex;
-        }
-        if (inputDyn.type === 'number' || inputDyn.type === 'counter') {
-            const newValue = Number.parseInt(inputDyn.value);
-            if (!Number.isNaN(newValue)) {
-                inputDyn.value = newValue;
-            }
-        }
-        if (inputDyn.type === 'counter') {
-            const newCurrent = Number.parseInt(inputDyn.current);
-            if (!Number.isNaN(newCurrent)) {
-                inputDyn.current = newCurrent;
-            }
-        }
-        return inputDyn;
-    }
-
     getModelValue(path, inputDyn) {
         const {object, property, isFunction} = traversePath(path, this.models);
         if (isFunction) {
@@ -219,7 +221,23 @@ class ControllerSupport {
             return object[property];
         }
     }
+    /**
+     *
+     * #MARKED_SAFE_FROM_JQUERY
+     * @param view
+     */
+    attachEditors(view) {
+        const elements = view.querySelectorAll(`:scope *[${this.dataKey}-editor]`);
+        elements.forEach(element => {
 
+            if('editorAttached' in element.dataset === false) {
+                const id = element.id || '';
+                element.id = `dyn-editor-${id}-${this.dynKey}-${this.uid}-${random32BitInt()}`;
+                attachEditor(element);
+                element.dataset.dynEditorAttached = 'true';
+            }
+        }, this);
+    }
     /**
      *
      * #MARKED_SAFE_FROM_JQUERY
@@ -232,18 +250,14 @@ class ControllerSupport {
             const hide = inputDyn.hide;
             const show = inputDyn.show;
             if (hide != null) {
-                if (hide === 'true') {
+                if (hide === true) {
                     element.hidden = true;
-                } else if (hide === 'false') {
-                    element.hidden = false;
                 } else {
                     element.hidden = !!this.getModelValue(hide, inputDyn);
                 }
             }
             if (show != null) {
-                if (show === 'false') {
-                    element.hidden = true;
-                } else if (show === 'true') {
+                 if (show === true) {
                     element.hidden = false;
                 } else {
                     element.hidden = !this.getModelValue(show, inputDyn);
@@ -264,18 +278,14 @@ class ControllerSupport {
             const disable = inputDyn.disable;
             const enable = inputDyn.enable;
             if (disable != null) {
-                if (disable === 'true') {
+                if (disable === true) {
                     element.disabled = true;
-                } else if (disable === 'false') {
-                    element.disabled = false;
                 } else {
                     element.disabled = !!this.getModelValue(disable, inputDyn);
                 }
             }
             if (enable != null) {
-                if (enable === 'false') {
-                    element.disabled = true;
-                } else if (enable === 'true') {
+                if (enable === true) {
                     element.disabled = false;
                 } else {
                     element.disabled = !this.getModelValue(enable, inputDyn);
@@ -310,9 +320,7 @@ class ControllerSupport {
         checkboxes.forEach(element => {
             const inputDyn = this.inputDyn(element);
             const select = inputDyn.select;
-            if (select === 'false') {
-                element.checked = false;
-            } else if (select === 'true') {
+            if (select === true) {
                 element.checked = true;
             } else {
                 element.checked = !!this.getModelValue(select, inputDyn);
@@ -387,16 +395,22 @@ class ControllerSupport {
         } else {
             object[property] = args[setParameter];
         }
-        return this._commit();
+        if(!(inputDyn.commit && inputDyn.commit.off)) {
+            const options = inputDyn.render && inputDyn.render.off ? {} : {render:true};
+            return this._commit(options);
+        }
+        return true;
     }
 
 
-    async _commit(model) {
+    async _commit(options) {
+        // default is to not render;
         Object.values(this.models).forEach((model) => {
             // sheets don't have data managers (for now)
             if(model && model.dyn && model.dyn.dataManager){
-                return model.dyn.dataManager.commit({render:true});
+                model.dyn.dataManager.commit(options);
             }
         })
+        return true;
     }
 }

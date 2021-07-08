@@ -134,7 +134,8 @@ export function datasetToObject(htmlElement, key = undefined) {
                     }
                     node = node[name];
                 }
-                node[paths[lastIdx]] = attr.value;
+                // if there is no value, then we presume it to be truthy
+                node[paths[lastIdx]] = attr.value || true;
             });
 
     }
