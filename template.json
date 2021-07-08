@@ -639,14 +639,14 @@
 			"customisable": false
 		},
 
-		"injuries":
+		"injury":
 		{
 			"templates": ["base", "metadata"],
 			"sourceKey": "",
 			"untendedEffects": [],
 			"tendedEffects": [],
 			"permanentEffects": [],
-			"type": "wound"
+			"injuryType": "wound"
 		}
 	},
 	"Tables":

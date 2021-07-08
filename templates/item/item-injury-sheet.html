@@ -7,11 +7,11 @@
 		{{> itemBasic }}
 	</div>
 	<div class="flexRow block noTitle flexCenter verticalCenter">
-		<label for="injuryType" class="resource-label cell30 rightAlign">Type:&nbsp;</label>
-		<select id="injuryType" name="injuryType" class="cell70 effectFormElement">
-			{{#select type}}
-			<option value="{{wound}}">{{localize "PRIME.injury_type_wound"}}</option>
-			<option value="{{insanity}}">{{localize "PRIME.injury_type_insanity"}}</option>
+		<label for="data.injuryType" class="resource-label cell30 rightAlign">Type:&nbsp;</label>
+		<select id="data.injuryType" name="data.injuryType" class="cell70">
+			{{#select data.data.injuryType}}
+			<option value="wound">{{localize "PRIME.injury_type_wound"}}</option>
+			<option value="insanity">{{localize "PRIME.injury_type_insanity"}}</option>
 			{{/select}}
 		</select>
 	</div>

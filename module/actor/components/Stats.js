@@ -3,6 +3,8 @@ import {Prime_V1, Refinement_V1} from "./legacy/Stats.v1.js";
 import {getComponentLazily} from "../../util/support.js";
 import Component from "../../util/Component.js";
 
+import { PrimeItemManager } from "../../item/PrimeItemManager.js";
+
 class Stat extends EmbeddedDocumentComponent {
 
     constructor(parent, item) {
@@ -118,9 +120,17 @@ class Primes extends StatCollection {
             return Object.entries(this.system.primes)
                     .map(statData => new Prime_V1(this, statData));
         }
-        return this.document._getItemsByType('prime')
+
+		let primes = this.document._getItemsByType('prime')
                 .sort((one, two) => one.name.localeCompare(two.name))
                 .map(item => new Prime(this, item));
+
+		if (primes.length == 0)
+		{
+			console.log("Clone dem prime items");
+		}
+
+        return primes;
     }
 }
 
@@ -135,9 +145,17 @@ class Refinements extends StatCollection {
             return  Object.entries(this.system.refinements)
                     .map(statData => new Refinement_V1(this, statData));
         }
-        return this.document._getItemsByType('refinement')
+
+		let refinements = this.document._getItemsByType('refinement')
                 .sort((one, two) => one.name.localeCompare(two.name))
                 .map(item => new Refinement(this, item));
+		
+		if (refinements.length == 0)
+		{
+			console.log("Clone dem refinements items");
+		}
+
+        return refinements;
     }
 }
 
