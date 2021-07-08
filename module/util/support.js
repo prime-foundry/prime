@@ -69,7 +69,7 @@ export function traversePath(path, root, createIfMissing = false, collectParts =
     for (let idx = 0; idx < lastIdx; idx++) {
         let property = pathParts[idx];
         let isArray = false;
-        if(Array.isArray(object)) {
+        if (Array.isArray(object)) {
             if (numbers.test(pathParts[idx])) {
                 property = Number.parseInt(property);
             }
@@ -82,7 +82,7 @@ export function traversePath(path, root, createIfMissing = false, collectParts =
                 throw `Undefined path element '${property}' at ${idx} whilst traversing path: '${path}'`;
             }
         }
-        if(collectParts){
+        if (collectParts) {
             parts.push({object, property, isArray});
         }
         object = object[property];
@@ -91,22 +91,19 @@ export function traversePath(path, root, createIfMissing = false, collectParts =
     const isArray = untransformedLastName.endsWith('[]');
     const isFunction = untransformedLastName.endsWith('()');
     const property = (isArray || isFunction) ? untransformedLastName.slice(0, -2) : untransformedLastName;
-    if (object[property] == null) {
-        if (createIfMissing) {
-            let missing;
-            if (isArray) {
-                missing = [];
-            } else if (isFunction) {
-                missing = () => {};
-            } else {
-                missing = {};
-            }
-            object[property] = missing;
+    if (createIfMissing && object[property] == null) {
+        let missing;
+        if (isArray) {
+            missing = [];
+        } else if (isFunction) {
+            missing = () => {
+            };
         } else {
-            throw new DynError(`Undefined last element '${untransformedLastName}' at ${lastIdx} whilst traversing path: '${path}'`);
+            missing = {};
         }
+        object[property] = missing;
     }
-    if(collectParts){
+    if (collectParts) {
         return {object, property, isArray, isFunction, parts};
     }
     return {object, property, isArray, isFunction};
@@ -141,18 +138,19 @@ export function datasetToObject(htmlElement, key = undefined) {
             });
 
     }
-    if(key == null) {
+    if (key == null) {
         return data;
     }
     return data[key] || {};
 }
 
-export function sanitizeView(view){
-    if(view['jquery']){
+export function sanitizeView(view) {
+    if (view['jquery']) {
         return view.get()[0];
     }
     return view;
 }
+
 /**
  * class MyClass extends mix(SuperClass).with(Mixin1, Mixin2);
  *

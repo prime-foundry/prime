@@ -1,103 +1,120 @@
 <div class="tabContentWrapper">
-	{{#with actor.profile}}
-	<div class="flexRow flexBetween">
-		<div class="cell50 block leftBlockTitle flexColumn flexBetween">
-			<div class="blockTitle"><span>Biographics</span></div>
-			<div class="descriptionItem flexRow verticalCenter">
-				<label class="descriptionLabel cell30" for="profile.race">Race: </label>
-				<div class="valueWrapper cell70">
-					<input id="profile.race" name="prime.actor.profile.race" type="text" value="{{race}}" placeholder="" data-dtype=/>
-					<div class="descriptionValue">{{race}}</div>
-				</div>
-			</div>
-			<div class="descriptionItem flexRow verticalCenter">
-				<label class="descriptionLabel cell30" for="profile.faction">Faction: </label>
-				<div class="valueWrapper cell70">
-					<input id="profile.faction" name="prime.actor.profile.faction" type="text" value="{{faction}}" placeholder=""/>
-					<div class="descriptionValue">{{faction}}</div>
-				</div>
-			</div>
-			<div class="descriptionItem flexRow verticalCenter">
-				<label class="descriptionLabel cell30" for="profile.occupation">Occupation: </label>
-				<div class="valueWrapper cell70">
-					<input id="profile.occupation" name="prime.actor.profile.occupation" type="text" value="{{occupation}}" placeholder=""/>
-					<div class="descriptionValue">{{occupation}}</div>
-				</div>
-			</div>
-			<div class="descriptionItem flexRow verticalCenter">
-				<label class="descriptionLabel cell30" for="profile.celestial">Celestial: </label>
-				<div class="valueWrapper cell70">
-					<input id="profile.celestial" name="prime.actor.profile.celestial" type="text" value="{{celestial}}" placeholder=""/>
-					<div class="descriptionValue">{{celestial}}</div>
-				</div>
-			</div>
-			<div class="descriptionItem flexRow verticalCenter">
-				<label class="descriptionLabel cell30" for="profile.birthplace">Birthplace: </label>
-				<div class="valueWrapper cell70">
-					<input id="profile.birthplace" name="prime.actor.profile.birthplace" type="text" value="{{birthplace}}" placeholder=""/>
-					<div class="descriptionValue">{{birthplace}}</div>
-				</div>
-			</div>
-			<div class="descriptionItem flexRow verticalCenter">
-				<label class="descriptionLabel cell30" for="profile.rankOrTitle">Rank / Title: </label>
-				<div class="valueWrapper cell70">
-					<input id="profile.rankOrTitle" name="prime.actor.profile.rankOrTitle" type="text" value="{{rankOrTitle}}" placeholder=""/>
-					<div class="descriptionValue">{{rankOrTitle}}</div>
-				</div>
-			</div>
-		</div>
+    {{#with actor.profile}}
+    <div class="flexRow flexBetween">
+        <div class="cell50 block leftBlockTitle flexColumn flexBetween">
+            <div class="blockTitle"><span>Biographics</span></div>
+            <div class="descriptionItem flexRow verticalCenter">
+                <label class="descriptionLabel cell30" for="profile.race">Race: </label>
+                <div class="valueWrapper cell70">
+                    <input id="profile.race" name="actor.profile.race" type="text" value="{{race}}" placeholder=""
+                           data-dyn-change-at="actor.profile.race"/>
+                    <div class="descriptionValue">{{race}}</div>
+                </div>
+            </div>
+            <div class="descriptionItem flexRow verticalCenter">
+                <label class="descriptionLabel cell30" for="profile.faction">Faction: </label>
+                <div class="valueWrapper cell70">
+                    <input id="profile.faction" name="actor.profile.faction" type="text" value="{{faction}}"
+                           placeholder=""
+                           data-dyn-change-at="actor.profile.faction"/>
+                    <div class="descriptionValue">{{faction}}</div>
+                </div>
+            </div>
+            <div class="descriptionItem flexRow verticalCenter">
+                <label class="descriptionLabel cell30" for="profile.occupation">Occupation: </label>
+                <div class="valueWrapper cell70">
+                    <input id="profile.occupation" name="actor.profile.occupation" type="text" value="{{occupation}}"
+                           placeholder=""
+                           data-dyn-change-at="actor.profile.occupation"/>
+                    <div class="descriptionValue">{{occupation}}</div>
+                </div>
+            </div>
+            <div class="descriptionItem flexRow verticalCenter">
+                <label class="descriptionLabel cell30" for="profile.celestial">Celestial: </label>
+                <div class="valueWrapper cell70">
+                    <input id="profile.celestial" name="actor.profile.celestial" type="text" value="{{celestial}}"
+                           placeholder=""
+                           data-dyn-change-at="actor.profile.celestial"/>
+                    <div class="descriptionValue">{{celestial}}</div>
+                </div>
+            </div>
+            <div class="descriptionItem flexRow verticalCenter">
+                <label class="descriptionLabel cell30" for="profile.birthplace">Birthplace: </label>
+                <div class="valueWrapper cell70">
+                    <input id="profile.birthplace" name="actor.profile.birthplace" type="text" value="{{birthplace}}"
+                           placeholder=""
+                           data-dyn-change-at="actor.profile.birthplace"/>
+                    <div class="descriptionValue">{{birthplace}}</div>
+                </div>
+            </div>
+            <div class="descriptionItem flexRow verticalCenter">
+                <label class="descriptionLabel cell30" for="profile.rankOrTitle">Rank / Title: </label>
+                <div class="valueWrapper cell70">
+                    <input id="profile.rankOrTitle" name="actor.profile.rankOrTitle" type="text" value="{{rankOrTitle}}"
+                           placeholder="" data-dyn-change-at="actor.profile.rankOrTitle"/>
+                    <div class="descriptionValue">{{rankOrTitle}}</div>
+                </div>
+            </div>
+        </div>
 
-		<div class="cell50 block rightBlockTitle flexColumn flexBetween">
-			<div class="blockTitle"><span>Vitalstatistics</span></div>
-			<div class="descriptionItem flexRow verticalCenter">
-				<label class="descriptionLabel cell30" for="profile.age">Age: </label>
-				<div class="valueWrapper cell70">
-					<input id="profile.age" name="prime.actor.profile.age" type="text" value="{{age}}" placeholder=""/>
-					<div class="descriptionValue">{{age}}</div>
-				</div>
-			</div>
-			<div class="descriptionItem flexRow verticalCenter">
-				<label class="descriptionLabel cell30" for="profile.gender">Gender: </label>
-				<div class="valueWrapper cell70">
-					<input id="profile.gender" name="prime.actor.profile.gender" type="text" value="{{gender}}" placeholder=""/>
-					<div class="descriptionValue">{{gender}}</div>
-				</div>
-			</div>
-			<div class="descriptionItem flexRow verticalCenter">
-				<label class="descriptionLabel cell30" for="profile.height">Height: </label>
-				<div class="valueWrapper cell70">
-					<input id="profile.height" name="prime.actor.profile.height" type="text" value="{{height}}" placeholder=""/>
-					<div class="descriptionValue">{{height}}</div>
-				</div>
-			</div>
-			<div class="descriptionItem flexRow verticalCenter">
-				<label class="descriptionLabel cell30" for="profile.weight">Weight: </label>
-				<div class="valueWrapper cell70">
-					<input id="profile.weight" name="prime.actor.profile.weight" type="text" value="{{weight}}" placeholder=""/>
-					<div class="descriptionValue">{{weight}}</div>
-				</div>
-			</div>
-			<div class="descriptionItem flexRow verticalCenter">
-				<label class="descriptionLabel cell30" for="profile.hair">Hair: </label>
-				<div class="valueWrapper cell70">
-					<input id="profile.hair" name="prime.actor.profile.hair" type="text" value="{{hair}}" placeholder=""/>
-					<div class="descriptionValue">{{hair}}</div>
-				</div>
-			</div>
-			<div class="descriptionItem flexRow verticalCenter">
-				<label class="descriptionLabel cell30" for="profile.eyes">Eyes: </label>
-				<div class="valueWrapper cell70">
-					<input id="profile.eyes" name="prime.actor.profile.eyes" type="text" value="{{eyes}}" placeholder=""/>
-					<div class="descriptionValue">{{eyes}}</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	{{/with}}
-	<div class="block">
-		<div class="blockTitle">Background story</div>
-		<div class="characterBiographyHolder">
-			{{editor content=prime.actor.profile.biography target="data.metadata.biography" button=true owner=owner editable=editable}}
-		</div>
-	</div>
+        <div class="cell50 block rightBlockTitle flexColumn flexBetween">
+            <div class="blockTitle"><span>Vitalstatistics</span></div>
+            <div class="descriptionItem flexRow verticalCenter">
+                <label class="descriptionLabel cell30" for="profile.age">Age: </label>
+                <div class="valueWrapper cell70">
+                    <input id="profile.age" name="actor.profile.age" type="text" value="{{age}}" placeholder=""
+                           data-dyn-change-at="actor.profile.age"/>
+                    <div class="descriptionValue">{{age}}</div>
+                </div>
+            </div>
+            <div class="descriptionItem flexRow verticalCenter">
+                <label class="descriptionLabel cell30" for="profile.gender">Gender: </label>
+                <div class="valueWrapper cell70">
+                    <input id="profile.gender" name="actor.profile.gender" type="text" value="{{gender}}" placeholder=""
+                           data-dyn-change-at="actor.profile.gender"/>
+                    <div class="descriptionValue">{{gender}}</div>
+                </div>
+            </div>
+            <div class="descriptionItem flexRow verticalCenter">
+                <label class="descriptionLabel cell30" for="profile.height">Height: </label>
+                <div class="valueWrapper cell70">
+                    <input id="profile.height" name="actor.profile.height" type="text" value="{{height}}" placeholder=""
+                           data-dyn-change-at="actor.profile.height"/>
+                    <div class="descriptionValue">{{height}}</div>
+                </div>
+            </div>
+            <div class="descriptionItem flexRow verticalCenter">
+                <label class="descriptionLabel cell30" for="profile.weight">Weight: </label>
+                <div class="valueWrapper cell70">
+                    <input id="profile.weight" name="actor.profile.weight" type="text" value="{{weight}}" placeholder=""
+                           data-dyn-change-at="actor.profile.weight"/>
+                    <div class="descriptionValue">{{weight}}</div>
+                </div>
+            </div>
+            <div class="descriptionItem flexRow verticalCenter">
+                <label class="descriptionLabel cell30" for="profile.hair">Hair: </label>
+                <div class="valueWrapper cell70">
+                    <input id="profile.hair" name="actor.profile.hair" type="text" value="{{hair}}" placeholder=""
+                           data-dyn-change-at="actor.profile.hair"/>
+                    <div class="descriptionValue">{{hair}}</div>
+                </div>
+            </div>
+            <div class="descriptionItem flexRow verticalCenter">
+                <label class="descriptionLabel cell30" for="profile.eyes">Eyes: </label>
+                <div class="valueWrapper cell70">
+                    <input id="profile.eyes" name="actor.profile.eyes" type="text" value="{{eyes}}" placeholder=""
+                           data-dyn-change-at="actor.profile.eyes"/>
+                    <div class="descriptionValue">{{eyes}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/with}}
+    <div class="block">
+        <div class="blockTitle">Background story</div>
+        <div class="characterBiographyHolder">
+            {{editor content=actor.profile.biography target="data.metadata.biography" button=true owner=owner
+            editable=editable}}
+        </div>
+    </div>
 </div>
