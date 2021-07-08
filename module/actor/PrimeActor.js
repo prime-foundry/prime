@@ -13,6 +13,10 @@ import DynDocumentMixin from "../util/DynDocumentMixin.js";
 export class PrimeActor extends DynDocumentMixin(Actor, 'actor')
 {
 
+	async _onCreate(data, options, userId) {
+		console.log('_onCreate', data, options, userId);
+		return super._onCreate(data, options, userId);
+	}
 	/**
 	 * @return {Profile}
 	 */
