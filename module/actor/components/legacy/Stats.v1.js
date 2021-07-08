@@ -71,9 +71,12 @@ export class Prime_V1 extends Stat_V1 {
 
     set value(value) {
         if (value <= this.max && value >= 0) {
-            this._actorSystemData.primes[this.id].value = value;
-            this._update();
+            this.writeToPrimes(this.id, value);
         }
+    }
+
+    writeToPrimes(id, value) {
+        this.writeToSystem(`primes.${id}.value`, value)
     }
 }
 
@@ -88,8 +91,10 @@ export class Refinement_V1 extends Stat_V1 {
 
     set value(value) {
         if (value <= this.max && value >= 0) {
-            this._actorSystemData.refinements[this.id].value = value;
-            this._update();
+            this.writeT0Refinements(this.id, value);
         }
+    }
+    writeT0Refinements(id, value) {
+        this.writeToSystem(`refinements.${id}.value`, value)
     }
 }
