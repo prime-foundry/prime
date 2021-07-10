@@ -28,7 +28,8 @@ class Stat extends EmbeddedDocumentComponent {
     }
 
     get title() {
-        return this.system.name;
+		// Try one and fallback if not present.
+        return this.system.name || this.document.name;
     }
 
     get sourceKey() {

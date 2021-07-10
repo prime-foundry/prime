@@ -27,8 +27,8 @@ Hooks.once('init', async function ()
 	};
 
 	// Define custom Entity classes
-	CONFIG.Actor.entityClass = PrimeActor;
-	CONFIG.Item.entityClass = PrimeItem;
+	CONFIG.Actor.documentClass = PrimeActor;
+	CONFIG.Item.documentClass = PrimeItem;
 
 	// Register sheet application classes
 	Actors.unregisterSheet("core", ActorSheet);

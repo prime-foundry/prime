@@ -13,11 +13,6 @@ import { PrimeItemManager } from "../item/PrimeItemManager.js";
  */
 export class PrimeActor extends DynDocumentMixin(Actor, 'actor')
 {
-
-	async _onCreate(data, options, userId) {
-		console.log('_onCreate', data, options, userId);
-		return super._onCreate(data, options, userId);
-	}
 	/**
 	 * @return {Profile}
 	 */
@@ -108,16 +103,13 @@ export class PrimeActor extends DynDocumentMixin(Actor, 'actor')
 		return this.items.find((item) => key === item.data.sourceKey);
 	}
 
-	
 	// Change to _preCreate() - read up!
 	async _onCreate(data, options, userId)
 	{
 		const primeAndRefinementItemsToCreate = PrimeItemManager.getItems(ItemDirectory.collection, ["prime", "refinement"], {data: {data: {default: true}}}, false, true);
 		await this.createEmbeddedDocuments("Item", primeAndRefinementItemsToCreate);
-		super._onCreate(data, options, userId);
+		return super._onCreate(data, options, userId);
 	}
-
-	//PrimeItemManager
 
 	/**
 	 * Augment the basic actor data with additional dynamic data.
