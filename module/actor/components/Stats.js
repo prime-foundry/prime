@@ -28,6 +28,7 @@ class Stat extends EmbeddedDocumentComponent {
     }
 
     get title() {
+		// TODO: Check if this is still required post migration to V2 data.
 		// Try one and fallback if not present.
         return this.system.name || this.document.name;
     }
