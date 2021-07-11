@@ -3,6 +3,8 @@ import {ItemCardUI} from "../item/item_card_ui.js";
 import {ItemDragSort} from "../item/item_drag_sort.js";
 import DynSheetMixin from "../util/DynSheetMixin.js";
 
+import { PrimeItemManager } from "../item/PrimeItemManager.js";
+
 export class PrimeActorSheet extends DynSheetMixin(ActorSheet) {
     static hooksAdded = false;
     resizeOccuring = false;
@@ -98,8 +100,6 @@ export class PrimeActorSheet extends DynSheetMixin(ActorSheet) {
         const actorProperties = this.getActorProperties(data);
         // data.prime = new Prime({actor:this.actor}, this, data);
 
-        data.dtypes = ["String", "Number", "Boolean"];
-
         data.characterNameClass = this.getCharacterNameClass(data.actor.name);
         data.isFromTokenClass = "";
         if (this.actor.isToken) {
@@ -108,11 +108,11 @@ export class PrimeActorSheet extends DynSheetMixin(ActorSheet) {
 
         //var a = data.actor.permission
         data.actorProperties = actorProperties;
-       // data.currentOwners = this.actor.getCurrentOwners();
-       data.combinedResilience = this.actor.getCombinedResilience();
-       data.combinedPsyche = this.actor.getCombinedPsyche();
+        // data.currentOwners = this.actor.getCurrentOwners();
+        data.combinedResilience = this.actor.getCombinedResilience();
+        data.combinedPsyche = this.actor.getCombinedPsyche();
 
-      //  data.typeSorted = this.actor.getTypeSortedPrimesAndRefinements();
+        //  data.typeSorted = this.actor.getTypeSortedPrimesAndRefinements();
 
         data.itemTables = PrimeTables.cloneAndTranslateTables("items");
         data.actorTables = PrimeTables.cloneAndTranslateTables("actor");
@@ -124,7 +124,7 @@ export class PrimeActorSheet extends DynSheetMixin(ActorSheet) {
         data.isV2CharacterClass = (actorProperties.sheetVersion == "v2.0") ? "characterSheetV2" : "";
 
         if (data.filteredItems["perk"]) {
-            this.currentItemSortList = actorProperties.perkOrder || {};
+    	    this.currentItemSortList = actorProperties.perkOrder || {};
             data.perks = data.filteredItems["perk"].sort(this.sortByItemOrder.bind(this));
         } else {
             data.perks = [];
@@ -132,8 +132,42 @@ export class PrimeActorSheet extends DynSheetMixin(ActorSheet) {
 
         data.sortedActions = this.actor.getSortedActions();
 
+        this._updateForWithDynamicData(data);
+
         return data;
     }
+    
+    _updateForWithDynamicData(data)
+    {
+        this._updateActorTables(data.actorTables);
+    }
+    
+    _updateActorTables(actorTables)
+    {
+        const woundWorldItems = PrimeItemManager.getItems(ItemDirectory.collection, ["injury"], {data: {data: {injuryType: "wound"}}}, false, true, true);
+        const insanityWorldItems = PrimeItemManager.getItems(ItemDirectory.collection, ["injury"], {data: {data: {injuryType: "insanity"}}}, false, true, true);
+        this._updateInjuryTables(actorTables, "woundConditions", woundWorldItems);
+        this._updateInjuryTables(actorTables, "mentalConditions", insanityWorldItems);
+	}
+
+	_updateInjuryTables(targetTable, targetProperty, worldItems)
+	{
+		if (worldItems.length > 0)
+		{
+			targetTable[targetProperty] = worldItems.map(worldItem =>
+			{
+				return {
+					key: worldItem._id,
+					title: worldItem.name,
+					description: worldItem.description
+				};
+			});
+		}
+		else
+		{
+			console.warn("No world items of type 'injury' found to update the static actor tables with.");
+		}
+	}
 
     getCharacterNameClass(whatName) {
         const canvas = document.createElement('canvas');

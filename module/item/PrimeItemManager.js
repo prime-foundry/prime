@@ -6,7 +6,7 @@ Hooks.once("createItem", async function (hookData1, hookData2, hookData3)
 export class PrimeItemManager
 {
 	// [], {data.data.default}, false
-	static getItems(itemCollection, itemBaseTypes, filtersData, matchAll, justContentData)
+	static getItems(itemCollection, itemBaseTypes, filtersData, matchAll, justContentData, sortItems)
 	{
 		itemBaseTypes = (Array.isArray(itemBaseTypes)) ? itemBaseTypes : [itemBaseTypes];
 		filtersData = (Array.isArray(filtersData)) ? filtersData : [filtersData];
@@ -28,6 +28,11 @@ export class PrimeItemManager
 				}
 			}
 		});
+
+		if (sortItems)
+		{
+			matchingItems.sort(this.sortItems);
+		}
 
 		return matchingItems;
 	}
@@ -115,5 +120,23 @@ export class PrimeItemManager
 	static refreshItems(hookData1, hookData2, hookData3)
 	{
 		console.log(hookData1, hookData2, hookData3);
+	}
+
+	static sortItems(itemA, itemB)
+	{
+		if (itemA.name)
+		{
+			var textA = itemA.name.toUpperCase();
+			var textB = itemB.name.toUpperCase();
+			return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+		}
+		if (itemA.title)
+		{
+			var textA = itemA.title.toUpperCase();
+			var textB = itemB.title.toUpperCase();
+			return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+		}
+
+		return 0;
 	}
 };
