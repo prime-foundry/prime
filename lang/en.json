@@ -340,7 +340,7 @@
 	"PRIME.actor_wound_condition_description_staggered" : "Movement speed halved",
 
 	"PRIME.actor_wound_condition_title_stunned" : "Stunned",
-	"PRIME.actor_wound_condition_description_stunned" : "You no longer recieve the first Reaction for free each tic",
+	"PRIME.actor_wound_condition_description_stunned" : "You recieve one less Action Point per turn.",
 
 	"PRIME.actor_wound_condition_title_crushed" : "Crushed",
 	"PRIME.actor_wound_condition_description_crushed" : "Maximum Action Points reduced by 3",

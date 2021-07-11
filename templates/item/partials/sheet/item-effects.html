@@ -32,7 +32,7 @@
 					<input type="text" id="data.{{#if ../effectType}}{{../effectType}}{{else}}effect{{/if}}s.{{key}}.value" name="data.{{#if ../effectType}}{{../effectType}}{{else}}effect{{/if}}s.{{key}}.value" class="cell70 effectFormElement" data-effect-id="{{effectID}}" data-effect-flag-key="value" value="{{effect.value}}" data-dtype="Number" data-min="-10" data-max="10" {{disabledIf ../isOwned}}/>
 				</div>
 
-				<a class="removeEffectIcon {{disabledClassIf .../isOwned}}" data-effect-id="{{effectID}}"><i class="fas fa-trash"></i></a>
+				<a class="removeEffectIcon {{disabledClassIf ../isOwned}}" data-effect-id="{{effectID}}"><i class="fas fa-trash"></i></a>
 			</div>
 			{{/each}}
 			

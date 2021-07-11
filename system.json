@@ -29,6 +29,13 @@
       "system": "prime",
       "path": "./packs/statistics-and-lies.db",
       "entity": "Item"
+    },
+    {
+      "name": "injuries",
+      "label": "Injuries",
+      "system": "prime",
+      "path": "./packs/injuries.db",
+      "entity": "Item"
     }
   ],
   "languages": [
