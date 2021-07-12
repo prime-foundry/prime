@@ -25,14 +25,18 @@ class Stat extends EmbeddedDocumentComponent {
         return this.system.description;
     }
 
-    get title() {
-		// TODO: Check if this is still required post migration to V2 data.
-		// Try one and fallback if not present.
-        return this.system.name || this.document.name;
+    get directory() {
+        return ItemDirectory;
     }
 
     get sourceKey() {
         return this.system.sourceKey;
+    }
+
+    get title() {
+		// TODO: Check if this is still required post migration to V2 data.
+		// Try one and fallback if not present.
+        return this.system.name || this.document.name;
     }
 
     get max() {
@@ -96,6 +100,10 @@ class StatCollection extends Component {
 
     getStatById(id){
        return this._getTransformedItems().find((stat) => stat.id === id);
+    }
+
+    displayStat({id}){
+        this.getStatById(id).display();
     }
 
     setStatValue({value, key}){

@@ -54,6 +54,10 @@ class Stat_V1 extends Component {
         return this.__id;
     }
 
+    display(){
+
+    }
+
     get cost() {
         const num = this.value;
         return (num === 0) ? 0 : (num * (num + 1)) / 2;

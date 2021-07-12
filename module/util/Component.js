@@ -21,6 +21,7 @@ export default class Component {
         this.dyn = this.document.dyn;
     }
 
+
     /**
      * The base content of any document, generally it follows a fixed structure, as defined by a schema.
      *

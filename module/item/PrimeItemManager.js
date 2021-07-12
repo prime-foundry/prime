@@ -16,11 +16,13 @@ export class PrimeItemManager
 		{
 			if (itemBaseTypes.indexOf(item.type) > -1 && this.testFilters(item, filtersData, matchAll))
 			{
-				// Fixes issues whereby compendiums have new IDs assigned.
-				item.data.data.sourceKey = item.data._id;
 				if (justContentData)
 				{
-					matchingItems.push(item.data);
+					const newItem = item.toObject(false);
+					// Fixes issues whereby compendiums have new IDs assigned.
+					newItem.data.sourceKey = item.id;
+					newItem._id = undefined;
+					matchingItems.push(newItem);
 				}
 				else
 				{
