@@ -146,6 +146,7 @@
 	"ITEM.TypePrime" : "Prime",
 	"ITEM.TypeRefinement" : "Refinement",
 	"ITEM.TypeInjury" : "Injury",
+	"ITEM.TypeAward" : "Award",
 	
 	"PRIME.weapons_ranges" : "Weapon ranges",
 	"PRIME.weapons_ranges_point_blank" : "Point blank",
