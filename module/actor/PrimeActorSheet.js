@@ -144,8 +144,20 @@ export class PrimeActorSheet extends DynSheetMixin(ActorSheet) {
     
     _updateActorTables(actorTables)
     {
-        const woundWorldItems = PrimeItemManager.getItems(ItemDirectory.collection, ["injury"], {data: {data: {injuryType: "wound"}}}, false, true, true);
-        const insanityWorldItems = PrimeItemManager.getItems(ItemDirectory.collection, ["injury"], {data: {data: {injuryType: "insanity"}}}, false, true, true);
+		const requestData =
+		{
+			itemCollection: ItemDirectory.collection,
+			itemBaseTypes: ["injury"],
+			filtersData: {data: {data: {injuryType: "wound"}}},
+			matchAll: false,
+			justContentData: true,
+			sortItems: true
+		};
+        const woundWorldItems = PrimeItemManager.getItems(requestData);
+
+		requestData.filtersData = {data: {data: {injuryType: "insanity"}}};
+        const insanityWorldItems = PrimeItemManager.getItems(requestData);
+
         this._updateInjuryTables(actorTables, "woundConditions", woundWorldItems);
         this._updateInjuryTables(actorTables, "mentalConditions", insanityWorldItems);
 	}
@@ -159,7 +171,7 @@ export class PrimeActorSheet extends DynSheetMixin(ActorSheet) {
 				return {
 					key: worldItem._id,
 					title: worldItem.name,
-					description: worldItem.description
+					description: worldItem.data.description
 				};
 			});
 		}
@@ -434,6 +446,16 @@ export class PrimeActorSheet extends DynSheetMixin(ActorSheet) {
         //this.entity.updateWornItemValues();
     }
 
+	updateInjurySelectTitles(injurySelects)
+	{
+		injurySelects.each((index) =>
+		{
+			const injurySelect = $(injurySelects[index]);
+			const selectedTitle = injurySelect.find(":selected").attr("title");
+			injurySelect.attr("title", selectedTitle);
+		});
+	}
+
 
     /** @override */
     activateListeners(html) {
@@ -442,6 +464,10 @@ export class PrimeActorSheet extends DynSheetMixin(ActorSheet) {
 
         this.dyn.controller.control(html);
         // PrimeController.initializeForm(html, this);
+
+		
+		const injurySelects = html.find(".woundSelect, .insanitySelect");
+		this.updateInjurySelectTitles(injurySelects);
 
         // Everything below here is only needed if the sheet is editable
         if (!this.options.editable) return;

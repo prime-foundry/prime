@@ -40,15 +40,16 @@
                        data-dyn-select="actor.health.wounds.isUntended()"/>
                 <label for="injuryCheckbox-{{this}}" class="flexRow flexCenter verticalCenter">{{this}}</label>
             </div>
-            <select name="injurySelect{{this}}" class="injurySelect"
+            <select name="woundSelect{{this}}" class="woundSelect"
                     data-dyn-change-at="actor.health.wounds.injure()"
                     data-dyn-select="actor.health.wounds.injuryDetail()"
                     data-dyn-disable="actor.health.wounds.isTended()"
-                    data-dyn-index="{{this}}">
-            <option value=""></option>
-            {{#each ../../actorTables.woundConditions}}
-            <option value="{{this.key}}">{{this.title}}</option>
-            {{/each}}
+                    data-dyn-index="{{this}}"
+					title="">
+				<option value=""></option>
+				{{#each ../../actorTables.woundConditions}}
+				<option value="{{this.key}}" title="{{convertHTMLForTitle this.description}}">{{this.title}}</option>
+				{{/each}}
             </select>
             <div class="medkitIcon flexRow flexEnd verticalCenter">
                 <a class="healInjury" title="Heal this injury"
@@ -58,6 +59,7 @@
                     <i class="fas fa-medkit"></i>
                 </a>
             </div>
+			<a class="showInjuryInfoIcon"><i class="fas fa-info-circle fa-xs"></i></a>
         </div>
         {{/range}}
     </div>

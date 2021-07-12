@@ -30,6 +30,7 @@
 
         {{#range 0 insanities.slots 1 true}}
         <div class="flexRow insanityRow">
+			<a class="showInjuryInfoIcon"><i class="fas fa-info-circle fa-xs"></i></a>
             <div class="couchIcon flexRow flexStart verticalCenter">
                 <a class="healInsanity" title="Heal this insanity"
                    data-dyn-hide="actor.health.insanities.isHealthy()"
@@ -44,7 +45,7 @@
                     data-dyn-index="{{this}}">
                 <option value=""></option>
 				{{#each ../../actorTables.mentalConditions}}
-				<option value="{{this.key}}">{{this.title}}</option>
+				<option value="{{this.key}}" title="{{convertHTMLForTitle this.description}}">{{this.title}}</option>
 				{{/each}}
             </select>
             <div class="insanityCheckBoxWrapper flexRow flexCenter verticalCenter{{addInjuryClasses this ../insanities}}">

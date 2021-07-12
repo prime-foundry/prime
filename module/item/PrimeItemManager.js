@@ -6,8 +6,11 @@ Hooks.once("createItem", async function (hookData1, hookData2, hookData3)
 export class PrimeItemManager
 {
 	// [], {data.data.default}, false
-	static getItems(itemCollection, itemBaseTypes, filtersData, matchAll, justContentData, sortItems)
+	static getItems(requestData)
 	{
+		const { itemCollection, matchAll, justContentData, sortItems } = requestData;
+		let { itemBaseTypes, filtersData } = requestData;
+
 		itemBaseTypes = (Array.isArray(itemBaseTypes)) ? itemBaseTypes : [itemBaseTypes];
 		filtersData = (Array.isArray(filtersData)) ? filtersData : [filtersData];
 

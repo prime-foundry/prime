@@ -106,7 +106,17 @@ export class PrimeActor extends DynDocumentMixin(Actor, 'actor')
 	// Change to _preCreate() - read up!
 	async _onCreate(data, options, userId)
 	{
-		const primeAndRefinementItemsToCreate = PrimeItemManager.getItems(ItemDirectory.collection, ["prime", "refinement"], {data: {data: {default: true}}}, false, true, true);
+		const requestData =
+		{
+			itemCollection: ItemDirectory.collection,
+			itemBaseTypes: ["prime", "refinement"],
+			filtersData: {data: {data: {default: true}}},
+			matchAll: false,
+			justContentData: true,
+			sortItems: true
+		};
+
+		const primeAndRefinementItemsToCreate = PrimeItemManager.getItems(requestData);
 		await this.createEmbeddedDocuments("Item", primeAndRefinementItemsToCreate);
 		return super._onCreate(data, options, userId);
 	}
