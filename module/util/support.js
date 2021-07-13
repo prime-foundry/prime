@@ -79,7 +79,7 @@ export function traversePath(path, root, createIfMissing = false, collectParts =
             if (createIfMissing) {
                 object[property] = numbers.test(pathParts[idx + 1]) ? [] : {};
             } else {
-                throw `Undefined path element '${property}' at ${idx} whilst traversing path: '${path}'`;
+                throw new DynError(`Undefined path element '${property}' at ${idx} whilst traversing path: '${path}'`);
             }
         }
         if (collectParts) {
