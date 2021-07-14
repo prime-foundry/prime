@@ -59,7 +59,6 @@ export class PrimeActorSheet extends DynSheetMixin(ActorSheet) {
     get dynModels() {
         const models = super.dynModels;
         models.actor = this.actor;
-        models.sheet = this;
         return models;
     }
 
@@ -440,7 +439,6 @@ export class PrimeActorSheet extends DynSheetMixin(ActorSheet) {
         // const sheetHtml = html.find(`#primeactorsheet${this.appId}`)
         super.activateListeners(html);
 
-        this.dyn.controller.control(html);
         // PrimeController.initializeForm(html, this);
 
         // Everything below here is only needed if the sheet is editable

@@ -31,8 +31,14 @@ const DynSheetMixin = (FoundrySheetType) =>
         }
 
         get dynModels() {
-            const models = {sheet:this};
+            const models = {sheet:this,model:this.document};
             return models
+        }
+
+        /** @override */
+        activateListeners(html) {
+            super.activateListeners(html);
+            this.dyn.controller.control(html);
         }
     };
 

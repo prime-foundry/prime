@@ -1,5 +1,6 @@
 import { PrimeTables } from "../prime_tables.js";
 import DynDocumentMixin from "../util/DynDocumentMixin.js";
+import StatItem from "./components/typed/StatItem.js";
 
 /**
  * Extend the basic Item with some very simple modifications.
@@ -26,15 +27,17 @@ export class PrimeItem extends DynDocumentMixin(Item)
 	{
 		super.prepareData();
 
-		// if (!(this.data.data.bonuses instanceof Collection))
-		// {
-		// 	this.data.data.bonuses = this.convertToCollection(this.data.data.bonuses);
-		// }
 
-		// Get the Item's data
-		const itemData = this.data;
-		const actorData = this.actor ? this.actor.data : {};
-		const data = itemData.data;
+	}
+
+	get typed() {
+		switch(this.type){
+			case 'prime':
+			case 'refinement':
+				return new StatItem(this);
+			default:
+				return null;
+		}
 	}
 
 	// convertToCollection(objectToConvert)
