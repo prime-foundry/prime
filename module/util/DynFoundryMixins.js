@@ -1,6 +1,7 @@
 import DataManager from "./DataManager.js";
+import Controller from "./Controller.js";
 
-class Dyn {
+class DynModel {
     managed;
     dataManager;
     modelName;
@@ -59,26 +60,73 @@ class Dyn {
 
 }
 /**
- * @exports PrimeDocument
+ * @exports DynDocument
  * @param {foundry.abstract.Document} FoundryDocumentType
- * @returns {module:PrimeDocument~mixin}
+ * @returns {module:DynDocument~mixin}
  * @constructor
  */
-const DynDocumentMixin = (FoundryDocumentType, modelName='doc') =>
+export const DynDocumentMixin = (FoundryDocumentType, modelName='doc') =>
 
     /**
      * @mixin
-     * @alias module:PrimeDocument~mixin
+     * @alias module:DynDocument~mixin
      * @extends foundry.abstract.Document
      */
     class extends FoundryDocumentType {
         get dyn() {
             if(this._dyn == null) {
-                this._dyn = new Dyn(this, modelName);
+                this._dyn = new DynModel(this, modelName);
             }
             return this._dyn;
         }
 
     };
 
-export default DynDocumentMixin
+class DynView {
+    controller;
+
+    constructor(managed){
+        this.controller = new Controller(managed.dynModels);
+    }
+
+
+}
+/**
+ * @exports DynApplication
+ * @param {Application} FoundryApplicationType
+ * @returns {module:DynApplication~mixin}
+ * @constructor
+ */
+export const DynApplicationMixin = (FoundryApplicationType, viewName = 'sheet') =>
+
+    /**
+     * @mixin
+     * @alias module:DynApplication~mixin
+     * @extends Application
+     */
+    class extends FoundryApplicationType {
+        get dyn() {
+            if(this._dyn == null) {
+                this._dyn = new DynView(this);
+            }
+            return this._dyn;
+        }
+
+        get dynModels() {
+            const models = {};
+            models[viewName] = this;
+            const doc = this.document;
+            if(doc && doc.dyn) {
+                models[doc.dyn.modelName] = doc;
+            } else {
+                models.doc = doc;
+            }
+            return models
+        }
+
+        /** @override */
+        activateListeners(html) {
+            super.activateListeners(html);
+            this.dyn.controller.control(html);
+        }
+    };

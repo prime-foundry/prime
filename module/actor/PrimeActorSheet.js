@@ -1,11 +1,11 @@
 import {PrimeTables} from "../prime_tables.js";
 import {ItemCardUI} from "../item/item_card_ui.js";
 import {ItemDragSort} from "../item/item_drag_sort.js";
-import DynSheetMixin from "../util/DynSheetMixin.js";
 
 import { PrimeItemManager } from "../item/PrimeItemManager.js";
+import {DynApplicationMixin} from "../util/DynFoundryMixins.js";
 
-export class PrimeActorSheet extends DynSheetMixin(ActorSheet) {
+export class PrimeActorSheet extends DynApplicationMixin(ActorSheet) {
     static hooksAdded = false;
     resizeOccuring = false;
     actorSheetMeasureTimer = false;
@@ -55,14 +55,6 @@ export class PrimeActorSheet extends DynSheetMixin(ActorSheet) {
             return true;
         });
     }
-
-    get dynModels() {
-        const models = super.dynModels;
-        models.actor = this.actor;
-        return models;
-    }
-
-
 
     getActorData(data = super.getData()) {
         return data.data;

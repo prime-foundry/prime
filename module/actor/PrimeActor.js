@@ -4,7 +4,7 @@ import Profile from "./components/Profile.js";
 import Stats from "./components/Stats.js";
 import Health from "./components/Health.js";
 import {ActionPoints, Soul, XP} from "./components/Points.js";
-import DynDocumentMixin from "../util/DynDocumentMixin.js";
+import {DynDocumentMixin} from "../util/DynFoundryMixins.js";
 
 import { PrimeItemManager } from "../item/PrimeItemManager.js";
 /**

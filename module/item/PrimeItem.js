@@ -1,12 +1,12 @@
 import { PrimeTables } from "../prime_tables.js";
-import DynDocumentMixin from "../util/DynDocumentMixin.js";
+import {DynDocumentMixin} from "../util/DynFoundryMixins.js";
 import StatItem from "./components/typed/StatItem.js";
 
 /**
  * Extend the basic Item with some very simple modifications.
  * @extends {Item}
  */
-export class PrimeItem extends DynDocumentMixin(Item)
+export class PrimeItem extends DynDocumentMixin(Item, 'item')
 {
 
 	// static get config()

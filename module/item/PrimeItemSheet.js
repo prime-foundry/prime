@@ -1,10 +1,10 @@
 import { PrimeTables } from "../prime_tables.js";
-import DynSheetMixin from "../util/DynSheetMixin.js";
+import {DynApplicationMixin} from "../util/DynFoundryMixins.js";
 /**
  * Extend the basic ItemSheet with some very simple modifications
  * @extends {ItemSheet}
  */
-export class PrimeItemSheet extends DynSheetMixin(ItemSheet)
+export class PrimeItemSheet extends DynApplicationMixin(ItemSheet)
 {
 	checkboxGroupStates = {}
 
@@ -28,12 +28,6 @@ export class PrimeItemSheet extends DynSheetMixin(ItemSheet)
 		}
 
 		return mergeObject(super.defaultOptions, primeItemOptions);
-	}
-
-	get dynModels() {
-		const models = super.dynModels;
-		models.item = this.document;
-		return models;
 	}
 
 	/** @override */
