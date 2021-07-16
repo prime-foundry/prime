@@ -6,8 +6,13 @@ import StatItem from "./components/typed/StatItem.js";
  * Extend the basic Item with some very simple modifications.
  * @extends {Item}
  */
-export class PrimeItem extends DynDocumentMixin(Item, 'item')
+export class PrimeItem extends DynDocumentMixin(Item, 'item', 'type')
 {
+
+	registerDynTypes(registry) {
+		registry.register('prime', StatItem);
+		registry.register('refinement', StatItem);
+	}
 
 	// static get config()
 	// {
@@ -30,15 +35,15 @@ export class PrimeItem extends DynDocumentMixin(Item, 'item')
 
 	}
 
-	get typed() {
-		switch(this.type){
-			case 'prime':
-			case 'refinement':
-				return new StatItem(this);
-			default:
-				return null;
-		}
-	}
+	// get typed() {
+	// 	switch(this.type){
+	// 		case 'prime':
+	// 		case 'refinement':
+	// 			return new StatItem(this);
+	// 		default:
+	// 			return null;
+	// 	}
+	// }
 
 	// convertToCollection(objectToConvert)
 	// {

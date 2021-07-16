@@ -16,7 +16,6 @@ Hooks.once('init', async function ()
 		PrimeItem
 	};
 
-
 	/**
 	 * Set an initiative formula for the system
 	 * @type {String}

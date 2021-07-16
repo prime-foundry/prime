@@ -1,15 +1,67 @@
 import DataManager from "./DataManager.js";
 import Controller from "./Controller.js";
 
+class GlobalTypeRegistry {
+    static registry = new Map();
+
+    static register(modelName) {
+        if (!GlobalTypeRegistry.registry.has(modelName)) {
+            GlobalTypeRegistry.registry.set(modelName, new TypeRegistry());
+            return true;
+        }
+        return false;
+    }
+
+    static getTypeRegistry(modelName) {
+        return GlobalTypeRegistry.registry.get(modelName);
+    }
+
+    static get(modelName, typeName) {
+        const typeRegistry = GlobalTypeRegistry.getTypeRegistry(modelName);
+        if(typeRegistry == null){
+            return null;
+        }
+        return typeRegistry.get(typeName);
+    }
+}
+
+class TypeRegistry {
+    registry = new Map();
+
+    register(typeName, Type) {
+        if (!this.registry.has(typeName)) {
+            this.registry.set(typeName, Type)
+        }
+    }
+
+    get(typeName) {
+        return this.registry.get(typeName);
+    }
+}
+
 class DynModel {
     managed;
     dataManager;
     modelName;
+    typeProperty;
 
-    constructor(managed, modelName) {
+    constructor(managed, modelName, typeProperty) {
         this.managed = managed;
         this.dataManager = new DataManager(this.managed);
         this.modelName = modelName;
+        this.typeProperty = typeProperty
+    }
+
+    get typed() {
+        if (this.typeProperty == null) {
+            return this.managed;
+        } else {
+            const Type = GlobalTypeRegistry.get(this.modelName, this.managed[this.typeProperty]);
+            if (Type == null) {
+                return this.managed;
+            }
+            return new Type(this.managed);
+        }
     }
 
     /**
@@ -59,13 +111,16 @@ class DynModel {
     }
 
 }
+
 /**
  * @exports DynDocument
  * @param {foundry.abstract.Document} FoundryDocumentType
+ * @param {string} modelName the name to use as the model, for the use by controllers.
+ * @param {string} typeProperty the type we might want to mixin, on the application.
  * @returns {module:DynDocument~mixin}
  * @constructor
  */
-export const DynDocumentMixin = (FoundryDocumentType, modelName='doc') =>
+export const DynDocumentMixin = (FoundryDocumentType, modelName = 'doc', typeProperty = undefined) =>
 
     /**
      * @mixin
@@ -74,26 +129,32 @@ export const DynDocumentMixin = (FoundryDocumentType, modelName='doc') =>
      */
     class extends FoundryDocumentType {
         get dyn() {
-            if(this._dyn == null) {
-                this._dyn = new DynModel(this, modelName);
+            if (this._dyn == null) {
+                this._dyn = new DynModel(this, modelName, typeProperty);
+                if (typeProperty != null && GlobalTypeRegistry.register(modelName)) {
+                    this.registerDynTypes(GlobalTypeRegistry.getTypeRegistry(modelName));
+                }
             }
             return this._dyn;
         }
 
+        registerDynTypes(registry) {
+        }
     };
 
 class DynView {
     controller;
 
-    constructor(managed){
+    constructor(managed) {
         this.controller = new Controller(managed.dynModels);
     }
 
-
 }
+
 /**
  * @exports DynApplication
  * @param {Application} FoundryApplicationType
+ * @param {string} viewName the name to use as the model, for the use by controllers.
  * @returns {module:DynApplication~mixin}
  * @constructor
  */
@@ -105,24 +166,29 @@ export const DynApplicationMixin = (FoundryApplicationType, viewName = 'sheet') 
      * @extends Application
      */
     class extends FoundryApplicationType {
+
         get dyn() {
-            if(this._dyn == null) {
+            if (this._dyn == null) {
                 this._dyn = new DynView(this);
             }
             return this._dyn;
         }
 
         get dynModels() {
-            const models = {};
-            models[viewName] = this;
-            const doc = this.document;
-            if(doc && doc.dyn) {
-                models[doc.dyn.modelName] = doc;
-            } else {
-                models.doc = doc;
+            if (this._dynModels == null) {
+                const models = {};
+                models[viewName] = this;
+                const doc = this.document;
+                if (doc && doc.dyn) {
+                    models[doc.dyn.modelName] = doc.dyn.typed;
+                } else {
+                    models.doc = doc;
+                }
+                this._dynModels = models;
             }
-            return models
+            return this._dynModels;
         }
+
 
         /** @override */
         activateListeners(html) {
