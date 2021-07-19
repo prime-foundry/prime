@@ -42,6 +42,12 @@ export default class Component {
         return this.dyn.system;
     }
 
+
+
+    write(pathComponents, value){
+        return this.dyn.write(pathComponents,value);
+    }
+
     /**
      * Given a path from document data, and a value set the value at that path point.
      *
@@ -52,8 +58,8 @@ export default class Component {
      * @param value
      * @returns {*} the last value that had been set.
      */
-    writeToContent(path, value) {
-        return this.dyn.writeToContent(`${path}`, value);
+    pathToFoundryData(...pathComponents){
+        return this.dyn.pathToFoundryData(...pathComponents);
     }
 
     /**
@@ -63,7 +69,7 @@ export default class Component {
      * Because it is defined by the schema, is not guaranteed to be there, however I can't see any document that doesn't use it,
      * @returns {*} the last value that had been set.
      */
-    writeToSystem(path, value) {
-        return this.dyn.writeToSystem(`${path}`, value);
+    pathToGameSystemData(...pathComponents){
+        return this.dyn.pathToGameSystemData(...pathComponents);
     }
 }

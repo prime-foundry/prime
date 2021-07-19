@@ -41,7 +41,7 @@ export class PointsBase extends Component {
      * @param {number} value
      */
     set value(value) {
-        this.writeToPoints('value', Math.max(0, Math.min(this.max, value)));
+        this.writeToPoints(Math.max(0, Math.min(this.max, value)), 'value');
     }
 
     /**
@@ -57,7 +57,11 @@ export class PointsBase extends Component {
      * To be overriden
      * @interface
      */
-    writeToPoints(parameterName, value) {}
+    writeToPoints(value, ...pathComponents) {
+        this.write(this.pathToPoints(...pathComponents), value);
+    }
+
+    pathToPoints(...pathComponents) { }
 }
 
 /**
@@ -96,7 +100,7 @@ export class AwardableBase extends Component {
 
     award(value) {
         if (this.document.isCharacter()) {
-            this.writeToPoints('awarded', this.points.awarded + value);
+            this.writeToPoints(this.points.awarded + value, 'awarded');
         }
     }
 
@@ -109,10 +113,14 @@ export class AwardableBase extends Component {
     }
 
     /**
+     * To be overriden
      * @interface
-     * @param propertyName
      */
-    writeToPoints(propertyName){}
+    writeToPoints(value, ...pathComponents) {
+        this.write(this.pathToPoints(...pathComponents), value);
+    }
+
+    pathToPoints(...pathComponents) { }
 }
 
 export class XP extends AwardableBase {
@@ -129,12 +137,8 @@ export class XP extends AwardableBase {
         return this.system.xp;
     }
 
-    /**
-     * @interface
-     * @param propertyName
-     */
-    writeToPoints(propertyName, value){
-        this.writeToSystem(`xp.${propertyName}`, value)
+    pathToPoints(...pathComponents) {
+        return this.pathToGameSystemData('xp', ...pathComponents)
     }
 
     get spent() {
@@ -163,12 +167,8 @@ export class Soul extends AwardableBase {
         return this.system.soul;
     }
 
-    /**
-     * @interface
-     * @param propertyName
-     */
-    writeToPoints(propertyName, value){
-        this.writeToSystem(`soul.${propertyName}`, value)
+    pathToPoints(...pathComponents) {
+        return this.pathToGameSystemData('soul', ...pathComponents)
     }
 
     get value() {
@@ -180,7 +180,7 @@ export class Soul extends AwardableBase {
     }
 
     burn() {
-        this.writeToPoints('burnt', this.burnt + 1);
+        this.writeToPoints(this.burnt + 1, 'burnt');
     }
 
     get spent() {
@@ -205,7 +205,7 @@ export class ActionPoints extends PointsBase {
         // fix for old sheets
         if (base == null) {
             base = 6;
-            this.writeToPoints('base',base);
+            this.writeToPoints(base, 'base');
         }
         return base;
     }
@@ -220,8 +220,8 @@ export class ActionPoints extends PointsBase {
         return this.system.actionPoints;
     }
 
-
-    writeToPoints(parameterName, value) {
-        return this.writeToSystem(`actionPoints.${parameterName}`, value)
+    pathToPoints(...pathComponents) {
+        return this.pathToGameSystemData('actionPoints', ...pathComponents)
     }
+
 }

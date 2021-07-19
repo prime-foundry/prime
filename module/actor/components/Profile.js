@@ -10,15 +10,20 @@ export default class Profile extends Component {
         return this.system.metadata;
     }
 
-    writeToMetadata(propertyName, value) {
-        this.writeToSystem(`metadata.${propertyName}`, value);
+    writeToProfile(value, ...pathComponents) {
+        this.write(this.pathToProfile(...pathComponents), value);
     }
+
+    pathToProfile(...pathComponents){
+        return this.pathToGameSystemData('profile', ...pathComponents);
+    }
+
     get name() {
         return this.content.name;
     }
 
     set name(name) {
-        this.writeToContent('name', name);
+        this.write(this.pathToFoundryData('name'), name)
     }
 
     get portrait() {
@@ -42,7 +47,7 @@ export default class Profile extends Component {
      * @param {boolean} npc
      */
     set npc(npc) {
-        this.writeToMetadata('isNPC', npc);
+        this.writeToProfile(npc, 'isNPC');
     }
 
     get race() {
@@ -50,7 +55,7 @@ export default class Profile extends Component {
     }
 
     set race(race) {
-        this.writeToMetadata('race',race);
+        this.writeToProfile(race, 'race');
     }
 
     get faction() {
@@ -58,7 +63,7 @@ export default class Profile extends Component {
     }
 
     set faction(faction) {;
-        this.writeToMetadata('faction',faction);
+        this.writeToProfile(faction, 'faction');
     }
 
     get occupation() {
@@ -66,7 +71,7 @@ export default class Profile extends Component {
     }
 
     set occupation(occupation) {
-        this.writeToMetadata('occupation',occupation);
+        this.writeToProfile(occupation, 'occupation');
     }
 
     get celestial() {
@@ -74,7 +79,7 @@ export default class Profile extends Component {
     }
 
     set celestial(celestial) {
-        this.writeToMetadata('celestial',celestial);
+        this.writeToProfile(celestial, 'celestial');
     }
 
     get birthplace() {
@@ -82,7 +87,7 @@ export default class Profile extends Component {
     }
 
     set birthplace(birthplace) {
-        this.writeToMetadata('birthplace',birthplace);
+        this.writeToProfile(birthplace, 'birthplace');
     }
 
     get rankOrTitle() {
@@ -90,7 +95,7 @@ export default class Profile extends Component {
     }
 
     set rankOrTitle(rankOrTitle) {
-        this.writeToMetadata('rankOrTitle',rankOrTitle);
+        this.writeToProfile(rankOrTitle, 'rankOrTitle');
     }
 
     get height() {
@@ -98,7 +103,7 @@ export default class Profile extends Component {
     }
 
     set height(height) {
-        this.writeToMetadata('height',height);
+        this.writeToProfile(height, 'height');
     }
 
     get weight() {
@@ -106,7 +111,7 @@ export default class Profile extends Component {
     }
 
     set weight(weight) {
-        this.writeToMetadata('weight',weight);
+        this.writeToProfile(weight, 'weight');
     }
 
     get hair() {
@@ -114,7 +119,7 @@ export default class Profile extends Component {
     }
 
     set hair(hair) {
-        this.writeToMetadata('hair',hair);
+        this.writeToProfile(hair, 'hair');
     }
 
     get eyes() {
@@ -122,7 +127,7 @@ export default class Profile extends Component {
     }
 
     set eyes(eyes) {
-        this.writeToMetadata('eyes',eyes);
+        this.writeToProfile(eyes, 'eyes');
     }
 
     get gender() {
@@ -130,7 +135,7 @@ export default class Profile extends Component {
     }
 
     set gender(gender) {
-        this.writeToMetadata('gender',gender);
+        this.writeToProfile(gender, 'gender');
     }
 
     get age() {
@@ -138,7 +143,7 @@ export default class Profile extends Component {
     }
 
     set age(age) {
-        this.writeToMetadata('age',age);
+        this.writeToProfile(age, 'age');
     }
 
     get biography() {
@@ -146,6 +151,6 @@ export default class Profile extends Component {
     }
 
     set biography(biography) {
-        this.writeToMetadata('biography',biography);
+        this.writeToProfile(biography, 'biography');
     }
 }

@@ -81,9 +81,9 @@ export default class Metadata extends Component {
             updates = updates.slice(-20);
         }
 
-        this.writeToSystem('metadata.updates', updates);
+        this.write(this.pathToGameSystemData('metadata', 'updates'), updates);
         if(this.created == null){
-            this.writeToSystem('metadata.created', update);
+            this.write(this.pathToGameSystemData('metadata', 'created'), updates);
         }
     }
 

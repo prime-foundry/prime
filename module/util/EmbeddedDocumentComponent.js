@@ -10,16 +10,8 @@ export default class EmbeddedDocumentComponent extends Component {
         this.owningDyn = this.owningComponent.dyn;
     }
 
-    writeToContent(path, value) {
-        const lastValue = super.writeToContent(path, value);
-        if(lastValue !== value){
-            this.updateOwnerDataManager();
-        }
-        return lastValue;
-    }
-
-    writeToSystem(path, value) {
-        const lastValue = super.writeToSystem(path, value);
+    write(pathComponents, value) {
+        const lastValue = super.write(pathComponents, value);
         if(lastValue !== value){
             this.updateOwnerDataManager();
         }

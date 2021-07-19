@@ -108,13 +108,10 @@ class ControllerSupport {
             const onClick = this.clickListener(this, view);
             const onChange = this.changeListener(this, view);
 
-            Object.values(this.models).forEach((model) => {
-                this.attachListener(view, model, 'click', "*", onClick);
-                this.attachListener(view, model, 'dblclick', "*", onClick);
-                this.attachListener(view, model, 'change', "input", onChange);
-                this.attachListener(view, model, 'change', "select", onChange);
-                //TODO: textarea
-            });
+            this.attachListener(view, 'click', "*", onClick);
+            this.attachListener(view, 'dblclick', "*", onClick);
+            this.attachListener(view, 'change', "input", onChange);
+            this.attachListener(view, 'change', "select", onChange);
         } catch (err) {
             console.error('unable to bind view', err);
         }
@@ -163,7 +160,7 @@ class ControllerSupport {
      * @param cssElement
      * @param listener
      */
-    attachListener(view, model, eventType, cssElement, listener) {
+    attachListener(view, eventType, cssElement, listener) {
         const attribute = `${this.dataKey}-${eventType}-at`;
         const selector = `:scope ${cssElement}[${attribute}]`;
         const elements = view.querySelectorAll(selector);

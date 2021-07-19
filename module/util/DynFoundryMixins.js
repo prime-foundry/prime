@@ -86,33 +86,27 @@ class DynModel {
         return this.content.data;
     }
 
+
     /**
-     * Given a path from document data, and a value set the value at that path point.
      *
-     * The base content of any document, generally it follows a fixed structure, as defined by a schema.
-     * @see foundry.abstract.DocumentData.defineSchema()
-     * @see ActorData.defineSchema()
-     * @param path
-     * @param value
-     * @returns {*} the last value that had been set.
+     * @param {string} pathComponents
+     * @returns {string[]}
      */
-    writeToContent(path, value) {
-        return this.dataManager.write(`data.${path}`, value);
+    pathToFoundryData(...pathComponents){
+        return ['data', ...pathComponents];
     }
 
     /**
-     * Given a path from system data, and a value set the value at that path point.
-     *
-     * system data is the freeform add whatever you want to data, it is generally based on the template set for the system.
-     * Because it is defined by the schema, is not guaranteed to be there, however I can't see any document that doesn't use it,
-     * @returns {*} the last value that had been set.
+     * @param {string} pathComponents
+     * @returns {string[]}
      */
-    writeToSystem(path, value) {
-        return this.dataManager.write(`data.data.${path}`, value);
+    pathToGameSystemData(...pathComponents){
+        return this.pathToFoundryData('data', ...pathComponents);
     }
 
-
-
+    write(pathComponents, value) {
+        return this.dataManager.write(pathComponents, value);
+    }
 
     registerUpdateListener(updateListener, before=true){
         // a little cleanup, of any dangling references.

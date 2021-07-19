@@ -29,12 +29,13 @@ export default class StatItem extends Component {
     get setting(){
         return this.system.setting;
     }
+
     /**
      *
      * @param {boolean} bool
      */
     set default(bool){
-        super.writeToSystem('default', !!bool)
+        this.write(this.pathToGameSystemData('default'), !!bool);
     }
 
     /**
@@ -42,15 +43,14 @@ export default class StatItem extends Component {
      * @param {boolean} bool
      */
     set customisable(bool){
-        super.writeToSystem('customisable', !!bool)
+        this.write(this.pathToGameSystemData('customisable'), !!bool);
     }
 
     set statType(statType) {
-        super.writeToSystem('statType', statType)
+        this.write(this.pathToGameSystemData('statType'), statType);
     }
 
-
     set setting(setting) {
-        super.writeToSystem('setting', setting)
+        this.write(this.pathToGameSystemData('setting'), setting);
     }
 }

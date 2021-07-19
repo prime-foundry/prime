@@ -53,7 +53,7 @@ class Stat extends EmbeddedDocumentComponent {
 
     set value(value) {
         if (value <= this.max && value >= 0) {
-            this.writeToSystem('value', value);
+            this.write(this.pathToGameSystemData('value'), value);
         }
     }
 

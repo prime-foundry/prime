@@ -102,9 +102,9 @@ class InjurableBase extends PointsBase {
     injure({index, selected: detail}) {
         const oldInjury = this.injuries[index];
         if (oldInjury) {
-            this.writeToInjury(index, 'detail', detail);
+            this.writeToInjuries(detail, index, 'detail');
         } else {
-            this.overwriteInjury(index, {detail, tended: false});
+            this.writeToInjuries({detail, tended: false}, index);
         }
     }
 
@@ -139,7 +139,7 @@ class InjurableBase extends PointsBase {
     aggravate(index) {
         const injury = this.injuries[index];
         if (injury && injury.tended) {
-            this.writeToInjury(index, 'tended', false);
+            this.writeToInjuries(false, index, 'tended');
         }
     }
 
@@ -151,7 +151,7 @@ class InjurableBase extends PointsBase {
     cure({index}) {
         const injury = this.injuries[index];
         if (injury) {
-            this.overwriteInjury(index, null);
+            this.writeToInjuries(null, index);
         }
     }
 
@@ -174,31 +174,26 @@ class InjurableBase extends PointsBase {
                 if (this.injuries.slice(index).filter(injury => !!injury).length === 0) {
                     let count = index - 1;
                     while (count >= 0 && this.injuries[count] == null) {
-                        this.overwriteInjury(count, {tended: false, detail: null})
+                        this.writeToInjuries({tended: false, detail: null}, count)
                         count -= 1;
                     }
                 }
-                this.overwriteInjury(index, {tended: false, detail: null})
+                this.writeToInjuries({tended: false, detail: null}, index)
             }
             // if we are not activating a wound, and the wound is not tended
         } else if (injury && !injury.tended) {
             // tend the wound
-            this.writeToInjury(index, 'tended', true)
+            this.writeToInjuries(true, index, 'tended')
             // if there are no details on this wound, then lets heal it completely. its a mistake, lets be friendly in our UI
             if ((!injury.detail) || injury.detail == '') {
-                this.overwriteInjury(index, null)
+                this.writeToInjuries(null, index)
             }
         }
     }
 
-
-    /**
-     * @protected
-     */
-    writeToPoints(parameterName, value) {
-        return this.writeToStats(`wounds.${parameterName}`, value)
+    pathToPoints(...parameters) {
+        return this.pathToStats('wounds', parameters);
     }
-
 
     /**
      * @protected
@@ -208,7 +203,7 @@ class InjurableBase extends PointsBase {
 
         const injuries = this.stats.injuries;
         if(injuries == null){
-            this.writeToSystem('injuries', []);
+            this.writeToInjuries([]);
             return this.stats.injuries;
         }
         return injuries;
@@ -217,16 +212,9 @@ class InjurableBase extends PointsBase {
     /**
      * @protected
      */
-    writeToInjuries(parameterName, value) {
+    writeToInjuries(value, ...pathComponents) {
         this._fixInjuriesData();
-        return this.writeToStats(`injuries.${parameterName}`, value)
-    }
-
-    /**
-     * @protected
-     */
-    writeToInjury(index, parameterName, value) {
-        return this.writeToInjuries(`${index}.${parameterName}`, value)
+        return this.write(this.pathToStats('injuries',...pathComponents), value)
     }
 
     /**
@@ -234,14 +222,9 @@ class InjurableBase extends PointsBase {
      */
     overwriteInjuries(injuries) {
         this._fixInjuriesData();
-        return this.writeToStats(`injuries`, injuries)
+        return this.write(this.pathToStats('injuries'), injuries)
     }
-    /**
-     * @protected
-     */
-    overwriteInjury(index, injury) {
-        return this.writeToInjuries(`${index}`, injury)
-    }
+
     /**
      * Override
      * @protected
@@ -252,11 +235,13 @@ class InjurableBase extends PointsBase {
     }
 
     /**
-     * Override
      * @protected
-     * @abstract
      */
-    writeToStats(parameterPath, value) {};
+    writeToStats(value, ...pathComponents) {
+        return this.write(this.pathToStats(...pathComponents), value);
+    };
+
+    pathToStats(...parameters) { }
 
     /**
      * Override
@@ -286,12 +271,9 @@ class Wounds extends InjurableBase {
         return this.stats.wounds;
     }
 
-    /**
-     * @protected
-     */
-    writeToStats(parameterPath, value) {
-        return this.writeToSystem(`health.${parameterPath}`, value);
-    };
+    pathToStats(...parameters) {
+        return this.pathToGameSystemData('health', ...parameters)
+    }
 
     /**
      * @protected
@@ -306,11 +288,11 @@ class Wounds extends InjurableBase {
                 const arr = Object.values(this.system.wounds);
                 const length = arr.length;
                 const injuries = arr.map((injury, idx) => ({detail: injury, tended: idx >= length}));
-                this.writeToStats('injuries', injuries);
-                this.writeToSystem('wounds', null);
+                this.writeToStats(injuries, 'injuries');
+                this.write(this.pathToGameSystemData('wounds'), null);
             } else if(this.stats.wounds.injuries != null) {
-                this.writeToStats('injuries', this.stats.wounds.injuries);
-                this.writeToStats('wounds.injuries', null);
+                this.writeToStats(this.stats.wounds.injuries, 'injuries');
+                this.writeToStats(null, 'wounds','injuries');
             }
         }
     }
@@ -333,11 +315,8 @@ class Resilience extends PointsBase {
         return this.system.health.resilience;
     }
 
-    /**
-     * @protected
-     */
-    writeToPoints(parameterName, value) {
-        return this.writeToSystem(`health.resilience.${parameterName}`, value)
+    pathToPoints(...pathComponents) {
+        return this.pathToGameSystemData('health', 'resilience', ...pathComponents);
     }
 }
 
@@ -365,12 +344,9 @@ class Insanities extends InjurableBase {
         return this.stats.insanities;
     }
 
-    /**
-     * @protected
-     */
-    writeToStats(parameterPath, value) {
-        return this.writeToSystem(`mind.${parameterPath}`, value);
-    };
+    pathToStats(...parameters) {
+        return this.pathToGameSystemData('mind', ...parameters)
+    }
 
     /**
      * @protected
@@ -378,16 +354,17 @@ class Insanities extends InjurableBase {
     _fixInjuriesData() {
         // TODO migration
         // Fix for old data structure.
-        if(this.stats.injuries == null){
+        if(this.stats.injuries == null) {
             if (this.system.insanities != null) {
                 const arr = Object.values(this.system.insanities);
                 const length = arr.length;
                 const injuries = arr.map((injury, idx) => ({detail: injury, tended: idx >= length}));
-                this.writeToStats('injuries', injuries);
-                this.writeToSystem('insanities', null);
-            } else if(this.stats.insanities.injuries != null) {
-                this.writeToStats('injuries', this.stats.insanities.injuries);
-                this.writeToStats('insanities.injuries', null);
+
+                this.writeToStats(injuries, 'injuries');
+                this.write(this.pathToGameSystemData('insanities'), null);
+            } else if (this.stats.insanities.injuries != null) {
+                this.writeToStats(this.stats.insanities.injuries, 'injuries');
+                this.writeToStats(null, 'insanities', 'injuries');
             }
         }
     }
@@ -410,11 +387,9 @@ class Psyche extends PointsBase {
         return this.system.mind.psyche;
     }
 
-    /**
-     * @protected
-     */
-    writeToPoints(parameterName, value) {
-        return this.writeToSystem(`mind.psyche.${parameterName}`, value)
+
+    pathToPoints(...pathComponents) {
+        return this.pathToGameSystemData('mind', 'psyche', ...pathComponents);
     }
 }
 

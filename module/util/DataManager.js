@@ -4,17 +4,13 @@ function fixArrays(viewParts, editParts, viewObj, editObj) {
         if (isArray) {
             const {object: editArray} = editParts[idx];
             viewArray.forEach((value, index) => {
-                if (editArray[index] == null) {
-                    editArray[index] = value;
-                }
+                editArray[index] = value;
             });
         }
     });
     if (Array.isArray(viewObj)) {
         viewObj.forEach((value, index) => {
-            if (editObj[index] == null) {
-                editObj[index] = value;
-            }
+            editObj[index] = value;
         });
     }
 }
@@ -34,15 +30,16 @@ export default class DataManager {
 
     /**
      * Given a path and a value set the value at that path point.
-     * Generally avoid using this method directly, and use writeToDocument and writeToSystem,
      * as they help to decouple as from the base implementation better.
      *
      * @param path
      * @param value
      * @returns {*}
      */
-    write(path, value){
-        // write to the read.
+    write(pathComponents, value){
+
+        const path = Array.isArray(pathComponents) ? pathComponents.join('.') : pathComponents;
+
         const {object:viewObj, property:viewProperty, parts:viewParts} = traversePath(path, this.document, true, true);
         const lastValue = viewObj[viewProperty];
 
