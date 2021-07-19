@@ -1,6 +1,8 @@
 import { PrimeTables } from "../prime_tables.js";
 import {DynDocumentMixin} from "../util/DynFoundryMixins.js";
 import StatItem from "./components/typed/StatItem.js";
+import {getComponentLazily} from "../util/support.js";
+import Metadata from "../common/components/Metadata.js";
 
 /**
  * Extend the basic Item with some very simple modifications.
@@ -8,6 +10,14 @@ import StatItem from "./components/typed/StatItem.js";
  */
 export class PrimeItem extends DynDocumentMixin(Item, 'item', 'type')
 {
+
+
+	/**
+	 * @return {Metadata}
+	 */
+	get metadata() {
+		return getComponentLazily(this, 'metadata', Metadata);
+	}
 
 	registerDynTypes(registry) {
 		registry.register('prime', StatItem);

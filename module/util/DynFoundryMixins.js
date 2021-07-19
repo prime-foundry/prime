@@ -44,12 +44,13 @@ class DynModel {
     dataManager;
     modelName;
     typeProperty;
-
+    updateListeners;
     constructor(managed, modelName, typeProperty) {
         this.managed = managed;
         this.dataManager = new DataManager(this.managed);
         this.modelName = modelName;
         this.typeProperty = typeProperty
+        this.updateListeners = new Map();
     }
 
     get typed() {
@@ -110,6 +111,30 @@ class DynModel {
         return this.dataManager.write(`data.data.${path}`, value);
     }
 
+
+
+
+    registerUpdateListener(updateListener, before=true){
+        // a little cleanup, of any dangling references.
+        this.updateListeners.forEach((value,listener,map) => {
+            if(listener.deref() == null) {
+                map.delete(listener);
+            }
+        });
+
+
+        this.updateListeners.set(new WeakRef(updateListener), before);
+    }
+
+    executeUpdateListeners(isBefore){
+
+        Array.from(this.updateListeners.entries())
+            .filter(([, before]) => before === isBefore)
+            .map(([listener,]) => listener.deref() )
+            .filter(listener => listener != null)
+            .forEach((listener) => listener.onUpdate());
+
+    }
 }
 
 /**
@@ -139,6 +164,19 @@ export const DynDocumentMixin = (FoundryDocumentType, modelName = 'doc', typePro
         }
 
         registerDynTypes(registry) {
+        }
+
+        async _preUpdate(...args)
+        {
+            const result = await super._preUpdate(...args);
+            this.dyn.executeUpdateListeners(true);
+            return result;
+        }
+
+        _onUpdate(...args) {
+            const result =  super._onUpdate(...args);
+            this.dyn.executeUpdateListeners(false);
+            return result;
         }
     };
 
@@ -195,4 +233,5 @@ export const DynApplicationMixin = (FoundryApplicationType, viewName = 'sheet') 
             super.activateListeners(html);
             this.dyn.controller.control(html);
         }
+
     };

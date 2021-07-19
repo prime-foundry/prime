@@ -151,7 +151,30 @@ export function sanitizeView(view) {
     }
     return view;
 }
-
+export function dateAsString(locale = 'en-gb')
+{
+    //const timezone = new Date().getTimezoneOffset();
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+    const dateString = new Date().toLocaleDateString(
+        locale,
+        {
+            hour: 'numeric',
+            minute: 'numeric',
+            second: 'numeric',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            timeZone: timezone
+        }
+    );
+    return dateString
+}
+export function currentUser(){
+    return userForId(game.userId);
+}
+export function userForId(userId){
+    return game.users.get(userId);
+}
 /**
  * class MyClass extends mix(SuperClass).with(Mixin1, Mixin2);
  *

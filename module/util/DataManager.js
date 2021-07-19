@@ -31,6 +31,7 @@ export default class DataManager {
         this.clear();
     }
 
+
     /**
      * Given a path and a value set the value at that path point.
      * Generally avoid using this method directly, and use writeToDocument and writeToSystem,
@@ -88,6 +89,7 @@ export default class DataManager {
             if(context.render == null){
                 context.render = false;
             }
+
             await document.update(editObject.data, context);
         }
     }
