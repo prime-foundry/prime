@@ -175,6 +175,11 @@ export function currentUser(){
 export function userForId(userId){
     return game.users.get(userId);
 }
+
+export function isString(str) {
+    return Object.prototype.toString.call(str) === "[object String]"
+}
+
 /**
  * class MyClass extends mix(SuperClass).with(Mixin1, Mixin2);
  *

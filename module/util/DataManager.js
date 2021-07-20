@@ -1,4 +1,6 @@
 import {traversePath} from "./support.js";
+import JSONPathBuilder from "./JSONPathBuilder.js";
+
 function fixArrays(viewParts, editParts, viewObj, editObj) {
     viewParts.forEach(({object: viewArray, isArray}, idx) => {
         if (isArray) {
@@ -14,6 +16,7 @@ function fixArrays(viewParts, editParts, viewObj, editObj) {
         });
     }
 }
+
 export default class DataManager {
     document;
     embeddedDataManagers;
@@ -36,17 +39,16 @@ export default class DataManager {
      * @param value
      * @returns {*}
      */
-    write(pathComponents, value){
+    write(pathComponents, value) {
+        const path = JSONPathBuilder.from(pathComponents).toString();
 
-        const path = Array.isArray(pathComponents) ? pathComponents.join('.') : pathComponents;
-
-        const {object:viewObj, property:viewProperty, parts:viewParts} = traversePath(path, this.document, true, true);
+        const {object: viewObj, property: viewProperty, parts: viewParts} = traversePath(path, this.document, true, true);
         const lastValue = viewObj[viewProperty];
 
-        if(lastValue !== value){
+        if (lastValue !== value) {
             viewObj[viewProperty] = value;
 
-            const {object:editObj, property:editProperty, parts:editParts} = traversePath(path, this.editObject, true, true);
+            const {object: editObj, property: editProperty, parts: editParts} = traversePath(path, this.editObject, true, true);
             // copy over missing information to the edited array, as foundry can't diff arrays properly.
             fixArrays(viewParts, editParts, viewObj, editObj);
             editObj[editProperty] = value;
@@ -62,7 +64,7 @@ export default class DataManager {
 
     clear() {
         this.dirty = false;
-        this.editObject = {data:{}};
+        this.editObject = {data: {}};
         // we don't call clear, because we want to pass the object off,
         // this will help prevent infinite recurssion in the commit method.
         this.embeddedDataManagers = new Set();
@@ -79,11 +81,11 @@ export default class DataManager {
         const {dirty, editObject, embeddedDataManagers, document} = this;
         this.clear();
 
-        for(const embedded of embeddedDataManagers) {
+        for (const embedded of embeddedDataManagers) {
             embedded.commit(context);
         }
-        if(dirty) {
-            if(context.render == null){
+        if (dirty) {
+            if (context.render == null) {
                 context.render = false;
             }
 
