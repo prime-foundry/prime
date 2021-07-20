@@ -31,7 +31,7 @@ export default class JSONPathBuilder {
         return new JSONPathBuilder(...pathComponents)
     }
 
-    dot(...pathComponents){
+    with(...pathComponents){
         const addedComponents = buildPathComponents(pathComponents);
         return JSONPathBuilder.from(...this.pathComponents, ...addedComponents);
     }

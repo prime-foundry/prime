@@ -191,8 +191,8 @@ class InjurableBase extends PointsBase {
         }
     }
 
-    pathToPoints(...parameters) {
-        return this.pathToStats('wounds', parameters);
+    get pointsPath() {
+        return this.statsPath.with('wounds');
     }
 
     /**
@@ -214,7 +214,7 @@ class InjurableBase extends PointsBase {
      */
     writeToInjuries(value, ...pathComponents) {
         this._fixInjuriesData();
-        return this.write(this.pathToStats('injuries',...pathComponents), value)
+        return this.write(this.statsPath.with('injuries',...pathComponents), value)
     }
 
     /**
@@ -222,7 +222,7 @@ class InjurableBase extends PointsBase {
      */
     overwriteInjuries(injuries) {
         this._fixInjuriesData();
-        return this.write(this.pathToStats('injuries'), injuries)
+        return this.write(this.statsPath.with('injuries'), injuries)
     }
 
     /**
@@ -238,10 +238,10 @@ class InjurableBase extends PointsBase {
      * @protected
      */
     writeToStats(value, ...pathComponents) {
-        return this.write(this.pathToStats(...pathComponents), value);
+        return this.write(this.statsPath.with(...pathComponents), value);
     };
 
-    pathToStats(...parameters) { }
+    get statsPath() { }
 
     /**
      * Override
@@ -262,7 +262,7 @@ class Wounds extends InjurableBase {
     }
 
     get stats() {
-        return this.system.health;
+        return this.gameSystem.health;
     }
     /**
      * @protected
@@ -271,8 +271,8 @@ class Wounds extends InjurableBase {
         return this.stats.wounds;
     }
 
-    pathToStats(...parameters) {
-        return this.pathToGameSystemData('health', ...parameters)
+    get statsPath() {
+        return this.gameSystemPath.with('health');
     }
 
     /**
@@ -284,12 +284,12 @@ class Wounds extends InjurableBase {
 
         if(this.stats.injuries == null){
 
-            if (this.system.wounds != null) {
-                const arr = Object.values(this.system.wounds);
+            if (this.gameSystem.wounds != null) {
+                const arr = Object.values(this.gameSystem.wounds);
                 const length = arr.length;
                 const injuries = arr.map((injury, idx) => ({detail: injury, tended: idx >= length}));
                 this.writeToStats(injuries, 'injuries');
-                this.write(this.pathToGameSystemData('wounds'), null);
+                this.write(this.gameSystemPath.with('wounds'), null);
             } else if(this.stats.wounds.injuries != null) {
                 this.writeToStats(this.stats.wounds.injuries, 'injuries');
                 this.writeToStats(null, 'wounds','injuries');
@@ -312,11 +312,11 @@ class Resilience extends PointsBase {
      * @protected
      */
     get points() {
-        return this.system.health.resilience;
+        return this.gameSystem.health.resilience;
     }
 
-    pathToPoints(...pathComponents) {
-        return this.pathToGameSystemData('health', 'resilience', ...pathComponents);
+    get pointsPath() {
+        return this.gameSystemPath.with('health', 'resilience');
     }
 }
 
@@ -334,7 +334,7 @@ class Insanities extends InjurableBase {
      * @protected
      */
     get stats() {
-        return this.system.mind;
+        return this.gameSystem.mind;
     }
 
     /**
@@ -344,8 +344,8 @@ class Insanities extends InjurableBase {
         return this.stats.insanities;
     }
 
-    pathToStats(...parameters) {
-        return this.pathToGameSystemData('mind', ...parameters)
+    get statsPath() {
+        return this.gameSystemPath.with('mind');
     }
 
     /**
@@ -355,13 +355,13 @@ class Insanities extends InjurableBase {
         // TODO migration
         // Fix for old data structure.
         if(this.stats.injuries == null) {
-            if (this.system.insanities != null) {
-                const arr = Object.values(this.system.insanities);
+            if (this.gameSystem.insanities != null) {
+                const arr = Object.values(this.gameSystem.insanities);
                 const length = arr.length;
                 const injuries = arr.map((injury, idx) => ({detail: injury, tended: idx >= length}));
 
                 this.writeToStats(injuries, 'injuries');
-                this.write(this.pathToGameSystemData('insanities'), null);
+                this.write(this.gameSystemPath.with('insanities'), null);
             } else if (this.stats.insanities.injuries != null) {
                 this.writeToStats(this.stats.insanities.injuries, 'injuries');
                 this.writeToStats(null, 'insanities', 'injuries');
@@ -384,12 +384,12 @@ class Psyche extends PointsBase {
      * @protected
      */
     get points() {
-        return this.system.mind.psyche;
+        return this.gameSystem.mind.psyche;
     }
 
 
-    pathToPoints(...pathComponents) {
-        return this.pathToGameSystemData('mind', 'psyche', ...pathComponents);
+    get pointsPath() {
+        return this.gameSystemPath.with('mind', 'psyche');
     }
 }
 

@@ -17,7 +17,7 @@ Hooks.once('init', async function ()
 	};
 
 	/**
-	 * Set an initiative formula for the system
+	 * Set an initiative formula for the gameSystem
 	 * @type {String}
 	 */
 	CONFIG.Combat.initiative = {

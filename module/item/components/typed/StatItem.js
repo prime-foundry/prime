@@ -15,19 +15,19 @@ export default class StatItem extends Component {
     }
 
     get default(){
-        return this.system.default;
+        return this.gameSystem.default;
     }
 
     get customisable(){
-        return this.system.customisable;
+        return this.gameSystem.customisable;
    }
 
     get statType(){
-        return this.system.statType;
+        return this.gameSystem.statType;
     }
 
     get setting(){
-        return this.system.setting;
+        return this.gameSystem.setting;
     }
 
     /**
@@ -35,7 +35,7 @@ export default class StatItem extends Component {
      * @param {boolean} bool
      */
     set default(bool){
-        this.write(this.pathToGameSystemData('default'), !!bool);
+        this.write(this.gameSystemPath.with('default'), !!bool);
     }
 
     /**
@@ -43,14 +43,14 @@ export default class StatItem extends Component {
      * @param {boolean} bool
      */
     set customisable(bool){
-        this.write(this.pathToGameSystemData('customisable'), !!bool);
+        this.write(this.gameSystemPath.with('customisable'), !!bool);
     }
 
     set statType(statType) {
-        this.write(this.pathToGameSystemData('statType'), statType);
+        this.write(this.gameSystemPath.with('statType'), statType);
     }
 
     set setting(setting) {
-        this.write(this.pathToGameSystemData('setting'), setting);
+        this.write(this.gameSystemPath.with('setting'), setting);
     }
 }

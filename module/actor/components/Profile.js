@@ -6,28 +6,28 @@ export default class Profile extends Component {
         super(parent);
     }
 
-    get metadata() {
-        return this.system.metadata;
+    get profile() {
+        return this.gameSystem.profile || {};
     }
 
-    writeToProfile(value, ...pathComponents) {
-        this.write(this.pathToProfile(...pathComponents), value);
+    writeToProfile(value, parameterName) {
+        this.write(this.profileData.with(parameterName), value);
     }
 
-    pathToProfile(...pathComponents){
-        return this.pathToGameSystemData('profile', ...pathComponents);
+    get profileData(){
+        return this.gameSystemPath.with('profile');
     }
 
     get name() {
-        return this.content.name;
+        return this.foundryData.name;
     }
 
     set name(name) {
-        this.write(this.pathToFoundryData('name'), name)
+        this.write(this.foundryDataPath.with('name'), name)
     }
 
     get portrait() {
-        return this.content.img;
+        return this.foundryData.img;
     }
 
     //TODO relook at ownersNames
@@ -40,7 +40,7 @@ export default class Profile extends Component {
      * @return {boolean}
      */
     get npc() {
-        return !!this.metadata.isNPC;
+        return !!this.profile.isNPC;
     }
 
     /**
@@ -51,7 +51,7 @@ export default class Profile extends Component {
     }
 
     get race() {
-        return this.metadata.race;
+        return this.profile.race;
     }
 
     set race(race) {
@@ -59,7 +59,7 @@ export default class Profile extends Component {
     }
 
     get faction() {
-        return this.metadata.faction;
+        return this.profile.faction;
     }
 
     set faction(faction) {;
@@ -67,7 +67,7 @@ export default class Profile extends Component {
     }
 
     get occupation() {
-        return this.metadata.occupation;
+        return this.profile.occupation;
     }
 
     set occupation(occupation) {
@@ -75,7 +75,7 @@ export default class Profile extends Component {
     }
 
     get celestial() {
-        return this.metadata.celestial;
+        return this.profile.celestial;
     }
 
     set celestial(celestial) {
@@ -83,7 +83,7 @@ export default class Profile extends Component {
     }
 
     get birthplace() {
-        return this.metadata.birthplace;
+        return this.profile.birthplace;
     }
 
     set birthplace(birthplace) {
@@ -91,7 +91,7 @@ export default class Profile extends Component {
     }
 
     get rankOrTitle() {
-        return this.metadata.rankOrTitle;
+        return this.profile.rankOrTitle;
     }
 
     set rankOrTitle(rankOrTitle) {
@@ -99,7 +99,7 @@ export default class Profile extends Component {
     }
 
     get height() {
-        return this.metadata.height;
+        return this.profile.height;
     }
 
     set height(height) {
@@ -107,7 +107,7 @@ export default class Profile extends Component {
     }
 
     get weight() {
-        return this.metadata.weight;
+        return this.profile.weight;
     }
 
     set weight(weight) {
@@ -115,7 +115,7 @@ export default class Profile extends Component {
     }
 
     get hair() {
-        return this.metadata.hair;
+        return this.profile.hair;
     }
 
     set hair(hair) {
@@ -123,7 +123,7 @@ export default class Profile extends Component {
     }
 
     get eyes() {
-        return this.metadata.eyes;
+        return this.profile.eyes;
     }
 
     set eyes(eyes) {
@@ -131,7 +131,7 @@ export default class Profile extends Component {
     }
 
     get gender() {
-        return this.metadata.gender;
+        return this.profile.gender;
     }
 
     set gender(gender) {
@@ -139,7 +139,7 @@ export default class Profile extends Component {
     }
 
     get age() {
-        return this.metadata.age;
+        return this.profile.age;
     }
 
     set age(age) {
@@ -147,7 +147,7 @@ export default class Profile extends Component {
     }
 
     get biography() {
-        return this.metadata.biography;
+        return this.profile.biography;
     }
 
     set biography(biography) {

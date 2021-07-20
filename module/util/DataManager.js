@@ -35,8 +35,8 @@ export default class DataManager {
      * Given a path and a value set the value at that path point.
      * as they help to decouple as from the base implementation better.
      *
-     * @param path
-     * @param value
+     * @param {JSONPathBuilder | string[] | string} pathComponents
+     * @param {any} value
      * @returns {*}
      */
     write(pathComponents, value) {

@@ -8,7 +8,7 @@ import {DynDocumentMixin} from "../util/DynFoundryMixins.js";
 
 import { PrimeItemManager } from "../item/PrimeItemManager.js";
 /**
- * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple system.
+ * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple gameSystem.
  * @extends {Actor}
  */
 export class PrimeActor extends DynDocumentMixin(Actor, 'actor')
@@ -42,7 +42,7 @@ export class PrimeActor extends DynDocumentMixin(Actor, 'actor')
 
 
 	get type() {
-		return this.dyn.content.type;
+		return this.dyn.foundryData.type;
 	}
 
 	isCharacter() {

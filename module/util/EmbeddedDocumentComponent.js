@@ -10,6 +10,12 @@ export default class EmbeddedDocumentComponent extends Component {
         this.owningDyn = this.owningComponent.dyn;
     }
 
+    /**
+     *
+     * @param {JSONPathBuilder | string[] | string} pathComponents
+     * @param {any} value
+     * @returns {*}
+     */
     write(pathComponents, value) {
         const lastValue = super.write(pathComponents, value);
         if(lastValue !== value){

@@ -80,7 +80,7 @@ export class Prime_V1 extends Stat_V1 {
     }
 
     writeToPrimes(id, value) {
-        this.write(this.pathToGameSystemData('primes', id, 'value'), value);
+        this.write(this.gameSystemPath.with('primes',id,'value'), value);
     }
 }
 
@@ -99,6 +99,6 @@ export class Refinement_V1 extends Stat_V1 {
         }
     }
     writeT0Refinements(id, value) {
-        this.write(this.pathToGameSystemData('refinements', id, 'value'), value);
+        this.write(this.gameSystemPath.with('refinements', id, 'value'), value);
     }
 }

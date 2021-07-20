@@ -61,7 +61,7 @@ export default class Metadata extends Component {
     }
 
     get metadata() {
-        return this.system.metadata || {};
+        return this.gameSystem.metadata || {};
     }
 
     onUpdate(){
@@ -81,9 +81,9 @@ export default class Metadata extends Component {
             updates = updates.slice(-20);
         }
 
-        this.write(this.pathToGameSystemData('metadata', 'updates'), updates);
+        this.write(this.gameSystemPath.with('metadata', 'updates'), updates);
         if(this.created == null){
-            this.write(this.pathToGameSystemData('metadata', 'created'), updates);
+            this.write(this.gameSystemPath.with('metadata', 'created'), updates);
         }
     }
 

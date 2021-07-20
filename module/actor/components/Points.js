@@ -58,10 +58,10 @@ export class PointsBase extends Component {
      * @interface
      */
     writeToPoints(value, ...pathComponents) {
-        this.write(this.pathToPoints(...pathComponents), value);
+        this.write(this.pointsPath.with(...pathComponents), value);
     }
 
-    pathToPoints(...pathComponents) { }
+    get pointsPath() { }
 }
 
 /**
@@ -117,10 +117,10 @@ export class AwardableBase extends Component {
      * @interface
      */
     writeToPoints(value, ...pathComponents) {
-        this.write(this.pathToPoints(...pathComponents), value);
+        this.write(this.pointsPath.with(...pathComponents), value);
     }
 
-    pathToPoints(...pathComponents) { }
+    get pointsPath() { }
 }
 
 export class XP extends AwardableBase {
@@ -134,18 +134,18 @@ export class XP extends AwardableBase {
      * @returns {{initial: number, awarded: number}}
      */
     get points() {
-        return this.system.xp;
+        return this.gameSystem.xp;
     }
 
-    pathToPoints(...pathComponents) {
-        return this.pathToGameSystemData('xp', ...pathComponents)
+    get pointsPath() {
+        return this.gameSystemPath.with('xp');
     }
 
     get spent() {
         if (this.document.isCharacter()) {
             // TODO: totalcost and totalperkcost don't belong in the actor class directly.
             // TODO will not work with V2 chars.
-            const refinementCost = this.document.getTotalCost(this.system.refinements);
+            const refinementCost = this.document.getTotalCost(this.gameSystem.refinements);
             const perkXPCost = this.document.getTotalPerkCost("perkCostXP");
             return refinementCost + perkXPCost;
         }
@@ -164,11 +164,11 @@ export class Soul extends AwardableBase {
      * @returns {{initial: number, awarded: number}}
      */
     get points() {
-        return this.system.soul;
+        return this.gameSystem.soul;
     }
 
-    pathToPoints(...pathComponents) {
-        return this.pathToGameSystemData('soul', ...pathComponents)
+    get pointsPath() {
+        return this.gameSystemPath.with('soul');
     }
 
     get value() {
@@ -187,7 +187,7 @@ export class Soul extends AwardableBase {
         if (this.document.isCharacter()) {
             // TODO: totalcost and totalperkcost don't belong in the actor class directly.
             // TODO will not work with V2 chars.
-            const primeCost = this.document.getTotalCost(this.system.primes);
+            const primeCost = this.document.getTotalCost(this.gameSystem.primes);
             const perkSoulCost = this.document.getTotalPerkCost("perkCostSoul");
             return primeCost + perkSoulCost;
         }
@@ -217,11 +217,11 @@ export class ActionPoints extends PointsBase {
 
 
     get points() {
-        return this.system.actionPoints;
+        return this.gameSystem.actionPoints;
     }
 
-    pathToPoints(...pathComponents) {
-        return this.pathToGameSystemData('actionPoints', ...pathComponents)
+    get pointsPath() {
+        return this.gameSystemPath.with('actionPoints')
     }
 
 }

@@ -10,19 +10,19 @@ class Stat extends EmbeddedDocumentComponent {
     }
 
     get customisable() {
-        return !!this.system.customisable;
+        return !!this.gameSystem.customisable;
     }
 
     get default() {
-        return !!this.system.default;
+        return !!this.gameSystem.default;
     }
 
     get statType() {
-        return this.system.statType;
+        return this.gameSystem.statType;
     }
 
     get description() {
-        return this.system.description;
+        return this.gameSystem.description;
     }
 
     get directory() {
@@ -30,17 +30,17 @@ class Stat extends EmbeddedDocumentComponent {
     }
 
     get sourceKey() {
-        return this.system.sourceKey;
+        return this.gameSystem.sourceKey;
     }
 
     get title() {
 		// TODO: Check if this is still required post migration to V2 data.
 		// Try one and fallback if not present.
-        return this.system.name || this.document.name;
+        return this.gameSystem.name || this.document.name;
     }
 
     get max() {
-        return this.system.max;
+        return this.gameSystem.max;
     }
 
     get related() {
@@ -48,12 +48,12 @@ class Stat extends EmbeddedDocumentComponent {
     }
 
     get value() {
-        return this.system.value;
+        return this.gameSystem.value;
     }
 
     set value(value) {
         if (value <= this.max && value >= 0) {
-            this.write(this.pathToGameSystemData('value'), value);
+            this.write(this.gameSystemPath.with('value'), value);
         }
     }
 
@@ -124,8 +124,8 @@ class Primes extends StatCollection {
 
     _getTransformedItems() {
         if (this.document.version === 1) {
-            // TODO: Migrate: version 1 takes its data from the actor system data and not items.
-            return Object.entries(this.system.primes)
+            // TODO: Migrate: version 1 takes its data from the actor gameSystem data and not items.
+            return Object.entries(this.gameSystem.primes)
                     .map(statData => new Prime_V1(this, statData));
         }
 
@@ -144,8 +144,8 @@ class Refinements extends StatCollection {
 
     _getTransformedItems() {
         if (this.document.version === 1) {
-            // TODO: Migrate: version 1 takes its data from the actor system data and not items.
-            return  Object.entries(this.system.refinements)
+            // TODO: Migrate: version 1 takes its data from the actor gameSystem data and not items.
+            return  Object.entries(this.gameSystem.refinements)
                     .map(statData => new Refinement_V1(this, statData));
         }
 

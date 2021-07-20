@@ -1,5 +1,6 @@
 import DataManager from "./DataManager.js";
 import Controller from "./Controller.js";
+import JSONPathBuilder from "./JSONPathBuilder.js";
 
 class GlobalTypeRegistry {
     static registry = new Map();
@@ -66,44 +67,53 @@ class DynModel {
     }
 
     /**
-     * The base content of any document, generally it follows a fixed structure, as defined by a schema.
+     * The base foundryData of any document, generally it follows a fixed structure, as defined by a schema.
      *
      * @see foundry.abstract.DocumentData.defineSchema()
      * @see ActorData.defineSchema()
-     * @returns {typeof foundry.abstract.DocumentData}
+     * @returns {foundry.abstract.DocumentData | {data}}
      */
-    get content() {
+    get foundryData() {
         return this.managed.data;
     }
 
 
     /**
-     * system data is the freeform add whatever you want to data, it is generally based on the template set for the system.
+     * gameSystem data is the freeform add whatever you want to data, it is generally based on the template set for the gameSystem.
      * Because it is defined by the schema, is not guaranteed to be there, however I can't see any document that doesn't use it,
      * @returns {Object}
      */
-    get system() {
-        return this.content.data;
+    get gameSystem() {
+        return this.foundryData.data;
     }
 
+
+    /**
+     * @returns {JSONPathBuilder}
+     */
+    get foundryDataPath(){
+        if(this._foundryDataPath == null) {
+            this._foundryDataPath = JSONPathBuilder.from('data');
+        }
+        return this._foundryDataPath;
+    }
+
+    /**
+     * @returns {JSONPathBuilder}
+     */
+    get gameSystemPath (){
+        if(this._gameSystemPath == null) {
+            this._gameSystemPath = this.foundryDataPath.with('data');
+        }
+        return this._gameSystemPath;
+    }
 
     /**
      *
-     * @param {string} pathComponents
-     * @returns {string[]}
+     * @param {JSONPathBuilder | string[] | string} pathComponents
+     * @param {any} value
+     * @returns {*}
      */
-    pathToFoundryData(...pathComponents){
-        return ['data', ...pathComponents];
-    }
-
-    /**
-     * @param {string} pathComponents
-     * @returns {string[]}
-     */
-    pathToGameSystemData(...pathComponents){
-        return this.pathToFoundryData('data', ...pathComponents);
-    }
-
     write(pathComponents, value) {
         return this.dataManager.write(pathComponents, value);
     }

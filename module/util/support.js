@@ -55,7 +55,7 @@ export function calculateValueOnce(target, name, func) {
 }
 
 /**
- * @param {string} path - the dot seperated path to an object
+ * @param {string} path - the with seperated path to an object
  * @param {{}} root - the root object to traverse.
  * @param {boolean} (createIfMissing=false) - fills in missing fields, if set to true; or throws an error if set to false, defaults to false.
  * @returns {{object: {}, property: string}}
