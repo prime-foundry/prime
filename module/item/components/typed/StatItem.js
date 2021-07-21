@@ -30,6 +30,19 @@ export default class StatItem extends Component {
         return this.gameSystem.setting;
     }
 
+    get description(){
+        return this.gameSystem.description;
+    }
+
+    get description_path(){
+        return this.gameSystemPath.with('description');
+    }
+
+    set description(description){
+        this.write(this.description_path, description);
+    }
+
+
     /**
      *
      * @param {boolean} bool

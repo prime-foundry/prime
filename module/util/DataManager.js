@@ -39,8 +39,11 @@ export default class DataManager {
      * @param {any} value
      * @returns {*}
      */
-    write(pathComponents, value) {
+    write(pathComponents, value, options={getPath:false}) {
         const path = JSONPathBuilder.from(pathComponents).toString();
+        if(options.getPath){
+            return path;
+        }
 
         const {object: viewObj, property: viewProperty, parts: viewParts} = traversePath(path, this.document, true, true);
         const lastValue = viewObj[viewProperty];

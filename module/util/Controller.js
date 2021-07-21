@@ -46,6 +46,11 @@ export default class Controller {
         const theView = sanitizeView(view);
         this._support.control(theView);
     }
+
+
+    getModelValue(at, inputDyn) {
+        return this._support.getModelValue(at, inputDyn);
+    }
 }
 
 class ControllerSupport {

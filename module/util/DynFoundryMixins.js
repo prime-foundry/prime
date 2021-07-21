@@ -238,4 +238,10 @@ export const DynApplicationMixin = (FoundryApplicationType, viewName = 'sheet') 
             this.dyn.controller.control(html);
         }
 
+        getData() {
+            const data = super.getData();
+            data.dyn = this.dyn;
+            return data;
+        }
+
     };
