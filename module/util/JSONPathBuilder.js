@@ -39,4 +39,24 @@ export default class JSONPathBuilder {
     toString(){
         return this.pathComponents.join('.');
     }
+
+    toArray(){
+        return Array.from(this.pathComponents); // its basically a clone.
+    }
+
+    slice(...args){
+        return JSONPathBuilder.from(...(this.pathComponents.slice(...args)));
+    }
+
+    find(...args){
+        this.pathComponents.find(...args);
+    }
+
+    * [Symbol.iterator] (){
+        yield * this.pathComponents;
+    }
+
+    get length(){
+        return this.pathComponents.length;
+    }
 }

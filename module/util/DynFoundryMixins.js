@@ -1,6 +1,7 @@
 import DataManager from "./DataManager.js";
 import Controller from "./Controller.js";
 import JSONPathBuilder from "./JSONPathBuilder.js";
+import CommonItem from "../item/components/typed/CommonItem.js";
 
 class GlobalTypeRegistry {
     static registry = new Map();
@@ -28,15 +29,22 @@ class GlobalTypeRegistry {
 
 class TypeRegistry {
     registry = new Map();
+    default = null;
 
     register(typeName, Type) {
         if (!this.registry.has(typeName)) {
             this.registry.set(typeName, Type)
         }
+        return this;
+    }
+
+    default(Type) {
+        this.default = Type;
+        return this;
     }
 
     get(typeName) {
-        return this.registry.get(typeName);
+        return this.registry.get(typeName) || this.default;
     }
 }
 

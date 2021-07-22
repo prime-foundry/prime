@@ -1,90 +1,48 @@
 import Component from "../../util/Component.js";
-import {currentUser, dateAsString, userForId} from "../../util/support.js";
 
 export default class Metadata extends Component {
 
     constructor(parent) {
         super(parent);
-        this.dyn.registerUpdateListener(this);
     }
 
-    get created(){
-        return this.metadata.created;
+    get default(){
+        return this.metadata.default;
     }
 
-    get createdName(){
-        const created = this.created;
-        if(created == null){
-            return 'N/A';
-        }
-        const user = userForId(created.userId);
-        if(user == null){
-            return created.name;
-        }
-        return user.name;
+    get customisable(){
+        return this.metadata.customisable;
     }
 
-    get createdDate(){
-        const created = this.created;
-        if(created == null){
-            return 'N/A';
-        }
-        return created.date;
+    get setting(){
+        return this.metadata.setting;
     }
 
-    get lastUpdatedName(){
-        const updated = this.lastUpdated;
-        if(updated == null){
-            return 'N/A';
-        }
-        const user = userForId(updated.userId);
-        if(user == null){
-            return updated.name;
-        }
-        return user.name;
+    /**
+     *
+     * @param {boolean} bool
+     */
+    set default(bool){
+        this.write(this.metadataPath.with('default'), !!bool);
     }
 
-    get lastUpdatedDate(){
-        const updated = this.lastUpdated;
-        if(updated == null){
-            return 'N/A';
-        }
-        return updated.date;
-    }
-    get lastUpdated(){
-        const updaters = this.updates;
-        return (updaters || []).slice(-1)[0]
+    /**
+     *
+     * @param {boolean} bool
+     */
+    set customisable(bool){
+        this.write(this.metadataPath.with('customisable'), !!bool);
     }
 
-    get updates() {
-        return this.metadata.updates;
+    set setting(setting) {
+        this.write(this.metadataPath.with('setting'), setting);
     }
 
-    get metadata() {
-        return this.gameSystem.metadata || {};
+    get metadata(){
+        return this.gameSystem.metadata;
     }
 
-    onUpdate(){
-        const user = currentUser();
-        const date = dateAsString();
-        const name = user.name;
-        const userId = user.id;
-
-        const update = {name, userId, date};
-
-        let updates = Array.from(this.updates) || [];
-
-        updates.push(update);
-        // 20 is a magic number, yes it is.
-        // maybe do a compression here, where we keep unique userids, between changes.
-        if(updates.length > 20){
-            updates = updates.slice(-20);
-        }
-
-        this.write(this.gameSystemPath.with('metadata', 'updates'), updates);
-        if(this.created == null){
-            this.write(this.gameSystemPath.with('metadata', 'created'), updates);
-        }
+    get metadataPath(){
+        return this.gameSystemPath.with('metadata');
     }
-
 }

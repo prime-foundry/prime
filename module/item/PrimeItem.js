@@ -1,8 +1,7 @@
 import { PrimeTables } from "../prime_tables.js";
 import {DynDocumentMixin} from "../util/DynFoundryMixins.js";
 import StatItem from "./components/typed/StatItem.js";
-import {getComponentLazily} from "../util/support.js";
-import Metadata from "../common/components/Metadata.js";
+import CommonItem from "./components/typed/CommonItem.js";
 
 /**
  * Extend the basic Item with some very simple modifications.
@@ -11,17 +10,17 @@ import Metadata from "../common/components/Metadata.js";
 export class PrimeItem extends DynDocumentMixin(Item, 'item', 'type')
 {
 
-
 	/**
-	 * @return {Metadata}
+	 * These are the types returned on the model named item, instead of this Document.
+	 * This allows us to have typed values. If a default is not provided, then it will return the document.
+	 *
+	 * @param registry
 	 */
-	get metadata() {
-		return getComponentLazily(this, 'metadata', Metadata);
-	}
-
 	registerDynTypes(registry) {
-		registry.register('prime', StatItem);
-		registry.register('refinement', StatItem);
+		registry
+			.default(CommonItem)
+			.register('prime', StatItem)
+			.register('refinement', StatItem);
 	}
 
 	// static get config()
