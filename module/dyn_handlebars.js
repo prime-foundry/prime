@@ -19,7 +19,7 @@ class DynHandlebars {
         if ( !content ) throw new DynError(`You must have a content getter for: ${at}`);
 
         const actualTarget = JSONPathBuilder.from(foundPath).toString();
-        const target = actualTarget.slice(5); // exclude the first five characters .data because foundry is a dick.
+        const target = actualTarget.slice(5); // exclude the first five characters 'data.' because foundry is a dick.
         const newOptions = {...options, hash:{...hash, target, content}};
 
         return HandlebarsHelpers.editor(newOptions);
