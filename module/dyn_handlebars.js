@@ -18,8 +18,8 @@ class DynHandlebars {
         const content = dyn.controller.getModelValue(at, inputDyn);
         if ( !content ) throw new DynError(`You must have a content getter for: ${at}`);
 
-        const actualTarget = JSONPathBuilder.from(foundPath).toString();
-        const target = actualTarget.slice(5); // exclude the first five characters 'data.' because foundry is a dick.
+        // exclude the first path component 'data.' because foundry is a dick.
+        const target = JSONPathBuilder.from(foundPath).slice(1).toString();
         const newOptions = {...options, hash:{...hash, target, content}};
 
         return HandlebarsHelpers.editor(newOptions);

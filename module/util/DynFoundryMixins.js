@@ -1,7 +1,6 @@
 import DataManager from "./DataManager.js";
 import Controller from "./Controller.js";
 import JSONPathBuilder from "./JSONPathBuilder.js";
-import CommonItem from "../item/components/typed/CommonItem.js";
 
 class GlobalTypeRegistry {
     static registry = new Map();
@@ -70,7 +69,8 @@ class DynModel {
             if (Type == null) {
                 return this.managed;
             }
-            return new Type(this.managed);
+            const type = new Type(this.managed);
+            return type;
         }
     }
 
@@ -229,10 +229,10 @@ export const DynApplicationMixin = (FoundryApplicationType, viewName = 'sheet') 
                 const models = {};
                 models[viewName] = this;
                 const doc = this.document;
+                // we always have a doc field, this may get overridden.
+                models.doc = doc;
                 if (doc && doc.dyn) {
                     models[doc.dyn.modelName] = doc.dyn.typed;
-                } else {
-                    models.doc = doc;
                 }
                 this._dynModels = models;
             }
