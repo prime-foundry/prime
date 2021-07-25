@@ -2,7 +2,7 @@ import Component from "../../../util/Component.js";
 import {getComponentLazily} from "../../../util/support.js";
 import Metadata from "../../../common/components/Metadata.js";
 import Audit from "../Audit.js";
-import Description from "../Description.js";
+import Descriptions from "../Descriptions.js";
 import Value from "../Value.js";
 
 export default class CommonItem extends Component {
@@ -27,8 +27,8 @@ export default class CommonItem extends Component {
     /**
      * @return {Description}
      */
-    get description()  {
-        return getComponentLazily(this, 'description', Description);
+    get descriptions()  {
+        return getComponentLazily(this, 'descriptions', Descriptions);
     }
 
 

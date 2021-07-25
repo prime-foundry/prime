@@ -53,11 +53,11 @@ export default class Audit extends Component {
     }
     get lastUpdated(){
         const updaters = this.updates;
-        return (updaters || []).slice(-1)[0]
+        return updaters.slice(-1)[0]
     }
 
     get updates() {
-        return this.audit.updates;
+        return this.audit.updates || [];
     }
 
     get audit() {
@@ -91,25 +91,45 @@ export default class Audit extends Component {
 
     onUpdate(){
         const user = currentUser();
-        const date = dateAsString();
         const name = user.name;
         const userId = user.id;
+        const date = dateAsString();
+        this.appendUpdatedAudit(name, userId, date);
+        this.setCreationAuditIfMissing(name, userId, date);
+    }
 
-        const update = {name, userId, date};
-
+    appendUpdatedAudit(name= 'system', userId= 'system', date = dateAsString()){
         let updates = Array.from(this.updates) || [];
-
-        updates.push(update);
-        // 20 is a magic number, yes it is.
-        // maybe do a compression here, where we keep unique userids, between changes.
+        updates.push({name, userId, date});
+        // we do a compression here, where we keep one value for a section with repeated userids,
+        // but remove dates before them, between changes, except for the last 3 changes.
+        // System changes are not reduced out. (they don't have userIds)
         if(updates.length > 20){
-            updates = updates.slice(-20);
+            updates = updates.reduce((compactedArray, currentValue, index) => {
+                if(index < updates.length - 3) {
+                    return compactedArray;
+                }
+                const compactedLength = compactedArray.length;
+                if(compactedLength > 0) {
+                    const previousUserId = compactedArray[compactedLength-1].userId;
+                    if(previousUserId != null && previousUserId === currentValue.userId){
+                        compactedArray[compactedLength-1] =  currentValue;
+                        return compactedArray;
+                    }
+                }
+                compactedArray.push(currentValue);
+                return compactedArray;
+            },[]);
         }
-
         this.write(this.auditPath.with('updates'), updates);
+    }
+
+    setCreationAuditIfMissing(name= 'system', userId= 'system', date = dateAsString()){
         if(this.created == null){
-            this.write(this.auditPath.with('created'), updates);
+            this.write(this.auditPath.with('created'), {name, userId, date});
+            return true;
         }
+        return false;
     }
 
 }

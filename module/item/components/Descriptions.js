@@ -1,6 +1,6 @@
 import Component from "../../util/Component.js";
 
-export default class Description extends Component {
+export default class Descriptions extends Component {
 
     constructor(parent) {
         super(parent);
@@ -31,7 +31,7 @@ export default class Description extends Component {
     }
 
     get descriptions(){
-        return this.gameSystem.descriptions;
+        return this.gameSystem.descriptions || {};
     }
 
     get descriptionsPath(){

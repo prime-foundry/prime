@@ -14,7 +14,7 @@ export class PrimeDataMigrationManager {
     static async forceMigrations(reset = false) {
         if (game.user.isGM) {
             if(reset){
-                game.settings.set("prime", CURRENT_PRIME_VERSION_KEY, '0');
+                await game.settings.set("prime", CURRENT_PRIME_VERSION_KEY, '0');
             }
             await this.performMigration();
         }

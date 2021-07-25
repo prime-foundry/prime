@@ -1,6 +1,6 @@
 <div class="block bottomBlockTitle metaDataBlock flexColumn flexCenter">
-	<div class="blockTitle">Entry metadata</div>
-	{{#with item.audit}}
+	<div class="blockTitle">Audit</div>
+	{{#with item.dynTyped.audit}}
 	<div>Author: {{createdName}} | Created: {{createdDate}}</div>
 	<div>Updater: {{lastUpdatedName}} | Updated: {{lastUpdatedDate}}</div>
 	{{/with}}

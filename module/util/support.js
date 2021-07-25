@@ -151,11 +151,12 @@ export function sanitizeView(view) {
     }
     return view;
 }
-export function dateAsString(locale = 'en-gb')
+
+export function dateAsString(date = new Date(), locale = 'en-gb')
 {
     //const timezone = new Date().getTimezoneOffset();
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
-    const dateString = new Date().toLocaleDateString(
+    const dateString = date.toLocaleDateString(
         locale,
         {
             hour: 'numeric',

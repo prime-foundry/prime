@@ -28,7 +28,7 @@ class GlobalTypeRegistry {
 
 class TypeRegistry {
     registry = new Map();
-    default = null;
+    _default = null;
 
     register(typeName, Type) {
         if (!this.registry.has(typeName)) {
@@ -38,12 +38,12 @@ class TypeRegistry {
     }
 
     default(Type) {
-        this.default = Type;
+        this._default = Type;
         return this;
     }
 
     get(typeName) {
-        return this.registry.get(typeName) || this.default;
+        return this.registry.get(typeName) || this._default;
     }
 }
 
@@ -173,6 +173,11 @@ export const DynDocumentMixin = (FoundryDocumentType, modelName = 'doc', typePro
                 }
             }
             return this._dyn;
+        }
+
+
+        get dynTyped() {
+            return this.dyn.typed;
         }
 
         registerDynTypes(registry) {
