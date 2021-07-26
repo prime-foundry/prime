@@ -234,8 +234,6 @@ export const DynApplicationMixin = (FoundryApplicationType, viewName = 'sheet') 
                 const models = {};
                 models[viewName] = this;
                 const doc = this.document;
-                // we always have a doc field, this may get overridden.
-                models.doc = doc;
                 if (doc && doc.dyn) {
                     models[doc.dyn.modelName] = doc.dyn.typed;
                 }
@@ -252,8 +250,8 @@ export const DynApplicationMixin = (FoundryApplicationType, viewName = 'sheet') 
         }
 
         getData() {
-            const data = super.getData();
-            data.dyn = this.dyn;
+            const dyn = this.dyn;
+            const data = {...super.getData(), ...this.dynModels, dyn};
             return data;
         }
 

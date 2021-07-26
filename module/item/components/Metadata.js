@@ -39,7 +39,7 @@ export default class Metadata extends Component {
     }
 
     get metadata(){
-        return this.gameSystem.metadata;
+        return this.gameSystem.metadata || {};
     }
 
     get metadataPath(){

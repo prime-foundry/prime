@@ -14,7 +14,7 @@ export default class Descriptions extends Component {
         return this.descriptionsPath.with('core');
     }
 
-    set base(coreDescription){
+    set core(coreDescription){
         this.write(this.core_path, coreDescription);
     }
 

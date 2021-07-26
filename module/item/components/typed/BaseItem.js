@@ -1,13 +1,25 @@
 import Component from "../../../util/Component.js";
 import {getComponentLazily} from "../../../util/support.js";
-import Metadata from "../../../common/components/Metadata.js";
+import Metadata from "../Metadata.js";
 import Audit from "../Audit.js";
 import Descriptions from "../Descriptions.js";
-import Value from "../Value.js";
+import Valuable from "../Valuable.js";
 
-export default class CommonItem extends Component {
+export default class BaseItem extends Component {
     constructor(primeItem) {
         super(primeItem);
+    }
+
+    get name() {
+        return this.foundryData.name;
+    }
+
+    set name(name) {
+        this.write(this.foundryDataPath.with('name'), name);
+    }
+
+    get img() {
+        return this.foundryData.img;
     }
 
     /**
@@ -36,6 +48,6 @@ export default class CommonItem extends Component {
      * @return {Audit}
      */
     get value() {
-        return getComponentLazily(this, 'value', Value);
+        return getComponentLazily(this, 'value', Valuable);
     }
 }

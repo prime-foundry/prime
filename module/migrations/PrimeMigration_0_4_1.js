@@ -1,36 +1,53 @@
 import Migration from "./Migration.js";
-import {PrimeItem} from "../item/PrimeItem.js";
 
-export default class PrimeMigration_0_4_1 extends Migration
-{
-	static async migrate() {
-		game.items.forEach(await PrimeMigration_0_4_1.migrateItem);
-		return true;
-	}
+export default class PrimeMigration_0_4_1 extends Migration {
+    static get version() {
+        return '0.4.1';
+    }
 
-	static get version(){
-		return '0.4.1';
-	}
+    static async migrate() {
+        const items = game.items.contents;
+        for(const item of items) {
+            await PrimeMigration_0_4_1.migrateItem(item);
+        }
+        return true;
+    }
 
-	static async migrateItem(itemDoc) {
-		const foundryData = itemDoc.data;
-		const gameSystemData = foundryData.data;
-		const item = itemDoc.dyn.typed;
-		if(item.audit.setCreationAuditIfMissing(gameSystemData.creator, gameSystemData.creatorID, gameSystemData.created)){
-			item.audit.appendUpdatedAudit(gameSystemData.creator, gameSystemData.creatorID, gameSystemData.created);
-			item.audit.appendUpdatedAudit(gameSystemData.updater, gameSystemData.updaterID, gameSystemData.updated);
-			if(gameSystemData.updater != null){
-				// we have modified the item so we append an audit item.
-				item.audit.appendUpdatedAudit();
-			}
-		}
-		gameSystemData.creator = null;
-		gameSystemData.creatorID = null;
-		gameSystemData.created = null;
-		gameSystemData.updater = null;
-		gameSystemData.updaterID = null;
-		gameSystemData.updated = null;
-		await foundryData.update(foundry.utils.deepClone(foundryData),{render:false});
-	}
+    static async migrateItem(itemDoc) {
+        const foundryData = itemDoc.data;
+        const gameSystemData = foundryData.data;
+        const item = itemDoc.dyn.typed;
+        PrimeMigration_0_4_1.migrateAudit(item, gameSystemData);
+        PrimeMigration_0_4_1.migrateDescriptions(item, gameSystemData);
 
+        await foundryData.update(foundry.utils.deepClone(foundryData), {render: false});
+    }
+
+    static migrateDescriptions(item, gameSystemData) {
+        if (gameSystemData.settingDescription) {
+            item.descriptions.setting = gameSystemData.settingDescription;
+        }
+        gameSystemData.settingDescription = null;
+        if (gameSystemData.description) {
+            item.descriptions.core = gameSystemData.description;
+        }
+        gameSystemData.description = null;
+    }
+
+    static migrateAudit(item, gameSystemData) {
+        if (item.audit.setCreationAuditIfMissing(gameSystemData.creator, gameSystemData.creatorID, gameSystemData.created)) {
+            item.audit.appendUpdatedAudit(gameSystemData.creator, gameSystemData.creatorID, gameSystemData.created);
+            item.audit.appendUpdatedAudit(gameSystemData.updater, gameSystemData.updaterID, gameSystemData.updated);
+            if (gameSystemData.updater != null) {
+                // we have modified the item so we append an audit item.
+                item.audit.appendUpdatedAudit();
+            }
+        }
+        gameSystemData.creator = null;
+        gameSystemData.creatorID = null;
+        gameSystemData.created = null;
+        gameSystemData.updater = null;
+        gameSystemData.updaterID = null;
+        gameSystemData.updated = null;
+    }
 }

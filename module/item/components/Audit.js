@@ -64,29 +64,8 @@ export default class Audit extends Component {
         return this.gameSystem.audit || {};
     }
 
-
     get auditPath() {
         return this.gameSystemPath.with('audit');
-    }
-    
-    /**
-     *
-     * @param {boolean} bool
-     */
-    set default(bool){
-        this.write(this.gameSystemPath.with('default'), !!bool);
-    }
-
-    /**
-     *
-     * @param {boolean} bool
-     */
-    set customisable(bool){
-        this.write(this.gameSystemPath.with('customisable'), !!bool);
-    }
-
-    set setting(setting) {
-        this.write(this.gameSystemPath.with('setting'), setting);
     }
 
     onUpdate(){

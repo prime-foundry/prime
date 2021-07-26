@@ -7,13 +7,15 @@
 			<div class="blockTitle">Basic information</div>
 			<h1 class="entityName">
 				<label for="name">Name:</label>
-				<input id="name" name="name" type="text" value="{{item.name}}" placeholder="Name" />
+				<input id="name" type="text" value="{{item.name}}"
+					   data-dyn-change-at="item.name"
+					   placeholder="Name" />
 			</h1>
 			<div class="cell100 flexRow verticalCenter flexBetween lastRow">
 				<label class="cell30" for="setting">{{localize "PRIME.core_setting"}}:</label>
 				<select id="setting" class="primeSetting cell70"
-				data-dyn-change-at="item.setting"
-				data-dyn-select="item.setting">
+				data-dyn-change-at="item.metadata.setting"
+				data-dyn-select="item.metadata.setting">
 					{{#each coreTables.settings}}
 					<option value="{{this.key}}">{{this.title}}</option>
 					{{/each}}
@@ -33,14 +35,14 @@
 				<div class="cell50 flexRow verticalCenter lastRow">
 					<label for="default" class="resource-label cell80 rightAlign" title="Action is available to all characters by default.">Default:</label>
 					<input type="checkbox" id="default" class="cell20"
-						   data-dyn-change-at="item.default"
-						   data-dyn-select="item.default"/>
+						   data-dyn-change-at="item.metadata.default"
+						   data-dyn-select="item.metadata.default"/>
 				</div>
 				<div class="cell50 flexRow verticalCenter lastRow">
 					<label for="customisable" class="resource-label cell80 rightAlign" title="Action can be edited when added to the character.">Customisable:</label>
 					<input type="checkbox" id="customisable" class="cell20"
-						   data-dyn-change-at="item.customisable"
-						   data-dyn-select="item.customisable"/>
+						   data-dyn-change-at="item.metadata.customisable"
+						   data-dyn-select="item.metadata.customisable"/>
 				</div>
 			</div>
 		</div>

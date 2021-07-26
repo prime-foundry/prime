@@ -1,6 +1,6 @@
-import CommonItem from "./CommonItem.js";
+import BaseItem from "./BaseItem.js";
 
-export default class StatItem extends CommonItem {
+export default class StatItem extends BaseItem {
     constructor(primeItem) {
         super(primeItem);
     }

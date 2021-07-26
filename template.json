@@ -1,1308 +1,1303 @@
 {
-	"Actor":{
-		"types":
-		[
-			"character"
-		],
-		"templates":
-		{
-			"base_template":
-			{
-				"actionPoints":
-				{
-					"base": 6,
-					"value": 0
-				},
-				"health":
-				{
-					"wounds":
-					{
-						"base": 3,
-						"injuries": [
-							{
-								"detail": "",
-								"tended": false
-							}
-						]
-					},
-					"resilience":
-					{
-						"base": 4,
-						"value": 4
-					}
-				},
-				"armour":
-				{
-					"protection":
-					{
-						"value":0,
-						"max":0
-					},
-					"resilience":
-					{
-						"value":0,
-						"max":0
-					}
-				},
-
-				"soul":
-				{
-					"initial": 100,
-					"awarded": 0,
-					"burnt": 0
-				},
-				"xp":
-				{
-					"initial":100,
-					"awarded": 0
-				}
-			},
-
-			"mental_template":
-			{
-				"mind":
-				{
-					"insanities":
-					{
-						"base": 3,
-						"injuries": [
-							{
-								"detail": "",
-								"tended": false
-							}
-						]
-					},
-					"psyche":
-					{
-						"base": 4,
-						"value": 4
-					}
-				},
-				
-				"ward":
-				{
-					"stability":
-					{
-						"value":0,
-						"max":0
-					},
-					"psyche":
-					{
-						"value":0,
-						"max":0
-					}
-				}
-			},
-
-			"metadata_template":
-			{
-				"metadata":
-				{
-					"isNPC": false,
-					"race": "",
-					"faction": "",
-					"occupation": "",
-					"celestial": "",
-					"birthplace": "",
-					"rankOrTitle": "",
-					"height": "",
-					"weight": "",
-					"hair": "",
-					"eyes": "",
-					"gender": "",
-					"age": "",
-					"biography": ""
-				},
-				"notes": ""
-			},
-
-			"primes_template":
-			{
-				"primes":
-				{
-					"end":{
-						"value":1,
-						"max": 10,
-						"type" : "physical",
-						"title": "PRIME.prime_title_end",
-						"description": "PRIME.prime_description_end"
-					},
-					"itr":{
-						"value":1,
-						"max": 10,
-						"type" : "physical",
-						"title": "PRIME.prime_title_itr",
-						"description": "PRIME.prime_description_itr"
-					},
-					"mov":{
-						"value":1,
-						"max": 10,
-						"type" : "physical",
-						"title": "PRIME.prime_title_mov",
-						"description": "PRIME.prime_description_mov"
-					},
-					"str":{
-						"value":1,
-						"max": 10,
-						"type" : "physical",
-						"title": "PRIME.prime_title_str",
-						"description": "PRIME.prime_description_str"
-					},
-					"int":{
-						"max": 10,
-						"value":1,
-						"type" : "mental",
-						"title": "PRIME.prime_title_int",
-						"description": "PRIME.prime_description_int"
-					},
-					"man":{
-						"value":1,
-						"max": 10,
-						"type" : "mental",
-						"title": "PRIME.prime_title_man",
-						"description": "PRIME.prime_description_man"
-					},
-					"per":{
-						"value":1,
-						"max": 10,
-						"type" : "mental",
-						"title": "PRIME.prime_title_per",
-						"description": "PRIME.prime_description_per"
-					},
-					"res":{
-						"value":1,
-						"max": 10,
-						"type" : "mental",
-						"title": "PRIME.prime_title_res",
-						"description": "PRIME.prime_description_res"
-					},
-					"att":{
-						"value":0,
-						"max": 10,
-						"type" : "supernatural",
-						"title": "PRIME.prime_title_att",
-						"description": "PRIME.prime_description_att"
-					},
-					"por":{
-						"value":1,
-						"max": 10,
-						"type" : "supernatural",
-						"title": "PRIME.prime_title_por",
-						"description": "PRIME.prime_description_por"
-					}
-				}
-			},
-			"refinements_template":
-			{
-				"refinements":
-				{
-					"animal" :
-					{
-						"value": 0,
-						"max": 10,
-						"related" : ["mov", "itr", "int"],
-						"type" : "physical",
-						"title": "PRIME.refinment_title_animal",
-						"description": "PRIME.refinment_description_animal"
-					},
-					"artistic" :
-					{
-						"value": 0,
-						"max": 10,
-						"related" : ["itr", "int", "man" ],
-						"type" : "physical",
-						"title": "PRIME.refinment_title_artistic",
-						"description": "PRIME.refinment_description_artistic"
-					},
-					"athletic" :
-					{
-						"value": 0,
-						"max": 10,
-						"related" : ["mov", "str"],
-						"type" : "physical",
-						"title": "PRIME.refinment_title_athletic",
-						"description": "PRIME.refinment_description_athletic"
-					},
-					"craft" :
-					{
-						"value": 0,
-						"max": 10,
-						"related" : ["itr", "str", "int"],
-						"type" : "physical",
-						"title": "PRIME.refinment_title_craft",
-						"description": "PRIME.refinment_description_craft"
-					},
-					"melee" :
-					{
-						"value": 0,
-						"max": 10,
-						"related" : ["str"],
-						"type" : "physical",
-						"title": "PRIME.refinment_title_melee",
-						"description": "PRIME.refinment_description_melee"
-					},
-					"ranged" :
-					{
-						"value": 0,
-						"max": 10,
-						"related" : ["itr"],
-						"type" : "physical",
-						"title": "PRIME.refinment_title_ranged",
-						"description": "PRIME.refinment_description_ranged"
-					},
-					"stealth" :
-					{
-						"value": 0,
-						"max": 10,
-						"related" : ["itr", "mov"],
-						"type" : "physical",
-						"title": "PRIME.refinment_title_stealth",
-						"description": "PRIME.refinment_description_stealth"
-					},
-					"survival" :
-					{
-						"value": 0,
-						"max": 10,
-						"related" : ["itr", "mov", "int", "per"],
-						"type" : "physical",
-						"title": "PRIME.refinment_title_survival",
-						"description": "PRIME.refinment_description_survival"
-					},
-					"tolerance" :
-					{
-						"value": 0,
-						"max": 10,
-						"related" : ["end"],
-						"type" : "physical",
-						"title": "PRIME.refinment_title_tolerance",
-						"description": "PRIME.refinment_description_tolerance"
-					},
-					"vehicle" :
-					{
-						"value": 0,
-						"max": 10,
-						"related" : ["man", "itr"],
-						"type" : "physical",
-						"title": "PRIME.refinment_title_vehicle",
-						"description": "PRIME.refinment_description_vehicle"
-					},
-
-
-					"bravery" :
-					{
-						"value": 0,
-						"max": 10,
-						"related" : ["res"],
-						"type" : "mental",
-						"title": "PRIME.refinment_title_bravery",
-						"description": "PRIME.refinment_description_bravery"
-					},
-					"deceive" :
-					{
-						"value": 0,
-						"max": 10,
-						"related" : ["man", "per", "int", "itr"],
-						"type" : "mental",
-						"title": "PRIME.refinment_title_deceive",
-						"description": "PRIME.refinment_description_deceive"
-					},
-					"influence" :
-					{
-						"value": 0,
-						"max": 10,
-						"related" : ["man", "per", "int", "itr"],
-						"type" : "mental",
-						"title": "PRIME.refinment_title_influence",
-						"description": "PRIME.refinment_description_influence"
-					},
-					"knowledge" :
-					{
-						"value": 0,
-						"max": 10,
-						"related" : ["int", "per"],
-						"type" : "mental",
-						"title": "PRIME.refinment_title_knowledge",
-						"description": "PRIME.refinment_description_knowledge"
-					},
-					"obscura" :
-					{
-						"value": 0,
-						"max": 10,
-						"related" : ["int", "per", "res"],
-						"type" : "mental",
-						"title": "PRIME.refinment_title_obscura",
-						"description": "PRIME.refinment_description_obscura"
-					},
-					"observe" :
-					{
-						"value": 0,
-						"max": 10,
-						"related" : ["per", "man", "int"],
-						"type" : "mental",
-						"title": "PRIME.refinment_title_observe",
-						"description": "PRIME.refinment_description_observe"
-					},
-					"recover" :
-					{
-						"value": 0,
-						"max": 10,
-						"related" : ["res", "end"],
-						"type" : "mental",
-						"title": "PRIME.refinment_title_recover",
-						"description": "PRIME.refinment_description_recover"
-					},
-					"willpower" :
-					{
-						"value": 0,
-						"max": 10,
-						"related" : ["res"],
-						"type" : "mental",
-						"title": "PRIME.refinment_title_willpower",
-						"description": "PRIME.refinment_description_willpower"
-					},
-					
-					"conduit" :
-					{
-						"value": 0,
-						"max": 10,
-						"related" : ["att"],
-						"type" : "supernatural",
-						"title": "PRIME.refinment_title_conduit",
-						"description": "PRIME.refinment_description_conduit"
-					},
-					"fury" :
-					{
-						"value": 0,
-						"max": 10,
-						"related" : ["por"],
-						"type" : "supernatural",
-						"title": "PRIME.refinment_title_fury",
-						"description": "PRIME.refinment_description_fury"
-					},
-					"manifest" :
-					{
-						"value": 0,
-						"max": 10,
-						"related" : ["por"],
-						"type" : "supernatural",
-						"title": "PRIME.refinment_title_manifest",
-						"description": "PRIME.refinment_description_manifest"
-					},
-					"premonition" :
-					{
-						"value": 0,
-						"max": 10,
-						"related" : ["por"],
-						"type" : "supernatural",
-						"title": "PRIME.refinment_title_premonition",
-						"description": "PRIME.refinment_description_premonition"
-					},
-					"regeneration" :
-					{
-						"value": 0,
-						"max": 10,
-						"related" : ["por"],
-						"type" : "supernatural",
-						"title": "PRIME.refinment_title_regeneration",
-						"description": "PRIME.refinment_description_regeneration"
-					},
-					"tap" :
-					{
-						"value": 0,
-						"max": 10,
-						"related" : ["att"],
-						"type" : "supernatural",
-						"title": "PRIME.refinment_title_tap",
-						"description": "PRIME.refinment_description_tap"
-					},
-					"threads" :
-					{
-						"value": 0,
-						"max": 10,
-						"related" : ["por", "end", "res", "per", "int"],
-						"type" : "supernatural",
-						"title": "PRIME.refinment_title_threads",
-						"description": "PRIME.refinment_description_threads"
-					}
-				}
-			},
-			"orderingTables":
-			{
-				"perkOrder":{},
-				"inventoryOrder":{}
-			}
-		},
-		"character":{
-			"templates":
-			[
-				"base_template",
-				"mental_template",
-				"metadata_template",
-				"orderingTables"
-			],
-			"personalWealth": 0,
-			"shipWealth": 0,
-			"sheetVersion": "v1.0",
-			"primes" : {},
-			"refinements" : {}
-		}
-	},
-	"Item":
-	{
-		"types":[
-			"item",
-			"melee-weapon",
-			"ranged-weapon",
-			"shield",
-			"armour",
-			"perk",
-			"action",
-			"prime",
-			"refinement",
-			"injury"
-		],
-		"templates":{
-			"base":
-			{
-				"description":"",
-				"settingDescription":"",
-				"setting":"",
-				"position": -1,
-				"parentContainer": ""
-			},
-
-			"physicalItem":
-			{
-				"quantity":1,
-				"weight":0,
-				"rarity": "common"
-			},
-
-			"valuable":
-			{
-				"valueType": "",
-				"valueAmount": ""
-			},
-
-			"mastercratable":
-			{
-				"isMasterCraft": false,
-				"bonuses":[]
-			},
-
-			"metadata":
-			{
-				"creator": "",
-				"creatorID": "",
-				"created": "",
-				"updater": "",
-				"updaterID": "",
-				"updated": ""
-			},
-
-			"weapon": 
-			{
-				"weaponSize": "",
-				"weaponType": "",
-				"damageRating": 0,
-				"requiredHands": 1,
-				"woundConditions": [],
-				"keywords": [],
-				"customActions": []
-			},
-
-			"ranged": 
-			{
-				"ranges":
-				{
-					"pointBlank": 
-					{
-						"value": 0
-					},
-					"short": 
-					{
-						"value": 0
-					},
-					"medium": 
-					{
-						"value": 0
-					},
-					"long": 
-					{
-						"value": 0
-					},
-					"extreme": 
-					{
-						"value": 0
-					}
-				},
-				"ammo":
-				{
-					"type": "",
-					"capacity": ""
-				}
-			},
-			
-			"armour":
-			{
-				"armourType": "",
-				"protection": 0,
-				"armourResilience": 1,
-				"keywords": [],
-				"untrainedPenalty": [],
-				"isWorn": false
-			}
-		},
-
-		"item":
-		{
-			"templates":["base", "physicalItem", "valuable", "metadata"]
-		},
-
-		"melee-weapon":
-		{
-			"templates":["base", "physicalItem", "weapon", "mastercratable", "valuable", "metadata"],
-			"isMelee": true,
-			"isRanged": false,
-			"notes": ""
-		},
-
-		"ranged-weapon":
-		{
-			"templates":["base", "physicalItem", "weapon", "ranged", "mastercratable", "valuable", "metadata"],
-			"isMelee": false,
-			"isRanged": true,
-			"notes": ""
-		},
-
-		"shield":
-		{
-			"templates":["base", "physicalItem", "weapon", "mastercratable", "valuable", "metadata"],
-			"meleeBlockBonus": 0,
-			"rangedBlockBonus": 0,
-			"notes": ""
-		},
-
-		"armour":
-		{
-			"templates":["base", "physicalItem", "armour", "mastercratable", "valuable", "metadata"],
-			"notes": ""
-		},
-
-		"perk":
-		{
-			"templates": ["base", "metadata"],
-
-			"isCollapsed": false,
-			
-			"bonuses":[],
-
-			"cost":
-			{
-				"attributeType": "",
-				"amount": 0
-			},
-
-			"prerequisites": []
-		},
-
-		"action":
-		{
-			"templates": ["base", "metadata"],
-			"points": 0,
-			"sourceKey": "",
-			"type": "major",
-			"default": false,
-			"effects": []
-		},
-
-		"prime":
-		{
-			"templates": ["base", "metadata"],
-			"value": 0,
-			"max": 10,
-			"sourceKey": "",
-			"statType" : "physical",
-			"default": false,
-			"customisable": false
-		},
-
-		"refinement":
-		{
-			"templates": ["base", "metadata"],
-			"value": 0,
-			"max": 10,
-			"related" : [],
-			"sourceKey": "",
-			"statType" : "physical",
-			"default": false,
-			"customisable": false
-		},
-
-		"injury":
-		{
-			"templates": ["base", "metadata"],
-			"sourceKey": "",
-			"untendedEffects": [],
-			"tendedEffects": [],
-			"permanentEffects": [],
-			"injuryType": "wound",
-			"injuryState": "untended"
-		}
-	},
-	
-	"Tables":
-	{
-		"core":
-		{
-			"settings":
-			[
-				{
-					"key": "Prime / Possession",
-					"title": "PRIME.core_settings_prime_possession"
-				},
-				{
-					"key": "Aethernauts",
-					"title": "PRIME.core_settings_aethernauts"
-				}
-			]
-		},
-
-		"actor":
-		{
-			"actorStatMinimums":
-			{
-				"att": 0
-			},
-
-			"actorStatLookup":
-			[
-				{
-					"key": "actionPoints.default",
-					"title": "PRIME.perk_actor_stat_bonus_base_ap_bonus"
-				},
-				{
-					"key": "actionPoints.max",
-					"title": "PRIME.perk_actor_stat_bonus_max_ap_bonus"
-				},
-				{
-					"key": "actionPoints.perRound",
-					"title": "PRIME.perk_actor_stat_bonus_per_round_ap_bonus"
-				},
-				{
-					"key": "health.wounds.max",
-					"title": "PRIME.perk_actor_stat_bonus_max_wounds"
-				},
-				{
-					"key": "health.resilience.max",
-					"title": "PRIME.perk_actor_stat_bonus_max_resilience"
-				},
-				{
-					"key": "armour.protection.max",
-					"title": "PRIME.perk_actor_stat_bonus_max_protection"
-				},
-				{
-					"key": "armour.resilience.max",
-					"title": "PRIME.perk_actor_stat_bonus_max_armour_resilience"
-				},
-
-				{
-					"key": "mind.insanities.max",
-					"title": "PRIME.perk_actor_stat_bonus_max_insanities"
-				},
-				{
-					"key": "mind.psyche.max",
-					"title": "PRIME.perk_actor_stat_bonus_max_psyche"
-				},
-				{
-					"key": "ward.stability.max",
-					"title": "PRIME.perk_actor_stat_bonus_max_stability"
-				},
-				{
-					"key": "ward.psyche.max",
-					"title": "PRIME.perk_actor_stat_bonus_max_ward_psyche"
-				}
-			],
-
-			"woundConditions":
-			[
-				{
-					"key": "bleeding",
-					"title": "PRIME.actor_wound_condition_title_bleeding",
-					"description": "PRIME.actor_wound_condition_description_bleeding"
-				},
-				{
-					"key": "pierced",
-					"title": "PRIME.actor_wound_condition_title_pierced",
-					"description": "PRIME.actor_wound_condition_description_pierced"
-				},
-				{
-					"key": "hooked",
-					"title": "PRIME.actor_wound_condition_title_hooked",
-					"description": "PRIME.actor_wound_condition_description_hooked"
-				},
-				{
-					"key": "non-lethal",
-					"title": "PRIME.actor_wound_condition_title_non-lethal",
-					"description": "PRIME.actor_wound_condition_description_non-lethal"
-				},
-				{
-					"key": "staggered",
-					"title": "PRIME.actor_wound_condition_title_staggered",
-					"description": "PRIME.actor_wound_condition_description_staggered"
-				},
-				{
-					"key": "stunned",
-					"title": "PRIME.actor_wound_condition_title_stunned",
-					"description": "PRIME.actor_wound_condition_description_stunned"
-				},
-				{
-					"key": "crushed",
-					"title": "PRIME.actor_wound_condition_title_crushed",
-					"description": "PRIME.actor_wound_condition_description_crushed"
-				},
-				{
-					"key": "battered",
-					"title": "PRIME.actor_wound_condition_title_battered",
-					"description": "PRIME.actor_wound_condition_description_battered"
-				},
-				{
-					"key": "slowed",
-					"title": "PRIME.actor_wound_condition_title_slowed",
-					"description": "PRIME.actor_wound_condition_description_slowed"
-				}
-			],
-
-			"mentalConditions":
-			[
-				{
-					"key": "scared",
-					"title": "PRIME.actor_mental_condition_title_scared",
-					"description": "PRIME.actor_mental_condition_description_scared"
-				},
-				{
-					"key": "mad",
-					"title": "PRIME.actor_mental_condition_title_mad",
-					"description": "PRIME.actor_mental_condition_description_mad"
-				}
-			]
-		},
-
-		"items":
-		{
-			"rarity":
-			[
-				{
-					"key": "common",
-					"title": "PRIME.item_rarity_common"
-				},
-				{
-					"key": "uncommon",
-					"title": "PRIME.item_rarity_uncommon"
-				},
-				{
-					"key": "scarce",
-					"title": "PRIME.item_rarity_scarce"
-				},
-				{
-					"key": "rare",
-					"title": "PRIME.item_rarity_rare"
-				},
-				{
-					"key": "legendary",
-					"title": "PRIME.item_rarity_legendary"
-				},
-				{
-					"key": "unique",
-					"title": "PRIME.item_rarity_unique"
-				}
-			],
-			"weapons":
-			{
-				"sizes":
-				[
-					{
-						"key": "tiny",
-						"title": "PRIME.weapon_sizes_tiny"
-					},
-					{
-						"key": "small",
-						"title": "PRIME.weapon_sizes_small"
-					},
-					{
-						"key": "medium",
-						"title": "PRIME.weapon_sizes_medium"
-					},
-					{
-						"key": "large",
-						"title": "PRIME.weapon_sizes_large"
-					},
-					{
-						"key": "huge",
-						"title": "PRIME.weapon_sizes_huge"
-					}
-				],
-
-				"keywords":
-				[
-					{
-						"key": "accurate",
-						"title": "PRIME.weapon_keywords_title_accurate",
-						"description": "PRIME.weapon_keywords_description_accurate"
-					},
-					{
-						"key": "armour_damaging",
-						"title": "PRIME.weapon_keywords_title_armour_damaging",
-						"description": "PRIME.weapon_keywords_description_armour_damaging"
-					},
-					{
-						"key": "cumbersome",
-						"title": "PRIME.weapon_keywords_title_cumbersome",
-						"description": "PRIME.weapon_keywords_description_cumbersome"
-					},
-					{
-						"key": "devastating",
-						"title": "PRIME.weapon_keywords_title_devastating",
-						"description": "PRIME.weapon_keywords_description_devastating"
-					},
-					{
-						"key": "flexible",
-						"title": "PRIME.weapon_keywords_title_flexible",
-						"description": "PRIME.weapon_keywords_description_flexible"
-					},
-					{
-						"key": "heavy",
-						"title": "PRIME.weapon_keywords_title_heavy",
-						"description": "PRIME.weapon_keywords_description_heavy"
-					},
-					{
-						"key": "minimum_range",
-						"title": "PRIME.weapon_keywords_title_minimum_range",
-						"description": "PRIME.weapon_keywords_description_minimum_range"
-					},
-					{
-						"key": "penetrating",
-						"title": "PRIME.weapon_keywords_title_penetrating",
-						"description": "PRIME.weapon_keywords_description_penetrating"
-					},
-					{
-						"key": "pistol",
-						"title": "PRIME.weapon_keywords_title_pistol",
-						"description": "PRIME.weapon_keywords_description_pistol"
-					},
-					{
-						"key": "pole",
-						"title": "PRIME.weapon_keywords_title_pole",
-						"description": "PRIME.weapon_keywords_description_pole"
-					},
-					{
-						"key": "ranked",
-						"title": "PRIME.weapon_keywords_title_ranked",
-						"description": "PRIME.weapon_keywords_description_ranked"
-					},
-					{
-						"key": "shield_breaker",
-						"title": "PRIME.weapon_keywords_title_shield_breaker",
-						"description": "PRIME.weapon_keywords_description_shield_breaker"
-					},
-					{
-						"key": "versatile",
-						"title": "PRIME.weapon_keywords_title_versatile",
-						"description": "PRIME.weapon_keywords_description_versatile"
-					},
-					{
-						"key": "weak",
-						"title": "PRIME.weapon_keywords_title_weak",
-						"description": "PRIME.weapon_keywords_description_weak"
-					},
-					{
-						"key": "well_balanced",
-						"title": "PRIME.weapon_keywords_title_well_balanced",
-						"description": "PRIME.weapon_keywords_description_well_balanced"
-					}
-				],
-
-				"meleeWeaponActions":
-				[
-					{
-						"key": "bash",
-						"title": "PRIME.weapon_action_title_bash",
-						"description": "PRIME.weapon_action_description_bash",
-						"apCost": 1
-					},
-					{
-						"key": "cleave",
-						"title": "PRIME.weapon_action_title_cleave",
-						"description": "PRIME.weapon_action_description_cleave",
-						"apCost": 1
-					},
-					{
-						"key": "hook",
-						"title": "PRIME.weapon_action_title_hook",
-						"description": "PRIME.weapon_action_description_hook",
-						"apCost": 1
-					},
-					{
-						"key": "impale",
-						"title": "PRIME.weapon_action_title_impale",
-						"description": "PRIME.weapon_action_description_impale",
-						"apCost": 1
-					},
-					{
-						"key": "stab",
-						"title": "PRIME.weapon_action_title_stab",
-						"description": "PRIME.weapon_action_description_stab",
-						"apCost": 1
-					}
-				],
-
-				"rangedWeaponActions":
-				[
-					{
-						"key": "impale",
-						"title": "PRIME.weapon_action_title_impale",
-						"description": "PRIME.weapon_action_description_impale",
-						"apCost": 1
-					},
-					{
-						"key": "surpress",
-						"title": "PRIME.weapon_action_title_surpress",
-						"description": "PRIME.weapon_action_description_surpress",
-						"apCost": 1
-					},
-					{
-						"key": "lob",
-						"title": "PRIME.weapon_action_title_lob",
-						"description": "PRIME.weapon_action_description_lob",
-						"apCost": 1
-					}
-				],
-
-				"meleeTypes":
-				[
-					{
-						"key": "blunt",
-						"title": "PRIME.weapon_melee_type_blunt"
-					},
-					{
-						"key": "sword",
-						"title": "PRIME.weapon_melee_type_sword"
-					},
-					{
-						"key": "dagger",
-						"title": "PRIME.weapon_melee_type_dagger"
-					},
-					{
-						"key": "axe",
-						"title": "PRIME.weapon_melee_type_axe"
-					},
-					{
-						"key": "pole",
-						"title": "PRIME.weapon_melee_type_pole"
-					}
-				],
-
-				"rangedTypes":
-				[
-					{
-						"key": "bow",
-						"title": "PRIME.weapon_ranged_type_bow"
-					},
-					{
-						"key": "mechanical",
-						"title": "PRIME.weapon_ranged_type_mechanical"
-					},
-					{
-						"key": "thrown",
-						"title": "PRIME.weapon_ranged_type_thrown"
-					},
-					{
-						"key": "blowpipe",
-						"title": "PRIME.weapon_ranged_type_blowpipe"
-					}
-				],
-
-				"rangeCatergories" :
-				{
-					"pointBlank": "PRIME.weapons_ranges_point_blank",
-					"short": "PRIME.weapons_ranges_short",
-					"medium": "PRIME.weapons_ranges_medium",
-					"long": "PRIME.weapons_ranges_long",
-					"extreme": "PRIME.weapons_ranges_extreme"
-				},
-
-				"ammoTypes":
-				[
-					{
-						"key": "arrow",
-						"title": "PRIME.weapon_ammo_type_arrow"
-					},
-					{
-						"key": "bolt",
-						"title": "PRIME.weapon_ammo_type_bolt"
-					},
-					{
-						"key": "dart",
-						"title": "PRIME.weapon_ammo_type_dart"
-					},
-					{
-						"key": "bullet",
-						"title": "PRIME.weapon_ammo_type_bullet"
-					}
-				]
-			},
-
-			"armour":
-			{
-				"types":
-				[
-					{
-						"key": "cloth",
-						"title": "PRIME.armour_type_cloth"
-					},
-					{
-						"key": "leather",
-						"title": "PRIME.armour_type_leather"
-					},
-					{
-						"key": "chain",
-						"title": "PRIME.armour_type_chain"
-					},
-					{
-						"key": "plate",
-						"title": "PRIME.armour_type_plate"
-					},
-					{
-						"key": "other",
-						"title": "PRIME.armour_type_other"
-					}
-				],
-
-				"keywords":
-				[
-					{
-						"key": "ablative",
-						"title": "PRIME.armour_keyword_title_ablative",
-						"description": "PRIME.armour_keyword_description_ablative"
-					},
-					{
-						"key": "camouflaging",
-						"title": "PRIME.armour_keyword_title_camouflaging",
-						"description": "PRIME.armour_keyword_description_camouflaging"
-					},
-					{
-						"key": "cumbersome",
-						"title": "PRIME.armour_keyword_title_cumbersome",
-						"description": "PRIME.armour_keyword_description_cumbersome"
-					},
-					{
-						"key": "restrictive",
-						"title": "PRIME.armour_keyword_title_restrictive",
-						"description": "PRIME.armour_keyword_description_restrictive"
-					},
-					{
-						"key": "senseDepriving",
-						"title": "PRIME.armour_keyword_title_sense_depriving",
-						"description": "PRIME.armour_keyword_description_sense_depriving"
-					},
-					{
-						"key": "silent",
-						"title": "PRIME.armour_keyword_title_silent",
-						"description": "PRIME.armour_keyword_description_silent"
-					}
-				],
-
-				"untrainedPenalities":
-				[
-					{
-						"key": "plusOneAP",
-						"title": "PRIME.armour_untrained_penalities_title_plus_one_ap",
-						"description": "PRIME.armour_untrained_penalities_description_plus_one_ap"
-					},
-					{
-						"key": "plusTwoAP",
-						"title": "PRIME.armour_untrained_penalities_title_plus_two_ap",
-						"description": "PRIME.armour_untrained_penalities_description_plus_two_ap"
-					},
-					{
-						"key": "plusThreeAP",
-						"title": "PRIME.armour_untrained_penalities_title_plus_three_ap",
-						"description": "PRIME.armour_untrained_penalities_description_plus_three_ap"
-					},
-					{
-						"key": "plusFourAP",
-						"title": "PRIME.armour_untrained_penalities_title_plus_four_ap",
-						"description": "PRIME.armour_untrained_penalities_description_plus_four_ap"
-					}
-				]
-			}
-		},
-		
-		"perks":
-		{
-			"bonusTypes":
-			[
-				{
-					"key": "situationalPrime",
-					"title": "PRIME.perk_type_situational_prime"
-				},
-				{
-					"key": "situationalRefinement",
-					"title": "PRIME.perk_type_situational_refinement"
-				},
-				{
-					"key": "extraAction",
-					"title": "PRIME.perk_type_extra_action"
-				},
-				{
-					"key": "actionPointBonus",
-					"title": "PRIME.perk_type_action_cost_reduction"
-				},
-				{
-					"key": "actorStatBonus",
-					"title": "PRIME.perk_type_actor_stat_bonus"
-				},
-				{
-					"key": "externalStatBonus",
-					"title": "PRIME.perk_type_external_stat_bonus"
-				},
-				{
-					"key": "misc",
-					"title": "PRIME.perk_type_misc"
-				}
-			],
-
-			"costs":
-			[
-				{
-					"key": "perkCostXP",
-					"title": "PRIME.perk_cost_xp"
-				},
-				{
-					"key": "perkCostSoul",
-					"title": "PRIME.perk_cost_soul"
-				}
-			],
-
-			"prerequisiteTypes":
-			[
-				{
-					"key": "minimumPrime",
-					"title": "PRIME.perk_prerequisite_minimum_prime"
-				},
-				{
-					"key": "minimumRefinement",
-					"title": "PRIME.perk_prerequisite_minimum_refinement"
-				},
-				{
-					"key": "minimumStat",
-					"title": "PRIME.perk_prerequisite_minimum_stat"
-				},
-				{
-					"key": "maximumPrime",
-					"title": "PRIME.perk_prerequisite_maximum_prime"
-				},
-				{
-					"key": "maximumRefinement",
-					"title": "PRIME.perk_prerequisite_maximum_refinement"
-				},
-				{
-					"key": "maximumStat",
-					"title": "PRIME.perk_prerequisite_maximum_stat"
-				},
-				{
-					"key": "otherPerk",
-					"title": "PRIME.perk_prerequisite_other_perk_purchased"
-				}
-				
-			],
-
-			"externalStatLookup":
-			[
-				{
-					"key": "null",
-					"title": "Please write in description"
-				}
-			],
-			
-			"miscBonusLookup":
-			[
-				{
-					"key": "null",
-					"title": "Please write in description"
-				}
-			]
-		},
-
-		"actions":
-		{
-			"actionTypes":
-			[
-				{
-					"key": "major",
-					"title": "PRIME.action_type_major_title"
-				},
-				{
-					"key": "minor",
-					"title": "PRIME.action_type_minor_title"
-				},
-				{
-					"key": "reaction",
-					"title": "PRIME.action_type_reaction_title"
-				},
-				{
-					"key": "combo",
-					"title": "PRIME.action_type_combo_title"
-				},
-				{
-					"key": "weaponCombo",
-					"title": "PRIME.action_type_weapon_combo_title"
-				}
-			],
-
-			"effectTypes":
-			[
-				{
-					"key": "move",
-					"title": "PRIME.action_effect_type_move"
-				},
-				{
-					"key": "meleeAttack",
-					"title": "PRIME.action_effect_type_melee_attack"
-				},
-				{
-					"key": "rangedAttack",
-					"title": "PRIME.action_effect_type_ranged_attack"
-				},
-				{
-					"key": "meleeBlock",
-					"title": "PRIME.action_effect_type_melee_block"
-				},
-				{
-					"key": "rangedBlock",
-					"title": "PRIME.action_effect_type_ranged_block"
-				},
-				{
-					"key": "magic",
-					"title": "PRIME.action_effect_type_magic"
-				},
-				{
-					"key": "gainPoints",
-					"title": "PRIME.action_effect_type_gain_points"
-				},
-				{
-					"key": "misc",
-					"title": "PRIME.action_effect_type_misc"
-				}
-			],
-			
-			"miscBonusLookup":
-			[
-				{
-					"key": "null",
-					"title": "Please write in description"
-				}
-			]
-		}
-	}
+  "Actor": {
+    "types": [
+      "character"
+    ],
+    "templates": {
+      "base_template": {
+        "actionPoints": {
+          "base": 6,
+          "value": 0
+        },
+        "health": {
+          "wounds": {
+            "base": 3,
+            "injuries": [
+              {
+                "detail": "",
+                "tended": false
+              }
+            ]
+          },
+          "resilience": {
+            "base": 4,
+            "value": 4
+          }
+        },
+        "armour": {
+          "protection": {
+            "value": 0,
+            "max": 0
+          },
+          "resilience": {
+            "value": 0,
+            "max": 0
+          }
+        },
+        "soul": {
+          "initial": 100,
+          "awarded": 0,
+          "burnt": 0
+        },
+        "xp": {
+          "initial": 100,
+          "awarded": 0
+        }
+      },
+      "mental_template": {
+        "mind": {
+          "insanities": {
+            "base": 3,
+            "injuries": [
+              {
+                "detail": "",
+                "tended": false
+              }
+            ]
+          },
+          "psyche": {
+            "base": 4,
+            "value": 4
+          }
+        },
+        "ward": {
+          "stability": {
+            "value": 0,
+            "max": 0
+          },
+          "psyche": {
+            "value": 0,
+            "max": 0
+          }
+        }
+      },
+      "metadata_template": {
+        "metadata": {
+          "isNPC": false,
+          "race": "",
+          "faction": "",
+          "occupation": "",
+          "celestial": "",
+          "birthplace": "",
+          "rankOrTitle": "",
+          "height": "",
+          "weight": "",
+          "hair": "",
+          "eyes": "",
+          "gender": "",
+          "age": "",
+          "biography": ""
+        },
+        "notes": ""
+      },
+      "primes_template": {
+        "primes": {
+          "end": {
+            "value": 1,
+            "max": 10,
+            "type": "physical",
+            "title": "PRIME.prime_title_end",
+            "description": "PRIME.prime_description_end"
+          },
+          "itr": {
+            "value": 1,
+            "max": 10,
+            "type": "physical",
+            "title": "PRIME.prime_title_itr",
+            "description": "PRIME.prime_description_itr"
+          },
+          "mov": {
+            "value": 1,
+            "max": 10,
+            "type": "physical",
+            "title": "PRIME.prime_title_mov",
+            "description": "PRIME.prime_description_mov"
+          },
+          "str": {
+            "value": 1,
+            "max": 10,
+            "type": "physical",
+            "title": "PRIME.prime_title_str",
+            "description": "PRIME.prime_description_str"
+          },
+          "int": {
+            "max": 10,
+            "value": 1,
+            "type": "mental",
+            "title": "PRIME.prime_title_int",
+            "description": "PRIME.prime_description_int"
+          },
+          "man": {
+            "value": 1,
+            "max": 10,
+            "type": "mental",
+            "title": "PRIME.prime_title_man",
+            "description": "PRIME.prime_description_man"
+          },
+          "per": {
+            "value": 1,
+            "max": 10,
+            "type": "mental",
+            "title": "PRIME.prime_title_per",
+            "description": "PRIME.prime_description_per"
+          },
+          "res": {
+            "value": 1,
+            "max": 10,
+            "type": "mental",
+            "title": "PRIME.prime_title_res",
+            "description": "PRIME.prime_description_res"
+          },
+          "att": {
+            "value": 0,
+            "max": 10,
+            "type": "supernatural",
+            "title": "PRIME.prime_title_att",
+            "description": "PRIME.prime_description_att"
+          },
+          "por": {
+            "value": 1,
+            "max": 10,
+            "type": "supernatural",
+            "title": "PRIME.prime_title_por",
+            "description": "PRIME.prime_description_por"
+          }
+        }
+      },
+      "refinements_template": {
+        "refinements": {
+          "animal": {
+            "value": 0,
+            "max": 10,
+            "related": [
+              "mov",
+              "itr",
+              "int"
+            ],
+            "type": "physical",
+            "title": "PRIME.refinment_title_animal",
+            "description": "PRIME.refinment_description_animal"
+          },
+          "artistic": {
+            "value": 0,
+            "max": 10,
+            "related": [
+              "itr",
+              "int",
+              "man"
+            ],
+            "type": "physical",
+            "title": "PRIME.refinment_title_artistic",
+            "description": "PRIME.refinment_description_artistic"
+          },
+          "athletic": {
+            "value": 0,
+            "max": 10,
+            "related": [
+              "mov",
+              "str"
+            ],
+            "type": "physical",
+            "title": "PRIME.refinment_title_athletic",
+            "description": "PRIME.refinment_description_athletic"
+          },
+          "craft": {
+            "value": 0,
+            "max": 10,
+            "related": [
+              "itr",
+              "str",
+              "int"
+            ],
+            "type": "physical",
+            "title": "PRIME.refinment_title_craft",
+            "description": "PRIME.refinment_description_craft"
+          },
+          "melee": {
+            "value": 0,
+            "max": 10,
+            "related": [
+              "str"
+            ],
+            "type": "physical",
+            "title": "PRIME.refinment_title_melee",
+            "description": "PRIME.refinment_description_melee"
+          },
+          "ranged": {
+            "value": 0,
+            "max": 10,
+            "related": [
+              "itr"
+            ],
+            "type": "physical",
+            "title": "PRIME.refinment_title_ranged",
+            "description": "PRIME.refinment_description_ranged"
+          },
+          "stealth": {
+            "value": 0,
+            "max": 10,
+            "related": [
+              "itr",
+              "mov"
+            ],
+            "type": "physical",
+            "title": "PRIME.refinment_title_stealth",
+            "description": "PRIME.refinment_description_stealth"
+          },
+          "survival": {
+            "value": 0,
+            "max": 10,
+            "related": [
+              "itr",
+              "mov",
+              "int",
+              "per"
+            ],
+            "type": "physical",
+            "title": "PRIME.refinment_title_survival",
+            "description": "PRIME.refinment_description_survival"
+          },
+          "tolerance": {
+            "value": 0,
+            "max": 10,
+            "related": [
+              "end"
+            ],
+            "type": "physical",
+            "title": "PRIME.refinment_title_tolerance",
+            "description": "PRIME.refinment_description_tolerance"
+          },
+          "vehicle": {
+            "value": 0,
+            "max": 10,
+            "related": [
+              "man",
+              "itr"
+            ],
+            "type": "physical",
+            "title": "PRIME.refinment_title_vehicle",
+            "description": "PRIME.refinment_description_vehicle"
+          },
+          "bravery": {
+            "value": 0,
+            "max": 10,
+            "related": [
+              "res"
+            ],
+            "type": "mental",
+            "title": "PRIME.refinment_title_bravery",
+            "description": "PRIME.refinment_description_bravery"
+          },
+          "deceive": {
+            "value": 0,
+            "max": 10,
+            "related": [
+              "man",
+              "per",
+              "int",
+              "itr"
+            ],
+            "type": "mental",
+            "title": "PRIME.refinment_title_deceive",
+            "description": "PRIME.refinment_description_deceive"
+          },
+          "influence": {
+            "value": 0,
+            "max": 10,
+            "related": [
+              "man",
+              "per",
+              "int",
+              "itr"
+            ],
+            "type": "mental",
+            "title": "PRIME.refinment_title_influence",
+            "description": "PRIME.refinment_description_influence"
+          },
+          "knowledge": {
+            "value": 0,
+            "max": 10,
+            "related": [
+              "int",
+              "per"
+            ],
+            "type": "mental",
+            "title": "PRIME.refinment_title_knowledge",
+            "description": "PRIME.refinment_description_knowledge"
+          },
+          "obscura": {
+            "value": 0,
+            "max": 10,
+            "related": [
+              "int",
+              "per",
+              "res"
+            ],
+            "type": "mental",
+            "title": "PRIME.refinment_title_obscura",
+            "description": "PRIME.refinment_description_obscura"
+          },
+          "observe": {
+            "value": 0,
+            "max": 10,
+            "related": [
+              "per",
+              "man",
+              "int"
+            ],
+            "type": "mental",
+            "title": "PRIME.refinment_title_observe",
+            "description": "PRIME.refinment_description_observe"
+          },
+          "recover": {
+            "value": 0,
+            "max": 10,
+            "related": [
+              "res",
+              "end"
+            ],
+            "type": "mental",
+            "title": "PRIME.refinment_title_recover",
+            "description": "PRIME.refinment_description_recover"
+          },
+          "willpower": {
+            "value": 0,
+            "max": 10,
+            "related": [
+              "res"
+            ],
+            "type": "mental",
+            "title": "PRIME.refinment_title_willpower",
+            "description": "PRIME.refinment_description_willpower"
+          },
+          "conduit": {
+            "value": 0,
+            "max": 10,
+            "related": [
+              "att"
+            ],
+            "type": "supernatural",
+            "title": "PRIME.refinment_title_conduit",
+            "description": "PRIME.refinment_description_conduit"
+          },
+          "fury": {
+            "value": 0,
+            "max": 10,
+            "related": [
+              "por"
+            ],
+            "type": "supernatural",
+            "title": "PRIME.refinment_title_fury",
+            "description": "PRIME.refinment_description_fury"
+          },
+          "manifest": {
+            "value": 0,
+            "max": 10,
+            "related": [
+              "por"
+            ],
+            "type": "supernatural",
+            "title": "PRIME.refinment_title_manifest",
+            "description": "PRIME.refinment_description_manifest"
+          },
+          "premonition": {
+            "value": 0,
+            "max": 10,
+            "related": [
+              "por"
+            ],
+            "type": "supernatural",
+            "title": "PRIME.refinment_title_premonition",
+            "description": "PRIME.refinment_description_premonition"
+          },
+          "regeneration": {
+            "value": 0,
+            "max": 10,
+            "related": [
+              "por"
+            ],
+            "type": "supernatural",
+            "title": "PRIME.refinment_title_regeneration",
+            "description": "PRIME.refinment_description_regeneration"
+          },
+          "tap": {
+            "value": 0,
+            "max": 10,
+            "related": [
+              "att"
+            ],
+            "type": "supernatural",
+            "title": "PRIME.refinment_title_tap",
+            "description": "PRIME.refinment_description_tap"
+          },
+          "threads": {
+            "value": 0,
+            "max": 10,
+            "related": [
+              "por",
+              "end",
+              "res",
+              "per",
+              "int"
+            ],
+            "type": "supernatural",
+            "title": "PRIME.refinment_title_threads",
+            "description": "PRIME.refinment_description_threads"
+          }
+        }
+      },
+      "orderingTables": {
+        "perkOrder": {},
+        "inventoryOrder": {}
+      }
+    },
+    "character": {
+      "templates": [
+        "base_template",
+        "mental_template",
+        "metadata_template",
+        "orderingTables"
+      ],
+      "personalWealth": 0,
+      "shipWealth": 0,
+      "sheetVersion": "v1.0",
+      "primes": {},
+      "refinements": {}
+    }
+  },
+  "Item": {
+    "types": [
+      "item",
+      "melee-weapon",
+      "ranged-weapon",
+      "shield",
+      "armour",
+      "perk",
+      "action",
+      "prime",
+      "refinement",
+      "injury"
+    ],
+    "templates": {
+      "audit": {
+        "audit": {
+          "created": {
+            "name": "",
+            "date": "",
+            "userId": ""
+          },
+          "updates": [
+            {
+              "name": "",
+              "date": "",
+              "userId": ""
+            }
+          ]
+        }
+      },
+      "descriptions": {
+        "descriptions": {
+          "core": "",
+          "setting": ""
+        }
+      },
+      "metadata": {
+        "metadata": {
+          "setting": "",
+          "default": false,
+          "customisable": false
+        }
+      },
+      "valuable": {
+        "valuable": {
+          "type": "",
+          "amount": ""
+        }
+      },
+      "base": {
+        "position": -1,
+        "parentContainer": ""
+      },
+      "physicalItem": {
+        "quantity": 1,
+        "weight": 0,
+        "rarity": "common"
+      },
+      "mastercraftable": {
+        "isMasterCraft": false,
+        "bonuses": []
+      },
+      "weapon": {
+        "weaponSize": "",
+        "weaponType": "",
+        "damageRating": 0,
+        "requiredHands": 1,
+        "woundConditions": [],
+        "keywords": [],
+        "customActions": []
+      },
+      "ranged": {
+        "ranges": {
+          "pointBlank": {
+            "value": 0
+          },
+          "short": {
+            "value": 0
+          },
+          "medium": {
+            "value": 0
+          },
+          "long": {
+            "value": 0
+          },
+          "extreme": {
+            "value": 0
+          }
+        },
+        "ammo": {
+          "type": "",
+          "capacity": ""
+        }
+      },
+      "armour": {
+        "armourType": "",
+        "protection": 0,
+        "armourResilience": 1,
+        "keywords": [],
+        "untrainedPenalty": [],
+        "isWorn": false
+      }
+    },
+    "item": {
+      "templates": [
+        "base",
+        "physicalItem",
+        "valuable",
+        "audit",
+        "descriptions",
+        "metadata"
+      ]
+    },
+    "melee-weapon": {
+      "templates": [
+        "base",
+        "physicalItem",
+        "weapon",
+        "mastercraftable",
+        "valuable",
+        "audit",
+        "descriptions",
+        "metadata"
+      ],
+      "isMelee": true,
+      "isRanged": false,
+      "notes": ""
+    },
+    "ranged-weapon": {
+      "templates": [
+        "base",
+        "physicalItem",
+        "weapon",
+        "ranged",
+        "mastercraftable",
+        "valuable",
+        "audit",
+        "descriptions",
+        "metadata"
+      ],
+      "isMelee": false,
+      "isRanged": true,
+      "notes": ""
+    },
+    "shield": {
+      "templates": [
+        "base",
+        "physicalItem",
+        "weapon",
+        "mastercraftable",
+        "valuable",
+        "audit",
+        "descriptions",
+        "metadata"
+      ],
+      "meleeBlockBonus": 0,
+      "rangedBlockBonus": 0,
+      "notes": ""
+    },
+    "armour": {
+      "templates": [
+        "base",
+        "physicalItem",
+        "armour",
+        "mastercraftable",
+        "valuable",
+        "audit",
+        "descriptions",
+        "metadata"
+      ],
+      "notes": ""
+    },
+    "perk": {
+      "templates": [
+        "base",
+        "audit",
+        "descriptions",
+        "metadata"
+      ],
+      "isCollapsed": false,
+      "bonuses": [],
+      "cost": {
+        "attributeType": "",
+        "amount": 0
+      },
+      "prerequisites": []
+    },
+    "action": {
+      "templates": [
+        "base",
+        "audit",
+        "descriptions",
+        "metadata"
+      ],
+      "points": 0,
+      "sourceKey": "",
+      "type": "major",
+      "default": false,
+      "effects": []
+    },
+    "prime": {
+      "templates": [
+        "base",
+        "audit",
+        "descriptions",
+        "metadata"
+      ],
+      "value": 0,
+      "max": 10,
+      "sourceKey": "",
+      "statType": "physical",
+    },
+    "refinement": {
+      "templates": [
+        "base",
+        "audit",
+        "descriptions",
+        "metadata"
+      ],
+      "value": 0,
+      "max": 10,
+      "related": [],
+      "sourceKey": "",
+      "statType": "physical",
+    },
+    "injury": {
+      "templates": [
+        "base",
+        "audit",
+        "descriptions"
+      ],
+      "sourceKey": "",
+      "untendedEffects": [],
+      "tendedEffects": [],
+      "permanentEffects": [],
+      "injuryType": "wound",
+      "injuryState": "untended"
+    }
+  },
+  "Tables": {
+    "core": {
+      "settings": [
+        {
+          "key": "Prime / Possession",
+          "title": "PRIME.core_settings_prime_possession"
+        },
+        {
+          "key": "Aethernauts",
+          "title": "PRIME.core_settings_aethernauts"
+        }
+      ]
+    },
+    "actor": {
+      "actorStatMinimums": {
+        "att": 0
+      },
+      "actorStatLookup": [
+        {
+          "key": "actionPoints.default",
+          "title": "PRIME.perk_actor_stat_bonus_base_ap_bonus"
+        },
+        {
+          "key": "actionPoints.max",
+          "title": "PRIME.perk_actor_stat_bonus_max_ap_bonus"
+        },
+        {
+          "key": "actionPoints.perRound",
+          "title": "PRIME.perk_actor_stat_bonus_per_round_ap_bonus"
+        },
+        {
+          "key": "health.wounds.max",
+          "title": "PRIME.perk_actor_stat_bonus_max_wounds"
+        },
+        {
+          "key": "health.resilience.max",
+          "title": "PRIME.perk_actor_stat_bonus_max_resilience"
+        },
+        {
+          "key": "armour.protection.max",
+          "title": "PRIME.perk_actor_stat_bonus_max_protection"
+        },
+        {
+          "key": "armour.resilience.max",
+          "title": "PRIME.perk_actor_stat_bonus_max_armour_resilience"
+        },
+        {
+          "key": "mind.insanities.max",
+          "title": "PRIME.perk_actor_stat_bonus_max_insanities"
+        },
+        {
+          "key": "mind.psyche.max",
+          "title": "PRIME.perk_actor_stat_bonus_max_psyche"
+        },
+        {
+          "key": "ward.stability.max",
+          "title": "PRIME.perk_actor_stat_bonus_max_stability"
+        },
+        {
+          "key": "ward.psyche.max",
+          "title": "PRIME.perk_actor_stat_bonus_max_ward_psyche"
+        }
+      ],
+      "woundConditions": [
+        {
+          "key": "bleeding",
+          "title": "PRIME.actor_wound_condition_title_bleeding",
+          "description": "PRIME.actor_wound_condition_description_bleeding"
+        },
+        {
+          "key": "pierced",
+          "title": "PRIME.actor_wound_condition_title_pierced",
+          "description": "PRIME.actor_wound_condition_description_pierced"
+        },
+        {
+          "key": "hooked",
+          "title": "PRIME.actor_wound_condition_title_hooked",
+          "description": "PRIME.actor_wound_condition_description_hooked"
+        },
+        {
+          "key": "non-lethal",
+          "title": "PRIME.actor_wound_condition_title_non-lethal",
+          "description": "PRIME.actor_wound_condition_description_non-lethal"
+        },
+        {
+          "key": "staggered",
+          "title": "PRIME.actor_wound_condition_title_staggered",
+          "description": "PRIME.actor_wound_condition_description_staggered"
+        },
+        {
+          "key": "stunned",
+          "title": "PRIME.actor_wound_condition_title_stunned",
+          "description": "PRIME.actor_wound_condition_description_stunned"
+        },
+        {
+          "key": "crushed",
+          "title": "PRIME.actor_wound_condition_title_crushed",
+          "description": "PRIME.actor_wound_condition_description_crushed"
+        },
+        {
+          "key": "battered",
+          "title": "PRIME.actor_wound_condition_title_battered",
+          "description": "PRIME.actor_wound_condition_description_battered"
+        },
+        {
+          "key": "slowed",
+          "title": "PRIME.actor_wound_condition_title_slowed",
+          "description": "PRIME.actor_wound_condition_description_slowed"
+        }
+      ],
+      "mentalConditions": [
+        {
+          "key": "scared",
+          "title": "PRIME.actor_mental_condition_title_scared",
+          "description": "PRIME.actor_mental_condition_description_scared"
+        },
+        {
+          "key": "mad",
+          "title": "PRIME.actor_mental_condition_title_mad",
+          "description": "PRIME.actor_mental_condition_description_mad"
+        }
+      ]
+    },
+    "items": {
+      "rarity": [
+        {
+          "key": "common",
+          "title": "PRIME.item_rarity_common"
+        },
+        {
+          "key": "uncommon",
+          "title": "PRIME.item_rarity_uncommon"
+        },
+        {
+          "key": "scarce",
+          "title": "PRIME.item_rarity_scarce"
+        },
+        {
+          "key": "rare",
+          "title": "PRIME.item_rarity_rare"
+        },
+        {
+          "key": "legendary",
+          "title": "PRIME.item_rarity_legendary"
+        },
+        {
+          "key": "unique",
+          "title": "PRIME.item_rarity_unique"
+        }
+      ],
+      "weapons": {
+        "sizes": [
+          {
+            "key": "tiny",
+            "title": "PRIME.weapon_sizes_tiny"
+          },
+          {
+            "key": "small",
+            "title": "PRIME.weapon_sizes_small"
+          },
+          {
+            "key": "medium",
+            "title": "PRIME.weapon_sizes_medium"
+          },
+          {
+            "key": "large",
+            "title": "PRIME.weapon_sizes_large"
+          },
+          {
+            "key": "huge",
+            "title": "PRIME.weapon_sizes_huge"
+          }
+        ],
+        "keywords": [
+          {
+            "key": "accurate",
+            "title": "PRIME.weapon_keywords_title_accurate",
+            "description": "PRIME.weapon_keywords_description_accurate"
+          },
+          {
+            "key": "armour_damaging",
+            "title": "PRIME.weapon_keywords_title_armour_damaging",
+            "description": "PRIME.weapon_keywords_description_armour_damaging"
+          },
+          {
+            "key": "cumbersome",
+            "title": "PRIME.weapon_keywords_title_cumbersome",
+            "description": "PRIME.weapon_keywords_description_cumbersome"
+          },
+          {
+            "key": "devastating",
+            "title": "PRIME.weapon_keywords_title_devastating",
+            "description": "PRIME.weapon_keywords_description_devastating"
+          },
+          {
+            "key": "flexible",
+            "title": "PRIME.weapon_keywords_title_flexible",
+            "description": "PRIME.weapon_keywords_description_flexible"
+          },
+          {
+            "key": "heavy",
+            "title": "PRIME.weapon_keywords_title_heavy",
+            "description": "PRIME.weapon_keywords_description_heavy"
+          },
+          {
+            "key": "minimum_range",
+            "title": "PRIME.weapon_keywords_title_minimum_range",
+            "description": "PRIME.weapon_keywords_description_minimum_range"
+          },
+          {
+            "key": "penetrating",
+            "title": "PRIME.weapon_keywords_title_penetrating",
+            "description": "PRIME.weapon_keywords_description_penetrating"
+          },
+          {
+            "key": "pistol",
+            "title": "PRIME.weapon_keywords_title_pistol",
+            "description": "PRIME.weapon_keywords_description_pistol"
+          },
+          {
+            "key": "pole",
+            "title": "PRIME.weapon_keywords_title_pole",
+            "description": "PRIME.weapon_keywords_description_pole"
+          },
+          {
+            "key": "ranked",
+            "title": "PRIME.weapon_keywords_title_ranked",
+            "description": "PRIME.weapon_keywords_description_ranked"
+          },
+          {
+            "key": "shield_breaker",
+            "title": "PRIME.weapon_keywords_title_shield_breaker",
+            "description": "PRIME.weapon_keywords_description_shield_breaker"
+          },
+          {
+            "key": "versatile",
+            "title": "PRIME.weapon_keywords_title_versatile",
+            "description": "PRIME.weapon_keywords_description_versatile"
+          },
+          {
+            "key": "weak",
+            "title": "PRIME.weapon_keywords_title_weak",
+            "description": "PRIME.weapon_keywords_description_weak"
+          },
+          {
+            "key": "well_balanced",
+            "title": "PRIME.weapon_keywords_title_well_balanced",
+            "description": "PRIME.weapon_keywords_description_well_balanced"
+          }
+        ],
+        "meleeWeaponActions": [
+          {
+            "key": "bash",
+            "title": "PRIME.weapon_action_title_bash",
+            "description": "PRIME.weapon_action_description_bash",
+            "apCost": 1
+          },
+          {
+            "key": "cleave",
+            "title": "PRIME.weapon_action_title_cleave",
+            "description": "PRIME.weapon_action_description_cleave",
+            "apCost": 1
+          },
+          {
+            "key": "hook",
+            "title": "PRIME.weapon_action_title_hook",
+            "description": "PRIME.weapon_action_description_hook",
+            "apCost": 1
+          },
+          {
+            "key": "impale",
+            "title": "PRIME.weapon_action_title_impale",
+            "description": "PRIME.weapon_action_description_impale",
+            "apCost": 1
+          },
+          {
+            "key": "stab",
+            "title": "PRIME.weapon_action_title_stab",
+            "description": "PRIME.weapon_action_description_stab",
+            "apCost": 1
+          }
+        ],
+        "rangedWeaponActions": [
+          {
+            "key": "impale",
+            "title": "PRIME.weapon_action_title_impale",
+            "description": "PRIME.weapon_action_description_impale",
+            "apCost": 1
+          },
+          {
+            "key": "surpress",
+            "title": "PRIME.weapon_action_title_surpress",
+            "description": "PRIME.weapon_action_description_surpress",
+            "apCost": 1
+          },
+          {
+            "key": "lob",
+            "title": "PRIME.weapon_action_title_lob",
+            "description": "PRIME.weapon_action_description_lob",
+            "apCost": 1
+          }
+        ],
+        "meleeTypes": [
+          {
+            "key": "blunt",
+            "title": "PRIME.weapon_melee_type_blunt"
+          },
+          {
+            "key": "sword",
+            "title": "PRIME.weapon_melee_type_sword"
+          },
+          {
+            "key": "dagger",
+            "title": "PRIME.weapon_melee_type_dagger"
+          },
+          {
+            "key": "axe",
+            "title": "PRIME.weapon_melee_type_axe"
+          },
+          {
+            "key": "pole",
+            "title": "PRIME.weapon_melee_type_pole"
+          }
+        ],
+        "rangedTypes": [
+          {
+            "key": "bow",
+            "title": "PRIME.weapon_ranged_type_bow"
+          },
+          {
+            "key": "mechanical",
+            "title": "PRIME.weapon_ranged_type_mechanical"
+          },
+          {
+            "key": "thrown",
+            "title": "PRIME.weapon_ranged_type_thrown"
+          },
+          {
+            "key": "blowpipe",
+            "title": "PRIME.weapon_ranged_type_blowpipe"
+          }
+        ],
+        "rangeCatergories": {
+          "pointBlank": "PRIME.weapons_ranges_point_blank",
+          "short": "PRIME.weapons_ranges_short",
+          "medium": "PRIME.weapons_ranges_medium",
+          "long": "PRIME.weapons_ranges_long",
+          "extreme": "PRIME.weapons_ranges_extreme"
+        },
+        "ammoTypes": [
+          {
+            "key": "arrow",
+            "title": "PRIME.weapon_ammo_type_arrow"
+          },
+          {
+            "key": "bolt",
+            "title": "PRIME.weapon_ammo_type_bolt"
+          },
+          {
+            "key": "dart",
+            "title": "PRIME.weapon_ammo_type_dart"
+          },
+          {
+            "key": "bullet",
+            "title": "PRIME.weapon_ammo_type_bullet"
+          }
+        ]
+      },
+      "armour": {
+        "types": [
+          {
+            "key": "cloth",
+            "title": "PRIME.armour_type_cloth"
+          },
+          {
+            "key": "leather",
+            "title": "PRIME.armour_type_leather"
+          },
+          {
+            "key": "chain",
+            "title": "PRIME.armour_type_chain"
+          },
+          {
+            "key": "plate",
+            "title": "PRIME.armour_type_plate"
+          },
+          {
+            "key": "other",
+            "title": "PRIME.armour_type_other"
+          }
+        ],
+        "keywords": [
+          {
+            "key": "ablative",
+            "title": "PRIME.armour_keyword_title_ablative",
+            "description": "PRIME.armour_keyword_description_ablative"
+          },
+          {
+            "key": "camouflaging",
+            "title": "PRIME.armour_keyword_title_camouflaging",
+            "description": "PRIME.armour_keyword_description_camouflaging"
+          },
+          {
+            "key": "cumbersome",
+            "title": "PRIME.armour_keyword_title_cumbersome",
+            "description": "PRIME.armour_keyword_description_cumbersome"
+          },
+          {
+            "key": "restrictive",
+            "title": "PRIME.armour_keyword_title_restrictive",
+            "description": "PRIME.armour_keyword_description_restrictive"
+          },
+          {
+            "key": "senseDepriving",
+            "title": "PRIME.armour_keyword_title_sense_depriving",
+            "description": "PRIME.armour_keyword_description_sense_depriving"
+          },
+          {
+            "key": "silent",
+            "title": "PRIME.armour_keyword_title_silent",
+            "description": "PRIME.armour_keyword_description_silent"
+          }
+        ],
+        "untrainedPenalities": [
+          {
+            "key": "plusOneAP",
+            "title": "PRIME.armour_untrained_penalities_title_plus_one_ap",
+            "description": "PRIME.armour_untrained_penalities_description_plus_one_ap"
+          },
+          {
+            "key": "plusTwoAP",
+            "title": "PRIME.armour_untrained_penalities_title_plus_two_ap",
+            "description": "PRIME.armour_untrained_penalities_description_plus_two_ap"
+          },
+          {
+            "key": "plusThreeAP",
+            "title": "PRIME.armour_untrained_penalities_title_plus_three_ap",
+            "description": "PRIME.armour_untrained_penalities_description_plus_three_ap"
+          },
+          {
+            "key": "plusFourAP",
+            "title": "PRIME.armour_untrained_penalities_title_plus_four_ap",
+            "description": "PRIME.armour_untrained_penalities_description_plus_four_ap"
+          }
+        ]
+      }
+    },
+    "perks": {
+      "bonusTypes": [
+        {
+          "key": "situationalPrime",
+          "title": "PRIME.perk_type_situational_prime"
+        },
+        {
+          "key": "situationalRefinement",
+          "title": "PRIME.perk_type_situational_refinement"
+        },
+        {
+          "key": "extraAction",
+          "title": "PRIME.perk_type_extra_action"
+        },
+        {
+          "key": "actionPointBonus",
+          "title": "PRIME.perk_type_action_cost_reduction"
+        },
+        {
+          "key": "actorStatBonus",
+          "title": "PRIME.perk_type_actor_stat_bonus"
+        },
+        {
+          "key": "externalStatBonus",
+          "title": "PRIME.perk_type_external_stat_bonus"
+        },
+        {
+          "key": "misc",
+          "title": "PRIME.perk_type_misc"
+        }
+      ],
+      "costs": [
+        {
+          "key": "perkCostXP",
+          "title": "PRIME.perk_cost_xp"
+        },
+        {
+          "key": "perkCostSoul",
+          "title": "PRIME.perk_cost_soul"
+        }
+      ],
+      "prerequisiteTypes": [
+        {
+          "key": "minimumPrime",
+          "title": "PRIME.perk_prerequisite_minimum_prime"
+        },
+        {
+          "key": "minimumRefinement",
+          "title": "PRIME.perk_prerequisite_minimum_refinement"
+        },
+        {
+          "key": "minimumStat",
+          "title": "PRIME.perk_prerequisite_minimum_stat"
+        },
+        {
+          "key": "maximumPrime",
+          "title": "PRIME.perk_prerequisite_maximum_prime"
+        },
+        {
+          "key": "maximumRefinement",
+          "title": "PRIME.perk_prerequisite_maximum_refinement"
+        },
+        {
+          "key": "maximumStat",
+          "title": "PRIME.perk_prerequisite_maximum_stat"
+        },
+        {
+          "key": "otherPerk",
+          "title": "PRIME.perk_prerequisite_other_perk_purchased"
+        }
+      ],
+      "externalStatLookup": [
+        {
+          "key": "null",
+          "title": "Please write in description"
+        }
+      ],
+      "miscBonusLookup": [
+        {
+          "key": "null",
+          "title": "Please write in description"
+        }
+      ]
+    },
+    "actions": {
+      "actionTypes": [
+        {
+          "key": "major",
+          "title": "PRIME.action_type_major_title"
+        },
+        {
+          "key": "minor",
+          "title": "PRIME.action_type_minor_title"
+        },
+        {
+          "key": "reaction",
+          "title": "PRIME.action_type_reaction_title"
+        },
+        {
+          "key": "combo",
+          "title": "PRIME.action_type_combo_title"
+        },
+        {
+          "key": "weaponCombo",
+          "title": "PRIME.action_type_weapon_combo_title"
+        }
+      ],
+      "effectTypes": [
+        {
+          "key": "move",
+          "title": "PRIME.action_effect_type_move"
+        },
+        {
+          "key": "meleeAttack",
+          "title": "PRIME.action_effect_type_melee_attack"
+        },
+        {
+          "key": "rangedAttack",
+          "title": "PRIME.action_effect_type_ranged_attack"
+        },
+        {
+          "key": "meleeBlock",
+          "title": "PRIME.action_effect_type_melee_block"
+        },
+        {
+          "key": "rangedBlock",
+          "title": "PRIME.action_effect_type_ranged_block"
+        },
+        {
+          "key": "magic",
+          "title": "PRIME.action_effect_type_magic"
+        },
+        {
+          "key": "gainPoints",
+          "title": "PRIME.action_effect_type_gain_points"
+        },
+        {
+          "key": "misc",
+          "title": "PRIME.action_effect_type_misc"
+        }
+      ],
+      "miscBonusLookup": [
+        {
+          "key": "null",
+          "title": "Please write in description"
+        }
+      ]
+    }
+  }
 }
