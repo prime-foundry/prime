@@ -27,11 +27,11 @@ export default class PrimeMigration_0_4_1 extends Migration {
 
     static migrateValuable(item, gameSystemData) {
         if (gameSystemData.valueType != null) {
-            item.valuable.type = gameSystemData.valueType;
+            item.value.type = gameSystemData.valueType;
             gameSystemData.valueType = null;
         }
         if(gameSystemData.valueAmount  != null) {
-            item.valuable.amount = gameSystemData.valueAmount;
+            item.value.amount = gameSystemData.valueAmount;
             gameSystemData.valueAmount = null;
         }
     }

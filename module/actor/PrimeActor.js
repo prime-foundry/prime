@@ -748,9 +748,9 @@ export class PrimeActor extends DynDocumentMixin(Actor, 'actor')
 		let totalCost = 0;
 		this.items.forEach(function(currItem, key, map)
 		{
-			if (currItem.dyn.typed.valuable.type == costType)
+			if (currItem.dyn.typed.value.type == costType)
 			{
-				var cost = currItem.dyn.typed.valuable.amount;
+				var cost = currItem.dyn.typed.value.amount;
 				var parsedCost = parseInt(cost);
 				if (cost &&  !isNaN(parsedCost))
 				{
