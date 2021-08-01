@@ -27,15 +27,15 @@ export default class PrimeMigration_0_4_1 extends Migration {
     static migrateMetadata(item, gameSystemData) {
         if (gameSystemData.setting) {
             item.metadata.setting = gameSystemData.setting;
-            item.metadata.setting = null;
+            gameSystemData.setting = null;
         }
         if(item.metadata.default  != null) {
             item.metadata.default = gameSystemData.default;
-            item.metadata.default = null;
+            gameSystemData.default = null;
         }
         if(item.metadata.customisable  != null) {
             item.metadata.customisable = gameSystemData.customisable;
-            item.metadata.customisable = null;
+            gameSystemData.customisable = null;
         }
     }
 
