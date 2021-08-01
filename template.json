@@ -514,10 +514,7 @@
           "amount": ""
         }
       },
-      "base": {
-        "position": -1,
-        "parentContainer": ""
-      },
+
       "physicalItem": {
         "quantity": 1,
         "weight": 0,
@@ -570,7 +567,6 @@
     },
     "item": {
       "templates": [
-        "base",
         "physicalItem",
         "valuable",
         "audit",
@@ -580,7 +576,6 @@
     },
     "melee-weapon": {
       "templates": [
-        "base",
         "physicalItem",
         "weapon",
         "mastercraftable",
@@ -595,7 +590,6 @@
     },
     "ranged-weapon": {
       "templates": [
-        "base",
         "physicalItem",
         "weapon",
         "ranged",
@@ -611,7 +605,6 @@
     },
     "shield": {
       "templates": [
-        "base",
         "physicalItem",
         "weapon",
         "mastercraftable",
@@ -626,7 +619,6 @@
     },
     "armour": {
       "templates": [
-        "base",
         "physicalItem",
         "armour",
         "mastercraftable",
@@ -639,7 +631,6 @@
     },
     "perk": {
       "templates": [
-        "base",
         "audit",
         "descriptions",
         "metadata"
@@ -654,7 +645,6 @@
     },
     "action": {
       "templates": [
-        "base",
         "audit",
         "descriptions",
         "metadata"
@@ -667,7 +657,6 @@
     },
     "prime": {
       "templates": [
-        "base",
         "audit",
         "descriptions",
         "metadata"
@@ -679,7 +668,6 @@
     },
     "refinement": {
       "templates": [
-        "base",
         "audit",
         "descriptions",
         "metadata"
@@ -692,7 +680,6 @@
     },
     "injury": {
       "templates": [
-        "base",
         "audit",
         "descriptions"
       ],
