@@ -18,10 +18,22 @@ export default class PrimeMigration_0_4_1 extends Migration {
         const gameSystemData = foundryData.data;
         const item = itemDoc.dyn.typed;
         PrimeMigration_0_4_1.migrateAudit(item, gameSystemData);
+        PrimeMigration_0_4_1.migrateValuable(item, gameSystemData);
         PrimeMigration_0_4_1.migrateDescriptions(item, gameSystemData);
         PrimeMigration_0_4_1.migrateMetadata(item, gameSystemData);
 
         await foundryData.update(foundry.utils.deepClone(foundryData), {render: false});
+    }
+
+    static migrateValuable(item, gameSystemData) {
+        if (gameSystemData.valueType != null) {
+            item.valuable.type = gameSystemData.valueType;
+            gameSystemData.valueType = null;
+        }
+        if(gameSystemData.valueAmount  != null) {
+            item.valuable.amount = gameSystemData.valueAmount;
+            gameSystemData.valueAmount = null;
+        }
     }
 
     static migrateMetadata(item, gameSystemData) {
@@ -29,11 +41,11 @@ export default class PrimeMigration_0_4_1 extends Migration {
             item.metadata.setting = gameSystemData.setting;
             gameSystemData.setting = null;
         }
-        if(item.metadata.default  != null) {
+        if(gameSystemData.default != null) {
             item.metadata.default = gameSystemData.default;
             gameSystemData.default = null;
         }
-        if(item.metadata.customisable  != null) {
+        if(gameSystemData.customisable != null) {
             item.metadata.customisable = gameSystemData.customisable;
             gameSystemData.customisable = null;
         }
