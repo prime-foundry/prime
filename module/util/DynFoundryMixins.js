@@ -249,6 +249,7 @@ export const DynApplicationMixin = (FoundryApplicationType, viewName = 'sheet') 
             this.dyn.controller.control(html);
         }
 
+        /** @override */
         getData() {
             const dyn = this.dyn;
             const data = {...super.getData(), ...this.dynModels, dyn};

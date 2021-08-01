@@ -675,7 +675,7 @@
       "value": 0,
       "max": 10,
       "sourceKey": "",
-      "statType": "physical",
+      "statType": "physical"
     },
     "refinement": {
       "templates": [
@@ -688,7 +688,7 @@
       "max": 10,
       "related": [],
       "sourceKey": "",
-      "statType": "physical",
+      "statType": "physical"
     },
     "injury": {
       "templates": [
