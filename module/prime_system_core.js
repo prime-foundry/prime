@@ -16,9 +16,8 @@ Hooks.once('init', async function ()
 		PrimeItem
 	};
 
-
 	/**
-	 * Set an initiative formula for the system
+	 * Set an initiative formula for the gameSystem
 	 * @type {String}
 	 */
 	CONFIG.Combat.initiative = {
@@ -63,6 +62,6 @@ Hooks.once("ready", async function ()
 
 	await PrimeSettingsManager.addSettings();
 	await PrimeHandlebarsPartials.loadPartials();
-	await PrimeDataMigrationManager.performIfMigrationRequired();
+	await PrimeDataMigrationManager.forceMigrations(true);
 
 });

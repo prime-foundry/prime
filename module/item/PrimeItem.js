@@ -1,12 +1,30 @@
 import { PrimeTables } from "../prime_tables.js";
-import DynDocumentMixin from "../util/DynDocumentMixin.js";
+import {DynDocumentMixin} from "../util/DynFoundryMixins.js";
+import StatItem from "./components/typed/StatItem.js";
+import BaseItem from "./components/typed/BaseItem.js";
+import InjuryItem from "./components/typed/InjuryItem.js";
 
 /**
  * Extend the basic Item with some very simple modifications.
  * @extends {Item}
  */
-export class PrimeItem extends DynDocumentMixin(Item)
+export class PrimeItem extends DynDocumentMixin(Item, 'item', 'type')
 {
+
+	/**
+	 * These are the types returned on the model named item, instead of this Document.
+	 * This allows us to have typed values. If a default is not provided, then it will return the document.
+	 *
+	 * @param registry
+	 */
+	registerDynTypes(registry) {
+		registry
+			.default(BaseItem)
+			.register('prime', StatItem)
+			.register('refinement', StatItem)
+			.register('injury', InjuryItem);
+	}
+
 
 	// static get config()
 	// {
@@ -26,16 +44,18 @@ export class PrimeItem extends DynDocumentMixin(Item)
 	{
 		super.prepareData();
 
-		// if (!(this.data.data.bonuses instanceof Collection))
-		// {
-		// 	this.data.data.bonuses = this.convertToCollection(this.data.data.bonuses);
-		// }
 
-		// Get the Item's data
-		const itemData = this.data;
-		const actorData = this.actor ? this.actor.data : {};
-		const data = itemData.data;
 	}
+
+	// get typed() {
+	// 	switch(this.type){
+	// 		case 'prime':
+	// 		case 'refinement':
+	// 			return new StatItem(this);
+	// 		default:
+	// 			return null;
+	// 	}
+	// }
 
 	// convertToCollection(objectToConvert)
 	// {

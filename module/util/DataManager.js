@@ -1,23 +1,22 @@
 import {traversePath} from "./support.js";
+import JSONPathBuilder from "./JSONPathBuilder.js";
+
 function fixArrays(viewParts, editParts, viewObj, editObj) {
     viewParts.forEach(({object: viewArray, isArray}, idx) => {
         if (isArray) {
             const {object: editArray} = editParts[idx];
             viewArray.forEach((value, index) => {
-                if (editArray[index] == null) {
-                    editArray[index] = value;
-                }
+                editArray[index] = value;
             });
         }
     });
     if (Array.isArray(viewObj)) {
         viewObj.forEach((value, index) => {
-            if (editObj[index] == null) {
-                editObj[index] = value;
-            }
+            editObj[index] = value;
         });
     }
 }
+
 export default class DataManager {
     document;
     embeddedDataManagers;
@@ -31,24 +30,28 @@ export default class DataManager {
         this.clear();
     }
 
+
     /**
      * Given a path and a value set the value at that path point.
-     * Generally avoid using this method directly, and use writeToDocument and writeToSystem,
      * as they help to decouple as from the base implementation better.
      *
-     * @param path
-     * @param value
+     * @param {JSONPathBuilder | string[] | string} pathComponents
+     * @param {any} value
      * @returns {*}
      */
-    write(path, value){
-        // write to the read.
-        const {object:viewObj, property:viewProperty, parts:viewParts} = traversePath(path, this.document, true, true);
+    write(pathComponents, value, options={getPath:false}) {
+        const path = JSONPathBuilder.from(pathComponents).toString();
+        if(options.getPath){
+            return path;
+        }
+
+        const {object: viewObj, property: viewProperty, parts: viewParts} = traversePath(path, this.document, true, true);
         const lastValue = viewObj[viewProperty];
 
-        if(lastValue !== value){
+        if (lastValue !== value) {
             viewObj[viewProperty] = value;
 
-            const {object:editObj, property:editProperty, parts:editParts} = traversePath(path, this.editObject, true, true);
+            const {object: editObj, property: editProperty, parts: editParts} = traversePath(path, this.editObject, true, true);
             // copy over missing information to the edited array, as foundry can't diff arrays properly.
             fixArrays(viewParts, editParts, viewObj, editObj);
             editObj[editProperty] = value;
@@ -64,7 +67,7 @@ export default class DataManager {
 
     clear() {
         this.dirty = false;
-        this.editObject = {data:{}};
+        this.editObject = {data: {}};
         // we don't call clear, because we want to pass the object off,
         // this will help prevent infinite recurssion in the commit method.
         this.embeddedDataManagers = new Set();
@@ -81,13 +84,14 @@ export default class DataManager {
         const {dirty, editObject, embeddedDataManagers, document} = this;
         this.clear();
 
-        for(const embedded of embeddedDataManagers) {
+        for (const embedded of embeddedDataManagers) {
             embedded.commit(context);
         }
-        if(dirty) {
-            if(context.render == null){
+        if (dirty) {
+            if (context.render == null) {
                 context.render = false;
             }
+
             await document.update(editObject.data, context);
         }
     }

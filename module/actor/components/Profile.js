@@ -6,23 +6,28 @@ export default class Profile extends Component {
         super(parent);
     }
 
-    get metadata() {
-        return this.system.metadata;
+    get profile() {
+        return this.gameSystem.profile || {};
     }
 
-    writeToMetadata(propertyName, value) {
-        this.writeToSystem(`metadata.${propertyName}`, value);
+    writeToProfile(value, parameterName) {
+        this.write(this.profileData.with(parameterName), value);
     }
+
+    get profileData(){
+        return this.gameSystemPath.with('profile');
+    }
+
     get name() {
-        return this.content.name;
+        return this.foundryData.name;
     }
 
     set name(name) {
-        this.writeToContent('name', name);
+        this.write(this.foundryDataPath.with('name'), name)
     }
 
     get portrait() {
-        return this.content.img;
+        return this.foundryData.img;
     }
 
     //TODO relook at ownersNames
@@ -35,117 +40,117 @@ export default class Profile extends Component {
      * @return {boolean}
      */
     get npc() {
-        return !!this.metadata.isNPC;
+        return !!this.profile.isNPC;
     }
 
     /**
      * @param {boolean} npc
      */
     set npc(npc) {
-        this.writeToMetadata('isNPC', npc);
+        this.writeToProfile(npc, 'isNPC');
     }
 
     get race() {
-        return this.metadata.race;
+        return this.profile.race;
     }
 
     set race(race) {
-        this.writeToMetadata('race',race);
+        this.writeToProfile(race, 'race');
     }
 
     get faction() {
-        return this.metadata.faction;
+        return this.profile.faction;
     }
 
     set faction(faction) {;
-        this.writeToMetadata('faction',faction);
+        this.writeToProfile(faction, 'faction');
     }
 
     get occupation() {
-        return this.metadata.occupation;
+        return this.profile.occupation;
     }
 
     set occupation(occupation) {
-        this.writeToMetadata('occupation',occupation);
+        this.writeToProfile(occupation, 'occupation');
     }
 
     get celestial() {
-        return this.metadata.celestial;
+        return this.profile.celestial;
     }
 
     set celestial(celestial) {
-        this.writeToMetadata('celestial',celestial);
+        this.writeToProfile(celestial, 'celestial');
     }
 
     get birthplace() {
-        return this.metadata.birthplace;
+        return this.profile.birthplace;
     }
 
     set birthplace(birthplace) {
-        this.writeToMetadata('birthplace',birthplace);
+        this.writeToProfile(birthplace, 'birthplace');
     }
 
     get rankOrTitle() {
-        return this.metadata.rankOrTitle;
+        return this.profile.rankOrTitle;
     }
 
     set rankOrTitle(rankOrTitle) {
-        this.writeToMetadata('rankOrTitle',rankOrTitle);
+        this.writeToProfile(rankOrTitle, 'rankOrTitle');
     }
 
     get height() {
-        return this.metadata.height;
+        return this.profile.height;
     }
 
     set height(height) {
-        this.writeToMetadata('height',height);
+        this.writeToProfile(height, 'height');
     }
 
     get weight() {
-        return this.metadata.weight;
+        return this.profile.weight;
     }
 
     set weight(weight) {
-        this.writeToMetadata('weight',weight);
+        this.writeToProfile(weight, 'weight');
     }
 
     get hair() {
-        return this.metadata.hair;
+        return this.profile.hair;
     }
 
     set hair(hair) {
-        this.writeToMetadata('hair',hair);
+        this.writeToProfile(hair, 'hair');
     }
 
     get eyes() {
-        return this.metadata.eyes;
+        return this.profile.eyes;
     }
 
     set eyes(eyes) {
-        this.writeToMetadata('eyes',eyes);
+        this.writeToProfile(eyes, 'eyes');
     }
 
     get gender() {
-        return this.metadata.gender;
+        return this.profile.gender;
     }
 
     set gender(gender) {
-        this.writeToMetadata('gender',gender);
+        this.writeToProfile(gender, 'gender');
     }
 
     get age() {
-        return this.metadata.age;
+        return this.profile.age;
     }
 
     set age(age) {
-        this.writeToMetadata('age',age);
+        this.writeToProfile(age, 'age');
     }
 
     get biography() {
-        return this.metadata.biography;
+        return this.profile.biography;
     }
 
     set biography(biography) {
-        this.writeToMetadata('biography',biography);
+        this.writeToProfile(biography, 'biography');
     }
 }

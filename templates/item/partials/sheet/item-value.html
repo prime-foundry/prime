@@ -1,16 +1,18 @@
 <div class="flexRow block flexBetween">
-	<div class="blockTitle">Value</div>
+	<div class="blockTitle">Valuable</div>
 	<div class="cell50 flexColumn">
-		<label for="data.valueTypeID">Type: </label>
-		<select id="data.valueTypeID" name="data.valueType" class="itemValueType">
-			{{#select data.valueType}}
+		<label for="value.type">Type: </label>
+		<select id="value.type" class="itemValueType"
+				data-dyn-change-at="item.value.type"
+				data-dyn-select="item.value.type">
 			<option value="personal">Personal $</option>
 			<option value="ship">Ship $</option>
-			{{/select}}
 		</select>
 	</div>
 	<div class="cell50 flexColumn">
-		<label  for="data.valueAmount">Amount: </label>
-		<input type="text" id="data.valueAmount" name="data.valueAmount" value="{{data.valueAmount}}" data-dtype="Number" />
+		<label  for="value.amount">Amount: </label>
+		<input type="text" id="value.amount" value="{{item.value.amount}}"
+			   data-dyn-type="Number"
+			   data-dyn-change-at="item.value.amount" />
 	</div>
 </div>

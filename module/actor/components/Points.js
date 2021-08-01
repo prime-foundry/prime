@@ -41,7 +41,7 @@ export class PointsBase extends Component {
      * @param {number} value
      */
     set value(value) {
-        this.writeToPoints('value', Math.max(0, Math.min(this.max, value)));
+        this.writeToPoints(Math.max(0, Math.min(this.max, value)), 'value');
     }
 
     /**
@@ -57,7 +57,11 @@ export class PointsBase extends Component {
      * To be overriden
      * @interface
      */
-    writeToPoints(parameterName, value) {}
+    writeToPoints(value, ...pathComponents) {
+        this.write(this.pointsPath.with(...pathComponents), value);
+    }
+
+    get pointsPath() { }
 }
 
 /**
@@ -96,7 +100,7 @@ export class AwardableBase extends Component {
 
     award(value) {
         if (this.document.isCharacter()) {
-            this.writeToPoints('awarded', this.points.awarded + value);
+            this.writeToPoints(this.points.awarded + value, 'awarded');
         }
     }
 
@@ -109,10 +113,14 @@ export class AwardableBase extends Component {
     }
 
     /**
+     * To be overriden
      * @interface
-     * @param propertyName
      */
-    writeToPoints(propertyName){}
+    writeToPoints(value, ...pathComponents) {
+        this.write(this.pointsPath.with(...pathComponents), value);
+    }
+
+    get pointsPath() { }
 }
 
 export class XP extends AwardableBase {
@@ -126,22 +134,18 @@ export class XP extends AwardableBase {
      * @returns {{initial: number, awarded: number}}
      */
     get points() {
-        return this.system.xp;
+        return this.gameSystem.xp;
     }
 
-    /**
-     * @interface
-     * @param propertyName
-     */
-    writeToPoints(propertyName, value){
-        this.writeToSystem(`xp.${propertyName}`, value)
+    get pointsPath() {
+        return this.gameSystemPath.with('xp');
     }
 
     get spent() {
         if (this.document.isCharacter()) {
             // TODO: totalcost and totalperkcost don't belong in the actor class directly.
             // TODO will not work with V2 chars.
-            const refinementCost = this.document.getTotalCost(this.system.refinements);
+            const refinementCost = this.document.getTotalCost(this.gameSystem.refinements);
             const perkXPCost = this.document.getTotalPerkCost("perkCostXP");
             return refinementCost + perkXPCost;
         }
@@ -160,15 +164,11 @@ export class Soul extends AwardableBase {
      * @returns {{initial: number, awarded: number}}
      */
     get points() {
-        return this.system.soul;
+        return this.gameSystem.soul;
     }
 
-    /**
-     * @interface
-     * @param propertyName
-     */
-    writeToPoints(propertyName, value){
-        this.writeToSystem(`soul.${propertyName}`, value)
+    get pointsPath() {
+        return this.gameSystemPath.with('soul');
     }
 
     get value() {
@@ -180,14 +180,14 @@ export class Soul extends AwardableBase {
     }
 
     burn() {
-        this.writeToPoints('burnt', this.burnt + 1);
+        this.writeToPoints(this.burnt + 1, 'burnt');
     }
 
     get spent() {
         if (this.document.isCharacter()) {
             // TODO: totalcost and totalperkcost don't belong in the actor class directly.
             // TODO will not work with V2 chars.
-            const primeCost = this.document.getTotalCost(this.system.primes);
+            const primeCost = this.document.getTotalCost(this.gameSystem.primes);
             const perkSoulCost = this.document.getTotalPerkCost("perkCostSoul");
             return primeCost + perkSoulCost;
         }
@@ -205,7 +205,7 @@ export class ActionPoints extends PointsBase {
         // fix for old sheets
         if (base == null) {
             base = 6;
-            this.writeToPoints('base',base);
+            this.writeToPoints(base, 'base');
         }
         return base;
     }
@@ -217,11 +217,11 @@ export class ActionPoints extends PointsBase {
 
 
     get points() {
-        return this.system.actionPoints;
+        return this.gameSystem.actionPoints;
     }
 
-
-    writeToPoints(parameterName, value) {
-        return this.writeToSystem(`actionPoints.${parameterName}`, value)
+    get pointsPath() {
+        return this.gameSystemPath.with('actionPoints')
     }
+
 }

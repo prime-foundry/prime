@@ -8,6 +8,7 @@
   "templateVersion": 2,
   "author": "Matt Henderson, Johnathan Castle, Jack Moxley & co",
   "esmodules": [
+    "module/dyn_handlebars.js",
     "module/prime_system_core.js",
     "module/prime_handlebars.js",
     "module/prime_dice/prime_dice.js",

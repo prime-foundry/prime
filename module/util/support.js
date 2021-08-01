@@ -55,7 +55,7 @@ export function calculateValueOnce(target, name, func) {
 }
 
 /**
- * @param {string} path - the dot seperated path to an object
+ * @param {string} path - the with seperated path to an object
  * @param {{}} root - the root object to traverse.
  * @param {boolean} (createIfMissing=false) - fills in missing fields, if set to true; or throws an error if set to false, defaults to false.
  * @returns {{object: {}, property: string}}
@@ -79,7 +79,7 @@ export function traversePath(path, root, createIfMissing = false, collectParts =
             if (createIfMissing) {
                 object[property] = numbers.test(pathParts[idx + 1]) ? [] : {};
             } else {
-                throw `Undefined path element '${property}' at ${idx} whilst traversing path: '${path}'`;
+                throw new DynError(`Undefined path element '${property}' at ${idx} whilst traversing path: '${path}'`);
             }
         }
         if (collectParts) {
@@ -150,6 +150,35 @@ export function sanitizeView(view) {
         return view.get()[0];
     }
     return view;
+}
+
+export function dateAsString(date = new Date(), locale = 'en-gb')
+{
+    //const timezone = new Date().getTimezoneOffset();
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+    const dateString = date.toLocaleDateString(
+        locale,
+        {
+            hour: 'numeric',
+            minute: 'numeric',
+            second: 'numeric',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            timeZone: timezone
+        }
+    );
+    return dateString
+}
+export function currentUser(){
+    return userForId(game.userId);
+}
+export function userForId(userId){
+    return game.users.get(userId);
+}
+
+export function isString(str) {
+    return Object.prototype.toString.call(str) === "[object String]"
 }
 
 /**

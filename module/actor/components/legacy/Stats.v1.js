@@ -54,6 +54,10 @@ class Stat_V1 extends Component {
         return this.__id;
     }
 
+    display(){
+
+    }
+
     get cost() {
         const num = this.value;
         return (num === 0) ? 0 : (num * (num + 1)) / 2;
@@ -76,7 +80,7 @@ export class Prime_V1 extends Stat_V1 {
     }
 
     writeToPrimes(id, value) {
-        this.writeToSystem(`primes.${id}.value`, value)
+        this.write(this.gameSystemPath.with('primes',id,'value'), value);
     }
 }
 
@@ -95,6 +99,6 @@ export class Refinement_V1 extends Stat_V1 {
         }
     }
     writeT0Refinements(id, value) {
-        this.writeToSystem(`refinements.${id}.value`, value)
+        this.write(this.gameSystemPath.with('refinements', id, 'value'), value);
     }
 }

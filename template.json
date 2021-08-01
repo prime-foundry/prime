@@ -1,22 +1,16 @@
 {
-	"Actor":{
-		"types":
-		[
+	"Actor": {
+		"types": [
 			"character"
 		],
-		"templates":
-		{
-			"base_template":
-			{
-				"actionPoints":
-				{
+		"templates": {
+			"base_template": {
+				"actionPoints": {
 					"base": 6,
 					"value": 0
 				},
-				"health":
-				{
-					"wounds":
-					{
+				"health": {
+					"wounds": {
 						"base": 3,
 						"injuries": [
 							{
@@ -25,45 +19,34 @@
 							}
 						]
 					},
-					"resilience":
-					{
+					"resilience": {
 						"base": 4,
 						"value": 4
 					}
 				},
-				"armour":
-				{
-					"protection":
-					{
-						"value":0,
-						"max":0
+				"armour": {
+					"protection": {
+						"value": 0,
+						"max": 0
 					},
-					"resilience":
-					{
-						"value":0,
-						"max":0
+					"resilience": {
+						"value": 0,
+						"max": 0
 					}
 				},
-
-				"soul":
-				{
+				"soul": {
 					"initial": 100,
 					"awarded": 0,
 					"burnt": 0
 				},
-				"xp":
-				{
-					"initial":100,
+				"xp": {
+					"initial": 100,
 					"awarded": 0
 				}
 			},
-
-			"mental_template":
-			{
-				"mind":
-				{
-					"insanities":
-					{
+			"mental_template": {
+				"mind": {
+					"insanities": {
 						"base": 3,
 						"injuries": [
 							{
@@ -72,32 +55,24 @@
 							}
 						]
 					},
-					"psyche":
-					{
+					"psyche": {
 						"base": 4,
 						"value": 4
 					}
 				},
-				
-				"ward":
-				{
-					"stability":
-					{
-						"value":0,
-						"max":0
+				"ward": {
+					"stability": {
+						"value": 0,
+						"max": 0
 					},
-					"psyche":
-					{
-						"value":0,
-						"max":0
+					"psyche": {
+						"value": 0,
+						"max": 0
 					}
 				}
 			},
-
-			"metadata_template":
-			{
-				"metadata":
-				{
+			"metadata_template": {
+				"metadata": {
 					"isNPC": false,
 					"race": "",
 					"faction": "",
@@ -115,326 +90,369 @@
 				},
 				"notes": ""
 			},
-
-			"primes_template":
-			{
-				"primes":
-				{
-					"end":{
-						"value":1,
+			"primes_template": {
+				"primes": {
+					"end": {
+						"value": 1,
 						"max": 10,
-						"type" : "physical",
+						"type": "physical",
 						"title": "PRIME.prime_title_end",
 						"description": "PRIME.prime_description_end"
 					},
-					"itr":{
-						"value":1,
+					"itr": {
+						"value": 1,
 						"max": 10,
-						"type" : "physical",
+						"type": "physical",
 						"title": "PRIME.prime_title_itr",
 						"description": "PRIME.prime_description_itr"
 					},
-					"mov":{
-						"value":1,
+					"mov": {
+						"value": 1,
 						"max": 10,
-						"type" : "physical",
+						"type": "physical",
 						"title": "PRIME.prime_title_mov",
 						"description": "PRIME.prime_description_mov"
 					},
-					"str":{
-						"value":1,
+					"str": {
+						"value": 1,
 						"max": 10,
-						"type" : "physical",
+						"type": "physical",
 						"title": "PRIME.prime_title_str",
 						"description": "PRIME.prime_description_str"
 					},
-					"int":{
+					"int": {
 						"max": 10,
-						"value":1,
-						"type" : "mental",
+						"value": 1,
+						"type": "mental",
 						"title": "PRIME.prime_title_int",
 						"description": "PRIME.prime_description_int"
 					},
-					"man":{
-						"value":1,
+					"man": {
+						"value": 1,
 						"max": 10,
-						"type" : "mental",
+						"type": "mental",
 						"title": "PRIME.prime_title_man",
 						"description": "PRIME.prime_description_man"
 					},
-					"per":{
-						"value":1,
+					"per": {
+						"value": 1,
 						"max": 10,
-						"type" : "mental",
+						"type": "mental",
 						"title": "PRIME.prime_title_per",
 						"description": "PRIME.prime_description_per"
 					},
-					"res":{
-						"value":1,
+					"res": {
+						"value": 1,
 						"max": 10,
-						"type" : "mental",
+						"type": "mental",
 						"title": "PRIME.prime_title_res",
 						"description": "PRIME.prime_description_res"
 					},
-					"att":{
-						"value":0,
+					"att": {
+						"value": 0,
 						"max": 10,
-						"type" : "supernatural",
+						"type": "supernatural",
 						"title": "PRIME.prime_title_att",
 						"description": "PRIME.prime_description_att"
 					},
-					"por":{
-						"value":1,
+					"por": {
+						"value": 1,
 						"max": 10,
-						"type" : "supernatural",
+						"type": "supernatural",
 						"title": "PRIME.prime_title_por",
 						"description": "PRIME.prime_description_por"
 					}
 				}
 			},
-			"refinements_template":
-			{
-				"refinements":
-				{
-					"animal" :
-					{
+			"refinements_template": {
+				"refinements": {
+					"animal": {
 						"value": 0,
 						"max": 10,
-						"related" : ["mov", "itr", "int"],
-						"type" : "physical",
+						"related": [
+							"mov",
+							"itr",
+							"int"
+						],
+						"type": "physical",
 						"title": "PRIME.refinment_title_animal",
 						"description": "PRIME.refinment_description_animal"
 					},
-					"artistic" :
-					{
+					"artistic": {
 						"value": 0,
 						"max": 10,
-						"related" : ["itr", "int", "man" ],
-						"type" : "physical",
+						"related": [
+							"itr",
+							"int",
+							"man"
+						],
+						"type": "physical",
 						"title": "PRIME.refinment_title_artistic",
 						"description": "PRIME.refinment_description_artistic"
 					},
-					"athletic" :
-					{
+					"athletic": {
 						"value": 0,
 						"max": 10,
-						"related" : ["mov", "str"],
-						"type" : "physical",
+						"related": [
+							"mov",
+							"str"
+						],
+						"type": "physical",
 						"title": "PRIME.refinment_title_athletic",
 						"description": "PRIME.refinment_description_athletic"
 					},
-					"craft" :
-					{
+					"craft": {
 						"value": 0,
 						"max": 10,
-						"related" : ["itr", "str", "int"],
-						"type" : "physical",
+						"related": [
+							"itr",
+							"str",
+							"int"
+						],
+						"type": "physical",
 						"title": "PRIME.refinment_title_craft",
 						"description": "PRIME.refinment_description_craft"
 					},
-					"melee" :
-					{
+					"melee": {
 						"value": 0,
 						"max": 10,
-						"related" : ["str"],
-						"type" : "physical",
+						"related": [
+							"str"
+						],
+						"type": "physical",
 						"title": "PRIME.refinment_title_melee",
 						"description": "PRIME.refinment_description_melee"
 					},
-					"ranged" :
-					{
+					"ranged": {
 						"value": 0,
 						"max": 10,
-						"related" : ["itr"],
-						"type" : "physical",
+						"related": [
+							"itr"
+						],
+						"type": "physical",
 						"title": "PRIME.refinment_title_ranged",
 						"description": "PRIME.refinment_description_ranged"
 					},
-					"stealth" :
-					{
+					"stealth": {
 						"value": 0,
 						"max": 10,
-						"related" : ["itr", "mov"],
-						"type" : "physical",
+						"related": [
+							"itr",
+							"mov"
+						],
+						"type": "physical",
 						"title": "PRIME.refinment_title_stealth",
 						"description": "PRIME.refinment_description_stealth"
 					},
-					"survival" :
-					{
+					"survival": {
 						"value": 0,
 						"max": 10,
-						"related" : ["itr", "mov", "int", "per"],
-						"type" : "physical",
+						"related": [
+							"itr",
+							"mov",
+							"int",
+							"per"
+						],
+						"type": "physical",
 						"title": "PRIME.refinment_title_survival",
 						"description": "PRIME.refinment_description_survival"
 					},
-					"tolerance" :
-					{
+					"tolerance": {
 						"value": 0,
 						"max": 10,
-						"related" : ["end"],
-						"type" : "physical",
+						"related": [
+							"end"
+						],
+						"type": "physical",
 						"title": "PRIME.refinment_title_tolerance",
 						"description": "PRIME.refinment_description_tolerance"
 					},
-					"vehicle" :
-					{
+					"vehicle": {
 						"value": 0,
 						"max": 10,
-						"related" : ["man", "itr"],
-						"type" : "physical",
+						"related": [
+							"man",
+							"itr"
+						],
+						"type": "physical",
 						"title": "PRIME.refinment_title_vehicle",
 						"description": "PRIME.refinment_description_vehicle"
 					},
-
-
-					"bravery" :
-					{
+					"bravery": {
 						"value": 0,
 						"max": 10,
-						"related" : ["res"],
-						"type" : "mental",
+						"related": [
+							"res"
+						],
+						"type": "mental",
 						"title": "PRIME.refinment_title_bravery",
 						"description": "PRIME.refinment_description_bravery"
 					},
-					"deceive" :
-					{
+					"deceive": {
 						"value": 0,
 						"max": 10,
-						"related" : ["man", "per", "int", "itr"],
-						"type" : "mental",
+						"related": [
+							"man",
+							"per",
+							"int",
+							"itr"
+						],
+						"type": "mental",
 						"title": "PRIME.refinment_title_deceive",
 						"description": "PRIME.refinment_description_deceive"
 					},
-					"influence" :
-					{
+					"influence": {
 						"value": 0,
 						"max": 10,
-						"related" : ["man", "per", "int", "itr"],
-						"type" : "mental",
+						"related": [
+							"man",
+							"per",
+							"int",
+							"itr"
+						],
+						"type": "mental",
 						"title": "PRIME.refinment_title_influence",
 						"description": "PRIME.refinment_description_influence"
 					},
-					"knowledge" :
-					{
+					"knowledge": {
 						"value": 0,
 						"max": 10,
-						"related" : ["int", "per"],
-						"type" : "mental",
+						"related": [
+							"int",
+							"per"
+						],
+						"type": "mental",
 						"title": "PRIME.refinment_title_knowledge",
 						"description": "PRIME.refinment_description_knowledge"
 					},
-					"obscura" :
-					{
+					"obscura": {
 						"value": 0,
 						"max": 10,
-						"related" : ["int", "per", "res"],
-						"type" : "mental",
+						"related": [
+							"int",
+							"per",
+							"res"
+						],
+						"type": "mental",
 						"title": "PRIME.refinment_title_obscura",
 						"description": "PRIME.refinment_description_obscura"
 					},
-					"observe" :
-					{
+					"observe": {
 						"value": 0,
 						"max": 10,
-						"related" : ["per", "man", "int"],
-						"type" : "mental",
+						"related": [
+							"per",
+							"man",
+							"int"
+						],
+						"type": "mental",
 						"title": "PRIME.refinment_title_observe",
 						"description": "PRIME.refinment_description_observe"
 					},
-					"recover" :
-					{
+					"recover": {
 						"value": 0,
 						"max": 10,
-						"related" : ["res", "end"],
-						"type" : "mental",
+						"related": [
+							"res",
+							"end"
+						],
+						"type": "mental",
 						"title": "PRIME.refinment_title_recover",
 						"description": "PRIME.refinment_description_recover"
 					},
-					"willpower" :
-					{
+					"willpower": {
 						"value": 0,
 						"max": 10,
-						"related" : ["res"],
-						"type" : "mental",
+						"related": [
+							"res"
+						],
+						"type": "mental",
 						"title": "PRIME.refinment_title_willpower",
 						"description": "PRIME.refinment_description_willpower"
 					},
-					
-					"conduit" :
-					{
+					"conduit": {
 						"value": 0,
 						"max": 10,
-						"related" : ["att"],
-						"type" : "supernatural",
+						"related": [
+							"att"
+						],
+						"type": "supernatural",
 						"title": "PRIME.refinment_title_conduit",
 						"description": "PRIME.refinment_description_conduit"
 					},
-					"fury" :
-					{
+					"fury": {
 						"value": 0,
 						"max": 10,
-						"related" : ["por"],
-						"type" : "supernatural",
+						"related": [
+							"por"
+						],
+						"type": "supernatural",
 						"title": "PRIME.refinment_title_fury",
 						"description": "PRIME.refinment_description_fury"
 					},
-					"manifest" :
-					{
+					"manifest": {
 						"value": 0,
 						"max": 10,
-						"related" : ["por"],
-						"type" : "supernatural",
+						"related": [
+							"por"
+						],
+						"type": "supernatural",
 						"title": "PRIME.refinment_title_manifest",
 						"description": "PRIME.refinment_description_manifest"
 					},
-					"premonition" :
-					{
+					"premonition": {
 						"value": 0,
 						"max": 10,
-						"related" : ["por"],
-						"type" : "supernatural",
+						"related": [
+							"por"
+						],
+						"type": "supernatural",
 						"title": "PRIME.refinment_title_premonition",
 						"description": "PRIME.refinment_description_premonition"
 					},
-					"regeneration" :
-					{
+					"regeneration": {
 						"value": 0,
 						"max": 10,
-						"related" : ["por"],
-						"type" : "supernatural",
+						"related": [
+							"por"
+						],
+						"type": "supernatural",
 						"title": "PRIME.refinment_title_regeneration",
 						"description": "PRIME.refinment_description_regeneration"
 					},
-					"tap" :
-					{
+					"tap": {
 						"value": 0,
 						"max": 10,
-						"related" : ["att"],
-						"type" : "supernatural",
+						"related": [
+							"att"
+						],
+						"type": "supernatural",
 						"title": "PRIME.refinment_title_tap",
 						"description": "PRIME.refinment_description_tap"
 					},
-					"threads" :
-					{
+					"threads": {
 						"value": 0,
 						"max": 10,
-						"related" : ["por", "end", "res", "per", "int"],
-						"type" : "supernatural",
+						"related": [
+							"por",
+							"end",
+							"res",
+							"per",
+							"int"
+						],
+						"type": "supernatural",
 						"title": "PRIME.refinment_title_threads",
 						"description": "PRIME.refinment_description_threads"
 					}
 				}
 			},
-			"orderingTables":
-			{
-				"perkOrder":{},
-				"inventoryOrder":{}
+			"orderingTables": {
+				"perkOrder": {},
+				"inventoryOrder": {}
 			}
 		},
-		"character":{
-			"templates":
-			[
+		"character": {
+			"templates": [
 				"base_template",
 				"mental_template",
 				"metadata_template",
@@ -443,13 +461,12 @@
 			"personalWealth": 0,
 			"shipWealth": 0,
 			"sheetVersion": "v1.0",
-			"primes" : {},
-			"refinements" : {}
+			"primes": {},
+			"refinements": {}
 		}
 	},
-	"Item":
-	{
-		"types":[
+	"Item": {
+		"types": [
 			"item",
 			"melee-weapon",
 			"ranged-weapon",
@@ -462,47 +479,52 @@
 			"injury",
 			"award"
 		],
-		"templates":{
-			"base":
-			{
-				"description":"",
-				"settingDescription":"",
-				"setting":"",
-				"position": -1,
-				"parentContainer": ""
+		"templates": {
+			"audit": {
+				"audit": {
+					"created": {
+						"name": "",
+						"date": "",
+						"userId": ""
+					},
+					"updates": [
+						{
+							"name": "",
+							"date": "",
+							"userId": ""
+						}
+					]
+				}
 			},
-
-			"physicalItem":
-			{
-				"quantity":1,
-				"weight":0,
+			"descriptions": {
+				"descriptions": {
+					"core": "",
+					"setting": ""
+				}
+			},
+			"metadata": {
+				"metadata": {
+					"setting": "",
+					"default": false,
+					"customisable": false
+				}
+			},
+			"valuable": {
+				"valuable": {
+					"type": "",
+					"amount": ""
+				}
+			},
+			"physicalItem": {
+				"quantity": 1,
+				"weight": 0,
 				"rarity": "common"
 			},
-
-			"valuable":
-			{
-				"valueType": "",
-				"valueAmount": ""
-			},
-
-			"mastercratable":
-			{
+			"mastercraftable": {
 				"isMasterCraft": false,
-				"bonuses":[]
+				"bonuses": []
 			},
-
-			"metadata":
-			{
-				"creator": "",
-				"creatorID": "",
-				"created": "",
-				"updater": "",
-				"updaterID": "",
-				"updated": ""
-			},
-
-			"weapon": 
-			{
+			"weapon": {
 				"weaponSize": "",
 				"weaponType": "",
 				"damageRating": 0,
@@ -511,41 +533,30 @@
 				"keywords": [],
 				"customActions": []
 			},
-
-			"ranged": 
-			{
-				"ranges":
-				{
-					"pointBlank": 
-					{
+			"ranged": {
+				"ranges": {
+					"pointBlank": {
 						"value": 0
 					},
-					"short": 
-					{
+					"short": {
 						"value": 0
 					},
-					"medium": 
-					{
+					"medium": {
 						"value": 0
 					},
-					"long": 
-					{
+					"long": {
 						"value": 0
 					},
-					"extreme": 
-					{
+					"extreme": {
 						"value": 0
 					}
 				},
-				"ammo":
-				{
+				"ammo": {
 					"type": "",
 					"capacity": ""
 				}
 			},
-			
-			"armour":
-			{
+			"armour": {
 				"armourType": "",
 				"protection": 0,
 				"armourResilience": 1,
@@ -554,95 +565,124 @@
 				"isWorn": false
 			}
 		},
-
-		"item":
-		{
-			"templates":["base", "physicalItem", "valuable", "metadata"]
+		"item": {
+			"templates": [
+				"physicalItem",
+				"valuable",
+				"audit",
+				"descriptions",
+				"metadata"
+			]
 		},
-
-		"melee-weapon":
-		{
-			"templates":["base", "physicalItem", "weapon", "mastercratable", "valuable", "metadata"],
+		"melee-weapon": {
+			"templates": [
+				"physicalItem",
+				"weapon",
+				"mastercraftable",
+				"valuable",
+				"audit",
+				"descriptions",
+				"metadata"
+			],
 			"isMelee": true,
 			"isRanged": false,
 			"notes": ""
 		},
-
-		"ranged-weapon":
-		{
-			"templates":["base", "physicalItem", "weapon", "ranged", "mastercratable", "valuable", "metadata"],
+		"ranged-weapon": {
+			"templates": [
+				"physicalItem",
+				"weapon",
+				"ranged",
+				"mastercraftable",
+				"valuable",
+				"audit",
+				"descriptions",
+				"metadata"
+			],
 			"isMelee": false,
 			"isRanged": true,
 			"notes": ""
 		},
-
-		"shield":
-		{
-			"templates":["base", "physicalItem", "weapon", "mastercratable", "valuable", "metadata"],
+		"shield": {
+			"templates": [
+				"physicalItem",
+				"weapon",
+				"mastercraftable",
+				"valuable",
+				"audit",
+				"descriptions",
+				"metadata"
+			],
 			"meleeBlockBonus": 0,
 			"rangedBlockBonus": 0,
 			"notes": ""
 		},
-
-		"armour":
-		{
-			"templates":["base", "physicalItem", "armour", "mastercratable", "valuable", "metadata"],
+		"armour": {
+			"templates": [
+				"physicalItem",
+				"armour",
+				"mastercraftable",
+				"valuable",
+				"audit",
+				"descriptions",
+				"metadata"
+			],
 			"notes": ""
 		},
-
-		"perk":
-		{
-			"templates": ["base", "metadata"],
-
+		"perk": {
+			"templates": [
+				"audit",
+				"descriptions",
+				"metadata"
+			],
 			"isCollapsed": false,
-			
-			"bonuses":[],
-
-			"cost":
-			{
+			"bonuses": [],
+			"cost": {
 				"attributeType": "",
 				"amount": 0
 			},
-
 			"prerequisites": []
 		},
-
-		"action":
-		{
-			"templates": ["base", "metadata"],
+		"action": {
+			"templates": [
+				"audit",
+				"descriptions",
+				"metadata"
+			],
 			"points": 0,
 			"sourceKey": "",
 			"type": "major",
 			"default": false,
 			"effects": []
 		},
-
-		"prime":
-		{
-			"templates": ["base", "metadata"],
+		"prime": {
+			"templates": [
+				"audit",
+				"descriptions",
+				"metadata"
+			],
 			"value": 0,
 			"max": 10,
 			"sourceKey": "",
-			"statType" : "physical",
-			"default": false,
-			"customisable": false
+			"statType": "physical"
 		},
-
-		"refinement":
-		{
-			"templates": ["base", "metadata"],
+		"refinement": {
+			"templates": [
+				"audit",
+				"descriptions",
+				"metadata"
+			],
 			"value": 0,
 			"max": 10,
-			"related" : [],
+			"related": [],
 			"sourceKey": "",
-			"statType" : "physical",
-			"default": false,
-			"customisable": false
+			"statType": "physical"
 		},
-
-		"injury":
-		{
-			"templates": ["base", "metadata"],
+		"injury": {
+			"templates": [
+				"audit",
+				"descriptions"
+			],
 			"sourceKey": "",
 			"untendedEffects": [],
 			"tendedEffects": [],
@@ -665,13 +705,9 @@
 			"awardNotes": ""
 		}
 	},
-	
-	"Tables":
-	{
-		"core":
-		{
-			"settings":
-			[
+	"Tables": {
+		"core": {
+			"settings": [
 				{
 					"key": "Prime / Possession",
 					"title": "PRIME.core_settings_prime_possession"
@@ -682,16 +718,11 @@
 				}
 			]
 		},
-
-		"actor":
-		{
-			"actorStatMinimums":
-			{
+		"actor": {
+			"actorStatMinimums": {
 				"att": 0
 			},
-
-			"actorStatLookup":
-			[
+			"actorStatLookup": [
 				{
 					"key": "actionPoints.default",
 					"title": "PRIME.perk_actor_stat_bonus_base_ap_bonus"
@@ -720,7 +751,6 @@
 					"key": "armour.resilience.max",
 					"title": "PRIME.perk_actor_stat_bonus_max_armour_resilience"
 				},
-
 				{
 					"key": "mind.insanities.max",
 					"title": "PRIME.perk_actor_stat_bonus_max_insanities"
@@ -738,9 +768,7 @@
 					"title": "PRIME.perk_actor_stat_bonus_max_ward_psyche"
 				}
 			],
-
-			"woundConditions":
-			[
+			"woundConditions": [
 				{
 					"key": "bleeding",
 					"title": "PRIME.actor_wound_condition_title_bleeding",
@@ -787,9 +815,7 @@
 					"description": "PRIME.actor_wound_condition_description_slowed"
 				}
 			],
-
-			"mentalConditions":
-			[
+			"mentalConditions": [
 				{
 					"key": "scared",
 					"title": "PRIME.actor_mental_condition_title_scared",
@@ -802,11 +828,8 @@
 				}
 			]
 		},
-
-		"items":
-		{
-			"rarity":
-			[
+		"items": {
+			"rarity": [
 				{
 					"key": "common",
 					"title": "PRIME.item_rarity_common"
@@ -832,10 +855,8 @@
 					"title": "PRIME.item_rarity_unique"
 				}
 			],
-			"weapons":
-			{
-				"sizes":
-				[
+			"weapons": {
+				"sizes": [
 					{
 						"key": "tiny",
 						"title": "PRIME.weapon_sizes_tiny"
@@ -857,9 +878,7 @@
 						"title": "PRIME.weapon_sizes_huge"
 					}
 				],
-
-				"keywords":
-				[
+				"keywords": [
 					{
 						"key": "accurate",
 						"title": "PRIME.weapon_keywords_title_accurate",
@@ -936,9 +955,7 @@
 						"description": "PRIME.weapon_keywords_description_well_balanced"
 					}
 				],
-
-				"meleeWeaponActions":
-				[
+				"meleeWeaponActions": [
 					{
 						"key": "bash",
 						"title": "PRIME.weapon_action_title_bash",
@@ -970,9 +987,7 @@
 						"apCost": 1
 					}
 				],
-
-				"rangedWeaponActions":
-				[
+				"rangedWeaponActions": [
 					{
 						"key": "impale",
 						"title": "PRIME.weapon_action_title_impale",
@@ -992,9 +1007,7 @@
 						"apCost": 1
 					}
 				],
-
-				"meleeTypes":
-				[
+				"meleeTypes": [
 					{
 						"key": "blunt",
 						"title": "PRIME.weapon_melee_type_blunt"
@@ -1016,9 +1029,7 @@
 						"title": "PRIME.weapon_melee_type_pole"
 					}
 				],
-
-				"rangedTypes":
-				[
+				"rangedTypes": [
 					{
 						"key": "bow",
 						"title": "PRIME.weapon_ranged_type_bow"
@@ -1036,18 +1047,14 @@
 						"title": "PRIME.weapon_ranged_type_blowpipe"
 					}
 				],
-
-				"rangeCatergories" :
-				{
+				"rangeCatergories": {
 					"pointBlank": "PRIME.weapons_ranges_point_blank",
 					"short": "PRIME.weapons_ranges_short",
 					"medium": "PRIME.weapons_ranges_medium",
 					"long": "PRIME.weapons_ranges_long",
 					"extreme": "PRIME.weapons_ranges_extreme"
 				},
-
-				"ammoTypes":
-				[
+				"ammoTypes": [
 					{
 						"key": "arrow",
 						"title": "PRIME.weapon_ammo_type_arrow"
@@ -1066,11 +1073,8 @@
 					}
 				]
 			},
-
-			"armour":
-			{
-				"types":
-				[
+			"armour": {
+				"types": [
 					{
 						"key": "cloth",
 						"title": "PRIME.armour_type_cloth"
@@ -1092,9 +1096,7 @@
 						"title": "PRIME.armour_type_other"
 					}
 				],
-
-				"keywords":
-				[
+				"keywords": [
 					{
 						"key": "ablative",
 						"title": "PRIME.armour_keyword_title_ablative",
@@ -1126,9 +1128,7 @@
 						"description": "PRIME.armour_keyword_description_silent"
 					}
 				],
-
-				"untrainedPenalities":
-				[
+				"untrainedPenalities": [
 					{
 						"key": "plusOneAP",
 						"title": "PRIME.armour_untrained_penalities_title_plus_one_ap",
@@ -1152,11 +1152,8 @@
 				]
 			}
 		},
-		
-		"perks":
-		{
-			"bonusTypes":
-			[
+		"perks": {
+			"bonusTypes": [
 				{
 					"key": "situationalPrime",
 					"title": "PRIME.perk_type_situational_prime"
@@ -1186,9 +1183,7 @@
 					"title": "PRIME.perk_type_misc"
 				}
 			],
-
-			"costs":
-			[
+			"costs": [
 				{
 					"key": "perkCostXP",
 					"title": "PRIME.perk_cost_xp"
@@ -1198,9 +1193,7 @@
 					"title": "PRIME.perk_cost_soul"
 				}
 			],
-
-			"prerequisiteTypes":
-			[
+			"prerequisiteTypes": [
 				{
 					"key": "minimumPrime",
 					"title": "PRIME.perk_prerequisite_minimum_prime"
@@ -1229,30 +1222,22 @@
 					"key": "otherPerk",
 					"title": "PRIME.perk_prerequisite_other_perk_purchased"
 				}
-				
 			],
-
-			"externalStatLookup":
-			[
+			"externalStatLookup": [
 				{
 					"key": "null",
 					"title": "Please write in description"
 				}
 			],
-			
-			"miscBonusLookup":
-			[
+			"miscBonusLookup": [
 				{
 					"key": "null",
 					"title": "Please write in description"
 				}
 			]
 		},
-
-		"actions":
-		{
-			"actionTypes":
-			[
+		"actions": {
+			"actionTypes": [
 				{
 					"key": "major",
 					"title": "PRIME.action_type_major_title"
@@ -1274,9 +1259,7 @@
 					"title": "PRIME.action_type_weapon_combo_title"
 				}
 			],
-
-			"effectTypes":
-			[
+			"effectTypes": [
 				{
 					"key": "move",
 					"title": "PRIME.action_effect_type_move"
@@ -1310,9 +1293,7 @@
 					"title": "PRIME.action_effect_type_misc"
 				}
 			],
-			
-			"miscBonusLookup":
-			[
+			"miscBonusLookup": [
 				{
 					"key": "null",
 					"title": "Please write in description"

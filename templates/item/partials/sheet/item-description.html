@@ -1,10 +1,10 @@
 <div class="block descriptionBlock">
 	<div class="blockTitle">Description</div>
-	{{editor content=data.data.description target="data.description" button=true owner=owner editable=editable}}	
+	{{dynEditor at="item.descriptions.core" button=true owner=owner editable=editable}}
 </div>
 
 <div class="block descriptionBlock settingDescriptionBlock">
 	<div class="blockTitle">System rules</div>
-	{{editor content=data.data.settingDescription target="data..settingDescription" button=true owner=owner editable=editable}}
+	{{dynEditor at="item.descriptions.setting" button=true owner=owner editable=editable}}
 </div>
 

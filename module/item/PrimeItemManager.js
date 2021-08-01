@@ -14,27 +14,22 @@ export class PrimeItemManager
 		itemBaseTypes = (Array.isArray(itemBaseTypes)) ? itemBaseTypes : [itemBaseTypes];
 		filtersData = (Array.isArray(filtersData)) ? filtersData : [filtersData];
 
-		let matchingItems = [];
-		itemCollection.forEach((item, key, items) =>
-		{
-			if (itemBaseTypes.indexOf(item.type) > -1 && this.testFilters(item, filtersData, matchAll))
-			{
-				// Fixes issues whereby compendiums have new IDs assigned.
-				item.data.data.sourceKey = item.data._id;
-				if (justContentData)
-				{
-					matchingItems.push(item.data);
-				}
-				else
-				{
-					matchingItems.push(item);
-				}
-			}
-		});
+		const itemsByBaseTypes = itemCollection.filter(({type}) => itemBaseTypes.includes(type));
+		const matchingItems = itemsByBaseTypes.filter((item) => this.testFilters(item, filtersData, matchAll));
 
-		if (sortItems)
-		{
+		if (sortItems) {
 			matchingItems.sort(this.sortItems);
+		}
+
+		if (justContentData) {
+			const justContentMatchingItems = matchingItems.map((item) => {
+				const newItem = item.toObject(false);
+				// Fixes issues whereby compendiums have new IDs assigned.
+				newItem.data.sourceKey = item.id;
+				newItem._id = undefined;
+				return newItem;
+			});
+			return justContentMatchingItems;
 		}
 
 		return matchingItems;

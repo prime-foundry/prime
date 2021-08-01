@@ -21,48 +21,60 @@ export default class Component {
         this.dyn = this.document.dyn;
     }
 
+
     /**
-     * The base content of any document, generally it follows a fixed structure, as defined by a schema.
+     * The base foundryData of any document, generally it follows a fixed structure, as defined by a schema.
      *
      * @see foundry.abstract.DocumentData.defineSchema()
      * @see ActorData.defineSchema()
-     * @returns {typeof foundry.abstract.DocumentData}
+     * @returns {foundry.abstract.DocumentData | {data}}
      */
-    get content(){
-        return this.dyn.content;
+    get foundryData(){
+        return this.dyn.foundryData;
     }
 
     /**
-     * system data is the freeform add whatever you want to data, it is generally based on the template set for the system.
+     * gameSystem data is the freeform add whatever you want to data, it is generally based on the template set for the gameSystem.
      * Because it is defined by the schema, is not guaranteed to be there, however I can't see any document that doesn't use it,
      * @returns {Object}
      */
-    get system() {
-        return this.dyn.system;
+    get gameSystem() {
+        return this.dyn.gameSystem;
+    }
+
+
+    /**
+     *
+     * @param {JSONPathBuilder | string[] | string} pathComponents
+     * @param {any} value
+     * @returns {*}
+     */
+    write(pathComponents, value){
+        return this.dyn.write(pathComponents,value);
     }
 
     /**
      * Given a path from document data, and a value set the value at that path point.
      *
-     * The base content of any document, generally it follows a fixed structure, as defined by a schema.
+     * The base foundryData of any document, generally it follows a fixed structure, as defined by a schema.
      * @see foundry.abstract.DocumentData.defineSchema()
      * @see ActorData.defineSchema()
      * @param path
      * @param value
      * @returns {*} the last value that had been set.
      */
-    writeToContent(path, value) {
-        return this.dyn.writeToContent(`${path}`, value);
+    get foundryDataPath(){
+        return this.dyn.foundryDataPath;
     }
 
     /**
-     * Given a path from system data, and a value set the value at that path point.
+     * Given a path from gameSystem data, and a value set the value at that path point.
      *
-     * system data is the freeform add whatever you want to data, it is generally based on the template set for the system.
+     * gameSystem data is the freeform add whatever you want to data, it is generally based on the template set for the gameSystem.
      * Because it is defined by the schema, is not guaranteed to be there, however I can't see any document that doesn't use it,
      * @returns {*} the last value that had been set.
      */
-    writeToSystem(path, value) {
-        return this.dyn.writeToSystem(`${path}`, value);
+    get gameSystemPath(){
+        return this.dyn.gameSystemPath;
     }
 }

@@ -8,7 +8,9 @@
         {{#each primes}}
         <div class="primeWrapper {{customisableStatClass}} {{defaultItemClass}}" title="{{convertHTMLForTitle description 150}}&#xD;*DOUBLE CLICK TO EDIT VALUE*">
 			<a class="deleteItemIcon" data-item-id={{id}} title="Delete prime"><i class="fas fa-trash"></i></a>
-			<a class="showStatInfoIcon" data-item-id={{id}} data-sourceKey="{{sourceKey}}"><i class="fas fa-info-circle fa-xs"></i></a>
+			<a class="showStatInfoIcon"
+               data-dyn-click-at="actor.stats.primes.displayStat()"
+               data-dyn-id="{{id}}"><i class="fas fa-info-circle fa-xs"></i></a>
             <label for="primes-{{id}}">{{title}}</label>
             <div class="valueWrapper">
                 <input type="text" id="primes-{{id}}" value="{{value}}"
@@ -31,7 +33,11 @@
              data-dyn-class-if="customisableStat actor.stats.refinement"
              data-dyn-class-if="defaultStat ">
 			<a class="deleteItemIcon" data-item-id={{id}} title="Delete refinement"><i class="fas fa-trash"></i></a>
-			<a class="showStatInfoIcon" data-item-id={{id}} data-sourceKey="{{sourceKey}}"><i class="fas fa-info-circle fa-xs"></i></a>
+			<a class="showStatInfoIcon"
+               data-dyn-click-at="actor.stats.refinements.displayStat()"
+               data-dyn-id="{{id}}">
+                <i class="fas fa-info-circle fa-xs"></i>
+            </a>
             <label for="refinements-{{id}}">{{title}}</label>
             <div class="valueWrapper">
                 <input type="text" id="refinements-{{id}}" value="{{value}}"

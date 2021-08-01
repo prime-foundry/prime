@@ -27,7 +27,7 @@ var primeHandlebarsPartialsPaths =
         "itemBasic": "systems/prime/templates/item/partials/sheet/item-basic.html",
         "itemValue": "systems/prime/templates/item/partials/sheet/item-value.html",
         "itemDescription": "systems/prime/templates/item/partials/sheet/item-description.html",
-        "itemMetadata": "systems/prime/templates/item/partials/sheet/item-metadata.html",
+        "itemAudit": "systems/prime/templates/item/partials/sheet/item-audit.html",
 
         "itemEffects": "systems/prime/templates/item/partials/sheet/item-effects.html",
         "itemPrerequisites": "systems/prime/templates/item/partials/sheet/item-prerequisites.html",

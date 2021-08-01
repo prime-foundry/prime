@@ -46,6 +46,11 @@ export default class Controller {
         const theView = sanitizeView(view);
         this._support.control(theView);
     }
+
+
+    getModelValue(at, inputDyn) {
+        return this._support.getModelValue(at, inputDyn);
+    }
 }
 
 class ControllerSupport {
@@ -74,7 +79,7 @@ class ControllerSupport {
         return this.controller.uid;
     }
 
-    inputDyn(element) {
+    inputDyn(element, html = {}) {
         const inputDyn = datasetToObject(element, this.dynKey);
         const newIndex = Number.parseInt(inputDyn.index);
         if (!Number.isNaN(newIndex)) {
@@ -92,6 +97,7 @@ class ControllerSupport {
                 inputDyn.current = newCurrent;
             }
         }
+        inputDyn.html = {element, ...html};
         return inputDyn;
     }
 
@@ -104,16 +110,13 @@ class ControllerSupport {
             this.preselectValues(view);
             this.attachEditors(view);
             // we take advantage of lambdas, to sidestep problems with 'this' changing.
-            const onClick = this.clickListener(this);
-            const onChange = this.changeListener(this);
+            const onClick = this.clickListener(this, view);
+            const onChange = this.changeListener(this, view);
 
-            Object.values(this.models).forEach((model) => {
-                this.attachListener(view, model, 'click', "*", onClick);
-                this.attachListener(view, model, 'dblclick', "*", onClick);
-                this.attachListener(view, model, 'change', "input", onChange);
-                this.attachListener(view, model, 'change', "select", onChange);
-                //TODO: textarea
-            });
+            this.attachListener(view, 'click', "*", onClick);
+            this.attachListener(view, 'dblclick', "*", onClick);
+            this.attachListener(view, 'change', "input", onChange);
+            this.attachListener(view, 'change', "select", onChange);
         } catch (err) {
             console.error('unable to bind view', err);
         }
@@ -162,64 +165,60 @@ class ControllerSupport {
      * @param cssElement
      * @param listener
      */
-    attachListener(view, model, eventType, cssElement, listener) {
+    attachListener(view, eventType, cssElement, listener) {
         const attribute = `${this.dataKey}-${eventType}-at`;
         const selector = `:scope ${cssElement}[${attribute}]`;
         const elements = view.querySelectorAll(selector);
         const controller = this.controller;
         elements.forEach(element => {
-            const path = element.getAttribute(attribute)
-            const {object, property} = traversePath(path, this.models);
-            // this is typically the owning parent, not the function itself.
-            element.addEventListener(eventType, listener.bind({controller, model, object, property}), {capture: true});
+            element.addEventListener(eventType, listener.bind(controller), {capture: true});
         }, this);
     }
 
 
-    changeListener(controller) {
+    changeListener(controller, view) {
         return (event) => {
             event.preventDefault();
             event.stopPropagation();
-            const element = event.delegateTarget || event.target;
-            const inputDynCommon = this.inputDyn(element);
+            const element = event.currentTarget;
+            const inputDynCommon = this.inputDyn(element, {event, view});
             const inputDyn = {...inputDynCommon, ...(inputDynCommon[event.type] || {})};
-            return controller.onChangeInput(element, inputDyn);
+            return controller.onChangeInput(inputDyn);
         };
     }
 
-    clickListener(controller) {
+    clickListener(controller, view) {
         return (event) => {
             event.preventDefault();
             event.stopPropagation();
-            const clickedElement = event.delegateTarget || event.target;
-            const targetElement = event.currentTarget;
-            const inputDynClicked = this.inputDyn(clickedElement);
-            const inputDynTarget = this.inputDyn(targetElement);
+            const element = event.currentTarget;
+            const inputDynCommon = this.inputDyn(element, {event, view});
             /* allows for common and overridden properties
              * order of priority
              * 1. the clicked elements event prime object i.e. data-prime-click-at (specific values)
-             * 2. the parent element we attached the event too's, event prime object i.e. data-prime-click-at (specific values)
-             * 3. the clicked elements prime object, base (common values)
-             * 4. the parent element we attached the event too's, prime object, base i.e. (common values)
+             * 2. the clicked elements prime object, base (common values)
              *
-             * or given element <a data-prime-at="something" data-prime-click-at="else"><i data-prime-at="entirely"></i></a>
+             * or given element <a data-prime-at="something" data-prime-click-at="else"></a>
              * the result for data-prime-at would be 'else',
-             * if the user clicked the 'a' element and somehow didn't hit the 'i' the result would still be 'else'
              */
-            const inputDynCommon = {...inputDynTarget, ...inputDynClicked};
             const inputDyn = {...inputDynCommon, ...(inputDynCommon[event.type] || {})};
 
             return controller.onChangeValue(inputDyn.value, inputDyn);
         };
     }
 
-    getModelValue(path, inputDyn) {
-        const {object, property, isFunction} = traversePath(path, this.models);
-        if (isFunction) {
-            return object[property](inputDyn);
-        } else {
-            return object[property];
-        }
+    getModelValue(at, inputDyn) {
+
+        const paths = Array.isArray(at) ? at : at.split(','); // 2 ways to create arrays in html
+        const result = paths.reduce((accumulator, path) => {
+            const {object, property, isFunction} = traversePath(path, this.models);
+            if (isFunction) {
+                return accumulator || object[property](inputDyn);
+            } else {
+                return accumulator || object[property];
+            }
+        }, null);
+        return result;
     }
     /**
      *
@@ -246,7 +245,7 @@ class ControllerSupport {
     hideShowElements(view) {
         const elements = view.querySelectorAll(`:scope *[${this.dataKey}-hide], *[${this.dataKey}-show]`);
         elements.forEach(element => {
-            const inputDyn = this.inputDyn(element);
+            const inputDyn = this.inputDyn(element, {view});
             const hide = inputDyn.hide;
             const show = inputDyn.show;
             if (hide != null) {
@@ -274,7 +273,7 @@ class ControllerSupport {
     disableEnableElements(view) {
         const elements = view.querySelectorAll(`:scope *[${this.dataKey}-disable], *[${this.dataKey}-enable]`);
         elements.forEach(element => {
-            const inputDyn = this.inputDyn(element);
+            const inputDyn = this.inputDyn(element, {view});
             const disable = inputDyn.disable;
             const enable = inputDyn.enable;
             if (disable != null) {
@@ -302,7 +301,7 @@ class ControllerSupport {
     preselectValues(view) {
         const selects = view.querySelectorAll(`:scope select[${this.dataKey}-select]`);
         selects.forEach(element => {
-            const inputDyn = this.inputDyn(element);
+            const inputDyn = this.inputDyn(element, {view});
             const path = inputDyn.select;
             if (path.startsWith("'") && path.endsWith("'")) {
                 element.value = path.slice(1, -1);
@@ -312,13 +311,13 @@ class ControllerSupport {
         });
         const counters = view.querySelectorAll(`:scope input[type=checkbox][${this.dataKey}-type='counter']`);
         counters.forEach(element => {
-            const inputDyn = this.inputDyn(element);
+            const inputDyn = this.inputDyn(element, {view});
             const checked = inputDyn.current === inputDyn.value
             element.checked = checked;
         });
         const checkboxes = view.querySelectorAll(`:scope input[type=checkbox][${this.dataKey}-select]`);
         checkboxes.forEach(element => {
-            const inputDyn = this.inputDyn(element);
+            const inputDyn = this.inputDyn(element, {view});
             const select = inputDyn.select;
             if (select === true) {
                 element.checked = true;
@@ -330,9 +329,10 @@ class ControllerSupport {
 
 
 
-    async onChangeInput(element, inputDyn) {
+    async onChangeInput(inputDyn) {
+        const {element} = inputDyn.html;
         if (element.tagName === 'SELECT') {
-            await this.onChangeSelect(element, inputDyn);
+            await this.onChangeSelect(inputDyn);
         } else if (element.tagName === 'INPUT') {
             switch (element.type) {
                 case 'checkbox':
@@ -345,7 +345,8 @@ class ControllerSupport {
         }
     }
 
-    async onChangeSelect(element, inputDyn) {
+    async onChangeSelect(inputDyn) {
+        const {element} = inputDyn.html;
         const selected = element.value;
         return this._update(inputDyn, {selected}, 'selected');
     }
@@ -388,13 +389,16 @@ class ControllerSupport {
 
 
     async _update(inputDyn, args = {}, setParameter = 'value') {
-        const path = inputDyn.at;
-        const {object, property, isFunction} = traversePath(path, this.models);
-        if (isFunction) {
-            object[property]({...inputDyn, ...args});
-        } else {
-            object[property] = args[setParameter];
-        }
+        const at = inputDyn.at;
+        const paths = Array.isArray(at) ? at : at.split(','); // 2 ways to create arrays in html
+        paths.forEach(path => {
+            const {object, property, isFunction} = traversePath(path.trim(), this.models);
+            if (isFunction) {
+                object[property]({...inputDyn, ...args});
+            } else {
+                object[property] = args[setParameter];
+            }
+        });
         if(!(inputDyn.commit && inputDyn.commit.off)) {
             const options = inputDyn.render && inputDyn.render.off ? {} : {render:true};
             return this._commit(options);
