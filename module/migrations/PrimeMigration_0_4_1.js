@@ -19,8 +19,24 @@ export default class PrimeMigration_0_4_1 extends Migration {
         const item = itemDoc.dyn.typed;
         PrimeMigration_0_4_1.migrateAudit(item, gameSystemData);
         PrimeMigration_0_4_1.migrateDescriptions(item, gameSystemData);
+        PrimeMigration_0_4_1.migrateMetadata(item, gameSystemData);
 
         await foundryData.update(foundry.utils.deepClone(foundryData), {render: false});
+    }
+
+    static migrateMetadata(item, gameSystemData) {
+        if (gameSystemData.setting) {
+            item.metadata.setting = gameSystemData.setting;
+            item.metadata.setting = null;
+        }
+        if(item.metadata.default  != null) {
+            item.metadata.default = gameSystemData.default;
+            item.metadata.default = null;
+        }
+        if(item.metadata.customisable  != null) {
+            item.metadata.customisable = gameSystemData.customisable;
+            item.metadata.customisable = null;
+        }
     }
 
     static migrateDescriptions(item, gameSystemData) {
