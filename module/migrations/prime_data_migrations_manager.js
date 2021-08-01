@@ -18,7 +18,6 @@ export class PrimeDataMigrationManager {
             }
             await this.performMigration();
         }
-
     }
 
     static async performIfMigrationRequired() {
