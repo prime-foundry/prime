@@ -18,7 +18,7 @@ export class PrimeItemManager {
 	/**
 	 *
 	 * @param requestData
-	 * @param {ItemCollection} requestData.itemCollection
+	 * @param {WorldCollection} requestData.itemCollection
 	 * @param {boolean} (requestData.matchAll=true)
 	 * @param {boolean} (requestData.justContentData=true)
 	 * @param {boolean} (requestData.typed=false)
@@ -27,7 +27,7 @@ export class PrimeItemManager {
 	 * @param {[{}] | {}} (requestData.filtersData=null)
 	 * @returns {[PrimeItem] | [typeof BaseItem]}
 	 */
-	static getItems({itemCollection,
+	static getItems({itemCollection = ItemDirectory.collection,
 						matchAll = true,
 						justContentData = false,
 						typed = false,
