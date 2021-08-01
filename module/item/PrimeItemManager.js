@@ -1,21 +1,50 @@
-Hooks.once("createItem", async function (hookData1, hookData2, hookData3)
-{
+Hooks.once("createItem", async function (hookData1, hookData2, hookData3) {
 	PrimeItemManager.refreshItems(hookData1, hookData2, hookData3);
 });
 
-export class PrimeItemManager
-{
-	// [], {data.data.default}, false
-	static getItems(requestData)
-	{
-		const { itemCollection, matchAll, justContentData, sortItems } = requestData;
-		let { itemBaseTypes, filtersData } = requestData;
+function safeResolveToArray(param) {
+	const resolved = param == null
+		? null
+		: (Array.isArray(param))
+			? param.length === 0
+				? null
+				: param
+			: [param];
+	return resolved;
+}
 
-		itemBaseTypes = (Array.isArray(itemBaseTypes)) ? itemBaseTypes : [itemBaseTypes];
-		filtersData = (Array.isArray(filtersData)) ? filtersData : [filtersData];
+export class PrimeItemManager {
 
-		const itemsByBaseTypes = itemCollection.filter(({type}) => itemBaseTypes.includes(type));
-		const matchingItems = itemsByBaseTypes.filter((item) => this.testFilters(item, filtersData, matchAll));
+	/**
+	 *
+	 * @param requestData
+	 * @param {ItemCollection} requestData.itemCollection
+	 * @param {boolean} (requestData.matchAll=true)
+	 * @param {boolean} (requestData.justContentData=true)
+	 * @param {boolean} (requestData.typed=false)
+	 * @param {boolean} (requestData.sortItems=true)
+	 * @param {[string] | string} (requestData.itemBaseTypes=null)
+	 * @param {[{}] | {}} (requestData.filtersData=null)
+	 * @returns {[PrimeItem] | [typeof BaseItem]}
+	 */
+	static getItems({itemCollection,
+						matchAll = true,
+						justContentData = false,
+						typed = false,
+						sortItems = true,
+						itemBaseTypes,
+						filtersData}) {
+
+		const resolvedItemBaseTypes = safeResolveToArray(itemBaseTypes);
+		const resolvedFiltersData = safeResolveToArray(filtersData);
+
+		const itemsByBaseTypes = resolvedItemBaseTypes == null
+			? itemCollection
+			: itemCollection.filter(({type}) => resolvedItemBaseTypes.includes(type));
+
+		const matchingItems = resolvedFiltersData == null
+			? itemsByBaseTypes
+			: itemsByBaseTypes.filter((item) => this.testFilters(item, resolvedFiltersData, matchAll));
 
 		if (sortItems) {
 			matchingItems.sort(this.sortItems);
@@ -32,23 +61,24 @@ export class PrimeItemManager
 			return justContentMatchingItems;
 		}
 
+		if(typed) {
+			const typedMatchingItems = matchingItems.map(item => item.dyn.typed);
+			return typedMatchingItems;
+		}
+
 		return matchingItems;
 	}
 
-	static testFilters(item, filtersData, matchAll)
-	{
+	static testFilters(item, filtersData, matchAll) {
 		let allMatchsMade = true;
 		let matchedOne = false;
-		filtersData.forEach((filter) =>
-		{
+		filtersData.forEach((filter) => {
 			let match = this.testFilter(item, filter);
-			if (!matchedOne && match)
-			{
+			if (!matchedOne && match) {
 				matchedOne = true;
 			}
 
-			if (allMatchsMade && !match)
-			{
+			if (allMatchsMade && !match) {
 				allMatchsMade = false;
 			}
 		});
@@ -56,57 +86,40 @@ export class PrimeItemManager
 		return ((matchAll && allMatchsMade) || (!matchAll && matchedOne));
 	}
 
-	static testFilter(item, filterData)
-	{
-		if (Array.isArray(filterData))
-		{
+	static testFilter(item, filterData) {
+		if (Array.isArray(filterData)) {
 			return this.testFilterInArray(item, filterData);
-		}
-		else
-		{
+		} else {
 			return this.testFilterInObject(item, filterData);
 		}
 	}
 
-	static testFilterInObject(item, filterData)
-	{
-		for (let key in filterData)
-		{
-			if (!item.hasOwnProperty(key))
-			{
+	static testFilterInObject(item, filterData) {
+		for (let key in filterData) {
+			if (!item.hasOwnProperty(key)) {
 				return false;
 			}
-			
-			if ((typeof item[key] === 'object' && item[key] !== null) || (Array.isArray(item[key])))
-			{
+
+			if ((typeof item[key] === 'object' && item[key] !== null) || (Array.isArray(item[key]))) {
 				const recursiveResult = this.testFilterInObject(item[key], filterData[key]);
-				if (!recursiveResult)
-				{
+				if (!recursiveResult) {
 					return false;
 				}
-			}
-			else if (filterData[key] !== item[key])
-			{
+			} else if (filterData[key] !== item[key]) {
 				return false;
 			}
 		}
 		return true;
 	}
 
-	static testFilterInArray(item, filterData)
-	{
+	static testFilterInArray(item, filterData) {
 		let allMatched = true;
-		filterData.forEach((filterDataElement, count) =>
-		{
-			if (!typeof item[count] === 'undefined' || filterDataElement[count] !== item[count])
-			{
+		filterData.forEach((filterDataElement, count) => {
+			if (!typeof item[count] === 'undefined' || filterDataElement[count] !== item[count]) {
 				allMatched = false;
-			}
-			else if ((typeof item[count] === 'object' && item[count] !== null) || (Array.isArray(item[count])))
-			{
+			} else if ((typeof item[count] === 'object' && item[count] !== null) || (Array.isArray(item[count]))) {
 				const recursiveResult = this.testFilterInObject(item[count], filterDataElement[count]);
-				if (!recursiveResult)
-				{
+				if (!recursiveResult) {
 					allMatched = false;
 				}
 			}
@@ -115,21 +128,17 @@ export class PrimeItemManager
 		return allMatched;
 	}
 
-	static refreshItems(hookData1, hookData2, hookData3)
-	{
+	static refreshItems(hookData1, hookData2, hookData3) {
 		console.log(hookData1, hookData2, hookData3);
 	}
 
-	static sortItems(itemA, itemB)
-	{
-		if (itemA.name)
-		{
+	static sortItems(itemA, itemB) {
+		if (itemA.name) {
 			var textA = itemA.name.toUpperCase();
 			var textB = itemB.name.toUpperCase();
 			return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
 		}
-		if (itemA.title)
-		{
+		if (itemA.title) {
 			var textA = itemA.title.toUpperCase();
 			var textB = itemB.title.toUpperCase();
 			return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
@@ -137,4 +146,4 @@ export class PrimeItemManager
 
 		return 0;
 	}
-};
+}
