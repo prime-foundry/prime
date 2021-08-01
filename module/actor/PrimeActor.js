@@ -745,12 +745,12 @@ export class PrimeActor extends DynDocumentMixin(Actor, 'actor')
 
 	getTotalCostByType(costType)
 	{
-		var totalCost = 0;
+		let totalCost = 0;
 		this.items.forEach(function(currItem, key, map)
 		{
-			if (currItem.data.data.valueType == costType)
+			if (currItem.dyn.typed.valuable.type == costType)
 			{
-				var cost = currItem.data.data.valueAmount;
+				var cost = currItem.dyn.typed.valuable.amount;
 				var parsedCost = parseInt(cost);
 				if (cost &&  !isNaN(parsedCost))
 				{
