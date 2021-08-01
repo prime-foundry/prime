@@ -47,7 +47,14 @@ export default class BaseItem extends Component {
     /**
      * @return {Audit}
      */
-    get value() {
+	get value() {
         return getComponentLazily(this, 'value', Valuable);
+    }
+
+    /**
+     * @return {string}
+     */
+    get type() {
+        return this.foundryData.type;
     }
 }
