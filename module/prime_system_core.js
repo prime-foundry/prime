@@ -59,9 +59,9 @@ Hooks.once('init', async function ()
 
 Hooks.once("ready", async function ()
 {
-
 	await PrimeSettingsManager.addSettings();
 	await PrimeHandlebarsPartials.loadPartials();
-	await PrimeDataMigrationManager.forceMigrations(true);
-
+	
+	//await PrimeDataMigrationManager.forceMigrations(true);
+	await PrimeDataMigrationManager.performIfMigrationRequired();
 });
