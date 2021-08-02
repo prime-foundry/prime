@@ -11,10 +11,10 @@ export default class Profile extends Component {
     }
 
     writeToProfile(value, parameterName) {
-        this.write(this.profileData.with(parameterName), value);
+        this.write(this.profilePath.with(parameterName), value);
     }
 
-    get profileData(){
+    get profilePath() {
         return this.gameSystemPath.with('profile');
     }
 
@@ -62,7 +62,8 @@ export default class Profile extends Component {
         return this.profile.faction;
     }
 
-    set faction(faction) {;
+    set faction(faction) {
+        ;
         this.writeToProfile(faction, 'faction');
     }
 
@@ -150,7 +151,11 @@ export default class Profile extends Component {
         return this.profile.biography;
     }
 
+    get biography_path() {
+        return this.profilePath.with('biography');
+    }
+
     set biography(biography) {
-        this.writeToProfile(biography, 'biography');
+        this.write(this.biography_path, biography);
     }
 }
