@@ -312,7 +312,6 @@ export const EmbeddedDocumentMixin = (EmbeddedDocumentType) =>
                 }
 
             }
-
             const sheet = documentToLoad.sheet;
             if (sheet.rendered) {
                 sheet.maximize();

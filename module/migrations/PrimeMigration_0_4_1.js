@@ -101,8 +101,6 @@ export default class PrimeMigration_0_4_1 extends Migration {
 				if(newPrime != null && !(newPrime.data.metadata.default === false && oldPrime.value === 0)) {
 					const primeFoundryData = foundry.utils.deepClone(newPrime);
 					const primeGameSystem = primeFoundryData.data;
-					primeGameSystem.metadata = primeGameSystem.metadata || {};
-					primeGameSystem.metadata.sourceKey = newPrime.id;
 					primeGameSystem.value = oldPrime.value;
 					primesToEmbed.push(primeFoundryData);
 				}
@@ -143,8 +141,6 @@ export default class PrimeMigration_0_4_1 extends Migration {
 							if(newRefinement != null && !(newRefinement.data.metadata.default === false && oldRefinement.value === 0)) {
 								const refinementFoundryData = foundry.utils.deepClone(newRefinement);
 								const refinementGameSystem = refinementFoundryData.data;
-								refinementGameSystem.metadata = refinementGameSystem.metadata || {};
-								refinementGameSystem.metadata.sourceKey = newRefinement.id;
 								refinementGameSystem.value = oldRefinement.value;
 								if(refinementFoundryData.name.startsWith('Culture') ) {
 									const culture = actor.profile.birthplace

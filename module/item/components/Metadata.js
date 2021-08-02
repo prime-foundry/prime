@@ -6,6 +6,21 @@ export default class Metadata extends Component {
         super(parent);
     }
 
+    get sourceKey(){
+        return this.metadata.sourceKey;
+    }
+
+    get source() {
+        const sourceKey = this.sourceKey;
+        if(sourceKey != null){
+            const original = ItemDirectory.collection.get(this.sourceKey);
+            if(original != null){
+                return original;
+            }
+        }
+        return this.document;
+    }
+
     get default(){
         return this.metadata.default;
     }
