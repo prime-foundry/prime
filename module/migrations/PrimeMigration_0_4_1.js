@@ -79,15 +79,16 @@ export default class PrimeMigration_0_4_1 extends Migration {
 			await foundryData.update(foundry.utils.deepClone(foundryData), {render: false});
 
 			if(itemsToEmbed.length > 0) {
-				await actorDoc.createEmbeddedDocuments("Item", itemsToEmbed);
-				await actorDoc.update(undefined, {render: false});
+				const updatedActor = await game.actors.get(actorDoc.id);
+				await updatedActor.createEmbeddedDocuments("Item", itemsToEmbed);
+				await updatedActor.update(undefined, {render: false});
 			}
 		}
 	}
 
 	static migrateNotes( gameSystemData) {
 		if(isString(gameSystemData.notes) ){
-			gameSystemData.notes = {core:gameSystemData.notes};
+			gameSystemData.notes = {core:gameSystemData.notes || ''};
 		}
 	}
 
