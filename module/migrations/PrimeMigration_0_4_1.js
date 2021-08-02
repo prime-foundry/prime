@@ -67,7 +67,7 @@ export default class PrimeMigration_0_4_1 extends Migration {
 			const actor = actorDoc.dyn.typed;
 			let itemsToEmbed = [];
 			PrimeMigration_0_4_1.migrateNotes(gameSystemData);
-
+			PrimeMigration_0_4_1.migrateProfile(gameSystemData);
 
 			if (primeItems.length > 0 && actorDoc.itemTypes['prime'].length === 0) {
 				itemsToEmbed = itemsToEmbed.concat(PrimeMigration_0_4_1.migratePrimes(actorDoc, actor, gameSystemData, primeItems));
@@ -79,15 +79,22 @@ export default class PrimeMigration_0_4_1 extends Migration {
 			await foundryData.update(foundry.utils.deepClone(foundryData), {render: false});
 
 			if(itemsToEmbed.length > 0) {
-				const updatedActor = await game.actors.get(actorDoc.id);
-				await updatedActor.createEmbeddedDocuments("Item", itemsToEmbed);
-				await updatedActor.update(undefined, {render: false});
+				await actorDoc.createEmbeddedDocuments("Item", itemsToEmbed);
 			}
 		}
 	}
 
+	static migrateProfile( gameSystemData) {
+		if(gameSystemData.metadata != null ){
+			gameSystemData.profile = gameSystemData.metadata;
+			gameSystemData.profile.npc = gameSystemData.profile.isNPC;
+			delete gameSystemData.profile.isNPC;
+			gameSystemData.metadata = undefined;
+		}
+	}
+
 	static migrateNotes( gameSystemData) {
-		if(isString(gameSystemData.notes) ){
+		if(!gameSystemData.notes.core ){
 			gameSystemData.notes = {core:gameSystemData.notes || ''};
 		}
 	}

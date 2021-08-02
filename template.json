@@ -71,9 +71,9 @@
 					}
 				}
 			},
-			"metadata_template": {
-				"metadata": {
-					"isNPC": false,
+			"profile_template": {
+				"profile": {
+					"npc": false,
 					"race": "",
 					"faction": "",
 					"occupation": "",
@@ -99,7 +99,7 @@
 			"templates": [
 				"base_template",
 				"mental_template",
-				"metadata_template",
+				"profile_template",
 				"orderingTables"
 			],
 			"personalWealth": 0,

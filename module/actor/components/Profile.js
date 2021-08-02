@@ -40,14 +40,14 @@ export default class Profile extends Component {
      * @return {boolean}
      */
     get npc() {
-        return !!this.profile.isNPC;
+        return !!this.profile.npc;
     }
 
     /**
      * @param {boolean} npc
      */
     set npc(npc) {
-        this.writeToProfile(npc, 'isNPC');
+        this.writeToProfile(npc, 'npc');
     }
 
     get race() {
