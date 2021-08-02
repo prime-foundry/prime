@@ -257,3 +257,68 @@ export const DynApplicationMixin = (FoundryApplicationType, viewName = 'sheet') 
         }
 
     };
+
+/**
+ * @exports EmbeddedDocument
+ * @param {Component | Document} EmbeddedDocumentType
+ * @returns {module:EmbeddedDocument~mixin}
+ * @constructor
+ */
+export const EmbeddedDocumentMixin = (EmbeddedDocumentType) =>
+
+    /**
+     * @mixin
+     * @alias module:EmbeddedDocument~mixin
+     * @extends Component
+     */
+    class extends EmbeddedDocumentType {
+        owningComponent;
+        owningDyn;
+
+        constructor(owningComponent, embedded, ...rest) {
+            super(embedded, ...rest);
+            this.owningComponent = owningComponent;
+            this.owningDyn = this.owningComponent.dyn;
+        }
+
+        write(pathComponents, value) {
+            const lastValue = super.write(pathComponents, value);
+            const embeddedDataManager = this.dyn.dataManager;
+            this.owningDyn.dataManager.embedDirtyDataManager(embeddedDataManager);
+            return lastValue;
+        }
+
+        get _sourceKey() {
+            return this.metadata.sourceKey;
+        }
+
+        get _customisable() {
+            return !!this.metadata.customisable;
+        }
+
+        get _directory() {
+            return ItemDirectory;
+        }
+
+        display() {
+            let documentToLoad = this.document;
+            if( this._sourceKey != null && !this._customisable )
+            {
+                const original = this._directory.collection.get(this._sourceKey);
+                if(original != null){
+                    documentToLoad = original;
+                } else {
+                    console.warn(`Unable to find original document ${this._sourceKey} when looking in:`, this._directory)
+                }
+
+            }
+
+            const sheet = documentToLoad.sheet;
+            if (sheet.rendered) {
+                sheet.maximize();
+                sheet.bringToTop();
+            } else {
+                sheet.render(true);
+            }
+        }
+    };

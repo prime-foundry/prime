@@ -1,79 +1,13 @@
-import EmbeddedDocumentComponent from "../../util/EmbeddedDocumentComponent.js";
 import {getComponentLazily} from "../../util/support.js";
 import Component from "../../util/Component.js";
+import {EmbeddedDocumentMixin} from "../../util/DynFoundryMixins.js";
+import StatItem from "../../item/components/typed/StatItem.js";
 
-class Stat extends EmbeddedDocumentComponent {
-
-    constructor(parent, item) {
-        super(parent, item);
-    }
-
-    get customisable() {
-        return !!this.gameSystem.customisable;
-    }
-
-    get default() {
-        return !!this.gameSystem.default;
-    }
-
-    get statType() {
-        return this.gameSystem.statType;
-    }
-
-    get description() {
-        return this.gameSystem.description;
-    }
-
-    get directory() {
-        return ItemDirectory;
-    }
-
-    get sourceKey() {
-        return this.gameSystem.sourceKey;
-    }
-
-    get title() {
-		// TODO: Check if this is still required post migration to V2 data.
-		// Try one and fallback if not present.
-        return this.gameSystem.name || this.document.name;
-    }
-
-    get max() {
-        return this.gameSystem.max;
-    }
-
-    get related() {
-        return [];
-    }
-
-    get value() {
-        return this.gameSystem.value;
-    }
-
-    set value(value) {
-        if (value <= this.max && value >= 0) {
-            this.write(this.gameSystemPath.with('value'), value);
-        }
-    }
-
-    get cost() {
-        const num = this.value;
-        return (num === 0) ? 0 : ((num * (num + 1)) / 2);
-    }
-}
-
-class Prime extends Stat {
+class Stat extends EmbeddedDocumentMixin(StatItem) {
     constructor(parent, item) {
         super(parent, item);
     }
 }
-
-class Refinement extends Stat {
-    constructor(parent, item) {
-        super(parent, item);
-    }
-}
-
 
 class StatCollection extends Component {
     constructor(parent) {
@@ -124,7 +58,7 @@ class Primes extends StatCollection {
     _getTransformedItems() {
 		let primes = this.document._getItemsByType('prime')
                 .sort((one, two) => one.name.localeCompare(two.name))
-                .map(item => new Prime(this, item));
+                .map(item => new Stat(this, item));
 
         return primes;
     }
@@ -138,7 +72,7 @@ class Refinements extends StatCollection {
     _getTransformedItems() {
 		let refinements = this.document._getItemsByType('refinement')
                 .sort((one, two) => one.name.localeCompare(two.name))
-                .map(item => new Refinement(this, item));
+                .map(item => new Stat(this, item));
 
         return refinements;
     }

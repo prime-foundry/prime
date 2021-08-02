@@ -10,6 +10,10 @@ export default class BaseItem extends Component {
         super(primeItem);
     }
 
+    get id() {
+        return this.document.id;
+    }
+
     get name() {
         return this.foundryData.name;
     }
@@ -43,9 +47,8 @@ export default class BaseItem extends Component {
         return getComponentLazily(this, 'descriptions', Descriptions);
     }
 
-
     /**
-     * @return {Audit}
+     * @return {Valuable}
      */
     get value() {
         return getComponentLazily(this, 'value', Valuable);
