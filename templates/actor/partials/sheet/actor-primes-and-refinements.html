@@ -7,7 +7,9 @@
         {{/ifCond}}
         {{#each primes}}
         <div class="primeWrapper {{customisableStatClass}} {{defaultItemClass}}" title="{{convertHTMLForTitle description 150}}&#xD;*DOUBLE CLICK TO EDIT VALUE*">
+			{{#unless metadata.default}}
 			<a class="deleteItemIcon" data-item-id={{id}} title="Delete prime"><i class="fas fa-trash"></i></a>
+			{{/unless}}
 			<a class="showStatInfoIcon"
                data-dyn-click-at="actor.stats.primes.displayStat()"
                data-dyn-id="{{id}}"><i class="fas fa-info-circle fa-xs"></i></a>
@@ -32,7 +34,9 @@
              title="{{convertHTMLForTitle description 150}}&#xD;*DOUBLE CLICK TO EDIT VALUE*"
              data-dyn-class-if="customisableStat actor.stats.refinement"
              data-dyn-class-if="defaultStat ">
+			{{#unless metadata.default}}
 			<a class="deleteItemIcon" data-item-id={{id}} title="Delete refinement"><i class="fas fa-trash"></i></a>
+			{{/unless}}
 			<a class="showStatInfoIcon"
                data-dyn-click-at="actor.stats.refinements.displayStat()"
                data-dyn-id="{{id}}">
