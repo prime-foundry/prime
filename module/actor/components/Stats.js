@@ -1,5 +1,4 @@
 import EmbeddedDocumentComponent from "../../util/EmbeddedDocumentComponent.js";
-import {Prime_V1, Refinement_V1} from "./legacy/Stats.v1.js";
 import {getComponentLazily} from "../../util/support.js";
 import Component from "../../util/Component.js";
 
@@ -123,12 +122,6 @@ class Primes extends StatCollection {
     }
 
     _getTransformedItems() {
-        if (this.document.version === 1) {
-            // TODO: Migrate: version 1 takes its data from the actor gameSystem data and not items.
-            return Object.entries(this.gameSystem.primes)
-                    .map(statData => new Prime_V1(this, statData));
-        }
-
 		let primes = this.document._getItemsByType('prime')
                 .sort((one, two) => one.name.localeCompare(two.name))
                 .map(item => new Prime(this, item));
@@ -143,12 +136,6 @@ class Refinements extends StatCollection {
     }
 
     _getTransformedItems() {
-        if (this.document.version === 1) {
-            // TODO: Migrate: version 1 takes its data from the actor gameSystem data and not items.
-            return  Object.entries(this.gameSystem.refinements)
-                    .map(statData => new Refinement_V1(this, statData));
-        }
-
 		let refinements = this.document._getItemsByType('refinement')
                 .sort((one, two) => one.name.localeCompare(two.name))
                 .map(item => new Refinement(this, item));

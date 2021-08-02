@@ -621,41 +621,41 @@ export class PrimeActor extends DynDocumentMixin(Actor, 'actor')
 	// 	return matchingStatItems;
 	// }
 
-	// _getStatObjectsFromWorld(statType)
-	// {
-	// 	const currActor = this;
-	//
-	// 	let actorItemsToCreate = []
-	// 	let instancedItems = {};
-	// 	let statItem = null;
-	// 	if (ItemDirectory && ItemDirectory.collection)	// Sometimes not defined when interegated.
-	// 	{
-	// 		ItemDirectory.collection.forEach((item, key, items) =>
-	// 		{
-	// 			if (item.type == statType && item.data.data.default)
-	// 			{
-	// 				item.data.data.sourceKey = item.data._id;
-	// 				actorItemsToCreate.push(item.data);
-	// 				statItem = this._getItemDataAsStat(item.data);
-	// 				instancedItems[statItem.itemID] = statItem;
-	// 			}
-	// 		});
-	//
-	// 		if (actorItemsToCreate.length > 0)
-	// 		{
-	// 			this.createEmbeddedEntity("OwnedItem", actorItemsToCreate);
-	// 		}
-	// 		else
-	// 		{
-	// 			console.error(`No stat items of type ${statType} were found in _getStatObjectsFromWorld(). Did you forget to import from Compendium?`);
-	// 		}
-	// 	}
-	// 	else
-	// 	{
-	// 		console.warn("getStatObjectsFromWorld() was called to soon. The world (and the items) weren't ready yet.")
-	// 	}
-	// 	return instancedItems;
-	// }
+	_getStatObjectsFromWorld(statType)
+	{
+		const currActor = this;
+
+		let actorItemsToCreate = []
+		let instancedItems = {};
+		let statItem = null;
+		if (ItemDirectory && ItemDirectory.collection)	// Sometimes not defined when interegated.
+		{
+			ItemDirectory.collection.forEach((item, key, items) =>
+			{
+				if (item.type == statType && item.data.data.default)
+				{
+					item.data.data.sourceKey = item.data._id;
+					actorItemsToCreate.push(item.data);
+					statItem = this._getItemDataAsStat(item.data);
+					instancedItems[statItem.itemID] = statItem;
+				}
+			});
+
+			if (actorItemsToCreate.length > 0)
+			{
+				this.createEmbeddedEntity("OwnedItem", actorItemsToCreate);
+			}
+			else
+			{
+				console.error(`No stat items of type ${statType} were found in _getStatObjectsFromWorld(). Did you forget to import from Compendium?`);
+			}
+		}
+		else
+		{
+			console.warn("getStatObjectsFromWorld() was called to soon. The world (and the items) weren't ready yet.")
+		}
+		return instancedItems;
+	}
 
 	// "athletic" :
 	// {

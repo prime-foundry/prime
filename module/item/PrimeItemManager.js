@@ -18,9 +18,9 @@ export class PrimeItemManager {
 	/**
 	 *
 	 * @param requestData
-	 * @param {WorldCollection} requestData.itemCollection
+	 * @param {WorldCollection} (requestData.itemCollection)
 	 * @param {boolean} (requestData.matchAll=true)
-	 * @param {boolean} (requestData.justContentData=true)
+	 * @param {boolean} (requestData.justContentData=false)
 	 * @param {boolean} (requestData.typed=false)
 	 * @param {boolean} (requestData.sortItems=true)
 	 * @param {[string] | string} (requestData.itemBaseTypes=null)
@@ -54,7 +54,7 @@ export class PrimeItemManager {
 			const justContentMatchingItems = matchingItems.map((item) => {
 				const newItem = item.toObject(false);
 				// Fixes issues whereby compendiums have new IDs assigned.
-				newItem.data.sourceKey = item.id;
+				newItem.data.metadata.sourceKey = item.id;
 				newItem._id = undefined;
 				return newItem;
 			});
