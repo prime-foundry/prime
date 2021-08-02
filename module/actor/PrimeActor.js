@@ -7,6 +7,7 @@ import {ActionPoints, Soul, XP} from "./components/Points.js";
 import {DynDocumentMixin} from "../util/DynFoundryMixins.js";
 
 import { PrimeItemManager } from "../item/PrimeItemManager.js";
+import Notes from "./components/Notes.js";
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple gameSystem.
  * @extends {Actor}
@@ -43,6 +44,10 @@ export class PrimeActor extends DynDocumentMixin(Actor, 'actor')
 
 	get type() {
 		return this.dyn.foundryData.type;
+	}
+
+	get notes() {
+		return getComponentLazily(this, 'notes', Notes);
 	}
 
 	isCharacter() {
@@ -104,21 +109,24 @@ export class PrimeActor extends DynDocumentMixin(Actor, 'actor')
 	}
 
 	// Change to _preCreate() - read up!
-	async _onCreate(data, options, userId)
+	_onCreate(data, options, userId)
 	{
+		const ret = super._onCreate(data, options, userId);
 		const requestData =
 		{
-			itemCollection: ItemDirectory.collection,
 			itemBaseTypes: ["prime", "refinement"],
-			filtersData: {data: {data: {default: true}}},
+			filtersData: {data:{data:{metadata: {default: true}}}},
 			matchAll: false,
 			justContentData: true,
 			sortItems: true
 		};
 
 		const primeAndRefinementItemsToCreate = PrimeItemManager.getItems(requestData);
-		await this.createEmbeddedDocuments("Item", primeAndRefinementItemsToCreate);
-		return super._onCreate(data, options, userId);
+		primeAndRefinementItemsToCreate.filter(item => item.type === 'prime')
+			.forEach(item => item.data.value = 1);
+		// top level method is not async, so we just have to let this run asynchronously.
+		this.createEmbeddedDocuments("Item", primeAndRefinementItemsToCreate).then(() => this.update())
+		return ret;
 	}
 
 	/**

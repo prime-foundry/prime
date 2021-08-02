@@ -2,6 +2,7 @@ import {getComponentLazily} from "../../util/support.js";
 import Component from "../../util/Component.js";
 import {EmbeddedDocumentMixin} from "../../util/DynFoundryMixins.js";
 import StatItem from "../../item/components/typed/StatItem.js";
+import {PrimeItemManager} from "../../item/PrimeItemManager.js";
 
 class Stat extends EmbeddedDocumentMixin(StatItem) {
     constructor(parent, item) {
@@ -10,8 +11,10 @@ class Stat extends EmbeddedDocumentMixin(StatItem) {
 }
 
 class StatCollection extends Component {
-    constructor(parent) {
+    itemType;
+    constructor(parent, itemType) {
         super(parent);
+        this.itemType = itemType;
     }
 
     // at some point this needs to work out the correct values depending on the compendium.
@@ -24,15 +27,15 @@ class StatCollection extends Component {
     }
 
     get cost() {
-        return this._getTransformedItems().reduce((accumulator, stat) => accumulator + stat.cost, 0);
+        return this.getAllStats().reduce((accumulator, stat) => accumulator + stat.cost, 0);
     }
 
     getStatsForType(statType) {
-        return this._getTransformedItems().filter(stat => stat.statType === statType);
+        return this.getAllStats().filter(stat => stat.statType === statType);
     }
 
     getStatById(id){
-       return this._getTransformedItems().find((stat) => stat.id === id);
+       return this.getAllStats().find((stat) => stat.id === id);
     }
 
     displayStat({id}){
@@ -44,37 +47,24 @@ class StatCollection extends Component {
         stat.value = value;
     }
 
-    _getTransformedItems() {
-        return [];
+    getAllStats() {
+        const searchCriteria = {itemCollection:this.document.items,itemBaseTypes:this.itemType, sortItems:true};
+        let items = PrimeItemManager.getItems(searchCriteria);
+        const stats = items.map(item => new Stat(this, item));
+        return stats;
     }
 }
 
 class Primes extends StatCollection {
 
     constructor(parent) {
-        super(parent);
-    }
-
-    _getTransformedItems() {
-		let primes = this.document._getItemsByType('prime')
-                .sort((one, two) => one.name.localeCompare(two.name))
-                .map(item => new Stat(this, item));
-
-        return primes;
+        super(parent, 'prime');
     }
 }
 
 class Refinements extends StatCollection {
     constructor(parent) {
-        super(parent);
-    }
-
-    _getTransformedItems() {
-		let refinements = this.document._getItemsByType('refinement')
-                .sort((one, two) => one.name.localeCompare(two.name))
-                .map(item => new Stat(this, item));
-
-        return refinements;
+        super(parent, 'refinement');
     }
 }
 

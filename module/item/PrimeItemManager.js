@@ -134,13 +134,13 @@ export class PrimeItemManager {
 
 	static sortItems(itemA, itemB) {
 		if (itemA.name) {
-			var textA = itemA.name.toUpperCase();
-			var textB = itemB.name.toUpperCase();
+			const textA = itemA.name.toUpperCase();
+			const textB = itemB.name.toUpperCase();
 			return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
 		}
 		if (itemA.title) {
-			var textA = itemA.title.toUpperCase();
-			var textB = itemB.title.toUpperCase();
+			const textA = itemA.title.toUpperCase();
+			const textB = itemB.title.toUpperCase();
 			return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
 		}
 

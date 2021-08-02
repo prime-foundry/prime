@@ -1,5 +1,45 @@
 import Migration from "./Migration.js";
 import {PrimeItemManager} from "../item/PrimeItemManager.js";
+import {isString} from "../util/support.js";
+
+const PRIME_MAP = new Map([
+	['att', 'Attune'],
+	['end', 'Endurance'],
+	['int', 'Intellect'],
+	['itr', 'Intricate'],
+	['man', 'Manipulation'],
+	['mov', 'Manoeuvre'],
+	['per', 'Perception'],
+	['por', 'Portent'],
+	['res', 'Resolve'],
+	['str', 'Strength']]);
+
+const REFINEMENT_MAP = new Map([
+["animal", undefined],
+["artistic", undefined],
+["vehicle", undefined],
+["survival", undefined],
+["athletic", ['Athletic']],
+["craft", ['Lock Picking','Alchemy']],
+["melee", ['Melee']],
+["ranged", ['Ranged']],
+["stealth", ['Stealth']],
+["tolerance", ['Tolerance']],
+["bravery", ['Bravery']],
+["deceive", ['Deceive']],
+["influence", ['Influence']],
+["knowledge", ['Culture (...)']],
+["obscura", ['Observe']],
+["observe", ['Observe']],
+["recover", ['Recover','Meditate']],
+["willpower", ['Willpower']],
+["conduit", ['Manifest']],
+["fury", ['Fury']],
+["manifest", ['Manifest']],
+["premonition", ['Premonition']],
+["regeneration", ['Regenerate']],
+["tap", ['Manifest']],
+["threads", ['Threads']]]);
 
 export default class PrimeMigration_0_4_1 extends Migration {
 	static get version() {
@@ -17,82 +57,122 @@ export default class PrimeMigration_0_4_1 extends Migration {
 	}
 
 	static async migrateActors() {
-		const actors = game.actors.contents;
 		const primeItems = PrimeItemManager.getItems({justContentData: true, itemBaseTypes: 'prime'});
 		const refinementItems = PrimeItemManager.getItems({justContentData: true, itemBaseTypes: 'refinement'});
+		const actors =  game.actors.contents;
 
 		for (const actorDoc of actors) {
 			const foundryData = actorDoc.data;
 			const gameSystemData = foundryData.data;
 			const actor = actorDoc.dyn.typed;
-			let hasEmbedded = false;
-			if (primeItems.length > 0 && PrimeItemManager.getItems(
-				{itemCollection: actor.items, matchAll: false, itemBaseTypes: 'prime', filtersData:{parent:undefined}})
-				.length === 0) {
-				hasEmbedded = true;
-				await PrimeMigration_0_4_1.migratePrimes(actorDoc, actor, gameSystemData, primeItems);
+			let itemsToEmbed = [];
+			PrimeMigration_0_4_1.migrateNotes(gameSystemData);
+
+
+			if (primeItems.length > 0 && actorDoc.itemTypes['prime'].length === 0) {
+				itemsToEmbed = itemsToEmbed.concat(PrimeMigration_0_4_1.migratePrimes(actorDoc, actor, gameSystemData, primeItems));
 			}
-			if (refinementItems.length > 0) {
-				hasEmbedded = true;
-				await PrimeMigration_0_4_1.migrateRefinements(actorDoc, actor, gameSystemData, refinementItems);
+			if (refinementItems.length > 0 && actorDoc.itemTypes['refinement'].length === 0) {
+				itemsToEmbed = itemsToEmbed.concat(PrimeMigration_0_4_1.migrateRefinements(actorDoc, actor, gameSystemData, refinementItems));
 			}
-			if (hasEmbedded) {
-				await actorDoc.update(undefined,{render: false});
+
+			await foundryData.update(foundry.utils.deepClone(foundryData), {render: false});
+
+			if(itemsToEmbed.length > 0) {
+				await actorDoc.createEmbeddedDocuments("Item", itemsToEmbed);
+				await actorDoc.update(undefined, {render: false});
 			}
 		}
 	}
 
-	static async migratePrimes(actorDoc, actor, gameSystemData, primeItems) {
+	static migrateNotes( gameSystemData) {
+		if(isString(gameSystemData.notes) ){
+			gameSystemData.notes = {core:gameSystemData.notes};
+		}
+	}
+
+	static migratePrimes(actorDoc, actor, gameSystemData, primeItems) {
 
 		if (gameSystemData.primes != null) {
 			const primesToEmbed = [];
 			for (const [key, oldPrime] of Object.entries(gameSystemData.primes)) {
-				let newPrime = null;
-				switch (key) {
-					case 'att':
-						newPrime = primeItems.find(item => item.name == 'Attune');
-						break;
-					case 'end':
-						newPrime = primeItems.find(item => item.name == 'Endurance');
-						break;
-					case 'int':
-						newPrime = primeItems.find(item => item.name == 'Intellect');
-						break;
-					case 'itr':
-						newPrime = primeItems.find(item => item.name == 'Intricate');
-						break;
-					case 'man':
-						newPrime = primeItems.find(item => item.name == 'Manipulation');
-						break;
-					case 'mov':
-						newPrime = primeItems.find(item => item.name == 'Manoeuvre');
-						break;
-					case 'per':
-						newPrime = primeItems.find(item => item.name == 'Perception');
-						break;
-					case 'por':
-						newPrime = primeItems.find(item => item.name == 'Portent');
-						break;
-					case 'res':
-						newPrime = primeItems.find(item => item.name == 'Resolve');
-						break;
-					case 'str':
-						newPrime = primeItems.find(item => item.name == 'Strength');
-						break;
+				const name = PRIME_MAP.get(key)
+				const newPrime =  primeItems.find(item => item.name == name);
+				if(newPrime != null && !(newPrime.data.metadata.default === false && oldPrime.value === 0)) {
+					const primeFoundryData = foundry.utils.deepClone(newPrime);
+					const primeGameSystem = primeFoundryData.data;
+					primeGameSystem.metadata = primeGameSystem.metadata || {};
+					primeGameSystem.metadata.sourceKey = newPrime.id;
+					primeGameSystem.value = oldPrime.value;
+					primesToEmbed.push(primeFoundryData);
 				}
-				const primeFoundryData = foundry.utils.deepClone(newPrime);
-				const primeGameSystem = primeFoundryData.data;
-				primeGameSystem.metadata = primeGameSystem.metadata  || {};
-				primeGameSystem.metadata.sourceKey = newPrime.id;
-				primeGameSystem.value = oldPrime.value;
-				primesToEmbed.push(primeFoundryData);
 			}
-			await actorDoc.createEmbeddedDocuments("Item", primesToEmbed)
+			if(primesToEmbed.length > 0){
+				return primesToEmbed;
+			}
+			gameSystemData.primes = null;
 		}
+		return [];
 	}
 
-	static async migrateRefinements(actorDoc, actor, gameSystemData, refinementItems) {
-
+	static migrateRefinements(actorDoc, actor, gameSystemData, refinementItems) {
+		if (gameSystemData.refinements != null) {
+			const refinementsToEmbed = new Map();
+			let migrationText = '\n'
+			for (const [key, oldRefinement] of Object.entries(gameSystemData.refinements)) {
+				const names = REFINEMENT_MAP.get(key);
+				if(names == null){
+					migrationText = `${migrationText}
+<br>⇄ Unable to Migrate Refinement: ${key}:${oldRefinement.value}`;
+				} else {
+					for(const name of names){
+						if(refinementsToEmbed.has(name)){
+							const refinementFoundryData = refinementsToEmbed.get(name);
+							const refinementGameSystem = refinementFoundryData.data;
+							const currentValue = refinementGameSystem.value;
+							if(currentValue < oldRefinement.value){
+								refinementGameSystem.value = oldRefinement.value
+								migrationText = `${migrationText}
+<br>⇄ Migrated Refinement: ${key}:${oldRefinement.value} to ${name}:${refinementGameSystem.value} increasing value from ${currentValue} to match`;
+							} else {
+								migrationText = `${migrationText}
+<br>⇄ Migrated Refinement: ${key}:${oldRefinement.value} to ${name}:${refinementGameSystem.value} will keep higher value`;
+							}
+						} else {
+							const newRefinement =  refinementItems.find(item => item.name == name);
+							if(newRefinement != null && !(newRefinement.data.metadata.default === false && oldRefinement.value === 0)) {
+								const refinementFoundryData = foundry.utils.deepClone(newRefinement);
+								const refinementGameSystem = refinementFoundryData.data;
+								refinementGameSystem.metadata = refinementGameSystem.metadata || {};
+								refinementGameSystem.metadata.sourceKey = newRefinement.id;
+								refinementGameSystem.value = oldRefinement.value;
+								if(refinementFoundryData.name.startsWith('Culture') ) {
+									const culture = actor.profile.birthplace
+										|| actor.profile.celestial
+										|| actor.profile.faction
+										|| actor.profile.race
+										|| '...';
+									refinementFoundryData.name = refinementFoundryData.name.replace('...', culture);
+								}
+								refinementsToEmbed.set(name, refinementFoundryData);
+								migrationText = `${migrationText}
+<br>⇄ Migrated Refinement: ${key}:${oldRefinement.value} to ${name}:${refinementGameSystem.value}`;
+							} else {
+								migrationText = `${migrationText}
+<br>⇄ Did Not Migrate Refinement: ${key}:${oldRefinement.value} to ${name}`;
+							}
+						}
+					}
+				}
+			}
+			if(refinementsToEmbed.size > 0){
+				console.debug(migrationText);
+				gameSystemData.notes.core = `${gameSystemData.notes.core}${migrationText}`
+				return Array.from(refinementsToEmbed.values());
+			}
+			gameSystemData.refinements = null;
+		}
+		return [];
 	}
 
 	static async migrateItem(itemDoc) {
