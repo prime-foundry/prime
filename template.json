@@ -506,7 +506,8 @@
 				"metadata": {
 					"setting": "",
 					"default": false,
-					"customisable": false
+					"customisable": false,
+					"sourceKey": ""
 				}
 			},
 			"valuable": {
@@ -650,7 +651,6 @@
 				"metadata"
 			],
 			"points": 0,
-			"sourceKey": "",
 			"type": "major",
 			"default": false,
 			"effects": []
@@ -663,7 +663,6 @@
 			],
 			"value": 0,
 			"max": 10,
-			"sourceKey": "",
 			"statType": "physical"
 		},
 		"refinement": {
@@ -675,7 +674,6 @@
 			"value": 0,
 			"max": 10,
 			"related": [],
-			"sourceKey": "",
 			"statType": "physical"
 		},
 		"injury": {
@@ -683,7 +681,6 @@
 				"audit",
 				"descriptions"
 			],
-			"sourceKey": "",
 			"untendedEffects": [],
 			"tendedEffects": [],
 			"permanentEffects": [],
@@ -695,7 +692,6 @@
 		"award":
 		{
 			"templates": ["base", "metadata"],
-			"sourceKey": "",
 			"reward":
 			{
 				"soul": 0,
