@@ -41,9 +41,11 @@ const REFINEMENT_MAP = new Map([
 ["tap", ['Manifest']],
 ["threads", ['Threads']]]);
 
-function sleep(ms) {
-	return new Promise(resolve => setTimeout(resolve, ms));
+
+function appendNote(gameSystemData, note){
+	gameSystemData.notes.core = `${gameSystemData.notes.core}<br>${note}`;
 }
+
 
 export default class PrimeMigration_0_4_1 extends Migration {
 	static get version() {
@@ -88,6 +90,7 @@ export default class PrimeMigration_0_4_1 extends Migration {
 			const actor = actorDoc.dyn.typed;
 			let itemsToEmbed = [];
 			PrimeMigration_0_4_1.migrateNotes(gameSystemData);
+			appendNote(gameSystemData, `<u><b>🛠 Migration Log of '${PrimeMigration_0_4_1.version}'</b></u><br><i>The following 🐐 goats 🐐 were herded:</i><br>`);
 			PrimeMigration_0_4_1.migrateProfile(gameSystemData);
 
 			if (primeItems.length > 0 && actorDoc.itemTypes['prime'].length === 0) {
@@ -127,11 +130,16 @@ export default class PrimeMigration_0_4_1 extends Migration {
 			for (const [key, oldPrime] of Object.entries(gameSystemData.primes)) {
 				const name = PRIME_MAP.get(key)
 				const newPrime =  primeItems.find(item => item.name == name);
-				if(newPrime != null && !(newPrime.data.metadata.default === false && oldPrime.value === 0)) {
+				if(newPrime == null){
+					throw `Unable to find required prime '${name}' to migrate. Double check the prime mappings.`;
+				}
+				if(newPrime.data.metadata.default === true || oldPrime.value > 0) {
 					const primeFoundryData = foundry.utils.deepClone(newPrime);
 					const primeGameSystem = primeFoundryData.data;
 					primeGameSystem.value = oldPrime.value;
 					primesToEmbed.push(primeFoundryData);
+				} else {
+					appendNote(gameSystemData, `✎⭲ Did Not Migrate Prime: ${key} to ${name} because the value is 0, and its not a default prime.`);
 				}
 			}
 			if(primesToEmbed.length > 0){
@@ -145,12 +153,10 @@ export default class PrimeMigration_0_4_1 extends Migration {
 	static migrateRefinements(actorDoc, actor, gameSystemData, refinementItems) {
 		if (gameSystemData.refinements != null) {
 			const refinementsToEmbed = new Map();
-			let migrationText = '\n'
 			for (const [key, oldRefinement] of Object.entries(gameSystemData.refinements)) {
 				const names = REFINEMENT_MAP.get(key);
 				if(names == null){
-					migrationText = `${migrationText}
-<br>⇄ Unable to Migrate Refinement: ${key}:${oldRefinement.value}`;
+					appendNote(gameSystemData, `✖? Unable to Migrate Refinement: ${key}:${oldRefinement.value} as there is no listed equivalent, you may want to make your own.`);
 				} else {
 					for(const name of names){
 						if(refinementsToEmbed.has(name)){
@@ -159,15 +165,18 @@ export default class PrimeMigration_0_4_1 extends Migration {
 							const currentValue = refinementGameSystem.value;
 							if(currentValue < oldRefinement.value){
 								refinementGameSystem.value = oldRefinement.value
-								migrationText = `${migrationText}
-<br>⇄ Migrated Refinement: ${key}:${oldRefinement.value} to ${name}:${refinementGameSystem.value} increasing value from ${currentValue} to match`;
+								appendNote(gameSystemData, `✎⮑ Migrated Refinement: ${key}:${oldRefinement.value} to ${name}:${refinementGameSystem.value} which already exists, increasing value from ${currentValue} to match.`);
+							} else if(currentValue === oldRefinement.value) {
+								appendNote(gameSystemData, `✎⥤ Migrated Refinement: ${key}:${oldRefinement.value} to ${name}:${refinementGameSystem.value} which already exists, value remains the same.`);
 							} else {
-								migrationText = `${migrationText}
-<br>⇄ Migrated Refinement: ${key}:${oldRefinement.value} to ${name}:${refinementGameSystem.value} will keep higher value`;
+								appendNote(gameSystemData, `✎⭲ Migrated Refinement: ${key}:${oldRefinement.value} to ${name}:${refinementGameSystem.value} which already exists, will keep higher value.`);
 							}
 						} else {
-							const newRefinement =  refinementItems.find(item => item.name == name);
-							if(newRefinement != null && !(newRefinement.data.metadata.default === false && oldRefinement.value === 0)) {
+							const newRefinement = refinementItems.find(item => item.name == name);
+							if(newRefinement == null){
+								throw `Unable to find required refinement '${name}' to migrate. Double check the refinement mappings.`;
+							}
+							if(newRefinement.data.metadata.default === false || oldRefinement.value > 0) {
 								const refinementFoundryData = foundry.utils.deepClone(newRefinement);
 								const refinementGameSystem = refinementFoundryData.data;
 								refinementGameSystem.value = oldRefinement.value;
@@ -180,19 +189,15 @@ export default class PrimeMigration_0_4_1 extends Migration {
 									refinementFoundryData.name = refinementFoundryData.name.replace('...', culture);
 								}
 								refinementsToEmbed.set(name, refinementFoundryData);
-								migrationText = `${migrationText}
-<br>⇄ Migrated Refinement: ${key}:${oldRefinement.value} to ${name}:${refinementGameSystem.value}`;
+								appendNote(gameSystemData, `✎⭢ Migrated Refinement: ${key}:${oldRefinement.value} to ${refinementFoundryData.name}:${refinementGameSystem.value}`);
 							} else {
-								migrationText = `${migrationText}
-<br>⇄ Did Not Migrate Refinement: ${key}:${oldRefinement.value} to ${name}`;
+								appendNote(gameSystemData, `✎⭲ Did Not Migrate Refinement: ${key} to ${name} because the value is 0, and its not a default refinement.`);
 							}
 						}
 					}
 				}
 			}
 			if(refinementsToEmbed.size > 0){
-				console.debug(migrationText);
-				gameSystemData.notes.core = `${gameSystemData.notes.core}${migrationText}`
 				return Array.from(refinementsToEmbed.values());
 			}
 			gameSystemData.refinements = null;
