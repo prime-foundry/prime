@@ -175,11 +175,9 @@ export class PrimeActor extends DynDocumentMixin(Actor, 'actor')
 		// 	this._prepareCharacterDataV2(data, actorData);
 		// }
 
-		const primeCost = this.getTotalCost(data.primes);
 		const perkSoulCost = this.getTotalPerkCost("perkCostSoul");
 		data.soul.spent = primeCost + perkSoulCost;
 
-		const refinementCost = this.getTotalCost(data.refinements);
 		const perkXPCost = this.getTotalPerkCost("perkCostXP");
 		data.xp.spent = refinementCost + perkXPCost;
 
@@ -504,28 +502,6 @@ export class PrimeActor extends DynDocumentMixin(Actor, 'actor')
 			}
 		}
 
-		return totalCost;
-	}
-
-	getTotalCost(whatItems)
-	{
-		var totalCost = 0;
-		// Mostly a failsafe, hopefully new characters will only be created
-		// after the world has prime & refinement items added.
-		if (!whatItems)
-		{
-			return totalCost;
-		}
-
-		for (let [key, item] of Object.entries(whatItems))
-		{
-			// Calculate the modifier using d20 rules.
-			// prime.mod = Math.floor((prime.value - 10) / 2);
-			item.cost = PrimeActor.primeCost(parseInt(item.value));
-			totalCost += item.cost;
-			// mod will go but lets see what we get
-			item.mod = item.cost;
-		}
 		return totalCost;
 	}
 
