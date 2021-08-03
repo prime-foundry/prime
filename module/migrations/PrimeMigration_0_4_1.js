@@ -41,9 +41,30 @@ const REFINEMENT_MAP = new Map([
 ["tap", ['Manifest']],
 ["threads", ['Threads']]]);
 
+function sleep(ms) {
+	return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 export default class PrimeMigration_0_4_1 extends Migration {
 	static get version() {
 		return '0.4.1';
+	}
+	static async canMigrate() {
+		const primeItems = PrimeItemManager.getItems({justContentData: true, itemBaseTypes: 'prime'});
+		const refinementItems = PrimeItemManager.getItems({justContentData: true, itemBaseTypes: 'refinement'});
+		let can = true;
+		let reason = 'Missing'
+		if(primeItems.length === 0) {
+			reason = `${reason} prime`
+			can = false;
+		}
+		if(refinementItems.length === 0) {
+			reason = `${reason}${can ? '': ' &'} refinement`
+			can = false;
+
+		}
+		reason = can ? Migration.SUCCESS_REASON : `${reason} items. Import Statistic and Lies Compendium and retry.`
+		return {can, reason} ;
 	}
 
 	static async migrate() {
@@ -75,11 +96,11 @@ export default class PrimeMigration_0_4_1 extends Migration {
 			if (refinementItems.length > 0 && actorDoc.itemTypes['refinement'].length === 0) {
 				itemsToEmbed = itemsToEmbed.concat(PrimeMigration_0_4_1.migrateRefinements(actorDoc, actor, gameSystemData, refinementItems));
 			}
-
-			await foundryData.update(foundry.utils.deepClone(foundryData), {render: false});
+			await actorDoc.update(foundryData.toObject(false));
 
 			if(itemsToEmbed.length > 0) {
-				await actorDoc.createEmbeddedDocuments("Item", itemsToEmbed);
+				const embedded = await actorDoc.createEmbeddedDocuments("Item", itemsToEmbed);
+				console.log(embedded);
 			}
 		}
 	}
@@ -188,7 +209,7 @@ export default class PrimeMigration_0_4_1 extends Migration {
 		PrimeMigration_0_4_1.migrateDescriptions(item, gameSystemData);
 		PrimeMigration_0_4_1.migrateMetadata(item, gameSystemData);
 
-		await foundryData.update(foundry.utils.deepClone(foundryData), {render: false});
+		await itemDoc.update(foundryData.toObject(false));
 	}
 
 	static migrateValuable(item, gameSystemData) {

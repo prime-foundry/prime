@@ -6,7 +6,7 @@ import { PrimeItemSheet } from "./item/PrimeItemSheet.js";
 
 import { PrimeSettingsManager } from "./prime_settings.js";
 import { PrimeHandlebarsPartials } from "./prime_handlebars.js";
-import { PrimeDataMigrationManager } from "./migrations/prime_data_migrations_manager.js";
+import { PrimeDataMigrationManager } from "./migrations/PrimeDataMigrationsManager.js";
 
 Hooks.once('init', async function ()
 {
@@ -59,9 +59,7 @@ Hooks.once('init', async function ()
 
 Hooks.once("ready", async function ()
 {
-
-	await PrimeSettingsManager.addSettings();
+	// await PrimeSettingsManager.addSettings();
 	await PrimeHandlebarsPartials.loadPartials();
-	await PrimeDataMigrationManager.forceMigrations(true);
-
+	await PrimeDataMigrationManager.migrateIfNeeded();
 });
