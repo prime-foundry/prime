@@ -1,9 +1,9 @@
 import { PrimeTables } from "../prime_tables.js";
 import {DynDocumentMixin} from "../util/DynFoundryMixins.js";
-import StatItem from "./StatItem.js";
-import InjuryItem from "./InjuryItem.js";
-import PerkItem from "./PerkItem.js";
-import CostedItem from "./CostedItem.js";
+import StatItem from "./types/StatItem.js";
+import InjuryItem from "./types/InjuryItem.js";
+import PerkItem from "./types/PerkItem.js";
+import CostedItem from "./types/CostedItem.js";
 
 /**
  * Extend the basic Item with some very simple modifications.

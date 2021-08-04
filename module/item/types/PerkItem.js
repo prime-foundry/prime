@@ -1,6 +1,6 @@
 import BaseItem from "./BaseItem.js";
-import {getComponentLazily} from "../util/support.js";
-import {Cost} from "./components/Costs.js";
+import {getComponentLazily} from "../../util/support.js";
+import {Cost} from "../components/Costs.js";
 
 export default class PerkItem extends BaseItem {
     constructor(primeItem) {

@@ -1,5 +1,5 @@
-import {getComponentLazily} from "../util/support.js";
-import {Cost} from "./components/Costs.js";
+import {getComponentLazily} from "../../util/support.js";
+import {Cost} from "../components/Costs.js";
 import BaseItem from "./BaseItem.js";
 
 export default class CostedItem extends BaseItem {
