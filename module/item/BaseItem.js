@@ -1,9 +1,9 @@
-import Component from "../../../util/Component.js";
-import {getComponentLazily} from "../../../util/support.js";
-import Metadata from "../Metadata.js";
-import Audit from "../Audit.js";
-import Descriptions from "../Descriptions.js";
-import Valuable from "../Valuable.js";
+import Component from "../util/Component.js";
+import {getComponentLazily} from "../util/support.js";
+import Metadata from "./components/Metadata.js";
+import Audit from "./components/Audit.js";
+import Descriptions from "./components/Descriptions.js";
+import {Cost} from "./components/Costs.js";
 
 export default class BaseItem extends Component {
     constructor(primeItem) {
@@ -47,10 +47,14 @@ export default class BaseItem extends Component {
         return getComponentLazily(this, 'descriptions', Descriptions);
     }
 
-    /**
-     * @return {Valuable}
-     */
-    get value() {
-        return getComponentLazily(this, 'value', Valuable);
+    get isOwned() {
+        return this.document.isEmbedded;
+    }
+
+    get owningCharacterName() {
+        if (this.isOwned) {
+            return this.document.parent.name || '';
+        }
+        return '';
     }
 }

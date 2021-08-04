@@ -154,12 +154,12 @@
 					"sourceKey": ""
 				}
 			},
-			"valuable": {
-				"valuable": {
+			"costs": [
+				{
 					"type": "",
 					"amount": ""
 				}
-			},
+			],
 			"physicalItem": {
 				"quantity": 1,
 				"weight": 0,
@@ -213,7 +213,7 @@
 		"item": {
 			"templates": [
 				"physicalItem",
-				"valuable",
+				"costs",
 				"audit",
 				"descriptions",
 				"metadata"
@@ -224,7 +224,7 @@
 				"physicalItem",
 				"weapon",
 				"mastercraftable",
-				"valuable",
+				"costs",
 				"audit",
 				"descriptions",
 				"metadata"
@@ -239,7 +239,7 @@
 				"weapon",
 				"ranged",
 				"mastercraftable",
-				"valuable",
+				"costs",
 				"audit",
 				"descriptions",
 				"metadata"
@@ -253,7 +253,7 @@
 				"physicalItem",
 				"weapon",
 				"mastercraftable",
-				"valuable",
+				"costs",
 				"audit",
 				"descriptions",
 				"metadata"
@@ -267,7 +267,7 @@
 				"physicalItem",
 				"armour",
 				"mastercraftable",
-				"valuable",
+				"costs",
 				"audit",
 				"descriptions",
 				"metadata"
@@ -278,14 +278,10 @@
 			"templates": [
 				"audit",
 				"descriptions",
-				"metadata"
+				"metadata",
+				"costs"
 			],
-			"isCollapsed": false,
 			"bonuses": [],
-			"cost": {
-				"attributeType": "",
-				"amount": 0
-			},
 			"prerequisites": []
 		},
 		"action": {

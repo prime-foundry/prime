@@ -7,17 +7,19 @@
 			<div class="blockTitle">Basic information</div>
 			<h1 class="entityName">
 				<label for="name">Name:</label>
-				<input name="name" type="text" value="{{item.name}}" placeholder="Name" />
+				<input id="name" type="text" value="{{item.name}}"
+					   data-dyn-change-at="item.name"
+					   placeholder="Name" />
 			</h1>
 			
 			<div class="cell100 flexRow verticalCenter flexBetween lastRow">
-				<label class="cell30" for="data.setting">{{localize "PRIME.core_setting"}}:</label>
-				<select name="data.setting" id="data.setting" class="itemRarity cell70">
-					{{#select data.setting}}
+				<label class="cell30" for="setting">{{localize "PRIME.core_setting"}}:</label>
+				<select  id="setting" class="itemRarity cell70"
+						data-dyn-change-at="item.metadata.setting"
+						data-dyn-select="item.metadata.setting">
 					{{#each coreTables.settings}}
 					<option value="{{this.key}}">{{this.title}}</option>
 					{{/each}}
-					{{/select}}
 				</select>
 			</div>
 

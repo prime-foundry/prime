@@ -3,8 +3,9 @@
  * @param elem
  * @returns {{}}
  */
-import {traversePath, datasetToObject, sanitizeView} from "./support.js";
+import {datasetToObject, sanitizeView} from "./support.js";
 import {attachEditor} from "./DynEditor.js";
+import JSONPathBuilder from "./JSONPathBuilder.js";
 
 let UID = 0;
 
@@ -211,11 +212,14 @@ class ControllerSupport {
 
         const paths = Array.isArray(at) ? at : at.split(','); // 2 ways to create arrays in html
         const result = paths.reduce((accumulator, path) => {
-            const {object, property, isFunction} = traversePath(path, this.models);
-            if (isFunction) {
+            const jsonPath = JSONPathBuilder.from(path);
+            if (jsonPath.isFunction()) {
+                // its all about scope
+                const {object, property} = jsonPath.collectingTraverse(this.models);
                 return accumulator || object[property](inputDyn);
             } else {
-                return accumulator || object[property];
+                const value = jsonPath.traverse(this.models);
+                return accumulator || value;
             }
         }, null);
         return result;
@@ -392,8 +396,9 @@ class ControllerSupport {
         const at = inputDyn.at;
         const paths = Array.isArray(at) ? at : at.split(','); // 2 ways to create arrays in html
         paths.forEach(path => {
-            const {object, property, isFunction} = traversePath(path.trim(), this.models);
-            if (isFunction) {
+            const jsonPath = JSONPathBuilder.from(path);
+            const {object, property} = jsonPath.collectingTraverse(this.models);
+            if (jsonPath.isFunction()) {
                 object[property]({...inputDyn, ...args});
             } else {
                 object[property] = args[setParameter];

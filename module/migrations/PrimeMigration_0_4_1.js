@@ -210,21 +210,30 @@ export default class PrimeMigration_0_4_1 extends Migration {
 		const gameSystemData = foundryData.data;
 		const item = itemDoc.dyn.typed;
 		PrimeMigration_0_4_1.migrateAudit(item, gameSystemData);
-		PrimeMigration_0_4_1.migrateValuable(item, gameSystemData);
+		PrimeMigration_0_4_1.migrateCosts(itemDoc, item, gameSystemData);
 		PrimeMigration_0_4_1.migrateDescriptions(item, gameSystemData);
 		PrimeMigration_0_4_1.migrateMetadata(item, gameSystemData);
 
 		await itemDoc.update(foundryData.toObject(false));
 	}
 
-	static migrateValuable(item, gameSystemData) {
+	static migrateCosts(itemDoc, item, gameSystemData) {
+		//various
 		if (gameSystemData.valueType != null) {
-			item.value.type = gameSystemData.valueType;
+			if(gameSystemData.costs == null){
+				gameSystemData.costs = [];
+			}
+			gameSystemData.costs.push({type:gameSystemData.valueType, amount:gameSystemData.valueAmount});
 			gameSystemData.valueType = null;
-		}
-		if (gameSystemData.valueAmount != null) {
-			item.value.amount = gameSystemData.valueAmount;
 			gameSystemData.valueAmount = null;
+		}
+		// perks
+		if(itemDoc.type === 'perk' && gameSystemData.cost.attributeType != null){
+			if(gameSystemData.costs == null){
+				gameSystemData.costs = [];
+			}
+			gameSystemData.costs.push({type:gameSystemData.cost.attributeType, amount:gameSystemData.cost.amount || 0});
+			gameSystemData.cost = null;
 		}
 	}
 

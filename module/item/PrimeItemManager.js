@@ -38,9 +38,13 @@ export class PrimeItemManager {
 		const resolvedItemBaseTypes = safeResolveToArray(itemBaseTypes);
 		const resolvedFiltersData = safeResolveToArray(filtersData);
 
-		const itemsByBaseTypes = resolvedItemBaseTypes == null
+		let itemsByBaseTypes = resolvedItemBaseTypes == null
 			? itemCollection
 			: itemCollection.filter(({type}) => resolvedItemBaseTypes.includes(type));
+
+		if(typed) {
+			itemsByBaseTypes = itemsByBaseTypes.map(item => item.dyn.typed);
+		}
 
 		const matchingItems = resolvedFiltersData == null
 			? itemsByBaseTypes
@@ -52,7 +56,7 @@ export class PrimeItemManager {
 
 		if (justContentData) {
 			const justContentMatchingItems = matchingItems.map((item) => {
-				const newItem = item.toObject(false);
+				const newItem = (typed ? item.document.data : item).toObject(false);
 				// Fixes issues whereby compendiums have new IDs assigned.
 				newItem.data.metadata.sourceKey = item.id;
 				newItem._id = undefined;
@@ -61,10 +65,6 @@ export class PrimeItemManager {
 			return justContentMatchingItems;
 		}
 
-		if(typed) {
-			const typedMatchingItems = matchingItems.map(item => item.dyn.typed);
-			return typedMatchingItems;
-		}
 
 		return matchingItems;
 	}

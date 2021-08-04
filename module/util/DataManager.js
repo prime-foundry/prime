@@ -1,4 +1,3 @@
-import {traversePath} from "./support.js";
 import JSONPathBuilder from "./JSONPathBuilder.js";
 
 function fixArrays(viewParts, editParts, viewObj, editObj) {
@@ -39,19 +38,18 @@ export default class DataManager {
      * @param {any} value
      * @returns {*}
      */
-    write(pathComponents, value, options={getPath:false}) {
-        const path = JSONPathBuilder.from(pathComponents).toString();
-        if(options.getPath){
-            return path;
-        }
+    write(pathComponents, value) {
+        const path = JSONPathBuilder.from(pathComponents);
 
-        const {object: viewObj, property: viewProperty, parts: viewParts} = traversePath(path, this.document, true, true);
+        const {object: viewObj, property: viewProperty, parts: viewParts} =
+            path.collectingFixingTraverse(this.document);
         const lastValue = viewObj[viewProperty];
 
         if (lastValue !== value) {
             viewObj[viewProperty] = value;
 
-            const {object: editObj, property: editProperty, parts: editParts} = traversePath(path, this.editObject, true, true);
+            const {object: editObj, property: editProperty, parts: editParts} =
+                path.collectingFixingTraverse(this.editObject);
             // copy over missing information to the edited array, as foundry can't diff arrays properly.
             fixArrays(viewParts, editParts, viewObj, editObj);
             editObj[editProperty] = value;

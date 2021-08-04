@@ -1,7 +1,7 @@
 import {getComponentLazily} from "../../util/support.js";
 import Component from "../../util/Component.js";
 import {EmbeddedDocumentMixin} from "../../util/DynFoundryMixins.js";
-import StatItem from "../../item/components/typed/StatItem.js";
+import StatItem from "../../item/StatItem.js";
 import {PrimeItemManager} from "../../item/PrimeItemManager.js";
 
 class Stat extends EmbeddedDocumentMixin(StatItem) {

@@ -25,7 +25,7 @@ var primeHandlebarsPartialsPaths =
         "itemListRangedWeapons": "systems/prime/templates/item/partials/list/item-list-ranged-weapons.html",
 
         "itemBasic": "systems/prime/templates/item/partials/sheet/item-basic.html",
-        "itemValue": "systems/prime/templates/item/partials/sheet/item-value.html",
+        "itemValue": "systems/prime/templates/item/partials/sheet/item-monetary-value.html",
         "itemDescription": "systems/prime/templates/item/partials/sheet/item-description.html",
         "itemAudit": "systems/prime/templates/item/partials/sheet/item-audit.html",
 
@@ -45,6 +45,15 @@ export class PrimeHandlebarsPartials {
         }
     }
 }
+Handlebars.logger.log = function(level) {
+    if(level >= Handlebars.logger.level) {
+        console.log.apply(console, [].concat(["Handlebars: "], _.toArray(arguments)));
+    }
+};
+// DEBUG: 0, INFO: 1, WARN: 2, ERROR: 3,
+Handlebars.registerHelper('log', Handlebars.logger.log);
+// Std level is 3, when set to 0, handlebars will log all compilation results
+Handlebars.logger.level = 0;
 
 Handlebars.registerHelper('convertHTMLForTitle', function (html, maxChars) {
     if (html) {

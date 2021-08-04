@@ -142,8 +142,8 @@ export class PrimeActor extends DynDocumentMixin(Actor, 'actor')
 
 		if (actorData.type === 'character')
 		{
-			this._checkV2CharacterUpgrade();
-			this._prepareCharacterData(actorData);
+			// this._checkV2CharacterUpgrade();
+			// this._prepareCharacterData(actorData);
 		}
 	}
 

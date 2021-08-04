@@ -1,8 +1,9 @@
 import { PrimeTables } from "../prime_tables.js";
 import {DynDocumentMixin} from "../util/DynFoundryMixins.js";
-import StatItem from "./components/typed/StatItem.js";
-import BaseItem from "./components/typed/BaseItem.js";
-import InjuryItem from "./components/typed/InjuryItem.js";
+import StatItem from "./StatItem.js";
+import InjuryItem from "./InjuryItem.js";
+import PerkItem from "./PerkItem.js";
+import CostedItem from "./CostedItem.js";
 
 /**
  * Extend the basic Item with some very simple modifications.
@@ -19,9 +20,10 @@ export class PrimeItem extends DynDocumentMixin(Item, 'item', 'type')
 	 */
 	registerDynTypes(registry) {
 		registry
-			.default(BaseItem)
+			.default(CostedItem)
 			.register('prime', StatItem)
 			.register('refinement', StatItem)
+			.register('perk', PerkItem)
 			.register('injury', InjuryItem);
 	}
 

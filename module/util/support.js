@@ -54,60 +54,6 @@ export function calculateValueOnce(target, name, func) {
     return property.value;
 }
 
-/**
- * @param {string} path - the with seperated path to an object
- * @param {{}} root - the root object to traverse.
- * @param {boolean} (createIfMissing=false) - fills in missing fields, if set to true; or throws an error if set to false, defaults to false.
- * @returns {{object: {}, property: string}}
- */
-export function traversePath(path, root, createIfMissing = false, collectParts = false) {
-    const pathParts = path.split('.');
-    const lastIdx = pathParts.length - 1;
-    let object = root; // this is the prime access, can be the current user or the actor.
-    const parts = collectParts ? [] : undefined;
-    const numbers = /^\d+$/;
-    for (let idx = 0; idx < lastIdx; idx++) {
-        let property = pathParts[idx];
-        let isArray = false;
-        if (Array.isArray(object)) {
-            if (numbers.test(pathParts[idx])) {
-                property = Number.parseInt(property);
-            }
-            isArray = true;
-        }
-        if (object[property] == null) {
-            if (createIfMissing) {
-                object[property] = numbers.test(pathParts[idx + 1]) ? [] : {};
-            } else {
-                throw new DynError(`Undefined path element '${property}' at ${idx} whilst traversing path: '${path}'`);
-            }
-        }
-        if (collectParts) {
-            parts.push({object, property, isArray});
-        }
-        object = object[property];
-    }
-    const untransformedLastName = pathParts[lastIdx];
-    const isArray = untransformedLastName.endsWith('[]');
-    const isFunction = untransformedLastName.endsWith('()');
-    const property = (isArray || isFunction) ? untransformedLastName.slice(0, -2) : untransformedLastName;
-    if (createIfMissing && object[property] == null) {
-        let missing;
-        if (isArray) {
-            missing = [];
-        } else if (isFunction) {
-            missing = () => {
-            };
-        } else {
-            missing = {};
-        }
-        object[property] = missing;
-    }
-    if (collectParts) {
-        return {object, property, isArray, isFunction, parts};
-    }
-    return {object, property, isArray, isFunction};
-}
 
 export class DynError extends Error {
     constructor(message) {
