@@ -217,6 +217,12 @@ export default class PrimeMigration_0_4_1 extends Migration {
 		await itemDoc.update(foundryData.toObject(false));
 	}
 
+	/**
+	 * We should be able to support more than one cost now.
+	 * @param itemDoc
+	 * @param item
+	 * @param gameSystemData
+	 */
 	static migrateCosts(itemDoc, item, gameSystemData) {
 		//various
 		if (gameSystemData.valueType != null) {
