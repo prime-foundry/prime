@@ -5,10 +5,10 @@ import {prerequisiteClassNameToClass, Prerequisites} from "./components/Prerequi
 const QUALIFIERS = new Map()
 	.set('EXISTS', {unary: true, types: ['object'], predicate: (a) => a != null})
 	.set('MISSING', {unary: true, types: ['object'], predicate: (a) => a == null})
-	.set('GREATER', {unary: false, types: ['number'], predicate: (a, b) => a > b})
-	.set('GREATER_OR_EQUALS', {unary: false, types: ['number'], predicate: (a, b) => a >= b})
-	.set('LESS', {unary: false, types: ['number'], predicate: (a, b) => a < b})
-	.set('LESS_OR_EQUALS', {unary: false, types: ['number'], predicate: (a, b) => a <= b})
+	.set('GREATER', {unary: false, types: ['number'], predicate: (a, b) => (a || 0) > (b || 0)})
+	// .set('GREATER_OR_EQUALS', {unary: false, types: ['number'], predicate: (a, b) => (a || 0) >= (b || 0)})
+	.set('LESS', {unary: false, types: ['number'], predicate: (a, b) => (a || 0) < (b || 0)})
+	// .set('LESS_OR_EQUALS', {unary: false, types: ['number'], predicate: (a, b) => (a || 0) <= (b || 0)})
 	.set('EQUALS', {unary: false, types: ['string', 'number', 'boolean'], predicate: (a, b) => a == b})
 	.set('NOT_EQUALS', {unary: false, types: ['string', 'number', 'boolean'], predicate: (a, b) => a != b})
 	.set('CONTAINS', {unary: false, types: ['string'], predicate: (a, b) => a.contains(b)})
@@ -54,14 +54,16 @@ class PrerequisiteLoader {
 	}
 	static loadActorSubType(paths) {
 		const transformed = {}
-		Object.entries(paths).forEach(([key, actorPath]) => {
-			const path = actorPath.path;
-			const title = game.i18n.localize(actorPath.title);
-			const valueTypes = actorPath.valueTypes;
-			const qualifiers = PrerequisiteLoader.loadQualifiers(valueTypes);
-			transformed[key] = {title, qualifiers, path}; // we don't use path in the UI, instead we rely on the key,
-			// this future proofs migration. We do need the path in our logic however.
-		});
+		// comes from a different table
+
+		// Object.entries(paths).forEach(([key, actorPath]) => {
+		// 	const path = actorPath.path;
+		// 	const title = game.i18n.localize(actorPath.title);
+		// 	const valueTypes = actorPath.valueTypes;
+		// 	const qualifiers = PrerequisiteLoader.loadQualifiers(valueTypes);
+		// 	transformed[key] = {title, qualifiers, path}; // we don't use path in the UI, instead we rely on the key,
+		// 	// this future proofs migration. We do need the path in our logic however.
+		// });
 		return transformed;
 	}
 

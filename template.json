@@ -328,16 +328,16 @@
 			"injuryState": "untended",
 			"injuryNotes": ""
 		},
-
-		"award":
-		{
-			"templates": ["base", "metadata"],
-			"reward":
-			{
+		"award": {
+			"templates": [
+				"base",
+				"metadata"
+			],
+			"reward": {
 				"soul": 0,
 				"xp": 0
 			},
-			"default" : false,
+			"default": false,
 			"awardNotes": ""
 		}
 	},
@@ -404,6 +404,73 @@
 					"title": "PRIME.perk_actor_stat_bonus_max_ward_psyche"
 				}
 			],
+			"actorValueLookups": {
+				"actionPoints.value": {
+					"path" : "defaults to the key if it doesn't exist",
+					"valueType": "number",
+					"title": "PRIME.perk_actor_stat_actionPoints_value"
+				},
+				"actionPoints.max": {
+					"valueType": "number",
+					"title": "PRIME.perk_actor_stat_actionPoints_max"
+				},
+				"health.wounds.value": {
+					"valueType": "number",
+					"title": "PRIME.perk_actor_stat_health_wounds_value"
+				},
+				"health.wounds.max": {
+					"valueType": "number",
+					"title": "PRIME.perk_actor_stat_health_wounds_max"
+				},
+				"health.resilience.value": {
+					"valueType": "number",
+					"title": "PRIME.perk_actor_stat_health_resilience_value"
+				},
+				"health.resilience.max": {
+					"valueType": "number",
+					"title": "PRIME.perk_actor_stat_health_resilience_max"
+				},
+				"health.insanities.value": {
+					"valueType": "number",
+					"title": "PRIME.perk_actor_stat_health_insanities_value"
+				},
+				"health.insanities.max": {
+					"valueType": "number",
+					"title": "PRIME.perk_actor_stat_health_insanities_max"
+				},
+				"health.psyche.value": {
+					"valueType": "number",
+					"title": "PRIME.perk_actor_stat_health_psyche_value"
+				},
+				"health.psyche.max": {
+					"valueType": "number",
+					"title": "PRIME.perk_actor_stat_health_psyche_max"
+				},
+				"profile.npc": {
+					"valueType": "boolean",
+					"title": "PRIME.perk_actor_stat_profile_npc"
+				},
+				"profile.race": {
+					"valueType": "string",
+					"title": "PRIME.perk_actor_stat_profile_race"
+				},
+				"profile.faction": {
+					"valueType": "string",
+					"title": "PRIME.perk_actor_stat_profile_faction"
+				},
+				"profile.occupation": {
+					"valueType": "string",
+					"title": "PRIME.perk_actor_stat_profile_occupation"
+				},
+				"profile.celestial": {
+					"valueType": "string",
+					"title": "PRIME.perk_actor_stat_profile_celestial"
+				},
+				"profile.rankOrTitle": {
+					"valueType": "string",
+					"title": "PRIME.perk_actor_stat_profile_rankOrTitle"
+				}
+			},
 			"woundConditions": [
 				{
 					"key": "bleeding",
@@ -874,34 +941,28 @@
 			"prerequisites": {
 				"prime": {
 					"title": "PRIME.perk_prerequisite_prime",
-					"itemBaseTypes": ["prime"],
+					"itemBaseTypes": [
+						"prime"
+					],
 					"class": "ItemValueOrNamePrerequisite"
 				},
 				"refinement": {
 					"title": "PRIME.perk_prerequisite_refinement",
-					"itemBaseTypes": ["refinement"],
+					"itemBaseTypes": [
+						"refinement"
+					],
 					"class": "ItemValueOrNamePrerequisite"
 				},
 				"perk": {
 					"title": "PRIME.perk_prerequisite_perk",
-					"itemBaseTypes": ["perk"],
+					"itemBaseTypes": [
+						"perk"
+					],
 					"class": "ItemPrerequisite"
 				},
 				"actor": {
 					"title": "PRIME.perk_prerequisite_actor",
-					"class": "ActorPrerequisite",
-					"paths": {
-						"key1": {
-							"title": "Use the actor tables instead",
-							"valueType": "",
-							"path": ""
-						},
-						"key2": {
-							"title": "",
-							"valueType": "",
-							"path": ""
-						}
-					}
+					"class": "ActorPrerequisite"
 				}
 			}
 		},

@@ -17,34 +17,30 @@
 						{{/each}}
 					</select>
 				</div>
-
 				<div class="cell100 flexRow flexBetween verticalCenter">
-					<label for="item.prerequisites.collection.{{@index}}.target" class="resource-label cell30 rightAlign">Prerequisite
+					<label for="item.prerequisites.collection.{{@index}}.target"
+						   class="resource-label cell30 rightAlign">Prerequisite
 						to:</label>
 					<select id="item.prerequisites.collection.{{@index}}.target" class="cell70 effectFormElement"
 							data-dyn-change-at="item.prerequisites.collection.{{@index}}.target"
 							data-dyn-select="item.prerequisites.collection.{{@index}}.target"
 							data-dyn-disable="item.isOwned">
-						{{#with (lookup ../static.items.perks.prerequisites prerequisite.type) as | prereq |}}
-						{{#each prereq.subTypes}}
+						{{#each (dynLookup ../static.items.perks.prerequisites '$.subTypes' prerequisite.type)}}
 							<option value="{{@key}}">{{this.title}}</option>
 						{{/each}}
-						{{/with}}
 					</select>
 				</div>
 				<div class="cell100 flexRow flexBetween verticalCenter">
-					<label for="item.prerequisites.collection.{{@index}}.qualifier" class="resource-label cell30 rightAlign"></label>
-					<select id="item.prerequisites.collection.{{@index}}.qualifier" class="cell70 effectFormElement"
+					<label for="item.prerequisites.collection.{{@index}}.qualifier"
+						   class="resource-label cell30 rightAlign"></label>
+					<select id="item.prerequisites.collection.{{@index}}.qualifier"
+							class="cell70 effectFormElement"
 							data-dyn-change-at="item.prerequisites.collection.{{@index}}.qualifier"
 							data-dyn-select="item.prerequisites.collection.{{@index}}.qualifier"
 							data-dyn-disable="item.isOwned">
-						{{#with (lookup ../static.items.perks.prerequisites prerequisite.type) as | prereq |}}
-							{{#with (lookup prereq.subTypes prerequisite.target) as | subType |}}
-								{{#each subType.qualifiers}}
-									<option value="{{@key}}">{{this.title}}</option>
-								{{/each}}
-							{{/with}}
-						{{/with}}
+					{{#each (dynLookup ../static.items.perks.prerequisites '$.subTypes.$.qualifiers' prerequisite.type prerequisite.target)}}
+							<option value="{{@key}}">{{this.title}}</option>
+						{{/each}}
 					</select>
 				</div>
 
@@ -52,16 +48,18 @@
 					 data-dyn-hide="static.items.perks.isUnaryQualifier()"
 					 data-dyn-forcehide
 					 data-dyn-qualifier="{{prerequisite.qualifier}}">
-					<label for="item.prerequisites.collection.{{@index}}.value" class="resource-label cell30 rightAlign">Target value:</label>
-					<input type="text" id="item.prerequisites.collection.{{@index}}.value" class="cell70 effectFormElement"
+					<label for="item.prerequisites.collection.{{@index}}.value"
+						   class="resource-label cell30 rightAlign">Target value:</label>
+					<input type="text" id="item.prerequisites.collection.{{@index}}.value"
+						   class="cell70 effectFormElement"
 						   value="{{prerequisite.value}}"
 						   data-dyn-change-at="item.prerequisites.collection.{{@index}}.value"
-						   data-dyn-disable="item.isOwned"}/>
+						   data-dyn-disable="item.isOwned" }/>
 				</div>
-
 				<a class="removeEffectIcon"
 				   data-dyn-disable="item.isOwned"
-				   data-dyn-click-at="item.prerequisites.collection.{{@index}}.delete()"><i class="fas fa-trash"></i></a>
+				   data-dyn-click-at="item.prerequisites.collection.{{@index}}.delete()"><i
+						class="fas fa-trash"></i></a>
 			</div>
 		{{/each}}
 	</div>

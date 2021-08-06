@@ -63,7 +63,6 @@ export default class Profile extends Component {
     }
 
     set faction(faction) {
-        ;
         this.writeToProfile(faction, 'faction');
     }
 
