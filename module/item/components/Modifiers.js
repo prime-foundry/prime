@@ -25,7 +25,6 @@ export class Modifiers extends Component {
 
 	modifierFor(target) {
 		return this.collection.reduce((previous, modifier) => previous + modifier.modifierFor(target),0);
-		return this.collection.reduce((previous, modifier) => previous + modifier.modifierFor(target),0);
 	}
 }
 
