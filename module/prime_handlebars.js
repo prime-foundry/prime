@@ -29,7 +29,7 @@ var primeHandlebarsPartialsPaths =
         "itemDescription": "systems/prime/templates/item/partials/sheet/item-description.html",
         "itemAudit": "systems/prime/templates/item/partials/sheet/item-audit.html",
 
-        "itemEffects": "systems/prime/templates/item/partials/sheet/item-effects.html",
+        "itemModifiers": "systems/prime/templates/item/partials/sheet/item-modifiers.html",
         "itemPrerequisites": "systems/prime/templates/item/partials/sheet/item-prerequisites.html",
 
         "itemCardAction": "systems/prime/templates/item/partials/cards/item-card-action.html",

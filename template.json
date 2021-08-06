@@ -957,6 +957,28 @@
 					"title": "PRIME.perk_prerequisite_actor",
 					"class": "ActorPrerequisite"
 				}
+			},
+			"modifiers": {
+				"prime": {
+					"title": "PRIME.perk_bonus_prime",
+					"itemBaseTypes": "prime"
+				},
+				"refinement": {
+					"title": "PRIME.perk_bonus_refinement",
+					"itemBaseTypes": "refinement"
+				},
+				"action": {
+					"title": "PRIME.perk_bonus_action"
+				},
+				"actionPoints": {
+					"title": "PRIME.perk_bonus_action_points"
+				},
+				"actor": {
+					"title": "PRIME.perk_bonus_actor"
+				},
+				"misc": {
+					"title": "PRIME.perk_bonus_misc"
+				}
 			}
 		},
 		"actions": {

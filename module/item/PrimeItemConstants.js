@@ -85,12 +85,28 @@ class PrerequisiteLoader {
 
 }
 
+class ModifierLoader {
+	static load({modifiers}) {
+		const transformed = {};
+		return transformed;
+	}
+
+}
 class Perks extends TemplateTable {
+
+	_prerequisites;
+	_modifiers;
+
 	constructor() {
 		super('perks')
 	}
 
-	_prerequisites;
+	get modifiers() {
+		if (this._modifiers == null) {
+			this._modifiers = ModifierLoader.load(this.data);
+		}
+		return this._modifiers;
+	}
 
 	get prerequisites() {
 		if (this._prerequisites == null) {
@@ -98,23 +114,29 @@ class Perks extends TemplateTable {
 		}
 		return this._prerequisites;
 	}
+	get defaultModifier() {
+		const [type, prerequisite] = Object.entries(this._modifiers).shift();
+		const target = '';
+		const value = '';
+		return {type, target, value};
+	}
 
 	get defaultPrerequisite() {
 		const [type, prerequisite] = Object.entries(this._prerequisites).shift();
 		const target = '';
 		const qualifier = '';
-		// const [target, subType] = Object.entries(prerequisite.subTypes).shift();
-		// const [qualifier,] = Object.entries(subType.qualifiers).shift()
 		const value = '';
 		return {type, target, qualifier, value};
 	}
-
-	isUnaryQualifier({qualifier}) {
-		return (QUALIFIERS.get(qualifier) || {unary: true}).unary;
-	}
-
 }
 
 export default class PrimeItemConstants {
 	static perks = new Perks();
+
+	static isUnaryQualifier({qualifier}) {
+		return (QUALIFIERS.get(qualifier) || {unary: true}).unary;
+	}
+	static qualifierForKey(key) {
+		return QUALIFIERS.get(key);
+	}
 }

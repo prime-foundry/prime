@@ -44,11 +44,11 @@
 				</div>
 
 				<div class="cell100 flexRow flexBetween verticalCenter lastRow"
-					 data-dyn-hide="static.items.perks.isUnaryQualifier()"
+					 data-dyn-hide="static.items.isUnaryQualifier()"
 					 data-dyn-forcehide
 					 data-dyn-qualifier="{{prerequisite.qualifier}}">
 					<label for="item.prerequisites.collection.{{@index}}.value"
-						   class="resource-label cell30 rightAlign">The value:</label>
+						   class="resource-label cell30 rightAlign">Value:</label>
 					<input type="text" id="item.prerequisites.collection.{{@index}}.value"
 						   class="cell70 effectFormElement"
 						   value="{{prerequisite.value}}"

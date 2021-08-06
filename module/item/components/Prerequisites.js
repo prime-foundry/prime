@@ -1,7 +1,6 @@
 import Component from "../../util/Component.js";
 import {PrimeItemManager} from "../PrimeItemManager.js";
 import JSONPathBuilder from "../../util/JSONPathBuilder.js";
-import {PrimeTables} from "../../prime_tables.js";
 import PrimeItemConstants from "../PrimeItemConstants.js";
 
 export class Prerequisites extends Component {
@@ -119,7 +118,7 @@ export class ItemPrerequisite extends Prerequisite {
 			};
 
 			const item = PrimeItemManager.getItems(criteria)[0];
-			const qualifier = PrimeTables.qualifierForKey(this.qualifier);
+			const qualifier = PrimeItemConstants.qualifierForKey(this.qualifier);
 			return qualifier.unary ? qualifier.predicate(item) : this.qualifyItemValues(qualifier, item);
 		}
 		return false;
@@ -209,7 +208,7 @@ export class ActorPrerequisite extends Prerequisite {
 			const path = JSONPathBuilder.from(this.target);
 			const object = path.traverse(actorDoc);
 
-			const qualifier = PrimeTables.qualifierForKey(this.qualifier);
+			const qualifier = PrimeItemConstants.qualifierForKey(this.qualifier);
 			return qualifier.unary ? qualifier.predicate(object) : qualifier.predicate(object, this.value);
 		}
 		return false;
