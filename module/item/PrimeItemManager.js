@@ -1,3 +1,5 @@
+import {arrayIfNot} from "../util/support.js";
+
 Hooks.once("createItem", async function (hookData1, hookData2, hookData3) {
 	PrimeItemManager.refreshItems(hookData1, hookData2, hookData3);
 });
@@ -35,8 +37,8 @@ export class PrimeItemManager {
 						itemBaseTypes,
 						filtersData}) {
 
-		const resolvedItemBaseTypes = safeResolveToArray(itemBaseTypes);
-		const resolvedFiltersData = safeResolveToArray(filtersData);
+		const resolvedItemBaseTypes = arrayIfNot(itemBaseTypes, true);
+		const resolvedFiltersData = arrayIfNot(filtersData, true);
 
 		let itemsByBaseTypes = resolvedItemBaseTypes == null
 			? itemCollection

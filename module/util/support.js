@@ -23,6 +23,15 @@ export function getComponentLazily(target, name, Type, config = {}) {
     return property.value;
 }
 
+export function arrayIfNot(potentialArray, nullOnEmpty=false, arrayIfNull = false){
+    if(potentialArray == null ){
+        return arrayIfNull ? [] : potentialArray;
+    }
+    if(Array.isArray(potentialArray)){
+        return (nullOnEmpty && potentialArray.length === 0) ? null : potentialArray;
+    }
+    return [potentialArray];
+}
 /**
  * calculates a value once. This prevents calculating values more than once a request.
  * Specifically we may have some expensive calculations iterating

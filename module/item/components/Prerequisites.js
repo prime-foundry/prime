@@ -2,7 +2,7 @@ import Component from "../../util/Component.js";
 import {PrimeItemManager} from "../PrimeItemManager.js";
 import JSONPathBuilder from "../../util/JSONPathBuilder.js";
 import {PrimeTables} from "../../prime_tables.js";
-import ItemConstants from "../ItemConstants.js";
+import PrimeItemConstants from "../PrimeItemConstants.js";
 
 export class Prerequisites extends Component {
 
@@ -23,7 +23,7 @@ export class Prerequisites extends Component {
 	}
 
 	add() {
-		const prerequisite = ItemConstants.perks.defaultPrerequisite;
+		const prerequisite = PrimeItemConstants.perks.defaultPrerequisite;
 		this.write(this.pathToPrerequisites().with(this.gameSystem.prerequisites.length), prerequisite);
 	}
 
@@ -33,7 +33,7 @@ export class Prerequisites extends Component {
 	}
 
 	static prerequisiteClassForType(type){
-		return PREREQUISITE_CLASSES.get(ItemConstants.perks.prerequisites[type].class);
+		return PREREQUISITE_CLASSES.get(PrimeItemConstants.perks.prerequisites[type].class);
 	}
 }
 

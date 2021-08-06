@@ -13,12 +13,14 @@ export class StaticModel {
             StaticModel._staticModels = {};
         }
         StaticModel._staticModels[name] = model;
+        return StaticModel;
     }
 
     static appendStaticModel(model) {
         if(model.static == null && StaticModel._staticModels != null){
             model.static = StaticModel._staticModels;
         }
+        return StaticModel;
     }
 }
 

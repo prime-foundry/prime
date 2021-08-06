@@ -19,8 +19,7 @@
 				</div>
 				<div class="cell100 flexRow flexBetween verticalCenter">
 					<label for="item.prerequisites.collection.{{@index}}.target"
-						   class="resource-label cell30 rightAlign">Prerequisite
-						to:</label>
+						   class="resource-label cell30 rightAlign">Of:</label>
 					<select id="item.prerequisites.collection.{{@index}}.target" class="cell70 effectFormElement"
 							data-dyn-change-at="item.prerequisites.collection.{{@index}}.target"
 							data-dyn-select="item.prerequisites.collection.{{@index}}.target"
@@ -32,13 +31,13 @@
 				</div>
 				<div class="cell100 flexRow flexBetween verticalCenter">
 					<label for="item.prerequisites.collection.{{@index}}.qualifier"
-						   class="resource-label cell30 rightAlign"></label>
+						   class="resource-label cell30 rightAlign">Is:</label>
 					<select id="item.prerequisites.collection.{{@index}}.qualifier"
 							class="cell70 effectFormElement"
 							data-dyn-change-at="item.prerequisites.collection.{{@index}}.qualifier"
 							data-dyn-select="item.prerequisites.collection.{{@index}}.qualifier"
 							data-dyn-disable="item.isOwned">
-					{{#each (dynLookup ../static.items.perks.prerequisites '$.subTypes.$.qualifiers' prerequisite.type prerequisite.target)}}
+						{{#each (dynLookup ../static.items.perks.prerequisites '$.subTypes.$.qualifiers' prerequisite.type prerequisite.target)}}
 							<option value="{{@key}}">{{this.title}}</option>
 						{{/each}}
 					</select>
@@ -49,7 +48,7 @@
 					 data-dyn-forcehide
 					 data-dyn-qualifier="{{prerequisite.qualifier}}">
 					<label for="item.prerequisites.collection.{{@index}}.value"
-						   class="resource-label cell30 rightAlign">Target value:</label>
+						   class="resource-label cell30 rightAlign">The value:</label>
 					<input type="text" id="item.prerequisites.collection.{{@index}}.value"
 						   class="cell70 effectFormElement"
 						   value="{{prerequisite.value}}"

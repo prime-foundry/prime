@@ -1,6 +1,8 @@
 import {PrimeItemManager} from "./PrimeItemManager.js";
-import JSONPathBuilder from "../util/JSONPathBuilder.js";
-import {prerequisiteClassNameToClass, Prerequisites} from "./components/Prerequisites.js";
+import {prerequisiteClassNameToClass} from "./components/Prerequisites.js";
+import {TemplateTable} from "../util/TemplateTable.js";
+import PrimeActorConstants from "../actor/PrimeActorConstants.js";
+import {arrayIfNot} from "../util/support.js";
 
 const QUALIFIERS = new Map()
 	.set('EXISTS', {unary: true, types: ['object'], predicate: (a) => a != null})
@@ -15,30 +17,14 @@ const QUALIFIERS = new Map()
 	.set('STARTS_WITH', {unary: false, types: ['string'], predicate: (a, b) => a.startsWith(b)})
 	.set('ENDS_WITH', {unary: false, types: ['string'], predicate: (a, b) => a.endsWith(b)});
 
-class TemplateTable {
-	data;
-	dataPath;
-
-	constructor(path) {
-		this.dataPath = JSONPathBuilder.from(path);
-		Hooks.once('ready', () => this.init());
-	}
-
-	init() {
-		this.data = deepClone(this.dataPath.traverse(game.system.template.Tables));
-		return this.data;
-	}
-
-}
-
 class PrerequisiteLoader {
 	static load({prerequisites}) {
-		const transformed = {}
+		const transformed = {};
 		Object.entries(prerequisites).forEach(([key, prerequisiteData]) => {
 				const title = game.i18n.localize(prerequisiteData.title);
 				const Type = prerequisiteClassNameToClass(prerequisiteData.class)
 				const subTypes = PrerequisiteLoader.loadSubTypes(Type, prerequisiteData);
-				transformed[key] = {title, subTypes, class:prerequisiteData.class};
+				transformed[key] = {title, subTypes, class: prerequisiteData.class};
 			}
 		);
 		return transformed;
@@ -47,23 +33,22 @@ class PrerequisiteLoader {
 	static loadSubTypes(Type, prerequisiteData) {
 		const subType = Type.subType;
 		if (subType === 'item') {
-			return PrerequisiteLoader.loadItemSubType(Type, prerequisiteData.itemBaseTypes)
+			return PrerequisiteLoader.loadItemSubType(Type, arrayIfNot(prerequisiteData.itemBaseTypes, true))
 		} else if (subType === 'actor') {
-			return PrerequisiteLoader.loadActorSubType(prerequisiteData.paths)
+			return PrerequisiteLoader.loadActorSubType()
 		}
 	}
-	static loadActorSubType(paths) {
-		const transformed = {}
-		// comes from a different table
 
-		// Object.entries(paths).forEach(([key, actorPath]) => {
-		// 	const path = actorPath.path;
-		// 	const title = game.i18n.localize(actorPath.title);
-		// 	const valueTypes = actorPath.valueTypes;
-		// 	const qualifiers = PrerequisiteLoader.loadQualifiers(valueTypes);
-		// 	transformed[key] = {title, qualifiers, path}; // we don't use path in the UI, instead we rely on the key,
-		// 	// this future proofs migration. We do need the path in our logic however.
-		// });
+	static loadActorSubType() {
+		const transformed = {}
+		const actorLookups = PrimeActorConstants.stats.lookups;
+		Object.entries(actorLookups).forEach(([key, actorData]) => {
+				const valueTypes = arrayIfNot(actorData.valueTypes);
+				const qualifiers = PrerequisiteLoader.loadQualifiers(valueTypes);
+				const title = actorData.title;
+				transformed[key] = {title, qualifiers};
+			}
+		);
 		return transformed;
 	}
 
@@ -72,7 +57,7 @@ class PrerequisiteLoader {
 		const criteria = {itemBaseTypes, typed: true, sortItems: true};
 		const items = PrimeItemManager.getItems(criteria);
 		items.forEach(item => {
-			const valueTypes = Type.supportedValueTypes(item);
+			const valueTypes = arrayIfNot(Type.supportedValueTypes(item));
 			const qualifiers = PrerequisiteLoader.loadQualifiers(valueTypes);
 			const key = item.id; // this will become sourceKey for embedded items.
 			const title = game.i18n.localize(item.name);
@@ -101,35 +86,35 @@ class PrerequisiteLoader {
 }
 
 class Perks extends TemplateTable {
-	_prerequisites;
-
 	constructor() {
 		super('perks')
 	}
 
-	init() {
-		super.init();
-		this._prerequisites = PrerequisiteLoader.load(this.data);
-	}
+	_prerequisites;
 
 	get prerequisites() {
+		if (this._prerequisites == null) {
+			this._prerequisites = PrerequisiteLoader.load(this.data);
+		}
 		return this._prerequisites;
 	}
 
 	get defaultPrerequisite() {
 		const [type, prerequisite] = Object.entries(this._prerequisites).shift();
-		const [target, subType] = Object.entries(prerequisite.subTypes).shift();
-		const [qualifier,] = Object.entries(subType.qualifiers).shift()
+		const target = '';
+		const qualifier = '';
+		// const [target, subType] = Object.entries(prerequisite.subTypes).shift();
+		// const [qualifier,] = Object.entries(subType.qualifiers).shift()
 		const value = '';
 		return {type, target, qualifier, value};
 	}
 
-	isUnaryQualifier({qualifier}){
-		return (QUALIFIERS.get(qualifier) || {unary:true}).unary;
+	isUnaryQualifier({qualifier}) {
+		return (QUALIFIERS.get(qualifier) || {unary: true}).unary;
 	}
 
 }
 
-export default class ItemConstants {
+export default class PrimeItemConstants {
 	static perks = new Perks();
 }

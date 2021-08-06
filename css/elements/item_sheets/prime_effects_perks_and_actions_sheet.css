@@ -2,7 +2,7 @@
 .perkItem .perkPrerequisitesBlock .prerequisitesWrapper,
 .perkItem .actionEffectBlock .effectsWrapper
 {
-	max-height: 205px;
+	max-height: 265px;
 	padding-right:20px;
 	overflow: auto;
 }

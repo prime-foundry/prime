@@ -404,70 +404,69 @@
 					"title": "PRIME.perk_actor_stat_bonus_max_ward_psyche"
 				}
 			],
-			"actorValueLookups": {
+			"actorStatLookups": {
 				"actionPoints.value": {
-					"path" : "defaults to the key if it doesn't exist",
-					"valueType": "number",
+					"valueTypes": "number",
 					"title": "PRIME.perk_actor_stat_actionPoints_value"
 				},
 				"actionPoints.max": {
-					"valueType": "number",
+					"valueTypes": "number",
 					"title": "PRIME.perk_actor_stat_actionPoints_max"
 				},
 				"health.wounds.value": {
-					"valueType": "number",
+					"valueTypes": "number",
 					"title": "PRIME.perk_actor_stat_health_wounds_value"
 				},
 				"health.wounds.max": {
-					"valueType": "number",
+					"valueTypes": "number",
 					"title": "PRIME.perk_actor_stat_health_wounds_max"
 				},
 				"health.resilience.value": {
-					"valueType": "number",
+					"valueTypes": "number",
 					"title": "PRIME.perk_actor_stat_health_resilience_value"
 				},
 				"health.resilience.max": {
-					"valueType": "number",
+					"valueTypes": "number",
 					"title": "PRIME.perk_actor_stat_health_resilience_max"
 				},
 				"health.insanities.value": {
-					"valueType": "number",
+					"valueTypes": "number",
 					"title": "PRIME.perk_actor_stat_health_insanities_value"
 				},
 				"health.insanities.max": {
-					"valueType": "number",
+					"valueTypes": "number",
 					"title": "PRIME.perk_actor_stat_health_insanities_max"
 				},
 				"health.psyche.value": {
-					"valueType": "number",
+					"valueTypes": "number",
 					"title": "PRIME.perk_actor_stat_health_psyche_value"
 				},
 				"health.psyche.max": {
-					"valueType": "number",
+					"valueTypes": "number",
 					"title": "PRIME.perk_actor_stat_health_psyche_max"
 				},
 				"profile.npc": {
-					"valueType": "boolean",
+					"valueTypes": "boolean",
 					"title": "PRIME.perk_actor_stat_profile_npc"
 				},
 				"profile.race": {
-					"valueType": "string",
+					"valueTypes": "string",
 					"title": "PRIME.perk_actor_stat_profile_race"
 				},
 				"profile.faction": {
-					"valueType": "string",
+					"valueTypes": "string",
 					"title": "PRIME.perk_actor_stat_profile_faction"
 				},
 				"profile.occupation": {
-					"valueType": "string",
+					"valueTypes": "string",
 					"title": "PRIME.perk_actor_stat_profile_occupation"
 				},
 				"profile.celestial": {
-					"valueType": "string",
+					"valueTypes": "string",
 					"title": "PRIME.perk_actor_stat_profile_celestial"
 				},
 				"profile.rankOrTitle": {
-					"valueType": "string",
+					"valueTypes": "string",
 					"title": "PRIME.perk_actor_stat_profile_rankOrTitle"
 				}
 			},
@@ -941,23 +940,17 @@
 			"prerequisites": {
 				"prime": {
 					"title": "PRIME.perk_prerequisite_prime",
-					"itemBaseTypes": [
-						"prime"
-					],
+					"itemBaseTypes": "prime",
 					"class": "ItemValueOrNamePrerequisite"
 				},
 				"refinement": {
 					"title": "PRIME.perk_prerequisite_refinement",
-					"itemBaseTypes": [
-						"refinement"
-					],
+					"itemBaseTypes": "refinement",
 					"class": "ItemValueOrNamePrerequisite"
 				},
 				"perk": {
 					"title": "PRIME.perk_prerequisite_perk",
-					"itemBaseTypes": [
-						"perk"
-					],
+					"itemBaseTypes": "perk",
 					"class": "ItemPrerequisite"
 				},
 				"actor": {
