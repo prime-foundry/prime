@@ -111,11 +111,11 @@ export default class JSONPathBuilder {
     }
 
     isArray(pathComponent = this.last){
-        return pathComponent.endsWith('[]');
+        return isString(pathComponent) && pathComponent.endsWith('[]');
     }
 
     isFunction(pathComponent = this.last){
-        return pathComponent.endsWith('()');
+        return isString(pathComponent) && pathComponent.endsWith('()');
     }
 
     collectingTraverse(root) {

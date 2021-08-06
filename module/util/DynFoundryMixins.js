@@ -2,6 +2,26 @@ import DataManager from "./DataManager.js";
 import Controller from "./Controller.js";
 import JSONPathBuilder from "./JSONPathBuilder.js";
 
+/**
+ * Static models are global models used from within the application.
+ */
+export class StaticModel {
+    static _staticModels = null;
+
+    static registerStaticModel(name, model) {
+        if(StaticModel._staticModels == null){
+            StaticModel._staticModels = {};
+        }
+        StaticModel._staticModels[name] = model;
+    }
+
+    static appendStaticModel(model) {
+        if(model.static == null && StaticModel._staticModels != null){
+            model.static = StaticModel._staticModels;
+        }
+    }
+}
+
 class GlobalTypeRegistry {
     static registry = new Map();
 
@@ -237,6 +257,7 @@ export const DynApplicationMixin = (FoundryApplicationType, viewName = 'sheet') 
                 if (doc && doc.dyn) {
                     models[doc.dyn.modelName] = doc.dyn.typed;
                 }
+                StaticModel.appendStaticModel(models);
                 this._dynModels = models;
             }
             return this._dynModels;

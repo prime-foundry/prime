@@ -4,9 +4,10 @@ import { PrimeActorSheet } from "./actor/PrimeActorSheet.js";
 import { PrimeItem as PrimeItem } from "./item/PrimeItem.js";
 import { PrimeItemSheet } from "./item/PrimeItemSheet.js";
 
-import { PrimeSettingsManager } from "./prime_settings.js";
 import { PrimeHandlebarsPartials } from "./prime_handlebars.js";
 import { PrimeDataMigrationManager } from "./migrations/PrimeDataMigrationsManager.js";
+import {StaticModel} from "./util/DynFoundryMixins.js";
+import ItemConstants from "./item/ItemConstants.js";
 
 Hooks.once('init', async function ()
 {
@@ -35,31 +36,11 @@ Hooks.once('init', async function ()
 	Items.unregisterSheet("core", ItemSheet);
 	Items.registerSheet("prime", PrimeItemSheet, { makeDefault: true });
 
-
-
-	// If you need to add Handlebars helpers, here are a few useful examples:
-	Handlebars.registerHelper('concat', function ()
-	{
-		var outStr = '';
-		for (var arg in arguments)
-		{
-			if (typeof arguments[arg] != 'object')
-			{
-				outStr += arguments[arg];
-			}
-		}
-		return outStr;
-	});
-
-	Handlebars.registerHelper('toLowerCase', function (str)
-	{
-		return str.toLowerCase();
-	});
+	StaticModel.registerStaticModel('items', ItemConstants);
 });
 
 Hooks.once("ready", async function ()
 {
-	// await PrimeSettingsManager.addSettings();
 	await PrimeHandlebarsPartials.loadPartials();
 	await PrimeDataMigrationManager.migrateIfNeeded();
 });

@@ -1,6 +1,7 @@
 import BaseItem from "./BaseItem.js";
 import {getComponentLazily} from "../../util/support.js";
 import {Cost} from "../components/Costs.js";
+import {Prerequisites} from "../components/Prerequisites.js";
 
 export default class PerkItem extends BaseItem {
     constructor(primeItem) {
@@ -17,17 +18,8 @@ export default class PerkItem extends BaseItem {
     get bonuses() {
         return null;
     }
+
     get prerequisites(){
-        /* [
-         * key(?type)
-         * actualCount
-         * effectSubType: string
-         * path
-         * dynamicDataForEffectTarget: []
-         * value
-         * effectId
-         * ]
-         */
-        return [];
+        return getComponentLazily(this, 'prerequisites', Prerequisites);
     }
 }

@@ -252,19 +252,25 @@ class ControllerSupport {
             const inputDyn = this.inputDyn(element, {view});
             const hide = inputDyn.hide;
             const show = inputDyn.show;
+            let hidden = false;
             if (hide != null) {
                 if (hide === true) {
-                    element.hidden = true;
+                    hidden = element.hidden = true;
                 } else {
-                    element.hidden = !!this.getModelValue(hide, inputDyn);
+                    hidden = element.hidden = !!this.getModelValue(hide, inputDyn);
                 }
             }
             if (show != null) {
                  if (show === true) {
                     element.hidden = false;
                 } else {
-                    element.hidden = !this.getModelValue(show, inputDyn);
+                     hidden = element.hidden = !this.getModelValue(show, inputDyn);
                 }
+            }
+            if(hidden && inputDyn.forcehide) {
+                // show can override this, so we need to do it after.
+                // we need to force this too.
+                element.style.display = 'none'
             }
         }, this);
     }

@@ -305,6 +305,11 @@
 	"PRIME.perk_prerequisite_maximum_refinement": "Maximum Refinement",
 	"PRIME.perk_prerequisite_maximum_stat": "Maximum Other",
 	"PRIME.perk_prerequisite_other_perk_purchased": "Other perk",
+
+	"PRIME.perk_prerequisite_prime": "Prime",
+	"PRIME.perk_prerequisite_refinement": "Refinement",
+	"PRIME.perk_prerequisite_actor": "Character",
+	"PRIME.perk_prerequisite_perk": "Perk",
 	
 	"PRIME.core_setting": "Setting",
 	"PRIME.core_settings_prime_possession": "Prime / Possession",
@@ -380,5 +385,17 @@
 	"PRIME.action_effect_type_misc": "Miscellaneous",
 
 	"PRIME.injury_type_wound": "Wound",
-	"PRIME.injury_type_insanity": "Insanity"
+	"PRIME.injury_type_insanity": "Insanity",
+
+	"PRIME.qualifier_key_EXISTS":  "Exists",
+	"PRIME.qualifier_key_MISSING": "Does not exist",
+	"PRIME.qualifier_key_GREATER":  "Is greater than",
+	"PRIME.qualifier_key_GREATER_OR_EQUALS": "Is greater than or equal to",
+	"PRIME.qualifier_key_LESS":  "Is less than",
+	"PRIME.qualifier_key_LESS_OR_EQUALS": "Is less than or equal to",
+	"PRIME.qualifier_key_EQUALS":  "Is equal to",
+	"PRIME.qualifier_key_NOT_EQUALS": "Is not equal to",
+	"PRIME.qualifier_key_CONTAINS": "Contains",
+	"PRIME.qualifier_key_STARTS_WITH": "Starts with",
+	"PRIME.qualifier_key_ENDS_WITH": "Ends with"
 }

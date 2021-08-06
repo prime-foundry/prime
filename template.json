@@ -870,7 +870,40 @@
 					"key": "null",
 					"title": "Please write in description"
 				}
-			]
+			],
+			"prerequisites": {
+				"prime": {
+					"title": "PRIME.perk_prerequisite_prime",
+					"itemBaseTypes": ["prime"],
+					"class": "ItemValueOrNamePrerequisite"
+				},
+				"refinement": {
+					"title": "PRIME.perk_prerequisite_refinement",
+					"itemBaseTypes": ["refinement"],
+					"class": "ItemValueOrNamePrerequisite"
+				},
+				"perk": {
+					"title": "PRIME.perk_prerequisite_perk",
+					"itemBaseTypes": ["perk"],
+					"class": "ItemPrerequisite"
+				},
+				"actor": {
+					"title": "PRIME.perk_prerequisite_actor",
+					"class": "ActorPrerequisite",
+					"paths": {
+						"key1": {
+							"title": "Use the actor tables instead",
+							"valueType": "",
+							"path": ""
+						},
+						"key2": {
+							"title": "",
+							"valueType": "",
+							"path": ""
+						}
+					}
+				}
+			}
 		},
 		"actions": {
 			"actionTypes": [

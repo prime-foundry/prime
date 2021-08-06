@@ -23,8 +23,12 @@ class DynHandlebars {
 
         return HandlebarsHelpers.editor(newOptions);
     }
+    static increment(value){
+        return parseInt(value) + 1;
+    }
 }
 
 Handlebars.registerHelper({
-    dynEditor: DynHandlebars.dynEditor
+    dynEditor: DynHandlebars.dynEditor,
+    increment: DynHandlebars.increment,
 });

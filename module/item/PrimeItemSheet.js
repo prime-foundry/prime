@@ -53,7 +53,7 @@ export class PrimeItemSheet extends DynApplicationMixin(ItemSheet)
 		data.actionTables = PrimeTables.cloneAndTranslateTables("actions");
 		data.actorTables = PrimeTables.cloneAndTranslateTables("actor");
 		
-		this.addItemTypeData(data);
+		//this.addItemTypeData(data);
 		data.checkboxGroupStates = this.checkboxGroupStates;
 
 		data.isOwned = this.item.isOwned;
