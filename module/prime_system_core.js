@@ -9,6 +9,7 @@ import { PrimeDataMigrationManager } from "./migrations/PrimeDataMigrationsManag
 import {StaticModel} from "./util/DynFoundryMixins.js";
 import PrimeItemConstants from "./item/PrimeItemConstants.js";
 import PrimeActorConstants from "./actor/PrimeActorConstants.js";
+import PrimeConstants from "./PrimeConstants.js";
 
 Hooks.once('init', async function ()
 {
@@ -38,7 +39,8 @@ Hooks.once('init', async function ()
 	Items.registerSheet("prime", PrimeItemSheet, { makeDefault: true });
 
 	StaticModel.registerStaticModel('items', PrimeItemConstants)
-		.registerStaticModel('actor', new PrimeActorConstants());
+		.registerStaticModel('actor', PrimeActorConstants)
+		.registerStaticModel('core', PrimeConstants);
 });
 
 Hooks.once("ready", async function ()

@@ -379,6 +379,28 @@
 					"key": "Aethernauts",
 					"title": "PRIME.core_settings_aethernauts"
 				}
+			],
+			"costs": [
+				{
+					"key": "perkCostXP",
+					"title": "PRIME.cost_xp",
+					"material": false
+				},
+				{
+					"key": "perkCostSoul",
+					"title": "PRIME.cost_soul",
+					"material": false
+				},
+				{
+					"key": "personal",
+					"title": "PRIME.cost_personal",
+					"material": true
+				},
+				{
+					"key": "ship",
+					"title": "PRIME.cost_ship",
+					"material": true
+				}
 			]
 		},
 		"actor": {

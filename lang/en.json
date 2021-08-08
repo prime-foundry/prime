@@ -405,6 +405,11 @@
 	"PRIME.item_modifier_perk": "Perk",
 	"PRIME.item_modifier_misc":  "Other",
 
+	"PRIME.cost_xp": "Experience points",
+	"PRIME.cost_soul":  "Soul points",
+	"PRIME.cost_personal":  "Personal $",
+	"PRIME.cost_ship": "Ship $",
+
 	"PRIME.perk_actor_stat_actionPoints_value":  "Current Action Points",
 	"PRIME.perk_actor_stat_actionPoints_max": "Maximum Action Points",
 	"PRIME.perk_actor_stat_health_wounds_value":  "Current Wounds",
