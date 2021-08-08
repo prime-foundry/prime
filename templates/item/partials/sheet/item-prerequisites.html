@@ -53,7 +53,9 @@
                             <div class="cell100 flexRow flexBetween verticalCenter">
                                 <label for="item.prerequisites.collection.{{@index}}.value"
                                        class="resource-label cell30 rightAlign">Value:</label>
-                                <input type="text" id="item.prerequisites.collection.{{@index}}.value"
+                                <input type="{{#if
+                                        (onlyIncludes (dynLookup ../static.items.prerequisites '$.subTypes.$.valueTypes' prerequisite.type prerequisite.target) 'number')}}number{{else}}text{{/if}}"
+                                       id="item.prerequisites.collection.{{@index}}.value"
                                        class="cell70 effectFormElement"
                                        value="{{prerequisite.value}}"
                                        data-dyn-change-at="item.prerequisites.collection.{{@index}}.value"

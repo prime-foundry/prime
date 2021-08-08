@@ -47,7 +47,7 @@
                                        class="resource-label cell30 rightAlign">{{#if (isInteger modifier.value)}}{{#if
                                         (lessThan modifier.value 0)}}
                                     Decreased{{else}}Increased{{/if}}{{else}}Modifier{{/if}}:</label>
-                                <input type="text" id="item.modifiers.collection.{{@index}}.value"
+                                <input type="number" id="item.modifiers.collection.{{@index}}.value"
                                        class="cell70 effectFormElement"
                                        value="{{#if (isInteger modifier.value)}}{{modifier.value}}{{/if}}"
                                        data-dyn-change-at="item.modifiers.collection.{{@index}}.value"

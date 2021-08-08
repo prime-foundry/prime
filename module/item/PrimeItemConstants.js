@@ -64,7 +64,7 @@ class PrerequisitesTable extends TemplateTable {
                 const valueTypes = arrayIfNot(actorData.valueTypes);
                 const qualifiers = PrerequisitesTable.loadQualifiers(valueTypes);
                 const title = actorData.title;
-                transformed[key] = {title, qualifiers};
+                transformed[key] = {title, qualifiers, valueTypes};
             }
         );
         return transformed;
@@ -79,7 +79,7 @@ class PrerequisitesTable extends TemplateTable {
             const qualifiers = PrerequisitesTable.loadQualifiers(valueTypes);
             const key = item.id; // this will become sourceKey for embedded items.
             const title = game.i18n.localize(item.name);
-            transformed[key] = {title, qualifiers};
+            transformed[key] = {title, qualifiers, valueTypes};
         });
         return transformed;
     }

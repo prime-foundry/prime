@@ -147,6 +147,18 @@ class DynHandlebars {
         return true;
     }
 
+    static onlyIncludes(collection, ...rest){
+        const values = Array.from(rest);
+        const options = values.pop(); // makes values 1 shorter ( we want this )
+        const arr = Array.from(collection);
+        for(const val of collection){
+            if(!values.includes(val)){
+                return false;
+            }
+        }
+        return true;
+    }
+
     static keys(collection) {
         if(collection instanceof Map){
             return Array.from(collection.keys());
@@ -183,6 +195,7 @@ Handlebars.registerHelper({
     join: DynHandlebars.join,
     call: DynHandlebars.call,
     includes: DynHandlebars.includes,
+    onlyIncludes: DynHandlebars.onlyIncludes,
     keys: DynHandlebars.keys,
     values: DynHandlebars.values,
 });

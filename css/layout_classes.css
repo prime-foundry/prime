@@ -295,6 +295,11 @@ table td.center
 	text-align: center;
 }
 
+.flexRow textarea {
+	resize: vertical;
+
+}
+
 .rightAlign
 {
 	text-align: right;
