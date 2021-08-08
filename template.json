@@ -863,20 +863,25 @@
 			"prime": {
 				"title": "PRIME.item_modifier_prime",
 				"itemBaseTypes": "prime",
-				"type": "item"
+				"category": "item"
 			},
 			"refinement": {
 				"title": "PRIME.item_modifier_refinement",
 				"itemBaseTypes": "refinement",
-				"type": "item"
+				"category": "item"
 			},
 			"actor": {
 				"title": "PRIME.item_modifier_actor",
-				"type": "actor"
+				"category": "actor"
+			},
+			"perk": {
+				"title": "PRIME.item_modifier_perk",
+				"itemBaseTypes": "perk",
+				"category": "otherItem"
 			},
 			"misc": {
 				"title": "PRIME.item_modifier_misc",
-				"type": "misc"
+				"category": "misc"
 			}
 		},
 		"prerequisites": {

@@ -19,6 +19,17 @@ export default class InventoryItem extends BaseItem {
         return getComponentLazily(this, 'modifiers', Modifiers);
     }
 
+    get equipped() {
+        return this.equippable && this.gameSystem.equipped;
+    }
+
+
+    set equipped(equipped) {
+        if(this.equippable){
+            return this.write(this.gameSystemPath.with('equipped'), !!equipped);
+        }
+    }
+
     get equippable() {
         return this.gameSystem.equippable;
     }

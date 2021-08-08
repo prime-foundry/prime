@@ -4,17 +4,6 @@ Hooks.once("createItem", async function (hookData1, hookData2, hookData3) {
 	PrimeItemManager.refreshItems(hookData1, hookData2, hookData3);
 });
 
-function safeResolveToArray(param) {
-	const resolved = param == null
-		? null
-		: (Array.isArray(param))
-			? param.length === 0
-				? null
-				: param
-			: [param];
-	return resolved;
-}
-
 export class PrimeItemManager {
 
 	/**

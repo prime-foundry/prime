@@ -3,6 +3,10 @@
 
     <div class="effectsWrapper">
         {{#each item.modifiers as |modifier|}}
+            {{alias 'Items' ../static.items}}
+            {{alias 'Modifiers' @Items.modifiers}}
+            {{alias 'ModifiersType' (dynLookup @Modifiers '$.subTypes' modifier.type)}}
+            {{alias 'item' ../item}}
             <div class="cell100 flexRow flexBetween flexWrap infoBlock effectWrapper">
                 <div class="effectIndex">{{increment @index}}</div>
                 <div class="cell100 flexRow flexBetween verticalCenter">
@@ -11,13 +15,13 @@
                             data-dyn-change-at="item.modifiers.collection.{{@index}}.type"
                             data-dyn-select="item.modifiers.collection.{{@index}}.type"
                             data-dyn-disable="item.isOwned">
-                        {{#each ../static.items.modifiers}}
+                        {{#each @Modifiers}}
                             <option value="{{@key}}">{{this.title}}</option>
                         {{/each}}
                     </select>
                 </div>
                 {{#if (and (defined modifier.type)
-                              (includes (keys ../static.items.modifiers) modifier.type)
+                              (includes (keys @Modifiers) modifier.type)
                       )}}
                     {{#if (equalTo modifier.type 'misc')}}
                         <div class="cell100  flexRow flexBetween lastRow">
@@ -34,14 +38,15 @@
                                     data-dyn-change-at="item.modifiers.collection.{{@index}}.target"
                                     data-dyn-select="item.modifiers.collection.{{@index}}.target"
                                     data-dyn-disable="item.isOwned">
-                                {{#each (dynLookup ../static.items.modifiers '$.subTypes' modifier.type)}}
+                                {{#each @ModifiersType}}
                                     <option value="{{@key}}">{{this}}</option>
                                 {{/each}}
                             </select>
                         </div>
 
                         {{#if (and (defined modifier.target)
-                                      (includes (keys (dynLookup ../static.items.modifiers '$.subTypes' modifier.type)) modifier.target))}}
+                                      (includes (keys @ModifiersType) modifier.target))}}
+                            {{#if (not (equalTo  @ModifiersType.category 'otherItem'))}}
                             <div class="cell100 flexRow flexBetween verticalCenter ">
                                 <label for="item.modifiers.collection.{{@index}}.value"
                                        class="resource-label cell30 rightAlign">{{#if (isInteger modifier.value)}}{{#if
@@ -54,8 +59,8 @@
                                        data-dyn-type="number"
                                        data-dyn-disable="item.isOwned" }/>
                             </div>
-
-                            {{#if ../item.equippable}}
+                            {{/if}}
+                            {{#if @item.equippable}}
                                 <div class="cell100 flexRow flexEnd verticalCenter">
                                     <label for="item.modifiers.collection.{{@index}}.equipped"
                                            class="resource-label">When Equipped:</label>

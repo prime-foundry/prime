@@ -3,6 +3,11 @@
 
     <div class="prerequisitesWrapper">
         {{#each item.prerequisites as |prerequisite|}}
+            {{alias 'Items' ../static.items}}
+            {{alias 'Prerequisites' @Items.prerequisites}}
+            {{alias 'PrerequisitesType' (dynLookup @Prerequisites '$.subTypes' prerequisite.type)}}
+            {{alias 'PrerequisitesSubType' (lookup @PrerequisitesType prerequisite.target)}}
+            {{alias 'item' ../item}}
             <div class="cell100 flexRow flexBetween flexWrap infoBlock perkPrerequisiteWrapper">
                 <div class="prerequisiteIndex">{{increment @index}}</div>
 
@@ -12,13 +17,13 @@
                             data-dyn-change-at="item.prerequisites.collection.{{@index}}.type"
                             data-dyn-select="item.prerequisites.collection.{{@index}}.type"
                             data-dyn-disable="item.isOwned">
-                        {{#each ../static.items.prerequisites}}
+                        {{#each @Prerequisites}}
                             <option value="{{@key}}">{{this.title}}</option>
                         {{/each}}
                     </select>
                 </div>
                 {{#if (and (defined prerequisite.type)
-                              (includes (keys ../static.items.prerequisites) prerequisite.type))}}
+                              (includes (keys @Prerequisites) prerequisite.type))}}
                     <div class="cell100 flexRow flexBetween verticalCenter">
                         <label for="item.prerequisites.collection.{{@index}}.target"
                                class="resource-label cell30 rightAlign">Of:</label>
@@ -26,13 +31,13 @@
                                 data-dyn-change-at="item.prerequisites.collection.{{@index}}.target"
                                 data-dyn-select="item.prerequisites.collection.{{@index}}.target"
                                 data-dyn-disable="item.isOwned">
-                            {{#each (dynLookup ../static.items.prerequisites '$.subTypes' prerequisite.type)}}
+                            {{#each @PrerequisitesType}}
                                 <option value="{{@key}}">{{this.title}}</option>
                             {{/each}}
                         </select>
                     </div>
                     {{#if (and (defined prerequisite.target)
-                                  (includes (keys (dynLookup ../static.items.prerequisites '$.subTypes' prerequisite.type)) prerequisite.target))}}
+                                  (includes (keys @PrerequisitesType) prerequisite.target))}}
                         <div class="cell100 flexRow flexBetween verticalCenter">
                             <label for="item.prerequisites.collection.{{@index}}.qualifier"
                                    class="resource-label cell30 rightAlign">Is:</label>
@@ -41,20 +46,20 @@
                                     data-dyn-change-at="item.prerequisites.collection.{{@index}}.qualifier"
                                     data-dyn-select="item.prerequisites.collection.{{@index}}.qualifier"
                                     data-dyn-disable="item.isOwned">
-                                {{#each (dynLookup ../static.items.prerequisites '$.subTypes.$.qualifiers' prerequisite.type prerequisite.target)}}
+                                {{#each @PrerequisitesSubType.qualifiers}}
                                     <option value="{{@key}}">{{this.title}}</option>
                                 {{/each}}
                             </select>
                         </div>
 
                         {{#if (and (defined prerequisite.qualifier)
-                                      (not (call ../static.items.isUnaryQualifier prerequisite.qualifier))
-                                      (includes (keys (dynLookup ../static.items.prerequisites '$.subTypes.$.qualifiers' prerequisite.type prerequisite.target)) prerequisite.qualifier))}}
+                                      (not (call @Items.isUnaryQualifier prerequisite.qualifier))
+                                      (includes (keys @PrerequisitesSubType.qualifiers) prerequisite.qualifier))}}
                             <div class="cell100 flexRow flexBetween verticalCenter">
                                 <label for="item.prerequisites.collection.{{@index}}.value"
                                        class="resource-label cell30 rightAlign">Value:</label>
                                 <input type="{{#if
-                                        (onlyIncludes (dynLookup ../static.items.prerequisites '$.subTypes.$.valueTypes' prerequisite.type prerequisite.target) 'number')}}number{{else}}text{{/if}}"
+                                        (onlyIncludes @PrerequisitesSubType.valueTypes 'number')}}number{{else}}text{{/if}}"
                                        id="item.prerequisites.collection.{{@index}}.value"
                                        class="cell70 effectFormElement"
                                        value="{{prerequisite.value}}"

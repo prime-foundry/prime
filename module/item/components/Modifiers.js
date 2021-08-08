@@ -1,10 +1,16 @@
 import Component from "../../util/Component.js";
 import PrimeItemConstants from "../PrimeItemConstants.js";
+import {PrimeItemManager} from "../PrimeItemManager.js";
 
 export class Modifiers extends Component {
 
 	get collection() {
 		return Array.from(this.gameSystem.modifiers || []).map((modifier, index) => {
+
+			const modifierCategory = PrimeItemConstants.modifiers[modifier.type].category;
+			if(modifierCategory === 'otherItem'){
+				return new OtherItemModifier(this, index);
+			}
 			return new Modifier(this, index);
 		});
 	}
@@ -23,8 +29,8 @@ export class Modifiers extends Component {
 		this.write(this.pathToModifiers().with((this.gameSystem.modifiers || []).length || 0), modifier);
 	}
 
-	modifierFor(target) {
-		return this.collection.reduce((previous, modifier) => previous + modifier.modifierFor(target),0);
+	modifierFor(target, {qualifies = true, includeSituational = false, includeUnequipped=false}) {
+		return this.collection.reduce((previous, modifier) => previous + modifier.modifierFor(target, {qualifies, includeSituational, includeUnequipped}),0);
 	}
 
 	* [Symbol.iterator]() {
@@ -106,14 +112,42 @@ export class Modifier extends Component {
 		this.parent.compactModifiers();
 	}
 
-	modifierFor(target){
+	modifierFor(target, {qualifies = true, includeSituational = false, includeUnequipped=false}){
 		if(this.target !== target){
+			return 0;
+		}
+		if(!includeSituational && this.situational){
+			return 0;
+		}
+		if((!includeUnequipped && this.equipped) && !this.parent.parent.equipped) {
 			return 0;
 		}
 		return this.value;
 	}
+}
+export class OtherItemModifier extends Modifier {
 
-	static get subType(){
-		return undefined;
+	constructor(parent, index) {
+		super(parent, index);
+	}
+
+	modifierFor(target, {qualifies = true, includeSituational = false, includeUnequipped=false}){
+
+		if(this.target !== target){
+			return 0;
+		}
+		if(!includeSituational && this.situational){
+			return 0;
+		}
+		if((!includeUnequipped && this.equipped) && !this.parent.parent.equipped) {
+			return 0;
+		}
+
+		const itemDoc = ItemDirectory.collection.get(target);
+		const item = itemDoc.dyn.typed;
+		if(qualifies && !item.prerequisites.qualifies()){
+			return 0;
+		}
+		return item.modifiers.modifierFor(target, {qualifies, includeSituational, includeUnequipped});
 	}
 }

@@ -114,9 +114,9 @@ class ModifiersTable extends TemplateTable {
             const transformed = {};
             Object.entries(this.data).forEach(([key, modifierData]) => {
                     const title = game.i18n.localize(modifierData.title);
-                    const type = modifierData.type;
-                    const subTypes = ModifiersTable.loadSubTypes(type, modifierData);
-                    transformed[key] = {title, subTypes};
+                    const category = modifierData.category;
+                    const subTypes = ModifiersTable.loadSubTypes(category, modifierData);
+                    transformed[key] = {title, subTypes, category};
                 }
             );
             this._modifiers = transformed;
@@ -133,11 +133,13 @@ class ModifiersTable extends TemplateTable {
         return {type, target, value,situational, equipped};
     }
 
-    static loadSubTypes(subType, modifierData) {
-        if (subType === 'item') {
-            return ModifiersTable.loadItemSubType(arrayIfNot(modifierData.itemBaseTypes, true), arrayIfNot(modifierData.valueTypes, true));
-        } else if (subType === 'actor') {
+    static loadSubTypes(category, modifierData) {
+        if (category === 'item') {
+            return ModifiersTable.loadItemSubType(arrayIfNot(modifierData.itemBaseTypes, true));
+        } else if (category === 'actor') {
             return ModifiersTable.loadActorSubType();
+        }  else if (category === 'otherItem') {
+            return ModifiersTable.loadModifierSubType(arrayIfNot(modifierData.itemBaseTypes, true));
         }
         // misc doesn't have subtypes
     }
@@ -164,6 +166,18 @@ class ModifiersTable extends TemplateTable {
                     transformed[key] = title;
                 }
             );
+        return transformed;
+    }
+
+    static loadModifierSubType(itemBaseTypes) {
+        const transformed = {}
+        const criteria = {itemBaseTypes, typed: true, sortItems: true};
+        const items = PrimeItemManager.getItems(criteria);
+        items.forEach(item => {
+            const key = item.id; // this will become sourceKey for embedded items.
+            const title = game.i18n.localize(item.name);
+            transformed[key] = title;
+        });
         return transformed;
     }
 }

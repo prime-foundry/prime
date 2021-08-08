@@ -136,6 +136,19 @@ export function isString(str) {
     return Object.prototype.toString.call(str) === "[object String]"
 }
 
+let isFunction = function(value) {
+    return typeof value === 'function';
+};
+if (isFunction(/x/)) {
+    isFunction = function(value) {
+        return (
+            typeof value === 'function' &&
+            toString.call(value) === '[object Function]'
+        );
+    };
+}
+export { isFunction };
+
 /**
  * class MyClass extends mix(SuperClass).with(Mixin1, Mixin2);
  *

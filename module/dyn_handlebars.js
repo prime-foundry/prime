@@ -1,5 +1,5 @@
 import JSONPathBuilder from "./util/JSONPathBuilder.js";
-import {DynError} from "./util/support.js";
+import {DynError, isFunction} from "./util/support.js";
 
 class DynHandlebars {
     static dynEditor(options) {
@@ -159,20 +159,34 @@ class DynHandlebars {
         return true;
     }
 
-    static keys(collection) {
+    static keys(collection, options) {
         if(collection instanceof Map){
             return Array.from(collection.keys());
         }
         if(collection instanceof Object){
             return Array.from(Object.keys(collection));
         }
+        return [];
     }
-    static values(collection) {
+    static values(collection, options) {
         if(collection instanceof Map){
             return Array.from(collection.values());
         }
         if(collection instanceof Object){
             return Array.from(Object.values(collection));
+        }
+        return [];
+    }
+    static alias(...rest) {
+        let values = Array.from(rest);
+        const options = values.pop(); // makes values 1 shorter ( we want this )
+        const data = options.data;
+        if (values.length % 2 !== 0) {
+            throw new Error('#alias requires an even number of parameters in the form of key1, object1, key2, object2 ');
+        }
+
+        for(let i = 0; i < values.length; i += 2){
+            data[values[i]] = values[i+1];
         }
     }
 }
@@ -198,4 +212,5 @@ Handlebars.registerHelper({
     onlyIncludes: DynHandlebars.onlyIncludes,
     keys: DynHandlebars.keys,
     values: DynHandlebars.values,
+    alias: DynHandlebars.alias,
 });
