@@ -44,7 +44,7 @@ class StatCollection extends Component {
 
     setStatValue({value, key}){
         const stat = this.getStatById(key);
-        stat.value = value;
+        stat.unadjustedValue = value;
     }
 
     getAllStats() {

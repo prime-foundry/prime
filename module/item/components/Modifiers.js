@@ -1,13 +1,12 @@
 import Component from "../../util/Component.js";
 import PrimeItemConstants from "../PrimeItemConstants.js";
-import {PrimeItemManager} from "../PrimeItemManager.js";
 
 export class Modifiers extends Component {
 
 	get collection() {
 		return Array.from(this.gameSystem.modifiers || []).map((modifier, index) => {
 
-			const modifierCategory = PrimeItemConstants.modifiers[modifier.type].category;
+			const modifierCategory = (PrimeItemConstants.modifiers[modifier.type] || {}).category;
 			if(modifierCategory === 'otherItem'){
 				return new OtherItemModifier(this, index);
 			}
@@ -29,8 +28,8 @@ export class Modifiers extends Component {
 		this.write(this.pathToModifiers().with((this.gameSystem.modifiers || []).length || 0), modifier);
 	}
 
-	modifierFor(target, {qualifies = true, includeSituational = false, includeUnequipped=false}) {
-		return this.collection.reduce((previous, modifier) => previous + modifier.modifierFor(target, {qualifies, includeSituational, includeUnequipped}),0);
+	modifierFor(actorDoc, ownedItem, target, options ={}) {
+		return this.collection.reduce((previous, modifier) => previous + modifier.modifierFor(actorDoc, ownedItem, target, options),0);
 	}
 
 	* [Symbol.iterator]() {
@@ -112,14 +111,16 @@ export class Modifier extends Component {
 		this.parent.compactModifiers();
 	}
 
-	modifierFor(target, {qualifies = true, includeSituational = false, includeUnequipped=false}){
+	modifierFor(actorDoc, ownedItem, target, options ={}){
+
+		const {includeSituational = false, includeUnequipped=false} = options
 		if(this.target !== target){
 			return 0;
 		}
 		if(!includeSituational && this.situational){
 			return 0;
 		}
-		if((!includeUnequipped && this.equipped) && !this.parent.parent.equipped) {
+		if((!includeUnequipped && this.equipped) && !ownedItem.equipped) {
 			return 0;
 		}
 		return this.value;
@@ -131,7 +132,8 @@ export class OtherItemModifier extends Modifier {
 		super(parent, index);
 	}
 
-	modifierFor(target, {qualifies = true, includeSituational = false, includeUnequipped=false}){
+	modifierFor(actorDoc, ownedItem, target, options ={}){
+		const {qualifies = true, includeSituational = false, includeUnequipped = false} = options
 
 		if(this.target !== target){
 			return 0;
@@ -139,15 +141,15 @@ export class OtherItemModifier extends Modifier {
 		if(!includeSituational && this.situational){
 			return 0;
 		}
-		if((!includeUnequipped && this.equipped) && !this.parent.parent.equipped) {
+		if((!includeUnequipped && this.equipped) && !ownedItem.equipped) {
 			return 0;
 		}
 
 		const itemDoc = ItemDirectory.collection.get(target);
 		const item = itemDoc.dyn.typed;
-		if(qualifies && !item.prerequisites.qualifies()){
+		if(qualifies && !item.prerequisites.qualifies(actorDoc, ownedItem)){
 			return 0;
 		}
-		return item.modifiers.modifierFor(target, {qualifies, includeSituational, includeUnequipped});
+		return item.modifiers.modifierFor(actorDoc, ownedItem, target, options);
 	}
 }

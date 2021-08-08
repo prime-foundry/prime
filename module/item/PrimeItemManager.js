@@ -4,6 +4,18 @@ Hooks.once("createItem", async function (hookData1, hookData2, hookData3) {
 	PrimeItemManager.refreshItems(hookData1, hookData2, hookData3);
 });
 
+function hasInheritedProperty(object, key, depth= 5){
+	let current = object;
+	do {
+		if (current.hasOwnProperty(key) || Object.getOwnPropertyDescriptor(object, key) != null) {
+			return true;
+		}
+		current = Object.getPrototypeOf(current);
+		depth -= 1;
+	} while(depth > 0 && current != null)
+	return false;
+}
+
 export class PrimeItemManager {
 
 	/**
@@ -87,7 +99,7 @@ export class PrimeItemManager {
 
 	static testFilterInObject(item, filterData) {
 		for (let key in filterData) {
-			if (!item.hasOwnProperty(key)) {
+			if (!hasInheritedProperty(item, key)) {
 				return false;
 			}
 

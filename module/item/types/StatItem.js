@@ -1,4 +1,5 @@
 import BaseItem from "./BaseItem.js";
+import {PrimeModifierManager} from "../PrimeModifierManager.js";
 
 export default class StatItem extends BaseItem {
     constructor(primeItem) {
@@ -28,17 +29,25 @@ export default class StatItem extends BaseItem {
      * @returns {number}
      */
     get value() {
-        return this.gameSystem.value;
+        return this.unadjustedValue + this.activeModifiers;
     }
 
-    set value(value) {
+    get unadjustedValue(){
+        return super.gameSystem.value;
+    }
+
+    set unadjustedValue(value){
         if (value <= this.max && value >= 0) {
             this.write(this.gameSystemPath.with('value'), value);
         }
     }
 
+    get activeModifiers() {
+        return PrimeModifierManager.getModifiersForItem(this.metadata.sourceKey, this.document.parent);
+    }
+
     get cost() {
-        const num = this.value;
+        const num = this.unadjustedValue;
         return (num === 0) ? 0 : ((num * (num + 1)) / 2);
     }
 }

@@ -25,6 +25,20 @@ export default class BaseItem extends Component {
         return this.foundryData.img;
     }
 
+    get sourceItem() {
+        if(this.isOwnedItem){
+            const sourceDoc = ItemDirectory.collection.get(this.metadata.sourceKey);
+            if(sourceDoc != null){
+                return sourceDoc.dyn.typed;
+            }
+        }
+        return this;
+    }
+
+    get isOwnedItem(){
+        return this.metadata && this.metadata.sourceKey && this.metadata.sourceKey !== this.id;
+    }
+
     /**
      * @return {Audit}
      */

@@ -154,6 +154,28 @@
 					"sourceKey": ""
 				}
 			},
+			"modifiers": {
+				"modifiers": [
+					{
+						"type": "",
+						"situational": true,
+						"equipped": true,
+						"target": "",
+						"value": 0,
+						"rules": ""
+					}
+				]
+			},
+			"prerequisites": {
+				"prerequisites": [
+					{
+						"type": "",
+						"target": "",
+						"value": "",
+						"qualifier": ""
+					}
+				]
+			},
 			"costs": [
 				{
 					"type": "",
@@ -216,7 +238,8 @@
 				"costs",
 				"audit",
 				"descriptions",
-				"metadata"
+				"metadata",
+				"modifiers"
 			]
 		},
 		"melee-weapon": {
@@ -227,7 +250,8 @@
 				"costs",
 				"audit",
 				"descriptions",
-				"metadata"
+				"metadata",
+				"modifiers"
 			],
 			"isMelee": true,
 			"isRanged": false,
@@ -242,7 +266,8 @@
 				"costs",
 				"audit",
 				"descriptions",
-				"metadata"
+				"metadata",
+				"modifiers"
 			],
 			"isMelee": false,
 			"isRanged": true,
@@ -256,7 +281,8 @@
 				"costs",
 				"audit",
 				"descriptions",
-				"metadata"
+				"metadata",
+				"modifiers"
 			],
 			"meleeBlockBonus": 0,
 			"rangedBlockBonus": 0,
@@ -270,7 +296,8 @@
 				"costs",
 				"audit",
 				"descriptions",
-				"metadata"
+				"metadata",
+				"modifiers"
 			],
 			"notes": ""
 		},
@@ -279,10 +306,10 @@
 				"audit",
 				"descriptions",
 				"metadata",
-				"costs"
-			],
-			"bonuses": [],
-			"prerequisites": []
+				"costs",
+				"modifiers",
+				"prerequisites"
+			]
 		},
 		"action": {
 			"templates": [

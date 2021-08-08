@@ -83,6 +83,11 @@ export class PrimeActor extends DynDocumentMixin(Actor, 'actor')
 		this.actionPoints.value = value;
 	}
 
+
+	_onCreateEmbeddedDocuments(embeddedName, ...args){
+		super._onCreateEmbeddedDocuments(embeddedName, ...args);
+	}
+
 	/**
 	 * @return {User[]}
 	 * @protected
@@ -105,7 +110,7 @@ export class PrimeActor extends DynDocumentMixin(Actor, 'actor')
 	}
 
 	_getItemBySourceKey(key) {
-		return this.items.find((item) => key === item.data.sourceKey);
+		return this.items.find((item) => key === item.data.metadata.sourceKey);
 	}
 
 	// Change to _preCreate() - read up!
@@ -618,7 +623,7 @@ export class PrimeActor extends DynDocumentMixin(Actor, 'actor')
 			{
 				if (item.type == statType && item.data.data.default)
 				{
-					item.data.data.sourceKey = item.data._id;
+					item.data.data.metadata.sourceKey = item.data._id;
 					actorItemsToCreate.push(item.data);
 					statItem = this._getItemDataAsStat(item.data);
 					instancedItems[statItem.itemID] = statItem;
@@ -658,7 +663,7 @@ export class PrimeActor extends DynDocumentMixin(Actor, 'actor')
 		let itemDescription = itemData.data.description;
 		if (ItemDirectory.collection && !itemData.data.customisable)
 		{
-			sourceItem = ItemDirectory.collection.get(itemData.data.sourceKey);
+			sourceItem = ItemDirectory.collection.get(itemData.data.metadata.sourceKey);
 			if (sourceItem)
 			{
 				itemTitle = sourceItem.data.name;
@@ -677,7 +682,7 @@ export class PrimeActor extends DynDocumentMixin(Actor, 'actor')
 			"type" : itemData.data.statType,
 			"title": itemTitle,
 			"description": itemData.data.customisable ? "*EDITABLE STAT, CLICK INFO TO EDIT* \n" + itemDescription : itemDescription,
-			"sourceKey": itemData.data.sourceKey,
+			"sourceKey": itemData.data.metadata.sourceKey,
 			"itemID": itemData._id,
 			"itemBasedStat" : true,
 			"customisableStatClass" : itemData.data.customisable ? "customisableStat" : "",

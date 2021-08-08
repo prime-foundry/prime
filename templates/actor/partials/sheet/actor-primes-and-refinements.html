@@ -15,12 +15,12 @@
                data-dyn-id="{{id}}"><i class="fas fa-info-circle fa-xs"></i></a>
             <label for="primes-{{id}}">{{name}}</label>
             <div class="valueWrapper">
-                <input type="text" id="primes-{{id}}" value="{{value}}"
+                <input type="text" id="primes-{{id}}" value="{{unadjustedValue}}"
                        data-dyn-type="Number"
                        data-dyn-change-at="actor.stats.primes.setStatValue()"
                        data-dyn-change-key="{{id}}"
                        class="statInput primeInput"/>
-                <span class="primeValue">{{value}}</span>
+                <span class="primeValue">{{#if (equalTo unadjustedValue value)}}{{unadjustedValue}}{{else}}{{unadjustedValue}}&nbsp;({{value}}){{/if}}</span>
             </div>
         </div>
         {{/each}}
@@ -44,12 +44,12 @@
             </a>
             <label for="refinements-{{id}}">{{name}}</label>
             <div class="valueWrapper">
-                <input type="text" id="refinements-{{id}}" value="{{value}}"
+                <input type="text" id="refinements-{{id}}" value="{{unadjustedValue}}"
                        data-dyn-type="Number"
                        data-dyn-change-at="actor.stats.refinements.setStatValue()"
                        data-dyn-change-key="{{id}}"
 				 class="statInput refinementInput"/>
-                <span class="refinementValue">{{value}}</span>
+                <span class="refinementValue">{{#if (equalTo unadjustedValue value)}}{{unadjustedValue}}{{else}}{{unadjustedValue}}&nbsp;({{value}}){{/if}}</span>
             </div>
         </div>
         {{/each}}

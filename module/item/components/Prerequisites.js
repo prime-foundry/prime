@@ -6,7 +6,7 @@ import PrimeItemConstants from "../PrimeItemConstants.js";
 export class Prerequisites extends Component {
 
 	get collection() {
-		return (this.gameSystem.prerequisites || []).map((prerequisite, index) => {
+		return Array.from(this.gameSystem.prerequisites || []).map((prerequisite, index) => {
 			const PrerequisiteType = Prerequisites.prerequisiteClassForType(prerequisite.type);
 			return new PrerequisiteType(this, index);
 		});
@@ -23,12 +23,12 @@ export class Prerequisites extends Component {
 
 	add() {
 		const prerequisite = PrimeItemConstants.defaultPrerequisite;
-		this.write(this.pathToPrerequisites().with((this.gameSystem.prerequisites || []).length), prerequisite);
+		this.write(this.pathToPrerequisites().with(Array.from(this.gameSystem.prerequisites || []).length), prerequisite);
 	}
 
-	qualifies() {
+	qualifies(actorDoc, ownedItem) {
 		// every returns true only if all pass the passed predicate, but will return false, the moment one fails.
-		return this.prerequisites.every(prerequisite => prerequisite.qualifies());
+		return this.collection.every(prerequisite => prerequisite.qualifies(actorDoc, ownedItem));
 	}
 
 	static prerequisiteClassForType(type){
@@ -80,8 +80,8 @@ export class Prerequisite extends Component {
 	}
 
 
-	qualifies() {
-		return this.document.isEmbedded();
+	qualifies(actorDoc, ownedItem) {
+		return true;
 	}
 
 	getPrerequisiteData() {
@@ -111,12 +111,12 @@ export class ItemPrerequisite extends Prerequisite {
 		return this.target;
 	}
 
-	qualifies() {
-		if (super.qualifies()) {
-			const actorDoc = this.document.parent;
+	qualifies(actorDoc, ownedItem) {
+		if (super.qualifies(actorDoc)) {
 			const criteria = {
 				itemCollection: actorDoc.items,
 				typed: true,
+				matchAll: false,
 				filtersData: {metadata: {sourceKey: this.sourceKey}}
 			};
 
@@ -205,9 +205,8 @@ export class ItemValueOrNamePrerequisite extends ItemPrerequisite {
 
 export class ActorPrerequisite extends Prerequisite {
 
-	qualifies() {
-		if (super.qualifies()) {
-			const actorDoc = this.document.parent;
+	qualifies(actorDoc, ownedItem) {
+		if (super.qualifies(actorDoc)) {
 			const path = JSONPathBuilder.from(this.target);
 			const object = path.traverse(actorDoc);
 
