@@ -399,6 +399,11 @@
 	"PRIME.perk_prerequisite_actor": "Character",
 	"PRIME.perk_prerequisite_perk": "Perk",
 
+	"PRIME.item_modifier_prime":  "Prime",
+	"PRIME.item_modifier_refinement":  "Refinement",
+	"PRIME.item_modifier_actor":  "Character",
+	"PRIME.item_modifier_misc":  "Other",
+
 	"PRIME.perk_actor_stat_actionPoints_value":  "Current Action Points",
 	"PRIME.perk_actor_stat_actionPoints_max": "Maximum Action Points",
 	"PRIME.perk_actor_stat_health_wounds_value":  "Current Wounds",

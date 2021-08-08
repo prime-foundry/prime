@@ -23,7 +23,7 @@ export class Prerequisites extends Component {
 
 	add() {
 		const prerequisite = PrimeItemConstants.perks.defaultPrerequisite;
-		this.write(this.pathToPrerequisites().with(this.gameSystem.prerequisites.length), prerequisite);
+		this.write(this.pathToPrerequisites().with((this.gameSystem.prerequisites || []).length), prerequisite);
 	}
 
 	qualifies() {

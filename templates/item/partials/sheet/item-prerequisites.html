@@ -1,69 +1,77 @@
 <div class="flexRow flexBetween flexWrap block infoBlock perkPrerequisitesBlock">
-	<div class="blockTitle">Prerequisites</div>
+    <div class="blockTitle">Prerequisites</div>
 
-	<div class="prerequisitesWrapper">
-		{{#each item.prerequisites.collection as |prerequisite|}}
-			<div class="cell100 flexRow flexBetween flexWrap infoBlock perkPrerequisiteWrapper">
-				<div class="prerequisiteIndex">{{increment @index}}</div>
+    <div class="prerequisitesWrapper">
+        {{#each item.prerequisites.collection as |prerequisite|}}
+            <div class="cell100 flexRow flexBetween flexWrap infoBlock perkPrerequisiteWrapper">
+                <div class="prerequisiteIndex">{{increment @index}}</div>
 
-				<div class="cell100 flexRow flexBetween verticalCenter">
-					<label for="item.prerequisites.collection.{{@index}}.type" class="resource-label cell30 rightAlign">Type:</label>
-					<select id="item.prerequisites.collection.{{@index}}.type" class="cell70 effectFormElement"
-							data-dyn-change-at="item.prerequisites.collection.{{@index}}.type"
-							data-dyn-select="item.prerequisites.collection.{{@index}}.type"
-							data-dyn-disable="item.isOwned">
-						{{#each ../static.items.perks.prerequisites}}
-							<option value="{{@key}}">{{this.title}}</option>
-						{{/each}}
-					</select>
-				</div>
-				<div class="cell100 flexRow flexBetween verticalCenter">
-					<label for="item.prerequisites.collection.{{@index}}.target"
-						   class="resource-label cell30 rightAlign">Of:</label>
-					<select id="item.prerequisites.collection.{{@index}}.target" class="cell70 effectFormElement"
-							data-dyn-change-at="item.prerequisites.collection.{{@index}}.target"
-							data-dyn-select="item.prerequisites.collection.{{@index}}.target"
-							data-dyn-disable="item.isOwned">
-						{{#each (dynLookup ../static.items.perks.prerequisites '$.subTypes' prerequisite.type)}}
-							<option value="{{@key}}">{{this.title}}</option>
-						{{/each}}
-					</select>
-				</div>
-				<div class="cell100 flexRow flexBetween verticalCenter">
-					<label for="item.prerequisites.collection.{{@index}}.qualifier"
-						   class="resource-label cell30 rightAlign">Is:</label>
-					<select id="item.prerequisites.collection.{{@index}}.qualifier"
-							class="cell70 effectFormElement"
-							data-dyn-change-at="item.prerequisites.collection.{{@index}}.qualifier"
-							data-dyn-select="item.prerequisites.collection.{{@index}}.qualifier"
-							data-dyn-disable="item.isOwned">
-						{{#each (dynLookup ../static.items.perks.prerequisites '$.subTypes.$.qualifiers' prerequisite.type prerequisite.target)}}
-							<option value="{{@key}}">{{this.title}}</option>
-						{{/each}}
-					</select>
-				</div>
+                <div class="cell100 flexRow flexBetween verticalCenter">
+                    <label for="item.prerequisites.collection.{{@index}}.type" class="resource-label cell30 rightAlign">Type:</label>
+                    <select id="item.prerequisites.collection.{{@index}}.type" class="cell70 effectFormElement"
+                            data-dyn-change-at="item.prerequisites.collection.{{@index}}.type"
+                            data-dyn-select="item.prerequisites.collection.{{@index}}.type"
+                            data-dyn-disable="item.isOwned">
+                        {{#each ../static.items.perks.prerequisites}}
+                            <option value="{{@key}}">{{this.title}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+                {{#if (and (defined prerequisite.type)
+                              (includes (keys ../static.items.perks.prerequisites) prerequisite.type))}}
+                    <div class="cell100 flexRow flexBetween verticalCenter">
+                        <label for="item.prerequisites.collection.{{@index}}.target"
+                               class="resource-label cell30 rightAlign">Of:</label>
+                        <select id="item.prerequisites.collection.{{@index}}.target" class="cell70 effectFormElement"
+                                data-dyn-change-at="item.prerequisites.collection.{{@index}}.target"
+                                data-dyn-select="item.prerequisites.collection.{{@index}}.target"
+                                data-dyn-disable="item.isOwned">
+                            {{#each (dynLookup ../static.items.perks.prerequisites '$.subTypes' prerequisite.type)}}
+                                <option value="{{@key}}">{{this.title}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    {{#if (and (defined prerequisite.target)
+                                  (includes (keys (dynLookup ../static.items.perks.prerequisites '$.subTypes' prerequisite.type)) prerequisite.target))}}
+                        <div class="cell100 flexRow flexBetween verticalCenter">
+                            <label for="item.prerequisites.collection.{{@index}}.qualifier"
+                                   class="resource-label cell30 rightAlign">Is:</label>
+                            <select id="item.prerequisites.collection.{{@index}}.qualifier"
+                                    class="cell70 effectFormElement"
+                                    data-dyn-change-at="item.prerequisites.collection.{{@index}}.qualifier"
+                                    data-dyn-select="item.prerequisites.collection.{{@index}}.qualifier"
+                                    data-dyn-disable="item.isOwned">
+                                {{#each (dynLookup ../static.items.perks.prerequisites '$.subTypes.$.qualifiers' prerequisite.type prerequisite.target)}}
+                                    <option value="{{@key}}">{{this.title}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
 
-				<div class="cell100 flexRow flexBetween verticalCenter lastRow"
-					 data-dyn-hide="static.items.isUnaryQualifier()"
-					 data-dyn-forcehide
-					 data-dyn-qualifier="{{prerequisite.qualifier}}">
-					<label for="item.prerequisites.collection.{{@index}}.value"
-						   class="resource-label cell30 rightAlign">Value:</label>
-					<input type="text" id="item.prerequisites.collection.{{@index}}.value"
-						   class="cell70 effectFormElement"
-						   value="{{prerequisite.value}}"
-						   data-dyn-change-at="item.prerequisites.collection.{{@index}}.value"
-						   data-dyn-disable="item.isOwned" }/>
-				</div>
-				<a class="removeEffectIcon"
-				   data-dyn-disable="item.isOwned"
-				   data-dyn-click-at="item.prerequisites.collection.{{@index}}.delete()"><i
-						class="fas fa-trash"></i></a>
-			</div>
-		{{/each}}
-	</div>
+                        {{#if (and (defined prerequisite.qualifier)
+                                      (not (call ../static.items.isUnaryQualifier prerequisite.qualifier))
+                                      (includes (keys (dynLookup ../static.items.perks.prerequisites '$.subTypes.$.qualifiers' prerequisite.type prerequisite.target)) prerequisite.qualifier))}}
+                            <div class="cell100 flexRow flexBetween verticalCenter">
+                                <label for="item.prerequisites.collection.{{@index}}.value"
+                                       class="resource-label cell30 rightAlign">Value:</label>
+                                <input type="text" id="item.prerequisites.collection.{{@index}}.value"
+                                       class="cell70 effectFormElement"
+                                       value="{{prerequisite.value}}"
+                                       data-dyn-change-at="item.prerequisites.collection.{{@index}}.value"
+                                       data-dyn-disable="item.isOwned" }/>
+                            </div>
+                        {{/if}}
+                    {{/if}}
+                {{/if}}
+                <div class="cell100 flexRow flexBetween verticalCenter lastRow"></div>
+                <a class="removeEffectIcon"
+                   data-dyn-disable="item.isOwned"
+                   data-dyn-click-at="item.prerequisites.collection.{{@index}}.delete()"><i
+                        class="fas fa-trash"></i></a>
+            </div>
+        {{/each}}
+    </div>
 
-	<a class="addEffectIcon"
-	   data-dyn-disable="item.isOwned"
-	   data-dyn-click-at="item.prerequisites.add()"><i class="fas fa-plus"></i></a>
+    <a class="addEffectIcon"
+       data-dyn-disable="item.isOwned"
+       data-dyn-click-at="item.prerequisites.add()"><i class="fas fa-plus"></i></a>
 </div>

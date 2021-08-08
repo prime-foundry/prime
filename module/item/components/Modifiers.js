@@ -4,7 +4,7 @@ import PrimeItemConstants from "../PrimeItemConstants.js";
 export class Modifiers extends Component {
 
 	get collection() {
-		return (this.gameSystem.modifiers || []).map((modifier, index) => {
+		return Array.from(this.gameSystem.modifiers || []).map((modifier, index) => {
 			return new Modifier(this, index);
 		});
 	}
@@ -14,13 +14,13 @@ export class Modifiers extends Component {
 	}
 
 	compactModifiers() {
-		const compacted = this.gameSystem.modifiers.filter(modifier => modifier != null);
+		const compacted = Array.from(this.gameSystem.modifiers || []).filter(modifier => modifier != null);
 		this.write(this.pathToModifiers(), compacted);
 	}
 
 	add() {
 		const modifier = PrimeItemConstants.perks.defaultModifier;
-		this.write(this.pathToModifiers().with(this.gameSystem.modifiers.length), modifier);
+		this.write(this.pathToModifiers().with((this.gameSystem.modifiers || []).length || 0), modifier);
 	}
 
 	modifierFor(target) {
@@ -44,6 +44,14 @@ export class Modifier extends Component {
 		this.write(this.pathToModifier().with('type'), type);
 	}
 
+	get situational() {
+		return !!this.getModifierData().situational;
+	}
+
+	set situational(situational) {
+		this.write(this.pathToModifier().with('situational'), situational);
+	}
+
 	get target() {
 		return this.getModifierData().target;
 	}
@@ -57,8 +65,13 @@ export class Modifier extends Component {
 	}
 
 	set value(value) {
-		this.write(this.pathToModifier().with('value'), value)
+		this.write(this.value_path, value)
 	}
+
+	get value_path(){
+		return this.pathToModifier().with('value');
+	}
+
 
 	getModifierData() {
 		return this.gameSystem.modifiers[this.index] || {};

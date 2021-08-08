@@ -539,7 +539,7 @@ export class PrimeItemSheet extends DynApplicationMixin(ItemSheet)
 		
 		html.find(".checkboxGroup").change(this.processCheckboxGroup.bind(this));
 
-		html.find(".effectFormElement").change(this.perkEffectFormElementChanged.bind(this));
+		// html.find(".effectFormElement").change(this.perkEffectFormElementChanged.bind(this));
 
 		if (!this.item.isOwned)
 		{

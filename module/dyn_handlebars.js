@@ -47,17 +47,142 @@ class DynHandlebars {
             return null;
         }
     }
-    static objectPropertyCount(object) {
-        return Object.entries(object).length;
+    static count(object) {
+        return Array.isArray(object) ? object.length : Object.entries(object).length;
     }
-    static increment(value){
-        return parseInt(value) + 1;
+    static greaterThan(value1, value2){
+        return (value1 || 0) > (value2 || 0);
+    }
+    static lessThan(value1, value2){
+        return (value1 || 0) < (value2 || 0);
+    }
+    static equalTo(value1, value2){
+        return value1 == value2;
+    }
+    static and(...rest){
+        const values = Array.from(rest);
+        const options = values.pop(); // makes values 1 shorter ( we want this )
+        for(const val of values){
+            if(!val){
+                return false;
+            }
+        }
+        return true;
+    }
+    static or(...rest){
+        const values = Array.from(rest);
+        const options = values.pop(); // makes values 1 shorter ( we want this )
+        for(const val of values){
+            if(!!val){
+               return true;
+            }
+        }
+        return false;
+    }
+    static xor(value1, ...rest){
+        const values = Array.from(rest);
+        const options = values.pop(); // makes values 1 shorter ( we want this )
+        let oneTrue = !!value1;
+        for(const val of values){
+            if(!!val){
+                if(oneTrue){
+                    return false;
+                }
+                oneTrue = true;
+            }
+        }
+        return oneTrue;
+    }
+    static defined(...rest){
+        const values = Array.from(rest);
+        const options = values.pop(); // makes values 1 shorter ( we want this )
+        for(const val of values){
+            if(val == null){
+                return false;
+            }
+        }
+        return true;
+    }
+    static not(...rest){
+        const values = Array.from(rest);
+        const options = values.pop(); // makes values 1 shorter ( we want this )
+        for(const val of values){
+            if(!!val){
+                return false;
+            }
+        }
+        return true;
+    }
+    static increment(value, ...rest){
+
+        return parseInt(value) + (rest.length > 1 ? Number.parseInt(rest[0]) : 1);
+    }
+    static decrement(value, ...rest){
+
+        return parseInt(value) - (rest.length > 1 ? Number.parseInt(rest[0]) : 1);
+    }
+    static isInteger(value){
+        return Number.isInteger(value)
+    }
+    static join(...rest){
+        const values = Array.from(rest);
+        const options = values.pop(); // makes values 1 shorter ( we want this )
+        const joinValue = values.pop();
+        return values.join(joinValue);
+    }
+    static call(fn, ...rest){
+        const values = Array.from(rest);
+        const options = values.pop(); // makes values 1 shorter ( we want this )
+        return fn(...values);
+    }
+    static includes(collection, ...rest){
+        const values = Array.from(rest);
+        const options = values.pop(); // makes values 1 shorter ( we want this )
+        const arr = Array.from(collection);
+        for(const val of values){
+            if(!collection.includes(val)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    static keys(collection) {
+        if(collection instanceof Map){
+            return Array.from(collection.keys());
+        }
+        if(collection instanceof Object){
+            return Array.from(Object.keys(collection));
+        }
+    }
+    static values(collection) {
+        if(collection instanceof Map){
+            return Array.from(collection.values());
+        }
+        if(collection instanceof Object){
+            return Array.from(Object.values(collection));
+        }
     }
 }
 
 Handlebars.registerHelper({
     dynEditor: DynHandlebars.dynEditor,
     dynLookup: DynHandlebars.dynLookup,
-    objectPropertyCount: DynHandlebars.objectPropertyCount,
+    count: DynHandlebars.count,
     increment: DynHandlebars.increment,
+    decrement: DynHandlebars.decrement,
+    isInteger: DynHandlebars.isInteger,
+    greaterThan: DynHandlebars.greaterThan,
+    lessThan: DynHandlebars.lessThan,
+    equalTo: DynHandlebars.equalTo,
+    defined: DynHandlebars.defined,
+    not: DynHandlebars.not,
+    and: DynHandlebars.and,
+    xor: DynHandlebars.xor,
+    or: DynHandlebars.or,
+    join: DynHandlebars.join,
+    call: DynHandlebars.call,
+    includes: DynHandlebars.includes,
+    keys: DynHandlebars.keys,
+    values: DynHandlebars.values,
 });

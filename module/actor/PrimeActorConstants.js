@@ -13,13 +13,15 @@ class ActorStats extends TemplateTable{
 		}
 		return this._lookups;
 	}
+
 	static loadLookups({actorStatLookups}) {
 		const transformed = {};
 		Object.entries(actorStatLookups).forEach(([key, lookupData]) => {
 				const title = game.i18n.localize(lookupData.title);
 				const valueTypes = arrayIfNot(lookupData.valueTypes) ;
+				const modifiable = !!lookupData.modifiable;
 				const path = lookupData.path || key;
-				transformed[key.replaceAll('.', '_')] = {title, valueTypes, path};
+				transformed[key.replaceAll('.', '_')] = {title, valueTypes, path, modifiable};
 			}
 		);
 		return transformed;

@@ -411,7 +411,8 @@
 				},
 				"actionPoints.max": {
 					"valueTypes": "number",
-					"title": "PRIME.perk_actor_stat_actionPoints_max"
+					"title": "PRIME.perk_actor_stat_actionPoints_max",
+					"modifiable": true
 				},
 				"health.wounds.value": {
 					"valueTypes": "number",
@@ -419,7 +420,8 @@
 				},
 				"health.wounds.max": {
 					"valueTypes": "number",
-					"title": "PRIME.perk_actor_stat_health_wounds_max"
+					"title": "PRIME.perk_actor_stat_health_wounds_max",
+					"modifiable": true
 				},
 				"health.resilience.value": {
 					"valueTypes": "number",
@@ -427,7 +429,8 @@
 				},
 				"health.resilience.max": {
 					"valueTypes": "number",
-					"title": "PRIME.perk_actor_stat_health_resilience_max"
+					"title": "PRIME.perk_actor_stat_health_resilience_max",
+					"modifiable": true
 				},
 				"health.insanities.value": {
 					"valueTypes": "number",
@@ -435,7 +438,8 @@
 				},
 				"health.insanities.max": {
 					"valueTypes": "number",
-					"title": "PRIME.perk_actor_stat_health_insanities_max"
+					"title": "PRIME.perk_actor_stat_health_insanities_max",
+					"modifiable": true
 				},
 				"health.psyche.value": {
 					"valueTypes": "number",
@@ -443,7 +447,8 @@
 				},
 				"health.psyche.max": {
 					"valueTypes": "number",
-					"title": "PRIME.perk_actor_stat_health_psyche_max"
+					"title": "PRIME.perk_actor_stat_health_psyche_max",
+					"modifiable": true
 				},
 				"profile.npc": {
 					"valueTypes": "boolean",
@@ -960,24 +965,22 @@
 			},
 			"modifiers": {
 				"prime": {
-					"title": "PRIME.perk_bonus_prime",
-					"itemBaseTypes": "prime"
+					"title": "PRIME.item_modifier_prime",
+					"itemBaseTypes": "prime",
+					"type": "item"
 				},
 				"refinement": {
-					"title": "PRIME.perk_bonus_refinement",
-					"itemBaseTypes": "refinement"
-				},
-				"action": {
-					"title": "PRIME.perk_bonus_action"
-				},
-				"actionPoints": {
-					"title": "PRIME.perk_bonus_action_points"
+					"title": "PRIME.item_modifier_refinement",
+					"itemBaseTypes": "refinement",
+					"type": "item"
 				},
 				"actor": {
-					"title": "PRIME.perk_bonus_actor"
+					"title": "PRIME.item_modifier_actor",
+					"type": "actor"
 				},
 				"misc": {
-					"title": "PRIME.perk_bonus_misc"
+					"title": "PRIME.item_modifier_misc",
+					"type": "misc"
 				}
 			}
 		},

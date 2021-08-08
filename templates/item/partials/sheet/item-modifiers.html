@@ -1,42 +1,82 @@
-	<div class="flexRow flexBetween flexWrap block infoBlock effectBlock">
-		<div class="blockTitle">{{#if effectTitle}}{{effectTitle}}{{else}}Effects{{/if}}</div>
+<div class="flexRow flexBetween flexWrap block infoBlock effectBlock">
+    <div class="blockTitle">{{#if effectTitle}}{{effectTitle}}{{else}}Effects{{/if}}</div>
 
-		<div class="effectsWrapper">			
-			{{#each effectsData as |effect key|}}
-			<div class="cell100 flexRow flexBetween flexWrap infoBlock effectWrapper">
-				<div class="effectIndex">{{effect.actualCount}}</div>
-				<div class="cell100 flexRow flexBetween verticalCenter">
-					<label for="data.{{#if ../effectType}}{{../effectType}}{{else}}effect{{/if}}s.{{key}}.effectType" class="resource-label cell30 rightAlign">Type:</label>
-					<select id="data.{{#if ../effectType}}{{../effectType}}{{else}}effect{{/if}}s.{{key}}.effectType" name="data.{{#if ../effectType}}{{../effectType}}{{else}}effect{{/if}}ts.{{key}}.effectType" class="cell70 effectFormElement" data-effect-id="{{effectID}}" data-effect-flag-key="effectSubType" {{disabledIf ../isOwned}}>
-						{{#select effect.effectSubType}}
-						{{#each ../perkTables.bonusTypes}}
-						<option value="{{this.key}}">{{this.title}}</option>
-						{{/each}}
-						{{/select}}
-					</select>
-				</div>
+    <div class="effectsWrapper">
+        {{#each item.modifiers.collection as |modifier|}}
+            <div class="cell100 flexRow flexBetween flexWrap infoBlock effectWrapper">
+                <div class="effectIndex">{{increment @index}}</div>
+                <div class="cell100 flexRow flexBetween verticalCenter">
+                    <label for="item.modifiers.collection.{{@index}}.type" class="resource-label cell30 rightAlign">Type:</label>
+                    <select id="item.modifiers.collection.{{@index}}.type" class="cell70 effectFormElement"
+                            data-dyn-change-at="item.modifiers.collection.{{@index}}.type"
+                            data-dyn-select="item.modifiers.collection.{{@index}}.type"
+                            data-dyn-disable="item.isOwned">
+                        {{#each ../static.items.perks.modifiers}}
+                            <option value="{{@key}}">{{this.title}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+                {{#if (and (defined modifier.type)
+                              (includes (keys ../static.items.perks.modifiers) modifier.type)
+                      )}}
+                    {{#if (equalTo modifier.type 'misc')}}
+                        <div class="cell100  flexRow flexBetween lastRow">
+                            <label for="item.modifiers.collection.{{@index}}.target"
+                                   class="resource-label cell30 rightAlign">Rules:</label>
+                            <textarea class="cell70 effectFormElement"
+                                      data-dyn-change-at="item.modifiers.collection.{{@index}}.value">{{modifier.value}}</textarea>
+                        </div>
+                    {{else}}
+                        <div class="cell100 flexRow flexBetween verticalCenter">
+                            <label for="item.modifiers.collection.{{@index}}.target"
+                                   class="resource-label cell30 rightAlign">Of:</label>
+                            <select id="item.modifiers.collection.{{@index}}.target" class="cell70 effectFormElement"
+                                    data-dyn-change-at="item.modifiers.collection.{{@index}}.target"
+                                    data-dyn-select="item.modifiers.collection.{{@index}}.target"
+                                    data-dyn-disable="item.isOwned">
+                                {{#each (dynLookup ../static.items.perks.modifiers '$.subTypes' modifier.type)}}
+                                    <option value="{{@key}}">{{this}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
 
-				<div class="cell100 flexRow flexBetween verticalCenter">
-					<label for="data.{{#if ../effectType}}{{../effectType}}{{else}}effect{{/if}}s.{{key}}.path" class="resource-label cell30 rightAlign">Target:</label>
-					<select id="data.{{#if ../effectType}}{{../effectType}}{{else}}effect{{/if}}s.{{key}}.path" name="data.{{#if ../effectType}}{{../effectType}}{{else}}effect{{/if}}s.{{key}}.path" class="cell70 effectFormElement" data-effect-id="{{effectID}}" data-effect-flag-key="path" {{disabledIf ../isOwned}}>
-						{{#select effect.path}}
-						{{#each effect.dynamicDataForEffectTarget}}
-						<option value="{{this.key}}">{{this.title}}</option>
-						{{/each}}
-						{{/select}}
-					</select>
-				</div>
+                        {{#if (and (defined modifier.target)
+                                   (includes (keys (dynLookup ../static.items.perks.modifiers '$.subTypes' modifier.type)) modifier.target))}}
+                            <div class="cell100 flexRow flexBetween verticalCenter ">
+                                <label for="item.prerequisites.collection.{{@index}}.value"
+                                       class="resource-label cell30 rightAlign">{{#if (isInteger modifier.value)}}{{#if
+                                        (lessThan modifier.value 0)}}
+                                    Decreased{{else}}Increased{{/if}}{{else}}Modifier{{/if}}:</label>
+                                <input type="text" id="item.modifiers.collection.{{@index}}.value"
+                                       class="cell70 effectFormElement"
+                                       value="{{#if (isInteger modifier.value)}}{{modifier.value}}{{/if}}"
+                                       data-dyn-change-at="item.modifiers.collection.{{@index}}.value"
+                                       data-dyn-type="number"
+                                       data-dyn-disable="item.isOwned" }/>
+                            </div>
 
-				<div class="cell100 flexRow flexBetween verticalCenter lastRow">
-					<label for="data.{{#if ../effectType}}{{../effectType}}{{else}}effect{{/if}}s.{{key}}.value" class="resource-label cell30 rightAlign">Valuable:</label>
-					<input type="text" id="data.{{#if ../effectType}}{{../effectType}}{{else}}effect{{/if}}s.{{key}}.value" name="data.{{#if ../effectType}}{{../effectType}}{{else}}effect{{/if}}s.{{key}}.value" class="cell70 effectFormElement" data-effect-id="{{effectID}}" data-effect-flag-key="value" value="{{effect.value}}" data-dtype="Number" data-min="-10" data-max="10" {{disabledIf ../isOwned}}/>
-				</div>
+                            <div class="cell100 flexRow flexEnd verticalCenter lastRow">
+                                <label for="item.prerequisites.collection.{{@index}}.situational"
+                                       class="resource-label">Situational:</label>
+                                <input type="checkbox" id="item.modifiers.collection.{{@index}}.situational"
+                                       class="effectFormElement"
+                                       data-dyn-change-at="item.modifiers.collection.{{@index}}.situational"
+                                       data-dyn-select="item.modifiers.collection.{{@index}}.situational"/>
+                            </div>
+                        {{/if}}
+                    {{/if}}
+                {{/if}}
 
-				<a class="removeEffectIcon {{disabledClassIf ../isOwned}}" data-effect-id="{{effectID}}"><i class="fas fa-trash"></i></a>
-			</div>
-			{{/each}}
-			
-		</div>
+                <a class="removeEffectIcon"
+                   data-dyn-disable="item.isOwned"
+                   data-dyn-click-at="item.modifiers.collection.{{@index}}.delete()"><i
+                        class="fas fa-trash"></i></a>
+            </div>
+        {{/each}}
 
-		<a class="addEffectIcon {{disabledClassIf isOwned}}" data-effect-type="{{#if effectType}}{{effectType}}{{else}}effect{{/if}}"><i class="fas fa-plus"></i></a>
-	</div>
+    </div>
+
+    <a class="addEffectIcon"
+       data-dyn-disable="item.isOwned"
+       data-dyn-click-at="item.modifiers.add()"><i class="fas fa-plus"></i></a>
+</div>

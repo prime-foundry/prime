@@ -10,6 +10,11 @@ export class TemplateTable {
 	}
 
 	init() {
+		/*
+		 * deepClone is on the Global Scope
+		 * defined: FoundryVTT/resources/app/common/utils/helpers.mjs
+		 * api: https://foundryvtt.com/api/module-helpers.html#.deepClone
+		 */
 		this.data = deepClone(this.dataPath.traverse(game.system.template.Tables));
 		return this.data;
 	}

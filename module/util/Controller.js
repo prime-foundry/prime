@@ -117,6 +117,8 @@ class ControllerSupport {
             this.attachListener(view, 'click', "*", onClick);
             this.attachListener(view, 'dblclick', "*", onClick);
             this.attachListener(view, 'change', "input", onChange);
+            this.attachListener(view, 'change', "textarea", onChange);
+            this.attachListener(view, 'oninput', "textarea", onChange);
             this.attachListener(view, 'change', "select", onChange);
         } catch (err) {
             console.error('unable to bind view', err);
@@ -352,6 +354,8 @@ class ControllerSupport {
                     await this.onChangeValue(element.value, inputDyn);
                     break;
             }
+        } else if (element.tagName === 'TEXTAREA') {
+            return this._update(inputDyn, {value:element.value});
         }
     }
 

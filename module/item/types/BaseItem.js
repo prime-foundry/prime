@@ -3,7 +3,6 @@ import {getComponentLazily} from "../../util/support.js";
 import Metadata from "../components/Metadata.js";
 import Audit from "../components/Audit.js";
 import Descriptions from "../components/Descriptions.js";
-import {Cost} from "../components/Costs.js";
 
 export default class BaseItem extends Component {
     constructor(primeItem) {
