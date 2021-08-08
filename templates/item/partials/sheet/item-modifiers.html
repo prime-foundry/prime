@@ -2,7 +2,7 @@
     <div class="blockTitle">{{#if effectTitle}}{{effectTitle}}{{else}}Effects{{/if}}</div>
 
     <div class="effectsWrapper">
-        {{#each item.modifiers.collection as |modifier|}}
+        {{#each item.modifiers as |modifier|}}
             <div class="cell100 flexRow flexBetween flexWrap infoBlock effectWrapper">
                 <div class="effectIndex">{{increment @index}}</div>
                 <div class="cell100 flexRow flexBetween verticalCenter">
@@ -11,20 +11,20 @@
                             data-dyn-change-at="item.modifiers.collection.{{@index}}.type"
                             data-dyn-select="item.modifiers.collection.{{@index}}.type"
                             data-dyn-disable="item.isOwned">
-                        {{#each ../static.items.perks.modifiers}}
+                        {{#each ../static.items.modifiers}}
                             <option value="{{@key}}">{{this.title}}</option>
                         {{/each}}
                     </select>
                 </div>
                 {{#if (and (defined modifier.type)
-                              (includes (keys ../static.items.perks.modifiers) modifier.type)
+                              (includes (keys ../static.items.modifiers) modifier.type)
                       )}}
                     {{#if (equalTo modifier.type 'misc')}}
                         <div class="cell100  flexRow flexBetween lastRow">
-                            <label for="item.modifiers.collection.{{@index}}.target"
+                            <label for="item.modifiers.collection.{{@index}}.rules"
                                    class="resource-label cell30 rightAlign">Rules:</label>
                             <textarea class="cell70 effectFormElement"
-                                      data-dyn-change-at="item.modifiers.collection.{{@index}}.value">{{modifier.value}}</textarea>
+                                      data-dyn-change-at="item.modifiers.collection.{{@index}}.rules">{{modifier.rules}}</textarea>
                         </div>
                     {{else}}
                         <div class="cell100 flexRow flexBetween verticalCenter">
@@ -34,16 +34,16 @@
                                     data-dyn-change-at="item.modifiers.collection.{{@index}}.target"
                                     data-dyn-select="item.modifiers.collection.{{@index}}.target"
                                     data-dyn-disable="item.isOwned">
-                                {{#each (dynLookup ../static.items.perks.modifiers '$.subTypes' modifier.type)}}
+                                {{#each (dynLookup ../static.items.modifiers '$.subTypes' modifier.type)}}
                                     <option value="{{@key}}">{{this}}</option>
                                 {{/each}}
                             </select>
                         </div>
 
                         {{#if (and (defined modifier.target)
-                                   (includes (keys (dynLookup ../static.items.perks.modifiers '$.subTypes' modifier.type)) modifier.target))}}
+                                      (includes (keys (dynLookup ../static.items.modifiers '$.subTypes' modifier.type)) modifier.target))}}
                             <div class="cell100 flexRow flexBetween verticalCenter ">
-                                <label for="item.prerequisites.collection.{{@index}}.value"
+                                <label for="item.modifiers.collection.{{@index}}.value"
                                        class="resource-label cell30 rightAlign">{{#if (isInteger modifier.value)}}{{#if
                                         (lessThan modifier.value 0)}}
                                     Decreased{{else}}Increased{{/if}}{{else}}Modifier{{/if}}:</label>
@@ -55,14 +55,33 @@
                                        data-dyn-disable="item.isOwned" }/>
                             </div>
 
-                            <div class="cell100 flexRow flexEnd verticalCenter lastRow">
-                                <label for="item.prerequisites.collection.{{@index}}.situational"
+                            {{#if ../item.equippable}}
+                                <div class="cell100 flexRow flexEnd verticalCenter">
+                                    <label for="item.modifiers.collection.{{@index}}.equipped"
+                                           class="resource-label">When Equipped:</label>
+                                    <input type="checkbox" id="item.modifiers.collection.{{@index}}.equipped"
+                                           class="effectFormElement"
+                                           data-dyn-change-at="item.modifiers.collection.{{@index}}.equipped"
+                                           data-dyn-select="item.modifiers.collection.{{@index}}.equipped"/>
+                                </div>
+                            {{/if}}
+                            <div class="cell100 flexRow flexEnd verticalCenter">
+                                <label for="item.modifiers.collection.{{@index}}.situational"
                                        class="resource-label">Situational:</label>
                                 <input type="checkbox" id="item.modifiers.collection.{{@index}}.situational"
                                        class="effectFormElement"
                                        data-dyn-change-at="item.modifiers.collection.{{@index}}.situational"
                                        data-dyn-select="item.modifiers.collection.{{@index}}.situational"/>
                             </div>
+
+                            {{#if this.situational}}
+                                <div class="cell100  flexRow flexBetween lastRow">
+                                    <label for="item.modifiers.collection.{{@index}}.rules"
+                                           class="resource-label cell30 rightAlign">Rules:</label>
+                                    <textarea class="cell70 effectFormElement"
+                                              data-dyn-change-at="item.modifiers.collection.{{@index}}.rules">{{modifier.rules}}</textarea>
+                                </div>
+                            {{/if}}
                         {{/if}}
                     {{/if}}
                 {{/if}}

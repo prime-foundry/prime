@@ -3,7 +3,9 @@ import {DynDocumentMixin} from "../util/DynFoundryMixins.js";
 import StatItem from "./types/StatItem.js";
 import InjuryItem from "./types/InjuryItem.js";
 import PerkItem from "./types/PerkItem.js";
-import CostedItem from "./types/CostedItem.js";
+import InventoryItem from "./types/InventoryItem.js";
+import WeaponItem from "./types/WeaponItem.js";
+import BaseItem from "./types/BaseItem.js";
 
 /**
  * Extend the basic Item with some very simple modifications.
@@ -20,11 +22,19 @@ export class PrimeItem extends DynDocumentMixin(Item, 'item', 'type')
 	 */
 	registerDynTypes(registry) {
 		registry
-			.default(CostedItem)
+			.default(BaseItem)
+			.register('item', InventoryItem)
+			.register('melee-weapon', WeaponItem)
+			.register('ranged-weapon', WeaponItem)
+			.register('shield', InventoryItem)
+			.register('armour', InventoryItem)
 			.register('prime', StatItem)
 			.register('refinement', StatItem)
 			.register('perk', PerkItem)
-			.register('injury', InjuryItem);
+			.register('injury', InjuryItem)
+			.register('award', BaseItem)
+			.register('action', BaseItem);
+
 	}
 
 

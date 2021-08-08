@@ -32,6 +32,10 @@ export default class BaseItem extends Component {
         return getComponentLazily(this, 'audit', Audit);
     }
 
+    get type() {
+        return this.document.type;
+    }
+
     /**
      * @return {Metadata}
      */

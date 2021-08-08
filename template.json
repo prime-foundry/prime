@@ -859,6 +859,47 @@
 				]
 			}
 		},
+		"modifiers": {
+			"prime": {
+				"title": "PRIME.item_modifier_prime",
+				"itemBaseTypes": "prime",
+				"type": "item"
+			},
+			"refinement": {
+				"title": "PRIME.item_modifier_refinement",
+				"itemBaseTypes": "refinement",
+				"type": "item"
+			},
+			"actor": {
+				"title": "PRIME.item_modifier_actor",
+				"type": "actor"
+			},
+			"misc": {
+				"title": "PRIME.item_modifier_misc",
+				"type": "misc"
+			}
+		},
+		"prerequisites": {
+			"prime": {
+				"title": "PRIME.perk_prerequisite_prime",
+				"itemBaseTypes": "prime",
+				"class": "ItemValueOrNamePrerequisite"
+			},
+			"refinement": {
+				"title": "PRIME.perk_prerequisite_refinement",
+				"itemBaseTypes": "refinement",
+				"class": "ItemValueOrNamePrerequisite"
+			},
+			"perk": {
+				"title": "PRIME.perk_prerequisite_perk",
+				"itemBaseTypes": "perk",
+				"class": "ItemPrerequisite"
+			},
+			"actor": {
+				"title": "PRIME.perk_prerequisite_actor",
+				"class": "ActorPrerequisite"
+			}
+		},
 		"perks": {
 			"bonusTypes": [
 				{
@@ -941,48 +982,7 @@
 					"key": "null",
 					"title": "Please write in description"
 				}
-			],
-			"prerequisites": {
-				"prime": {
-					"title": "PRIME.perk_prerequisite_prime",
-					"itemBaseTypes": "prime",
-					"class": "ItemValueOrNamePrerequisite"
-				},
-				"refinement": {
-					"title": "PRIME.perk_prerequisite_refinement",
-					"itemBaseTypes": "refinement",
-					"class": "ItemValueOrNamePrerequisite"
-				},
-				"perk": {
-					"title": "PRIME.perk_prerequisite_perk",
-					"itemBaseTypes": "perk",
-					"class": "ItemPrerequisite"
-				},
-				"actor": {
-					"title": "PRIME.perk_prerequisite_actor",
-					"class": "ActorPrerequisite"
-				}
-			},
-			"modifiers": {
-				"prime": {
-					"title": "PRIME.item_modifier_prime",
-					"itemBaseTypes": "prime",
-					"type": "item"
-				},
-				"refinement": {
-					"title": "PRIME.item_modifier_refinement",
-					"itemBaseTypes": "refinement",
-					"type": "item"
-				},
-				"actor": {
-					"title": "PRIME.item_modifier_actor",
-					"type": "actor"
-				},
-				"misc": {
-					"title": "PRIME.item_modifier_misc",
-					"type": "misc"
-				}
-			}
+			]
 		},
 		"actions": {
 			"actionTypes": [

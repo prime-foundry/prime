@@ -19,12 +19,16 @@ export class Modifiers extends Component {
 	}
 
 	add() {
-		const modifier = PrimeItemConstants.perks.defaultModifier;
+		const modifier = PrimeItemConstants.defaultModifier;
 		this.write(this.pathToModifiers().with((this.gameSystem.modifiers || []).length || 0), modifier);
 	}
 
 	modifierFor(target) {
 		return this.collection.reduce((previous, modifier) => previous + modifier.modifierFor(target),0);
+	}
+
+	* [Symbol.iterator]() {
+		yield * this.collection;
 	}
 }
 
@@ -49,9 +53,16 @@ export class Modifier extends Component {
 	}
 
 	set situational(situational) {
-		this.write(this.pathToModifier().with('situational'), situational);
+		this.write(this.pathToModifier().with('situational'), !!situational);
 	}
 
+	get equipped() {
+		return !!this.getModifierData().equipped;
+	}
+
+	set equipped(equipped) {
+		this.write(this.pathToModifier().with('equipped'), !!equipped);
+	}
 	get target() {
 		return this.getModifierData().target;
 	}
@@ -65,11 +76,20 @@ export class Modifier extends Component {
 	}
 
 	set value(value) {
-		this.write(this.value_path, value)
+		this.write(this.pathToModifier().with('value'), value)
 	}
 
-	get value_path(){
-		return this.pathToModifier().with('value');
+
+	get rules() {
+		return this.getModifierData().rules;
+	}
+
+	set rules(rules) {
+		this.write(this.rules_path, rules)
+	}
+
+	get rules_path(){
+		return this.pathToModifier().with('rules');
 	}
 
 

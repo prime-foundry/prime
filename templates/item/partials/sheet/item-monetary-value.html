@@ -3,16 +3,16 @@
 	<div class="cell50 flexColumn">
 		<label for="money.type">Type: </label>
 		<select id="money.type" class="itemValueType"
-				data-dyn-change-at="item.money.type"
-				data-dyn-select="item.money.type">
+				data-dyn-change-at="item.cost.type"
+				data-dyn-select="item.cost.type">
 			<option value="personal">Personal $</option>
 			<option value="ship">Ship $</option>
 		</select>
 	</div>
 	<div class="cell50 flexColumn">
 		<label  for="money.amount">Amount: </label>
-		<input type="text" id="money.amount" value="{{item.money.amount}}"
+		<input type="text" id="money.amount" value="{{item.cost.amount}}"
 			   data-dyn-type="Number"
-			   data-dyn-change-at="item.money.amount" />
+			   data-dyn-change-at="item.cost.amount" />
 	</div>
 </div>

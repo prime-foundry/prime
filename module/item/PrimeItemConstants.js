@@ -1,5 +1,5 @@
 import {PrimeItemManager} from "./PrimeItemManager.js";
-import {prerequisiteClassNameToClass} from "./components/Prerequisites.js";
+import {prerequisiteClassNameToClass, Prerequisites} from "./components/Prerequisites.js";
 import {TemplateTable} from "../util/TemplateTable.js";
 import PrimeActorConstants from "../actor/PrimeActorConstants.js";
 import {arrayIfNot} from "../util/support.js";
@@ -17,25 +17,43 @@ const QUALIFIERS = new Map()
     .set('STARTS_WITH', {unary: false, types: ['string'], predicate: (a, b) => a.startsWith(b)})
     .set('ENDS_WITH', {unary: false, types: ['string'], predicate: (a, b) => a.endsWith(b)});
 
-class PrerequisiteLoader {
-    static load({prerequisites}) {
-        const transformed = {};
-        Object.entries(prerequisites).forEach(([key, prerequisiteData]) => {
-                const title = game.i18n.localize(prerequisiteData.title);
-                const Type = prerequisiteClassNameToClass(prerequisiteData.class);
-                const subTypes = PrerequisiteLoader.loadSubTypes(Type, prerequisiteData);
-                transformed[key] = {title, subTypes, class: prerequisiteData.class};
-            }
-        );
-        return transformed;
+class PrerequisitesTable extends TemplateTable {
+
+    _prerequisites;
+
+    constructor() {
+        super('prerequisites')
+    }
+
+    get prerequisites() {
+        if (this._prerequisites == null) {
+            const transformed = {};
+            Object.entries(this.data).forEach(([key, prerequisiteData]) => {
+                    const title = game.i18n.localize(prerequisiteData.title);
+                    const Type = prerequisiteClassNameToClass(prerequisiteData.class);
+                    const subTypes = PrerequisitesTable.loadSubTypes(Type, prerequisiteData);
+                    transformed[key] = {title, subTypes, class: prerequisiteData.class};
+                }
+            );
+            this._prerequisites = transformed;
+        }
+        return this._prerequisites;
+    }
+
+    get defaultPrerequisite() {
+        const [type, ] = Object.entries(this.prerequisites).shift();
+        const target = '';
+        const qualifier = '';
+        const value = '';
+        return {type, target, qualifier, value};
     }
 
     static loadSubTypes(Type, prerequisiteData) {
         const subType = Type.subType;
         if (subType === 'item') {
-            return PrerequisiteLoader.loadItemSubType(Type, arrayIfNot(prerequisiteData.itemBaseTypes, true));
+            return PrerequisitesTable.loadItemSubType(Type, arrayIfNot(prerequisiteData.itemBaseTypes, true));
         } else if (subType === 'actor') {
-            return PrerequisiteLoader.loadActorSubType();
+            return PrerequisitesTable.loadActorSubType();
         }
     }
 
@@ -44,7 +62,7 @@ class PrerequisiteLoader {
         const actorLookups = PrimeActorConstants.stats.lookups;
         Object.entries(actorLookups).forEach(([key, actorData]) => {
                 const valueTypes = arrayIfNot(actorData.valueTypes);
-                const qualifiers = PrerequisiteLoader.loadQualifiers(valueTypes);
+                const qualifiers = PrerequisitesTable.loadQualifiers(valueTypes);
                 const title = actorData.title;
                 transformed[key] = {title, qualifiers};
             }
@@ -58,7 +76,7 @@ class PrerequisiteLoader {
         const items = PrimeItemManager.getItems(criteria);
         items.forEach(item => {
             const valueTypes = arrayIfNot(Type.supportedValueTypes(item));
-            const qualifiers = PrerequisiteLoader.loadQualifiers(valueTypes);
+            const qualifiers = PrerequisitesTable.loadQualifiers(valueTypes);
             const key = item.id; // this will become sourceKey for embedded items.
             const title = game.i18n.localize(item.name);
             transformed[key] = {title, qualifiers};
@@ -82,28 +100,44 @@ class PrerequisiteLoader {
             });
         return transformed;
     }
-
 }
 
-class ModifierLoader {
-    static load({modifiers}) {
-        const transformed = {};
-        Object.entries(modifiers).forEach(([key, modifierData]) => {
-                const title = game.i18n.localize(modifierData.title);
-                const type = modifierData.type;
-                const subTypes = ModifierLoader.loadSubTypes(type, modifierData);
-                transformed[key] = {title, subTypes};
-            }
-        );
-        return transformed;
+class ModifiersTable extends TemplateTable {
+
+    constructor() {
+        super('modifiers')
+    }
+    _modifiers;
+
+    get modifiers() {
+        if (this._modifiers == null) {
+            const transformed = {};
+            Object.entries(this.data).forEach(([key, modifierData]) => {
+                    const title = game.i18n.localize(modifierData.title);
+                    const type = modifierData.type;
+                    const subTypes = ModifiersTable.loadSubTypes(type, modifierData);
+                    transformed[key] = {title, subTypes};
+                }
+            );
+            this._modifiers = transformed;
+        }
+        return this._modifiers;
     }
 
+    get defaultModifier() {
+        const [type, ] = Object.entries(this.modifiers).shift();
+        const target = '';
+        const value = 0;
+        const situational = true;
+        const equipped = false;
+        return {type, target, value,situational, equipped};
+    }
 
     static loadSubTypes(subType, modifierData) {
         if (subType === 'item') {
-            return ModifierLoader.loadItemSubType(arrayIfNot(modifierData.itemBaseTypes, true), arrayIfNot(modifierData.valueTypes, true));
+            return ModifiersTable.loadItemSubType(arrayIfNot(modifierData.itemBaseTypes, true), arrayIfNot(modifierData.valueTypes, true));
         } else if (subType === 'actor') {
-            return ModifierLoader.loadActorSubType();
+            return ModifiersTable.loadActorSubType();
         }
         // misc doesn't have subtypes
     }
@@ -126,62 +160,40 @@ class ModifierLoader {
         Object.entries(actorLookups)
             .filter(([,actorData]) => actorData.modifiable)
             .forEach(([key, actorData]) => {
-                const title = actorData.title;
-                transformed[key] = title;
-            }
-        );
+                    const title = actorData.title;
+                    transformed[key] = title;
+                }
+            );
         return transformed;
     }
 }
 
-class Perks extends TemplateTable {
-
-    _prerequisites;
-    _modifiers;
-
-    constructor() {
-        super('perks')
-    }
-
-    get modifiers() {
-        if (this._modifiers == null) {
-            this._modifiers = ModifierLoader.load(this.data);
-        }
-        return this._modifiers;
-    }
-
-    get prerequisites() {
-        if (this._prerequisites == null) {
-            this._prerequisites = PrerequisiteLoader.load(this.data);
-        }
-        return this._prerequisites;
-    }
-
-    get defaultModifier() {
-        const [type, ] = Object.entries(this.modifiers).shift();
-        const target = '';
-        const value = '';
-        const situational = true;
-        return {type, target, value};
-    }
-
-    get defaultPrerequisite() {
-        const [type, ] = Object.entries(this.prerequisites).shift();
-        const target = '';
-        const qualifier = '';
-        const value = '';
-        return {type, target, qualifier, value};
-    }
-}
-
 export default class PrimeItemConstants {
-    static perks = new Perks();
+    static _modifiers = new ModifiersTable();
+    static _prerequisites = new PrerequisitesTable()
 
-    static isUnaryQualifier(qualifier) {
-        return (QUALIFIERS.get(qualifier) || {unary: true}).unary;
+    static get modifiers() {
+        return this._modifiers.modifiers;
+    }
+
+    static get defaultModifier(){
+        return this._modifiers.defaultModifier;
+    }
+
+    static get prerequisites() {
+        return this._prerequisites.prerequisites;
+    }
+
+    static get defaultPrerequisite(){
+        return this._prerequisites.defaultPrerequisite;
     }
 
     static qualifierForKey(key) {
         return QUALIFIERS.get(key);
     }
+
+    static isUnaryQualifier(qualifier) {
+        return (QUALIFIERS.get(qualifier) || {unary: true}).unary;
+    }
+
 }

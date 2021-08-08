@@ -22,7 +22,7 @@ export class Prerequisites extends Component {
 	}
 
 	add() {
-		const prerequisite = PrimeItemConstants.perks.defaultPrerequisite;
+		const prerequisite = PrimeItemConstants.defaultPrerequisite;
 		this.write(this.pathToPrerequisites().with((this.gameSystem.prerequisites || []).length), prerequisite);
 	}
 
@@ -32,7 +32,10 @@ export class Prerequisites extends Component {
 	}
 
 	static prerequisiteClassForType(type){
-		return PREREQUISITE_CLASSES.get(PrimeItemConstants.perks.prerequisites[type].class);
+		return PREREQUISITE_CLASSES.get(PrimeItemConstants.prerequisites[type].class);
+	}
+	* [Symbol.iterator]() {
+		yield * this.collection;
 	}
 }
 
