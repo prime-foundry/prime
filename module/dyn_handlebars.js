@@ -1,5 +1,5 @@
 import JSONPathBuilder from "./util/JSONPathBuilder.js";
-import {DynError, isFunction} from "./util/support.js";
+import {DynError} from "./util/support.js";
 
 class DynHandlebars {
     static dynEditor(options) {
