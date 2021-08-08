@@ -5,7 +5,7 @@
         {{#each item.modifiers as |modifier|}}
             {{alias 'Items' ../static.items}}
             {{alias 'Modifiers' @Items.modifiers}}
-            {{alias 'ModifiersType' (dynLookup @Modifiers '$.subTypes' modifier.type)}}
+            {{alias 'ModifiersType' (at @Modifiers modifier.type 'subTypes')}}
             {{alias 'item' ../item}}
             <div class="cell100 flexRow flexBetween flexWrap infoBlock effectWrapper">
                 <div class="effectIndex">{{increment @index}}</div>

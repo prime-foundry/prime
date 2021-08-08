@@ -24,7 +24,7 @@ class DynHandlebars {
         return HandlebarsHelpers.editor(newOptions);
     }
 
-    static dynLookup(object, dynamicPath, ...rest) {
+    static path(object, dynamicPath, ...rest) {
         const values = Array.from(rest);
         const options = values.pop(); // makes values 1 shorter ( we want this )
         const pathParts = dynamicPath.split('$');
@@ -388,11 +388,25 @@ class DynHandlebars {
             data[values[i]] = values[i+1];
         }
     }
+
+    static at(object,  ...rest) {
+
+        const values = Array.from(rest);
+        const options = values.pop(); // makes values 1 shorter ( we want this )
+        const path = values.join('.');
+        const pathBuilder = JSONPathBuilder.from(path);
+        try {
+            return pathBuilder.traverse(object);
+        } catch(err){
+            // we don't actually want to throw an exception here, as we want to follow the handlebars spec of just returning null.
+            return null;
+        }
+    }
 }
 
 Handlebars.registerHelper({
     dynEditor: DynHandlebars.dynEditor,
-    dynLookup: DynHandlebars.dynLookup,
+    path: DynHandlebars.path,
     count: DynHandlebars.count,
     increment: DynHandlebars.increment,
     decrement: DynHandlebars.decrement,
@@ -413,4 +427,5 @@ Handlebars.registerHelper({
     keys: DynHandlebars.keys,
     values: DynHandlebars.values,
     alias: DynHandlebars.alias,
+    at: DynHandlebars.at,
 });

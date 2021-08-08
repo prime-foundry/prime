@@ -5,8 +5,8 @@
         {{#each item.prerequisites as |prerequisite|}}
             {{alias 'Items' ../static.items}}
             {{alias 'Prerequisites' @Items.prerequisites}}
-            {{alias 'PrerequisitesType' (dynLookup @Prerequisites '$.subTypes' prerequisite.type)}}
-            {{alias 'PrerequisitesSubType' (lookup @PrerequisitesType prerequisite.target)}}
+            {{alias 'PrerequisitesType' (at @Prerequisites prerequisite.type 'subTypes')}}
+            {{alias 'PrerequisitesSubType' (at @PrerequisitesType prerequisite.target)}}
             {{alias 'item' ../item}}
             <div class="cell100 flexRow flexBetween flexWrap infoBlock perkPrerequisiteWrapper">
                 <div class="prerequisiteIndex">{{increment @index}}</div>
