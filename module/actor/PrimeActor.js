@@ -84,10 +84,6 @@ export class PrimeActor extends DynDocumentMixin(Actor, 'actor')
 	}
 
 
-	_onCreateEmbeddedDocuments(embeddedName, ...args){
-		super._onCreateEmbeddedDocuments(embeddedName, ...args);
-	}
-
 	/**
 	 * @return {User[]}
 	 * @protected

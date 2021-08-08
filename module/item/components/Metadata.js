@@ -7,7 +7,20 @@ export default class Metadata extends Component {
     }
 
     get sourceKey(){
-        return this.metadata.sourceKey;
+        const sourceKey = this.metadata.sourceKey;
+        if(sourceKey == null || sourceKey.length === 0){
+            if(this.document.isEmbedded){
+                let newSourceKey = this.document.getFlag('core', 'sourceId');
+                if(newSourceKey.startsWith('Item.')){
+                    newSourceKey = newSourceKey.slice(5);
+                }
+                this.write(this.metadataPath.with('sourceKey'), newSourceKey);
+                return newSourceKey;
+            } else {
+                return null;
+            }
+        }
+        return sourceKey
     }
 
     get source() {

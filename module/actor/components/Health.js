@@ -1,6 +1,7 @@
 import {getComponentLazily} from "../../util/support.js";
 import {PointsBase} from "./Points.js";
 import Component from "../../util/Component.js";
+import {PrimeModifierManager} from "../../item/PrimeModifierManager.js";
 
 export default class Health extends Component {
     constructor(parent) {
@@ -257,8 +258,7 @@ class Wounds extends InjurableBase {
     }
 
     get bonus() {
-        // TODO Move
-        return this.document.getStatBonusesFromItems("mind.health.wounds");
+        return PrimeModifierManager.getModifiers("health.wounds.max", this.document);
     }
 
     get stats() {
@@ -304,8 +304,7 @@ class Resilience extends PointsBase {
     }
 
     get bonus() {
-        // TODO Move
-        return this.document.getStatBonusesFromItems("mind.health.resilience");
+        return PrimeModifierManager.getModifiers("health.resilience.max", this.document);
     }
 
     /**
@@ -326,8 +325,7 @@ class Insanities extends InjurableBase {
     }
 
     get bonus() {
-        // TODO Move
-        return this.document.getStatBonusesFromItems("mind.insanities.max");
+        return PrimeModifierManager.getModifiers("health.insanities.max", this.document);
     }
 
     /**
@@ -376,8 +374,7 @@ class Psyche extends PointsBase {
     }
 
     get bonus() {
-        // TODO Move
-        return this.document.getStatBonusesFromItems("mind.psyche.max");
+        return PrimeModifierManager.getModifiers("health.psyche.max", this.document);
     }
 
     /**

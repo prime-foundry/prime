@@ -42,6 +42,7 @@ export class PrimeModifierManager {
      * @returns {number}
      */
     static getModifiers(target, actorOrComponent, options ={}) {
+        target = target.replaceAll('.', '_');
         let actorDoc = actorOrComponent instanceof Component ? actorOrComponent.document : actorOrComponent;
         if(actorDoc.qualifying){
             return 0;

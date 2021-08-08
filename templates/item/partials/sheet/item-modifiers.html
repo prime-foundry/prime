@@ -5,6 +5,7 @@
         {{#each item.modifiers as |modifier|}}
             {{alias 'Items' ../static.items}}
             {{alias 'Modifiers' @Items.modifiers}}
+            {{alias 'ModifiersCategory' (at @Modifiers modifier.type 'category')}}
             {{alias 'ModifiersType' (at @Modifiers modifier.type 'subTypes')}}
             {{alias 'item' ../item}}
             <div class="cell100 flexRow flexBetween flexWrap infoBlock effectWrapper">
@@ -46,7 +47,7 @@
 
                         {{#if (and (defined modifier.target)
                                       (includes (keys @ModifiersType) modifier.target))}}
-                            {{#if (not (equalTo  @ModifiersType.category 'otherItem'))}}
+                            {{#if (not (equalTo @ModifiersCategory 'otherItem'))}}
                             <div class="cell100 flexRow flexBetween verticalCenter ">
                                 <label for="item.modifiers.collection.{{@index}}.value"
                                        class="resource-label cell30 rightAlign">{{#if (isInteger modifier.value)}}{{#if
@@ -66,6 +67,7 @@
                                            class="resource-label">When Equipped:</label>
                                     <input type="checkbox" id="item.modifiers.collection.{{@index}}.equipped"
                                            class="effectFormElement"
+                                           data-dyn-type="boolean"
                                            data-dyn-change-at="item.modifiers.collection.{{@index}}.equipped"
                                            data-dyn-select="item.modifiers.collection.{{@index}}.equipped"/>
                                 </div>
@@ -75,6 +77,7 @@
                                        class="resource-label">Situational:</label>
                                 <input type="checkbox" id="item.modifiers.collection.{{@index}}.situational"
                                        class="effectFormElement"
+                                       data-dyn-type="boolean"
                                        data-dyn-change-at="item.modifiers.collection.{{@index}}.situational"
                                        data-dyn-select="item.modifiers.collection.{{@index}}.situational"/>
                             </div>

@@ -135,9 +135,6 @@ export class OtherItemModifier extends Modifier {
 	modifierFor(actorDoc, ownedItem, target, options ={}){
 		const {qualifies = true, includeSituational = false, includeUnequipped = false} = options
 
-		if(this.target !== target){
-			return 0;
-		}
 		if(!includeSituational && this.situational){
 			return 0;
 		}
@@ -145,7 +142,10 @@ export class OtherItemModifier extends Modifier {
 			return 0;
 		}
 
-		const itemDoc = ItemDirectory.collection.get(target);
+		const itemDoc = ItemDirectory.collection.get(this.target);
+		if(itemDoc == null){
+			return 0;
+		}
 		const item = itemDoc.dyn.typed;
 		if(qualifies && !item.prerequisites.qualifies(actorDoc, ownedItem)){
 			return 0;

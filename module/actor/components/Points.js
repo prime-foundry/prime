@@ -1,4 +1,5 @@
 import Component from "../../util/Component.js";
+import {PrimeModifierManager} from "../../item/PrimeModifierManager.js";
 
 /**
  * @abstract
@@ -19,7 +20,7 @@ export class PointsBase extends Component {
      * @returns {number}
      */
     get max() {
-        return this.base + this.bonus;
+        return Math.max(this.base + this.bonus,1);
     }
 
     /**
@@ -34,7 +35,7 @@ export class PointsBase extends Component {
      * @returns {number}
      */
     get value() {
-        return this.points.value || 0;
+        return Math.max(Math.min(this.max, this.points.value || 0),0);
     }
 
     /**
@@ -211,8 +212,7 @@ export class ActionPoints extends PointsBase {
     }
 
     get bonus() {
-        //TODO: move this out of actor.
-        return this.document.getStatBonusesFromItems("actionPoints");
+        return PrimeModifierManager.getModifiers("actionPoints.max", this.document);
     }
 
 

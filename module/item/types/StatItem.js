@@ -6,7 +6,7 @@ export default class StatItem extends BaseItem {
         super(primeItem);
     }
 
-    get statType(){
+    get statType() {
         return this.gameSystem.statType;
     }
 
@@ -29,14 +29,15 @@ export default class StatItem extends BaseItem {
      * @returns {number}
      */
     get value() {
-        return this.unadjustedValue + this.activeModifiers;
+        const value = this.unadjustedValue + this.activeModifiers;
+        return Math.min(Math.max(value, 0), this.max)
     }
 
-    get unadjustedValue(){
+    get unadjustedValue() {
         return super.gameSystem.value;
     }
 
-    set unadjustedValue(value){
+    set unadjustedValue(value) {
         if (value <= this.max && value >= 0) {
             this.write(this.gameSystemPath.with('value'), value);
         }

@@ -36,7 +36,7 @@ export default class BaseItem extends Component {
     }
 
     get isOwnedItem(){
-        return this.metadata && this.metadata.sourceKey && this.metadata.sourceKey !== this.id;
+        return !!(this.metadata.sourceKey != null && this.metadata.sourceKey !== this.id );
     }
 
     /**
