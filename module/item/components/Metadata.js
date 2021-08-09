@@ -23,6 +23,15 @@ export default class Metadata extends Component {
         return sourceKey
     }
 
+    markOrphaned() {
+        this.write(this.metadataPath.with('orphaned'), true);
+        console.warn(`Item '${this.document.name}':'${this.document.id}' is orphaned from missing item '${this.sourceKey}'`);
+    }
+
+    get orphaned() {
+        return !!this.metadata.orphaned;
+    }
+
     get source() {
         const sourceKey = this.sourceKey;
         if(sourceKey != null){

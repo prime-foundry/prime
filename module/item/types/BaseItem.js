@@ -26,13 +26,19 @@ export default class BaseItem extends Component {
     }
 
     get sourceItem() {
-        if(this.isOwnedItem){
+        if(this.hasSourceItem){
             const sourceDoc = ItemDirectory.collection.get(this.metadata.sourceKey);
             if(sourceDoc != null){
                 return sourceDoc.dyn.typed;
             }
+            this.metadata.markOrphaned();
+            return this;
         }
         return this;
+    }
+
+    get hasSourceItem(){
+        return this.isOwnedItem && !this.metadata.orphaned;
     }
 
     get isOwnedItem(){

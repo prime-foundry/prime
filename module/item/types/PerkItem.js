@@ -21,14 +21,14 @@ export default class PerkItem extends BaseItem {
     }
 
     get prerequisites(){
-        if(this.isOwnedItem){
+        if(this.hasSourceItem){
             return this.sourceItem.prerequisites;
         }
         return getComponentLazily(this, 'prerequisites', Prerequisites);
     }
 
     get modifiers(){
-        if(this.isOwnedItem){
+        if(this.hasSourceItem){
             return this.sourceItem.modifiers;
         }
         return getComponentLazily(this, 'modifiers', Modifiers);
