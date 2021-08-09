@@ -45,9 +45,24 @@ export class PrimeHandlebarsPartials {
         }
     }
 }
-Handlebars.logger.log = function(level) {
+Handlebars.logger.log = function(level, ...rest) {
     if(level >= Handlebars.logger.level) {
-        console.log.apply(console, [].concat(["Handlebars: "], _.toArray(arguments)));
+        let logger = console.log;
+        switch(level){
+            case 0:
+                logger = console.debug;
+                break;
+            case 1:
+                logger = console.info;
+                break;
+            case 2:
+                logger = console.warn;
+                break;
+            case 3:
+                logger = console.error;
+                break;
+        }
+        logger.apply(console, ["Handlebars: "].concat([level], Array.from(rest)));
     }
 };
 // DEBUG: 0, INFO: 1, WARN: 2, ERROR: 3,

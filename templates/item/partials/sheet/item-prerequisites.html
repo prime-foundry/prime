@@ -36,6 +36,7 @@
                             {{/each}}
                         </select>
                     </div>
+                    {{log 2 @PrerequisitesType prerequisite}}
                     {{#if (and (defined prerequisite.target)
                                   (includes (keys @PrerequisitesType) prerequisite.target))}}
                         <div class="cell100 flexRow flexBetween verticalCenter">
@@ -51,7 +52,6 @@
                                 {{/each}}
                             </select>
                         </div>
-
                         {{#if (and (defined prerequisite.qualifier)
                                       (not (call @Items.isUnaryQualifier prerequisite.qualifier))
                                       (includes (keys @PrerequisitesSubType.qualifiers) prerequisite.qualifier))}}

@@ -47,25 +47,32 @@ function collectingTraverseSupport(jsonPathBuilder, root, onNulls ) {
 
 export default class JSONPathBuilder {
     pathComponents;
-    constructor(...pathComponents) {
-        this.pathComponents = buildPathComponents(pathComponents);
+    constructor(splitStrings, ...pathComponents) {
+        this.pathComponents = buildPathComponents(pathComponents, splitStrings);
     }
 
     static from(...pathComponents){
         if(pathComponents.length === 1 && pathComponents[0] instanceof JSONPathBuilder){
             return pathComponents[0]; // these are effectively immutable, so might as well just return the original.
         }
-        return new JSONPathBuilder(...pathComponents)
+        return new JSONPathBuilder(true, ...pathComponents);
+    }
+
+    static fromRaw(...pathComponents){
+        if(pathComponents.length === 1 && pathComponents[0] instanceof JSONPathBuilder){
+            return pathComponents[0]; // these are effectively immutable, so might as well just return the original.
+        }
+        return new JSONPathBuilder(false, pathComponents)
     }
 
     with(...pathComponents){
         const addedComponents = buildPathComponents(pathComponents);
-        return JSONPathBuilder.from(...this.pathComponents, ...addedComponents);
+        return JSONPathBuilder.fromRaw(...this.pathComponents, ...addedComponents);
     }
 
     withRaw(...pathComponents) {
         const addedComponents = buildPathComponents(pathComponents, false);
-        return JSONPathBuilder.from(...this.pathComponents, ...addedComponents);
+        return JSONPathBuilder.fromRaw(...this.pathComponents, ...addedComponents);
 
     }
 
@@ -78,7 +85,7 @@ export default class JSONPathBuilder {
     }
 
     slice(...args){
-        return JSONPathBuilder.from(...(this.pathComponents.slice(...args)));
+        return JSONPathBuilder.fromRaw(...(this.pathComponents.slice(...args)));
     }
 
     find(...args){
