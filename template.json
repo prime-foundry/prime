@@ -160,7 +160,9 @@
 			"prerequisites": {
 				"prerequisites": []
 			},
-			"costs": [],
+			"costs": {
+				"costs": []
+			},
 			"physicalItem": {
 				"quantity": 1,
 				"weight": 0,
