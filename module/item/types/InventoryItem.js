@@ -34,6 +34,10 @@ export default class InventoryItem extends BaseItem {
         return getComponentLazily(this, 'prerequisites', Prerequisites);
     }
 
+    qualifies(actorDoc = this.document.parent) {
+        return this.prerequisites.qualifies(actorDoc);
+    }
+
     get equipped() {
         return this.equippable && this.gameSystem.equipped;
     }
