@@ -95,6 +95,7 @@ export default class JSONPathBuilder {
             if(object == null) {
                 throw new DynError(`Undefined path element '${property}' at index: '${idx}', whilst traversing path: '${this.toString()}'`);
             }
+            idx++;
         };
         return object;
     }

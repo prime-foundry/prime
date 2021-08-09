@@ -318,7 +318,8 @@ class ControllerSupport {
             if (path.startsWith("'") && path.endsWith("'")) {
                 element.value = path.slice(1, -1);
             } else {
-                element.value = this.getModelValue(path, inputDyn);
+                const val = this.getModelValue(path, inputDyn);
+                element.value = val;
             }
         });
         const counters = view.querySelectorAll(`:scope input[type=checkbox][${this.dataKey}-type='counter']`);

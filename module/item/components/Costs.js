@@ -76,14 +76,16 @@ class PartCost extends BaseCost {
  * However this should live happily with other costs.
  */
 export class Cost extends Component {
-
+    constructor(parent) {
+        super(parent);
+    }
 
     getCostsPath(){
         return this.gameSystemPath.with('costs');
     }
 
     getCosts() {
-        return (this.gameSystem.costs || [])[0] || {amount:0};
+        return (this.gameSystem.costs || [])[0] || {type: '', amount:0};
     }
 
     get amount(){
