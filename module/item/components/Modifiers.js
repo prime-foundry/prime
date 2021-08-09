@@ -24,12 +24,11 @@ export class Modifiers extends Component {
     getActions() {
         const actions = this.collection
             .filter(modifier => modifier.category === 'otherItem')
-            .map((modifier) => {
+            .flatMap((modifier) => {
+                const item = modifier.getItem();
                 if(modifier.type === 'action') {
-                    return modifier.getAction();
+                    return item;
                 }
-                const itemDoc = modifier.getItem();
-                const item = itemDoc.dyn.typed;
                 return item.modifiers.getActions();
             });
         return actions;
@@ -162,8 +161,12 @@ export class AddedActionModifier extends Modifier {
         return 0;
     }
 
-    getAction() {
-        return ItemDirectory.collection.get(this.target);
+    getItem() {
+        const itemDoc = ItemDirectory.collection.get(this.target);
+        if (itemDoc == null) {
+            return null;
+        }
+        return itemDoc.dyn.typed;
     }
 }
 
@@ -183,11 +186,10 @@ export class OtherItemModifier extends Modifier {
             return 0;
         }
 
-        const itemDoc = this.getItem();
-        if (itemDoc == null) {
+        const item = this.getItem();
+        if (item == null) {
             return 0;
         }
-        const item = itemDoc.dyn.typed;
         if (qualifies && !item.prerequisites.qualifies(actorDoc)) {
             return 0;
         }
@@ -195,6 +197,10 @@ export class OtherItemModifier extends Modifier {
     }
 
     getItem() {
-        return ItemDirectory.collection.get(this.target);
+        const itemDoc = ItemDirectory.collection.get(this.target);
+        if (itemDoc == null) {
+            return null;
+        }
+        return itemDoc.dyn.typed;
     }
 }
