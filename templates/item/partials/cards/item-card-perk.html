@@ -1,4 +1,4 @@
-<div class="primeCard itemCard itemCardPerk {{partialClasses}}" data-item-index="{{@index}}">
+<div class="primeCard itemCard itemCardPerk {{#if (not (call this.prerequisites this.prerequisites.qualifies @root.actor))}}inactive{{/if}}" data-item-index="{{@index}}">
     <div class="cardTitle"><a class="itemTitle stopDrag" data-item-id="{{this.id}}">{{this.sourceItem.name}}</a></div>
     <div class="cardTopRightDetail">{{this.sourceItem.cost.amount}}</div>
 

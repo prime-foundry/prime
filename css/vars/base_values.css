@@ -21,6 +21,7 @@
 
     --actionBackgroundColor: hsl(53, 100%, 97%);
     --perkBackgroundColor: hsl(352, 100%, 97%);
+    --inactivePerkBackgroundColor: hsl(352, 10%, 80%);
     
     
     /********** Base font values **********/

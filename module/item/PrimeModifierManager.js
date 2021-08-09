@@ -81,7 +81,7 @@ export class PrimeModifierManager {
         const {qualifies = true} = options
 
         const perkTotal = perkItems.reduce((previousValue, ownedItem)=> {
-            if(qualifies && !ownedItem.prerequisites.qualifies(actorDoc, ownedItem)){
+            if(qualifies && !ownedItem.prerequisites.qualifies(actorDoc)){
                 return 0;
             }
             return previousValue + ownedItem.modifiers.modifierFor(actorDoc, ownedItem, target, options);

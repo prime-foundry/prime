@@ -26,9 +26,9 @@ export class Prerequisites extends Component {
 		this.write(this.pathToPrerequisites().with(Array.from(this.gameSystem.prerequisites || []).length), prerequisite);
 	}
 
-	qualifies(actorDoc, ownedItem) {
+	qualifies(actorDoc) {
 		// every returns true only if all pass the passed predicate, but will return false, the moment one fails.
-		return this.collection.every(prerequisite => prerequisite.qualifies(actorDoc, ownedItem));
+		return this.collection.every(prerequisite => prerequisite.qualifies(actorDoc));
 	}
 
 	static prerequisiteClassForType(type){
@@ -80,7 +80,7 @@ export class Prerequisite extends Component {
 	}
 
 
-	qualifies(actorDoc, ownedItem) {
+	qualifies(actorDoc) {
 		return true;
 	}
 
@@ -111,7 +111,7 @@ export class ItemPrerequisite extends Prerequisite {
 		return this.target;
 	}
 
-	qualifies(actorDoc, ownedItem) {
+	qualifies(actorDoc) {
 		if (super.qualifies(actorDoc)) {
 			const criteria = {
 				itemCollection: actorDoc.items,
@@ -205,7 +205,7 @@ export class ItemValueOrNamePrerequisite extends ItemPrerequisite {
 
 export class ActorPrerequisite extends Prerequisite {
 
-	qualifies(actorDoc, ownedItem) {
+	qualifies(actorDoc) {
 		if (super.qualifies(actorDoc)) {
 			const path = JSONPathBuilder.from(this.target);
 			const object = path.traverse(actorDoc);

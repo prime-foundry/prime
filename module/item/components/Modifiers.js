@@ -147,7 +147,7 @@ export class OtherItemModifier extends Modifier {
 			return 0;
 		}
 		const item = itemDoc.dyn.typed;
-		if(qualifies && !item.prerequisites.qualifies(actorDoc, ownedItem)){
+		if(qualifies && !item.prerequisites.qualifies(actorDoc)){
 			return 0;
 		}
 		return item.modifiers.modifierFor(actorDoc, ownedItem, target, options);
