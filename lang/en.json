@@ -427,5 +427,7 @@
 	"PRIME.perk_actor_stat_profile_faction":  "Faction",
 	"PRIME.perk_actor_stat_profile_occupation": "Occupation",
 	"PRIME.perk_actor_stat_profile_celestial":  "Celestial",
-	"PRIME.perk_actor_stat_profile_rankOrTitle": "Rank or Title"
+	"PRIME.perk_actor_stat_profile_rankOrTitle": "Rank or Title",
+
+	"PRIME.action_effect_write_in_descriptions":  "Please write in description"
 }

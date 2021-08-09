@@ -434,77 +434,6 @@
 					"title": "PRIME.perk_actor_stat_bonus_max_ward_psyche"
 				}
 			],
-			"actorStatLookups": {
-				"actionPoints.value": {
-					"valueTypes": "number",
-					"title": "PRIME.perk_actor_stat_actionPoints_value"
-				},
-				"actionPoints.max": {
-					"valueTypes": "number",
-					"title": "PRIME.perk_actor_stat_actionPoints_max",
-					"modifiable": true
-				},
-				"health.wounds.value": {
-					"valueTypes": "number",
-					"title": "PRIME.perk_actor_stat_health_wounds_value"
-				},
-				"health.wounds.max": {
-					"valueTypes": "number",
-					"title": "PRIME.perk_actor_stat_health_wounds_max",
-					"modifiable": true
-				},
-				"health.resilience.value": {
-					"valueTypes": "number",
-					"title": "PRIME.perk_actor_stat_health_resilience_value"
-				},
-				"health.resilience.max": {
-					"valueTypes": "number",
-					"title": "PRIME.perk_actor_stat_health_resilience_max",
-					"modifiable": true
-				},
-				"health.insanities.value": {
-					"valueTypes": "number",
-					"title": "PRIME.perk_actor_stat_health_insanities_value"
-				},
-				"health.insanities.max": {
-					"valueTypes": "number",
-					"title": "PRIME.perk_actor_stat_health_insanities_max",
-					"modifiable": true
-				},
-				"health.psyche.value": {
-					"valueTypes": "number",
-					"title": "PRIME.perk_actor_stat_health_psyche_value"
-				},
-				"health.psyche.max": {
-					"valueTypes": "number",
-					"title": "PRIME.perk_actor_stat_health_psyche_max",
-					"modifiable": true
-				},
-				"profile.npc": {
-					"valueTypes": "boolean",
-					"title": "PRIME.perk_actor_stat_profile_npc"
-				},
-				"profile.race": {
-					"valueTypes": "string",
-					"title": "PRIME.perk_actor_stat_profile_race"
-				},
-				"profile.faction": {
-					"valueTypes": "string",
-					"title": "PRIME.perk_actor_stat_profile_faction"
-				},
-				"profile.occupation": {
-					"valueTypes": "string",
-					"title": "PRIME.perk_actor_stat_profile_occupation"
-				},
-				"profile.celestial": {
-					"valueTypes": "string",
-					"title": "PRIME.perk_actor_stat_profile_celestial"
-				},
-				"profile.rankOrTitle": {
-					"valueTypes": "string",
-					"title": "PRIME.perk_actor_stat_profile_rankOrTitle"
-				}
-			},
 			"woundConditions": [
 				{
 					"key": "bleeding",
@@ -889,6 +818,91 @@
 				]
 			}
 		},
+		"lookups": {
+			"actor": {
+				"actionPoints.value": {
+					"valueTypes": "number",
+					"title": "PRIME.perk_actor_stat_actionPoints_value",
+					"actionable": true
+				},
+				"actionPoints.max": {
+					"valueTypes": "number",
+					"title": "PRIME.perk_actor_stat_actionPoints_max",
+					"modifiable": true,
+					"actionable": true
+				},
+				"health.wounds.value": {
+					"valueTypes": "number",
+					"title": "PRIME.perk_actor_stat_health_wounds_value",
+					"actionable": true
+				},
+				"health.wounds.max": {
+					"valueTypes": "number",
+					"title": "PRIME.perk_actor_stat_health_wounds_max",
+					"modifiable": true,
+					"actionable": true
+				},
+				"health.resilience.value": {
+					"valueTypes": "number",
+					"title": "PRIME.perk_actor_stat_health_resilience_value",
+					"actionable": true
+				},
+				"health.resilience.max": {
+					"valueTypes": "number",
+					"title": "PRIME.perk_actor_stat_health_resilience_max",
+					"modifiable": true,
+					"actionable": true
+				},
+				"health.insanities.value": {
+					"valueTypes": "number",
+					"title": "PRIME.perk_actor_stat_health_insanities_value",
+					"actionable": true
+				},
+				"health.insanities.max": {
+					"valueTypes": "number",
+					"title": "PRIME.perk_actor_stat_health_insanities_max",
+					"modifiable": true,
+					"actionable": true
+				},
+				"health.psyche.value": {
+					"valueTypes": "number",
+					"title": "PRIME.perk_actor_stat_health_psyche_value",
+					"actionable": true
+				},
+				"health.psyche.max": {
+					"valueTypes": "number",
+					"title": "PRIME.perk_actor_stat_health_psyche_max",
+					"modifiable": true,
+					"actionable": true
+				},
+				"profile.npc": {
+					"valueTypes": "boolean",
+					"title": "PRIME.perk_actor_stat_profile_npc"
+				},
+				"profile.race": {
+					"valueTypes": "string",
+					"title": "PRIME.perk_actor_stat_profile_race"
+				},
+				"profile.faction": {
+					"valueTypes": "string",
+					"title": "PRIME.perk_actor_stat_profile_faction"
+				},
+				"profile.occupation": {
+					"valueTypes": "string",
+					"title": "PRIME.perk_actor_stat_profile_occupation"
+				},
+				"profile.celestial": {
+					"valueTypes": "string",
+					"title": "PRIME.perk_actor_stat_profile_celestial"
+				},
+				"profile.rankOrTitle": {
+					"valueTypes": "string",
+					"title": "PRIME.perk_actor_stat_profile_rankOrTitle"
+				}
+			},
+			"item": {
+			}
+		},
 		"modifiers": {
 			"prime": {
 				"title": "PRIME.item_modifier_prime",
@@ -936,62 +950,57 @@
 			}
 		},
 		"actions": {
-			"actionTypes": [
-				{
-					"key": "major",
+			"types": {
+				"major": {
 					"title": "PRIME.action_type_major_title"
 				},
-				{
-					"key": "minor",
+				"minor": {
 					"title": "PRIME.action_type_minor_title"
 				},
-				{
-					"key": "reaction",
+				"reaction": {
 					"title": "PRIME.action_type_reaction_title"
 				},
-				{
-					"key": "combo",
+				"combo": {
 					"title": "PRIME.action_type_combo_title"
 				},
-				{
-					"key": "weaponCombo",
+				"weaponCombo": {
 					"title": "PRIME.action_type_weapon_combo_title"
 				}
-			],
-			"effectTypes": [
-				{
-					"key": "move",
-					"title": "PRIME.action_effect_type_move"
+			},
+			"effects": {
+				"move": {
+					"title": "PRIME.action_effect_type_move",
+					"category": "misc"
 				},
-				{
-					"key": "meleeAttack",
-					"title": "PRIME.action_effect_type_melee_attack"
+				"meleeAttack": {
+					"title": "PRIME.action_effect_type_melee_attack",
+					"category": "misc"
 				},
-				{
-					"key": "rangedAttack",
-					"title": "PRIME.action_effect_type_ranged_attack"
+				"rangedAttack": {
+					"title": "PRIME.action_effect_type_ranged_attack",
+					"category": "misc"
 				},
-				{
-					"key": "meleeBlock",
-					"title": "PRIME.action_effect_type_melee_block"
+				"meleeBlock": {
+					"title": "PRIME.action_effect_type_melee_block",
+					"category": "misc"
 				},
-				{
-					"key": "rangedBlock",
-					"title": "PRIME.action_effect_type_ranged_block"
+				"rangedBlock": {
+					"title": "PRIME.action_effect_type_ranged_block",
+					"category": "misc"
 				},
-				{
-					"key": "magic",
-					"title": "PRIME.action_effect_type_magic"
+				"magic": {
+					"title": "PRIME.action_effect_type_magic",
+					"category": "misc"
 				},
-				{
-					"key": "gainPoints",
-					"title": "PRIME.action_effect_type_gain_points"
+				"gainPoints": {
+					"title": "PRIME.action_effect_type_gain_points",
+					"category": "actor"
 				},
-				{
-					"key": "misc",
-					"title": "PRIME.action_effect_type_misc"
+				"misc": {
+					"title": "PRIME.action_effect_type_misc",
+					"category": "misc"
 				}
-			],
+			},
 			"miscBonusLookup": [
 				{
 					"key": "null",

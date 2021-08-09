@@ -1,46 +1,32 @@
 import BaseItem from "./BaseItem.js";
 import {getComponentLazily} from "../../util/support.js";
-import {Cost} from "../components/Costs.js";
-import {Prerequisites} from "../components/Prerequisites.js";
-import {Modifiers} from "../components/Modifiers.js";
+import {ActionEffects} from "../components/ActionEffects.js";
 
-export default class PerkItem extends BaseItem {
+export default class ActionItem extends BaseItem {
     constructor(primeItem) {
         super(primeItem);
     }
 
-    /**
-     * @return {Cost}
-     */
-    get cost() {
-        if(this.hasSourceItem){
-            return this.sourceItem.cost;
-        }
-        return getComponentLazily(this, 'cost', Cost);
+    get actionPoints() {
+        return this.gameSystem.actionPoints || 0;
     }
 
-    aggregateCosts(total = {}){
-        if(this.hasSourceItem){
-            return this.sourceItem.aggregateCosts(total);
-        }
-        return this.cost.aggregate(total);
+    set actionPoints(actionPoints) {
+        this.write(this.gameSystemPath.with('actionPoints'), Math.max(0, Math.min(6,actionPoints,)));
     }
 
-    get prerequisites(){
-        if(this.hasSourceItem){
-            return this.sourceItem.prerequisites;
-        }
-        return getComponentLazily(this, 'prerequisites', Prerequisites);
+    get actionType() {
+        return this.gameSystem.actionType || 0;
     }
 
-    qualifies(actorDoc = this.document.parent) {
-        return this.prerequisites.qualifies(actorDoc);
+    set actionType(actionType) {
+        this.write(this.gameSystemPath.with('actionType'), actionType)
     }
 
-    get modifiers(){
+    get actionEffects(){
         if(this.hasSourceItem){
-            return this.sourceItem.modifiers;
+            return this.sourceItem.actionEffects;
         }
-        return getComponentLazily(this, 'modifiers', Modifiers);
+        return getComponentLazily(this, 'actionEffects', ActionEffects);
     }
 }

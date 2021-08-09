@@ -3,6 +3,7 @@ import {prerequisiteClassNameToClass, Prerequisites} from "./components/Prerequi
 import {TemplateTable} from "../util/TemplateTable.js";
 import PrimeActorConstants from "../actor/PrimeActorConstants.js";
 import {arrayIfNot} from "../util/support.js";
+import PrimeConstants from "../PrimeConstants.js";
 
 const QUALIFIERS = new Map()
     .set('EXISTS', {unary: true, types: ['object'], predicate: (a) => a != null})
@@ -61,7 +62,7 @@ class PrerequisitesTable extends TemplateTable {
 
     static loadActorSubType() {
         const transformed = {}
-        const actorLookups = PrimeActorConstants.stats.lookups;
+        const actorLookups = PrimeActorConstants.lookups;
         Object.entries(actorLookups).forEach(([key, actorData]) => {
                 const valueTypes = arrayIfNot(actorData.valueTypes);
                 const qualifiers = PrerequisitesTable.loadQualifiers(valueTypes);
@@ -85,7 +86,6 @@ class PrerequisitesTable extends TemplateTable {
         });
         return transformed;
     }
-
 
     static loadQualifiers(valueTypes) {
         let qualifiers = Array.from(QUALIFIERS.entries());
@@ -160,7 +160,7 @@ class ModifiersTable extends TemplateTable {
 
     static loadActorSubType() {
         const transformed = {}
-        const actorLookups = PrimeActorConstants.stats.lookups;
+        const actorLookups = PrimeActorConstants.lookups;
         Object.entries(actorLookups)
             .filter(([,actorData]) => actorData.modifiable)
             .forEach(([key, actorData]) => {
@@ -184,9 +184,88 @@ class ModifiersTable extends TemplateTable {
     }
 }
 
+
+class ActionsTable extends TemplateTable {
+
+    _types;
+    _effects;
+    constructor() {
+        super('actions')
+    }
+
+    get types() {
+        if (this._types == null) {
+            this._types = ActionsTable.loadTypes(this.data);
+        }
+        return this._types;
+    }
+
+    get effects() {
+        if (this._effects == null) {
+            this._effects = ActionsTable.loadEffects(this.data);
+        }
+        return this._effects;
+    }
+
+    get defaultActionEffect() {
+        const [type, ] = Object.entries(this.effects).shift();
+        const target = '';
+        const value = 0;
+        return {type, target, value};
+    }
+
+    static loadEffects({effects}) {
+        const transformed = {}
+        Object.entries(effects).forEach(([key, effectsData]) => {
+                const title = game.i18n.localize(effectsData.title);
+                const category = effectsData.category;
+                const subTypes = ActionsTable.loadEffectsSubTypes(category, effectsData);
+                transformed[key] = {title, subTypes, category};
+            }
+        );
+        return transformed;
+    }
+
+    static loadEffectsSubTypes(category, modifierData) {
+        if (category === 'item') {
+            // code is the same.
+            return ModifiersTable.loadItemSubType(arrayIfNot(modifierData.itemBaseTypes, true));
+        } else if (category === 'actor') {
+            return ActionsTable.loadEffectsActorSubType();
+        }  else if (category === 'otherItem') {
+            // code is the same.
+            return ModifiersTable.loadModifierSubType(arrayIfNot(modifierData.itemBaseTypes, true));
+        }
+        // misc doesn't have subtypes
+    }
+
+    static loadEffectsActorSubType() {
+        const transformed = {}
+        const actorLookups = PrimeActorConstants.lookups;
+        Object.entries(actorLookups)
+            .filter(([,actorData]) => actorData.actionable)
+            .forEach(([key, actorData]) => {
+                    const title = actorData.title;
+                    transformed[key] = title;
+                }
+            );
+        return transformed;
+    }
+    static loadTypes({types}) {
+        const transformed = {}
+        Object.entries(types).forEach(([key, typesData]) => {
+                const title = game.i18n.localize(typesData.title);
+                transformed[key] = {title};
+            }
+        );
+        return transformed;
+    }
+}
+
 export default class PrimeItemConstants {
     static _modifiers = new ModifiersTable();
     static _prerequisites = new PrerequisitesTable()
+    static _actions = new ActionsTable()
 
     static get modifiers() {
         return this._modifiers.modifiers;
@@ -204,6 +283,22 @@ export default class PrimeItemConstants {
         return this._prerequisites.defaultPrerequisite;
     }
 
+    static get actionTypes() {
+        return this._actions.types;
+    }
+
+    static get actionEffects() {
+        return this._actions.effects;
+    }
+
+    static get defaultActionEffect() {
+        return this._actions.defaultActionEffect;
+    }
+
+    static get lookups() {
+        return PrimeConstants.lookups.item;
+    }
+
     static qualifierForKey(key) {
         return QUALIFIERS.get(key);
     }
@@ -211,5 +306,4 @@ export default class PrimeItemConstants {
     static isUnaryQualifier(qualifier) {
         return (QUALIFIERS.get(qualifier) || {unary: true}).unary;
     }
-
 }

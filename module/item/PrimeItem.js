@@ -6,6 +6,7 @@ import PerkItem from "./types/PerkItem.js";
 import InventoryItem from "./types/InventoryItem.js";
 import WeaponItem from "./types/WeaponItem.js";
 import BaseItem from "./types/BaseItem.js";
+import ActionItem from "./types/ActionItem.js";
 
 /**
  * Extend the basic Item with some very simple modifications.
@@ -33,7 +34,7 @@ export class PrimeItem extends DynDocumentMixin(Item, 'item', 'type')
 			.register('perk', PerkItem)
 			.register('injury', InjuryItem)
 			.register('award', BaseItem)
-			.register('action', BaseItem);
+			.register('action', ActionItem);
 
 	}
 
