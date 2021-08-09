@@ -32,6 +32,7 @@ export default class PerkItem extends BaseItem {
         }
         return getComponentLazily(this, 'modifiers', Modifiers);
     }
+
     get prerequisites(){
         if(this.hasSourceItem){
             return this.sourceItem.prerequisites;
