@@ -49,7 +49,6 @@ export class PrimeItemSheet extends DynApplicationMixin(ItemSheet)
 		let data = super.getData();
 		data.itemTables = PrimeTables.cloneAndTranslateTables("items");
 		data.coreTables = PrimeTables.cloneAndTranslateTables("core");
-		data.perkTables = PrimeTables.cloneAndTranslateTables("perks");
 		data.actionTables = PrimeTables.cloneAndTranslateTables("actions");
 		data.actorTables = PrimeTables.cloneAndTranslateTables("actor");
 		

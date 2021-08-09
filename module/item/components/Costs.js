@@ -62,7 +62,7 @@ class PartCost extends BaseCost {
     aggregate(total = {}){
         const type = this._type;
         const amount = this.amount;
-        if(total[type] != null) {
+        if(total[type] == null) {
             total[type] = amount
         } else {
             total[type] += amount
@@ -75,28 +75,43 @@ class PartCost extends BaseCost {
  * Represents a single cost, whose type can also change, but only one cost is allowed.
  * However this should live happily with other costs.
  */
-export class Cost extends PartCost {
-    constructor(parent, type) {
-        super(parent, type);
+export class Cost extends Component {
+
+
+    getCostsPath(){
+        return this.gameSystemPath.with('costs');
+    }
+
+    getCosts() {
+        return (this.gameSystem.costs || [])[0] || {amount:0};
+    }
+
+    get amount(){
+        return this.getCosts().amount;
+    }
+
+    set amount(amount){
+        this.write(this.getCostsPath(), [{type: this.type, amount}]);
     }
 
     get type(){
-        return this._type;
+        return this.getCosts().type;
     }
 
     set type(type){
-        const idxNew = this.indexForType(this._type );
-        if(idxNew >= 0) {
-            const idx = this.indexForType(this._type);
-            this.write(this.getCostsPath().with(idx).with('type'), type);
-            this._type = type;
+        this.write(this.getCostsPath(), [{type, amount:this.amount}]);
+    }
+
+
+    aggregate(total = {}){
+        const type = this.type;
+        const amount = this.amount;
+        if(total[type] == null) {
+            total[type] = amount
         } else {
-            const amount = this.amount;
-            this.removeType(this._type);
-            this._type = type;
-            // will append if missing.
-            this.amount = amount;
+            total[type] += amount
         }
+        return total;
     }
 }
 

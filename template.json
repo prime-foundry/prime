@@ -155,33 +155,12 @@
 				}
 			},
 			"modifiers": {
-				"modifiers": [
-					{
-						"type": "",
-						"situational": true,
-						"equipped": true,
-						"target": "",
-						"value": 0,
-						"rules": ""
-					}
-				]
+				"modifiers": []
 			},
 			"prerequisites": {
-				"prerequisites": [
-					{
-						"type": "",
-						"target": "",
-						"value": "",
-						"qualifier": ""
-					}
-				]
+				"prerequisites": []
 			},
-			"costs": [
-				{
-					"type": "",
-					"amount": ""
-				}
-			],
+			"costs": [],
 			"physicalItem": {
 				"quantity": 1,
 				"weight": 0,
@@ -953,90 +932,6 @@
 				"title": "PRIME.perk_prerequisite_actor",
 				"class": "ActorPrerequisite"
 			}
-		},
-		"perks": {
-			"bonusTypes": [
-				{
-					"key": "situationalPrime",
-					"title": "PRIME.perk_type_situational_prime"
-				},
-				{
-					"key": "situationalRefinement",
-					"title": "PRIME.perk_type_situational_refinement"
-				},
-				{
-					"key": "extraAction",
-					"title": "PRIME.perk_type_extra_action"
-				},
-				{
-					"key": "actionPointBonus",
-					"title": "PRIME.perk_type_action_cost_reduction"
-				},
-				{
-					"key": "actorStatBonus",
-					"title": "PRIME.perk_type_actor_stat_bonus"
-				},
-				{
-					"key": "externalStatBonus",
-					"title": "PRIME.perk_type_external_stat_bonus"
-				},
-				{
-					"key": "misc",
-					"title": "PRIME.perk_type_misc"
-				}
-			],
-			"costs": [
-				{
-					"key": "perkCostXP",
-					"title": "PRIME.perk_cost_xp"
-				},
-				{
-					"key": "perkCostSoul",
-					"title": "PRIME.perk_cost_soul"
-				}
-			],
-			"prerequisiteTypes": [
-				{
-					"key": "minimumPrime",
-					"title": "PRIME.perk_prerequisite_minimum_prime"
-				},
-				{
-					"key": "minimumRefinement",
-					"title": "PRIME.perk_prerequisite_minimum_refinement"
-				},
-				{
-					"key": "minimumStat",
-					"title": "PRIME.perk_prerequisite_minimum_stat"
-				},
-				{
-					"key": "maximumPrime",
-					"title": "PRIME.perk_prerequisite_maximum_prime"
-				},
-				{
-					"key": "maximumRefinement",
-					"title": "PRIME.perk_prerequisite_maximum_refinement"
-				},
-				{
-					"key": "maximumStat",
-					"title": "PRIME.perk_prerequisite_maximum_stat"
-				},
-				{
-					"key": "otherPerk",
-					"title": "PRIME.perk_prerequisite_other_perk_purchased"
-				}
-			],
-			"externalStatLookup": [
-				{
-					"key": "null",
-					"title": "Please write in description"
-				}
-			],
-			"miscBonusLookup": [
-				{
-					"key": "null",
-					"title": "Please write in description"
-				}
-			]
 		},
 		"actions": {
 			"actionTypes": [
