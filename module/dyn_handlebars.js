@@ -1,5 +1,5 @@
 import JSONPathBuilder from "./util/JSONPathBuilder.js";
-import {DynError} from "./util/support.js";
+import {DynError, isString} from "./util/support.js";
 
 class DynHandlebars {
     static dynEditor(options) {
@@ -249,6 +249,9 @@ class DynHandlebars {
     static call(self, fn, ...rest) {
         const values = Array.from(rest);
         const options = values.pop(); // makes values 1 shorter ( we want this )
+        if(isString(fn)){
+            fn = self[fn];
+        }
         return fn.call(self, ...values);
     }
 
