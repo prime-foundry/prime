@@ -102,7 +102,6 @@ export class Cost extends Component {
         this.write(this.getCostsPath(), [{type, amount:this.amount}]);
     }
 
-
     aggregate(total = {}){
         const type = this.type;
         const amount = this.amount;
