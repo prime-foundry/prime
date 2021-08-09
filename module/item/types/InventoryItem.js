@@ -15,6 +15,10 @@ export default class InventoryItem extends BaseItem {
         return getComponentLazily(this, 'cost', Cost);
     }
 
+    aggregateCosts(total = {}){
+        return this.cost.aggregate(total);
+    }
+
     get modifiers(){
         return getComponentLazily(this, 'modifiers', Modifiers);
     }

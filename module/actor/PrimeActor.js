@@ -41,6 +41,18 @@ export class PrimeActor extends DynDocumentMixin(Actor, 'actor')
 		return getComponentLazily(this, 'actionPoints', ActionPoints);
 	}
 
+	get perks(){
+		const itemCollection = this.items;
+		const perkCriteria = {
+			itemCollection,
+			matchAll: false,
+			typed: true,
+			itemBaseTypes: ["perk"]
+		};
+		const items = PrimeItemManager.getItems(perkCriteria);
+		return items;
+	}
+
 
 	get type() {
 		return this.dyn.foundryData.type;
@@ -495,7 +507,7 @@ export class PrimeActor extends DynDocumentMixin(Actor, 'actor')
 			while (count < ownedPerkClones.length)
 			{
 				var currPerk = ownedPerkClones[count];
-				if (currPerk.data.cost.attributeType == perkCostType)
+				if (currPerk.data.cost.type == perkCostType)
 				{
 					totalCost += currPerk.data.cost.amount;
 				}

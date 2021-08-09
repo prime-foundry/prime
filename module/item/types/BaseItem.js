@@ -80,4 +80,8 @@ export default class BaseItem extends Component {
         }
         return '';
     }
+
+    aggregateCosts(total = {}){
+        return total;
+    }
 }

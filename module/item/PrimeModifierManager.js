@@ -9,6 +9,26 @@ import Component from "../util/Component.js";
  */
 export class PrimeModifierManager {
 
+    static getCosts(itemCollection = ItemDirectory.collection){
+
+        const criteria = {
+            itemCollection,
+            matchAll: false,
+            typed: true
+        };
+        const items = PrimeItemManager.getItems(criteria);
+        const total = {}
+
+        for(const item of items) {
+            item.aggregateCosts(total);
+        }
+        return total;
+    }
+
+    static getCostsForType(itemCollection = ItemDirectory.collection, type){
+        return PrimeModifierManager.getCosts(itemCollection)[type] || 0;
+    }
+
     /**
      *
      * @param {PrimeItem | BaseItem | string} item the item we are interested in.

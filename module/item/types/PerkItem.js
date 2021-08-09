@@ -13,11 +13,17 @@ export default class PerkItem extends BaseItem {
      * @return {Cost}
      */
     get cost() {
+        if(this.hasSourceItem){
+            return this.sourceItem.cost;
+        }
         return getComponentLazily(this, 'cost', Cost);
     }
 
-    get bonuses() {
-        return null;
+    aggregateCosts(total = {}){
+        if(this.hasSourceItem){
+            return this.sourceItem.aggregateCosts(total);
+        }
+        return this.cost.aggregate(total);
     }
 
     get prerequisites(){

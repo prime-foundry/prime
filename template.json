@@ -361,12 +361,12 @@
 			],
 			"costs": [
 				{
-					"key": "perkCostXP",
+					"key": "xp",
 					"title": "PRIME.cost_xp",
 					"material": false
 				},
 				{
-					"key": "perkCostSoul",
+					"key": "soul",
 					"title": "PRIME.cost_soul",
 					"material": false
 				},
