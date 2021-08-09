@@ -1,19 +1,19 @@
-<div class="primeCard itemCard itemCardAction {{partialClasses}}">
-    <div class="cardTitle"><a class="itemTitle" data-item-id="{{this.data._id}}">{{this.data.name}}</a></div>
-    <div class="cardTopRightDetail titled"><div class="tinyTitle">AP</div>{{this.data.data.points}}</div>
+<div class="primeCard itemCard itemCardAction action{{this.sourceItem.actionType}}">
+    <div class="cardTitle"><a class="itemTitle" data-item-id="{{this.id}}">{{this.sourceItem.name}}</a></div>
+    <div class="cardTopRightDetail titled"><div class="tinyTitle">AP</div>{{this.sourceItem.points}}</div>
     
 	<div class="cardDetail">
 		<div class="cardDescription">
-			{{#if this.data.data.description}}
-			<div>{{{this.data.data.description}}}</div>
+			{{#if this.sourceItem.descriptions.core}}
+			<div>{{{this.sourceItem.descriptions.core}}}</div>
 			{{/if}}
 
-			{{#if this.data.data.settingDescription}}
-			<div>{{{this.data.data.settingDescription}}}</div>
+			{{#if this.sourceItem.descriptions.setting}}
+			<div>{{{this.sourceItem.descriptions.setting}}}</div>
 			{{/if}}
 		</div>
 
-		{{#if this.data.data.default}}
+		{{#if this.sourceItem.metadata.default}}
 		<div class="cardBottomRightDetail isDefaultIcon defaultIcon hasTooltip" title="Default action">D</div>
 		{{else}}
 		<div class="cardBottomRightDetail isDefaultIcon purchasedIcon hasTooltip" title="Perk purchased to unlock action">$</div>

@@ -47,10 +47,49 @@ export class PrimeActor extends DynDocumentMixin(Actor, 'actor')
 			itemCollection,
 			matchAll: false,
 			typed: true,
+			sortItems: true,
 			itemBaseTypes: ["perk"]
 		};
 		const items = PrimeItemManager.getItems(perkCriteria);
 		return items;
+	}
+
+	get qualifyingPerks(){
+		const perks = this.perks;
+		const qualifyingOnly = perks.filter(perk => perk.qualifies(this));
+		return qualifyingOnly;
+	}
+
+	get actions(){
+		// fetches from the global directory
+		const actionCriteria = {
+			matchAll: false,
+			typed: true,
+			sortItems: true,
+			filtersData:{metadata: {default: true}},
+			itemBaseTypes: ["action"]
+		};
+		const defaultActions = PrimeItemManager.getItems(actionCriteria);
+
+		// fetches from the actor
+		const qualifyingPerks = this.qualifyingPerks;
+		const perkActions = qualifyingPerks.flatMap(perk => perk.modifiers).flatMap(modifier => modifier.getActions());
+		return defaultActions.concat(perkActions);
+	}
+
+	get actionsCategorized() {
+		const actions = this.actions;
+		const categorized = actions.reduce((aggregator, currentAction) => {
+			const sourceItem = currentAction.sourceItem;
+			const actionType = sourceItem.actionType;
+			if(aggregator[actionType] == null){
+				aggregator[actionType] = [currentAction];
+			} else {
+				aggregator[actionType].push(currentAction);
+			}
+			return aggregator;
+		}, {});
+		return categorized;
 	}
 
 
@@ -452,32 +491,6 @@ export class PrimeActor extends DynDocumentMixin(Actor, 'actor')
 		return typeSortedActions;
 	}
 
-	isAllowedForCharacter(whatAction)
-	{
-		if (whatAction.data.data.default)
-		{
-			return true;
-		}
-
-		var ownedPerkClones = this.getProcessedItems()["perk"];
-
-		if (ownedPerkClones)
-		{
-			var count = 0;
-			while (count < ownedPerkClones.length)
-			{
-				var currPerk = ownedPerkClones[count];
-				var unlocksAction = this.checkPerkActionUnlock(currPerk, whatAction);
-				if (unlocksAction)
-				{
-					return unlocksAction;
-				}
-				count++;
-			}
-		}
-
-		return false;
-	}
 
 	checkPerkActionUnlock(whatPerk, whatAction)
 	{
@@ -518,6 +531,32 @@ export class PrimeActor extends DynDocumentMixin(Actor, 'actor')
 		return totalCost;
 	}
 
+	isAllowedForCharacter(whatAction)
+	{
+		if (whatAction.data.data.default)
+		{
+			return true;
+		}
+
+		var ownedPerkClones = this.getProcessedItems()["perk"];
+
+		if (ownedPerkClones)
+		{
+			var count = 0;
+			while (count < ownedPerkClones.length)
+			{
+				var currPerk = ownedPerkClones[count];
+				var unlocksAction = this.checkPerkActionUnlock(currPerk, whatAction);
+				if (unlocksAction)
+				{
+					return unlocksAction;
+				}
+				count++;
+			}
+		}
+
+		return false;
+	}
 	updateOwnedItemValues()
 	{
 		this.updateWeightAndValue();

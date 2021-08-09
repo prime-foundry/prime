@@ -918,6 +918,11 @@
 				"title": "PRIME.item_modifier_actor",
 				"category": "actor"
 			},
+			"action": {
+				"title": "PRIME.item_modifier_action",
+				"itemBaseTypes": "action",
+				"category": "otherItem"
+			},
 			"perk": {
 				"title": "PRIME.item_modifier_perk",
 				"itemBaseTypes": "perk",

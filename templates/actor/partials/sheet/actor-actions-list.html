@@ -1,52 +1,52 @@
 <div class="{{partialClasses}} block actionsOuterWrapper">
     <div class="blockTitle"><span>Actions</span></div>
     <div class="actionsHolder">
-
-        {{#if sortedActions.major}}
+        {{#with actor.actionsCategorized}}
+        {{#if major}}
         <div class="actionTitle">{{localize "PRIME.action_type_major_title"}}</div>
         <div class="actionCardsHolder flexRow flexWrap">
-            {{#each sortedActions.major as |action key|}}
-                {{> itemCardAction action partialClasses='majorAction'}}
+            {{#each major}}
+                {{> itemCardAction}}
             {{/each}}
         </div>
         {{/if}}
         
 
-        {{#if sortedActions.minor}}
+        {{#if minor}}
         <div class="actionTitle">{{localize "PRIME.action_type_minor_title"}}</div>
         <div class="actionCardsHolder flexRow flexWrap">
-            {{#each sortedActions.minor as |action key|}}
-                {{> itemCardAction action partialClasses='minorAction'}}
+            {{#each minor}}
+                {{> itemCardAction}}
             {{/each}}
         </div>
         {{/if}}
 
-        {{#if sortedActions.reaction}}
+        {{#if reaction}}
         <div class="actionTitle">{{localize "PRIME.action_type_reaction_title"}}</div>
         <div class="actionCardsHolder flexRow flexWrap">
-            {{#each sortedActions.reaction as |action key|}}
-                {{> itemCardAction action partialClasses='reactionAction'}}
+            {{#each reaction}}
+                {{> itemCardAction}}
             {{/each}}
         </div>
         {{/if}}
 
-        {{#if sortedActions.combo}}
+        {{#if combo}}
         <div class="actionTitle">{{localize "PRIME.action_type_combo_title"}}</div>
         <div class="actionCardsHolder flexRow flexWrap">
-            {{#each sortedActions.combo as |action key|}}
-                {{> itemCardAction action partialClasses='comboAction'}}
+            {{#each combo}}
+                {{> itemCardAction}}
             {{/each}}
         </div>
         {{/if}}
 
-        {{#if sortedActions.weaponCombo}}
+        {{#if weaponCombo}}
         <div class="actionTitle">{{localize "PRIME.action_type_weapon_combo_title"}}</div>
         <div class="actionCardsHolder flexRow flexWrap">
-            {{#each sortedActions.weaponCombo as |action key|}}
-                {{> itemCardAction action partialClasses='weaponComboAction'}}
+            {{#each weaponCombo as |action|}}
+                {{> itemCardAction}}
             {{/each}}
         </div>
         {{/if}}
-
+        {{/with}}
     </div>
 </div>
