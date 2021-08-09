@@ -32,6 +32,7 @@ class DynHandlebars {
      * path='' - a path string with '?' placeholders.
      * from=this - the object to navigate from.
      * placeholder='?' - the placeholder you want to use to inject variables. (Turbo users only)
+     * separator='.' - the path separator to determine how to navigate the object. (Turbo users only)
      *
      * @example <caption>Simple using default of this</caption>
      * let myObject = {levelOne: {something: 'hi', else: 'bye'}};
@@ -72,49 +73,52 @@ class DynHandlebars {
         const hash = options.hash;
         const pathParameter = hash.path || '';
         const from = hash.from || this;
-        const placeholder = hash.placeholder || '?';
-        const placeholderLength = placeholder.length;
-        const startsWith = pathParameter.startsWith(`${placeholder}.`)
-        const endsWith = pathParameter.endsWith(`.${placeholder}`)
-        const separator = `.${placeholder}.`;
-
-        let dynamicPath = startsWith ? pathParameter.slice(2 + placeholderLength) : pathParameter
-        dynamicPath = endsWith ? pathParameter.slice(0, -(2 + placeholderLength)) : dynamicPath
-        const pathParts = dynamicPath.split(separator);
-
-        const pathLength = pathParameter.split(placeholder).length - 1; // could be faster
         const valueLength = values.length;
-        if (pathParts > valueLength) {
-            throw new DynError('Incorrect number of parameters passed to replace on the lookup');
-        }
-
-        let pathBuilder;
+        let pathBuilder = JSONPathBuilder.from();
         let valueIdx = 0;
-        let pathIdx = 0;
 
-        pathBuilder = JSONPathBuilder.from();
-        if(startsWith){
-            pathBuilder.withRaw(values[valueIdx++]);
-        }
+        if(pathParameter !== '') {
+            const placeholder = hash.placeholder || '?';
+            const separator = hash.separator || '.';
+            const placeholderLength = placeholder.length;
+            const separatorLength = separator.length;
+            const startsWith = pathParameter.startsWith(`${placeholder}${separator}`)
+            const endsWith = pathParameter.endsWith(`${separator}${placeholder}`)
+            const fullSeparator = `${separator}${placeholder}${separator}`;
 
-        while (pathIdx < pathLength) {
-            let current = pathParts[pathIdx++];
-            let ppIdx = current.indexOf(placeholder);
-            let pathPart = ppIdx < 0 ? current :`${current.slice(0, ppIdx)}`;
-            while(ppIdx >= 0){
-                const next = current.slice(ppIdx + placeholderLength);
-                pathPart = `${pathPart}${values[valueIdx++]}${next}` ;
-                current = next;
-                ppIdx = current.indexOf(placeholder);
+            let dynamicPath = startsWith ? pathParameter.slice(1 + separatorLength + placeholderLength) : pathParameter
+            dynamicPath = endsWith ? dynamicPath.slice(0, -(separatorLength + placeholderLength)) : dynamicPath
+            const pathParts = dynamicPath.split(fullSeparator);
+
+            const pathLength = pathParameter.split(placeholder).length - 1; // could be faster
+            if (pathParts > valueLength) {
+                throw new DynError('Incorrect number of parameters passed to replace on the lookup');
             }
-            pathBuilder = pathBuilder.withRaw(pathPart);
-            if(pathIdx < pathLength) {
-                pathBuilder = pathBuilder.withRaw(values[valueIdx++]);
+
+            let pathIdx = 0;
+
+            if (startsWith) {
+                pathBuilder.withRaw(values[valueIdx++]);
+            }
+
+            while (pathIdx < pathLength) {
+                // we may have variables which are part of a variableName for instance something.?Index
+                let current = pathParts[pathIdx++];
+                let ppIdx = current.indexOf(placeholder);
+                let pathPart = ppIdx < 0 ? current : `${current.slice(0, ppIdx)}`;
+                while (ppIdx >= 0) {
+                    const next = current.slice(ppIdx + placeholderLength);
+                    pathPart = `${pathPart}${values[valueIdx++]}${next}`;
+                    current = next;
+                    ppIdx = current.indexOf(placeholder);
+                }
+                pathBuilder = pathBuilder.withRaw(pathPart);
+                if (pathIdx < pathLength) {
+                    pathBuilder = pathBuilder.withRaw(values[valueIdx++]);
+                }
             }
         }
-        while(valueIdx < valueLength){
-            pathBuilder = pathBuilder.withRaw(values[valueIdx++]);
-        }
+        pathBuilder = pathBuilder.withRaw(values.slice(valueIdx));
         try {
             return pathBuilder.traverse(from);
         } catch (err) {
