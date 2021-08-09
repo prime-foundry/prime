@@ -262,10 +262,36 @@ class ActionsTable extends TemplateTable {
     }
 }
 
+class RarityTable extends TemplateTable {
+
+    _rarity;
+    constructor() {
+        super('rarity')
+    }
+
+    get rarity() {
+        if (this._rarity == null) {
+            this._rarity = RarityTable.loadTypes(this.data);
+        }
+        return this._rarity;
+    }
+
+    static loadTypes(rarity) {
+        const transformed = {}
+        Object.entries(rarity).forEach(([key, rarityData]) => {
+                const title = game.i18n.localize(rarityData.title);
+                transformed[key] = {title};
+            }
+        );
+        return transformed;
+    }
+}
+
 export default class PrimeItemConstants {
     static _modifiers = new ModifiersTable();
     static _prerequisites = new PrerequisitesTable()
     static _actions = new ActionsTable()
+    static _rarity = new RarityTable()
 
     static get modifiers() {
         return this._modifiers.modifiers;
@@ -281,6 +307,10 @@ export default class PrimeItemConstants {
 
     static get defaultPrerequisite(){
         return this._prerequisites.defaultPrerequisite;
+    }
+
+    static get rarity() {
+        return this._rarity.rarity;
     }
 
     static get actionTypes() {

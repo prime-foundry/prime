@@ -4,23 +4,27 @@
 	
 	<div class="flexRow infoBlock flexBetween">
 		<div class="cell50 flexRow verticalCenter flexBetween">
-			<label class="cell60" for="data.quantity" >Quantity:</label>
-			<input class="cell40" type="text" id="data.quantity" name="data.quantity" value="{{data.quantity}}" data-dtype="Number" />
+			<label class="cell60" for="item.quantity" >Quantity:</label>
+			<input class="cell40" type="number" id="item.quantity"  value="{{item.quantity}}"
+                   data-dyn-type="Number"
+                   data-dyn-change-at="item.quantity" />
 		</div>
 
 		<div class="cell50 flexRow verticalCenter flexBetween">
-			<label class="cell60" for="data.weight">Weight:</label>
-			<input class="cell40" type="text" id="data.weight" name="data.weight" value="{{data.weight}}" data-dtype="String" />
+			<label class="cell60" for="item.weight">Weight:</label>
+			<input class="cell40" type="number" id="item.weight" value="{{item.weight}}"
+                   data-dyn-type="Number"
+                   data-dyn-change-at="item.weight" />
 		</div>
 
 		<div class="cell100 flexRow verticalCenter flexBetween">
-			<label class="cell30" for="data.rarity">{{localize "PRIME.item_rarity"}}:</label>
-			<select name="data.rarity" id="data.rarity" class="itemRarity cell70">
-				{{#select data.rarity}}
-				{{#each itemTables.rarity}}
-				<option value="{{this.key}}">{{this.title}}</option>
+			<label class="cell30" for="item.rarity">{{localize "PRIME.item_rarity"}}:</label>
+			<select name="data.rarity" id="item.rarity" class="itemRarity cell70"
+                    data-dyn-change-at="item.rarity"
+                    data-dyn-select="item.rarity">
+				{{#each static.items.rarity}}
+				<option value="{{@key}}">{{this.title}}</option>
 				{{/each}}
-				{{/select}}
 			</select>
 		</div>
 

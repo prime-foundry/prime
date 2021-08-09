@@ -56,4 +56,29 @@ export default class InventoryItem extends BaseItem {
     set equippable(equippable) {
         return this.write(this.gameSystemPath.with('equippable'), !!equippable);
     }
+
+
+    get quantity() {
+        return this.gameSystem.quantity || 1;
+    }
+
+    set quantity(quantity) {
+        return this.write(this.gameSystemPath.with('quantity'), quantity);
+    }
+
+    get weight() {
+        return this.gameSystem.weight || 0;
+    }
+
+    set weight(weight) {
+        return this.write(this.gameSystemPath.with('weight'), weight);
+    }
+
+    get rarity() {
+        return this.gameSystem.rarity || 'common';
+    }
+
+    set rarity(rarity) {
+        return this.write(this.gameSystemPath.with('rarity'), rarity);
+    }
 }

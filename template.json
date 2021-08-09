@@ -495,32 +495,6 @@
 			]
 		},
 		"items": {
-			"rarity": [
-				{
-					"key": "common",
-					"title": "PRIME.item_rarity_common"
-				},
-				{
-					"key": "uncommon",
-					"title": "PRIME.item_rarity_uncommon"
-				},
-				{
-					"key": "scarce",
-					"title": "PRIME.item_rarity_scarce"
-				},
-				{
-					"key": "rare",
-					"title": "PRIME.item_rarity_rare"
-				},
-				{
-					"key": "legendary",
-					"title": "PRIME.item_rarity_legendary"
-				},
-				{
-					"key": "unique",
-					"title": "PRIME.item_rarity_unique"
-				}
-			],
 			"weapons": {
 				"sizes": [
 					{
@@ -901,6 +875,26 @@
 				}
 			},
 			"item": {
+			}
+		},
+		"rarity": {
+			"common": {
+				"title": "PRIME.item_rarity_common"
+			},
+			"uncommon": {
+				"title": "PRIME.item_rarity_uncommon"
+			},
+			"scarce": {
+				"title": "PRIME.item_rarity_scarce"
+			},
+			"rare": {
+				"title": "PRIME.item_rarity_rare"
+			},
+			"legendary": {
+				"title": "PRIME.item_rarity_legendary"
+			},
+			"unique": {
+				"title": "PRIME.item_rarity_unique"
 			}
 		},
 		"modifiers": {
