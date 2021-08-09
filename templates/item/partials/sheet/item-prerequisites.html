@@ -1,4 +1,4 @@
-<div class="flexRow flexBetween flexWrap block infoBlock perkPrerequisitesBlock">
+<div class="flexRow flexBetween flexWrap block infoBlock prerequisitesBlock">
     <div class="blockTitle">Prerequisites</div>
 
     <div class="prerequisitesWrapper">
@@ -8,7 +8,7 @@
             {{alias 'PrerequisitesType' (traverse prerequisite.type 'subTypes' from=@Prerequisites)}}
             {{alias 'PrerequisitesSubType' (traverse prerequisite.target from=@PrerequisitesType)}}
             {{alias 'item' ../item}}
-            <div class="cell100 flexRow flexBetween flexWrap infoBlock perkPrerequisiteWrapper">
+            <div class="cell100 flexRow flexBetween flexWrap infoBlock prerequisiteWrapper">
                 <div class="prerequisiteIndex">{{increment @index}}</div>
 
                 <div class="cell100 flexRow flexBetween verticalCenter">

@@ -1,8 +1,6 @@
-<form class="{{cssClass}} meleeWeaponItem flexColumn " autocomplete="off">
+<form class="{{cssClass}} itemSheet meleeWeaponItem flexColumn " autocomplete="off">
 	<div class="flexRow">
-		<div class="cell30 block noTitle imageWrapper flexRow flexCenter verticalCenter">
-			<img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
-		</div>
+        {{> itemImage}}
 		{{> itemBasic }}
 	</div>
 	
@@ -103,7 +101,9 @@
 
 	{{> itemValue }}
 
-	{{> itemModifiers effectsData=bonuses effectTitle="Effect(s)" effectType="bonus"}}
+	{{> itemModifiers effectTitle="Effect(s)"}}
+
+    {{> itemPrerequisites }}
 
 	{{> itemDescription }}
 

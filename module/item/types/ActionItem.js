@@ -26,12 +26,6 @@ export default class PerkItem extends BaseItem {
         return this.cost.aggregate(total);
     }
 
-    get modifiers(){
-        if(this.hasSourceItem){
-            return this.sourceItem.modifiers;
-        }
-        return getComponentLazily(this, 'modifiers', Modifiers);
-    }
     get prerequisites(){
         if(this.hasSourceItem){
             return this.sourceItem.prerequisites;
@@ -43,4 +37,10 @@ export default class PerkItem extends BaseItem {
         return this.prerequisites.qualifies(actorDoc);
     }
 
+    get modifiers(){
+        if(this.hasSourceItem){
+            return this.sourceItem.modifiers;
+        }
+        return getComponentLazily(this, 'modifiers', Modifiers);
+    }
 }

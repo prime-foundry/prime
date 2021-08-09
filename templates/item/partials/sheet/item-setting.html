@@ -1,0 +1,10 @@
+<div class="cell100 flexRow verticalCenter flexBetween {{partialClasses}}">
+    <label class="cell30" for="setting">{{localize "PRIME.core_setting"}}:</label>
+    <select  id="setting" class="itemRarity cell70"
+             data-dyn-change-at="item.metadata.setting"
+             data-dyn-select="item.metadata.setting">
+        {{#each static.core.settings}}
+            <option value="{{this.key}}">{{this.title}}</option>
+        {{/each}}
+    </select>
+</div>

@@ -73,39 +73,28 @@ export class PrimeModifierManager {
             itemCollection,
             matchAll: false,
             typed: true,
-            itemBaseTypes: ["perk"]
-        };
-
-        const perkItems = PrimeItemManager.getItems(perkCriteria);
-        const {qualifies = true} = options
-
-        const perkTotal = perkItems.reduce((previousValue, ownedItem)=> {
-            if(qualifies && !ownedItem.prerequisites.qualifies(actorDoc)){
-                return 0;
-            }
-            return previousValue + ownedItem.modifiers.modifierFor(actorDoc, ownedItem, target, options);
-        },0);
-
-        const criteria = {
-            itemCollection,
-            matchAll: false,
-            typed: true,
-            itemBaseTypes: ["item",
+            itemBaseTypes: ["perk",
+                "item",
                 "melee-weapon",
                 "ranged-weapon",
                 "shield",
                 "armour"]
         };
 
-        const items = PrimeItemManager.getItems(criteria);
+        const items = PrimeItemManager.getItems(perkCriteria);
+        const {qualifies = true} = options
 
         const total = items.reduce((previousValue, ownedItem)=> {
+            if(qualifies && !ownedItem.prerequisites.qualifies(actorDoc)){
+                return 0;
+            }
             return previousValue + ownedItem.modifiers.modifierFor(actorDoc, ownedItem, target, options);
-        }, perkTotal);
+        },0);
 
         return total;
 
         } finally {
+            actorDoc.qualifying = false;
             delete actorDoc.qualifying;
         }
     }
