@@ -5,8 +5,8 @@
         {{#each item.prerequisites as |prerequisite|}}
             {{alias 'Items' ../static.items}}
             {{alias 'Prerequisites' @Items.prerequisites}}
-            {{alias 'PrerequisitesType' (at @Prerequisites prerequisite.type 'subTypes')}}
-            {{alias 'PrerequisitesSubType' (at @PrerequisitesType prerequisite.target)}}
+            {{alias 'PrerequisitesType' (traverse prerequisite.type 'subTypes' from=@Prerequisites)}}
+            {{alias 'PrerequisitesSubType' (traverse prerequisite.target from=@PrerequisitesType)}}
             {{alias 'item' ../item}}
             <div class="cell100 flexRow flexBetween flexWrap infoBlock perkPrerequisiteWrapper">
                 <div class="prerequisiteIndex">{{increment @index}}</div>
@@ -53,7 +53,7 @@
                         </div>
 
                         {{#if (and (defined prerequisite.qualifier)
-                                      (not (callStatic @Items.isUnaryQualifier prerequisite.qualifier))
+                                      (not (call @Items.isUnaryQualifier prerequisite.qualifier))
                                       (includes (keys @PrerequisitesSubType.qualifiers) prerequisite.qualifier))}}
                             <div class="cell100 flexRow flexBetween verticalCenter">
                                 <label for="item.prerequisites.collection.{{@index}}.value"

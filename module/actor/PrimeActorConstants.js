@@ -21,7 +21,7 @@ class ActorStats extends TemplateTable{
 				const valueTypes = arrayIfNot(lookupData.valueTypes) ;
 				const modifiable = !!lookupData.modifiable;
 				const path = lookupData.path || key;
-				transformed[key.replaceAll('.', '_')] = {title, valueTypes, path, modifiable};
+				transformed[key] = {title, valueTypes, path, modifiable};
 			}
 		);
 		return transformed;

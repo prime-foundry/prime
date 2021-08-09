@@ -24,65 +24,99 @@ class DynHandlebars {
         return HandlebarsHelpers.editor(newOptions);
     }
 
+
     /**
      * Given an object, and some variables,
-     * navigate from the object using those variable until you get the required value.
+     * traverse from either 'this' object or the provided 'from' object,
+     * optionally using a 'path' with injected variables until you get the required value.
+     * path='' - a path string with '?' placeholders.
+     * from=this - the object to navigate from.
+     * placeholder='?' - the placeholder you want to use to inject variables. (Turbo users only)
      *
-     * @example <caption>Simple</caption>
+     * @example <caption>Simple using default of this</caption>
      * let myObject = {levelOne: {something: 'hi', else: 'bye'}};
+     * let level = 'levelOne';
+     * let param = 'else;
      *
-     * {{at myObject 'levelOne' 'else'}} <!-- prints 'bye' -->
+     * {{#with myObject}}
+     * {{traverse level param}} <!-- prints 'bye' -->
+     * {{/with}}
      *
-     * @param object
+     * @example <caption>From this, with path</caption>
+     * let myObject = {levelOne: {something: 'hi', else: 'bye'}};
+     * let param = 'something;
+     *
+     * {{#with myObject}}
+     * {{traverse param path='levelOne.?' }} <!-- prints 'hi' -->
+     * {{/with}}
+     *
+     * @example <caption>From object, without path</caption>
+     * let myObject = {levelOne: {something: 'hi', else: 'bye'}};
+     * let level = 'levelOne';
+     * let param = 'else;
+     *
+     * {{traverse level param from=myObject}} <!-- prints 'bye' -->
+     *
+     * @example <caption>From object, with path</caption>
+     * let myObject = {levelOne: {something: 'hi', else: 'bye'}};
+     * let param = 'something;
+     *
+     * {{traverse param from=myObject path='levelOne.?' }} <!-- prints 'hi' -->
+     *
      * @param rest
      * @returns {null|*}
      */
-    static at(object, ...rest) {
-
+    static traverse(...rest) {
         const values = Array.from(rest);
         const options = values.pop(); // makes values 1 shorter ( we want this )
-        const path = values.join('.');
-        const pathBuilder = JSONPathBuilder.from(path);
-        try {
-            return pathBuilder.traverse(object);
-        } catch (err) {
-            // we don't actually want to throw an exception here, as we want to follow the handlebars spec of just returning null.
-            return null;
-        }
-    }
+        const hash = options.hash;
+        const pathParameter = hash.path || '';
+        const from = hash.from || this;
+        const placeholder = hash.placeholder || '?';
+        const placeholderLength = placeholder.length;
+        const startsWith = pathParameter.startsWith(`${placeholder}.`)
+        const endsWith = pathParameter.endsWith(`.${placeholder}`)
+        const separator = `.${placeholder}.`;
 
-    /**
-     * Given an object, a path with '?' placeholders, and some variables,
-     * navigate from the object using that path with injected variables until you get the required value.
-     *
-     * @example <caption>Simple</caption>
-     * let myObject = {levelOne: {something: 'hi', else: 'bye'}};
-     *
-     * {{path myObject 'levelOne.?' 'something'}} <!-- prints 'hi' -->
-     *
-     * @param object
-     * @param dynamicPath
-     * @param rest
-     * @returns {null|*}
-     */
-    static path(object, dynamicPath, ...rest) {
-        const values = Array.from(rest);
-        const options = values.pop(); // makes values 1 shorter ( we want this )
-        const pathParts = dynamicPath.split('?');
-        const pathLength = pathParts.length;
+        let dynamicPath = startsWith ? pathParameter.slice(2 + placeholderLength) : pathParameter
+        dynamicPath = endsWith ? pathParameter.slice(0, -(2 + placeholderLength)) : dynamicPath
+        const pathParts = dynamicPath.split(separator);
+
+        const pathLength = pathParameter.split(placeholder).length - 1; // could be faster
         const valueLength = values.length;
-        if (pathLength != valueLength + 1) {
+        if (pathParts > valueLength) {
             throw new DynError('Incorrect number of parameters passed to replace on the lookup');
         }
-        let path = pathParts[0];
+
+        let pathBuilder;
         let valueIdx = 0;
-        let pathIdx = 1;
-        while (pathIdx < pathLength) {
-            path = `${path}${values[valueIdx++]}${pathParts[pathIdx++]}`;
+        let pathIdx = 0;
+
+        pathBuilder = JSONPathBuilder.from();
+        if(startsWith){
+            pathBuilder.withRaw(values[valueIdx++]);
         }
-        const pathBuilder = JSONPathBuilder.from(path);
+
+        while (pathIdx < pathLength) {
+            let current = pathParts[pathIdx++];
+            let ppIdx = current.indexOf(placeholder);
+            let pathPart = ppIdx < 0 ? current :`${current.slice(0, ppIdx)}`;
+            while(ppIdx >= 0){
+                const next = current.slice(ppIdx + placeholderLength);
+                pathPart = `${pathPart}${values[valueIdx++]}${next}` ;
+                current = next;
+                ppIdx = current.indexOf(placeholder);
+            }
+            pathBuilder = pathBuilder.withRaw(pathPart);
+            if(pathIdx < pathLength) {
+                pathBuilder = pathBuilder.withRaw(values[valueIdx++]);
+            }
+        }
+        while(valueIdx < valueLength){
+            pathBuilder = pathBuilder.withRaw(values[valueIdx++]);
+        }
         try {
-            return pathBuilder.traverse(object);
+            return pathBuilder.traverse(from);
         } catch (err) {
             // we don't actually want to throw an exception here, as we want to follow the handlebars spec of just returning null.
             return null;
@@ -101,7 +135,7 @@ class DynHandlebars {
         return (value1 || 0) < (value2 || 0);
     }
 
-    static equalTo(value1, value2) {
+    static equal(value1, value2) {
         return value1 == value2;
     }
 
@@ -215,63 +249,50 @@ class DynHandlebars {
     }
 
     /**
-     * Calls Array.prototype.join() on the provided parameters. The last parameter is the join value (i.e. ', ').
-     *
+     * Calls Array.prototype.join() on the provided parameters. .
+     * There are 2 parameters
+     * separator=',' - the string to separate the contents, it will default to the native js of ',' if not provided.
+     * depth=1 - how far do we expand into the arrays, this is the equivalent of Array.prototype.flat(depth),
+     *    with the first level being the array of parameters
      * @example <caption>Simple</caption>
      *
-     * {{join 'hello', 'darkness', 'my', 'old', 'friend', '-'}} <!-- prints 'hello-darkness-my-old-friend' -->
+     * {{join 'hello' 'darkness' 'my' 'old' 'friend' separator='-'}} <!-- prints 'hello-darkness-my-old-friend' -->
      *
      * @param rest
      * @returns {string}
      */
     static join(...rest) {
-        const values = Array.from(rest);
+        let values = Array.from(rest);
         const options = values.pop(); // makes values 1 shorter ( we want this )
-        const joinValue = values.pop();
-        return values.join(joinValue);
+        const hash = options.hash;
+        const separator = hash.separator || undefined;
+        const depth = hash.depth || 1;
+        return values.flat(depth).join(separator);
     }
 
     /**
      * Given a function, and a list of parameters call that function.
-     * WARNING: The first parameter is the 'this' argument. It will not be passed as an argument to the actual function.
+     * There is 1 parameter
+     * self=this - the this argument to use, this will typically by the object handlebars is navigating.
      *
      * @example <caption>Simple</caption>
      * let myFunction = (a) => this.total + a;
      * let myObj = {total:5};
      *
-     * {{call myObj myFunction 6}} <!-- prints 11 -->
+     * {{call myFunction 6 self=myObj}} <!-- prints 11 -->
      *
-     * @param self this this.
      * @param fn the function to use
      * @param rest the parameters.
      * @returns {*} the result of the function
      */
-    static call(self, fn, ...rest) {
+    static call(fn, ...rest) {
         const values = Array.from(rest);
         const options = values.pop(); // makes values 1 shorter ( we want this )
+        const self = options.self || this;
         if(isString(fn)){
             fn = self[fn];
         }
         return fn.call(self, ...values);
-    }
-
-    /**
-     *
-     * Given a function, and a list of parameters call that function.
-     * WARNING: There is no 'this' defined, so best used for static methods.
-     *
-     * @example <caption>Simple</caption>
-     * let myFunction = (a, b) => a + b;
-     *
-     * {{callStatic 3 4}} <!-- prints 7 -->
-     * @param fn the function to use
-     * @param rest the parameters.
-     * @returns {*} the result of the function
-     */
-    static callStatic(fn, ...rest) {
-        const values = Array.from(rest);
-        const options = values.pop(); // makes values 1 shorter ( we want this )
-        return fn(...values);
     }
 
     /**
@@ -445,15 +466,14 @@ class DynHandlebars {
 
 Handlebars.registerHelper({
     dynEditor: DynHandlebars.dynEditor,
-    at: DynHandlebars.at,
-    path: DynHandlebars.path,
+    traverse: DynHandlebars.traverse,
     count: DynHandlebars.count,
     increment: DynHandlebars.increment,
     decrement: DynHandlebars.decrement,
     isInteger: DynHandlebars.isInteger,
     greaterThan: DynHandlebars.greaterThan,
     lessThan: DynHandlebars.lessThan,
-    equalTo: DynHandlebars.equalTo,
+    equal: DynHandlebars.equal,
     defined: DynHandlebars.defined,
     not: DynHandlebars.not,
     and: DynHandlebars.and,
@@ -461,7 +481,6 @@ Handlebars.registerHelper({
     or: DynHandlebars.or,
     join: DynHandlebars.join,
     call: DynHandlebars.call,
-    callStatic: DynHandlebars.callStatic,
     includes: DynHandlebars.includes,
     onlyIncludes: DynHandlebars.onlyIncludes,
     keys: DynHandlebars.keys,

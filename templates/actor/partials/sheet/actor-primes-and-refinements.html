@@ -20,7 +20,7 @@
                        data-dyn-change-at="actor.stats.primes.setStatValue()"
                        data-dyn-change-key="{{id}}"
                        class="statInput primeInput"/>
-                <span class="primeValue">{{#if (equalTo unadjustedValue value)}}{{unadjustedValue}}{{else}}{{unadjustedValue}}&nbsp;({{value}}){{/if}}</span>
+                <span class="primeValue">{{#if (equal unadjustedValue value)}}{{unadjustedValue}}{{else}}{{unadjustedValue}}&nbsp;({{value}}){{/if}}</span>
             </div>
         </div>
         {{/each}}
@@ -49,7 +49,7 @@
                        data-dyn-change-at="actor.stats.refinements.setStatValue()"
                        data-dyn-change-key="{{id}}"
 				 class="statInput refinementInput"/>
-                <span class="refinementValue">{{#if (equalTo unadjustedValue value)}}{{unadjustedValue}}{{else}}{{unadjustedValue}}&nbsp;({{value}}){{/if}}</span>
+                <span class="refinementValue">{{#if (equal unadjustedValue value)}}{{unadjustedValue}}{{else}}{{unadjustedValue}}&nbsp;({{value}}){{/if}}</span>
             </div>
         </div>
         {{/each}}

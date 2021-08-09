@@ -5,8 +5,8 @@
         {{#each item.modifiers as |modifier|}}
             {{alias 'Items' ../static.items}}
             {{alias 'Modifiers' @Items.modifiers}}
-            {{alias 'ModifiersCategory' (at @Modifiers modifier.type 'category')}}
-            {{alias 'ModifiersType' (at @Modifiers modifier.type 'subTypes')}}
+            {{alias 'ModifiersCategory' (traverse modifier.type 'category' from=@Modifiers)}}
+            {{alias 'ModifiersType' (traverse modifier.type 'subTypes' from=@Modifiers)}}
             {{alias 'item' ../item}}
             <div class="cell100 flexRow flexBetween flexWrap infoBlock effectWrapper">
                 <div class="effectIndex">{{increment @index}}</div>
@@ -24,7 +24,7 @@
                 {{#if (and (defined modifier.type)
                               (includes (keys @Modifiers) modifier.type)
                       )}}
-                    {{#if (equalTo modifier.type 'misc')}}
+                    {{#if (equal modifier.type 'misc')}}
                         <div class="cell100  flexRow flexBetween lastRow">
                             <label for="item.modifiers.collection.{{@index}}.rules"
                                    class="resource-label cell30 rightAlign">Rules:</label>
@@ -47,7 +47,7 @@
 
                         {{#if (and (defined modifier.target)
                                       (includes (keys @ModifiersType) modifier.target))}}
-                            {{#if (not (equalTo @ModifiersCategory 'otherItem'))}}
+                            {{#if (not (equal @ModifiersCategory 'otherItem'))}}
                             <div class="cell100 flexRow flexBetween verticalCenter ">
                                 <label for="item.modifiers.collection.{{@index}}.value"
                                        class="resource-label cell30 rightAlign">{{#if (isInteger modifier.value)}}{{#if

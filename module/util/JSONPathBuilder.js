@@ -2,13 +2,13 @@ import {DynError, isString} from "./support.js";
 
 const numbers = /^\d+$/;
 
-function buildPathComponents(pathComponents){
+function buildPathComponents(pathComponents, split = true){
     const addedComponents = pathComponents.flatMap(pathComponent => {
         if(pathComponent instanceof JSONPathBuilder){
             return pathComponent.pathComponents;
         } else if(Array.isArray(pathComponent)){
-            return buildPathComponents(pathComponent);
-        } else if(isString(pathComponent)){
+            return buildPathComponents(pathComponent, split);
+        } else if(split && isString(pathComponent)){
             return pathComponent.trim().split('.');
         } else if(pathComponent != null){
             return [pathComponent];
@@ -61,6 +61,12 @@ export default class JSONPathBuilder {
     with(...pathComponents){
         const addedComponents = buildPathComponents(pathComponents);
         return JSONPathBuilder.from(...this.pathComponents, ...addedComponents);
+    }
+
+    withRaw(...pathComponents) {
+        const addedComponents = buildPathComponents(pathComponents, false);
+        return JSONPathBuilder.from(...this.pathComponents, ...addedComponents);
+
     }
 
     toString(){
