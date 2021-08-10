@@ -144,8 +144,7 @@ class DynHandlebars {
     }
 
     static and(...rest) {
-        const values = Array.from(rest);
-        const options = values.pop(); // makes values 1 shorter ( we want this )
+        const values = Array.from(rest).slice(0,-1);
         for (const val of values) {
             if (!val) {
                 return false;
@@ -155,8 +154,7 @@ class DynHandlebars {
     }
 
     static or(...rest) {
-        const values = Array.from(rest);
-        const options = values.pop(); // makes values 1 shorter ( we want this )
+        const values = Array.from(rest).slice(0,-1);
         for (const val of values) {
             if (!!val) {
                 return true;
@@ -166,8 +164,7 @@ class DynHandlebars {
     }
 
     static xor(value1, ...rest) {
-        const values = Array.from(rest);
-        const options = values.pop(); // makes values 1 shorter ( we want this )
+        const values = Array.from(rest).slice(0,-1);
         let oneTrue = !!value1;
         for (const val of values) {
             if (!!val) {
@@ -181,8 +178,7 @@ class DynHandlebars {
     }
 
     static defined(...rest) {
-        const values = Array.from(rest);
-        const options = values.pop(); // makes values 1 shorter ( we want this )
+        const values = Array.from(rest).slice(0,-1);
         for (const val of values) {
             if (val == null) {
                 return false;
@@ -192,8 +188,7 @@ class DynHandlebars {
     }
 
     static not(...rest) {
-        const values = Array.from(rest);
-        const options = values.pop(); // makes values 1 shorter ( we want this )
+        const values = Array.from(rest).slice(0,-1);
         for (const val of values) {
             if (!!val) {
                 return false;
@@ -212,6 +207,7 @@ class DynHandlebars {
      * {{increment 3 2}} <!-- prints 5 -->
      *
      * @param value
+     * @param {number} rest
      * @returns {number}
      */
     static increment(value, ...rest) {
@@ -229,6 +225,7 @@ class DynHandlebars {
      * {{decrement 3 2}} <!-- prints 1 -->
      *
      * @param value
+     * @param {number} rest
      * @returns {number}
      */
     static decrement(value, ...rest) {
@@ -322,9 +319,7 @@ class DynHandlebars {
      * @returns {boolean}
      */
     static includes(collection, ...rest) {
-        const values = Array.from(rest);
-        const options = values.pop(); // makes values 1 shorter ( we want this )
-        const arr = Array.from(collection);
+        const values = Array.from(rest).slice(0,-1);
         for (const val of values) {
             if (!collection.includes(val)) {
                 return false;
@@ -356,9 +351,7 @@ class DynHandlebars {
      * @returns {boolean}
      */
     static onlyIncludes(collection, ...rest) {
-        const values = Array.from(rest);
-        const options = values.pop(); // makes values 1 shorter ( we want this )
-        const arr = Array.from(collection);
+        const values = Array.from(rest).slice(0,-1);
         for (const val of collection) {
             if (!values.includes(val)) {
                 return false;
@@ -367,23 +360,45 @@ class DynHandlebars {
         return true;
     }
 
+    /**
+     * Given a collection (Map, Object or Array.<string>) and a set of key strings (parameter list of strings or Array.<string>)
+     * Return a new (Map, Object or Array.<string>) which only has the elements that exist in the set of keys.
+     * Original order of the collection is maintained.
+     *
+     * 2nd Parameter onward can be a mix of strings or string Arrays
+     *
+     * @example <caption>Simple Object</caption>
+     * let myCollection = {hello: 2, world:3, there:4};
+     * let myKeys = ['hello', 'world'];
+     *
+     * (retain myCollection myKeys) == {hello: 2, world:3}
+     *
+     * @example <caption>Simple Array</caption>
+     * let myCollection = ['hello', 'there', 'world', 'hello'];
+     * let myKeys = ['hello', 'world'];
+     *
+     * (retain myCollection myKeys) == ['hello', 'world', 'hello']
+     *
+     * @param {{}|string[]|Map<string, any>} collection
+     * @param {string[] | string} rest
+     * @returns {{}|string[]|Map<string, any>}
+     */
     static retain(collection, ...rest) {
-        let keys = Array.from(rest);
-        const options = keys.pop(); // makes values 1 shorter ( we want this )
-        keys = keys.flat();
+        let keys = Array.from(rest).slice(0,-1);
+        keys = new Set(keys.flat());
         if (collection instanceof Map) {
             const result = new Map();
-            keys.forEach((key) => {
-                if(collection.has(key)){
-                    result.set(key, collection.get(key));
+            collection.forEach((value, key) => {
+                if(keys.has(key)){
+                    result.set(key, value);
                 }
             });
             return result;
         }
         if (Array.isArray(collection)) {
             const result = [];
-            keys.forEach((key) => {
-                if(collection.includes(key)){
+            collection.forEach((key) => {
+                if(keys.has(key)){
                     result.push(key);
                 }
             });
@@ -391,15 +406,14 @@ class DynHandlebars {
         }
         if (collection instanceof Object) {
             const result = {};
-            keys.forEach((key) => {
-                const value = collection[key];
-                if(value !== undefined){
+            Array.from(Object.entries(collection)).forEach(([key, value]) => {
+                if(keys.has(key)){
                     result[key] = value;
                 }
             });
             return result;
         }
-        return collection;
+        throw new DynError('Unable to do a retain on the provided collection');
     }
 
     /**
