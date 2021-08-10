@@ -1,0 +1,66 @@
+<div class="cell100 flexRow verticalCenter flexBetween">
+    <label for="item.armourType" class="resource-label cell30">Type:</label>
+    <select id="item.armourType" class="itemValueType cell70"
+            data-dyn-change-at="item.armourType"
+            data-dyn-select="item.armourType">
+        {{#each static.items.armour.types}}
+            <option value="{{@key}}">{{this.title}}</option>
+        {{/each}}
+    </select>
+</div>
+
+<div class="cell50 flexRow verticalCenter flexBetween">
+    <label for="item.protection" class="resource-label cell40">Protection:</label>
+    <input class="cell60" type="number" id="item.protection" value="{{item.protection}}"
+           data-dyn-type="Number"
+           data-dyn-change-at="item.protection"/>
+</div>
+
+<div class="cell50 flexRow verticalCenter flexBetween">
+    <label for="item.armourResilience" class="resource-label cell70">Armour resilience:</label>
+    <input type="number" id="item.armourResilience" class="cell30" value="{{item.armourResilience}}"
+           data-dyn-type="Number"
+           data-dyn-change-at="item.armourResilience"/>
+</div>
+
+<div class="cell100 flexRow verticalCenter flexCenter checkboxGroupTitle {{checkboxGroupState checkboxGroupStates.keywords}}" data-checkbox-group="keywords">
+    <div class="cell100">Keywords:
+        {{#each (retain static.items.armour.keywords item.keywords) as |keyword|}}
+            <span title="{{convertHTMLForTitle keyword.description}}" class="hasTooltip">{{keyword.title}}</span>{{#if (not @last)}}, {{/if}}
+        {{/each}}
+    </div>
+    <i class="fas fa-chevron-circle-up"></i>
+    <i class="fas fa-chevron-circle-down"></i>
+</div>
+<div class="cell100 flexRow verticalCenter flexBetween flexWrap checkboxGroupWrapper {{checkboxGroupState checkboxGroupStates.keywords}}" data-checkbox-group="keywords">
+    {{#each static.items.armour.keywords as |keyword|}}
+        <div class="flexRow verticalCenter cell33 flexBetween">
+            <label for="{{@key}}" class="resource-label hasTooltip" title="{{convertHTMLForTitle keyword.description}}">{{keyword.title}}:</label>
+            <input class="checkboxGroup" type="checkbox" id="{{@key}}" value="{{@key}}"
+                   data-dyn-change-at="item.toggleKeyword()"
+                   data-dyn-value="{{@key}}"
+                {{checked (includes ../item.keywords @key)}}/>
+        </div>
+    {{/each}}
+</div>
+
+<div class="cell100 flexRow verticalCenter flexCenter checkboxGroupTitle {{checkboxGroupState checkboxGroupStates.actions}}" data-checkbox-group="actions">
+    <div class="cell100">Untrained penalty:
+        {{#each (retain static.items.armour.untrainedPenalties item.untrainedPenalty) as |untrainedPenalty|}}
+            <span title="{{convertHTMLForTitle untrainedPenalty.description}}" class="hasTooltip">{{untrainedPenalty.title}}</span>{{#if (not @last)}}, {{/if}}
+        {{/each}}
+    </div>
+    <i class="fas fa-chevron-circle-up"></i>
+    <i class="fas fa-chevron-circle-down"></i>
+</div>
+<div class="cell100 lastRow flexRow verticalCenter flexBetween flexWrap checkboxGroupWrapper {{checkboxGroupState checkboxGroupStates.actions}}" data-checkbox-group="actions">
+    {{#each static.items.armour.untrainedPenalties as |untrainedPenalty|}}
+        <div class="flexRow verticalCenter cell33 flexBetween">
+            <label for="{{@key}}" class="resource-label hasTooltip" title="{{convertHTMLForTitle untrainedPenalty.description}}">{{untrainedPenalty.title}}:</label>
+            <input class="checkboxGroup" type="checkbox" id="{{@key}}" value="{{@key}}"
+                   data-dyn-change-at="item.toggleUntrainedPenalty()"
+                   data-dyn-value="{{@key}}"
+                {{checked (includes ../item.untrainedPenalty @key)}}/>
+        </div>
+    {{/each}}
+</div>

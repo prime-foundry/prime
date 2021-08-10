@@ -166,11 +166,9 @@
 			"physicalItem": {
 				"quantity": 1,
 				"weight": 0,
-				"rarity": "common"
-			},
-			"mastercraftable": {
-				"isMasterCraft": false,
-				"bonuses": []
+				"rarity": "common",
+				"equipped": false,
+				"masterCraft": false
 			},
 			"weapon": {
 				"weaponSize": "",
@@ -209,8 +207,7 @@
 				"protection": 0,
 				"armourResilience": 1,
 				"keywords": [],
-				"untrainedPenalty": [],
-				"isWorn": false
+				"untrainedPenalty": []
 			}
 		},
 		"item": {
@@ -227,7 +224,6 @@
 			"templates": [
 				"physicalItem",
 				"weapon",
-				"mastercraftable",
 				"costs",
 				"audit",
 				"descriptions",
@@ -243,7 +239,6 @@
 				"physicalItem",
 				"weapon",
 				"ranged",
-				"mastercraftable",
 				"costs",
 				"audit",
 				"descriptions",
@@ -258,7 +253,6 @@
 			"templates": [
 				"physicalItem",
 				"weapon",
-				"mastercraftable",
 				"costs",
 				"audit",
 				"descriptions",
@@ -273,7 +267,6 @@
 			"templates": [
 				"physicalItem",
 				"armour",
-				"mastercraftable",
 				"costs",
 				"audit",
 				"descriptions",
@@ -714,82 +707,67 @@
 				]
 			},
 			"armour": {
-				"types": [
-					{
-						"key": "cloth",
+				"types": {
+					"cloth": {
 						"title": "PRIME.armour_type_cloth"
 					},
-					{
-						"key": "leather",
+					"leather": {
 						"title": "PRIME.armour_type_leather"
 					},
-					{
-						"key": "chain",
+					"chain": {
 						"title": "PRIME.armour_type_chain"
 					},
-					{
-						"key": "plate",
+					"plate": {
 						"title": "PRIME.armour_type_plate"
 					},
-					{
-						"key": "other",
+					"other": {
 						"title": "PRIME.armour_type_other"
 					}
-				],
-				"keywords": [
-					{
-						"key": "ablative",
+				},
+				"keywords": {
+					"ablative": {
 						"title": "PRIME.armour_keyword_title_ablative",
 						"description": "PRIME.armour_keyword_description_ablative"
 					},
-					{
-						"key": "camouflaging",
+					"camouflaging": {
 						"title": "PRIME.armour_keyword_title_camouflaging",
 						"description": "PRIME.armour_keyword_description_camouflaging"
 					},
-					{
-						"key": "cumbersome",
+					"cumbersome": {
 						"title": "PRIME.armour_keyword_title_cumbersome",
 						"description": "PRIME.armour_keyword_description_cumbersome"
 					},
-					{
-						"key": "restrictive",
+					"restrictive": {
 						"title": "PRIME.armour_keyword_title_restrictive",
 						"description": "PRIME.armour_keyword_description_restrictive"
 					},
-					{
-						"key": "senseDepriving",
+					"senseDepriving": {
 						"title": "PRIME.armour_keyword_title_sense_depriving",
 						"description": "PRIME.armour_keyword_description_sense_depriving"
 					},
-					{
-						"key": "silent",
+					"silent": {
 						"title": "PRIME.armour_keyword_title_silent",
 						"description": "PRIME.armour_keyword_description_silent"
 					}
-				],
-				"untrainedPenalities": [
-					{
-						"key": "plusOneAP",
+				},
+				"untrainedPenalties": {
+					"plusOneAP": {
 						"title": "PRIME.armour_untrained_penalities_title_plus_one_ap",
 						"description": "PRIME.armour_untrained_penalities_description_plus_one_ap"
 					},
-					{
-						"key": "plusTwoAP",
+					"plusTwoAP": {
 						"title": "PRIME.armour_untrained_penalities_title_plus_two_ap",
 						"description": "PRIME.armour_untrained_penalities_description_plus_two_ap"
 					},
-					{
-						"key": "plusThreeAP",
+					"plusThreeAP": {
 						"title": "PRIME.armour_untrained_penalities_title_plus_three_ap",
 						"description": "PRIME.armour_untrained_penalities_description_plus_three_ap"
 					},
-					{
-						"key": "plusFourAP",
+					"plusFourAP": {
 						"title": "PRIME.armour_untrained_penalities_title_plus_four_ap",
 						"description": "PRIME.armour_untrained_penalities_description_plus_four_ap"
 					}
-				]
+				}
 			}
 		},
 		"lookups": {

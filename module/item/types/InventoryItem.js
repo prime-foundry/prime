@@ -81,4 +81,12 @@ export default class InventoryItem extends BaseItem {
     set rarity(rarity) {
         return this.write(this.gameSystemPath.with('rarity'), rarity);
     }
+
+    get masterCraft() {
+        return this.gameSystem.masterCraft;
+    }
+
+    set masterCraft(masterCraft) {
+        return this.write(this.gameSystemPath.with('masterCraft'), !!masterCraft);
+    }
 }

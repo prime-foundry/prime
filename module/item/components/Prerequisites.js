@@ -1,7 +1,7 @@
 import Component from "../../util/Component.js";
 import {PrimeItemManager} from "../PrimeItemManager.js";
 import JSONPathBuilder from "../../util/JSONPathBuilder.js";
-import PrimeItemConstants from "../PrimeItemConstants.js";
+import PrimeItemTables from "../PrimeItemTables.js";
 
 export class Prerequisites extends Component {
 
@@ -22,7 +22,7 @@ export class Prerequisites extends Component {
 	}
 
 	add() {
-		const prerequisite = PrimeItemConstants.defaultPrerequisite;
+		const prerequisite = PrimeItemTables.defaultPrerequisite;
 		this.write(this.pathToPrerequisites().with(Array.from(this.gameSystem.prerequisites || []).length), prerequisite);
 	}
 
@@ -32,7 +32,7 @@ export class Prerequisites extends Component {
 	}
 
 	static prerequisiteClassForType(type){
-		return PREREQUISITE_CLASSES.get(PrimeItemConstants.prerequisites[type].class);
+		return PREREQUISITE_CLASSES.get(PrimeItemTables.prerequisites[type].class);
 	}
 	* [Symbol.iterator]() {
 		yield * this.collection;
@@ -121,7 +121,7 @@ export class ItemPrerequisite extends Prerequisite {
 			};
 
 			const item = PrimeItemManager.getItems(criteria)[0];
-			const qualifier = PrimeItemConstants.qualifierForKey(this.qualifier);
+			const qualifier = PrimeItemTables.qualifierForKey(this.qualifier);
 			return qualifier.unary ? qualifier.predicate(item) : this.qualifyItemValues(qualifier, item);
 		}
 		return false;
@@ -210,7 +210,7 @@ export class ActorPrerequisite extends Prerequisite {
 			const path = JSONPathBuilder.from(this.target);
 			const object = path.traverse(actorDoc);
 
-			const qualifier = PrimeItemConstants.qualifierForKey(this.qualifier);
+			const qualifier = PrimeItemTables.qualifierForKey(this.qualifier);
 			return qualifier.unary ? qualifier.predicate(object) : qualifier.predicate(object, this.value);
 		}
 		return false;

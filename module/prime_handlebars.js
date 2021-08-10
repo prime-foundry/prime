@@ -32,6 +32,8 @@ var primeHandlebarsPartialsPaths =
         "itemName": "systems/prime/templates/item/partials/sheet/item-name.html",
         "itemOwnership": "systems/prime/templates/item/partials/sheet/item-ownership.html",
         "itemImage": "systems/prime/templates/item/partials/sheet/item-image.html",
+        "itemWeapon": "systems/prime/templates/item/partials/sheet/item-weapon.html",
+        "itemArmour": "systems/prime/templates/item/partials/sheet/item-armour.html",
 
         "itemModifiers": "systems/prime/templates/item/partials/sheet/item-modifiers.html",
         "itemPrerequisites": "systems/prime/templates/item/partials/sheet/item-prerequisites.html",

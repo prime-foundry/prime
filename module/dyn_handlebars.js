@@ -367,6 +367,41 @@ class DynHandlebars {
         return true;
     }
 
+    static retain(collection, ...rest) {
+        let keys = Array.from(rest);
+        const options = keys.pop(); // makes values 1 shorter ( we want this )
+        keys = keys.flat();
+        if (collection instanceof Map) {
+            const result = new Map();
+            keys.forEach((key) => {
+                if(collection.has(key)){
+                    result.set(key, collection.get(key));
+                }
+            });
+            return result;
+        }
+        if (Array.isArray(collection)) {
+            const result = [];
+            keys.forEach((key) => {
+                if(collection.includes(key)){
+                    result.push(key);
+                }
+            });
+            return result;
+        }
+        if (collection instanceof Object) {
+            const result = {};
+            keys.forEach((key) => {
+                const value = collection[key];
+                if(value !== undefined){
+                    result[key] = value;
+                }
+            });
+            return result;
+        }
+        return collection;
+    }
+
     /**
      * Given a Map or an Object,
      * Return the keys on the map or object
@@ -380,10 +415,9 @@ class DynHandlebars {
      * {{/each}}
      *
      * @param collection
-     * @param options
      * @returns {[]}
      */
-    static keys(collection, options) {
+    static keys(collection) {
         if (collection instanceof Map) {
             return Array.from(collection.keys());
         }
@@ -487,6 +521,7 @@ Handlebars.registerHelper({
     call: DynHandlebars.call,
     includes: DynHandlebars.includes,
     onlyIncludes: DynHandlebars.onlyIncludes,
+    retain: DynHandlebars.retain,
     keys: DynHandlebars.keys,
     values: DynHandlebars.values,
     alias: DynHandlebars.alias,

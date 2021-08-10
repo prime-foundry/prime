@@ -1,12 +1,12 @@
 import Component from "../../util/Component.js";
-import PrimeItemConstants from "../PrimeItemConstants.js";
+import PrimeItemTables from "../PrimeItemTables.js";
 
 export class Modifiers extends Component {
 
     get collection() {
         return Array.from(this.gameSystem.modifiers || []).map((modifier, index) => {
 
-            const modifierCategory = (PrimeItemConstants.modifiers[modifier.type] || {}).category;
+            const modifierCategory = (PrimeItemTables.modifiers[modifier.type] || {}).category;
             if (modifierCategory === 'otherItem') {
                 if(modifier.type === 'action') {
                     return new AddedActionModifier(this, index, modifierCategory);
@@ -45,7 +45,7 @@ export class Modifiers extends Component {
     }
 
     add() {
-        const modifier = PrimeItemConstants.defaultModifier;
+        const modifier = PrimeItemTables.defaultModifier;
         this.write(this.pathToModifiers().with((this.gameSystem.modifiers || []).length || 0), modifier);
     }
 

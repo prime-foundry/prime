@@ -1,5 +1,6 @@
-import {TemplateTable} from "./util/TemplateTable.js";
+import {loadComplexData, TemplateTable} from "./util/TemplateTable.js";
 import {arrayIfNot} from "./util/support.js";
+import {prerequisiteClassNameToClass} from "./item/components/Prerequisites.js";
 
 class CoreTable extends TemplateTable {
 
@@ -55,30 +56,25 @@ class Lookups extends TemplateTable{
     }
 
     static loadLookups(lookups) {
-        const transformed = {};
-        Object.entries(lookups).forEach(([key, lookupData]) => {
-                transformed[key] = Lookups.loadLookupsByType(lookupData);
-            }
-        );
+        const transformed = loadComplexData(lookups, (key, lookupData) => {
+            return Lookups.loadLookupsByType(lookupData);
+        });
         return transformed;
     }
 
     static loadLookupsByType(lookups) {
-        const transformed = {};
-        Object.entries(lookups).forEach(([key, lookupData]) => {
-                const title = game.i18n.localize(lookupData.title);
-                const valueTypes = arrayIfNot(lookupData.valueTypes) ;
-                const modifiable = !!lookupData.modifiable;
-                const actionable = !!lookupData.actionable;
-                const path = lookupData.path || key;
-                transformed[key] = {title, valueTypes, path, modifiable, actionable};
-            }
-        );
+        const transformed = loadComplexData(lookups, (key, lookupData) => {
+            const valueTypes = arrayIfNot(lookupData.valueTypes) ;
+            const path = lookupData.path || key;
+            const modifiable = !!lookupData.modifiable;
+            const actionable = !!lookupData.actionable;
+            return {valueTypes, path, modifiable, actionable};
+        });
         return transformed;
     }
 }
 
-export default class PrimeConstants {
+export default class PrimeTables {
     static _core = new CoreTable();
     static _lookups = new Lookups();
     static get settings() {

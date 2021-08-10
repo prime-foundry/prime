@@ -7,9 +7,9 @@ import { PrimeItemSheet } from "./item/PrimeItemSheet.js";
 import { PrimeHandlebarsPartials } from "./prime_handlebars.js";
 import { PrimeDataMigrationManager } from "./migrations/PrimeDataMigrationsManager.js";
 import {StaticModel} from "./util/DynFoundryMixins.js";
-import PrimeItemConstants from "./item/PrimeItemConstants.js";
-import PrimeActorConstants from "./actor/PrimeActorConstants.js";
-import PrimeConstants from "./PrimeConstants.js";
+import PrimeItemTables from "./item/PrimeItemTables.js";
+import PrimeActorTables from "./actor/PrimeActorTables.js";
+import PrimeTables from "./PrimeTables.js";
 
 Hooks.once('init', async function ()
 {
@@ -38,9 +38,9 @@ Hooks.once('init', async function ()
 	Items.unregisterSheet("core", ItemSheet);
 	Items.registerSheet("prime", PrimeItemSheet, { makeDefault: true });
 
-	StaticModel.registerStaticModel('items', PrimeItemConstants)
-		.registerStaticModel('actor', PrimeActorConstants)
-		.registerStaticModel('core', PrimeConstants);
+	StaticModel.registerStaticModel('items', PrimeItemTables)
+		.registerStaticModel('actor', PrimeActorTables)
+		.registerStaticModel('core', PrimeTables);
 });
 
 Hooks.once("ready", async function ()

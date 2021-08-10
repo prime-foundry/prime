@@ -1,5 +1,5 @@
 import Component from "../../util/Component.js";
-import PrimeItemConstants from "../PrimeItemConstants.js";
+import PrimeItemTables from "../PrimeItemTables.js";
 
 export class ActionEffects extends Component {
 
@@ -19,7 +19,7 @@ export class ActionEffects extends Component {
 	}
 
 	add() {
-		const actionEffects = PrimeItemConstants.defaultActionEffect;
+		const actionEffects = PrimeItemTables.defaultActionEffect;
 		this.write(this.pathToActionEffects().with((this.gameSystem.actionEffects || []).length || 0), actionEffects);
 	}
 

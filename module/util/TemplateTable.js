@@ -20,3 +20,24 @@ export class TemplateTable {
 	}
 
 }
+
+export function loadBasicData(data) {
+    return loadComplexData(data, () => ({}));
+}
+
+export function loadComplexData(data, fn) {
+    const transformed = {}
+
+    Object.entries(data).forEach(([key, subData]) => {
+            const value = fn(key, subData);
+            if (value.title == null && subData.title != null) {
+                value.title = game.i18n.localize(subData.title)
+            }
+            if (value.description == null && subData.description != null) {
+                value.description = game.i18n.localize(subData.description)
+            }
+            transformed[key] = value;
+        }
+    );
+    return transformed;
+}

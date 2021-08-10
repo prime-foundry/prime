@@ -1,9 +1,9 @@
 import {PrimeItemManager} from "./PrimeItemManager.js";
-import {prerequisiteClassNameToClass, Prerequisites} from "./components/Prerequisites.js";
-import {TemplateTable} from "../util/TemplateTable.js";
-import PrimeActorConstants from "../actor/PrimeActorConstants.js";
+import {prerequisiteClassNameToClass} from "./components/Prerequisites.js";
+import {loadBasicData, loadComplexData, TemplateTable} from "../util/TemplateTable.js";
+import PrimeActorTables from "../actor/PrimeActorTables.js";
 import {arrayIfNot} from "../util/support.js";
-import PrimeConstants from "../PrimeConstants.js";
+import PrimeTables from "../PrimeTables.js";
 
 const QUALIFIERS = new Map()
     .set('EXISTS', {unary: true, types: ['object'], predicate: (a) => a != null})
@@ -30,21 +30,18 @@ class PrerequisitesTable extends TemplateTable {
 
     get prerequisites() {
         if (this._prerequisites == null) {
-            const transformed = {};
-            Object.entries(this.data).forEach(([key, prerequisiteData]) => {
-                    const title = game.i18n.localize(prerequisiteData.title);
-                    const Type = prerequisiteClassNameToClass(prerequisiteData.class);
-                    const subTypes = PrerequisitesTable.loadSubTypes(Type, prerequisiteData);
-                    transformed[key] = {title, subTypes, class: prerequisiteData.class};
-                }
-            );
+            const transformed = loadComplexData(this.data, (key, prerequisiteData) => {
+                const Type = prerequisiteClassNameToClass(prerequisiteData.class);
+                const subTypes = PrerequisitesTable.loadSubTypes(Type, prerequisiteData);
+                return {subTypes, class: prerequisiteData.class};
+            });
             this._prerequisites = transformed;
         }
         return this._prerequisites;
     }
 
     get defaultPrerequisite() {
-        const [type, ] = Object.entries(this.prerequisites).shift();
+        const [type,] = Object.entries(this.prerequisites).shift();
         const target = '';
         const qualifier = '';
         const value = '';
@@ -61,15 +58,14 @@ class PrerequisitesTable extends TemplateTable {
     }
 
     static loadActorSubType() {
-        const transformed = {}
-        const actorLookups = PrimeActorConstants.lookups;
-        Object.entries(actorLookups).forEach(([key, actorData]) => {
-                const valueTypes = arrayIfNot(actorData.valueTypes);
-                const qualifiers = PrerequisitesTable.loadQualifiers(valueTypes);
-                const title = actorData.title;
-                transformed[key] = {title, qualifiers, valueTypes};
-            }
-        );
+        const actorLookups = PrimeActorTables.lookups;
+
+        const transformed = loadComplexData(actorLookups, (key, actorData) => {
+            const valueTypes = arrayIfNot(actorData.valueTypes);
+            const qualifiers = PrerequisitesTable.loadQualifiers(valueTypes);
+            const title = actorData.title;
+            return {title, qualifiers, valueTypes};
+        });
         return transformed;
     }
 
@@ -77,6 +73,7 @@ class PrerequisitesTable extends TemplateTable {
         const transformed = {}
         const criteria = {itemBaseTypes, typed: true, sortItems: true};
         const items = PrimeItemManager.getItems(criteria);
+
         items.forEach(item => {
             const valueTypes = arrayIfNot(Type.supportedValueTypes(item));
             const qualifiers = PrerequisitesTable.loadQualifiers(valueTypes);
@@ -109,30 +106,29 @@ class ModifiersTable extends TemplateTable {
     constructor() {
         super('modifiers')
     }
+
     _modifiers;
 
     get modifiers() {
         if (this._modifiers == null) {
-            const transformed = {};
-            Object.entries(this.data).forEach(([key, modifierData]) => {
-                    const title = game.i18n.localize(modifierData.title);
-                    const category = modifierData.category;
-                    const subTypes = ModifiersTable.loadSubTypes(category, modifierData);
-                    transformed[key] = {title, subTypes, category};
-                }
-            );
+
+            const transformed = loadComplexData(this.data, (key, modifierData) => {
+                const category = modifierData.category;
+                const subTypes = ModifiersTable.loadSubTypes(category, modifierData);
+                return {subTypes, category};
+            });
             this._modifiers = transformed;
         }
         return this._modifiers;
     }
 
     get defaultModifier() {
-        const [type, ] = Object.entries(this.modifiers).shift();
+        const [type,] = Object.entries(this.modifiers).shift();
         const target = '';
         const value = 0;
-        const situational = true;
-        const equipped = false;
-        return {type, target, value,situational, equipped};
+        const situational = false;
+        const equipped = true;
+        return {type, target, value, situational, equipped};
     }
 
     static loadSubTypes(category, modifierData) {
@@ -140,7 +136,7 @@ class ModifiersTable extends TemplateTable {
             return ModifiersTable.loadItemSubType(arrayIfNot(modifierData.itemBaseTypes, true));
         } else if (category === 'actor') {
             return ModifiersTable.loadActorSubType();
-        }  else if (category === 'otherItem') {
+        } else if (category === 'otherItem') {
             return ModifiersTable.loadModifierSubType(arrayIfNot(modifierData.itemBaseTypes, true));
         }
         // misc doesn't have subtypes
@@ -160,11 +156,11 @@ class ModifiersTable extends TemplateTable {
 
     static loadActorSubType() {
         const transformed = {}
-        const actorLookups = PrimeActorConstants.lookups;
+        const actorLookups = PrimeActorTables.lookups;
         Object.entries(actorLookups)
-            .filter(([,actorData]) => actorData.modifiable)
+            .filter(([, actorData]) => actorData.modifiable)
             .forEach(([key, actorData]) => {
-                    const title = actorData.title;
+                    const title = game.i18n.localize(actorData.title);
                     transformed[key] = title;
                 }
             );
@@ -189,13 +185,14 @@ class ActionsTable extends TemplateTable {
 
     _types;
     _effects;
+
     constructor() {
         super('actions')
     }
 
     get types() {
         if (this._types == null) {
-            this._types = ActionsTable.loadTypes(this.data);
+            this._types = loadBasicData(this.data.types);
         }
         return this._types;
     }
@@ -208,21 +205,18 @@ class ActionsTable extends TemplateTable {
     }
 
     get defaultActionEffect() {
-        const [type, ] = Object.entries(this.effects).shift();
+        const [type,] = Object.entries(this.effects).shift();
         const target = '';
         const value = 0;
         return {type, target, value};
     }
 
     static loadEffects({effects}) {
-        const transformed = {}
-        Object.entries(effects).forEach(([key, effectsData]) => {
-                const title = game.i18n.localize(effectsData.title);
-                const category = effectsData.category;
-                const subTypes = ActionsTable.loadEffectsSubTypes(category, effectsData);
-                transformed[key] = {title, subTypes, category};
-            }
-        );
+        const transformed = loadComplexData(effects, (key, effectsData) => {
+            const category = effectsData.category;
+            const subTypes = ActionsTable.loadEffectsSubTypes(category, effectsData)
+            return {subTypes, category};
+        });
         return transformed;
     }
 
@@ -232,7 +226,7 @@ class ActionsTable extends TemplateTable {
             return ModifiersTable.loadItemSubType(arrayIfNot(modifierData.itemBaseTypes, true));
         } else if (category === 'actor') {
             return ActionsTable.loadEffectsActorSubType();
-        }  else if (category === 'otherItem') {
+        } else if (category === 'otherItem') {
             // code is the same.
             return ModifiersTable.loadModifierSubType(arrayIfNot(modifierData.itemBaseTypes, true));
         }
@@ -241,9 +235,9 @@ class ActionsTable extends TemplateTable {
 
     static loadEffectsActorSubType() {
         const transformed = {}
-        const actorLookups = PrimeActorConstants.lookups;
+        const actorLookups = PrimeActorTables.lookups;
         Object.entries(actorLookups)
-            .filter(([,actorData]) => actorData.actionable)
+            .filter(([, actorData]) => actorData.actionable)
             .forEach(([key, actorData]) => {
                     const title = actorData.title;
                     transformed[key] = title;
@@ -251,53 +245,73 @@ class ActionsTable extends TemplateTable {
             );
         return transformed;
     }
-    static loadTypes({types}) {
-        const transformed = {}
-        Object.entries(types).forEach(([key, typesData]) => {
-                const title = game.i18n.localize(typesData.title);
-                transformed[key] = {title};
-            }
-        );
-        return transformed;
-    }
 }
 
 class RarityTable extends TemplateTable {
 
     _rarity;
+
     constructor() {
         super('rarity')
     }
 
     get rarity() {
         if (this._rarity == null) {
-            this._rarity = RarityTable.loadTypes(this.data);
+            this._rarity = loadBasicData(this.data);
         }
         return this._rarity;
     }
 
-    static loadTypes(rarity) {
-        const transformed = {}
-        Object.entries(rarity).forEach(([key, rarityData]) => {
-                const title = game.i18n.localize(rarityData.title);
-                transformed[key] = {title};
-            }
-        );
-        return transformed;
+}
+
+
+class ArmourTable extends TemplateTable {
+
+    _types;
+    _keywords;
+    _untrainedPenalties;
+
+    constructor() {
+        super('items.armour')
+    }
+
+    get types() {
+        if (this._types == null) {
+            this._types = loadBasicData(this.data.types);
+        }
+        return this._types;
+    }
+    get keywords() {
+        if (this._keywords == null) {
+            this._keywords = loadBasicData(this.data.keywords);
+        }
+        return this._keywords;
+    }
+
+    get untrainedPenalties() {
+        if (this._untrainedPenalties == null) {
+            this._untrainedPenalties = loadBasicData(this.data.untrainedPenalties);
+        }
+        return this._untrainedPenalties;
     }
 }
 
-export default class PrimeItemConstants {
+export default class PrimeItemTables {
     static _modifiers = new ModifiersTable();
-    static _prerequisites = new PrerequisitesTable()
-    static _actions = new ActionsTable()
-    static _rarity = new RarityTable()
+    static _prerequisites = new PrerequisitesTable();
+    static _actions = new ActionsTable();
+    static _rarity = new RarityTable();
+    static _armour = new ArmourTable();
+
+    static get armour() {
+        return this._armour;
+    }
 
     static get modifiers() {
         return this._modifiers.modifiers;
     }
 
-    static get defaultModifier(){
+    static get defaultModifier() {
         return this._modifiers.defaultModifier;
     }
 
@@ -305,7 +319,7 @@ export default class PrimeItemConstants {
         return this._prerequisites.prerequisites;
     }
 
-    static get defaultPrerequisite(){
+    static get defaultPrerequisite() {
         return this._prerequisites.defaultPrerequisite;
     }
 
@@ -326,7 +340,7 @@ export default class PrimeItemConstants {
     }
 
     static get lookups() {
-        return PrimeConstants.lookups.item;
+        return PrimeTables.lookups.item;
     }
 
     static qualifierForKey(key) {
