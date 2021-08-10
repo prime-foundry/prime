@@ -1,14 +1,24 @@
-import PrimeMigration_0_1_10 from "./PrimeMigration_0_1_10.js";
-import PrimeMigration_0_4_1 from "./PrimeMigration_0_4_1.js";
 import compareVersions from "./compare-versions.js";
 import {isString} from "../util/support.js";
 
-const MIGRATIONS = [PrimeMigration_0_1_10, PrimeMigration_0_4_1];
+import PrimeMigration_0_1_10 from "./PrimeMigration_0_1_10.js";
+import PrimeMigration_Item_0_2_0 from "./PrimeMigration_Item_0_2_0.js";
+import PrimeMigration_Actor_0_2_1 from "./PrimeMigration_Actor_0_2_1.js";
+
+const MIGRATIONS = [PrimeMigration_0_1_10, PrimeMigration_Item_0_2_0, PrimeMigration_Actor_0_2_1];
 
 MIGRATIONS.sort((a, b) => compareVersions(a.version, b.version));
 
 const CURRENT_PRIME_VERSION_KEY = "MigrationVersion";
 const MIGRATING_KEY = "Migrating";
+
+const TIMEOUT = 60;
+
+
+function epochSeconds(date = new Date()){
+	return Math.floor( date / 1000 );
+}
+
 
 export class PrimeDataMigrationManager {
 
@@ -64,11 +74,22 @@ export class PrimeDataMigrationManager {
 	 */
 	static async performMigration() {
 		// prevent 2 GMS logging in at the same time, and kicking of duplicate migrations.
-		const migrationValue = `${Math.random() * 1e32}`;
+		const now =epochSeconds()
+		const migrationValue = `${now}`;
 		const isMigrating = game.settings.get("prime", MIGRATING_KEY);
 		if (isMigrating !== "") {
-			console.warn(`already migrating. ${isMigrating}`);
-			return;
+			const then = Number.parseInt(isMigrating);
+			// timeout
+			const diff = now-then
+			if(diff < TIMEOUT) {
+				const left = TIMEOUT - diff;
+				const minutes = Math.floor(left/60);
+				const seconds = Math.floor(left - (minutes * 60));
+				const message = `already migrating. Try again in: ${minutes} mins ${seconds} seconds`;
+				console.warn(message);
+				ui.notifications.warn(message);
+				return;
+			}
 		}
 		await game.settings.set("prime", MIGRATING_KEY, migrationValue);
 		const migrationKey = game.settings.get("prime", MIGRATING_KEY);

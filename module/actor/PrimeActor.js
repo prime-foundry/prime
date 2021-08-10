@@ -80,7 +80,7 @@ export class PrimeActor extends DynDocumentMixin(Actor, 'actor')
 	get actionsCategorized() {
 		const actions = this.actions;
 		const categorized = actions.reduce((aggregator, currentAction) => {
-			const sourceItem = currentAction.sourceItem;
+			const sourceItem = currentAction.source;
 			const actionType = sourceItem.actionType;
 			if(aggregator[actionType] == null){
 				aggregator[actionType] = [currentAction];
@@ -132,6 +132,47 @@ export class PrimeActor extends DynDocumentMixin(Actor, 'actor')
 
 	set actionPoints(value) {
 		this.actionPoints.value = value;
+	}
+
+	get inventoryOrder() {
+		return this.dyn.gameSystem.inventoryOrder || {};
+	}
+
+	set inventoryOrder(inventoryOrder) {
+		this.dyn.write(this.dyn.gameSystemPath.with("inventoryOrder"),  inventoryOrder);
+	}
+
+	get inventoryItems(){
+		const criteria = {
+			itemCollection: this.items,
+			matchAll: false,
+			typed: true,
+			itemBaseTypes: ["melee-weapon", "ranged-weapon", "armour", "shield", "item"]
+		};
+		const items = PrimeItemManager.getItems(criteria);
+
+		const combinedItems = items.sort(this.sortByItemOrder.bind(this));
+		return combinedItems;
+	}
+
+	sortByItemOrder(itemA, itemB) {
+		const currentItemSortList = this.inventoryOrder;
+		const itemAPosition = currentItemSortList[itemA.id];
+		const itemBPosition = currentItemSortList[itemB.id];
+
+		if ((!itemAPosition && itemAPosition !== 0) || itemAPosition == -1)	// Sorting data is missing or not generated yet - leave with initial order
+		{
+			return 0;
+		}
+
+		if (itemAPosition < itemBPosition) {
+			return -1;
+		}
+		if (itemAPosition > itemBPosition) {
+			return 1;
+		}
+
+		return 0;
 	}
 
 

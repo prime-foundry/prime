@@ -190,10 +190,10 @@ export class OtherItemModifier extends Modifier {
         if (item == null) {
             return 0;
         }
-        if (qualifies && !item.prerequisites.qualifies(actorDoc)) {
+        if (qualifies && !item.qualifies(actorDoc)) {
             return 0;
         }
-        return item.modifiers.modifierFor(actorDoc, ownedItem, target, options);
+        return item.modifierFor(actorDoc, ownedItem, target, options);
     }
 
     getItem() {

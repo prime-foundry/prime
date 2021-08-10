@@ -25,7 +25,7 @@ export default class ActionItem extends BaseItem {
 
     get actionEffects(){
         if(this.hasSourceItem){
-            return this.sourceItem.actionEffects;
+            return this.source.actionEffects;
         }
         return getComponentLazily(this, 'actionEffects', ActionEffects);
     }

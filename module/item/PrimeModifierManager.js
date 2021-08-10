@@ -85,10 +85,10 @@ export class PrimeModifierManager {
         const {qualifies = true} = options
 
         const total = items.reduce((previousValue, ownedItem)=> {
-            if(qualifies && !ownedItem.prerequisites.qualifies(actorDoc)){
+            if(qualifies && !ownedItem.qualifies(actorDoc)){
                 return 0;
             }
-            return previousValue + ownedItem.modifiers.modifierFor(actorDoc, ownedItem, target, options);
+            return previousValue + ownedItem.modifierFor(actorDoc, ownedItem, target, options);
         },0);
 
         return total;

@@ -13,7 +13,7 @@
 			<a class="showStatInfoIcon"
                data-dyn-click-at="actor.stats.primes.displayStat()"
                data-dyn-id="{{id}}"><i class="fas fa-info-circle fa-xs"></i></a>
-            <label for="primes-{{id}}">{{this.sourceItem.name}}</label>
+            <label for="primes-{{id}}">{{this.source.name}}</label>
             <div class="valueWrapper">
                 <input type="text" id="primes-{{id}}" value="{{unadjustedValue}}"
                        data-dyn-type="Number"
@@ -42,7 +42,7 @@
                data-dyn-id="{{id}}">
                 <i class="fas fa-info-circle fa-xs"></i>
             </a>
-            <label for="refinements-{{id}}">{{this.sourceItem.name}}</label>
+            <label for="refinements-{{id}}">{{this.source.name}}</label>
             <div class="valueWrapper">
                 <input type="text" id="refinements-{{id}}" value="{{unadjustedValue}}"
                        data-dyn-type="Number"

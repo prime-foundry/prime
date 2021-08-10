@@ -1,8 +1,8 @@
 <div class="cell100 flexRow verticalCenter flexBetween">
-    <label for="item.armourType" class="resource-label cell30">Type:</label>
-    <select id="item.armourType" class="itemValueType cell70"
-            data-dyn-change-at="item.armourType"
-            data-dyn-select="item.armourType">
+    <label for="item.armour.type" class="resource-label cell30">Type:</label>
+    <select id="item.armour.type" class="itemValueType cell70"
+            data-dyn-change-at="item.armour.type"
+            data-dyn-select="item.armour.type">
         {{#each static.items.armour.types}}
             <option value="{{@key}}">{{this.title}}</option>
         {{/each}}
@@ -10,22 +10,22 @@
 </div>
 
 <div class="cell50 flexRow verticalCenter flexBetween">
-    <label for="item.protection" class="resource-label cell40">Protection:</label>
-    <input class="cell60" type="number" id="item.protection" value="{{item.protection}}"
+    <label for="item.armour.protection" class="resource-label cell40">Protection:</label>
+    <input class="cell60" type="number" id="item.armour.protection" value="{{item.armour.protection}}"
            data-dyn-type="Number"
-           data-dyn-change-at="item.protection"/>
+           data-dyn-change-at="item.armour.protection"/>
 </div>
 
 <div class="cell50 flexRow verticalCenter flexBetween">
-    <label for="item.armourResilience" class="resource-label cell70">Armour resilience:</label>
-    <input type="number" id="item.armourResilience" class="cell30" value="{{item.armourResilience}}"
+    <label for="item.armour.resilience" class="resource-label cell70">Armour resilience:</label>
+    <input type="number" id="item.armour.resilience" class="cell30" value="{{item.armour.resilience}}"
            data-dyn-type="Number"
-           data-dyn-change-at="item.armourResilience"/>
+           data-dyn-change-at="item.armour.resilience"/>
 </div>
 
 <div class="cell100 flexRow verticalCenter flexCenter checkboxGroupTitle {{checkboxGroupState checkboxGroupStates.keywords}}" data-checkbox-group="keywords">
     <div class="cell100">Keywords:
-        {{#each (retain static.items.armour.keywords item.keywords) as |keyword|}}
+        {{#each (retain static.items.armour.keywords item.armour.keywords) as |keyword|}}
             <span title="{{convertHTMLForTitle keyword.description}}" class="hasTooltip">{{keyword.title}}</span>{{#if (not @last)}}, {{/if}}
         {{/each}}
     </div>
@@ -37,16 +37,16 @@
         <div class="flexRow verticalCenter cell33 flexBetween">
             <label for="{{@key}}" class="resource-label hasTooltip" title="{{convertHTMLForTitle keyword.description}}">{{keyword.title}}:</label>
             <input class="checkboxGroup" type="checkbox" id="{{@key}}" value="{{@key}}"
-                   data-dyn-change-at="item.toggleKeyword()"
+                   data-dyn-change-at="item.armour.toggleKeyword"
                    data-dyn-value="{{@key}}"
-                {{checked (includes ../item.keywords @key)}}/>
+                {{checked (includes ../item.armour.keywords @key)}}/>
         </div>
     {{/each}}
 </div>
 
 <div class="cell100 flexRow verticalCenter flexCenter checkboxGroupTitle {{checkboxGroupState checkboxGroupStates.actions}}" data-checkbox-group="actions">
     <div class="cell100">Untrained penalty:
-        {{#each (retain static.items.armour.untrainedPenalties item.untrainedPenalty) as |untrainedPenalty|}}
+        {{#each (retain static.items.armour.untrainedPenalties item.armour.untrainedPenalties) as |untrainedPenalty|}}
             <span title="{{convertHTMLForTitle untrainedPenalty.description}}" class="hasTooltip">{{untrainedPenalty.title}}</span>{{#if (not @last)}}, {{/if}}
         {{/each}}
     </div>
@@ -58,9 +58,9 @@
         <div class="flexRow verticalCenter cell33 flexBetween">
             <label for="{{@key}}" class="resource-label hasTooltip" title="{{convertHTMLForTitle untrainedPenalty.description}}">{{untrainedPenalty.title}}:</label>
             <input class="checkboxGroup" type="checkbox" id="{{@key}}" value="{{@key}}"
-                   data-dyn-change-at="item.toggleUntrainedPenalty()"
+                   data-dyn-change-at="item.armour.toggleUntrainedPenalty"
                    data-dyn-value="{{@key}}"
-                {{checked (includes ../item.untrainedPenalty @key)}}/>
+                {{checked (includes ../item.armour.untrainedPenalties @key)}}/>
         </div>
     {{/each}}
 </div>

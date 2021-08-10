@@ -25,7 +25,7 @@ export default class BaseItem extends Component {
         return this.foundryData.img;
     }
 
-    get sourceItem() {
+    get source() {
         if(this.hasSourceItem){
             const sourceDoc = ItemDirectory.collection.get(this.metadata.sourceKey);
             if(sourceDoc != null){

@@ -1,0 +1,24 @@
+<div class="cell50 flexRow verticalCenter flexBetween">
+    <label class="cell60" for="item.metrics.quantity">Quantity:</label>
+    <input class="cell40" type="number" id="item.metrics.quantity" value="{{item.metrics.quantity}}"
+           data-dyn-type="Number"
+           data-dyn-change-at="item.metrics.quantity"/>
+</div>
+
+<div class="cell50 flexRow verticalCenter flexBetween">
+    <label class="cell60" for="item.metrics.weight">Weight:</label>
+    <input class="cell40" type="number" id="item.metrics.weight" value="{{item.metrics.weight}}"
+           data-dyn-type="Number"
+           data-dyn-change-at="item.metrics.weight"/>
+</div>
+
+<div class="cell100 flexRow verticalCenter flexBetween">
+    <label class="cell30" for="item.metrics.rarity">{{localize "PRIME.item_rarity"}}:</label>
+    <select id="item.metrics,rarity" class="itemRarity cell70"
+            data-dyn-change-at="item.metrics.rarity"
+            data-dyn-select="item.metrics.rarity">
+        {{#each static.items.rarity}}
+            <option value="{{@key}}">{{this.title}}</option>
+        {{/each}}
+    </select>
+</div>

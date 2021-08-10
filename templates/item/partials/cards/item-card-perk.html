@@ -1,25 +1,25 @@
 <div class="primeCard itemCard itemCardPerk {{#if (not (call 'qualifies'))}}inactive{{/if}}" data-item-index="{{@index}}">
-    <div class="cardTitle"><a class="itemTitle stopDrag" data-item-id="{{this.id}}">{{this.sourceItem.name}}</a></div>
-    <div class="cardTopRightDetail">{{this.sourceItem.cost.amount}}</div>
+    <div class="cardTitle"><a class="itemTitle stopDrag" data-item-id="{{this.id}}">{{this.source.name}}</a></div>
+    <div class="cardTopRightDetail">{{this.source.cost.amount}}</div>
 
 	<div class="cardDetail stopDrag">
 		<div class="cardDescription">
-			{{#if this.sourceItem.descriptions.core}}
-			<div>{{{this.sourceItem.descriptions.core}}}</div>
+			{{#if this.source.descriptions.core}}
+			<div>{{{this.source.descriptions.core}}}</div>
 			{{/if}}
 
-			{{#if this.sourceItem.descriptions.setting}}
-			<div>{{{this.sourceItem.descriptions.setting}}}</div>
+			{{#if this.source.descriptions.setting}}
+			<div>{{{this.source.descriptions.setting}}}</div>
 			{{/if}}
 		</div>
 
 		<div class="cardBottomRightDetail removePerk"><a class="deleteItemIcon stopDrag" data-item-id={{this.id}}><i class="fas fa-trash stopDrag stopClose"></i></a></div>
 
-		{{#if (equal this.sourceItem.cost.type "xp")}}
+		{{#if (equal this.source.cost.type "xp")}}
 		<div class="cardRightCenterDetail perkCost hasTooltip" title="Perk cost XP">XP</div>
 		{{/if}}
 
-		{{#if (equal this.sourceItem.cost.type "soul")}}
+		{{#if (equal this.source.cost.type "soul")}}
 		<div class="cardRightCenterDetail perkCost hasTooltip" title="Perk cost Soul">S</div>
 		{{/if}}
 	</div>
