@@ -19,4 +19,5 @@ export default class PerkItem extends BonusItem {
         }
         return this.cost.aggregate(total);
     }
+
 }

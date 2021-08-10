@@ -211,7 +211,7 @@ export default class PrimeMigration_Item_0_2_0 extends Migration {
             const primeItems = PrimeItemManager.getItems({justContentData: false, itemBaseTypes: 'prime'});
             const refinementItems = PrimeItemManager.getItems({justContentData: false, itemBaseTypes: 'refinement'});
 
-
+            const equipped = ["item", "melee-weapon", "ranged-weapon", "shield"].includes(item.type);
             oldBonuses.forEach(([key, bonus]) => {
                 switch (bonus.bonusType) {
                     case "situationalPrime": {
@@ -219,7 +219,6 @@ export default class PrimeMigration_Item_0_2_0 extends Migration {
                         const rules = 'Please read the descriptions';
                         const value = bonus.value || 0;
                         const situational = true;
-                        const equipped = true;
                         const names = PrimeMigration_Actor_0_2_1.PRIME_MAP.get(bonus.path) || [];
 
                         primeItems.filter(item => names.includes(item.name)).forEach(bonusItem => {
@@ -232,7 +231,6 @@ export default class PrimeMigration_Item_0_2_0 extends Migration {
                         const rules = 'Please read the descriptions';
                         const value = bonus.value || 0;
                         const situational = true;
-                        const equipped = true;
                         const names = PrimeMigration_Actor_0_2_1.REFINEMENT_MAP.get(bonus.path) || [];
 
                         refinementItems.filter(item => names.includes(item.name)).forEach(bonusItem => {
@@ -246,7 +244,6 @@ export default class PrimeMigration_Item_0_2_0 extends Migration {
                         const rules = 'Please read the descriptions';
                         const value = bonus.value || 0;
                         const situational = false;
-                        const equipped = true;
                         modifiers.push({type, target, value, rules, situational, equipped});
                         break;
                     }
@@ -256,7 +253,6 @@ export default class PrimeMigration_Item_0_2_0 extends Migration {
                         const rules = 'Please read the descriptions';
                         const value = bonus.value || 0;
                         const situational = false;
-                        const equipped = true;
                         modifiers.push({type, target, value, rules, situational, equipped});
                         break;
                     }
@@ -266,7 +262,6 @@ export default class PrimeMigration_Item_0_2_0 extends Migration {
                         const rules = 'Please read the descriptions';
                         const value = bonus.value || 0;
                         const situational = false;
-                        const equipped = true;
                         modifiers.push({type, target, value, rules, situational, equipped});
                         break;
                     }
@@ -278,7 +273,6 @@ export default class PrimeMigration_Item_0_2_0 extends Migration {
                         const rules = 'Please read the descriptions';
                         const value = bonus.value || 0;
                         const situational = false;
-                        const equipped = true;
                         modifiers.push({type, target, value, rules, situational, equipped});
                         break;
                     }

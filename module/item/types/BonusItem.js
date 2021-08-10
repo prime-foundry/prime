@@ -32,4 +32,8 @@ export default class BonusItem extends BaseItem {
         }
         return this.prerequisites.qualifies(actorDoc);
     }
+
+    get equippable() {
+        return false;
+    }
 }

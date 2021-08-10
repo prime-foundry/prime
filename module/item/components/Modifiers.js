@@ -144,7 +144,7 @@ export class Modifier extends Component {
         if (!includeSituational && this.situational) {
             return 0;
         }
-        if ((!includeUnequipped && this.equipped) && !ownedItem.equipped) {
+        if ((!includeUnequipped) && this.equipped && ownedItem.equippable && (!ownedItem.equipped)) {
             return 0;
         }
         return this.value;
@@ -182,7 +182,7 @@ export class OtherItemModifier extends Modifier {
         if (!includeSituational && this.situational) {
             return 0;
         }
-        if ((!includeUnequipped && this.equipped) && !ownedItem.equipped) {
+        if ((!includeUnequipped) && this.equipped && ownedItem.equippable && (!ownedItem.equipped)) {
             return 0;
         }
 
