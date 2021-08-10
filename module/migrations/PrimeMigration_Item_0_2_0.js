@@ -188,7 +188,7 @@ export default class PrimeMigration_Item_0_2_0 extends Migration {
                 untrainedPenaltiesTable.sort();
                 armour.untrainedPenalties = untrainedPenaltiesTable.filter((value, index) => oldPenalties[index] != null && oldPenalties[index]);
                 gameSystemData.untrainedPenalty = null;
-            } else if (armour.keywords == null) {
+            } else if (armour.untrainedPenalties == null) {
                 armour.untrainedPenalties = [];
             }
 
