@@ -895,6 +895,16 @@
 				"itemBaseTypes": "action",
 				"category": "otherItem"
 			},
+			"extraAction": {
+				"title": "PRIME.item_modifier_extra_action",
+				"itemBaseTypes": "action",
+				"filter": {
+					"metadata": {
+						"default": false
+					}
+				},
+				"category": "otherItem"
+			},
 			"perk": {
 				"title": "PRIME.item_modifier_perk",
 				"itemBaseTypes": "perk",

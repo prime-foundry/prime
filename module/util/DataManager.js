@@ -91,6 +91,7 @@ export default class DataManager {
             }
 
             await document.update(editObject.data, context);
+            Hooks.callAll("dynDocumentUpdated", document);
         }
     }
 }

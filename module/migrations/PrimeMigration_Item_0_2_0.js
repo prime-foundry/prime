@@ -46,13 +46,15 @@ export default class PrimeMigration_Item_0_2_0 extends Migration {
         const foundryData = itemDoc.data;
         const gameSystemData = foundryData.data;
         const item = itemDoc.dyn.typed;
+        PrimeMigration_Item_0_2_0.migrateMetadata(item, gameSystemData, embedded);
         PrimeMigration_Item_0_2_0.migrateAudit(item, gameSystemData);
         PrimeMigration_Item_0_2_0.migrateCosts(itemDoc, item, gameSystemData);
         PrimeMigration_Item_0_2_0.migrateDescriptions(item, gameSystemData);
-        PrimeMigration_Item_0_2_0.migrateMetadata(item, gameSystemData, embedded);
         PrimeMigration_Item_0_2_0.migrateMetrics(item, gameSystemData);
         PrimeMigration_Item_0_2_0.migrateArmour(item, gameSystemData);
         PrimeMigration_Item_0_2_0.migratePrerequisites(item, gameSystemData);
+        PrimeMigration_Item_0_2_0.migrateModifiers(item, gameSystemData);
+        PrimeMigration_Item_0_2_0.migrateActions(item, gameSystemData);
 
         await itemDoc.update(foundryData.toObject(false));
     }
@@ -201,20 +203,92 @@ export default class PrimeMigration_Item_0_2_0 extends Migration {
         }
     }
 
-//  bonus ["situationalPrime", "situationalRefinement","extraAction","actionPointBonus", "actorStatBonus","externalStatBonus","misc"]
-//  prereq	["minimumPrime", "minimumRefinement", "minimumStat","maximumPrime", "maximumRefinement", "maximumStat", "otherPerk"]
-    //{
-    //     "0": {
-    //         "prerequisiteType": "minimumPrime",
-    //         "path": "end",
-    //         "value": 0
-    //     },
-    //     "1": {
-    //         "prerequisiteType": "maximumStat",
-    //         "path": "actionPoints.default",
-    //         "value": 0
-    //     }
-    // }
+    static migrateModifiers(item, gameSystemData) {
+        if (["item", "melee-weapon", "ranged-weapon", "shield", "perk"].includes(item.type)) {
+            const oldBonuses = Object.entries(gameSystemData.bonuses || {});
+            const modifiers = [];
+
+            const primeItems = PrimeItemManager.getItems({justContentData: false, itemBaseTypes: 'prime'});
+            const refinementItems = PrimeItemManager.getItems({justContentData: false, itemBaseTypes: 'refinement'});
+
+
+            oldBonuses.forEach(([key, bonus]) => {
+                switch (bonus.bonusType) {
+                    case "situationalPrime": {
+                        const type = 'prime';
+                        const rules = 'Please read the descriptions';
+                        const value = bonus.value || 0;
+                        const situational = true;
+                        const equipped = true;
+                        const names = PrimeMigration_Actor_0_2_1.PRIME_MAP.get(bonus.path) || [];
+
+                        primeItems.filter(item => names.includes(item.name)).forEach(bonusItem => {
+                            modifiers.push({type, target: bonusItem.id, value, rules, situational, equipped});
+                        });
+                        break;
+                    }
+                    case "situationalRefinement": {
+                        const type = 'refinement';
+                        const rules = 'Please read the descriptions';
+                        const value = bonus.value || 0;
+                        const situational = true;
+                        const equipped = true;
+                        const names = PrimeMigration_Actor_0_2_1.REFINEMENT_MAP.get(bonus.path) || [];
+
+                        refinementItems.filter(item => names.includes(item.name)).forEach(bonusItem => {
+                            modifiers.push({type, target: bonusItem.id, value, rules, situational, equipped});
+                        });
+                        break;
+                    }
+                    case "extraAction": {
+                        const type = 'extraAction';
+                        const target = bonus.path;
+                        const rules = 'Please read the descriptions';
+                        const value = bonus.value || 0;
+                        const situational = false;
+                        const equipped = true;
+                        modifiers.push({type, target, value, rules, situational, equipped});
+                        break;
+                    }
+                    case "actionPointBonus": {
+                        const type = 'action';
+                        const target = bonus.path;
+                        const rules = 'Please read the descriptions';
+                        const value = bonus.value || 0;
+                        const situational = false;
+                        const equipped = true;
+                        modifiers.push({type, target, value, rules, situational, equipped});
+                        break;
+                    }
+                    case "actorStatBonus": {
+                        const type = 'actor';
+                        const target = bonus.path;
+                        const rules = 'Please read the descriptions';
+                        const value = bonus.value || 0;
+                        const situational = false;
+                        const equipped = true;
+                        modifiers.push({type, target, value, rules, situational, equipped});
+                        break;
+                    }
+                    case "externalStatBonus":
+                    case "misc":
+                    default: {
+                        const type = 'misc';
+                        const target = '';
+                        const rules = 'Please read the descriptions';
+                        const value = bonus.value || 0;
+                        const situational = false;
+                        const equipped = true;
+                        modifiers.push({type, target, value, rules, situational, equipped});
+                        break;
+                    }
+                }
+            });
+            gameSystemData.modifiers = modifiers;
+            gameSystemData.bonuses = null;
+        }
+    }
+
     static migratePrerequisites(item, gameSystemData) {
         if (["perk"].includes(item.type)) {
 
@@ -230,10 +304,10 @@ export default class PrimeMigration_Item_0_2_0 extends Migration {
                         const type = "prime"
                         const qualifier = 'GREATER_OR_EQUALS';
                         const value = Number.parseInt(prereq.value) || 1;
-                        const names = PrimeMigration_Actor_0_2_1.PRIME_MAP.get(prereq.path);
+                        const names = PrimeMigration_Actor_0_2_1.PRIME_MAP.get(prereq.path) || [];
 
                         primeItems.filter(item => names.includes(item.name)).forEach(prereqItem => {
-                            prerequisites.push({type, target:prereqItem.id, qualifier, value});
+                            prerequisites.push({type, target: prereqItem.id, qualifier, value});
                         });
                         break;
                     }
@@ -241,9 +315,9 @@ export default class PrimeMigration_Item_0_2_0 extends Migration {
                         const type = "refinement";
                         const qualifier = 'GREATER_OR_EQUALS';
                         const value = Number.parseInt(prereq.value) || 1;
-                        const names = PrimeMigration_Actor_0_2_1.REFINEMENT_MAP.get(prereq.path);
+                        const names = PrimeMigration_Actor_0_2_1.REFINEMENT_MAP.get(prereq.path) || [];
                         refinementItems.filter(item => names.includes(item.name)).forEach(prereqItem => {
-                            prerequisites.push({type, target:prereqItem.id, qualifier, value});
+                            prerequisites.push({type, target: prereqItem.id, qualifier, value});
                         });
                         break;
                     }
@@ -259,9 +333,9 @@ export default class PrimeMigration_Item_0_2_0 extends Migration {
                         const type = "prime";
                         const qualifier = 'LESS_OR_EQUALS';
                         const value = Number.parseInt(prereq.value) || 10;
-                        const names = PrimeMigration_Actor_0_2_1.PRIME_MAP.get(prereq.path);
+                        const names = PrimeMigration_Actor_0_2_1.PRIME_MAP.get(prereq.path) || [];
                         primeItems.filter(item => names.includes(item.name)).forEach(prereqItem => {
-                            prerequisites.push({type, target:prereqItem.id, qualifier, value});
+                            prerequisites.push({type, target: prereqItem.id, qualifier, value});
                         });
                         break;
                     }
@@ -269,9 +343,9 @@ export default class PrimeMigration_Item_0_2_0 extends Migration {
                         const type = "refinement";
                         const qualifier = 'LESS_OR_EQUALS';
                         const value = Number.parseInt(prereq.value) || 10;
-                        const names = PrimeMigration_Actor_0_2_1.REFINEMENT_MAP.get(prereq.path);
+                        const names = PrimeMigration_Actor_0_2_1.REFINEMENT_MAP.get(prereq.path) || [];
                         refinementItems.filter(item => names.includes(item.name)).forEach(prereqItem => {
-                            prerequisites.push({type, target:prereqItem.id, qualifier, value});
+                            prerequisites.push({type, target: prereqItem.id, qualifier, value});
                         });
                         break;
                     }
@@ -297,6 +371,39 @@ export default class PrimeMigration_Item_0_2_0 extends Migration {
             gameSystemData.prerequisites = prerequisites
         } else if (["item", "melee-weapon", "ranged-weapon", "shield"].includes(item.type)) {
             gameSystemData.prerequisites = [];
+        }
+    }
+
+    static migrateActions(item, gameSystemData) {
+        if (gameSystemData.actionType == null) {
+            gameSystemData.actionType = gameSystemData.type;
+            gameSystemData.type = null;
+        }
+        if (gameSystemData.actionPoints == null) {
+            gameSystemData.actionPoints = gameSystemData.points;
+            gameSystemData.points = null;
+        }
+        if (gameSystemData.actionEffects == null) {
+
+            const oldEffects = Object.entries(gameSystemData.effects || {});
+            const actionEffects = [];
+
+            oldEffects.forEach(([, effect]) => {
+                if (effect.effectSubType === 'gainPoints') {
+                    const type = effect.effectSubType;
+                    const target = effect.path;
+                    const value = 0;
+                    actionEffects.push({type, target, value});
+                } else {
+                    const type = effect.effectSubType;
+                    const target = '';
+                    const value = 0;
+                    actionEffects.push({type, target, value});
+                }
+            });
+
+            gameSystemData.actionEffects = actionEffects;
+            gameSystemData.effects = null;
         }
     }
 }

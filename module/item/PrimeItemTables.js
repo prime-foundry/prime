@@ -28,6 +28,10 @@ class PrerequisitesTable extends TemplateTable {
         super('prerequisites')
     }
 
+    itemRefresh() {
+        this._prerequisites = null;
+    }
+
     get prerequisites() {
         if (this._prerequisites == null) {
             const transformed = loadComplexData(this.data, (key, prerequisiteData) => {
@@ -51,7 +55,7 @@ class PrerequisitesTable extends TemplateTable {
     static loadSubTypes(Type, prerequisiteData) {
         const subType = Type.subType;
         if (subType === 'item') {
-            return PrerequisitesTable.loadItemSubType(Type, arrayIfNot(prerequisiteData.itemBaseTypes, true));
+            return PrerequisitesTable.loadItemSubType(Type, arrayIfNot(prerequisiteData.itemBaseTypes, true), prerequisiteData.filter);
         } else if (subType === 'actor') {
             return PrerequisitesTable.loadActorSubType();
         }
@@ -69,9 +73,9 @@ class PrerequisitesTable extends TemplateTable {
         return transformed;
     }
 
-    static loadItemSubType(Type, itemBaseTypes) {
+    static loadItemSubType(Type, itemBaseTypes, filtersData) {
         const transformed = {}
-        const criteria = {itemBaseTypes, typed: true, sortItems: true};
+        const criteria = {itemBaseTypes, typed: true, sortItems: true, filtersData};
         const items = PrimeItemManager.getItems(criteria);
 
         items.forEach(item => {
@@ -109,6 +113,10 @@ class ModifiersTable extends TemplateTable {
 
     _modifiers;
 
+
+    itemRefresh() {
+        this._modifiers = null;
+    }
     get modifiers() {
         if (this._modifiers == null) {
 
@@ -132,19 +140,17 @@ class ModifiersTable extends TemplateTable {
     }
 
     static loadSubTypes(category, modifierData) {
-        if (category === 'item') {
-            return ModifiersTable.loadItemSubType(arrayIfNot(modifierData.itemBaseTypes, true));
+        if (category === 'item' || category === 'otherItem') {
+            return ModifiersTable.loadItemSubType(arrayIfNot(modifierData.itemBaseTypes, true), modifierData.filter);
         } else if (category === 'actor') {
             return ModifiersTable.loadActorSubType();
-        } else if (category === 'otherItem') {
-            return ModifiersTable.loadModifierSubType(arrayIfNot(modifierData.itemBaseTypes, true));
         }
         // misc doesn't have subtypes
     }
 
-    static loadItemSubType(itemBaseTypes) {
+    static loadItemSubType(itemBaseTypes, filtersData) {
         const transformed = {}
-        const criteria = {itemBaseTypes, typed: true, sortItems: true};
+        const criteria = {itemBaseTypes, typed: true, sortItems: true, filtersData};
         const items = PrimeItemManager.getItems(criteria);
         items.forEach(item => {
             const key = item.id; // this will become sourceKey for embedded items.
@@ -164,18 +170,6 @@ class ModifiersTable extends TemplateTable {
                     transformed[key] = title;
                 }
             );
-        return transformed;
-    }
-
-    static loadModifierSubType(itemBaseTypes) {
-        const transformed = {}
-        const criteria = {itemBaseTypes, typed: true, sortItems: true};
-        const items = PrimeItemManager.getItems(criteria);
-        items.forEach(item => {
-            const key = item.id; // this will become sourceKey for embedded items.
-            const title = game.i18n.localize(item.name);
-            transformed[key] = title;
-        });
         return transformed;
     }
 }
@@ -204,6 +198,10 @@ class ActionsTable extends TemplateTable {
         return this._effects;
     }
 
+    itemRefresh() {
+        this._effects = null;
+    }
+
     get defaultActionEffect() {
         const [type,] = Object.entries(this.effects).shift();
         const target = '';
@@ -221,14 +219,11 @@ class ActionsTable extends TemplateTable {
     }
 
     static loadEffectsSubTypes(category, modifierData) {
-        if (category === 'item') {
+        if (category === 'item'|| category === 'otherItem') {
             // code is the same.
-            return ModifiersTable.loadItemSubType(arrayIfNot(modifierData.itemBaseTypes, true));
+            return ModifiersTable.loadItemSubType(arrayIfNot(modifierData.itemBaseTypes, true), modifierData.filter);
         } else if (category === 'actor') {
             return ActionsTable.loadEffectsActorSubType();
-        } else if (category === 'otherItem') {
-            // code is the same.
-            return ModifiersTable.loadModifierSubType(arrayIfNot(modifierData.itemBaseTypes, true));
         }
         // misc doesn't have subtypes
     }

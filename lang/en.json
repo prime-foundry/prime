@@ -405,12 +405,13 @@
 	"PRIME.item_modifier_refinement":  "Refinement",
 	"PRIME.item_modifier_actor":  "Character",
 	"PRIME.item_modifier_action": "Action",
+	"PRIME.item_modifier_extra_action": "Extra Action",
 	"PRIME.item_modifier_perk": "Perk",
 	"PRIME.item_modifier_misc":  "Other",
 
 	"PRIME.cost_xp": "Experience points",
 	"PRIME.cost_soul":  "Soul points",
-	"PRIME.cost_personal":  "Personal $",
+	"PRIME.cost_personal": "Personal $",
 	"PRIME.cost_ship": "Ship $",
 
 	"PRIME.perk_actor_stat_actionPoints_value":  "Current Action Points",
