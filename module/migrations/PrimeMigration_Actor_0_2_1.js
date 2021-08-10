@@ -3,44 +3,6 @@ import {PrimeItemManager} from "../item/PrimeItemManager.js";
 import {isString} from "../util/support.js";
 import PrimeMigration_Item_0_2_0 from "./PrimeMigration_Item_0_2_0.js";
 
-const PRIME_MAP = new Map([
-    ['att', 'Attune'],
-    ['end', 'Endurance'],
-    ['int', 'Intellect'],
-    ['itr', 'Intricate'],
-    ['man', 'Manipulation'],
-    ['mov', 'Manoeuvre'],
-    ['per', 'Perception'],
-    ['por', 'Portent'],
-    ['res', 'Resolve'],
-    ['str', 'Strength']]);
-
-const REFINEMENT_MAP = new Map([
-    ["animal", undefined],
-    ["artistic", undefined],
-    ["vehicle", undefined],
-    ["survival", undefined],
-    ["athletic", ['Athletic']],
-    ["craft", ['Lock Picking', 'Alchemy']],
-    ["melee", ['Melee']],
-    ["ranged", ['Ranged']],
-    ["stealth", ['Stealth']],
-    ["tolerance", ['Tolerance']],
-    ["bravery", ['Bravery']],
-    ["deceive", ['Deceive']],
-    ["influence", ['Influence']],
-    ["knowledge", ['Culture (...)']],
-    ["obscura", ['Observe']],
-    ["observe", ['Observe']],
-    ["recover", ['Recover', 'Meditate']],
-    ["willpower", ['Willpower']],
-    ["conduit", ['Manifest']],
-    ["fury", ['Fury']],
-    ["manifest", ['Manifest']],
-    ["premonition", ['Premonition']],
-    ["regeneration", ['Regenerate']],
-    ["tap", ['Manifest']],
-    ["threads", ['Threads']]]);
 
 
 function appendNote(gameSystemData, note) {
@@ -129,7 +91,7 @@ export default class PrimeMigration_Actor_0_2_1 extends Migration {
         if (gameSystemData.primes != null) {
             const primesToEmbed = [];
             for (const [key, oldPrime] of Object.entries(gameSystemData.primes)) {
-                const name = PRIME_MAP.get(key)
+                const name = PrimeMigration_Actor_0_2_1.PRIME_MAP.get(key)
                 const newPrime = primeItems.find(item => item.name == name);
                 if (newPrime == null) {
                     throw `Unable to find required prime '${name}' to migrate. Double check the prime mappings.`;
@@ -155,7 +117,7 @@ export default class PrimeMigration_Actor_0_2_1 extends Migration {
         if (gameSystemData.refinements != null) {
             const refinementsToEmbed = new Map();
             for (const [key, oldRefinement] of Object.entries(gameSystemData.refinements)) {
-                const names = REFINEMENT_MAP.get(key);
+                const names = PrimeMigration_Actor_0_2_1.REFINEMENT_MAP.get(key);
                 if (names == null) {
                     appendNote(gameSystemData, `✖? Unable to Migrate Refinement: ${key}:${oldRefinement.value} as there is no listed equivalent, you may want to make your own.`);
                 } else {
@@ -219,5 +181,44 @@ export default class PrimeMigration_Actor_0_2_1 extends Migration {
         }
         gameSystemData.metadata.sourceKey = newSourceKey;
     }
+
+    static PRIME_MAP = new Map([
+        ['att', 'Attune'],
+        ['end', 'Endurance'],
+        ['int', 'Intellect'],
+        ['itr', 'Intricate'],
+        ['man', 'Manipulation'],
+        ['mov', 'Manoeuvre'],
+        ['per', 'Perception'],
+        ['por', 'Portent'],
+        ['res', 'Resolve'],
+        ['str', 'Strength']]);
+
+    static REFINEMENT_MAP = new Map([
+        ["animal", undefined],
+        ["artistic", undefined],
+        ["vehicle", undefined],
+        ["survival", undefined],
+        ["athletic", ['Athletic']],
+        ["craft", ['Lock Picking', 'Alchemy']],
+        ["melee", ['Melee']],
+        ["ranged", ['Ranged']],
+        ["stealth", ['Stealth']],
+        ["tolerance", ['Tolerance']],
+        ["bravery", ['Bravery']],
+        ["deceive", ['Deceive']],
+        ["influence", ['Influence']],
+        ["knowledge", ['Culture (...)']],
+        ["obscura", ['Observe']],
+        ["observe", ['Observe']],
+        ["recover", ['Recover', 'Meditate']],
+        ["willpower", ['Willpower']],
+        ["conduit", ['Manifest']],
+        ["fury", ['Fury']],
+        ["manifest", ['Manifest']],
+        ["premonition", ['Premonition']],
+        ["regeneration", ['Regenerate']],
+        ["tap", ['Manifest']],
+        ["threads", ['Threads']]]);
 
 }

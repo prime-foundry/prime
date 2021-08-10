@@ -1,6 +1,7 @@
 import Migration from "./Migration.js";
 import PrimeItemTables from "../item/PrimeItemTables.js";
 import {PrimeItemManager} from "../item/PrimeItemManager.js";
+import PrimeMigration_Actor_0_2_1 from "./PrimeMigration_Actor_0_2_1.js";
 
 /*
  *    ["item", "melee-weapon", "ranged-weapon", "shield", "armour", "perk", "action", "prime", "refinement", "injury", "award"]
@@ -14,22 +15,23 @@ export default class PrimeMigration_Item_0_2_0 extends Migration {
     static get version() {
         return '0.2.0';
     }
+
     static async canMigrate() {
         const primeItems = PrimeItemManager.getItems({justContentData: true, itemBaseTypes: 'prime'});
         const refinementItems = PrimeItemManager.getItems({justContentData: true, itemBaseTypes: 'refinement'});
         let can = true;
         let reason = 'Missing'
-        if(primeItems.length === 0) {
+        if (primeItems.length === 0) {
             reason = `${reason} prime`
             can = false;
         }
-        if(refinementItems.length === 0) {
-            reason = `${reason}${can ? '': ' &'} refinement`
+        if (refinementItems.length === 0) {
+            reason = `${reason}${can ? '' : ' &'} refinement`
             can = false;
 
         }
         reason = can ? Migration.SUCCESS_REASON : `${reason} items. Import Statistic and Lies Compendium and retry.`
-        return {can, reason} ;
+        return {can, reason};
     }
 
     static async migrate() {
@@ -50,6 +52,7 @@ export default class PrimeMigration_Item_0_2_0 extends Migration {
         PrimeMigration_Item_0_2_0.migrateMetadata(item, gameSystemData, embedded);
         PrimeMigration_Item_0_2_0.migrateMetrics(item, gameSystemData);
         PrimeMigration_Item_0_2_0.migrateArmour(item, gameSystemData);
+        PrimeMigration_Item_0_2_0.migratePrerequisites(item, gameSystemData);
 
         await itemDoc.update(foundryData.toObject(false));
     }
@@ -72,11 +75,11 @@ export default class PrimeMigration_Item_0_2_0 extends Migration {
         }
 
         // perks
-        if (itemDoc.type === 'perk'){
+        if (itemDoc.type === 'perk') {
             if (gameSystemData.costs == null) {
                 gameSystemData.costs = [];
             }
-            if ( gameSystemData.cost != null && gameSystemData.cost.attributeType != null) {
+            if (gameSystemData.cost != null && gameSystemData.cost.attributeType != null) {
                 gameSystemData.costs.push({
                     type: gameSystemData.cost.attributeType,
                     amount: gameSystemData.cost.amount || 0
@@ -100,7 +103,7 @@ export default class PrimeMigration_Item_0_2_0 extends Migration {
             item.metadata.customisable = gameSystemData.customisable;
             gameSystemData.customisable = null;
         }
-        if(!embedded) {
+        if (!embedded) {
             gameSystemData.metadata.sourceKey = item.id;
         }
     }
@@ -132,7 +135,6 @@ export default class PrimeMigration_Item_0_2_0 extends Migration {
         gameSystemData.updaterID = null;
         gameSystemData.updated = null;
     }
-
 
 
     static migrateMetrics(item, gameSystemData) {
@@ -196,6 +198,105 @@ export default class PrimeMigration_Item_0_2_0 extends Migration {
             armour.protection = 0;
             armour.resilience = 0;
             gameSystemData.armour = {};
+        }
+    }
+
+//  bonus ["situationalPrime", "situationalRefinement","extraAction","actionPointBonus", "actorStatBonus","externalStatBonus","misc"]
+//  prereq	["minimumPrime", "minimumRefinement", "minimumStat","maximumPrime", "maximumRefinement", "maximumStat", "otherPerk"]
+    //{
+    //     "0": {
+    //         "prerequisiteType": "minimumPrime",
+    //         "path": "end",
+    //         "value": 0
+    //     },
+    //     "1": {
+    //         "prerequisiteType": "maximumStat",
+    //         "path": "actionPoints.default",
+    //         "value": 0
+    //     }
+    // }
+    static migratePrerequisites(item, gameSystemData) {
+        if (["perk"].includes(item.type)) {
+
+            const primeItems = PrimeItemManager.getItems({justContentData: false, itemBaseTypes: 'prime'});
+            const refinementItems = PrimeItemManager.getItems({justContentData: false, itemBaseTypes: 'refinement'});
+
+            const oldPrerequisites = Object.entries(gameSystemData.prerequisites || {});
+            const prerequisites = [];
+
+            oldPrerequisites.forEach(([key, prereq]) => {
+                switch (prereq.prerequisiteType) {
+                    case "minimumPrime": {
+                        const type = "prime"
+                        const qualifier = 'GREATER_OR_EQUALS';
+                        const value = Number.parseInt(prereq.value) || 1;
+                        const names = PrimeMigration_Actor_0_2_1.PRIME_MAP.get(prereq.path);
+
+                        primeItems.filter(item => names.includes(item.name)).forEach(prereqItem => {
+                            prerequisites.push({type, target:prereqItem.id, qualifier, value});
+                        });
+                        break;
+                    }
+                    case "minimumRefinement": {
+                        const type = "refinement";
+                        const qualifier = 'GREATER_OR_EQUALS';
+                        const value = Number.parseInt(prereq.value) || 1;
+                        const names = PrimeMigration_Actor_0_2_1.REFINEMENT_MAP.get(prereq.path);
+                        refinementItems.filter(item => names.includes(item.name)).forEach(prereqItem => {
+                            prerequisites.push({type, target:prereqItem.id, qualifier, value});
+                        });
+                        break;
+                    }
+                    case  "minimumStat": {
+                        const type = "actor";
+                        const qualifier = 'GREATER_OR_EQUALS';
+                        const value = Number.parseInt(prereq.value) || 1;
+                        const target = prereq.path;
+                        prerequisites.push({type, target, qualifier, value});
+                        break;
+                    }
+                    case "maximumPrime": {
+                        const type = "prime";
+                        const qualifier = 'LESS_OR_EQUALS';
+                        const value = Number.parseInt(prereq.value) || 10;
+                        const names = PrimeMigration_Actor_0_2_1.PRIME_MAP.get(prereq.path);
+                        primeItems.filter(item => names.includes(item.name)).forEach(prereqItem => {
+                            prerequisites.push({type, target:prereqItem.id, qualifier, value});
+                        });
+                        break;
+                    }
+                    case  "maximumRefinement": {
+                        const type = "refinement";
+                        const qualifier = 'LESS_OR_EQUALS';
+                        const value = Number.parseInt(prereq.value) || 10;
+                        const names = PrimeMigration_Actor_0_2_1.REFINEMENT_MAP.get(prereq.path);
+                        refinementItems.filter(item => names.includes(item.name)).forEach(prereqItem => {
+                            prerequisites.push({type, target:prereqItem.id, qualifier, value});
+                        });
+                        break;
+                    }
+                    case  "maximumStat": {
+                        const type = "actor";
+                        const qualifier = 'LESS_OR_EQUALS';
+                        const value = Number.parseInt(prereq.value) || 10;
+                        const target = prereq.path;
+                        prerequisites.push({type, target, qualifier, value});
+                        break;
+                    }
+                    case "otherPerk": {
+                        const type = "perk";
+                        const qualifier = 'EXISTS';
+                        const value = 0;
+                        const target = prereq.path;
+                        prerequisites.push({type, target, qualifier, value});
+                        break;
+                    }
+                }
+            });
+
+            gameSystemData.prerequisites = prerequisites
+        } else if (["item", "melee-weapon", "ranged-weapon", "shield"].includes(item.type)) {
+            gameSystemData.prerequisites = [];
         }
     }
 }

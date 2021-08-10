@@ -1,10 +1,22 @@
 import {getComponentLazily} from "../../util/support.js";
 import Metrics from "../components/Metrics.js";
 import BonusItem from "./BonusItem.js";
+import {Cost} from "../components/Costs.js";
 
 export default class InventoryItem extends BonusItem {
     constructor(primeItem) {
         super(primeItem);
+    }
+
+    get cost() {
+        return getComponentLazily(this, 'cost', Cost);
+    }
+    aggregateCosts(total = {}){
+
+        if(this.hasSourceItem){
+            return this.source.aggregateCosts(total);
+        }
+        return this.cost.aggregate(total);
     }
 
     get metrics() {
