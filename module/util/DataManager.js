@@ -85,13 +85,17 @@ export default class DataManager {
         for (const embedded of embeddedDataManagers) {
             embedded.commit(context);
         }
-        if (dirty) {
-            if (context.render == null) {
-                context.render = false;
-            }
 
+        if (context.render == null) {
+            context.render = false;
+        }
+        if (dirty) {
             await document.update(editObject.data, context);
             Hooks.callAll("dynDocumentUpdated", document);
+        } else if (context.render) {
+            document.render();
+            // if there are validation checks above this, and it fails, we need to reset the value, if render is true.
+            // commenting out for now.
         }
     }
 }

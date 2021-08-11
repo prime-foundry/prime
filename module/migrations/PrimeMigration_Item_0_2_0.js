@@ -259,7 +259,7 @@ export default class PrimeMigration_Item_0_2_0 extends Migration {
                     }
                     case "actorStatBonus": {
                         const type = 'actor';
-                        const target = bonus.path;
+                        const target = PrimeMigration_Item_0_2_0.STAT_KEY_MAP.get(bonus.path) || bonus.path;
                         const rules = 'Please read the descriptions';
                         const value = bonus.value || 0;
                         const situational = false;
@@ -320,7 +320,7 @@ export default class PrimeMigration_Item_0_2_0 extends Migration {
                         const type = "actor";
                         const qualifier = 'GREATER_OR_EQUALS';
                         const value = Number.parseInt(prereq.value) || 1;
-                        const target = prereq.path;
+                        const target = PrimeMigration_Item_0_2_0.STAT_KEY_MAP.get(prereq.path) || prereq.path;
                         prerequisites.push({type, target, qualifier, value});
                         break;
                     }
@@ -348,7 +348,7 @@ export default class PrimeMigration_Item_0_2_0 extends Migration {
                         const type = "actor";
                         const qualifier = 'LESS_OR_EQUALS';
                         const value = Number.parseInt(prereq.value) || 10;
-                        const target = prereq.path;
+                        const target = PrimeMigration_Item_0_2_0.STAT_KEY_MAP.get(prereq.path) || prereq.path;
                         prerequisites.push({type, target, qualifier, value});
                         break;
                     }
@@ -401,5 +401,9 @@ export default class PrimeMigration_Item_0_2_0 extends Migration {
             gameSystemData.effects = null;
         }
     }
-
+    static STAT_KEY_MAP = new Map([
+        ['mind.insanities.max', 'health.insanities.max'],
+        ['mind.psyche.max', 'health.psyche.max'],
+        ['ward.stability.max', 'armour.stability.max'],
+        ['ward.psyche.max', 'armour.psyche.max']]);
 }

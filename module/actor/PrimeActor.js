@@ -8,6 +8,7 @@ import {DynDocumentMixin} from "../util/DynFoundryMixins.js";
 
 import { PrimeItemManager } from "../item/PrimeItemManager.js";
 import Notes from "./components/Notes.js";
+import Armour from "./components/Armour.js";
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple gameSystem.
  * @extends {Actor}
@@ -34,6 +35,11 @@ export class PrimeActor extends DynDocumentMixin(Actor, 'actor')
 	get health() {
 		return getComponentLazily(this, 'health', Health);
 	}
+
+	get armour(){
+		return getComponentLazily(this, 'armour', Armour);
+	}
+
 	/**
 	 * @return {ActionPoints}
 	 */

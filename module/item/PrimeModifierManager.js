@@ -2,6 +2,7 @@ import BaseItem from "./types/BaseItem.js";
 import {PrimeItem} from "./PrimeItem.js";
 import {PrimeItemManager} from "./PrimeItemManager.js";
 import Component from "../util/Component.js";
+import JSONPathBuilder from "../util/JSONPathBuilder.js";
 
 
 /**
@@ -27,6 +28,27 @@ export class PrimeModifierManager {
 
     static getCostsForType(itemCollection = ItemDirectory.collection, type){
         return PrimeModifierManager.getCosts(itemCollection)[type] || 0;
+    }
+
+    static getModifiersByFilteredItems(target, actor, options = {}) {
+
+        const path = JSONPathBuilder.from(target);
+        const itemCollection = actor.items;
+        const criteria = {
+            itemCollection,
+            typed:true,
+            ...options
+        };
+
+        const items = PrimeItemManager.getItems(criteria);
+        const modifier = items.reduce((previous, item) => {
+            try {
+                return previous + (Number(path.traverse(item)) || 0);
+            } catch {
+                return previous;
+            }
+        }, 0);
+        return modifier;
     }
 
     /**

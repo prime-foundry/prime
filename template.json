@@ -411,19 +411,19 @@
 					"title": "PRIME.perk_actor_stat_bonus_max_armour_resilience"
 				},
 				{
-					"key": "mind.insanities.max",
+					"key": "health.insanities.max",
 					"title": "PRIME.perk_actor_stat_bonus_max_insanities"
 				},
 				{
-					"key": "mind.psyche.max",
+					"key": "health.psyche.max",
 					"title": "PRIME.perk_actor_stat_bonus_max_psyche"
 				},
 				{
-					"key": "ward.stability.max",
+					"key": "armour.stability.max",
 					"title": "PRIME.perk_actor_stat_bonus_max_stability"
 				},
 				{
-					"key": "ward.psyche.max",
+					"key": "armour.psyche.max",
 					"title": "PRIME.perk_actor_stat_bonus_max_ward_psyche"
 				}
 			],
@@ -824,6 +824,30 @@
 				"health.psyche.max": {
 					"valueTypes": "number",
 					"title": "PRIME.perk_actor_stat_health_psyche_max",
+					"modifiable": true,
+					"actionable": true
+				},
+				"armour.protection.max": {
+					"title": "PRIME.perk_actor_stat_bonus_max_protection",
+					"valueTypes": "number",
+					"modifiable": true,
+					"actionable": true
+				},
+				"armour.resilience.max": {
+					"title": "PRIME.perk_actor_stat_bonus_max_armour_resilience",
+					"valueTypes": "number",
+					"modifiable": true,
+					"actionable": true
+				},
+				"armour.stability.max": {
+					"title": "PRIME.perk_actor_stat_bonus_max_stability",
+					"valueTypes": "number",
+					"modifiable": true,
+					"actionable": true
+				},
+				"armour.psyche.max": {
+					"title": "PRIME.perk_actor_stat_bonus_max_ward_psyche",
+					"valueTypes": "number",
 					"modifiable": true,
 					"actionable": true
 				},
