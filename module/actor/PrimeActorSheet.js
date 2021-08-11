@@ -24,7 +24,7 @@ export class PrimeActorSheet extends DynApplicationMixin(ActorSheet) {
 
     renderOnItemChange(itemDoc) {
         const sourceKey = itemDoc.id
-        const hasItem = this.document.items.some((item) => item.data.data.metadata.sourceKey === sourceKey || item.id === sourceKey);
+        const hasItem = this.document.items.some((item) => item.data.data.metadata.sourceKey === sourceKey);
         if(hasItem){
             this.render();
         }
