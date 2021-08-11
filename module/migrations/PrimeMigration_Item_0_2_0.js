@@ -55,7 +55,6 @@ export default class PrimeMigration_Item_0_2_0 extends Migration {
         PrimeMigration_Item_0_2_0.migratePrerequisites(item, gameSystemData);
         PrimeMigration_Item_0_2_0.migrateModifiers(item, gameSystemData);
         PrimeMigration_Item_0_2_0.migrateActions(item, gameSystemData);
-        PrimeMigration_Item_0_2_0.migratePerks(item, gameSystemData);
 
         await itemDoc.update(foundryData.toObject(false));
     }
@@ -403,7 +402,4 @@ export default class PrimeMigration_Item_0_2_0 extends Migration {
         }
     }
 
-    static migratePerks(item, gameSystemData) {
-        
-    }
 }
