@@ -42,9 +42,9 @@ export default class PrimeMigration_Actor_0_2_1 extends Migration {
         for (const actorDoc of actors) {
 
             const embeddedItems = actorDoc.items;
-            embeddedItems.forEach(item => {
-                PrimeMigration_Actor_0_2_1.migrateEmbeddedItem(item);
-            });
+            for(const embeddedItem of embeddedItems){
+                await PrimeMigration_Actor_0_2_1.migrateEmbeddedItem(embeddedItem);
+            }
         }
 
         for (const actorDoc of actors) {

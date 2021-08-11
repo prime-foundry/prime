@@ -14,6 +14,22 @@ export class PrimeActorSheet extends DynApplicationMixin(ActorSheet) {
     //bulkUpdatingOwnedItems = false;
     currentItemSortList = null;
 
+
+    constructor(...args){
+        super(...args);
+        Hooks.on('createItem', this.renderOnItemChange.bind(this));
+        Hooks.on('updateItem', this.renderOnItemChange.bind(this));
+        Hooks.on('deleteItem', this.renderOnItemChange.bind(this));
+    }
+
+    renderOnItemChange(itemDoc) {
+        const sourceKey = itemDoc.id
+        const hasItem = this.document.items.some((item) => item.data.data.metadata.sourceKey === sourceKey || item.id === sourceKey);
+        if(hasItem){
+            this.render();
+        }
+    }
+
     /** @override */
     static get defaultOptions() {
         const superOptions = super.defaultOptions;
@@ -55,6 +71,7 @@ export class PrimeActorSheet extends DynApplicationMixin(ActorSheet) {
             return true;
         });
     }
+
 
     getActorData(data = super.getData()) {
         return data.data;
