@@ -311,6 +311,16 @@ export const EmbeddedDocumentMixin = (EmbeddedDocumentType) =>
             return lastValue;
         }
 
+        deleteItem() {
+            const owningDoc = this.owningComponent.document;
+            const itemDoc = this.document;
+            // asynchronous
+            return owningDoc.deleteEmbeddedDocuments('Item', [itemDoc.id]).then(() => {
+                const sheet = owningDoc.sheet;
+                sheet.render();
+            });
+        }
+
         get _sourceKey() {
             return this.metadata.sourceKey;
         }

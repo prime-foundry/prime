@@ -9,6 +9,8 @@ import {DynDocumentMixin} from "../util/DynFoundryMixins.js";
 import { PrimeItemManager } from "../item/PrimeItemManager.js";
 import Notes from "./components/Notes.js";
 import Armour from "./components/Armour.js";
+import Perks from "./components/Perks.js";
+import Actions from "./components/Actions.js";
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple gameSystem.
  * @extends {Actor}
@@ -36,6 +38,9 @@ export class PrimeActor extends DynDocumentMixin(Actor, 'actor')
 		return getComponentLazily(this, 'health', Health);
 	}
 
+	/**
+	 * @return {Armour}
+	 */
 	get armour(){
 		return getComponentLazily(this, 'armour', Armour);
 	}
@@ -47,55 +52,18 @@ export class PrimeActor extends DynDocumentMixin(Actor, 'actor')
 		return getComponentLazily(this, 'actionPoints', ActionPoints);
 	}
 
+	/**
+	 * @return {Perks}
+	 */
 	get perks(){
-		const itemCollection = this.items;
-		const perkCriteria = {
-			itemCollection,
-			matchAll: false,
-			typed: true,
-			sortItems: true,
-			itemBaseTypes: ["perk"]
-		};
-		const items = PrimeItemManager.getItems(perkCriteria);
-		return items;
+		return getComponentLazily(this, 'perks', Perks);
 	}
 
-	get qualifyingPerks(){
-		const perks = this.perks;
-		const qualifyingOnly = perks.filter(perk => perk.qualifies(this));
-		return qualifyingOnly;
-	}
-
+	/**
+	 * @return {Actions}
+	 */
 	get actions(){
-		// fetches from the global directory
-		const actionCriteria = {
-			matchAll: false,
-			typed: true,
-			sortItems: true,
-			filtersData:{metadata: {default: true}},
-			itemBaseTypes: ["action"]
-		};
-		const defaultActions = PrimeItemManager.getItems(actionCriteria);
-
-		// fetches from the actor
-		const qualifyingPerks = this.qualifyingPerks;
-		const perkActions = qualifyingPerks.flatMap(perk => perk.modifiers).flatMap(modifier => modifier.getActions());
-		return defaultActions.concat(perkActions);
-	}
-
-	get actionsCategorized() {
-		const actions = this.actions;
-		const categorized = actions.reduce((aggregator, currentAction) => {
-			const sourceItem = currentAction.source;
-			const actionType = sourceItem.actionType;
-			if(aggregator[actionType] == null){
-				aggregator[actionType] = [currentAction];
-			} else {
-				aggregator[actionType].push(currentAction);
-			}
-			return aggregator;
-		}, {});
-		return categorized;
+		return getComponentLazily(this, 'actions', Actions);
 	}
 
 

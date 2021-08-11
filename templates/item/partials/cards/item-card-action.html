@@ -1,5 +1,7 @@
 <div class="primeCard itemCard itemCardAction action{{this.source.actionType}}">
-    <div class="cardTitle"><a class="itemTitle" data-item-id="{{this.id}}">{{this.source.name}}</a></div>
+    <div class="cardTitle"><a class="itemTitle"
+                              data-dyn-click-at="actor.actions.displayAction()"
+                              data-dyn-click-id="{{this.id}}">{{this.source.name}}</a></div>
     <div class="cardTopRightDetail titled"><div class="tinyTitle">AP</div>{{this.source.points}}</div>
     
 	<div class="cardDetail">

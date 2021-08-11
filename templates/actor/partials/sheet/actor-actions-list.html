@@ -1,7 +1,7 @@
 <div class="{{partialClasses}} block actionsOuterWrapper">
     <div class="blockTitle"><span>Actions</span></div>
     <div class="actionsHolder">
-        {{#with actor.actionsCategorized}}
+        {{#with actor.actions.categorized}}
         {{#if major}}
         <div class="actionTitle">{{localize "PRIME.action_type_major_title"}}</div>
         <div class="actionCardsHolder flexRow flexWrap">
