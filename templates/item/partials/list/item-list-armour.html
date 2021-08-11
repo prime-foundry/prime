@@ -1,9 +1,9 @@
 {{#if filteredItems.armour}}
-<div class="{{partialClasses}} armour block">
-    <div class="blockTitle">Armour</div>
-    <div class="primeTableWrapper">
-        <table>
-            <thead>
+    <div class="{{partialClasses}} armour block">
+        <div class="blockTitle">Armour</div>
+        <div class="primeTableWrapper">
+            <table>
+                <thead>
                 <tr>
                     <th>Title</th>
                     <th class="center">Type</th>
@@ -11,24 +11,40 @@
                     <th class="center">Resilience</th>
                     <th>Keywords</th>
                     <th>Untrained</th>
-                    <th class="center hasTooltip" title="Is worn?"><i class="game-icon game-icon-clothes icon-md"></i></th>
+                    <th class="center hasTooltip" title="Is worn?"><i class="game-icon game-icon-clothes icon-md"></i>
+                    </th>
                 </tr>
-            </thead>
-        <!-- <div>Title(Descriptions) | (Size) | (Type) | (DR) | Hands | Wounds | Keywords | Actions</div> -->
-            <tbody>
-                {{#each filteredItems.armour as |armour index|}}
-                <tr>
-                    <td title="{{convertHTMLForTitle armour.data.description}}"><a class="itemTitle" data-item-id="{{armour._id}}"><i class="fas fa-info-circle fa-xs"></i> {{armour.name}}</a></td>
-                    <td class="center">{{armour.data.armourType}}</td>
-                    <td class="center">{{armour.data.protection}}</td>
-                    <td class="center">{{armour.data.armourResilience}}</td>
-                    <td>{{{armour.data.keywords}}}</td>
-                    <td>{{{armour.data.untrainedPenalty}}}</td>
-                    <td class="center"><input type="checkbox" class="armourWornCheckbox" data-armour-id="{{armour._id}}" {{itemChecked armour.data.isWorn}}></td>
-                </tr>
+                </thead>
+                <!-- <div>Title(Descriptions) | (Size) | (Type) | (DR) | Hands | Wounds | Keywords | Actions</div> -->
+                <tbody>
+                {{#each actor.inventory.ordered.armour as |item|}}
+                    <tr>
+                        <td title="{{convertHTMLForTitle item.descriptions.core}}"><a class="itemTitle"
+                                                                                       data-item-id="{{item.id}}"><i
+                                class="fas fa-info-circle fa-xs"></i> {{item.name}}</a></td>
+                        <td class="center">{{item.armour.type}}</td>
+                        <td class="center">{{item.armour.protection}}</td>
+                        <td class="center">{{item.armour.resilience}}</td>
+                        <td>
+                            {{#each (retain ../static.items.armour.keywords item.armour.keywords) as |keyword|}}
+                                <span title="{{convertHTMLForTitle keyword.description}}"
+                                      class="hasTooltip">{{keyword.title}}</span>{{#if (not @last)}}, {{/if}}
+                            {{/each}}
+                        </td>
+                        <td>
+                            {{#each (retain ../static.items.armour.untrainedPenalties item.armour.untrainedPenalties) as |untrainedPenalty|}}
+                            <span title="{{convertHTMLForTitle untrainedPenalty.description}}" class="hasTooltip">{{untrainedPenalty.title}}</span>{{#if (not @last)}}, {{/if}}
+                            {{/each}}
+                        </td>
+                        <td class="center"><input type="checkbox" class="armourWornCheckbox"
+                                                  data-dyn-type="boolean"
+                                                  data-dyn-change-at="actor.inventory.toggleItemEquipped()"
+                                                  data-dyn-select="actor.inventory.isItemEquipped()"
+                                                  data-dyn-id="{{this.id}}" {{itemChecked item.equipped}}></td>
+                    </tr>
                 {{/each}}
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
 {{/if}}

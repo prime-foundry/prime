@@ -6,11 +6,12 @@
  *     return this.__name = new Type(this);
  * }
  * return this.name;
- *
+ * @template {Component} T
+ * @template {Class.<T>} C
  * @param {string} name the fieldName
- * @param {Class.<Component>} Type the class we want to instantiate
+ * @param {C} Type the class we want to instantiate
  * @param {object} (config) any additional parameters we want to send to its constructor.
- * @return {typeof Component} the actor component we generate
+ * @return {T} the actor component we generate
  */
 export function getComponentLazily(target, name, Type, config = {}) {
     const fieldName = `__${name}`;

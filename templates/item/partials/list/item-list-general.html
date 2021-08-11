@@ -1,25 +1,31 @@
-
-
 <div class="{{partialClasses}} generalItems block">
     <div class="blockTitle">All items</div>
     <div class="primeTableWrapper">
         <table class="inventoryTable">
             <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Descriptions</th>
-                    <th><i class="fas fa-trash"></i></th>
-                </tr>
+            <tr>
+                <th>Title</th>
+                <th>Descriptions</th>
+                <th><i class="fas fa-trash"></i></th>
+            </tr>
             </thead>
-        <!-- <div>Title(Descriptions) | (Size) | (Type) | (DR) | Hands | Wounds | Keywords | Actions</div> -->
+            <!-- <div>Title(Descriptions) | (Size) | (Type) | (DR) | Hands | Wounds | Keywords | Actions</div> -->
             <tbody>
-                {{#each actor.inventoryItems as |item|}}
+            {{#each actor.inventory.ordered.items as |item|}}
                 <tr class="draggableItem inventoryItem" data-item-index="{{@index}}">
-                    <td title="{{convertHTMLForTitle item.name}}"><a class="itemTitle stopDrag" data-item-id="{{item.id}}"><i class="fas fa-external-link-alt fa-xs"></i><i class="fas fa-info-circle fa-xs"></i> {{cropToLength item.name 55}}</a></td>
-                    <td title="{{convertHTMLForTitle item.descriptions.core}}">{{{cropToLength item.descriptions.core 55}}}</td>
-                    <td class="center"><a class="deleteItemIcon stopDrag" data-item-id={{item.id}}><i class="fas fa-trash stopDrag"></i></a></td>
+                    <td title="{{convertHTMLForTitle item.name}}"><a class="itemTitle stopDrag"
+                                                                     data-dyn-click-at="actor.inventory.displayItem()"
+                                                                     data-dyn-click-id="{{this.id}}">
+                        <i class="fas fa-external-link-alt fa-xs"></i><i
+                            class="fas fa-info-circle fa-xs"></i> {{cropToLength item.name 55}}</a>
+                    </td>
+                    <td title="{{convertHTMLForTitle item.descriptions.core}}">{{{cropToLength item.descriptions.core
+                                                                                               55}}}</td>
+                    <td class="center"><a class="deleteItemIcon stopDrag"
+                                          data-dyn-click-at="actor.inventory.deleteItem()"
+                                          data-dyn-click-id="{{this.id}}"><i class="fas fa-trash stopDrag"></i></a></td>
                 </tr>
-                {{/each}}
+            {{/each}}
             </tbody>
         </table>
     </div>

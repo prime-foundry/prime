@@ -33,7 +33,7 @@ export default class Actions extends Component {
 
     get perkActions() {
         const qualifyingPerks = this.document.perks.qualifying;
-        const itemsTyped = qualifyingPerks.flatMap(perk => perk.modifiers).flatMap(modifier => modifier.getActions());
+        const itemsTyped = qualifyingPerks.flatMap(perk => perk.modifiers).flatMap(modifier => modifier.getActions()).filter(item => item != null);
         const actions = itemsTyped.map(item => new Action(this, item.document));
         return actions;
     }

@@ -11,6 +11,7 @@ import Notes from "./components/Notes.js";
 import Armour from "./components/Armour.js";
 import Perks from "./components/Perks.js";
 import Actions from "./components/Actions.js";
+import Inventory from "./components/Inventory.js";
 /**
  * Extend the base Actor entity by defining a custom roll data structure which is ideal for the Simple gameSystem.
  * @extends {Actor}
@@ -65,7 +66,12 @@ export class PrimeActor extends DynDocumentMixin(Actor, 'actor')
 	get actions(){
 		return getComponentLazily(this, 'actions', Actions);
 	}
-
+	/**
+	 * @return {Inventory}
+	 */
+	get inventory(){
+		return getComponentLazily(this, 'inventory', Inventory);
+	}
 
 	get type() {
 		return this.dyn.foundryData.type;
@@ -90,9 +96,7 @@ export class PrimeActor extends DynDocumentMixin(Actor, 'actor')
 		return 1;
 	}
 
-	/**
-	 * @return {XP}
-	 */
+
 	get xp() {
 		return getComponentLazily(this, 'xp', XP);
 	}

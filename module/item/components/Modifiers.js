@@ -1,6 +1,6 @@
 import Component from "../../util/Component.js";
 import PrimeItemTables from "../PrimeItemTables.js";
-
+const IS_ACTION = (type) => ['action', 'extraAction'].includes(type);
 export class Modifiers extends Component {
 
     get collection() {
@@ -8,7 +8,7 @@ export class Modifiers extends Component {
 
             const modifierCategory = (PrimeItemTables.modifiers[modifier.type] || {}).category;
             if (modifierCategory === 'otherItem') {
-                if(modifier.type === 'action') {
+                if(IS_ACTION(modifier.type)) {
                     return new AddedActionModifier(this, index, modifierCategory);
                 }
                 return new OtherItemModifier(this, index, modifierCategory);
@@ -26,7 +26,7 @@ export class Modifiers extends Component {
             .filter(modifier => modifier.category === 'otherItem')
             .flatMap((modifier) => {
                 const item = modifier.getItem();
-                if(modifier.type === 'action') {
+                if(IS_ACTION(modifier.type)) {
                     return item;
                 }
                 return item.modifiers.getActions();
@@ -97,7 +97,7 @@ export class Modifier extends Component {
     }
 
     set target(target) {
-        this.write(this.pathToModifier().with('target'), target)
+        this.write(this.pathToModifier().with('target'), target);
     }
 
     get value() {
@@ -164,6 +164,7 @@ export class AddedActionModifier extends Modifier {
     getItem() {
         const itemDoc = ItemDirectory.collection.get(this.target);
         if (itemDoc == null) {
+            console.warn(`AddedActionModifier is unable to find an  Item:'${this.document.name}':'${this.document.id}' for target:'${this.target}' at modifier index:'${this.index}'`);
             return null;
         }
         return itemDoc.dyn.typed;
@@ -199,6 +200,7 @@ export class OtherItemModifier extends Modifier {
     getItem() {
         const itemDoc = ItemDirectory.collection.get(this.target);
         if (itemDoc == null) {
+            console.warn(`OtherItemModifier is unable to find an Item:'${this.document.name}':'${this.document.id}' for target:'${this.target}' at modifier index:'${this.index}'`);
             return null;
         }
         return itemDoc.dyn.typed;

@@ -504,7 +504,7 @@ export class PrimeActorSheet extends DynApplicationMixin(ActorSheet) {
         html.find(".itemTitle").click(this.showOwnedItem.bind(this));
 
         html.find(".attackWithWeapon").click(this.attackWithWeapon.bind(this));
-        html.find(".armourWornCheckbox").click(this.updateWornArmour.bind(this));
+        // html.find(".armourWornCheckbox").click(this.updateWornArmour.bind(this));
 
         const perkWrapper = html.find(".perksOuterWrapper");
         ItemCardUI.bindEvents(perkWrapper);

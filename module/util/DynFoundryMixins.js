@@ -282,17 +282,13 @@ export const DynApplicationMixin = (FoundryApplicationType, viewName = 'sheet') 
     };
 
 /**
- * @exports EmbeddedDocument
- * @param {Component | Document} EmbeddedDocumentType
- * @returns {module:EmbeddedDocument~mixin}
- * @constructor
+ * @template {Component | Document} T
+ * @param {T} EmbeddedDocumentType
  */
 export const EmbeddedDocumentMixin = (EmbeddedDocumentType) =>
 
     /**
-     * @mixin
-     * @alias module:EmbeddedDocument~mixin
-     * @extends Component
+     * @extends T
      */
     class extends EmbeddedDocumentType {
         owningComponent;
