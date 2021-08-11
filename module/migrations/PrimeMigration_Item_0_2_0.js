@@ -55,6 +55,7 @@ export default class PrimeMigration_Item_0_2_0 extends Migration {
         PrimeMigration_Item_0_2_0.migratePrerequisites(item, gameSystemData);
         PrimeMigration_Item_0_2_0.migrateModifiers(item, gameSystemData);
         PrimeMigration_Item_0_2_0.migrateActions(item, gameSystemData);
+        PrimeMigration_Item_0_2_0.migratePerks(item, gameSystemData);
 
         await itemDoc.update(foundryData.toObject(false));
     }
@@ -82,8 +83,9 @@ export default class PrimeMigration_Item_0_2_0 extends Migration {
                 gameSystemData.costs = [];
             }
             if (gameSystemData.cost != null && gameSystemData.cost.attributeType != null) {
+                const type = gameSystemData.cost.attributeType === "perkCostSoul" ? "soul" : "xp";
                 gameSystemData.costs.push({
-                    type: gameSystemData.cost.attributeType,
+                    type,
                     amount: gameSystemData.cost.amount || 0
                 });
                 gameSystemData.cost = null;
@@ -399,5 +401,9 @@ export default class PrimeMigration_Item_0_2_0 extends Migration {
             gameSystemData.actionEffects = actionEffects;
             gameSystemData.effects = null;
         }
+    }
+
+    static migratePerks(item, gameSystemData) {
+        
     }
 }
