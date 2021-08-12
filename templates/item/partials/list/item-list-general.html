@@ -19,8 +19,7 @@
                         <i class="fas fa-external-link-alt fa-xs"></i><i
                             class="fas fa-info-circle fa-xs"></i> {{cropToLength item.name 55}}</a>
                     </td>
-                    <td title="{{convertHTMLForTitle item.descriptions.core}}">{{{cropToLength item.descriptions.core
-                                                                                               55}}}</td>
+                    <td title="{{convertHTMLForTitle item.descriptions.core}}">{{{cropToLength item.descriptions.core 55}}}</td>
                     <td class="center"><a class="deleteItemIcon stopDrag"
                                           data-dyn-click-at="actor.inventory.deleteItem()"
                                           data-dyn-click-id="{{this.id}}"><i class="fas fa-trash stopDrag"></i></a></td>

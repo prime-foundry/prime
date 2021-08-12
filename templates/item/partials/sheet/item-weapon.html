@@ -1,6 +1,5 @@
 <div class="cell50 flexRow verticalCenter">
     <label for="item.weapon.size" class="resource-label cell50">Size:</label>
-    <!--<input type="text" name="data.weight" value="{{data.weight}}" data-dtype="Number" />-->
     <select id="item.weapon.size" class="weaponSize cell50"
             data-dyn-change-at="item.weapon.size">
         {{#select item.weapon.size}}
@@ -12,11 +11,10 @@
 </div>
 <div class="cell50 flexRow verticalCenter">
     <label for="item.weapon.type" class="resource-label cell50">Type:</label>
-    <!--<input type="text" name="data.weight" value="{{data.weight}}" data-dtype="Number" />-->
     <select id="item.weapon.type" class="cell50"
             data-dyn-change-at="item.weapon.type">
         {{#select item.weapon.type}}
-            {{#each static.items.weapons.meleeTypes}}
+            {{#each @WeaponTypes}}
                 <option value="{{@key}}">{{this.title}}</option>
             {{/each}}
         {{/select}}
@@ -91,7 +89,7 @@
 <div class="cell100 flexRow verticalCenter flexCenter checkboxGroupTitle {{checkboxGroupState
         checkboxGroupStates.actions}}" data-checkbox-group="actions">
     <div class="cell100">Custom actions:
-        {{#each (retain static.items.weapons.meleeActions item.weapon.actions) as |action|}}
+        {{#each (retain @WeaponActions item.weapon.actions) as |action|}}
             <span title="{{convertHTMLForTitle action.description}}"
                   class="hasTooltip">{{action.title}}</span>{{#if (not @last)}}, {{/if}}
         {{/each}}
@@ -101,7 +99,7 @@
 </div>
 <div class="cell100 lastRow flexRow verticalCenter flexBetween flexWrap checkboxGroupWrapper {{checkboxGroupState
         checkboxGroupStates.actions}}" data-checkbox-group="actions">
-        {{#each static.items.weapons.meleeActions as |action|}}
+        {{#each @WeaponActions as |action|}}
         <div class="flexRow verticalCenter cell33 flexBetween">
             <label for="{{@key}}" class="resource-label hasTooltip"
                    title="{{convertHTMLForTitle action.description}}">{{action.title}}:</label>

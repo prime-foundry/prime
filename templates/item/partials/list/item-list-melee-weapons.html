@@ -1,4 +1,4 @@
-{{#if filteredItems.melee-weapon}}
+{{#if actor.inventory.meleeWeapons}}
     <div class="{{partialClasses}} meleeWeapons block">
         <div class="blockTitle">Melee Weapons</div>
         <div class="primeTableWrapper">
@@ -18,7 +18,7 @@
                 </thead>
                 <!-- <div>Title(Descriptions) | (Size) | (Type) | (DR) | Hands | Wounds | Keywords | Actions</div> -->
                 <tbody>
-                {{#each actor.inventory.ordered.meleeWeapons as |item|}}
+                {{#each actor.inventory.meleeWeapons as |item|}}
                     <tr>
                         <td class="center">
                             <div class="attackIconWrapper">

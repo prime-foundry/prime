@@ -27,6 +27,12 @@ const MELEE_WEAPON_ICONS = new Map()
     .set("axe", "sharp-axe")
     .set("pole", "trident")
     .set("default", "game-icon-fist");
+const RANGED_WEAPON_ICONS = new Map()
+    .set("bow", "pocket-bow")
+    .set("mechanical", "crossbow")
+    .set("thrown", "thrown-spear")
+    .set("blowpipe", "straight-pipe")
+    .set("default", "game-icon-fist");
 
 class PrerequisitesTable extends TemplateTable {
 
@@ -303,9 +309,13 @@ class WeaponTable extends TemplateTable {
 
     _sizes;
     _keywords;
+    _woundConditions;
     _meleeActions;
     _meleeTypes;
-    _woundConditions;
+    _rangedActions;
+    _rangedTypes;
+    _rangeCategories;
+    _ammoTypes;
 
     constructor() {
         super('items.weapons')
@@ -317,11 +327,19 @@ class WeaponTable extends TemplateTable {
         }
         return this._keywords;
     }
+
     get sizes() {
         if (this._sizes == null) {
             this._sizes = loadBasicData(this.data.sizes);
         }
         return this._sizes;
+    }
+
+    get woundConditions() {
+        if (this._woundConditions == null) {
+            this._woundConditions = loadBasicData(this.data.woundConditions);
+        }
+        return this._woundConditions;
     }
 
     get meleeActions() {
@@ -348,11 +366,42 @@ class WeaponTable extends TemplateTable {
         return this._meleeTypes;
     }
 
-    get woundConditions() {
-        if (this._woundConditions == null) {
-            this._woundConditions = loadBasicData(this.data.woundConditions);
+    get rangedActions() {
+        if (this._rangedActions == null) {
+            this._rangedActions = loadComplexData(this.data.rangedWeaponActions, (key,subData) => {
+                return {apCost: subData.apCost};
+            });
         }
-        return this._woundConditions;
+        return this._rangedActions;
+    }
+
+    get rangedTypes() {
+        if (this._rangedTypes == null) {
+            this._rangedTypes = loadComplexData(this.data.rangedTypes, (key,subData) => {
+                let iconName = RANGED_WEAPON_ICONS.get(key);
+                if(iconName == null) {
+                    iconName = RANGED_WEAPON_ICONS.get('default');
+                    console.warn(`Unknown weapon type of '${key}' found in WeaponTable.rangedTypes`);
+                }
+                const iconHTML = PrimeTables.icons.gameIconFor(iconName);
+                return {iconHTML};
+            });
+        }
+        return this._rangedTypes;
+    }
+
+    get ranges() {
+        if (this._rangeCategories == null) {
+            this._rangeCategories = loadBasicData(this.data.rangeCategories);
+        }
+        return this._rangeCategories;
+    }
+
+    get ammoTypes() {
+        if (this._ammoTypes == null) {
+            this._ammoTypes = loadBasicData(this.data.ammoTypes);
+        }
+        return this._ammoTypes;
     }
 }
 

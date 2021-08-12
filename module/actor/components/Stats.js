@@ -39,7 +39,7 @@ class StatCollection extends Component {
     }
 
     displayStat({id}){
-        this.getStatById(id).display();
+        this.getStatById(id).displaySource();
     }
 
     setStatValue({value, key}){

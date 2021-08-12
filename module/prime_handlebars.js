@@ -1,4 +1,5 @@
 import {PrimeTables} from "./prime_tables.js";
+import {isString} from "./util/support.js";
 
 var primeHandlebarsPartialsPaths =
     {
@@ -43,6 +44,30 @@ var primeHandlebarsPartialsPaths =
         "itemCardPerk": "systems/prime/templates/item/partials/cards/item-card-perk.html"
     }
 
+function htmlToText(html, maxChars = 150) {
+    let text = html;
+    if (isString(text)) {
+        text = text.replace(/\&nbsp;/ig, ' ');
+        text = text.replace(/<style([\s\S]*?)<\/style>/gi, '');
+        text = text.replace(/<script([\s\S]*?)<\/script>/gi, '');
+        text = text.replace(/<\/div>/ig, '\n');
+        text = text.replace(/<\/li>/ig, '\n');
+        text = text.replace(/<li>/ig, '  * ');
+        text = text.replace(/<\/ul>/ig, '\n');
+        text = text.replace(/<\/p>/ig, '\n');
+        text = text.replace(/<br\s*[\/]?>/gi, "\n");
+        text = text.replace(/(<([^>]+)>)/ig, '');
+        text = text.trim(); // remove all white space at the end
+
+        if (text.length > maxChars) {
+            text = text.slice(0, maxChars-3) + "..."; // 3 for the dots
+        }
+    } else {
+        text = '';
+    }
+    return text;
+}
+
 export class PrimeHandlebarsPartials {
     static async loadPartials() {
         var handlebarsTemplate = null;
@@ -77,24 +102,9 @@ Handlebars.registerHelper('log', Handlebars.logger.log);
 // Std level is 3, when set to 0, handlebars will log all compilation results
 Handlebars.logger.level = 0;
 
-Handlebars.registerHelper('convertHTMLForTitle', function (html, maxChars) {
-    if (html) {
-        html = html.replace(/\&nbsp;/ig, '');
-        html = html.replace(/<style([\s\S]*?)<\/style>/gi, '');
-        html = html.replace(/<script([\s\S]*?)<\/script>/gi, '');
-        html = html.replace(/<\/div>/ig, '\n');
-        html = html.replace(/<\/li>/ig, '\n');
-        html = html.replace(/<li>/ig, '  *  ');
-        html = html.replace(/<\/ul>/ig, '\n');
-        html = html.replace(/<\/p>/ig, '\n');
-        html = html.replace(/<br\s*[\/]?>/gi, "\n");
-        html = html.replace(/(<([^>]+)>)/ig, '');
-
-        if (maxChars && html.length > maxChars) {
-            html = html.slice(0, 150) + "...";
-        }
-    }
-    return html;
+Handlebars.registerHelper('convertHTMLForTitle', function (html, maxChars, options) {
+    // if options is null, no maxChars was provided.
+    return htmlToText(html, options==null ? null : maxChars);
 });
 
 
@@ -279,9 +289,13 @@ Handlebars.registerHelper('cropToLength', function (value, cropLength) {
     if (!cropLength) {
         cropLength = 10
     }
-
-    if (value.length > cropLength) {
-        return value.substring(0, cropLength) + '...';
+    if(value == null){
+        return '';
     }
-    return value;
+    const valueToCrop = value.trim(); // remove all whitespace at start and end.
+    if (valueToCrop.length > cropLength) {
+        // otherwise we might have unfinished html tags, which will break the sheet.
+        return htmlToText(valueToCrop, cropLength);
+    }
+    return valueToCrop;
 });

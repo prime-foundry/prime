@@ -56,6 +56,6 @@ export default class Actions extends Component {
     }
 
     displayAction({id}) {
-        (new Action(this, ItemDirectory.collection.get(id))).display();
+        (new Action(this, ItemDirectory.collection.get(id))).displaySource();
     }
 }

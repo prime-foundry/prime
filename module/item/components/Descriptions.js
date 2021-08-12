@@ -7,7 +7,7 @@ export default class Descriptions extends Component {
     }
 
     get core(){
-        return this.descriptions.core;
+        return this.descriptions.core || '';
     }
 
     get core_path(){
@@ -19,7 +19,7 @@ export default class Descriptions extends Component {
     }
 
     get setting(){
-        return this.descriptions.setting;
+        return this.descriptions.setting || '';
     }
 
     get setting_path(){

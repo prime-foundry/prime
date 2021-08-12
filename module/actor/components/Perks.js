@@ -28,7 +28,7 @@ export default class Perks extends Component {
     }
 
     displayPerk({id}) {
-        (new Perk(this, this.document.items.get(id))).display();
+        (new Perk(this, this.document.items.get(id))).displaySource();
     }
 
     deletePerk({id}){

@@ -329,8 +329,8 @@ export const EmbeddedDocumentMixin = (EmbeddedDocumentType) =>
             return ItemDirectory;
         }
 
-        display() {
-            let documentToLoad = this.document;
+        displaySource(document = this.document) {
+            let documentToLoad = document;
             if( this._sourceKey != null && !this._customisable )
             {
                 const original = this._directory.collection.get(this._sourceKey);
@@ -341,7 +341,11 @@ export const EmbeddedDocumentMixin = (EmbeddedDocumentType) =>
                 }
 
             }
-            const sheet = documentToLoad.sheet;
+            display(documentToLoad);
+        }
+
+        display(document = this.document) {
+            const sheet = document.sheet;
             if (sheet.rendered) {
                 sheet.maximize();
                 sheet.bringToTop();

@@ -1,4 +1,4 @@
-{{#if filteredItems.ranged-weapon}}
+{{#if actor.inventory.rangedWeapons}}
 <div class="{{partialClasses}} rangedWeapons block">
     <div class="blockTitle">Ranged Weapons</div>
     <div class="primeTableWrapper">
@@ -28,27 +28,52 @@
             </thead>
         <!-- <div>Title(Descriptions) | (Size) | (Type) | (DR) | Hands | Wounds | Keywords | Actions</div> -->
             <tbody>
-                {{#each filteredItems.ranged-weapon as |weapon index|}}
+                {{#each actor.inventory.ordered.rangedWeapons as |item|}}
+                {{log 3 this.id this.source.id}}
                 <tr>
-                    <td class="center"><div class="attackIconWrapper"><a class="attackWithWeapon" data-armour-id={{weapon._id}}>{{{weapon.data.attackIcon}}}</a></div></td>
-                    <td title="{{convertHTMLForTitle weapon.data.description}}"><a class="itemTitle" data-item-id="{{weapon._id}}"><i class="fas fa-info-circle fa-xs"></i> {{weapon.name}}</a></td>
-                    <td class="center">{{weapon.data.weaponSize}}</td>
-                    <td class="center">{{weapon.data.weaponType}}</td>
-                    <td class="center">{{weapon.data.damageRating}}</td>
-                    <td class="center">{{weapon.data.requiredHands}}</td>
+                    <td class="center">
+                        <div class="attackIconWrapper">
+                            <a class="attackWithWeapon"
+                               data-dyn-click-at="actor.inventory.useItem()"
+                               data-dyn-click-id="{{this.id}}">{{{traverse item.weapon.type 'iconHTML' from=../static.items.weapons.rangedTypes}}}</a>
+                        </div>
+                    </td>
+                    <td title="{{convertHTMLForTitle item.weapon.description}}">
+                        <a class="itemTitle"
+                           data-dyn-click-at="actor.inventory.displayItem()"
+                           data-dyn-click-id="{{this.id}}"><i class="fas fa-info-circle fa-xs"></i> {{item.name}}</a>
+                    </td>
+                    <td class="center">{{item.weapon.size}}</td>
+                    <td class="center">{{item.weapon.type}}</td>
+                    <td class="center">{{item.weapon.damageRating}}</td>
+                    <td class="center">{{item.weapon.requiredHands}}</td>
+                    <td>
+                        {{#each (retain ../static.actor.woundConditions item.weapon.woundConditions) as |wound|}}
+                            <span title="{{convertHTMLForTitle wound.description}}"
+                                  class="hasTooltip">{{wound.title}}</span>{{#if (not @last)}}, {{/if}}
+                        {{/each}}
+                    </td>
+                    <td>
+                        {{#each (retain ../static.items.weapons.keywords item.weapon.keywords) as |keyword|}}
+                            <span title="{{convertHTMLForTitle keyword.description}}"
+                                  class="hasTooltip">{{keyword.title}}</span>{{#if (not @last)}}, {{/if}}
+                        {{/each}}
+                    </td>
+                    <td>
+                        {{#each (retain ../static.items.weapons.rangedActions item.weapon.actions) as |action|}}
+                            <span title="{{convertHTMLForTitle action.description}}"
+                                  class="hasTooltip">{{action.title}}</span>{{#if (not @last)}}, {{/if}}
+                        {{/each}}
+                    </td>
 
-                    <td>{{{weapon.data.woundConditions}}}</td>
-                    <td>{{{weapon.data.keywords}}}</td>
-                    <td>{{{weapon.data.customActions}}}</td>
+                    <td class="center">{{{item.weapon.ranges.pointBlank}}}</td>
+                    <td class="center">{{{item.weapon.ranges.short}}}</td>
+                    <td class="center">{{{item.weapon.ranges.medium}}}</td>
+                    <td class="center">{{{item.weapon.ranges.long}}}</td>
+                    <td class="center">{{{item.weapon.ranges.extreme}}}</td>
 
-                    <td class="center">{{{weapon.data.ranges.pointBlank.value}}}</td>
-                    <td class="center">{{{weapon.data.ranges.short.value}}}</td>
-                    <td class="center">{{{weapon.data.ranges.medium.value}}}</td>
-                    <td class="center">{{{weapon.data.ranges.long.value}}}</td>
-                    <td class="center">{{{weapon.data.ranges.extreme.value}}}</td>
-
-                    <td class="center">{{{weapon.data.ammo.type}}}</td>
-                    <td class="center">{{{weapon.data.ammo.capacity}}}</td>
+                    <td class="center">{{{item.weapon.ammo.type}}}</td>
+                    <td class="center">{{{item.weapon.ammo.capacity}}}</td>
                 </tr>
                 {{/each}}
             </tbody>

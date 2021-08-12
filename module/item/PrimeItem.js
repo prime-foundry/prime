@@ -127,7 +127,7 @@ export class PrimeItem extends DynDocumentMixin(Item, 'item', 'type')
 	processWeapon(weaponData, catergory)
 	{
 		// Needs to come first as we switch the type to it's title value later.
-		weaponData.data.attackIcon = this.getAttackIconHTML(catergory, weaponData.data.weaponType);
+		// weaponData.data.attackIcon = this.getAttackIconHTML(catergory, weaponData.data.weaponType);
 
 		// weaponData.data.weaponSize = PrimeTables.getTitleFromTableByKey(weaponData.data.weaponSize, "items.weapons.sizes");
 		// weaponData.data.weaponType = PrimeTables.getTitleFromTableByKey(weaponData.data.weaponType, "items.weapons." + catergory + "Types");
@@ -142,10 +142,10 @@ export class PrimeItem extends DynDocumentMixin(Item, 'item', 'type')
 		// weaponData.data.keywords = this.getSelectItemTitlesFromEffectData("checkbox-keywords", "items.weapons.keywords");
 		// weaponData.data.customActions = this.getSelectItemTitlesFromEffectData("checkbox-actions", "items.weapons." + catergory + "WeaponActions");
 
-		if (catergory == "ranged")
-		{
-			weaponData.data.ammo.type = PrimeTables.getTitleFromTableByKey(weaponData.data.ammo.type, "items.weapons.ammoTypes");
-		}
+		// if (catergory == "ranged")
+		// {
+		// 	weaponData.data.ammo.type = PrimeTables.getTitleFromTableByKey(weaponData.data.ammo.type, "items.weapons.ammoTypes");
+		// }
 
 		return weaponData
 	}

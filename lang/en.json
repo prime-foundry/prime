@@ -233,8 +233,8 @@
 	"PRIME.weapon_action_description_stab" : "Improve Armour Penetration (+2 AP)",
 
 
-	"PRIME.weapon_action_title_surpress" : "Surpress",
-	"PRIME.weapon_action_description_surpress" : "Make attack role at area, volume vs ammo capacity. Anyone moving through the zone must resist attack roll.",
+	"PRIME.weapon_action_title_suppress" : "Suppress",
+	"PRIME.weapon_action_description_suppress" : "Make attack role at area, volume vs ammo capacity. Anyone moving through the zone must resist attack roll.",
 
 	"PRIME.weapon_action_title_lob" : "Lob",
 	"PRIME.weapon_action_description_lob" : "Fires in an arc over cover and stuff.",

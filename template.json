@@ -601,69 +601,68 @@
 						"title": "PRIME.weapon_melee_type_pole"
 					}
 				},
-				"rangedWeaponActions": [
-					{
-						"key": "impale",
+				"rangedWeaponActions": {
+					"impale": {
 						"title": "PRIME.weapon_action_title_impale",
 						"description": "PRIME.weapon_action_description_impale",
 						"apCost": 1
 					},
-					{
-						"key": "surpress",
-						"title": "PRIME.weapon_action_title_surpress",
-						"description": "PRIME.weapon_action_description_surpress",
+					"suppress": {
+						"title": "PRIME.weapon_action_title_suppress",
+						"description": "PRIME.weapon_action_description_suppress",
 						"apCost": 1
 					},
-					{
-						"key": "lob",
+					"lob": {
 						"title": "PRIME.weapon_action_title_lob",
 						"description": "PRIME.weapon_action_description_lob",
 						"apCost": 1
 					}
-				],
-				"rangedTypes": [
-					{
-						"key": "bow",
+				},
+				"rangedTypes": {
+					"bow": {
 						"title": "PRIME.weapon_ranged_type_bow"
 					},
-					{
-						"key": "mechanical",
+					"mechanical": {
 						"title": "PRIME.weapon_ranged_type_mechanical"
 					},
-					{
-						"key": "thrown",
+					"thrown": {
 						"title": "PRIME.weapon_ranged_type_thrown"
 					},
-					{
-						"key": "blowpipe",
+					"blowpipe": {
 						"title": "PRIME.weapon_ranged_type_blowpipe"
 					}
-				],
-				"rangeCatergories": {
-					"pointBlank": "PRIME.weapons_ranges_point_blank",
-					"short": "PRIME.weapons_ranges_short",
-					"medium": "PRIME.weapons_ranges_medium",
-					"long": "PRIME.weapons_ranges_long",
-					"extreme": "PRIME.weapons_ranges_extreme"
 				},
-				"ammoTypes": [
-					{
-						"key": "arrow",
+				"rangeCategories": {
+					"pointBlank": {
+						"title": "PRIME.weapons_ranges_point_blank"
+					},
+					"short": {
+						"title": "PRIME.weapons_ranges_short"
+					},
+					"medium": {
+						"title": "PRIME.weapons_ranges_medium"
+					},
+					"long": {
+						"title": "PRIME.weapons_ranges_long"
+					},
+					"extreme": {
+						"title": "PRIME.weapons_ranges_extreme"
+					}
+				},
+				"ammoTypes": {
+					"arrow": {
 						"title": "PRIME.weapon_ammo_type_arrow"
 					},
-					{
-						"key": "bolt",
+					"bolt": {
 						"title": "PRIME.weapon_ammo_type_bolt"
 					},
-					{
-						"key": "dart",
+					"dart": {
 						"title": "PRIME.weapon_ammo_type_dart"
 					},
-					{
-						"key": "bullet",
+					"bullet": {
 						"title": "PRIME.weapon_ammo_type_bullet"
 					}
-				]
+				}
 			},
 			"armour": {
 				"types": {
