@@ -341,7 +341,7 @@ export const EmbeddedDocumentMixin = (EmbeddedDocumentType) =>
                 }
 
             }
-            display(documentToLoad);
+            this.display(documentToLoad);
         }
 
         display(document = this.document) {

@@ -24,6 +24,28 @@ export function getComponentLazily(target, name, Type, config = {}) {
     return property.value;
 }
 
+export function orderedSort(itemA, itemB, currentItemSortList) {
+    const itemAPosition = currentItemSortList[itemA.id];
+    const itemBPosition = currentItemSortList[itemB.id];
+
+    // Sorting data is missing or not generated yet - put unordered at the end of the list.
+    if (itemAPosition == null) {
+        return itemBPosition == null ? 0 : -1;
+    }
+    if (itemBPosition == null) {
+        return 1;
+    }
+
+    if (itemAPosition < itemBPosition) {
+        return -1;
+    }
+    if (itemAPosition > itemBPosition) {
+        return 1;
+    }
+
+    return 0;
+}
+
 export function arrayIfNot(potentialArray, nullOnEmpty = false, arrayIfNull = false) {
     if (potentialArray == null) {
         return arrayIfNull ? [] : potentialArray;

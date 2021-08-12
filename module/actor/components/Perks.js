@@ -2,6 +2,7 @@ import Component from "../../util/Component.js";
 import {EmbeddedDocumentMixin} from "../../util/DynFoundryMixins.js";
 import {PrimeItemManager} from "../../item/PrimeItemManager.js";
 import PerkItem from "../../item/types/PerkItem.js";
+import {orderedSort} from "../../util/support.js";
 
 class Perk extends EmbeddedDocumentMixin(PerkItem) {
     constructor(parent, item) {
@@ -21,6 +22,12 @@ export default class Perks extends Component {
         return perks;
     }
 
+    get ordered() {
+        const {...clonedInventoryOrder} = this.perkOrder;
+        const sort = (itemA, itemB) => orderedSort(itemA, itemB, clonedInventoryOrder);
+        return this.all.sort(sort);
+    }
+
     get qualifying() {
         const perks = this.all;
         const qualifyingOnly = perks.filter(perk => perk.qualifies(this.document));
@@ -33,5 +40,13 @@ export default class Perks extends Component {
 
     deletePerk({id}){
         (new Perk(this, this.document.items.get(id))).deleteItem();
+    }
+
+    get perkOrder() {
+        return this.gameSystem.perkOrder || {};
+    }
+
+    set perkOrder(perkOrder) {
+        this.write(this.gameSystemPath.with('perkOrder') , perkOrder);
     }
 }

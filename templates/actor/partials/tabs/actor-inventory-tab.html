@@ -28,7 +28,7 @@
 	</div>
 </div>
 
-{{#if inventoryItems}}
+{{#if (greaterThan (count actor.inventory.items) 0)}}
 <div class="combatInventoryItems">
 	{{> itemListMeleeWeapons partialClasses=''}}
 

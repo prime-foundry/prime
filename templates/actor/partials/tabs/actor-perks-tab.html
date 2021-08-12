@@ -1,6 +1,6 @@
 <div class="{{partialClasses}} block noTitle perksOuterWrapper">
 	<div class="perksInnerWrapper flexRow flexWrap">
-	{{#each actor.perks.all}}
+	{{#each actor.perks.ordered}}
 		{{> itemCardPerk}}
 	{{/each}}
 	</div>

@@ -6,34 +6,13 @@ import ArmourItem from "../../item/types/ArmourItem.js";
 import InventoryItem from "../../item/types/InventoryItem.js";
 import ShieldItem from "../../item/types/ShieldItem.js";
 import RangedWeaponItem from "../../item/types/RangedWeaponItem.js";
-import {getComponentLazily} from "../../util/support.js";
+import {getComponentLazily, orderedSort} from "../../util/support.js";
 import {MaterialCosts} from "../../item/components/Costs.js";
 
 const EQUIPPED_FILTER = item => item.equipped;
 const CARRIED_FILTER = item => !item.equipped;
 const NO_FILTER = item => true;
 
-const ORDER_SORT = (itemA, itemB, currentItemSortList) => {
-    const itemAPosition = currentItemSortList[itemA.id];
-    const itemBPosition = currentItemSortList[itemB.id];
-
-    // Sorting data is missing or not generated yet - put unordered at the end of the list.
-    if (itemAPosition == null) {
-        return itemBPosition == null ? 0 : -1;
-    }
-    if (itemBPosition == null) {
-        return 1;
-    }
-
-    if (itemAPosition < itemBPosition) {
-        return -1;
-    }
-    if (itemAPosition > itemBPosition) {
-        return 1;
-    }
-
-    return 0;
-};
 
 /**
  * @extends InventoryItem
@@ -250,11 +229,9 @@ export default class Inventory extends Component {
 }
 
 class InventoryBase extends Component {
-    filter;
 
     constructor(parent, filter) {
         super(parent);
-        this.filter = filter || NO_FILTER;
     }
 
     get items() {
@@ -325,12 +302,16 @@ class OrderedInventory extends InventoryBase {
     modifyResult(items) {
         const shallowClone = Array.from(items);
         const {...clonedInventoryOrder} = this.inventoryOrder; // a shallow clone for a shallow object.
-        const sort = (itemA, itemB) => ORDER_SORT(itemA, itemB, clonedInventoryOrder);
+        const sort = (itemA, itemB) => orderedSort(itemA, itemB, clonedInventoryOrder);
         return shallowClone.sort(sort);
     }
 
     get inventoryOrder() {
         return this.gameSystem.inventoryOrder || {};
+    }
+
+    set inventoryOrder(inventoryOrder) {
+        this.write(this.gameSystemPath.with('inventoryOrder') , inventoryOrder);
     }
 }
 
