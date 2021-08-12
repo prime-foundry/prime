@@ -514,15 +514,6 @@ class DynHandlebars {
             data[values[i]] = values[i + 1];
         }
     }
-
-    static richTemplate(name,options){
-        if(options == null){
-            return {self:this};
-        }
-        const ret = {};
-        ret[name] = this;
-        return ret;
-    }
 }
 
 Handlebars.registerHelper({
@@ -548,5 +539,5 @@ Handlebars.registerHelper({
     keys: DynHandlebars.keys,
     values: DynHandlebars.values,
     alias: DynHandlebars.alias,
-    richTemplate: DynHandlebars.richTemplate,
+    selectOrSet: DynHandlebars.selectOrSet,
 });
