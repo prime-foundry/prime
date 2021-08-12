@@ -27,7 +27,7 @@ export default class Armour extends Component {
     }
 
     set protection(protection) {
-        return this.write(this.armourPath.with('protection'), minmax(0, protection, this.max));
+        return this.write(this.armourPath.with('protection'), minmax(0, protection, 5));
     }
 
     get resilience() {
@@ -35,7 +35,7 @@ export default class Armour extends Component {
     }
 
     set resilience(resilience) {
-        return this.write(this.armourPath.with('resilience'), minmax(0, resilience, this.max));
+        return this.write(this.armourPath.with('resilience'), minmax(0, resilience, 5));
     }
 
     get keywords(){

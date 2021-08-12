@@ -335,12 +335,6 @@ class WeaponTable extends TemplateTable {
         return this._sizes;
     }
 
-    get woundConditions() {
-        if (this._woundConditions == null) {
-            this._woundConditions = loadBasicData(this.data.woundConditions);
-        }
-        return this._woundConditions;
-    }
 
     get meleeActions() {
         if (this._meleeActions == null) {

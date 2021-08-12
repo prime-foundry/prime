@@ -54,6 +54,7 @@ export default class PrimeMigration_Actor_0_2_1 extends Migration {
             PrimeMigration_Actor_0_2_1.migrateNotes(gameSystemData);
             appendNote(gameSystemData, `<u><b>🛠 Migration Log of '${PrimeMigration_Actor_0_2_1.version}'</b></u><br><i>The following 🐐 goats 🐐 were herded:</i><br>`);
             PrimeMigration_Actor_0_2_1.migrateProfile(gameSystemData);
+            PrimeMigration_Actor_0_2_1.migrateWealth(gameSystemData);
 
             if (primeItems.length > 0 && actorDoc.itemTypes['prime'].length === 0) {
                 itemsToEmbed = itemsToEmbed.concat(PrimeMigration_Actor_0_2_1.migratePrimes(actorDoc, gameSystemData, primeItems));
@@ -77,6 +78,27 @@ export default class PrimeMigration_Actor_0_2_1 extends Migration {
             gameSystemData.profile.npc = gameSystemData.profile.isNPC;
             delete gameSystemData.profile.isNPC;
             gameSystemData.metadata = undefined;
+        }
+    }
+
+    /**
+     *
+     "personalWealth": 0,
+     "shipWealth": 0,
+     * @param gameSystemData
+     */
+
+    static migrateWealth(gameSystemData) {
+        if (gameSystemData.personalWealth != null || gameSystemData.shipWealth != null) {
+            gameSystemData.costs = [{
+                type: 'personal',
+                amount: gameSystemData.personalWealth || 0
+            },{
+                type: 'ship',
+                amount: gameSystemData.shipWealth || 0
+            }];
+            gameSystemData.shipWealth = null;
+            gameSystemData.personalWealth = null;
         }
     }
 

@@ -2,6 +2,7 @@ import Migration from "./Migration.js";
 import PrimeItemTables from "../item/PrimeItemTables.js";
 import {PrimeItemManager} from "../item/PrimeItemManager.js";
 import PrimeMigration_Actor_0_2_1 from "./PrimeMigration_Actor_0_2_1.js";
+import PrimeActorTables from "../actor/PrimeActorTables.js";
 
 /*
  *    ["item", "melee-weapon", "ranged-weapon", "shield", "armour", "perk", "action", "prime", "refinement", "injury", "award"]
@@ -52,6 +53,7 @@ export default class PrimeMigration_Item_0_2_0 extends Migration {
         PrimeMigration_Item_0_2_0.migrateDescriptions(item, gameSystemData);
         PrimeMigration_Item_0_2_0.migrateMetrics(item, gameSystemData);
         PrimeMigration_Item_0_2_0.migrateArmour(item, gameSystemData);
+        PrimeMigration_Item_0_2_0.migrateWeapon(item, gameSystemData);
         PrimeMigration_Item_0_2_0.migratePrerequisites(item, gameSystemData);
         PrimeMigration_Item_0_2_0.migrateModifiers(item, gameSystemData);
         PrimeMigration_Item_0_2_0.migrateActions(item, gameSystemData);
@@ -163,13 +165,13 @@ export default class PrimeMigration_Item_0_2_0 extends Migration {
                 armour.resilience = 0;
             }
             if (gameSystemData.armourType != null) {
-                armour.type = gameSystemData.armourType;
+                armour.type = gameSystemData.armourType || 'other';
                 gameSystemData.armourType = null;
             } else if (armour.type == null) {
                 armour.type = 'other';
             }
             if (gameSystemData.protection != null) {
-                armour.protection = gameSystemData.protection;
+                armour.protection = gameSystemData.protection || 0;
                 gameSystemData.protection = null;
             } else if (armour.protection == null) {
                 armour.protection = 0;
@@ -204,6 +206,82 @@ export default class PrimeMigration_Item_0_2_0 extends Migration {
         }
     }
 
+    // "keywords": [],
+    // "woundConditions": [],
+    // "customActions": []
+    static migrateWeapon(item, gameSystemData) {
+        if (["melee-weapon", "ranged-weapon", "shield"].includes(item.type)) {
+            if (gameSystemData.weapon == null) {
+                gameSystemData.weapon = {};
+            }
+            const weapon = item.weapon;
+            if (gameSystemData.weaponSize != null) {
+                weapon.size = gameSystemData.weaponSize;
+                gameSystemData.weaponSize = null;
+            } else if (weapon.size == null) {
+                weapon.size = 'tiny';
+            }
+            if (gameSystemData.weaponType != null) {
+                weapon.type = gameSystemData.weaponType;
+                gameSystemData.weaponType = null;
+            } else if (weapon.type == null) {
+                if(item.type === "ranged-weapon"){
+                    weapon.type = 'bow';
+                } else {
+                    weapon.type = 'blunt';
+                }
+            }
+            if (gameSystemData.damageRating != null) {
+                weapon.damageRating = gameSystemData.damageRating;
+                gameSystemData.damageRating = null;
+            } else if (weapon.damageRating == null) {
+                weapon.damageRating = 0;
+            }
+            if (gameSystemData.requiredHands != null) {
+                weapon.requiredHands = gameSystemData.requiredHands;
+                gameSystemData.requiredHands = null;
+            } else if (weapon.requiredHands == null) {
+                weapon.requiredHands = 1;
+            }
+            if (gameSystemData.keywords != null) {
+                const oldKeywords = gameSystemData.keywords || {};
+                const keywordTable = Array.from(Object.keys(PrimeItemTables.weapons.keywords));
+                keywordTable.sort();
+                weapon.keywords = keywordTable.filter((value, index) => oldKeywords[index] != null && oldKeywords[index]);
+                gameSystemData.keywords = null;
+            } else if (weapon.keywords == null) {
+                weapon.keywords = [];
+            }
+
+
+            if (gameSystemData.woundConditions != null) {
+                const oldWoundConditions = gameSystemData.woundConditions || {};
+                const keywordTable = Array.from(Object.keys(PrimeActorTables.woundConditions));
+                keywordTable.sort();
+                weapon.woundConditions = keywordTable.filter((value, index) => oldWoundConditions[index] != null && oldWoundConditions[index]);
+                gameSystemData.woundConditions = null;
+            } else if (weapon.woundConditions == null) {
+                weapon.woundConditions = [];
+            }
+
+            if (gameSystemData.customActions != null) {
+                const oldCustomActions = gameSystemData.customActions || {};
+                const keywordTable = Array.from(Object.keys(item.type === "ranged-weapon" ? PrimeItemTables.weapons.rangedActions: PrimeItemTables.weapons.meleeActions));
+                keywordTable.sort();
+                weapon.actions = keywordTable.filter((value, index) => oldCustomActions[index] != null && oldCustomActions[index]);
+                gameSystemData.customActions = null;
+            } else if (weapon.actions == null) {
+                weapon.actions = [];
+            }
+
+            // if (item.type === 'ranged-weapon') {
+            //    // do nothing the rest of it is the same.
+            // } else if (item.type === 'shield') {
+            //     // do nothing the rest of it is the same.
+            // }
+        }
+
+    }
     static migrateModifiers(item, gameSystemData) {
         if (["item", "melee-weapon", "ranged-weapon", "shield", "perk"].includes(item.type)) {
             const oldBonuses = Object.entries(gameSystemData.bonuses || {});

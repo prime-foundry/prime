@@ -95,6 +95,18 @@
 			"orderingTables": {
 				"perkOrder": {},
 				"inventoryOrder": {}
+			},
+			"wealth": {
+				"costs": [
+					{
+						"type": "personal",
+						"amount": 0
+					},
+					{
+						"type": "ship",
+						"amount": 0
+					}
+				]
 			}
 		},
 		"character": {
@@ -102,10 +114,9 @@
 				"base_template",
 				"mental_template",
 				"profile_template",
-				"orderingTables"
+				"orderingTables",
+				"wealth"
 			],
-			"personalWealth": 0,
-			"shipWealth": 0,
 			"sheetVersion": "v2.0"
 		}
 	},
@@ -148,7 +159,7 @@
 			},
 			"metadata": {
 				"metadata": {
-					"setting": "",
+					"setting": "Prime / Possession",
 					"default": false,
 					"customisable": false,
 					"sourceKey": ""
@@ -171,13 +182,15 @@
 				"masterCraft": false
 			},
 			"weapon": {
-				"weaponSize": "",
-				"weaponType": "",
-				"damageRating": 0,
-				"requiredHands": 1,
-				"woundConditions": [],
-				"keywords": [],
-				"customActions": []
+				"weapon": {
+					"size": "tiny",
+					"type": "blunt",
+					"damageRating": 0,
+					"requiredHands": 1,
+					"woundConditions": [],
+					"keywords": [],
+					"customActions": []
+				}
 			},
 			"ranged": {
 				"ranges": {
@@ -198,16 +211,18 @@
 					}
 				},
 				"ammo": {
-					"type": "",
-					"capacity": ""
+					"type": "arrow",
+					"capacity": 1
 				}
 			},
 			"armour": {
-				"armourType": "",
-				"protection": 0,
-				"armourResilience": 1,
-				"keywords": [],
-				"untrainedPenalty": []
+				"armour": {
+					"type": "cloth",
+					"protection": 0,
+					"resilience": 1,
+					"keywords": [],
+					"untrainedPenalty": []
+				}
 			}
 		},
 		"item": {
@@ -245,6 +260,9 @@
 				"metadata",
 				"modifiers"
 			],
+			"weapon": {
+				"type": "bow"
+			},
 			"isMelee": false,
 			"isRanged": true,
 			"notes": ""
