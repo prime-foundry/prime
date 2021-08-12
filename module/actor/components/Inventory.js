@@ -7,9 +7,7 @@ import InventoryItem from "../../item/types/InventoryItem.js";
 import ShieldItem from "../../item/types/ShieldItem.js";
 import RangedWeaponItem from "../../item/types/RangedWeaponItem.js";
 import {getComponentLazily} from "../../util/support.js";
-import RangedWeapon from "../../item/components/RangedWeapon.js";
-import {Costs} from "../../item/components/Costs.js";
-import {PrimeModifierManager} from "../../item/PrimeModifierManager.js";
+import {MaterialCosts} from "../../item/components/Costs.js";
 
 const EQUIPPED_FILTER = item => item.equipped;
 const CARRIED_FILTER = item => !item.equipped;
@@ -54,6 +52,7 @@ class EmbeddedWeapon extends EmbeddedDocumentMixin(WeaponItem) {
         super(parent, item);
     }
 }
+
 /**
  * @extends RangedWeaponItem
  */
@@ -84,13 +83,13 @@ class EmbeddedArmour extends EmbeddedDocumentMixin(ArmourItem) {
 export default class Inventory extends Component {
 
     get wealth() {
-        return getComponentLazily(this, 'wealth', Costs);
+        return getComponentLazily(this, 'wealth', MaterialCosts);
     }
 
     get cost() {
         const items = this.items;
         const total = {}
-        for(const item of items) {
+        for (const item of items) {
             item.aggregateCosts(total);
         }
         return total;
@@ -99,7 +98,7 @@ export default class Inventory extends Component {
     get weight() {
         const items = this.items;
         let total = 0
-        for(const item of items) {
+        for (const item of items) {
             total += item.metrics.weight || 0;
         }
         return total;
@@ -108,11 +107,12 @@ export default class Inventory extends Component {
     get quantity() {
         const items = this.items;
         let total = 0
-        for(const item of items) {
+        for (const item of items) {
             total += item.metrics.quantity || 1;
         }
         return total;
     }
+
     /**
      * "item", "melee-weapon", "ranged-weapon", "shield", "armour"
      * @returns {InventoryItem[]}

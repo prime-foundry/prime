@@ -9,6 +9,7 @@ import BaseItem from "./types/BaseItem.js";
 import ActionItem from "./types/ActionItem.js";
 import ArmourItem from "./types/ArmourItem.js";
 import RangedWeaponItem from "./types/RangedWeaponItem.js";
+import ShieldItem from "./types/ShieldItem.js";
 
 /**
  * Extend the basic Item with some very simple modifications.
@@ -29,7 +30,7 @@ export class PrimeItem extends DynDocumentMixin(Item, 'item', 'type')
 			.register('item', InventoryItem)
 			.register('melee-weapon', WeaponItem)
 			.register('ranged-weapon', RangedWeaponItem)
-			.register('shield', InventoryItem)
+			.register('shield', ShieldItem)
 			.register('armour', ArmourItem)
 			.register('prime', StatItem)
 			.register('refinement', StatItem)

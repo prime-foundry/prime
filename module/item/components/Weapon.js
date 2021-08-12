@@ -43,7 +43,7 @@ export default class Weapon extends Component {
     }
 
     set requiredHands(requiredHands) {
-        return this.write(this.weaponPath.with('requiredHands'), requiredHands);
+        return this.write(this.weaponPath.with('requiredHands'), minmax(1, requiredHands,2));
     }
 
     get keywords(){

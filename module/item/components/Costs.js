@@ -119,16 +119,57 @@ export class Cost extends Component {
 /**
  * Represents a collection of costs, be it money, and/or soul and/or xp.
  */
-export class Costs extends BaseCost {
+export class SpiritualCosts extends BaseCost {
 
-    get costs(){
-        return this.getCosts().map(([type,]) => new PartCost(this, type) );
+
+    get xp() {
+        return new PartCost(this, 'xp');
+    }
+
+    get soul() {
+        return new PartCost(this, 'soul');
+    }
+
+    set xp(amount) {
+        this.xp.amount = amount;
+    }
+
+    set soul(amount){
+        this.soul.amount = amount;
     }
 
     aggregate(total = {}){
-        for(const cost of this.costs){
-            cost.aggregate(total);
-        }
+        this.xp.aggregate(total);
+        this.soul.aggregate(total);
+        return total;
+    }
+}
+
+
+/**
+ * Represents a collection of costs, be it money, and/or soul and/or xp.
+ */
+export class MaterialCosts extends BaseCost {
+
+    get personal() {
+        return new PartCost(this, 'personal');
+    }
+
+    get ship(){
+        return new PartCost(this, 'ship');
+    }
+
+    set personal(amount) {
+        this.personal.amount = amount;
+    }
+
+    set ship(amount){
+        this.ship.amount = amount;
+    }
+
+    aggregate(total = {}){
+        this.personal.aggregate(total);
+        this.ship.aggregate(total);
         return total;
     }
 }
