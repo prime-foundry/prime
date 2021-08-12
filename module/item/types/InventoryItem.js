@@ -8,6 +8,10 @@ export default class InventoryItem extends BonusItem {
         super(primeItem);
     }
 
+    use() {
+        alert(`Using: ${this.name}`);
+    }
+
     get cost() {
         return getComponentLazily(this, 'cost', Cost);
     }

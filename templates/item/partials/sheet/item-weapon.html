@@ -91,7 +91,7 @@
 <div class="cell100 flexRow verticalCenter flexCenter checkboxGroupTitle {{checkboxGroupState
         checkboxGroupStates.actions}}" data-checkbox-group="actions">
     <div class="cell100">Custom actions:
-        {{#each (retain static.items.weapons.meleeActions item.weapon.meleeActions) as |action|}}
+        {{#each (retain static.items.weapons.meleeActions item.weapon.actions) as |action|}}
             <span title="{{convertHTMLForTitle action.description}}"
                   class="hasTooltip">{{action.title}}</span>{{#if (not @last)}}, {{/if}}
         {{/each}}
@@ -106,8 +106,8 @@
             <label for="{{@key}}" class="resource-label hasTooltip"
                    title="{{convertHTMLForTitle action.description}}">{{action.title}}:</label>
             <input class="checkboxGroup" type="checkbox" id="{{@key}}" value="{{@key}}"
-                   data-dyn-change-at="item.weapon.toggleMeleeAction"
-                {{checked (includes ../item.weapon.meleeActions @key)}}/>
+                   data-dyn-change-at="item.weapon.toggleAction"
+                {{checked (includes ../item.weapon.actions @key)}}/>
         </div>
     {{/each}}
 </div>

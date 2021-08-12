@@ -86,23 +86,23 @@ export default class Weapon extends Component {
         this.woundConditions = Array.from(woundConditions);
     }
 
-    get meleeActions(){
-        return this.weapon.meleeActions || [];
+    get actions(){
+        return this.weapon.actions || [];
     }
 
-    set meleeActions(meleeActions){
-        return this.write(this.weaponPath.with('meleeActions'), meleeActions);
+    set actions(actions){
+        return this.write(this.weaponPath.with('actions'), actions);
     }
 
-    set toggleMeleeAction(meleeAction){
-        const meleeActions = this.meleeActions;
-        const index = meleeActions.indexOf(meleeAction);
+    set toggleAction(action){
+        const actions = this.actions;
+        const index = actions.indexOf(action);
         if(index < 0){
-            meleeActions.push(meleeAction);
-            meleeActions.sort();
+            actions.push(action);
+            actions.sort();
         } else {
-            meleeActions.splice(index,1);
+            actions.splice(index,1);
         }
-        this.meleeActions = Array.from(meleeActions);
+        this.actions = Array.from(actions);
     }
 }

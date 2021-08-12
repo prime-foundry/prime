@@ -5,6 +5,11 @@ import WeaponItem from "../../item/types/WeaponItem.js";
 import ArmourItem from "../../item/types/ArmourItem.js";
 import InventoryItem from "../../item/types/InventoryItem.js";
 import ShieldItem from "../../item/types/ShieldItem.js";
+import RangedWeaponItem from "../../item/types/RangedWeaponItem.js";
+import {getComponentLazily} from "../../util/support.js";
+import RangedWeapon from "../../item/components/RangedWeapon.js";
+import {Costs} from "../../item/components/Costs.js";
+import {PrimeModifierManager} from "../../item/PrimeModifierManager.js";
 
 const EQUIPPED_FILTER = item => item.equipped;
 const CARRIED_FILTER = item => !item.equipped;
@@ -49,6 +54,14 @@ class EmbeddedWeapon extends EmbeddedDocumentMixin(WeaponItem) {
         super(parent, item);
     }
 }
+/**
+ * @extends RangedWeaponItem
+ */
+class EmbeddedRangedWeapon extends EmbeddedDocumentMixin(RangedWeaponItem) {
+    constructor(parent, item) {
+        super(parent, item);
+    }
+}
 
 /**
  * @extends ShieldItem
@@ -70,6 +83,36 @@ class EmbeddedArmour extends EmbeddedDocumentMixin(ArmourItem) {
 
 export default class Inventory extends Component {
 
+    get wealth() {
+        return getComponentLazily(this, 'wealth', Costs);
+    }
+
+    get cost() {
+        const items = this.items;
+        const total = {}
+        for(const item of items) {
+            item.aggregateCosts(total);
+        }
+        return total;
+    }
+
+    get weight() {
+        const items = this.items;
+        let total = 0
+        for(const item of items) {
+            total += item.metrics.weight || 0;
+        }
+        return total;
+    }
+
+    get quantity() {
+        const items = this.items;
+        let total = 0
+        for(const item of items) {
+            total += item.metrics.quantity || 1;
+        }
+        return total;
+    }
     /**
      * "item", "melee-weapon", "ranged-weapon", "shield", "armour"
      * @returns {InventoryItem[]}
@@ -106,11 +149,11 @@ export default class Inventory extends Component {
 
     /**
      * "ranged-weapon"
-     * @returns {WeaponItem[]}
+     * @returns {RangedWeaponItem[]}
      */
     get rangedWeapons() {
         const items = this.getItemDocsByBaseTypes("ranged-weapon");
-        return items.map(item => new EmbeddedWeapon(this, item));
+        return items.map(item => new EmbeddedRangedWeapon(this, item));
     }
 
     /**
@@ -176,8 +219,9 @@ export default class Inventory extends Component {
         const item = this.document.items.get(id);
         switch (item.type) {
             case "melee-weapon":
-            case "ranged-weapon":
                 return new EmbeddedWeapon(this, item);
+            case "ranged-weapon":
+                return new EmbeddedRangedWeapon(this, item);
             case "shield":
                 return new EmbeddedShield(this, item);
             case "armour":

@@ -49,7 +49,7 @@
                             {{/each}}
                         </td>
                         <td>
-                            {{#each (retain ../static.items.weapons.meleeActions item.weapon.meleeActions) as |action|}}
+                            {{#each (retain ../static.items.weapons.meleeActions item.weapon.actions) as |action|}}
                                 <span title="{{convertHTMLForTitle action.description}}"
                                       class="hasTooltip">{{action.title}}</span>{{#if (not @last)}}, {{/if}}
                             {{/each}}
