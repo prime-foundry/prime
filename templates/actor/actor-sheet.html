@@ -1,4 +1,4 @@
-<form id="appId_{{prime.uid}}"
+<form id="appId_{{actor.id}}"
 	  class="{{cssClass}} {{isV2CharacterClass}} {{#if editable}}isEditable{{/if}} actorFormWrapper {{isFromTokenClass}}"
 	  autocomplete="off">
 
@@ -26,8 +26,8 @@
 			<div class="isNPCWrapper flexRow verticalCenter flexEnd">
 				<label for="actor.profile.npc" class="resource-label rightAlign cell50 shrinkFontForNarrow" title="Tick to denote this is an NPC">NPC:</label>
 				<input type="checkbox" id="actor.profile.npc"
-					   data-dyn-at="actor.profile.npc"
-					   class="cell50" {{checked prime.actor.profile.npc}}/>
+					   data-dyn-change-at="actor.profile.npc"
+					   class="cell50" {{checked actor.profile.npc}}/>
 			</div>
 		</div>
 

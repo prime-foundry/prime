@@ -1,5 +1,6 @@
 import BaseItem from "./BaseItem.js";
 import {PrimeModifierManager} from "../PrimeModifierManager.js";
+import {minmax} from "../../util/support.js";
 
 export default class StatItem extends BaseItem {
     constructor(primeItem) {
@@ -30,7 +31,7 @@ export default class StatItem extends BaseItem {
      */
     get value() {
         const value = this.unadjustedValue + this.activeModifiers;
-        return Math.min(Math.max(value, 0), this.max)
+        return minmax(0, value, this.max);
     }
 
     get unadjustedValue() {

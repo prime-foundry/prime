@@ -19,9 +19,12 @@
                 <tbody>
                 {{#each actor.inventory.ordered.armour as |item|}}
                     <tr>
-                        <td title="{{convertHTMLForTitle item.descriptions.core}}"><a class="itemTitle"
-                                                                                       data-item-id="{{item.id}}"><i
-                                class="fas fa-info-circle fa-xs"></i> {{item.name}}</a></td>
+                        <td title="{{convertHTMLForTitle item.descriptions.core}}">
+                            <a class="itemTitle"
+                               data-dyn-click-at="actor.inventory.displayItem()"
+                               data-dyn-click-id="{{this.id}}">
+                                <i class="fas fa-info-circle fa-xs"></i> {{item.name}}</a>
+                        </td>
                         <td class="center">{{item.armour.type}}</td>
                         <td class="center">{{item.armour.protection}}</td>
                         <td class="center">{{item.armour.resilience}}</td>
@@ -33,7 +36,8 @@
                         </td>
                         <td>
                             {{#each (retain ../static.items.armour.untrainedPenalties item.armour.untrainedPenalties) as |untrainedPenalty|}}
-                            <span title="{{convertHTMLForTitle untrainedPenalty.description}}" class="hasTooltip">{{untrainedPenalty.title}}</span>{{#if (not @last)}}, {{/if}}
+                                <span title="{{convertHTMLForTitle untrainedPenalty.description}}"
+                                      class="hasTooltip">{{untrainedPenalty.title}}</span>{{#if (not @last)}}, {{/if}}
                             {{/each}}
                         </td>
                         <td class="center"><input type="checkbox" class="armourWornCheckbox"

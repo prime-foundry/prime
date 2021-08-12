@@ -24,15 +24,16 @@ export function getComponentLazily(target, name, Type, config = {}) {
     return property.value;
 }
 
-export function arrayIfNot(potentialArray, nullOnEmpty=false, arrayIfNull = false){
-    if(potentialArray == null ){
+export function arrayIfNot(potentialArray, nullOnEmpty = false, arrayIfNull = false) {
+    if (potentialArray == null) {
         return arrayIfNull ? [] : potentialArray;
     }
-    if(Array.isArray(potentialArray)){
+    if (Array.isArray(potentialArray)) {
         return (nullOnEmpty && potentialArray.length === 0) ? null : potentialArray;
     }
     return [potentialArray];
 }
+
 /**
  * calculates a value once. This prevents calculating values more than once a request.
  * Specifically we may have some expensive calculations iterating
@@ -72,6 +73,10 @@ export class DynError extends Error {
     }
 }
 
+export function minmax(min, value, max) {
+    return Math.max(min, Math.min(max, (value || 0)));
+}
+
 export function datasetToObject(htmlElement, key = undefined) {
     const data = {};
     if (htmlElement && htmlElement.attributes) {
@@ -108,8 +113,7 @@ export function sanitizeView(view) {
     return view;
 }
 
-export function dateAsString(date = new Date(), locale = 'en-gb')
-{
+export function dateAsString(date = new Date(), locale = 'en-gb') {
     //const timezone = new Date().getTimezoneOffset();
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
     const dateString = date.toLocaleDateString(
@@ -126,10 +130,12 @@ export function dateAsString(date = new Date(), locale = 'en-gb')
     );
     return dateString
 }
-export function currentUser(){
+
+export function currentUser() {
     return userForId(game.userId);
 }
-export function userForId(userId){
+
+export function userForId(userId) {
     return game.users.get(userId);
 }
 
@@ -137,18 +143,18 @@ export function isString(str) {
     return Object.prototype.toString.call(str) === "[object String]"
 }
 
-let isFunction = function(value) {
+let isFunction = function (value) {
     return typeof value === 'function';
 };
 if (isFunction(/x/)) {
-    isFunction = function(value) {
+    isFunction = function (value) {
         return (
             typeof value === 'function' &&
             toString.call(value) === '[object Function]'
         );
     };
 }
-export { isFunction };
+export {isFunction};
 
 /**
  * class MyClass extends mix(SuperClass).with(Mixin1, Mixin2);

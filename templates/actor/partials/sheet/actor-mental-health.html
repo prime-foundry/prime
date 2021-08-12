@@ -44,8 +44,8 @@
                     data-dyn-disable="actor.health.insanities.isTended()"
                     data-dyn-index="{{this}}">
                 <option value=""></option>
-				{{#each ../../actorTables.mentalConditions}}
-				<option value="{{this.key}}" title="{{convertHTMLForTitle this.description}}">{{this.title}}</option>
+				{{#each ../../static.actor.mentalConditions}}
+				<option value="{{@key}}" title="{{convertHTMLForTitle this.description}}">{{this.title}}</option>
 				{{/each}}
             </select>
             <div class="insanityCheckBoxWrapper flexRow flexCenter verticalCenter{{addInjuryClasses this ../insanities}}">

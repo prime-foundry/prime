@@ -226,6 +226,7 @@ class ControllerSupport {
         }, null);
         return result;
     }
+
     /**
      *
      * #MARKED_SAFE_FROM_JQUERY
@@ -235,7 +236,7 @@ class ControllerSupport {
         const elements = view.querySelectorAll(`:scope *[${this.dataKey}-editor]`);
         elements.forEach(element => {
 
-            if('editorAttached' in element.dataset === false) {
+            if ('editorAttached' in element.dataset === false) {
                 const id = element.id || '';
                 element.id = `dyn-editor-${id}-${this.dynKey}-${this.uid}-${random32BitInt()}`;
                 attachEditor(element);
@@ -243,6 +244,7 @@ class ControllerSupport {
             }
         }, this);
     }
+
     /**
      *
      * #MARKED_SAFE_FROM_JQUERY
@@ -263,13 +265,13 @@ class ControllerSupport {
                 }
             }
             if (show != null) {
-                 if (show === true) {
+                if (show === true) {
                     element.hidden = false;
                 } else {
-                     hidden = element.hidden = !this.getModelValue(show, inputDyn);
+                    hidden = element.hidden = !this.getModelValue(show, inputDyn);
                 }
             }
-            if(hidden && inputDyn.forcehide) {
+            if (hidden && inputDyn.forcehide) {
                 // show can override this, so we need to do it after.
                 // we need to force this too.
                 element.style.display = 'none'
@@ -341,22 +343,23 @@ class ControllerSupport {
     }
 
 
-
     async onChangeInput(inputDyn) {
         const {element} = inputDyn.html;
         if (element.tagName === 'SELECT') {
-            await this.onChangeSelect(inputDyn);
+            return this.onChangeSelect(inputDyn);
         } else if (element.tagName === 'INPUT') {
-            switch (element.type) {
-                case 'checkbox':
-                    await this.onChangeCheckbox(element.checked, inputDyn);
-                    break;
-                default:
-                    await this.onChangeValue(element.value, inputDyn);
-                    break;
+            const type = (inputDyn.type || '').toLowerCase();
+            if (element.type === 'checkbox') {
+                const type = (inputDyn.type || '').toLowerCase();
+                if (type === "counter") {
+                    return this.onChangeCounter(element.checked, inputDyn);
+                } else if (inputDyn.value == null && (element.value == null || element.value === "on" || element.value === "off")) {
+                    return this.onChangeCheckbox(element.checked, inputDyn);
+                }
             }
+            return this.onChangeValue(element.value, inputDyn);
         } else if (element.tagName === 'TEXTAREA') {
-            return this._update(inputDyn, {value:element.value});
+            return this._update(inputDyn, {value: element.value});
         }
     }
 
@@ -373,7 +376,7 @@ class ControllerSupport {
         } else if (type === 'boolean') {
             return this.onChangeBoolean(value, inputDyn);
         } else {
-           return this._update(inputDyn, {value});
+            return this._update(inputDyn, {value});
         }
     }
 
@@ -388,18 +391,17 @@ class ControllerSupport {
     }
 
     async onChangeCheckbox(checked, inputDyn) {
-        const type = (inputDyn.type || '').toLowerCase();
-        if (type === 'counter') {
-            let value;
-            if (!checked && inputDyn.current === inputDyn.value) {
-                value = (Number.parseInt(inputDyn.value) || 0) - 1;
-            } else {
-                value = Number.parseInt(inputDyn.value);
-            }
-            return this._update(inputDyn, {value, activate: !!checked});
-
-        }
         return this._update(inputDyn, {activate: !!checked}, 'activate');
+    }
+
+    async onChangeCounter(checked, inputDyn) {
+        let value;
+        if (!checked && inputDyn.current === inputDyn.value) {
+            value = (Number.parseInt(inputDyn.value) || 0) - 1;
+        } else {
+            value = Number.parseInt(inputDyn.value);
+        }
+        return this._update(inputDyn, {value, activate: !!checked});
     }
 
 
@@ -415,8 +417,8 @@ class ControllerSupport {
                 object[property] = args[setParameter];
             }
         });
-        if(!(inputDyn.commit && inputDyn.commit.off)) {
-            const options = inputDyn.render && inputDyn.render.off ? {} : {render:true};
+        if (!(inputDyn.commit && inputDyn.commit.off)) {
+            const options = inputDyn.render && inputDyn.render.off ? {} : {render: true};
             return this._commit(options);
         }
         return true;
@@ -427,7 +429,7 @@ class ControllerSupport {
         // default is to not render;
         Object.values(this.models).forEach((model) => {
             // sheets don't have data managers (for now)
-            if(model && model.dyn && model.dyn.dataManager){
+            if (model && model.dyn && model.dyn.dataManager) {
                 model.dyn.dataManager.commit(options);
             }
         })

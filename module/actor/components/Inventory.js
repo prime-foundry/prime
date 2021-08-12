@@ -163,6 +163,11 @@ export default class Inventory extends Component {
         embedded.equipped = !embedded.equipped;
     }
 
+    useItem({id}) {
+        const item = this.getEmbeddedItemById(id);
+        item.use();
+    }
+
     /**
      * @param id
      * @private

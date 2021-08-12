@@ -1,5 +1,6 @@
 import Component from "../../util/Component.js";
 import {PrimeModifierManager} from "../../item/PrimeModifierManager.js";
+import {minmax} from "../../util/support.js";
 
 /**
  * @abstract
@@ -20,7 +21,7 @@ export class PointsBase extends Component {
      * @returns {number}
      */
     get max() {
-        return Math.max(this.base + this.bonus,1);
+        return Math.max(this.base + this.bonus, 1);
     }
 
     /**
@@ -35,14 +36,14 @@ export class PointsBase extends Component {
      * @returns {number}
      */
     get value() {
-        return Math.max(Math.min(this.max, this.points.value || 0),0);
+        return minmax(0, this.points.value, this.max);
     }
 
     /**
      * @param {number} value
      */
     set value(value) {
-        this.writeToPoints(Math.max(0, Math.min(this.max, value)), 'value');
+        this.writeToPoints(minmax(0, value, this.max), 'value');
     }
 
     /**
@@ -51,7 +52,7 @@ export class PointsBase extends Component {
      * @return {{value: number, base: number}}
      */
     get points() {
-        return {value: 0,base: 0};
+        return {value: 0, base: 0};
     }
 
     /**
@@ -62,7 +63,8 @@ export class PointsBase extends Component {
         this.write(this.pointsPath.with(...pathComponents), value);
     }
 
-    get pointsPath() { }
+    get pointsPath() {
+    }
 }
 
 /**
@@ -77,7 +79,7 @@ export class AwardableBase extends Component {
     get value() {
         return this.initial + this.awarded - this.spent;
     }
-    
+
     get initial() {
         if (this.document.isCharacter()) {
             return this.points.initial;
@@ -110,7 +112,7 @@ export class AwardableBase extends Component {
      * @returns {{initial: number, awarded: number, spent: number}}
      */
     get points() {
-        return {initial:0, awarded:0, spent:0};
+        return {initial: 0, awarded: 0, spent: 0};
     }
 
     /**
@@ -121,7 +123,8 @@ export class AwardableBase extends Component {
         this.write(this.pointsPath.with(...pathComponents), value);
     }
 
-    get pointsPath() { }
+    get pointsPath() {
+    }
 }
 
 export class XP extends AwardableBase {
@@ -147,7 +150,7 @@ export class XP extends AwardableBase {
             // TODO: totalcost and totalperkcost don't belong in the actor class directly.
             // TODO will not work with V2 chars.
             const refinementCost = this.document.stats.refinements.cost;
-            const perkXPCost = PrimeModifierManager.getCostsForType(this.document.items,"xp");
+            const perkXPCost = PrimeModifierManager.getCostsForType(this.document.items, "xp");
             return refinementCost + perkXPCost;
         }
         return 0;

@@ -11,6 +11,7 @@ export default class InventoryItem extends BonusItem {
     get cost() {
         return getComponentLazily(this, 'cost', Cost);
     }
+
     aggregateCosts(total = {}){
 
         if(this.hasSourceItem){

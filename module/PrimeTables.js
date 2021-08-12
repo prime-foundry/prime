@@ -1,4 +1,4 @@
-import {loadComplexData, TemplateTable} from "./util/TemplateTable.js";
+import {loadBasicData, loadComplexData, TemplateTable} from "./util/TemplateTable.js";
 import {arrayIfNot} from "./util/support.js";
 import {prerequisiteClassNameToClass} from "./item/components/Prerequisites.js";
 
@@ -74,11 +74,30 @@ class Lookups extends TemplateTable{
     }
 }
 
+class Icons {
+    static gameIconClassesFor(name) {
+        return `game-icon game-icon-${name}`;
+    }
+    static gameIconFor(name) {
+        return `<i class="${this.gameIconClassesFor(name)}"></i>`;
+    }
+    static fontAwesomeClassesFor(name, size='') {
+        return size.length === 0 ? `fas fa-${name}` : `fas fa-${name}-size`;
+    }
+    static fontAwesomeFor(name, size) {
+        return `<i class="${this.fontAwesomeClassesFor(name, size)}"></i>`;
+    }
+}
+
 export default class PrimeTables {
     static _core = new CoreTable();
     static _lookups = new Lookups();
+
     static get settings() {
         return this._core.settings;
+    }
+    static get icons() {
+        return Icons;
     }
     static get costs() {
         return this._core.costs;

@@ -128,8 +128,8 @@ export class PrimeItem extends DynDocumentMixin(Item, 'item', 'type')
 		// Needs to come first as we switch the type to it's title value later.
 		weaponData.data.attackIcon = this.getAttackIconHTML(catergory, weaponData.data.weaponType);
 
-		weaponData.data.weaponSize = PrimeTables.getTitleFromTableByKey(weaponData.data.weaponSize, "items.weapons.sizes");
-		weaponData.data.weaponType = PrimeTables.getTitleFromTableByKey(weaponData.data.weaponType, "items.weapons." + catergory + "Types");
+		// weaponData.data.weaponSize = PrimeTables.getTitleFromTableByKey(weaponData.data.weaponSize, "items.weapons.sizes");
+		// weaponData.data.weaponType = PrimeTables.getTitleFromTableByKey(weaponData.data.weaponType, "items.weapons." + catergory + "Types");
 
 		// weaponData.data.rarity = PrimeTables.getTitleFromTableByKey(weaponData.data.rarity, "items.rarity");
 
@@ -254,28 +254,41 @@ export class PrimeItem extends DynDocumentMixin(Item, 'item', 'type')
 		return attackIcon;
 	}
 
+	get meleeAttackIcons() {
+		const attackIcons = {
+			blunt: '<i class="game-icon game-icon-flanged-mace icon-md"></i>',
+			sword: '<i class="game-icon game-icon-bloody-sword icon-md"></i>',
+			dagger: '<i class="game-icon game-icon-curvy-knife icon-md"></i>',
+			axe: '<i class="game-icon game-icon-sharp-axe icon-md"></i>',
+			pole: '<i class="game-icon game-icon-trident icon-md"></i>',
+			default: '<i class="game-icon game-icon-fist icon-md"></i>',
+		}
+		return attackIcons;
+	}
+
 	getMeleeAttackIcon(weaponType)
 	{
+		let attackIcon
 		switch (weaponType)
 		{
 			case "blunt":
-				var attackIcon = '<i class="game-icon game-icon-flanged-mace icon-md"></i>';
+				attackIcon = '<i class="game-icon game-icon-flanged-mace icon-md"></i>';
 			break;
 			case "sword":
-				var attackIcon = '<i class="game-icon game-icon-bloody-sword icon-md"></i>';
+				attackIcon = '<i class="game-icon game-icon-bloody-sword icon-md"></i>';
 			break;
 			case "dagger":
-				var attackIcon = '<i class="game-icon game-icon-curvy-knife icon-md"></i>';
+				attackIcon = '<i class="game-icon game-icon-curvy-knife icon-md"></i>';
 			break;
 			case "axe":
-				var attackIcon = '<i class="game-icon game-icon-sharp-axe icon-md"></i>';
+				attackIcon = '<i class="game-icon game-icon-sharp-axe icon-md"></i>';
 			break;
 			case "pole":
-				var attackIcon = '<i class="game-icon game-icon-trident icon-md"></i>';
+				attackIcon = '<i class="game-icon game-icon-trident icon-md"></i>';
 			break;
 			default:
 				console.warn("Unknown weapon type of '" + weaponType + "' found in getAttackIconHTML().");
-				var attackIcon = '<i class="game-icon game-icon-fist icon-md"></i>';
+				attackIcon = '<i class="game-icon game-icon-fist icon-md"></i>';
 			break;
 		}
 		return attackIcon;

@@ -20,6 +20,14 @@ const QUALIFIERS = new Map()
     .set('STARTS_WITH', {unary: false, types: ['string'], predicate: (a, b) => a.startsWith(b)})
     .set('ENDS_WITH', {unary: false, types: ['string'], predicate: (a, b) => a.endsWith(b)});
 
+const MELEE_WEAPON_ICONS = new Map()
+    .set("blunt", "flanged-mace")
+    .set("sword", "bloody-sword")
+    .set("dagger", "curvy-knife")
+    .set("axe", "sharp-axe")
+    .set("pole", "trident")
+    .set("default", "game-icon-fist");
+
 class PrerequisitesTable extends TemplateTable {
 
     _prerequisites;
@@ -291,15 +299,77 @@ class ArmourTable extends TemplateTable {
     }
 }
 
+class WeaponTable extends TemplateTable {
+
+    _sizes;
+    _keywords;
+    _meleeActions;
+    _meleeTypes;
+    _woundConditions;
+
+    constructor() {
+        super('items.weapons')
+    }
+
+    get keywords() {
+        if (this._keywords == null) {
+            this._keywords = loadBasicData(this.data.keywords);
+        }
+        return this._keywords;
+    }
+    get sizes() {
+        if (this._sizes == null) {
+            this._sizes = loadBasicData(this.data.sizes);
+        }
+        return this._sizes;
+    }
+
+    get meleeActions() {
+        if (this._meleeActions == null) {
+            this._meleeActions = loadComplexData(this.data.meleeWeaponActions, (key,subData) => {
+                return {apCost: subData.apCost};
+            });
+        }
+        return this._meleeActions;
+    }
+
+    get meleeTypes() {
+        if (this._meleeTypes == null) {
+            this._meleeTypes = loadComplexData(this.data.meleeTypes, (key,subData) => {
+                let iconName = MELEE_WEAPON_ICONS.get(key);
+                if(iconName == null) {
+                    iconName = MELEE_WEAPON_ICONS.get('default');
+                    console.warn(`Unknown weapon type of '${key}' found in WeaponTable.meleeTypes`);
+                }
+                const iconHTML = PrimeTables.icons.gameIconFor(iconName);
+                return {iconHTML};
+            });
+        }
+        return this._meleeTypes;
+    }
+
+    get woundConditions() {
+        if (this._woundConditions == null) {
+            this._woundConditions = loadBasicData(this.data.woundConditions);
+        }
+        return this._woundConditions;
+    }
+}
+
 export default class PrimeItemTables {
     static _modifiers = new ModifiersTable();
     static _prerequisites = new PrerequisitesTable();
     static _actions = new ActionsTable();
     static _rarity = new RarityTable();
     static _armour = new ArmourTable();
+    static _weapons = new WeaponTable();
 
     static get armour() {
         return this._armour;
+    }
+
+    static get weapons() {
+        return this._weapons;
     }
 
     static get modifiers() {

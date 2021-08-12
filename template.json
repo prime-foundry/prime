@@ -427,199 +427,180 @@
 					"title": "PRIME.perk_actor_stat_bonus_max_ward_psyche"
 				}
 			],
-			"woundConditions": [
-				{
-					"key": "bleeding",
+			"woundConditions": {
+				"bleeding": {
 					"title": "PRIME.actor_wound_condition_title_bleeding",
 					"description": "PRIME.actor_wound_condition_description_bleeding"
 				},
-				{
-					"key": "pierced",
+				"pierced": {
 					"title": "PRIME.actor_wound_condition_title_pierced",
 					"description": "PRIME.actor_wound_condition_description_pierced"
 				},
-				{
-					"key": "hooked",
+				"hooked": {
 					"title": "PRIME.actor_wound_condition_title_hooked",
 					"description": "PRIME.actor_wound_condition_description_hooked"
 				},
-				{
-					"key": "non-lethal",
+				"non-lethal": {
 					"title": "PRIME.actor_wound_condition_title_non-lethal",
 					"description": "PRIME.actor_wound_condition_description_non-lethal"
 				},
-				{
-					"key": "staggered",
+				"staggered": {
 					"title": "PRIME.actor_wound_condition_title_staggered",
 					"description": "PRIME.actor_wound_condition_description_staggered"
 				},
-				{
-					"key": "stunned",
+				"stunned": {
 					"title": "PRIME.actor_wound_condition_title_stunned",
 					"description": "PRIME.actor_wound_condition_description_stunned"
 				},
-				{
-					"key": "crushed",
+				"crushed": {
 					"title": "PRIME.actor_wound_condition_title_crushed",
 					"description": "PRIME.actor_wound_condition_description_crushed"
 				},
-				{
-					"key": "battered",
+				"battered": {
 					"title": "PRIME.actor_wound_condition_title_battered",
 					"description": "PRIME.actor_wound_condition_description_battered"
 				},
-				{
-					"key": "slowed",
+				"slowed": {
 					"title": "PRIME.actor_wound_condition_title_slowed",
 					"description": "PRIME.actor_wound_condition_description_slowed"
 				}
-			],
-			"mentalConditions": [
-				{
-					"key": "scared",
+			},
+			"mentalConditions": {
+				"scared": {
 					"title": "PRIME.actor_mental_condition_title_scared",
 					"description": "PRIME.actor_mental_condition_description_scared"
 				},
-				{
-					"key": "mad",
+				"mad": {
 					"title": "PRIME.actor_mental_condition_title_mad",
 					"description": "PRIME.actor_mental_condition_description_mad"
 				}
-			]
+			}
 		},
 		"items": {
 			"weapons": {
-				"sizes": [
-					{
-						"key": "tiny",
+				"sizes": {
+					"tiny": {
 						"title": "PRIME.weapon_sizes_tiny"
 					},
-					{
-						"key": "small",
+					"small": {
 						"title": "PRIME.weapon_sizes_small"
 					},
-					{
-						"key": "medium",
+					"medium": {
 						"title": "PRIME.weapon_sizes_medium"
 					},
-					{
-						"key": "large",
+					"large": {
 						"title": "PRIME.weapon_sizes_large"
 					},
-					{
-						"key": "huge",
+					"huge": {
 						"title": "PRIME.weapon_sizes_huge"
 					}
-				],
-				"keywords": [
-					{
-						"key": "accurate",
+				},
+				"keywords": {
+					"accurate": {
 						"title": "PRIME.weapon_keywords_title_accurate",
 						"description": "PRIME.weapon_keywords_description_accurate"
 					},
-					{
-						"key": "armour_damaging",
+					"armour_damaging": {
 						"title": "PRIME.weapon_keywords_title_armour_damaging",
 						"description": "PRIME.weapon_keywords_description_armour_damaging"
 					},
-					{
-						"key": "cumbersome",
+					"cumbersome": {
 						"title": "PRIME.weapon_keywords_title_cumbersome",
 						"description": "PRIME.weapon_keywords_description_cumbersome"
 					},
-					{
-						"key": "devastating",
+					"devastating": {
 						"title": "PRIME.weapon_keywords_title_devastating",
 						"description": "PRIME.weapon_keywords_description_devastating"
 					},
-					{
-						"key": "flexible",
+					"flexible": {
 						"title": "PRIME.weapon_keywords_title_flexible",
 						"description": "PRIME.weapon_keywords_description_flexible"
 					},
-					{
-						"key": "heavy",
+					"heavy": {
 						"title": "PRIME.weapon_keywords_title_heavy",
 						"description": "PRIME.weapon_keywords_description_heavy"
 					},
-					{
-						"key": "minimum_range",
+					"minimum_range": {
 						"title": "PRIME.weapon_keywords_title_minimum_range",
 						"description": "PRIME.weapon_keywords_description_minimum_range"
 					},
-					{
-						"key": "penetrating",
+					"penetrating": {
 						"title": "PRIME.weapon_keywords_title_penetrating",
 						"description": "PRIME.weapon_keywords_description_penetrating"
 					},
-					{
-						"key": "pistol",
+					"pistol": {
 						"title": "PRIME.weapon_keywords_title_pistol",
 						"description": "PRIME.weapon_keywords_description_pistol"
 					},
-					{
-						"key": "pole",
+					"pole": {
 						"title": "PRIME.weapon_keywords_title_pole",
 						"description": "PRIME.weapon_keywords_description_pole"
 					},
-					{
-						"key": "ranked",
+					"ranked": {
 						"title": "PRIME.weapon_keywords_title_ranked",
 						"description": "PRIME.weapon_keywords_description_ranked"
 					},
-					{
-						"key": "shield_breaker",
+					"shield_breaker": {
 						"title": "PRIME.weapon_keywords_title_shield_breaker",
 						"description": "PRIME.weapon_keywords_description_shield_breaker"
 					},
-					{
-						"key": "versatile",
+					"versatile": {
 						"title": "PRIME.weapon_keywords_title_versatile",
 						"description": "PRIME.weapon_keywords_description_versatile"
 					},
-					{
-						"key": "weak",
+					"weak": {
 						"title": "PRIME.weapon_keywords_title_weak",
 						"description": "PRIME.weapon_keywords_description_weak"
 					},
-					{
-						"key": "well_balanced",
+					"well_balanced": {
 						"title": "PRIME.weapon_keywords_title_well_balanced",
 						"description": "PRIME.weapon_keywords_description_well_balanced"
 					}
-				],
-				"meleeWeaponActions": [
-					{
-						"key": "bash",
+				},
+				"meleeWeaponActions": {
+					"bash": {
 						"title": "PRIME.weapon_action_title_bash",
 						"description": "PRIME.weapon_action_description_bash",
 						"apCost": 1
 					},
-					{
-						"key": "cleave",
+					"cleave": {
 						"title": "PRIME.weapon_action_title_cleave",
 						"description": "PRIME.weapon_action_description_cleave",
 						"apCost": 1
 					},
-					{
-						"key": "hook",
+					"hook": {
 						"title": "PRIME.weapon_action_title_hook",
 						"description": "PRIME.weapon_action_description_hook",
 						"apCost": 1
 					},
-					{
-						"key": "impale",
+					"impale": {
 						"title": "PRIME.weapon_action_title_impale",
 						"description": "PRIME.weapon_action_description_impale",
 						"apCost": 1
 					},
-					{
-						"key": "stab",
+					"stab": {
 						"title": "PRIME.weapon_action_title_stab",
 						"description": "PRIME.weapon_action_description_stab",
 						"apCost": 1
 					}
-				],
+				},
+				"meleeTypes": {
+					"blunt": {
+						"title": "PRIME.weapon_melee_type_blunt"
+					},
+					"sword": {
+						"title": "PRIME.weapon_melee_type_sword"
+					},
+					"dagger": {
+						"title": "PRIME.weapon_melee_type_dagger"
+					},
+					"axe": {
+						"title": "PRIME.weapon_melee_type_axe"
+					},
+					"pole": {
+						"title": "PRIME.weapon_melee_type_pole"
+					}
+				},
 				"rangedWeaponActions": [
 					{
 						"key": "impale",
@@ -638,28 +619,6 @@
 						"title": "PRIME.weapon_action_title_lob",
 						"description": "PRIME.weapon_action_description_lob",
 						"apCost": 1
-					}
-				],
-				"meleeTypes": [
-					{
-						"key": "blunt",
-						"title": "PRIME.weapon_melee_type_blunt"
-					},
-					{
-						"key": "sword",
-						"title": "PRIME.weapon_melee_type_sword"
-					},
-					{
-						"key": "dagger",
-						"title": "PRIME.weapon_melee_type_dagger"
-					},
-					{
-						"key": "axe",
-						"title": "PRIME.weapon_melee_type_axe"
-					},
-					{
-						"key": "pole",
-						"title": "PRIME.weapon_melee_type_pole"
 					}
 				],
 				"rangedTypes": [

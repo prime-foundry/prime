@@ -1,5 +1,5 @@
 import BaseItem from "./BaseItem.js";
-import {getComponentLazily} from "../../util/support.js";
+import {getComponentLazily, minmax} from "../../util/support.js";
 import {ActionEffects} from "../components/ActionEffects.js";
 
 export default class ActionItem extends BaseItem {
@@ -12,7 +12,7 @@ export default class ActionItem extends BaseItem {
     }
 
     set actionPoints(actionPoints) {
-        this.write(this.gameSystemPath.with('actionPoints'), Math.max(0, Math.min(6,actionPoints,)));
+        this.write(this.gameSystemPath.with('actionPoints'), minmax(0, actionPoints, 6));
     }
 
     get actionType() {

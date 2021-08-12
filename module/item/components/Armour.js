@@ -1,4 +1,5 @@
 import Component from "../../util/Component.js";
+import {minmax} from "../../util/support.js";
 
 export default class Armour extends Component {
     constructor(parent) {
@@ -26,7 +27,7 @@ export default class Armour extends Component {
     }
 
     set protection(protection) {
-        return this.write(this.armourPath.with('protection'), Math.min(5, Math.max(0, protection)));
+        return this.write(this.armourPath.with('protection'), minmax(0, protection, this.max));
     }
 
     get resilience() {
@@ -34,7 +35,7 @@ export default class Armour extends Component {
     }
 
     set resilience(resilience) {
-        return this.write(this.armourPath.with('resilience'), Math.min(5, Math.max(0, resilience)));
+        return this.write(this.armourPath.with('resilience'), minmax(0, resilience, this.max));
     }
 
     get keywords(){

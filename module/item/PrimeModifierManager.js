@@ -43,7 +43,10 @@ export class PrimeModifierManager {
         const items = PrimeItemManager.getItems(criteria);
         const modifier = items.reduce((previous, item) => {
             try {
-                return previous + (Number(path.traverse(item)) || 0);
+                if(item.equippable && item.equipped) {
+                    return previous + (Number(path.traverse(item)) || 0);
+                }
+                return previous;
             } catch {
                 return previous;
             }

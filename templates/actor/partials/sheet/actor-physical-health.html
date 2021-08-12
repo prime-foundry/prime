@@ -47,8 +47,8 @@
                     data-dyn-index="{{this}}"
 					title="">
 				<option value=""></option>
-				{{#each ../../actorTables.woundConditions}}
-				<option value="{{this.key}}" title="{{convertHTMLForTitle this.description}}">{{this.title}}</option>
+				{{#each ../../static.actor.mentalConditions}}
+				<option value="{{@key}}" title="{{convertHTMLForTitle this.description}}">{{this.title}}</option>
 				{{/each}}
             </select>
             <div class="medkitIcon flexRow flexEnd verticalCenter">
