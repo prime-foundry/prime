@@ -1,16 +1,25 @@
-<div class="rollerPrime"><span class="value">{{sheet.roller.prime.name}}</span></div>
-<div class="rollerRefinement"><span class="value">{{sheet.roller.refinement.name}}</span></div>
-<div class="rollerAction"><label for="rollerAction">Action:</label><i class="fa fa-wrench" aria-hidden="true"></i></div>
-<div class="rollerItem"><label for="rollerItem">Item:</label> <i class="fa fa-wrench" aria-hidden="true"></i></div>
-<div class="rollerPerks"><label for="rollerPerks">Perks:</label> <i class="fa fa-wrench" aria-hidden="true"></i></div>
+<div class="rollerPrime"><span class="text">{{sheet.roller.prime.name}}:</span> <span class="value">{{sheet.roller.prime.value}}</span></div>
+<div class="rollerRefinement"><span class="text">{{sheet.roller.refinement.name}}:</span> <span class="value">{{sheet.roller.refinement.value}}</span></div>
+<div class="rollerAction"></div>
+<div class="rollerItem"></div>
+<div class="rollerPerks"></div>
 <div class="rollerModifier">
-<label for="rollerModifier">Modifier:</label>
-<input id="rollerModifier" type="number" title="modifier" value="{{sheet.roller.modifier}}"
+<label for="rollerModifier">Mod:</label>
+<input id="rollerModifier" type="number" title="Modifier" value="{{sheet.roller.modifier}}"
        data-dyn-type="number"
        data-dyn-change-at="sheet.roller.modifier"
        data-dyn-render-off/>
 </div>
-<div class="rollerVisibility"><label for="rollerVisibility">Visibility:</label> <i class="fa fa-wrench" aria-hidden="true"></i></div>
+<div class="rollerVisibility">
+    <select name="visibility"
+            data-dyn-change-at="sheet.roller.visibility"
+            data-dyn-select="sheet.roller.visibility"
+            title="Visibility">
+        <option value="roll">Public</option>
+        <option value="gmroll">GM</option>
+        <option value="blindroll">Blind</option>
+        <option value="selfroll">Self</option>
+    </select></div>
 <div class="rollerClose"><i
         data-dyn-click-at="sheet.roller.dismiss()"
         data-dyn-render-off

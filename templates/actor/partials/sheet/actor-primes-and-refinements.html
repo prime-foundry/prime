@@ -7,7 +7,9 @@
         {{/if}}
         {{#each primes}}
 <!--            {{!aliasAs 'cssClassId' (join "prime" @root.actor.id id separator='-')}}-->
-            <div class="primeWrapper  {{customisableStatClass}} {{defaultItemClass}} {{#if (equal id @root.sheet.roller.selectedPrimeId)}}selectedRollerPrime{{/if}}" title="{{convertHTMLForTitle description 150}}&#xD;*DOUBLE CLICK TO EDIT VALUE*">
+            <div class="primeWrapper {{customisableStatClass}} {{defaultItemClass}} {{#if (and @root.sheet.roller.open (equal id @root.sheet.roller.selectedPrimeId))}}selectedRollerPrime{{/if}}"
+                 data-prime-id="{{id}}"
+                 title="{{convertHTMLForTitle description 150}}&#xD;*DOUBLE CLICK TO EDIT VALUE*">
                 {{#unless metadata.default}}
                 <a class="deleteItemIcon" data-item-id={{id}} title="Delete prime"><i class="fas fa-trash"></i></a>
                 {{/unless}}
@@ -37,8 +39,9 @@
         {{/if}}
         {{#each refinements}}
 <!--            {{!aliasAs 'cssClassId' (join "refinement" @root.actor.id id separator='-')}}-->
-            <div class="refinementWrapper {{customisableStatClass}} {{defaultItemClass}} {{#if (equal id @root.sheet.roller.selectedRefinementId)}}selectedRollerRefinement{{/if}}"
+            <div class="refinementWrapper {{customisableStatClass}} {{defaultItemClass}} {{#if (and @root.sheet.roller.open (equal id @root.sheet.roller.selectedRefinementId))}}selectedRollerRefinement{{/if}}"
                  title="{{convertHTMLForTitle description 150}}&#xD;*DOUBLE CLICK TO EDIT VALUE*"
+                 data-refinement-id="{{id}}"
                  data-dyn-class-if="customisableStat actor.stats.refinement"
                  data-dyn-class-if="defaultStat ">
                 {{#unless metadata.default}}

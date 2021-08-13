@@ -435,12 +435,16 @@
     color: #581818;
 }
 
-.primeCharacterSheet .rollerModifier input {
-    width: 30px;
+.primeCharacterSheet .rollerBar select,
+.primeCharacterSheet .rollerBar input {
     border-radius: 3px;
     background-color: var(--textLight);
 }
 
+.primeCharacterSheet .rollerBar .rollerModifier input {
+    width: 30px;
+    max-width: 30px;
+}
 .primeCharacterSheet .rollerClose {
     font-size: 20px;
     justify-self: flex-end;
