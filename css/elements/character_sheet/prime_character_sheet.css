@@ -309,10 +309,10 @@ h1.entityName
 }
 
 .primeCharacterSheet .item.tableTitle.icon{
-	position: relative;
 	font-size: 18px;
+	width: 36px;
 	max-width: 36px;
-	transition: max-width 1s linear .5s;
+	transition: width 1s linear .5s;
 }
 
 .perksOuterWrapper

@@ -3,11 +3,11 @@
 
     <div class="prerequisitesWrapper">
         {{#each item.prerequisites as |prerequisite|}}
-            {{alias 'Items' ../static.items}}
-            {{alias 'Prerequisites' @Items.prerequisites}}
-            {{alias 'PrerequisitesType' (traverse prerequisite.type 'subTypes' from=@Prerequisites)}}
-            {{alias 'PrerequisitesSubType' (traverse prerequisite.target from=@PrerequisitesType)}}
-            {{alias 'item' ../item}}
+            {{aliasAs 'Items' ../static.items}}
+            {{aliasAs 'Prerequisites' @Items.prerequisites}}
+            {{aliasAs 'PrerequisitesType' (traverse prerequisite.type 'subTypes' from=@Prerequisites)}}
+            {{aliasAs 'PrerequisitesSubType' (traverse prerequisite.target from=@PrerequisitesType)}}
+            {{aliasAs 'item' ../item}}
             <div class="cell100 flexRow flexBetween flexWrap infoBlock prerequisiteWrapper">
                 <div class="prerequisiteIndex">{{increment @index}}</div>
 

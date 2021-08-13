@@ -4,15 +4,14 @@
   "description": "The foundry VTT system of the Prime RPG as used in the Possession world.",
   "version": "0.4.1",
   "minimumCoreVersion": "0.8.6",
-  "compatibleCoreVersion": "0.8.6",
+  "compatibleCoreVersion": "0.8.8",
   "templateVersion": 2,
   "author": "Matt Henderson, Johnathan Castle, Jack Moxley & co",
   "esmodules": [
     "module/dyn_handlebars.js",
     "module/prime_system_core.js",
     "module/prime_handlebars.js",
-    "module/prime_dice/prime_dice.js",
-    "module/prime_controls/prime_controls_core.js"
+    "module/prime_dice/prime_dice.js"
   ],
   "styles": ["css/core_imports.css"],
   "scripts": ["lib/chroma.min.js"],

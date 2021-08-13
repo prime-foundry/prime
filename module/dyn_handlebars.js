@@ -476,38 +476,38 @@ class DynHandlebars {
      * @example <caption>Simple</caption
      * let myValue = 'Hello';
      *
-     * {{alias 'myPropertyName' myValue}}
+     * {{aliasAs 'myPropertyName' myValue}}
      * {{@myPropertyName}} <!-- Resolves to 'Hello' -->
      *
      *  @example <caption>Multiple values</caption
      * let myValue = 'Hello';
      * let otherValue = 'World';
      *
-     * {{alias 'propName' myValue 'otherPropName' otherValue}}
+     * {{aliasAs 'propName' myValue 'otherPropName' otherValue}}
      * {{@propName}} <!-- Resolves to 'Hello' -->
      * {{@otherPropName}} <!-- Resolves to 'World' -->
      *
      *  @example <caption>Multiple values - error</caption
      * let myValue = 'Hello';
      *
-     * {{alias 'propName' myValue 'otherPropName' @propName}}
+     * {{aliasAs 'propName' myValue 'otherPropName' @propName}}
      * {{@propName}} <!-- Resolves to 'Hello' -->
      * {{@otherPropName}} <!-- Will not resolve -->
      *
      *  @example <caption>Multiple values - error - fix</caption
      * let myValue = 'Hello';
      *
-     * {{alias 'propName' myValue}}
-     * {{alias 'otherPropName' @propName}}
+     * {{aliasAs 'propName' myValue}}
+     * {{aliasAs 'otherPropName' @propName}}
      * {{@propName}} <!-- Resolves to 'Hello' -->
      * {{@otherPropName}} <!-- Resolves to 'Hello' -->
      */
-    static alias(...rest) {
+    static aliasAs(...rest) {
         let values = Array.from(rest);
         const options = values.pop(); // makes values 1 shorter ( we want this )
         const data = options.data;
         if (values.length % 2 !== 0) {
-            throw new Error('#alias requires an even number of parameters in the form of key1, object1, key2, object2 ');
+            throw new Error('#aliasAs requires an even number of parameters in the form of key1, object1, key2, object2 ');
         }
 
         for (let i = 0; i < values.length; i += 2) {
@@ -529,8 +529,8 @@ Handlebars.registerHelper({
     defined: DynHandlebars.defined,
     not: DynHandlebars.not,
     and: DynHandlebars.and,
-    xor: DynHandlebars.xor,
     or: DynHandlebars.or,
+    xor: DynHandlebars.xor,
     join: DynHandlebars.join,
     call: DynHandlebars.call,
     includes: DynHandlebars.includes,
@@ -538,6 +538,5 @@ Handlebars.registerHelper({
     retain: DynHandlebars.retain,
     keys: DynHandlebars.keys,
     values: DynHandlebars.values,
-    alias: DynHandlebars.alias,
-    selectOrSet: DynHandlebars.selectOrSet,
+    aliasAs: DynHandlebars.aliasAs
 });

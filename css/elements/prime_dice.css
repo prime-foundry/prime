@@ -437,11 +437,12 @@
 
 .primeCharacterSheet input.rollerModifier {
     width: 30px;
-    margin-left: 1em;
-    border-radius: 5px;
+    margin-left: 6px;
+    border-radius: 8px;
     background-color: var(--textLight);
 }
 
 .primeCharacterSheet .item.tableTitle.icon.rollerReady{
-    max-width: 100px;
+    max-width: 80px;
+    width: 80px;
 }

@@ -3,10 +3,10 @@ export class PRIME_DICE_ROLLER {
 	async rollPrimeDice(diceParams) {
 		
 		const currentRoll = new Roll('1dp');
-		currentRoll.evaluate();
+		await currentRoll.evaluate({async:true});
 		const diceResult = this.getDiceResult(currentRoll, diceParams);
 		const messageContent = await this.createContent(diceResult);
-		const alias =  `${diceResult.user}: ${diceResult.actor}`;
+		const alias =  `${diceParams.user.name}: ${diceParams.actor.name}`;
 		const speaker = ChatMessage.getSpeaker({ actor : diceParams.actor, alias });
 		let data =
 		{

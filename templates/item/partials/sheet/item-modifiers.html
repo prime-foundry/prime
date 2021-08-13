@@ -3,11 +3,11 @@
 
     <div class="effectsWrapper">
         {{#each item.modifiers as |modifier|}}
-            {{alias 'Items' ../static.items}}
-            {{alias 'Modifiers' @Items.modifiers}}
-            {{alias 'ModifiersCategory' (traverse modifier.type 'category' from=@Modifiers)}}
-            {{alias 'ModifiersType' (traverse modifier.type 'subTypes' from=@Modifiers)}}
-            {{alias 'item' ../item}}
+            {{aliasAs 'Items' ../static.items}}
+            {{aliasAs 'Modifiers' @Items.modifiers}}
+            {{aliasAs 'ModifiersCategory' (traverse modifier.type 'category' from=@Modifiers)}}
+            {{aliasAs 'ModifiersType' (traverse modifier.type 'subTypes' from=@Modifiers)}}
+            {{aliasAs 'item' ../item}}
             <div class="cell100 flexRow flexBetween flexWrap infoBlock effectWrapper">
                 <div class="effectIndex">{{increment @index}}</div>
                 <div class="cell100 flexRow flexBetween verticalCenter">

@@ -44,11 +44,11 @@
 
         <div class="effectsWrapper">
             {{#each item.actionEffects as |actionEffect|}}
-                {{alias 'Items' ../static.items}}
-                {{alias 'ActionEffects' @Items.actionEffects}}
-                {{alias 'ActionEffectsCategory' (traverse actionEffect.type 'category' from=@ActionEffects)}}
-                {{alias 'ActionEffectsType' (traverse actionEffect.type 'subTypes' from=@ActionEffects)}}
-                {{alias 'item' ../item}}
+                {{aliasAs 'Items' ../static.items}}
+                {{aliasAs 'ActionEffects' @Items.actionEffects}}
+                {{aliasAs 'ActionEffectsCategory' (traverse actionEffect.type 'category' from=@ActionEffects)}}
+                {{aliasAs 'ActionEffectsType' (traverse actionEffect.type 'subTypes' from=@ActionEffects)}}
+                {{aliasAs 'item' ../item}}
                 <div class="cell100 flexRow flexBetween flexWrap infoBlock actionEffectWrapper">
                     <div class="actionEffectIndex">{{increment @index}}</div>
                     <div class="cell100 flexRow flexBetween verticalCenter">
