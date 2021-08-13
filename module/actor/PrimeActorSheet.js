@@ -12,10 +12,6 @@ export class PrimeActorSheet extends DynApplicationMixin(ActorSheet) {
     actorSheetMeasureTimer = false;
     updateWidthClassInterval = 50;
 
-    //bulkUpdatingOwnedItems = false;
-    currentItemSortList = null;
-
-
     constructor(...args) {
         super(...args);
         Hooks.on('createItem', this.renderOnItemChange.bind(this));
