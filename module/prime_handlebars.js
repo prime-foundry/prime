@@ -1,5 +1,5 @@
 import {PrimeTables} from "./prime_tables.js";
-import {isString} from "./util/support.js";
+import {htmlToText} from "./util/support.js";
 
 var primeHandlebarsPartialsPaths =
     {
@@ -45,30 +45,6 @@ var primeHandlebarsPartialsPaths =
         "itemCardAction": "systems/prime/templates/item/partials/cards/item-card-action.html",
         "itemCardPerk": "systems/prime/templates/item/partials/cards/item-card-perk.html"
     }
-
-function htmlToText(html, maxChars = 150) {
-    let text = html;
-    if (isString(text)) {
-        text = text.replace(/\&nbsp;/ig, ' ');
-        text = text.replace(/<style([\s\S]*?)<\/style>/gi, '');
-        text = text.replace(/<script([\s\S]*?)<\/script>/gi, '');
-        text = text.replace(/<\/div>/ig, '\n');
-        text = text.replace(/<\/li>/ig, '\n');
-        text = text.replace(/<li>/ig, '  * ');
-        text = text.replace(/<\/ul>/ig, '\n');
-        text = text.replace(/<\/p>/ig, '\n');
-        text = text.replace(/<br\s*[\/]?>/gi, "\n");
-        text = text.replace(/(<([^>]+)>)/ig, '');
-        text = text.trim(); // remove all white space at the end
-
-        if (text.length > maxChars) {
-            text = text.slice(0, maxChars-3) + "..."; // 3 for the dots
-        }
-    } else {
-        text = '';
-    }
-    return text;
-}
 
 export class PrimeHandlebarsPartials {
     static async loadPartials() {

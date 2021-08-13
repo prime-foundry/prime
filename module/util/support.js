@@ -197,3 +197,27 @@ class MixinBuilder {
         return mixins.reduce((c, mixin) => mixin(c), this.superclass);
     }
 }
+
+export function htmlToText(html, maxChars) {
+    let text = html;
+    if (isString(text)) {
+        text = text.replace(/\&nbsp;/ig, ' ');
+        text = text.replace(/<style([\s\S]*?)<\/style>/gi, '');
+        text = text.replace(/<script([\s\S]*?)<\/script>/gi, '');
+        text = text.replace(/<\/div>/ig, '\n');
+        text = text.replace(/<\/li>/ig, '\n');
+        text = text.replace(/<li>/ig, '  * ');
+        text = text.replace(/<\/ul>/ig, '\n');
+        text = text.replace(/<\/p>/ig, '\n');
+        text = text.replace(/<br\s*[\/]?>/gi, "\n");
+        text = text.replace(/(<([^>]+)>)/ig, '');
+        text = text.trim(); // remove all white space at the end
+
+        if (maxChars && text.length > maxChars) {
+            text = text.slice(0, maxChars - 3) + "..."; // 3 for the dots
+        }
+    } else {
+        text = '';
+    }
+    return text;
+}

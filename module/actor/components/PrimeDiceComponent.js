@@ -1,13 +1,16 @@
 import Component from "../../util/Component.js";
 import {PRIME_DICE_ROLLER} from "../../dice/prime_dice_roller.js";
-function removeAllCssClassesFromView(view, cssClass){
+import {htmlToText} from "../../util/support.js";
+
+function removeAllCssClassesFromView(view, cssClass) {
 
     const nodeList = view.getElementsByClassName(cssClass);
 
-    for(let i = 0; i< nodeList.length;i++){
+    for (let i = 0; i < nodeList.length; i++) {
         nodeList.item(i).classList.remove(cssClass);
     }
 }
+
 export default class PrimeDiceComponent extends Component {
 
     primeId;
@@ -26,11 +29,23 @@ export default class PrimeDiceComponent extends Component {
         return this.primeId;
     }
 
+    get prime() {
+        const actor = this.document;
+        const prime = actor.stats.primes.getStatById(this.primeId);
+        return prime;
+    }
+
+    get refinement() {
+        const actor = this.document;
+        const refinement = actor.stats.refinements.getStatById(this.refinementId);
+        return refinement;
+    }
+
     get selectedRefinementId() {
         return this.refinementId;
     }
 
-    dismiss({html}){
+    dismiss({html}) {
         const view = html.view;
         this.refinementId = null;
         this.primeId = null;
@@ -39,7 +54,7 @@ export default class PrimeDiceComponent extends Component {
         this.manageDiceBar(view);
     }
 
-    selectPrimeToRoll({id,  html}) {
+    selectPrimeToRoll({id, html}) {
         const {view, element} = html;
         console.log(id);
         removeAllCssClassesFromView(view, "selectedRollerPrime");
@@ -69,16 +84,32 @@ export default class PrimeDiceComponent extends Component {
         this.manageDiceBar(view);
     }
 
+    setNavPrimeValue(view) {
+        const prime = this.prime;
+        const value = prime != null ? prime.name : ''
+        const element = view.querySelector(".rollerBar .rollerPrime .value");
+        element.innerHTML = htmlToText(value);
+    }
+
+    setNavRefinementValue(view) {
+        const refinement = this.refinement;
+        const value = refinement != null ? refinement.name : ''
+        const element = view.querySelector(".rollerBar .rollerRefinement .value");
+        element.innerHTML = htmlToText(value);
+    }
+
     manageDiceBar(view) {
         const tabList = view.getElementsByClassName("rollerTab");
-        const tab =  tabList.item(0);
+        const tab = tabList.item(0);
         const diceBarList = view.getElementsByClassName("rollerBar");
-        const diceBar =  diceBarList.item(0);
-        if(this.ready){
+        const diceBar = diceBarList.item(0);
+        this.setNavPrimeValue(view);
+        this.setNavRefinementValue(view);
+        if (this.ready) {
             diceBar.classList.add('active');
             tab.classList.remove('rollerPreparing');
             tab.classList.add('rollerReady');
-        } else if(this.preparing){
+        } else if (this.preparing) {
             diceBar.classList.add('active');
             tab.classList.add('rollerPreparing');
             tab.classList.remove('rollerReady');
@@ -93,8 +124,8 @@ export default class PrimeDiceComponent extends Component {
     async roll() {
         if (this.ready) {
             const actor = this.document;
-            const prime = actor.stats.primes.getStatById(this.primeId);
-            const refinement = actor.stats.refinements.getStatById(this.refinementId);
+            const prime = this.prime;
+            const refinement = this.refinement;
             const primeValue = prime.value;
             const refinementValue = refinement.value;
             const total = primeValue + refinementValue;
