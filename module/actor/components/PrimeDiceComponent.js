@@ -30,6 +30,15 @@ export default class PrimeDiceComponent extends Component {
         return this.refinementId;
     }
 
+    dismiss({html}){
+        const view = html.view;
+        this.refinementId = null;
+        this.primeId = null;
+        removeAllCssClassesFromView(view, "selectedRollerRefinement");
+        removeAllCssClassesFromView(view, "selectedRollerPrime");
+        this.manageDiceBar(view);
+    }
+
     selectPrimeToRoll({id,  html}) {
         const {view, element} = html;
         console.log(id);

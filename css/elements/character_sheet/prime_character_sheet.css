@@ -313,6 +313,8 @@ h1.entityName
 	align-items: center;
 	margin-top: 0;
 	margin-bottom: 6px;
+	padding-left: 1em;
+	padding-right: 1em;
 
 	border-bottom-left-radius: 3px;
 	border-bottom-right-radius: 3px;

@@ -435,8 +435,23 @@
     color: #581818;
 }
 
-.primeCharacterSheet input.rollerModifier {
+.primeCharacterSheet .rollerModifier input {
     width: 30px;
     border-radius: 3px;
     background-color: var(--textLight);
+}
+
+.primeCharacterSheet .rollerClose {
+    font-size: 20px;
+    justify-self: flex-end;
+    text-align: end;
+}
+.primeCharacterSheet .rollerClose i{
+     transition: transform 1s ease-in-out, color 0.3s ease-in-out;
+ }
+.primeCharacterSheet .rollerClose i:hover{
+    transform: rotate(90deg);
+}
+.primeCharacterSheet .rollerClose i:active {
+    color: var(--foundryOrange);
 }

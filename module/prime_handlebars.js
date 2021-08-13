@@ -19,6 +19,8 @@ var primeHandlebarsPartialsPaths =
         "actorTabPerks": "systems/prime/templates/actor/partials/tabs/actor-perks-tab.html",
         "actorTabStatistics": "systems/prime/templates/actor/partials/tabs/actor-statistics-tab.html",
 
+        "actorDiceNav": "systems/prime/templates/actor/partials/actor-dice-nav.html",
+
         "itemListArmour": "systems/prime/templates/item/partials/list/item-list-armour.html",
         "itemListShield": "systems/prime/templates/item/partials/list/item-list-shield.html",
         "itemListGeneral": "systems/prime/templates/item/partials/list/item-list-general.html",

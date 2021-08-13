@@ -52,13 +52,7 @@
 		<a class="item tableTitle" data-tab="notes">Notes</a>
 	</nav>
     <div class="sheet-tabs tabs sub-nav rollerBar {{#if sheet.roller.preparing}}active{{/if}}">
-        <div></div>
-        <label for="rollerModifier">Modifier</label>
-        <input id="rollerModifier" class="rollerModifier" type="number" title="modifier" value="{{sheet.roller.modifier}}"
-               data-dyn-type="number"
-               data-dyn-change-at="sheet.roller.modifier"
-               data-dyn-render-off/>
-        <div></div>
+        {{> actorDiceNav}}
     </div>
 
 	<section class="sheet-body tabbedSection">
