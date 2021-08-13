@@ -418,31 +418,6 @@ export class PrimeActor extends DynDocumentMixin(Actor, 'actor')
 		return sortedDataClone;
 	}
 
-	getProcessedItems()
-	{
-		var filteredItems = this.filterAndCloneItemsByType();
-		return filteredItems;
-	}
-
-	filterAndCloneItemsByType()
-	{
-		var itemClonesByTypes = {}
-
-		this.items.forEach(function(currItem, key, map)
-		{
-			if (!itemClonesByTypes[currItem.type])
-			{
-				itemClonesByTypes[currItem.type] = [];
-			}
-
-			let processedCloneItem = currItem.getProcessedClone(currItem);
-
-			itemClonesByTypes[currItem.type].push(processedCloneItem);
-		});
-
-		return itemClonesByTypes;
-	}
-
 	getSortedActions()
 	{
 		var typeSortedActions = {};

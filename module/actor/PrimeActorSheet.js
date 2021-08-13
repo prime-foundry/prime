@@ -239,29 +239,30 @@ export class PrimeActorSheet extends DynApplicationMixin(ActorSheet) {
         }
     }
 
-    sortByItemOrder(itemA, itemB) {
-        const itemAPosition = this.currentItemSortList[itemA._id];
-        const itemBPosition = this.currentItemSortList[itemB._id];
+    getProcessedItems()
+    {
+        var itemClonesByTypes = {}
 
-        if ((!itemAPosition && itemAPosition !== 0) || itemAPosition == -1)	// Sorting data is missing or not generated yet - leave with initial order
+        this.items.forEach(function(currItem, key, map)
         {
-            return 0;
-        }
+            if (!itemClonesByTypes[currItem.type])
+            {
+                itemClonesByTypes[currItem.type] = [];
+            }
 
-        if (itemAPosition < itemBPosition) {
-            return -1;
-        }
-        if (itemAPosition > itemBPosition) {
-            return 1;
-        }
+            let processedCloneItem = currItem.getProcessedClone(currItem);
 
-        return 0;
+            itemClonesByTypes[currItem.type].push(processedCloneItem);
+        });
+
+        return itemClonesByTypes;
     }
 
+
     updateSortOrder(itemIndex, insertAfterIndex, itemType) {
-        //console.log("I would insert item '" + itemIndex + "' after item '" + insertAfterIndex + "'");
-        //a = b;
-        const processedItems = this.document.getProcessedItems();
+        if(itemIndex === insertAfterIndex){
+            return; // why bother?
+        }
         let itemsToSort;
         switch (itemType) {
             case "inventory":
@@ -271,6 +272,13 @@ export class PrimeActorSheet extends DynApplicationMixin(ActorSheet) {
                 itemsToSort = this.document.perks.ordered;
                 break;
             default:
+                const criteria = {
+                    itemCollection:this.document.items,
+                    matchAll: false,
+                    typed: true,
+                    itemBaseTypes: [itemType]
+                };
+                const processedItems = PrimeItemManager.getItems(criteria);
                 let currentItemSortList = this.object.data.data[itemType + "Order"] || {};
                 const sort = (itemA, itemB) => orderedSort(itemA, itemB, currentItemSortList);
                 itemsToSort = processedItems[itemType];
@@ -279,32 +287,22 @@ export class PrimeActorSheet extends DynApplicationMixin(ActorSheet) {
                 }
                 itemsToSort = (itemsToSort).sort(sort);
         }
-        const itemOrder = {};
 
-        // If we're going to be shrinking the array before the
-        // insertion point, we need to increase the insert index
-        // to compensate.
-        // to compensate.
-        if (insertAfterIndex >= itemIndex) {
-            insertAfterIndex--;
+        const moveHigher = insertAfterIndex > itemIndex; // are we moving higher (i.e. a greater index).
+
+        const movedItem = itemsToSort[itemIndex];
+        const start = itemsToSort.slice(0, moveHigher ? itemIndex : insertAfterIndex);
+        const end = itemsToSort.slice(moveHigher ? insertAfterIndex : itemIndex+1);
+        let all;
+        if(moveHigher){
+            const middle = itemsToSort.slice(itemIndex+1, insertAfterIndex);
+            all = [...start, ...middle, movedItem, ...end]; // quick concatenation
+        } else {
+            const middle = itemsToSort.slice(insertAfterIndex, itemIndex);
+            all = [...start, movedItem, ...middle, ...end]; // quick concatenation
         }
-
-        // Should match initial page order after this sort
-        let itemToReInsert = itemsToSort.splice(itemIndex, 1)[0];
-        itemsToSort.splice(insertAfterIndex, 0, itemToReInsert);
-
-        //this.bulkUpdatingOwnedItems = true;
-        let count = 0;
-        while (count < itemsToSort.length) {
-            let itemData = itemsToSort[count];
-
-            //let itemClass = this.object.items.get(itemData._id);
-            //itemClass.data.data.position = count;
-            itemOrder[itemData.id] = count
-            //await this.entity.updateOwnedItem(itemClass.data);
-            console.log("Count: " + count);
-            count++;
-        }
+        const allMapped = all.map((item, index) => [item.id, index]);
+        const itemOrder = Object.fromEntries(allMapped);
 
         switch (itemType) {
             case "inventory":
