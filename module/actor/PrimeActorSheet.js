@@ -1,4 +1,3 @@
-import {PrimeTables} from "../prime_tables.js";
 import {ItemCardUI} from "../item/item_card_ui.js";
 import {ItemDragSort} from "../item/item_drag_sort.js";
 
