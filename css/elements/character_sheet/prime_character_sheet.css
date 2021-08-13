@@ -308,6 +308,13 @@ h1.entityName
 	background-color: var(--textLight);
 }
 
+.primeCharacterSheet .item.tableTitle.icon{
+	position: relative;
+	font-size: 18px;
+	max-width: 36px;
+	transition: max-width 1s linear .5s;
+}
+
 .perksOuterWrapper
 {
 	overflow: auto;
@@ -532,7 +539,7 @@ h1.entityName
 	position: relative;
 	display: flex;
 	justify-content: flex-end;
-    align-items: center;
+	align-items: center;
 	cursor: pointer;
 }
 

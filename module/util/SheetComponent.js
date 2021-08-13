@@ -7,9 +7,10 @@
  * This allows us to have clean separation of logical model and physical data store, the data store being a horrible mess.
  * It should also make migration between versions a bit more manageable.
  */
-import SheetComponent from "./SheetComponent.js";
+import Component from "./Component.js";
 
-export default class Component {
+export default class SheetComponent {
+    sheet;
     parent;
     document;
     dyn;
@@ -19,7 +20,8 @@ export default class Component {
      */
     constructor(parent) {
         this.parent = parent;
-        this.document = parent instanceof Component || parent instanceof SheetComponent ? parent.document : parent;
+        this.sheet = parent instanceof SheetComponent ? parent.sheet : parent;
+        this.document = this.sheet.document
         this.dyn = this.document.dyn;
     }
 

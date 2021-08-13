@@ -39,6 +39,15 @@
 	</div>
 
 	<nav class="sheet-tabs tabs" data-group="primary">
+        <a class="item tableTitle icon {{#if sheet.roller.ready}}rollerReady{{else}}{{#if sheet.roller.preparing}}rollerPreparing{{/if}}{{/if}}"
+           title="Click a prime and a refinement, and then click me"><i class="fas fa-dice-d20"
+                                                                        data-dyn-click-at="sheet.roller.roll()" ></i>
+            {{#if sheet.roller.ready}}
+            <input class="rollerModifier" type="number" title="modifier" value="{{sheet.roller.modifier}}"
+                   data-dyn-type="Number"
+                   data-dyn-change-at="sheet.roller.modifier"/>
+            {{/if}}
+        </a>
 		<a class="item tableTitle" data-tab="statistics">Primes</a>
 		<a class="item tableTitle" data-tab="perks">Perks</a>
 		<a class="item tableTitle" data-tab="combat">Combat</a>

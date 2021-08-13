@@ -11,17 +11,24 @@ export class PRIME_DICE_ROLLER {
 		let data =
 		{
 			speaker,
-			user: game.user._id,
+			user: game.user.id,
 			type: CONST.CHAT_MESSAGE_TYPES.ROLL,
 			sound: CONFIG.sounds.dice,
 			content: messageContent,
 		};
 		data.roll = currentRoll;
 		let options = {rollMode: diceParams.rollMode};
-		CONFIG.ChatMessage.entityClass.create(data, options);
+		CONFIG.ChatMessage.documentClass.create(data, options);
 	}
 
 	getDiceResult(roll, diceParams) {
+		const modifiers = [
+			{name:diceParams.prime.name, value:diceParams.prime.value},
+			{name:diceParams.refinement.name, value:diceParams.refinement.value}
+		];
+		if(diceParams.modifier){
+			modifiers.push({name:"Modifier", value:diceParams.modifier});
+		}
 		return {
 			actorID: diceParams.actor.id,
 			actor: diceParams.actor.name,
@@ -32,7 +39,7 @@ export class PRIME_DICE_ROLLER {
 			totalDice: roll.total,
 			total: diceParams.total + roll.total,
 			rollMode: diceParams.rollMode,
-			modifiers: this.getDiceModifiers(diceParams)
+			modifiers
 		};
 	}
 	getDiceModifiers(diceParams) {
