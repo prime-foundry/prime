@@ -89,6 +89,30 @@ export class PrimeActorSheet extends DynApplicationMixin(ActorSheet) {
         return data;
     }
 
+    actionPointClicked({html}){
+        const nextValue = this.actor.actionPoints.value;
+        const element = html.element;
+        const parent = element.parentElement;
+        const container = parent.parentElement;
+        const wrappers = Array.from(container.children);
+        wrappers.forEach(wrapper => {
+            const inputElement = wrapper.getElementsByTagName('input').item(0);
+            const thisValue = Number.parseInt(inputElement.dataset.dynValue);
+            inputElement.dataset.dynCurrent=`${nextValue}`;
+
+            if(thisValue == nextValue){
+                wrapper.classList.add("activePoint");
+                wrapper.classList.add("currentPointTotal");
+            } else if(thisValue < nextValue) {
+                wrapper.classList.add("activePoint");
+                wrapper.classList.remove("currentPointTotal");
+            } else {
+                wrapper.classList.remove("activePoint");
+                wrapper.classList.remove("currentPointTotal");
+            }
+        });
+    }
+
     getCharacterNameClass(whatName) {
         const canvas = document.createElement('canvas');
         const canvasContext = canvas.getContext('2d');

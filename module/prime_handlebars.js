@@ -254,27 +254,13 @@ Handlebars.registerHelper('itemChecked', function (checkedState) {
 
 Handlebars.registerHelper('addStateClasses', function (pointIndex, basePointData) {
     const current = basePointData.value;
-    const lastTotal = basePointData.lastTotal;
-    var classes = []
-
+    const classes = []
     if (pointIndex <= current) {
         classes.push("activePoint");
     }
     if (pointIndex == current) {
         classes.push("currentPointTotal");
     }
-
-    // the following is a bit broken.
-
-    // if (lastTotal > current) {
-    //     if (pointIndex > current && pointIndex <= lastTotal) {
-    //         classes.push("emptyAnimation");
-    //     }
-    // } else if (lastTotal < current) {
-    //     if (pointIndex > lastTotal && pointIndex <= current) {
-    //         classes.push("fillAnimation");
-    //     }
-    // }
     if (classes.length > 0) {
         return " " + classes.join(" ");
     }

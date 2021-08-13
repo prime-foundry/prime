@@ -3,12 +3,13 @@
     <div class="blockTitle"><span>Action points</span></div>
     <div class="metaValueContent actionPointsWrapper flexGrow">
         {{#range 0 actionPoints.max 1 false}}
-        <div class='actionPointWrapper{{addStateClasses this ../actionPoints}}'>
+        <div class='actionPointWrapper {{addStateClasses this @root.actor.actionPoints}}'>
             <input id="actionPoint-{{this}}" class="actionPointCheckbox" type="checkbox"
-                   data-dyn-change-at="actor.actionPoints"
+                   data-dyn-change-at="actor.actionPoints, sheet.actionPointClicked()"
                    data-dyn-type="counter"
                    data-dyn-value="{{this}}"
-                   data-dyn-current="{{../actionPoints.value}}"/>
+                   data-dyn-current="{{@root.actor.actionPoints.value}}"
+                   data-dyn-render-off/>
             <label for="actionPoint-{{this}}">{{this}}</label>
         </div>
         {{/range}}
