@@ -147,8 +147,6 @@ export class XP extends AwardableBase {
 
     get spent() {
         if (this.document.isCharacter()) {
-            // TODO: totalcost and totalperkcost don't belong in the actor class directly.
-            // TODO will not work with V2 chars.
             const refinementCost = this.document.stats.refinements.cost;
             const perkXPCost = PrimeModifierManager.getCostsForType(this.document.items, "xp");
             return refinementCost + perkXPCost;
@@ -189,8 +187,6 @@ export class Soul extends AwardableBase {
 
     get spent() {
         if (this.document.isCharacter()) {
-            // TODO: totalcost and totalperkcost don't belong in the actor class directly.
-            // TODO will not work with V2 chars.
             const primeCost = this.document.stats.primes.cost;
             const perkSoulCost = PrimeModifierManager.getCostsForType(this.document.items, "soul");
             return primeCost + perkSoulCost;

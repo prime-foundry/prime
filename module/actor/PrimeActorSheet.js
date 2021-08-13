@@ -8,7 +8,7 @@ import {orderedSort} from "../util/support.js";
 
 export class PrimeActorSheet extends DynApplicationMixin(ActorSheet) {
     static hooksAdded = false;
-    resizeOccuring = false;
+    resizeOccurring = false;
     actorSheetMeasureTimer = false;
     updateWidthClassInterval = 50;
 
@@ -153,12 +153,12 @@ export class PrimeActorSheet extends DynApplicationMixin(ActorSheet) {
 
 
     resizeUpdateStart(event) {
-        this.resizeOccuring = true;
+        this.resizeOccurring = true;
         this.createWidthUpdateTimer();
     }
 
     createWidthUpdateTimer() {
-        if (this.resizeOccuring) {
+        if (this.resizeOccurring) {
             this.actorSheetMeasureTimer = window.setTimeout(this.updateWidthClasses.bind(this), this.updateWidthClassInterval);
         } else {
             this.clearMeasureTimer();
@@ -183,7 +183,7 @@ export class PrimeActorSheet extends DynApplicationMixin(ActorSheet) {
     }
 
     resizeUpdateEnd(event) {
-        this.resizeOccuring = false;
+        this.resizeOccurring = false;
         this.updateWidthClasses()
     }
 
