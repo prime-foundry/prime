@@ -14,6 +14,7 @@
     --borderGreyAlphaOff: hsl(0, 0%, 50%, 0);
 
     --textDark: hsl(50, 14%, 9%);
+    --textDarkish: hsl(50, 14%, 15%);
     --textGrey: rgb(109, 109, 109);
 	--textLight: hsl(60, 35%, 91%);
 	

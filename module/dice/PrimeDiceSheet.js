@@ -1,7 +1,7 @@
 import {PRIME_DICE_ROLLER} from "./prime_dice_roller.js";
 import PrimeDie from './PrimeDie.js';
 
-export class PRIME_DICE_POPUP extends Application {
+export class PrimeDiceSheet extends Application {
     diceRoller = new PRIME_DICE_ROLLER();
     currentActor = null;
     sortedStats = {};

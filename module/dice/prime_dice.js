@@ -1,4 +1,4 @@
-import { PRIME_DICE_POPUP } from "./prime_dice_popup.js";
+import { PrimeDiceSheet } from "./PrimeDiceSheet.js";
 
 export class PRIME_DICE {
 	static dicePopup = null;
@@ -24,7 +24,7 @@ export class PRIME_DICE {
 	static openPrimeDice(title, left, top) {
 		let options = { left: left, top: top, log: title };
 		if (!PRIME_DICE.dicePopup) {
-			PRIME_DICE.dicePopup = new PRIME_DICE_POPUP(options);
+			PRIME_DICE.dicePopup = new PrimeDiceSheet(options);
 		} else if (left || top) {
 			PRIME_DICE.dicePopup.position.left = left;
 			PRIME_DICE.dicePopup.position.top = top;

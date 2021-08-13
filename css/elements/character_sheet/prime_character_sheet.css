@@ -288,10 +288,39 @@ h1.entityName
 
 .primeCharacterSheet .sheet-tabs.tabs
 {
-	margin: 10px -8px 6px -8px;
+	margin: 10px -8px 0 -8px;
 	background-color: var(--textDark);
 	border-color: var(--borderGrey);
 	height:34px;
+}
+
+
+.primeCharacterSheet .sheet-tabs.tabs.sub-nav
+{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 0;
+	margin-bottom: 6px;
+
+	border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
+	border-bottom: 1px solid var(--borderGrey);
+
+	color: var(--textLight);
+	background: var(--textDarkish);
+/*rgba(0,0,0,0.05);*/
+
+	transition: height 0.9s linear, margin-bottom 0.15s linear;
+	height: 0px;
+	overflow: hidden;
+}
+
+.primeCharacterSheet .sheet-tabs.tabs.sub-nav.active
+{
+	margin-top: 0;
+	margin-bottom: 0px;
+	height: 36px;
 }
 
 .primeCharacterSheet .item.tableTitle

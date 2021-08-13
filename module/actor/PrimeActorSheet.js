@@ -4,7 +4,7 @@ import {ItemDragSort} from "../item/item_drag_sort.js";
 import {PrimeItemManager} from "../item/PrimeItemManager.js";
 import {DynApplicationMixin} from "../util/DynFoundryMixins.js";
 import {getComponentLazily, orderedSort} from "../util/support.js";
-import PrimeActorRoller from "./PrimeActorRoller.js";
+import PrimeDiceComponent from "./components/PrimeDiceComponent.js";
 
 export class PrimeActorSheet extends DynApplicationMixin(ActorSheet) {
     static hooksAdded = false;
@@ -20,7 +20,7 @@ export class PrimeActorSheet extends DynApplicationMixin(ActorSheet) {
     }
 
     get roller(){
-        return getComponentLazily(this,'roller', PrimeActorRoller);
+        return getComponentLazily(this,'roller', PrimeDiceComponent);
     }
 
     renderOnItemChange(itemDoc) {

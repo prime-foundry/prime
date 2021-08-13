@@ -6,23 +6,43 @@
  *
  * This allows us to have clean separation of logical model and physical data store, the data store being a horrible mess.
  * It should also make migration between versions a bit more manageable.
+ *
+ * A component is always tied to a single document, where it will make the changes.
  */
-import SheetComponent from "./SheetComponent.js";
+import {DynError} from "./support.js";
 
 export default class Component {
     parent;
-    document;
-    dyn;
+    rootComponent;
 
     /**
-     * @param {PrimeDocument | Component} parent
+     * @param {foundry.abstract.Document | Component | DocumentSheet | {document: foundry.abstract.Document}} parent
      */
     constructor(parent) {
         this.parent = parent;
-        this.document = parent instanceof Component || parent instanceof SheetComponent ? parent.document : parent;
-        this.dyn = this.document.dyn;
+
+        let getter;
+        if(parent instanceof Component){
+            this.rootComponent = parent.rootComponent;
+            // get document on root
+            getter =  () => this.rootComponent.document;
+        } else if(parent instanceof foundry.abstract.Document){
+            this.rootComponent = this;
+            // get document on self
+            getter =  () => this.parent;
+        } else if(parent.document !== undefined){
+            this.rootComponent = this;
+            // get document on parent
+            getter =  () => this.parent.document;
+        } else {
+            throw new DynError("parent must either be a Document, or provide a 'document' getter/value for a Document");
+        }
+        Object.defineProperty(this, 'document', {enumerable:true, get:getter});
     }
 
+    get dyn(){
+        return this.document.dyn;
+    }
 
     /**
      * The base foundryData of any document, generally it follows a fixed structure, as defined by a schema.

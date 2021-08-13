@@ -11,7 +11,7 @@
     "module/dyn_handlebars.js",
     "module/prime_system_core.js",
     "module/prime_handlebars.js",
-    "module/prime_dice/prime_dice.js"
+    "module/prime_controls/prime_controls_core.js"
   ],
   "styles": ["css/core_imports.css"],
   "scripts": ["lib/chroma.min.js"],

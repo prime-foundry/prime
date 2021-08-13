@@ -9,7 +9,7 @@ export class StaticModel {
     static _staticModels = null;
 
     static registerStaticModel(name, model) {
-        if(StaticModel._staticModels == null){
+        if (StaticModel._staticModels == null) {
             StaticModel._staticModels = {};
         }
         StaticModel._staticModels[name] = model;
@@ -17,7 +17,7 @@ export class StaticModel {
     }
 
     static appendStaticModel(model) {
-        if(model.static == null && StaticModel._staticModels != null){
+        if (model.static == null && StaticModel._staticModels != null) {
             model.static = StaticModel._staticModels;
         }
         return StaticModel;
@@ -41,7 +41,7 @@ class GlobalTypeRegistry {
 
     static get(modelName, typeName) {
         const typeRegistry = GlobalTypeRegistry.getTypeRegistry(modelName);
-        if(typeRegistry == null){
+        if (typeRegistry == null) {
             return null;
         }
         return typeRegistry.get(typeName);
@@ -75,6 +75,7 @@ class DynModel {
     modelName;
     typeProperty;
     updateListeners;
+
     constructor(managed, modelName, typeProperty) {
         this.managed = managed;
         this.dataManager = new DataManager(this.managed);
@@ -121,8 +122,8 @@ class DynModel {
     /**
      * @returns {JSONPathBuilder}
      */
-    get foundryDataPath(){
-        if(this._foundryDataPath == null) {
+    get foundryDataPath() {
+        if (this._foundryDataPath == null) {
             this._foundryDataPath = JSONPathBuilder.from('data');
         }
         return this._foundryDataPath;
@@ -131,8 +132,8 @@ class DynModel {
     /**
      * @returns {JSONPathBuilder}
      */
-    get gameSystemPath (){
-        if(this._gameSystemPath == null) {
+    get gameSystemPath() {
+        if (this._gameSystemPath == null) {
             this._gameSystemPath = this.foundryDataPath.with('data');
         }
         return this._gameSystemPath;
@@ -148,10 +149,10 @@ class DynModel {
         return this.dataManager.write(pathComponents, value);
     }
 
-    registerUpdateListener(updateListener, before=true){
+    registerUpdateListener(updateListener, before = true) {
         // a little cleanup, of any dangling references.
-        this.updateListeners.forEach((value,listener,map) => {
-            if(listener.deref() == null) {
+        this.updateListeners.forEach((value, listener, map) => {
+            if (listener.deref() == null) {
                 map.delete(listener);
             }
         });
@@ -160,11 +161,11 @@ class DynModel {
         this.updateListeners.set(new WeakRef(updateListener), before);
     }
 
-    executeUpdateListeners(isBefore){
+    executeUpdateListeners(isBefore) {
 
         Array.from(this.updateListeners.entries())
             .filter(([, before]) => before === isBefore)
-            .map(([listener,]) => listener.deref() )
+            .map(([listener,]) => listener.deref())
             .filter(listener => listener != null)
             .forEach((listener) => listener.onUpdate());
 
@@ -205,15 +206,14 @@ export const DynDocumentMixin = (FoundryDocumentType, modelName = 'doc', typePro
         registerDynTypes(registry) {
         }
 
-        async _preUpdate(...args)
-        {
+        async _preUpdate(...args) {
             const result = await super._preUpdate(...args);
             this.dyn.executeUpdateListeners(true);
             return result;
         }
 
         _onUpdate(...args) {
-            const result =  super._onUpdate(...args);
+            const result = super._onUpdate(...args);
             this.dyn.executeUpdateListeners(false);
             return result;
         }
@@ -331,10 +331,9 @@ export const EmbeddedDocumentMixin = (EmbeddedDocumentType) =>
 
         displaySource(document = this.document) {
             let documentToLoad = document;
-            if( this._sourceKey != null && !this._customisable )
-            {
+            if (this._sourceKey != null && !this._customisable) {
                 const original = this._directory.collection.get(this._sourceKey);
-                if(original != null){
+                if (original != null) {
                     documentToLoad = original;
                 } else {
                     console.warn(`Unable to find original document ${this._sourceKey} when looking in:`, this._directory)
@@ -354,3 +353,4 @@ export const EmbeddedDocumentMixin = (EmbeddedDocumentType) =>
             }
         }
     };
+
