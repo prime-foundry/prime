@@ -239,26 +239,6 @@ export class PrimeActorSheet extends DynApplicationMixin(ActorSheet) {
         }
     }
 
-    getProcessedItems()
-    {
-        var itemClonesByTypes = {}
-
-        this.items.forEach(function(currItem, key, map)
-        {
-            if (!itemClonesByTypes[currItem.type])
-            {
-                itemClonesByTypes[currItem.type] = [];
-            }
-
-            let processedCloneItem = currItem.getProcessedClone(currItem);
-
-            itemClonesByTypes[currItem.type].push(processedCloneItem);
-        });
-
-        return itemClonesByTypes;
-    }
-
-
     updateSortOrder(itemIndex, insertAfterIndex, itemType) {
         if(itemIndex === insertAfterIndex){
             return; // why bother?
