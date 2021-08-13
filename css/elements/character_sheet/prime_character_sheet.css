@@ -295,6 +295,17 @@ h1.entityName
 }
 
 
+.primeCharacterSheet .sheet-tabs.tabs.sub-nav > *{
+	opacity: 0;
+	transition: opacity 1.3s ease-in-out;
+	overflow: hidden;
+}
+
+.primeCharacterSheet .sheet-tabs.tabs.sub-nav.active > *{
+	opacity: 1;
+ }
+
+
 .primeCharacterSheet .sheet-tabs.tabs.sub-nav
 {
 	display: flex;
@@ -311,7 +322,7 @@ h1.entityName
 	background: var(--textDarkish);
 /*rgba(0,0,0,0.05);*/
 
-	transition: height 0.9s linear, margin-bottom 0.15s linear;
+	transition: height 0.9s ease-in-out, margin-bottom 0.15s linear;
 	height: 0px;
 	overflow: hidden;
 }
@@ -322,6 +333,7 @@ h1.entityName
 	margin-bottom: 0px;
 	height: 36px;
 }
+
 
 .primeCharacterSheet .item.tableTitle
 {

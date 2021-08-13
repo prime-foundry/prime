@@ -1,24 +1,24 @@
 import { PRIME_DICE } from "../dice/prime_dice.js";
 import { AWARD_XP } from "../xp/award_xp.js";
 
-Hooks.on("getSceneControlButtons", (controls) => {
-
-    const isGM = game.user.isGM;
-    const basicControls = controls[0];
-    basicControls.tools.push({
-        name: "prime-roll",
-        title: game.i18n.localize("PRIME.controls_roll_title"),
-        icon: "fas fa-dice-d20",
-        button: true,
-        // onClick: () => PRIME_DICE.openPrimeDice("primeControl"),
-    });
-    basicControls.tools.push({
-        name: "prime-xp",
-        title: game.i18n.localize("PRIME.controls_xp_title"),
-        icon: "game-icon game-icon-trophy-cup",
-        visible: isGM,
-    });
-});
+// Hooks.on("getSceneControlButtons", (controls) => {
+//
+//     const isGM = game.user.isGM;
+//     const basicControls = controls[0];
+//     basicControls.tools.push({
+//         name: "prime-roll",
+//         title: game.i18n.localize("PRIME.controls_roll_title"),
+//         icon: "fas fa-dice-d20",
+//         button: true,
+//         // onClick: () => PRIME_DICE.openPrimeDice("primeControl"),
+//     });
+//     basicControls.tools.push({
+//         name: "prime-xp",
+//         title: game.i18n.localize("PRIME.controls_xp_title"),
+//         icon: "game-icon game-icon-trophy-cup",
+//         visible: isGM,
+//     });
+// });
 
 
 
