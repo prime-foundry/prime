@@ -11,7 +11,7 @@ function removeAllCssClassesFromView(view, cssClass) {
     }
 }
 
-export default class PrimeDiceComponent extends Component {
+export default class ActorDiceController extends Component {
 
     open = false;
     primeId;
