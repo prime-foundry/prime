@@ -38,6 +38,15 @@ export default class Actions extends Component {
         return actions;
     }
 
+    /**
+     * Will return the action, or null if the character doesn't have that action.
+     * @param id
+     * @returns {Action}
+     */
+    getAction(id){
+        return this.collection.find(action => action.id === id);
+    }
+
     get categorized() {
         return this.categorizeActions(this.collection);
     }

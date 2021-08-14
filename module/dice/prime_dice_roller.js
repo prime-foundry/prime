@@ -30,6 +30,7 @@ export class PRIME_DICE_ROLLER {
 			modifiers.push({name:"Modifier", value:diceParams.modifier});
 		}
 		return {
+			action: diceParams.action,
 			actorID: diceParams.actor.id,
 			actor: diceParams.actor.name,
 			user: diceParams.user.name,

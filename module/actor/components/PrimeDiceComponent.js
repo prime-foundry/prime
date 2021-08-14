@@ -16,6 +16,7 @@ export default class PrimeDiceComponent extends Component {
     open = false;
     primeId;
     refinementId;
+    actionId;
     modifier = 0;
     visibility = 'roll';
 
@@ -31,10 +32,21 @@ export default class PrimeDiceComponent extends Component {
         return this.primeId;
     }
 
+    get selectedActionId() {
+        return this.actionId;
+    }
+
     get prime() {
         const actor = this.document;
         const prime = actor.stats.primes.getStatById(this.primeId);
         return prime;
+    }
+
+    get action(){
+
+        const actor = this.document;
+        const action = actor.actions.getAction(this.actionId);
+        return action;
     }
 
     get refinement() {
@@ -50,8 +62,16 @@ export default class PrimeDiceComponent extends Component {
     dismiss({html}) {
         const view = html.view;
         this.open = false;
-        removeAllCssClassesFromView(view, "selectedRollerRefinement");
-        removeAllCssClassesFromView(view, "selectedRollerPrime");
+        this.manageDiceBar(view);
+    }
+    selectActionToRoll({id, html}) {
+        const {view, element} = html;
+        this.open = true;
+        if (this.actionId === id) {
+            this.actionId = null;
+        } else {
+            this.actionId = id;
+        }
         this.manageDiceBar(view);
     }
 
@@ -75,6 +95,12 @@ export default class PrimeDiceComponent extends Component {
             this.refinementId = id;
         }
         this.manageDiceBar(view);
+    }
+    setNavActionText(view) {
+        const action = this.action;
+        const value = action != null ? `${action.name}` : ''
+        const element = view.querySelector(".rollerBar .rollerAction .text");
+        element.innerHTML = htmlToText(value);
     }
     setNavPrimeText(view) {
         const prime = this.prime;
@@ -112,6 +138,7 @@ export default class PrimeDiceComponent extends Component {
         this.setNavRefinementValue(view);
         this.setNavPrimeText(view);
         this.setNavRefinementText(view);
+        this.setNavActionText(view);
         if (this.ready) {
             diceBar.classList.add('active');
             tab.classList.remove('rollerPreparing');
@@ -127,6 +154,8 @@ export default class PrimeDiceComponent extends Component {
         }
         removeAllCssClassesFromView(view, "selectedRollerPrime");
         removeAllCssClassesFromView(view, "selectedRollerRefinement");
+        removeAllCssClassesFromView(view, "selectedRollerAction");
+
         if(this.open){
             if(this.primeId != null){
                 const primeElement = view.querySelector(`.primeWrapper[data-prime-id="${this.primeId}"]`);
@@ -135,6 +164,10 @@ export default class PrimeDiceComponent extends Component {
             if(this.refinementId != null) {
                 const refinementElement = view.querySelector(`.refinementWrapper[data-refinement-id="${this.refinementId}"]`);
                 refinementElement.classList.add("selectedRollerRefinement");
+            }
+            if(this.actionId != null) {
+                const actionElement = view.querySelector(`.itemCardAction[data-dyn-id="${this.actionId}"]`);
+                actionElement.classList.add("selectedRollerAction");
             }
         }
     }
@@ -152,7 +185,9 @@ export default class PrimeDiceComponent extends Component {
             const roller = new PRIME_DICE_ROLLER();
             const rollMode = this.visibility;
             const modifier = this.modifier;
+            const action = this.action == null ? null : this.action.name;
             const diceParams = {
+                action,
                 user: users[0],
                 actor,
                 rollMode,
@@ -161,7 +196,10 @@ export default class PrimeDiceComponent extends Component {
                 total,
                 modifier
             };
-            await roller.rollPrimeDice(diceParams)
+            this.applyAfterEffects(html)
+            // must be at the end of the function, as it will commit changes mid flow,
+            // and cause an external refresh meaning changes may not always apply.
+            await roller.rollPrimeDice(diceParams);
         } else if(this.open) {
             this.dismiss({html});
         } else {
@@ -170,7 +208,15 @@ export default class PrimeDiceComponent extends Component {
 
             this.manageDiceBar(html.view);
 
-            // find the element on the view and reshow those elements.
+        }
+    }
+
+    applyAfterEffects(html) {
+        const action = this.action;
+        if(action != null) {
+            const ap = action.actionPoints;
+            this.document.actionPoints.value = this.document.actionPoints.value - ap;
+            this.parent.actionPointClicked({html});
         }
     }
 }

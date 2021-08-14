@@ -21,6 +21,7 @@
 	--titleBackground: hsl(51, 26%, 75%);
 
     --actionBackgroundColor: hsl(53, 100%, 97%);
+    --selectedActionBackgroundColor: hsl(53, 100%, 90%);
     --perkBackgroundColor: hsl(352, 100%, 97%);
     --inactivePerkBackgroundColor: hsl(352, 10%, 80%);
     

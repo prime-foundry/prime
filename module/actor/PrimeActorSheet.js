@@ -91,10 +91,9 @@ export class PrimeActorSheet extends DynApplicationMixin(ActorSheet) {
 
     actionPointClicked({html}){
         const nextValue = this.actor.actionPoints.value;
-        const element = html.element;
-        const parent = element.parentElement;
-        const container = parent.parentElement;
-        const wrappers = Array.from(container.children);
+        const view = html.view;
+        const wrapperElements = view.querySelectorAll(".actionPointWrapper");
+        const wrappers = Array.from(wrapperElements);
         wrappers.forEach(wrapper => {
             const inputElement = wrapper.getElementsByTagName('input').item(0);
             const thisValue = Number.parseInt(inputElement.dataset.dynValue);

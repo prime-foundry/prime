@@ -78,6 +78,13 @@
     align-content: center;
 }
 
+.diceMessage .prime-dice-action{
+    flex-basis: 100%;
+    min-width:100%;
+    max-width: 100%;
+    text-align: center;
+}
+
 .diceMessage .prime-dice-actor {
     flex-basis: 15%;
     min-width:15%;
@@ -431,6 +438,11 @@
     font-weight: bold;
     font-size: larger;
     color: #581818;
+}
+
+.primeCard.itemCardAction.selectedRollerAction
+{
+    background-color: var(--selectedActionBackgroundColor);
 }
 
 .primeCharacterSheet .rollerBar select,

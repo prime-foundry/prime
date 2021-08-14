@@ -1,4 +1,7 @@
-<div class="primeCard itemCard itemCardAction action{{this.source.actionType}}">
+    <div class="primeCard itemCard itemCardAction action{{this.source.actionType}} {{#if (and @root.sheet.roller.open (equal this.id @root.sheet.roller.selectedActionId))}}selectedRollerAction{{/if}}"
+         data-dyn-click-at="sheet.roller.selectActionToRoll()"
+         data-dyn-render-off
+         data-dyn-id="{{this.id}}">
     <div class="cardTitle"><a class="itemTitle"
                               data-dyn-click-at="actor.actions.displayAction()"
                               data-dyn-click-id="{{this.id}}">{{this.source.name}}</a></div>
