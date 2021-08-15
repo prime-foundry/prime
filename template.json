@@ -506,7 +506,7 @@
 				"metadata": {
 					"setting": "",
 					"default": false,
-					"customisable": false
+					"customisable": false 
 				}
 			},
 			"valuable": {

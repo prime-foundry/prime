@@ -43,7 +43,6 @@ export default class BaseItem extends Component {
         return getComponentLazily(this, 'descriptions', Descriptions);
     }
 
-
     /**
      * @return {Audit}
      */
@@ -56,5 +55,16 @@ export default class BaseItem extends Component {
      */
     get type() {
         return this.foundryData.type;
+    }
+
+    /**
+     * @return {string}
+     */
+    get setting() {
+        return this.metadata.setting;
+    }
+
+    set setting(whatSetting){
+        this.write(this.gameSystemPath.with('metadata.setting'), whatSetting);
     }
 }
