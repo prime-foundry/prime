@@ -20,6 +20,17 @@ function random32BitInt() {
     return (Math.random() * 4294967296) >>> 0;
 }
 
+const primeHandlebarsPartialsAsTemplates = {};
+
+function partialAsTemplate(partialName) {
+    let template = primeHandlebarsPartialsAsTemplates[partialName];
+    if (template == null) {
+        template = Handlebars.compile(`{{> ${partialName} }}`);
+        primeHandlebarsPartialsAsTemplates[partialName] = template;
+    }
+    return template;
+}
+
 export default class Controller {
     models;
     dynKey;
@@ -51,6 +62,24 @@ export default class Controller {
 
     getModelValue(at, inputDyn) {
         return this._support.getModelValue(at, inputDyn);
+    }
+
+
+
+    /**
+     * Needs work...
+     * @param partialName
+     * @param domElementToReplace
+     * @param context
+     */
+    rerenderPartial(partialName, view, domElementToReplace, context= {}) {
+        const handlebarsTemplate = partialAsTemplate(partialName);
+        const rendered = handlebarsTemplate(context).trim();
+        const htmlTemplate = document.createElement('template'); // template was designed for this purpose.
+        htmlTemplate.innerHTML = rendered;
+        const newElement = htmlTemplate.content.firstChild;
+        domElementToReplace.replaceWith(newElement);
+        this._support.control(newElement, view);
     }
 }
 
@@ -103,23 +132,33 @@ class ControllerSupport {
     }
 
 
-    control(view) {
+    /**
+     * Element is the parent element, where you want to attach all the control logic.
+     * View is the parent view provided in the event, typically this would be the application sheet,
+     * If view is not provided it defaults to the element.
+     *
+     * @param element
+     * @param view
+     */
+    control(element, view = null) {
+        if(view == null){
+            view = element;
+        }
         try {
-            this.fixIds(view);
-            this.hideShowElements(view);
-            this.disableEnableElements(view);
-            this.preselectValues(view);
-            this.attachEditors(view);
-            // we take advantage of lambdas, to sidestep problems with 'this' changing.
+            this.fixIds(element);
+            this.hideShowElements(element);
+            this.disableEnableElements(element);
+            this.preselectValues(element);
+
             const onClick = this.clickListener(this, view);
             const onChange = this.changeListener(this, view);
 
-            this.attachListener(view, 'click', "*", onClick);
-            this.attachListener(view, 'dblclick', "*", onClick);
-            this.attachListener(view, 'change', "input", onChange);
-            this.attachListener(view, 'change', "textarea", onChange);
-            this.attachListener(view, 'oninput', "textarea", onChange);
-            this.attachListener(view, 'change', "select", onChange);
+            this.attachListener(element, 'click', "*", onClick);
+            this.attachListener(element, 'dblclick', "*", onClick);
+            this.attachListener(element, 'change', "input", onChange);
+            this.attachListener(element, 'change', "textarea", onChange);
+            this.attachListener(element, 'oninput', "textarea", onChange);
+            this.attachListener(element, 'change', "select", onChange);
         } catch (err) {
             console.error('unable to bind view', err);
         }
@@ -174,7 +213,7 @@ class ControllerSupport {
         const elements = view.querySelectorAll(selector);
         const controller = this.controller;
         elements.forEach(element => {
-            element.addEventListener(eventType, listener.bind(controller), {capture: true});
+            element.addEventListener(eventType, listener.bind(controller));
         }, this);
     }
 
@@ -225,24 +264,6 @@ class ControllerSupport {
             }
         }, null);
         return result;
-    }
-
-    /**
-     *
-     * #MARKED_SAFE_FROM_JQUERY
-     * @param view
-     */
-    attachEditors(view) {
-        const elements = view.querySelectorAll(`:scope *[${this.dataKey}-editor]`);
-        elements.forEach(element => {
-
-            if ('editorAttached' in element.dataset === false) {
-                const id = element.id || '';
-                element.id = `dyn-editor-${id}-${this.dynKey}-${this.uid}-${random32BitInt()}`;
-                attachEditor(element);
-                element.dataset.dynEditorAttached = 'true';
-            }
-        }, this);
     }
 
     /**

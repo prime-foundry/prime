@@ -5,7 +5,7 @@ export class ActionEffects extends Component {
 
 	get collection() {
 		return Array.from(this.gameSystem.actionEffects || []).map((actionEffects, index) => {
-			return new Action(this, index);
+			return new ActionEffect(this, index);
 		});
 	}
 
@@ -28,7 +28,7 @@ export class ActionEffects extends Component {
 	}
 }
 
-export class Action extends Component {
+export class ActionEffect extends Component {
 	index;
 
 	constructor(parent, index) {

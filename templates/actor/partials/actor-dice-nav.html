@@ -1,26 +1,30 @@
-<div class="rollerPrime"><span class="text" title="Prime">{{sheet.roller.prime.name}}:</span> <span class="value">{{sheet.roller.prime.value}}</span></div>
-<div class="rollerRefinement"><span class="text" title="Refinement">{{sheet.roller.refinement.name}}:</span> <span class="value">{{sheet.roller.refinement.value}}</span></div>
-<div class="rollerPerks"></div>
-<div class="rollerAction"><span class="text" title="Action">{{sheet.roller.action.name}}</span></div>
-<div class="rollerItem"></div>
-<div class="rollerModifier">
-<label for="rollerModifier">Mod:</label>
-<input id="rollerModifier" type="number" title="Modifier" value="{{sheet.roller.modifier}}"
-       data-dyn-type="number"
-       data-dyn-change-at="sheet.roller.modifier"
-       data-dyn-render-off/>
+<div class="sub-nav rollerBar {{#if sheet.roller.preparing}}active{{/if}}">
+    <div class="rollerPrime"><span class="text" title="Prime">{{sheet.roller.prime.name}}:</span> <span
+            class="value">{{sheet.roller.prime.value}}</span></div>
+    <div class="rollerRefinement"><span class="text" title="Refinement">{{sheet.roller.refinement.name}}:</span> <span
+            class="value">{{sheet.roller.refinement.value}}</span></div>
+    <div class="rollerPerks"></div>
+    <div class="rollerAction"><span class="text" title="Action">{{sheet.roller.action.name}}</span></div>
+    <div class="rollerItem"></div>
+    <div class="rollerModifier">
+        <label for="rollerModifier">Mod:</label>
+        <input id="rollerModifier" type="number" title="Modifier" value="{{sheet.roller.modifier}}"
+               data-dyn-type="number"
+               data-dyn-change-at="sheet.roller.modifier"
+               data-dyn-render-off/>
+    </div>
+    <div class="rollerVisibility">
+        <select name="visibility"
+                data-dyn-change-at="sheet.roller.visibility"
+                data-dyn-select="sheet.roller.visibility"
+                title="Visibility">
+            <option value="roll">Public</option>
+            <option value="gmroll">GM</option>
+            <option value="blindroll">Blind</option>
+            <option value="selfroll">Self</option>
+        </select></div>
+    <div class="rollerClose"><i
+            data-dyn-click-at="sheet.roller.dismiss()"
+            data-dyn-render-off
+            class="fas fa-chevron-circle-left"></i></div>
 </div>
-<div class="rollerVisibility">
-    <select name="visibility"
-            data-dyn-change-at="sheet.roller.visibility"
-            data-dyn-select="sheet.roller.visibility"
-            title="Visibility">
-        <option value="roll">Public</option>
-        <option value="gmroll">GM</option>
-        <option value="blindroll">Blind</option>
-        <option value="selfroll">Self</option>
-    </select></div>
-<div class="rollerClose"><i
-        data-dyn-click-at="sheet.roller.dismiss()"
-        data-dyn-render-off
-        class="fas fa-chevron-circle-left"></i></div>

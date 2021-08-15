@@ -1,6 +1,7 @@
 import Component from "../../util/Component.js";
 import {PRIME_DICE_ROLLER} from "../../dice/prime_dice_roller.js";
 import {htmlToText} from "../../util/support.js";
+import {PrimeHandlebarsPartials} from "../../prime_handlebars.js";
 
 function removeAllCssClassesFromView(view, cssClass) {
 
@@ -134,6 +135,8 @@ export default class ActorDiceController extends Component {
         const tab = tabList.item(0);
         const diceBarList = view.getElementsByClassName("rollerBar");
         const diceBar = diceBarList.item(0);
+        // const element = view.querySelector('.sub-nav.rollerBar');
+        // this.parent.dyn.controller.rerenderPartial('actorDiceNav', view, element, this.parent);
         this.setNavPrimeValue(view);
         this.setNavRefinementValue(view);
         this.setNavPrimeText(view);

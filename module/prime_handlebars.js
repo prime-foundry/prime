@@ -1,7 +1,7 @@
 import {PrimeTables} from "./prime_tables.js";
 import {htmlToText} from "./util/support.js";
 
-var primeHandlebarsPartialsPaths =
+const primeHandlebarsPartialsPaths =
     {
         "actorActionPoints": "systems/prime/templates/actor/partials/sheet/actor-action-points.html",
         "actorBaseMetadata": "systems/prime/templates/actor/partials/sheet/actor-base-metadata.html",
@@ -48,17 +48,18 @@ var primeHandlebarsPartialsPaths =
 
 export class PrimeHandlebarsPartials {
     static async loadPartials() {
-        var handlebarsTemplate = null;
-        for (var partialName in primeHandlebarsPartialsPaths) {
-            handlebarsTemplate = await getTemplate(primeHandlebarsPartialsPaths[partialName]);
+        for (let partialName in primeHandlebarsPartialsPaths) {
+            const handlebarsTemplate = await getTemplate(primeHandlebarsPartialsPaths[partialName]);
             Handlebars.registerPartial(partialName, handlebarsTemplate);
         }
     }
+
 }
-Handlebars.logger.log = function(level, ...rest) {
-    if(level >= Handlebars.logger.level) {
+
+Handlebars.logger.log = function (level, ...rest) {
+    if (level >= Handlebars.logger.level) {
         let logger = console.log;
-        switch(level){
+        switch (level) {
             case 0:
                 logger = console.debug;
                 break;
@@ -82,7 +83,7 @@ Handlebars.logger.level = 0;
 
 Handlebars.registerHelper('convertHTMLForTitle', function (html, maxChars, options) {
     // if options is null, no maxChars was provided.
-    return htmlToText(html, options==null ? null : maxChars);
+    return htmlToText(html, options == null ? null : maxChars);
 });
 
 
@@ -253,7 +254,7 @@ Handlebars.registerHelper('cropToLength', function (value, cropLength) {
     if (!cropLength) {
         cropLength = 10
     }
-    if(value == null){
+    if (value == null) {
         return '';
     }
     const valueToCrop = value.trim(); // remove all whitespace at start and end.
