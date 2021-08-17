@@ -161,7 +161,7 @@ export default class PrimeMigration_Actor_0_2_1 extends Migration {
                             if (newRefinement == null) {
                                 throw `Unable to find required refinement '${name}' to migrate. Double check the refinement mappings.`;
                             }
-                            if (newRefinement.data.metadata.default === false || oldRefinement.value > 0) {
+                            if (newRefinement.data.metadata.default === true || oldRefinement.value > 0) {
                                 const refinementFoundryData = foundry.utils.deepClone(newRefinement);
                                 const refinementGameSystem = refinementFoundryData.data;
                                 refinementGameSystem.value = oldRefinement.value;
