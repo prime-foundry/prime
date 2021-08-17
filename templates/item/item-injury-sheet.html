@@ -1,16 +1,43 @@
 <form class="{{cssClass}} itemSheet injuryItem flexColumn " autocomplete="off">
 	<div class="flexRow">
         {{> itemImage}}
-		{{> itemBasic }}
-	</div>
-	<div class="flexRow block noTitle flexCenter verticalCenter">
-		<label for="data.injuryType" class="resource-label cell30 rightAlign">Type:&nbsp;</label>
-		<select id="data.injuryType" name="data.injuryType" class="cell70">
-			{{#select data.data.injuryType}}
-			<option value="wound">{{localize "PRIME.injury_type_wound"}}</option>
-			<option value="insanity">{{localize "PRIME.injury_type_insanity"}}</option>
-			{{/select}}
-		</select>
+
+		<div class="cell70 block flexColumn">
+			<div class="blockTitle">Basic information</div>
+			<h1 class="entityName">
+				<label for="name">Name:</label>
+				<input name="name" type="text" value="{{item.name}}" placeholder="Name" />
+			</h1>
+			<div class="flexRow infoBlock flexBetween">
+				<div class="cell100 flexRow flexCenter verticalCenter">
+					<label for="injuryType" class="resource-label cell30 rightAlign">Type:&nbsp;</label>
+					<select
+						id="injuryType"
+						name="injuryType"
+						class="cell70"
+						data-dyn-change-at="item.injuryType"
+						data-dyn-select="item.injuryType"
+					>
+						<option value="wound">{{localize "PRIME.injury_type_wound"}}</option>
+						<option value="insanity">{{localize "PRIME.injury_type_insanity"}}</option>
+					</select>
+				</div>
+				<div class="cell100 flexRow verticalCenter flexBetween lastRow">
+					<label for="setting" class="resource-label cell30 rightAlign">{{localize "PRIME.core_setting"}}:&nbsp;</label>
+					<select
+						name="setting"
+						id="setting"
+						class="cell70"
+						data-dyn-change-at="item.setting"
+						data-dyn-select="item.setting"
+					>
+						{{#each coreTables.settings}}
+						<option value="{{this.key}}">{{this.title}}</option>
+						{{/each}}
+					</select>
+				</div>
+			</div>
+		</div>
 	</div>
 
 	{{> itemModifiers effectsData=untendedEffects effectTitle="Untended Effect(s)" effectType="untendedEffect"}}
