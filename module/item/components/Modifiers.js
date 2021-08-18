@@ -2,9 +2,13 @@ import Component from "../../util/Component.js";
 import PrimeItemTables from "../PrimeItemTables.js";
 const IS_ACTION = (type) => ['action', 'extraAction'].includes(type);
 export class Modifiers extends Component {
-
+_modifiersPropertyName;
+    constructor(parent, modifiersPropertyName = "modifiers") {
+        super(parent);
+        this._modifiersPropertyName = modifiersPropertyName;
+    }
     get collection() {
-        return Array.from(this.gameSystem.modifiers || []).map((modifier, index) => {
+        return Array.from(this.modifiers || []).map((modifier, index) => {
 
             const modifierCategory = (PrimeItemTables.modifiers[modifier.type] || {}).category;
             if (modifierCategory === 'otherItem') {
@@ -29,24 +33,27 @@ export class Modifiers extends Component {
                 if(IS_ACTION(modifier.type)) {
                     return item;
                 }
-                return item.modifiers.getActions();
+                return item[this._modifiersPropertyName].getActions();
             });
         return actions;
+    }
 
+    get modifiers() {
+        return this.gameSystem[this._modifiersPropertyName];
     }
 
     pathToModifiers() {
-        return this.gameSystemPath.with('modifiers');
+        return this.gameSystemPath.with(this._modifiersPropertyName);
     }
 
     compactModifiers() {
-        const compacted = Array.from(this.gameSystem.modifiers || []).filter(modifier => modifier != null);
+        const compacted = Array.from(this.modifiers || []).filter(modifier => modifier != null);
         this.write(this.pathToModifiers(), compacted);
     }
 
     add() {
         const modifier = PrimeItemTables.defaultModifier;
-        this.write(this.pathToModifiers().with((this.gameSystem.modifiers || []).length || 0), modifier);
+        this.write(this.pathToModifiers().with((this.modifiers || []).length || 0), modifier);
     }
 
     modifierFor(actorDoc, ownedItem, target, options = {}) {
@@ -123,7 +130,7 @@ export class Modifier extends Component {
 
 
     getModifierData() {
-        return this.gameSystem.modifiers[this.index] || {};
+        return this.parent.modifiers[this.index] || {};
     }
 
     pathToModifier() {

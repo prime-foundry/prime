@@ -341,9 +341,9 @@
 				"descriptions",
 				"metadata"
 			],
-			"untendedEffects": [],
-			"tendedEffects": [],
-			"permanentEffects": [],
+			"untendedModifiers": [],
+			"tendedModifiers": [],
+			"permanentModifiers": [],
 			"injuryType": "wound",
 			"injuryState": "untended",
 			"injuryNotes": ""

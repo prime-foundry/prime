@@ -6,8 +6,8 @@
 			<div class="blockTitle">Basic information</div>
             {{> itemName}}
 			<div class="flexRow infoBlock flexBetween">
-				<div class="cell100 flexRow flexCenter verticalCenter">
-					<label for="injuryType" class="resource-label cell30 rightAlign">Type:&nbsp;</label>
+				<div class="cell100 flexRow verticalCenter flexBetween">
+					<label for="injuryType" class="itemRarity cell30">Type:&nbsp;</label>
 					<select
 						id="injuryType"
 						class="cell70"
@@ -22,11 +22,11 @@
 		</div>
 	</div>
 
-	{{> itemModifiers effectsData=untendedEffects effectTitle="Untended Effect(s)" effectType="untendedEffect"}}
+	{{> itemModifiers effectTitle="Untended Effect(s)" itemModifiersPath="item.untendedModifiers"}}
 
-	{{> itemModifiers effectsData=tendedEffects effectTitle="Tended Effect(s)" effectType="tendedEffect" }}
+	{{> itemModifiers effectTitle="Tended Effect(s)" itemModifiersPath="item.tendedModifiers" }}
 
-	{{> itemModifiers effectsData=permanentEffects effectTitle="Permanent Effect(s)" effectType="permanentEffect" }}
+	{{> itemModifiers effectTitle="Permanent Effect(s)" itemModifiersPath="item.permanentModifiers" }}
 
 
 	{{> itemDescription }}

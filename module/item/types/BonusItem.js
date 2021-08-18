@@ -1,5 +1,4 @@
 import {getComponentLazily} from "../../util/support.js";
-import {Cost} from "../components/Costs.js";
 import BaseItem from "./BaseItem.js";
 import {Modifiers} from "../components/Modifiers.js";
 import {Prerequisites} from "../components/Prerequisites.js";

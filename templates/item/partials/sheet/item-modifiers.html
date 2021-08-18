@@ -1,20 +1,23 @@
 <div class="flexRow flexBetween flexWrap block infoBlock effectBlock">
     <div class="blockTitle">{{#if effectTitle}}{{effectTitle}}{{else}}Effects{{/if}}</div>
-
     <div class="effectsWrapper">
-        {{#each item.modifiers as |modifier|}}
+        {{aliasAs 'itemModifiersPath' (either itemModifiersPath 'item.modifiers')}}
+        {{aliasAs 'itemModifiers' (either itemModifiers (traverse path=@itemModifiersPath from=this))}}
+        {{log 3 this}}
+        {{#each @itemModifiers as |modifier|}}
             {{aliasAs 'Items' ../static.items}}
             {{aliasAs 'Modifiers' @Items.modifiers}}
             {{aliasAs 'ModifiersCategory' (traverse modifier.type 'category' from=@Modifiers)}}
             {{aliasAs 'ModifiersType' (traverse modifier.type 'subTypes' from=@Modifiers)}}
             {{aliasAs 'item' ../item}}
+            {{log 3 this}}
             <div class="cell100 flexRow flexBetween flexWrap infoBlock effectWrapper">
                 <div class="effectIndex">{{increment @index}}</div>
                 <div class="cell100 flexRow flexBetween verticalCenter">
-                    <label for="item.modifiers.collection.{{@index}}.type" class="resource-label cell30 rightAlign">Type:</label>
-                    <select id="item.modifiers.collection.{{@index}}.type" class="cell70 effectFormElement"
-                            data-dyn-change-at="item.modifiers.collection.{{@index}}.type"
-                            data-dyn-select="item.modifiers.collection.{{@index}}.type"
+                    <label for="{{@itemModifiersPath}}.collection.{{@index}}.type" class="resource-label cell30 rightAlign">Type:</label>
+                    <select id="{{@itemModifiersPath}}.collection.{{@index}}.type" class="cell70 effectFormElement"
+                            data-dyn-change-at="{{@itemModifiersPath}}.collection.{{@index}}.type"
+                            data-dyn-select="{{@itemModifiersPath}}.collection.{{@index}}.type"
                             data-dyn-disable="item.isOwned">
                         {{#each @Modifiers}}
                             <option value="{{@key}}">{{this.title}}</option>
@@ -26,18 +29,18 @@
                       )}}
                     {{#if (equal modifier.type 'misc')}}
                         <div class="cell100  flexRow flexBetween lastRow">
-                            <label for="item.modifiers.collection.{{@index}}.rules"
+                            <label for="{{@itemModifiersPath}}.collection.{{@index}}.rules"
                                    class="resource-label cell30 rightAlign">Rules:</label>
                             <textarea class="cell70 effectFormElement"
-                                      data-dyn-change-at="item.modifiers.collection.{{@index}}.rules">{{modifier.rules}}</textarea>
+                                      data-dyn-change-at="{{@itemModifiersPath}}.collection.{{@index}}.rules">{{modifier.rules}}</textarea>
                         </div>
                     {{else}}
                         <div class="cell100 flexRow flexBetween verticalCenter">
-                            <label for="item.modifiers.collection.{{@index}}.target"
+                            <label for="{{@itemModifiersPath}}.collection.{{@index}}.target"
                                    class="resource-label cell30 rightAlign">Of:</label>
-                            <select id="item.modifiers.collection.{{@index}}.target" class="cell70 effectFormElement"
-                                    data-dyn-change-at="item.modifiers.collection.{{@index}}.target"
-                                    data-dyn-select="item.modifiers.collection.{{@index}}.target"
+                            <select id="{{@itemModifiersPath}}.collection.{{@index}}.target" class="cell70 effectFormElement"
+                                    data-dyn-change-at="{{@itemModifiersPath}}.collection.{{@index}}.target"
+                                    data-dyn-select="{{@itemModifiersPath}}.collection.{{@index}}.target"
                                     data-dyn-disable="item.isOwned">
                                 {{#each @ModifiersType}}
                                     <option value="{{@key}}">{{this}}</option>
@@ -49,45 +52,45 @@
                                       (includes (keys @ModifiersType) modifier.target))}}
                             {{#if (not (equal @ModifiersCategory 'otherItem'))}}
                             <div class="cell100 flexRow flexBetween verticalCenter ">
-                                <label for="item.modifiers.collection.{{@index}}.value"
+                                <label for="{{@itemModifiersPath}}.collection.{{@index}}.value"
                                        class="resource-label cell30 rightAlign">{{#if (isInteger modifier.value)}}{{#if
                                         (lessThan modifier.value 0)}}
                                     Decreased{{else}}Increased{{/if}}{{else}}Modifier{{/if}}:</label>
-                                <input type="number" id="item.modifiers.collection.{{@index}}.value"
+                                <input type="number" id="{{@itemModifiersPath}}.collection.{{@index}}.value"
                                        class="cell70 effectFormElement"
                                        value="{{#if (isInteger modifier.value)}}{{modifier.value}}{{/if}}"
-                                       data-dyn-change-at="item.modifiers.collection.{{@index}}.value"
+                                       data-dyn-change-at="{{@itemModifiersPath}}.collection.{{@index}}.value"
                                        data-dyn-type="number"
                                        data-dyn-disable="item.isOwned" }/>
                             </div>
                             {{/if}}
                             {{#if @item.equippable}}
                                 <div class="cell100 flexRow flexEnd verticalCenter">
-                                    <label for="item.modifiers.collection.{{@index}}.equipped"
+                                    <label for="{{@itemModifiersPath}}.collection.{{@index}}.equipped"
                                            class="resource-label">When Equipped:</label>
-                                    <input type="checkbox" id="item.modifiers.collection.{{@index}}.equipped"
+                                    <input type="checkbox" id="{{@itemModifiersPath}}.collection.{{@index}}.equipped"
                                            class="effectFormElement"
                                            data-dyn-type="boolean"
-                                           data-dyn-change-at="item.modifiers.collection.{{@index}}.equipped"
-                                           data-dyn-select="item.modifiers.collection.{{@index}}.equipped"/>
+                                           data-dyn-change-at="{{@itemModifiersPath}}.collection.{{@index}}.equipped"
+                                           data-dyn-select="{{@itemModifiersPath}}.collection.{{@index}}.equipped"/>
                                 </div>
                             {{/if}}
                             <div class="cell100 flexRow flexEnd verticalCenter">
-                                <label for="item.modifiers.collection.{{@index}}.situational"
+                                <label for="{{@itemModifiersPath}}.collection.{{@index}}.situational"
                                        class="resource-label">Situational:</label>
-                                <input type="checkbox" id="item.modifiers.collection.{{@index}}.situational"
+                                <input type="checkbox" id="{{@itemModifiersPath}}.collection.{{@index}}.situational"
                                        class="effectFormElement"
                                        data-dyn-type="boolean"
-                                       data-dyn-change-at="item.modifiers.collection.{{@index}}.situational"
-                                       data-dyn-select="item.modifiers.collection.{{@index}}.situational"/>
+                                       data-dyn-change-at="{{@itemModifiersPath}}.collection.{{@index}}.situational"
+                                       data-dyn-select="{{@itemModifiersPath}}.collection.{{@index}}.situational"/>
                             </div>
 
                             {{#if this.situational}}
                                 <div class="cell100  flexRow flexBetween lastRow">
-                                    <label for="item.modifiers.collection.{{@index}}.rules"
+                                    <label for="{{@itemModifiersPath}}.collection.{{@index}}.rules"
                                            class="resource-label cell30 rightAlign">Rules:</label>
                                     <textarea class="cell70 effectFormElement"
-                                              data-dyn-change-at="item.modifiers.collection.{{@index}}.rules">{{modifier.rules}}</textarea>
+                                              data-dyn-change-at="{{@itemModifiersPath}}.collection.{{@index}}.rules">{{modifier.rules}}</textarea>
                                 </div>
                             {{/if}}
                         {{/if}}
@@ -96,7 +99,7 @@
 
                 <a class="removeEffectIcon"
                    data-dyn-disable="item.isOwned"
-                   data-dyn-click-at="item.modifiers.collection.{{@index}}.delete()"><i
+                   data-dyn-click-at="{{@itemModifiersPath}}.collection.{{@index}}.delete()"><i
                         class="fas fa-trash"></i></a>
             </div>
         {{/each}}
@@ -105,5 +108,5 @@
 
     <a class="addEffectIcon"
        data-dyn-disable="item.isOwned"
-       data-dyn-click-at="item.modifiers.add()"><i class="fas fa-plus"></i></a>
+       data-dyn-click-at="{{@itemModifiersPath}}.add()"><i class="fas fa-plus"></i></a>
 </div>

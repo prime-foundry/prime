@@ -77,45 +77,22 @@ class DynHandlebars {
         let pathBuilder = JSONPathBuilder.from();
         let valueIdx = 0;
 
-        if(pathParameter !== '') {
+        if (pathParameter !== '') {
             const placeholder = hash.placeholder || '?';
             const separator = hash.separator || '.';
-            const placeholderLength = placeholder.length;
-            const separatorLength = separator.length;
-            const startsWith = pathParameter.startsWith(`${placeholder}${separator}`)
-            const endsWith = pathParameter.endsWith(`${separator}${placeholder}`)
-            const fullSeparator = `${separator}${placeholder}${separator}`;
 
-            let dynamicPath = startsWith ? pathParameter.slice(1 + separatorLength + placeholderLength) : pathParameter
-            dynamicPath = endsWith ? dynamicPath.slice(0, -(separatorLength + placeholderLength)) : dynamicPath
-            const pathParts = dynamicPath.split(fullSeparator);
+            const pathParts = pathParameter.split(separator);
+            for (const pathPart of pathParts) {
+                const placeHolderParts = pathPart.split(placeholder);
+                let resolvedPart = placeHolderParts[0];
+                for (let i = 1; i < placeHolderParts.length; i++) {
 
-            const pathLength = pathParameter.split(placeholder).length - 1; // could be faster
-            if (pathParts > valueLength) {
-                throw new DynError('Incorrect number of parameters passed to replace on the lookup');
-            }
-
-            let pathIdx = 0;
-
-            if (startsWith) {
-                pathBuilder.withRaw(values[valueIdx++]);
-            }
-
-            while (pathIdx < pathLength) {
-                // we may have variables which are part of a variableName for instance something.?Index
-                let current = pathParts[pathIdx++];
-                let ppIdx = current.indexOf(placeholder);
-                let pathPart = ppIdx < 0 ? current : `${current.slice(0, ppIdx)}`;
-                while (ppIdx >= 0) {
-                    const next = current.slice(ppIdx + placeholderLength);
-                    pathPart = `${pathPart}${values[valueIdx++]}${next}`;
-                    current = next;
-                    ppIdx = current.indexOf(placeholder);
+                    if (valueLength <= valueIdx) {
+                        throw new DynError('Incorrect number of parameters passed to replace on the lookup');
+                    }
+                    resolvedPart = `${values[valueIdx++]}${placeHolderParts[i]}`
                 }
-                pathBuilder = pathBuilder.withRaw(pathPart);
-                if (pathIdx < pathLength) {
-                    pathBuilder = pathBuilder.withRaw(values[valueIdx++]);
-                }
+                pathBuilder = pathBuilder.withRaw(resolvedPart);
             }
         }
         pathBuilder = pathBuilder.withRaw(values.slice(valueIdx));
@@ -144,7 +121,7 @@ class DynHandlebars {
     }
 
     static and(...rest) {
-        const values = Array.from(rest).slice(0,-1);
+        const values = Array.from(rest).slice(0, -1);
         for (const val of values) {
             if (!val) {
                 return false;
@@ -154,7 +131,7 @@ class DynHandlebars {
     }
 
     static or(...rest) {
-        const values = Array.from(rest).slice(0,-1);
+        const values = Array.from(rest).slice(0, -1);
         for (const val of values) {
             if (!!val) {
                 return true;
@@ -164,7 +141,7 @@ class DynHandlebars {
     }
 
     static xor(value1, ...rest) {
-        const values = Array.from(rest).slice(0,-1);
+        const values = Array.from(rest).slice(0, -1);
         let oneTrue = !!value1;
         for (const val of values) {
             if (!!val) {
@@ -178,7 +155,7 @@ class DynHandlebars {
     }
 
     static defined(...rest) {
-        const values = Array.from(rest).slice(0,-1);
+        const values = Array.from(rest).slice(0, -1);
         for (const val of values) {
             if (val == null) {
                 return false;
@@ -188,7 +165,7 @@ class DynHandlebars {
     }
 
     static not(...rest) {
-        const values = Array.from(rest).slice(0,-1);
+        const values = Array.from(rest).slice(0, -1);
         for (const val of values) {
             if (!!val) {
                 return false;
@@ -290,7 +267,7 @@ class DynHandlebars {
         const values = Array.from(rest);
         const options = values.pop(); // makes values 1 shorter ( we want this )
         const self = options.self || this;
-        if(isString(fn)){
+        if (isString(fn)) {
             fn = self[fn];
         }
         return fn.call(self, ...values);
@@ -319,7 +296,7 @@ class DynHandlebars {
      * @returns {boolean}
      */
     static includes(collection, ...rest) {
-        const values = Array.from(rest).slice(0,-1);
+        const values = Array.from(rest).slice(0, -1);
         for (const val of values) {
             if (!collection.includes(val)) {
                 return false;
@@ -351,7 +328,7 @@ class DynHandlebars {
      * @returns {boolean}
      */
     static onlyIncludes(collection, ...rest) {
-        const values = Array.from(rest).slice(0,-1);
+        const values = Array.from(rest).slice(0, -1);
         for (const val of collection) {
             if (!values.includes(val)) {
                 return false;
@@ -384,12 +361,12 @@ class DynHandlebars {
      * @returns {{}|string[]|Map<string, any>}
      */
     static retain(collection, ...rest) {
-        let keys = Array.from(rest).slice(0,-1);
+        let keys = Array.from(rest).slice(0, -1);
         keys = new Set(keys.flat());
         if (collection instanceof Map) {
             const result = new Map();
             collection.forEach((value, key) => {
-                if(keys.has(key)){
+                if (keys.has(key)) {
                     result.set(key, value);
                 }
             });
@@ -398,7 +375,7 @@ class DynHandlebars {
         if (Array.isArray(collection)) {
             const result = [];
             collection.forEach((key) => {
-                if(keys.has(key)){
+                if (keys.has(key)) {
                     result.push(key);
                 }
             });
@@ -407,7 +384,7 @@ class DynHandlebars {
         if (collection instanceof Object) {
             const result = {};
             Array.from(Object.entries(collection)).forEach(([key, value]) => {
-                if(keys.has(key)){
+                if (keys.has(key)) {
                     result[key] = value;
                 }
             });
@@ -514,6 +491,17 @@ class DynHandlebars {
             data[values[i]] = values[i + 1];
         }
     }
+
+    static either(...args) {
+        let values = Array.from(args);
+        const options = values.pop(); // makes values 1 shorter ( we want this )
+        for (let value of values) {
+            if (value != null) {
+                return value;
+            }
+        }
+        return null;
+    }
 }
 
 Handlebars.registerHelper({
@@ -538,5 +526,6 @@ Handlebars.registerHelper({
     retain: DynHandlebars.retain,
     keys: DynHandlebars.keys,
     values: DynHandlebars.values,
-    aliasAs: DynHandlebars.aliasAs
+    aliasAs: DynHandlebars.aliasAs,
+    either: DynHandlebars.either
 });
