@@ -338,7 +338,8 @@
 		"injury": {
 			"templates": [
 				"audit",
-				"descriptions"
+				"descriptions",
+				"metadata"
 			],
 			"untendedEffects": [],
 			"tendedEffects": [],
