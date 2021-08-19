@@ -307,7 +307,7 @@ export const EmbeddedDocumentMixin = (EmbeddedDocumentType) =>
             return lastValue;
         }
 
-        deleteItem() {
+        async deleteItem() {
             const owningDoc = this.owningComponent.document;
             const itemDoc = this.document;
             // asynchronous

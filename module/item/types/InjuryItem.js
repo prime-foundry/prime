@@ -20,6 +20,28 @@ export default class InjuryItem extends BaseItem {
         this.write(this.gameSystemPath.with('injuryState'), injuryState);
     }
 
+    get tended(){
+        return this.injuryState === STATUS.TENDED;
+    }
+    get untended(){
+        return this.injuryState === STATUS.UNTENDED;
+    }
+    get healed() {
+        return this.injuryState === STATUS.HEALED;
+    }
+
+    tend(){
+        this.injuryState = STATUS.TENDED;
+    }
+
+    cure(){
+        this.injuryState = STATUS.HEALED;
+    }
+
+    aggravate(){
+        this.injuryState = STATUS.UNTENDED;
+    }
+
     get injuryType(){
 		const injuryType = this.gameSystem.injuryType;
         return injuryType;
