@@ -1,4 +1,3 @@
-import { PrimeTables } from "../prime_tables.js";
 import {DynApplicationMixin} from "../util/DynFoundryMixins.js";
 /**
  * Extend the basic ItemSheet with some very simple modifications

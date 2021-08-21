@@ -1,4 +1,3 @@
-import { PrimeTables } from "../prime_tables.js";
 import {getComponentLazily} from "../util/support.js";
 import Profile from "./components/Profile.js";
 import Stats from "./components/Stats.js";

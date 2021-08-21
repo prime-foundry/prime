@@ -533,6 +533,10 @@ class DynHandlebars {
         return '';
     }
 
+    static reverse(arr, options){
+        return arr.reverse();
+    }
+
 }
 
 Handlebars.registerHelper({
@@ -560,5 +564,6 @@ Handlebars.registerHelper({
     aliasAs: DynHandlebars.aliasAs,
     either: DynHandlebars.either,
     attr: DynHandlebars.attr,
-    dynCssClass: DynHandlebars.dynCssClass
+    dynCssClass: DynHandlebars.dynCssClass,
+    reverse: DynHandlebars.reverse
 });

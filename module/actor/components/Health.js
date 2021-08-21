@@ -148,10 +148,16 @@ class InjurableBase extends PointsBase {
             // Fixes issues whereby compendiums have new IDs assigned.
             injuryToCreate.data.metadata.sourceKey = selected;
             injuryToCreate._id = undefined;
+            injuryToCreate.data.audit = {};
             injuryToCreate.data.injuryIndex = index || 0;
             injuryToCreate.data.injuryState = injuryState;
             await this.document.createEmbeddedDocuments("Item", [injuryToCreate], {render:false, renderSheet:false});
         }
+    }
+
+    async deleteInjury({id}){
+        const injury = this.getInjury(id);
+        return injury.deleteItem();
     }
 
     displayInjury({id}){
@@ -189,6 +195,12 @@ class InjurableBase extends PointsBase {
         }
     }
 
+    get allInjuries() {
+        const criteria = {itemCollection: this.document.items, itemBaseTypes: 'injury', typed: true, sortItems: false};
+        const items = PrimeItemManager.getItems(criteria);
+        const mapped = items.filter(item => item.source.injuryType === this.injuryType).map(item => new EmbeddedInjuryItem(this, item));
+        return mapped;
+    }
     /**
      * We can't use sort as we purposefully have holes in the array.
      * @protected
@@ -196,13 +208,11 @@ class InjurableBase extends PointsBase {
     get injuries() {
         const transformed = new Array(this.max);
         transformed.fill(null);
-        const criteria = {itemCollection: this.document.items, itemBaseTypes: 'injury', typed: true, sortItems: true};
-        const items = PrimeItemManager.getItems(criteria);
-        const filtered = items.filter(item => item.source.injuryType === this.injuryType && ["tended", "untended"].includes(item.injuryState));
-        const mapped = filtered.map(item => new EmbeddedInjuryItem(this, item));
+        const items = this.allInjuries;
+        const filtered = items.filter(item => ["tended", "untended"].includes(item.injuryState));
         let invalidIndexes = false;
 
-        mapped.forEach(item => {
+        filtered.forEach(item => {
             if (item.injuryIndex != null && transformed[item.injuryIndex] == null) {
                 transformed[item.injuryIndex] = item;
             } else {
@@ -212,7 +222,7 @@ class InjurableBase extends PointsBase {
         if (invalidIndexes) {
             console.warn('Something went awry and the indexes of the injuries messed up, doing best fit fix.')
             const max = this.max;
-            mapped.forEach(item => {
+            filtered.forEach(item => {
                 if (item.injuryIndex == null || transformed[item.injuryIndex] !== item) {
                     for (let idx = 0; idx < max; idx++) {
                         if (transformed[idx] == null) {

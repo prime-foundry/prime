@@ -49,6 +49,7 @@
 		<a class="item tableTitle" data-tab="combat">Combat</a>
 		<a class="item tableTitle" data-tab="inventory">Inventory</a>
 		<a class="item tableTitle" data-tab="description">Biography</a>
+        <a class="item tableTitle" data-tab="history">History</a>
 		<a class="item tableTitle" data-tab="notes">Notes</a>
 	</nav>
     {{> actorDiceNav}}
@@ -75,6 +76,9 @@
 			{{> actorTabDescription}}
 		</div>
 
+        <div class="tab history" data-group="primary" data-tab="history">
+            {{> actorTabHistory}}
+        </div>
 		<div class="tab notes" data-group="primary" data-tab="notes">
 			{{> actorTabNotes}}
 		</div>

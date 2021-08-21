@@ -7,6 +7,7 @@ import Descriptions from "../components/Descriptions.js";
 export default class BaseItem extends Component {
     constructor(primeItem) {
         super(primeItem);
+        this.audit = new Audit(this);
     }
 
     get id() {
@@ -48,9 +49,9 @@ export default class BaseItem extends Component {
     /**
      * @return {Audit}
      */
-    get audit() {
-        return getComponentLazily(this, 'audit', Audit);
-    }
+    // get audit() {
+    //     return getComponentLazily(this, 'audit', Audit);
+    // }
 
     get type() {
         return this.document.type;

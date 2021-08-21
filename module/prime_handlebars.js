@@ -1,4 +1,3 @@
-import {PrimeTables} from "./prime_tables.js";
 import {htmlToText} from "./util/support.js";
 
 const primeHandlebarsPartialsPaths =
@@ -16,6 +15,7 @@ const primeHandlebarsPartialsPaths =
         "actorTabCombat": "systems/prime/templates/actor/partials/tabs/actor-combat-tab.html",
         "actorTabInventory": "systems/prime/templates/actor/partials/tabs/actor-inventory-tab.html",
         "actorTabNotes": "systems/prime/templates/actor/partials/tabs/actor-notes-tab.html",
+        "actorTabHistory": "systems/prime/templates/actor/partials/tabs/actor-history-tab.html",
         "actorTabPerks": "systems/prime/templates/actor/partials/tabs/actor-perks-tab.html",
         "actorTabStatistics": "systems/prime/templates/actor/partials/tabs/actor-statistics-tab.html",
 
@@ -26,6 +26,7 @@ const primeHandlebarsPartialsPaths =
         "itemListGeneral": "systems/prime/templates/item/partials/list/item-list-general.html",
         "itemListMeleeWeapons": "systems/prime/templates/item/partials/list/item-list-melee-weapons.html",
         "itemListRangedWeapons": "systems/prime/templates/item/partials/list/item-list-ranged-weapons.html",
+        "injuryList" : "systems/prime/templates/item/partials/list/injury-list.html",
 
         "itemBasic": "systems/prime/templates/item/partials/sheet/item-basic.html",
         "itemValue": "systems/prime/templates/item/partials/sheet/item-monetary-value.html",
@@ -84,19 +85,6 @@ Handlebars.logger.level = 0;
 Handlebars.registerHelper('convertHTMLForTitle', function (html, maxChars, options) {
     // if options is null, no maxChars was provided.
     return htmlToText(html, options == null ? null : maxChars);
-});
-
-
-Handlebars.registerHelper('getStatMin', function (whatStat, options) {
-    var statMinTable = PrimeTables.cloneTables("actor.actorStatMinimums");
-    if (statMinTable[whatStat] || statMinTable[whatStat] === 0) {
-        return statMinTable[whatStat];
-    }
-    return 1;
-});
-
-Handlebars.registerHelper('isNotLastItem', function (v1, v2, options) {
-    return (v1 < (v2 - 1)) ? options.fn(this) : options.inverse(this);
 });
 
 Handlebars.registerHelper('checkboxGroupState', function (v1) {
