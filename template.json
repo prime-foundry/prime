@@ -346,7 +346,8 @@
 			"permanentModifiers": [],
 			"injuryType": "wound",
 			"injuryState": "untended",
-			"injuryNotes": ""
+			"injuryNotes": "",
+			"injuryIndex": 0
 		},
 		"award": {
 			"templates": [

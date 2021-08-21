@@ -177,8 +177,7 @@ Handlebars.registerHelper('itemEnabled', function (pointIndex, currentPoints) {
     return "disabled";
 });
 
-Handlebars.registerHelper('addInjuryClasses', function (index, injurable) {
-    const injury = injurable.getInjury(index);
+Handlebars.registerHelper('addInjuryClasses', function (injury) {
     var classes = []
 
     if (injury && !injury.tended) {

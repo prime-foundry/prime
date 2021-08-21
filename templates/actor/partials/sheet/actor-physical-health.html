@@ -1,69 +1,76 @@
 <div class="{{partialClasses}} flexColumn healthAndArmourOuter">
 
     {{#with actor.health}}
-    <div class="flexRow flexEnd block topHalfBlock">
-        <div class="blockTitle">Health</div>
-        <div class="cell25 flexColumn flexCenter">
-            <label class="shrinkFontForNarrow">Wounds</label>
-            <div class="metaValueContent flexRow flexCenter">
-                <div class="bigNumberText">{{wounds.value}} / {{wounds.max}}</div>
+        <div class="flexRow flexEnd block topHalfBlock">
+            <div class="blockTitle">Health</div>
+            <div class="cell25 flexColumn flexCenter">
+                <label class="shrinkFontForNarrow">Wounds</label>
+                <div class="metaValueContent flexRow flexCenter">
+                    <div class="bigNumberText">{{wounds.value}} / {{wounds.max}}</div>
+                </div>
+            </div>
+            <div class="cell25 flexColumn resilienceBlock">
+                <label for="actor.health.resilience" class="shrinkFontForNarrow">Resilience</label>
+                <div class="metaValueContent flexRow healthResilienceWrapper">
+                    <input type="text" class="bigNumberInput" id="actor.health.resilience" value="{{resilience.value}}"
+                           data-dyn-change-at="actor.health.resilience"
+                           data-dyn-type="number"/>
+                    <span class="healthMaxResilience">Max: {{resilience.max}}</span>
+                </div>
             </div>
         </div>
-        <div class="cell25 flexColumn resilienceBlock">
-            <label for="actor.health.resilience" class="shrinkFontForNarrow">Resilience</label>
-            <div class="metaValueContent flexRow healthResilienceWrapper">
-                <input type="text" class="bigNumberInput" id="actor.health.resilience" value="{{resilience.value}}"
-                       data-dyn-change-at="actor.health.resilience"
-                       data-dyn-type="number"/>
-                <span class="healthMaxResilience">Max: {{resilience.max}}</span>
-            </div>
+        <div class="combinedResilienceBlock block rightBlockTitle flexRow flexCenter verticalCenter">
+            <div class="blockTitle"><span>Combined</span></div>
+            <div>{{increment resilience.value ../actor.armour.resilience.value}}</div>
         </div>
-    </div>
-    <div class="combinedResilienceBlock block rightBlockTitle flexRow flexCenter verticalCenter">
-        <div class="blockTitle"><span>Combined</span></div>
-        <div>{{increment resilience.value ../actor.armour.resilience.value}}</div>
-    </div>
-    <div class="injuriesBlock block leftBlockTitle flexColumn">
-        <div class="blockTitle"
-             data-dyn-click-at="actor.health.wounds.sort()"><span>Wounds</span></div>
+        <div class="injuriesBlock block leftBlockTitle flexColumn">
+            <div class="blockTitle"
+                 data-dyn-click-at="actor.health.wounds.sort()"><span>Wounds</span></div>
 
-        {{#range 0 wounds.slots 1 true}}
-        <div class="flexRow injuryRow">
-            <div class="injuryCheckBoxWrapper flexRow flexCenter verticalCenter{{addInjuryClasses this ../wounds}}">
-                <input type="checkbox"
-                       id="injuryCheckbox-{{this}}"
-                       name="injuryCheckboxes"
-                       class="injuryCheckbox"
-                       data-dyn-change-at="actor.health.wounds.aggravateOrAlleviate()"
-                       data-dyn-value="{{this}}"
-                       data-dyn-index="{{this}}"
-                       data-dyn-select="actor.health.wounds.isUntended()"/>
-                <label for="injuryCheckbox-{{this}}" class="flexRow flexCenter verticalCenter">{{this}}</label>
-            </div>
-            <select name="woundSelect{{this}}" class="woundSelect"
-                    data-dyn-change-at="actor.health.wounds.injure()"
-                    data-dyn-select="actor.health.wounds.injuryDetail()"
-                    data-dyn-disable="actor.health.wounds.isTended()"
-                    data-dyn-index="{{this}}"
-					title="">
-				<option value=""></option>
-				{{#each ../../static.actor.woundConditions}}
-				<option value="{{@key}}" title="{{convertHTMLForTitle this.description}}">{{this.title}}</option>
-				{{/each}}
-            </select>
-            <div class="medkitIcon flexRow flexEnd verticalCenter">
-                <a class="healInjury" title="Heal this injury"
-                   data-dyn-click-at="actor.health.wounds.cure()"
-                   data-dyn-hide="actor.health.wounds.isHealthy()"
-                   data-dyn-index="{{this}}">
-                    <i class="fas fa-medkit"></i>
-                </a>
-            </div>
-			<a class="showInjuryInfoIcon"><i class="fas fa-info-circle fa-xs"></i></a>
+            {{#each wounds.injuries as |injury|}}
+                <div class="flexRow injuryRow">
+                    <div class="injuryCheckBoxWrapper flexRow flexCenter verticalCenter {{dynCssClass 'activePoint'
+                                                                                                      if=(and injury.untended (not injury.placeholder))}}">
+                        <input type="checkbox"
+                               id="injuryCheckbox-{{@index}}-{{injury.id}}"
+                               class="injuryCheckbox"
+                               data-dyn-change-at="actor.health.wounds.aggravateOrAlleviate()"
+                               data-dyn-id="{{injury.id}}"
+                            {{attr 'disabled' if=injury.placeholder}}
+                            {{attr 'checked' if=injury.untended}}/>
+                        <label for="injuryCheckbox-{{@index}}-{{injury.id}}"
+                               class="flexRow flexCenter verticalCenter">{{increment @index}}</label>
+                    </div>
+                    <select class="woundSelect"
+                            id="injurySelect-{{@index}}-{{injury.id}}"
+                            data-dyn-change-at="actor.health.wounds.injure()"
+                            {{attr 'disabled' if=injury.tended}}
+                            data-dyn-id="{{injury.id}}"
+                            data-dyn-index="{{@index}}"
+                            title="{{convertHTMLForTitle injury.descriptions.core}}">
+                        {{#select injury.metadata.sourceKey}}
+                            <option value=""></option>
+                            {{#each ../../static.actor.woundConditions}}
+                                <option value="{{@key}}"
+                                        title="{{convertHTMLForTitle this.description}}">{{this.title}}</option>
+                            {{/each}}
+                        {{/select}}
+                    </select>
+                    <div class="medkitIcon flexRow flexEnd verticalCenter">
+                        <a class="healInjury" title="Heal this injury"
+                           data-dyn-click-at="actor.health.wounds.cure()"
+                           data-dyn-show="{{not injury.placeholder}}"
+                           data-dyn-id="{{injury.id}}">
+                            <i class="fas fa-medkit"></i>
+                        </a>
+                    </div>
+                    <a class="showInjuryInfoIcon"
+                       data-dyn-click-at="actor.health.wounds.displayInjury()"
+                       data-dyn-show="{{not injury.placeholder}}"
+                       data-dyn-id="{{injury.id}}"><i class="fas fa-info-circle fa-xs"></i></a>
+                </div>
+            {{/each}}
         </div>
-        {{/range}}
-    </div>
-
     {{/with}}
     <div class="flexRow flexEnd block bottomBlockTitle bottomHalfBlock">
         <div class="blockTitle">Armour</div>

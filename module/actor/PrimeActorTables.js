@@ -39,7 +39,8 @@ class ActorTable extends TemplateTable {
 		items.forEach(item => {
 			const key = item.id; // this will become sourceKey for embedded items.
 			const title = game.i18n.localize(item.name);
-			transformed[key] = {title};
+			const description = item.descriptions.core;
+			transformed[key] = {title, description};
 		});
 		return transformed;
 	}

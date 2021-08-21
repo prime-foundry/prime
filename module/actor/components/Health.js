@@ -14,15 +14,19 @@ class EmbeddedInjuryItem extends EmbeddedDocumentMixin(InjuryItem) {
         super(parent, item);
     }
 
-    get injuryIndex(){
+    get injuryIndex() {
         return this.gameSystem.injuryIndex;
     }
 
-    set injuryIndex(injuryIndex){
-        this.write(this.gameSystemPath.with('injuryIndex'),injuryIndex)
+    set injuryIndex(injuryIndex) {
+        this.write(this.gameSystemPath.with('injuryIndex'), injuryIndex)
     }
 }
 
+const NON_INJURY = {
+    id: '',
+    placeholder: true,
+};
 
 export default class Health extends Component {
     constructor(parent) {
@@ -92,7 +96,7 @@ class InjurableBase extends PointsBase {
      * @return {*}
      */
     get slots() {
-        return this.max;
+        return Math.max(this.max, this.value);
     }
 
     /**
@@ -111,84 +115,57 @@ class InjurableBase extends PointsBase {
         this.injuries
             .filter(injury => !!injury)
             .sort((firstInjury, secondInjury) => {
-                if(firstInjury.tended ^ secondInjury.tended){
+                if (firstInjury.tended ^ secondInjury.tended) {
                     return firstInjury.tended ? -1 : +1;
                 }
-                if(firstInjury.name != null){
-                    return secondInjury.name == null ? - 1 : firstInjury.name.localeCompare(secondInjury.name);
+                if (firstInjury.name != null) {
+                    return secondInjury.name == null ? -1 : firstInjury.name.localeCompare(secondInjury.name);
                 }
                 return secondInjury.name == null ? 0 : +1;
             }).forEach((injury, index) => injury.injuryIndex = index);
     }
 
-    getInjury(index) {
-        return this.injuries[index];
+    getInjury(id) {
+        const injury = this.document.items.get(id);
+        if(injury){
+            return new EmbeddedInjuryItem(this, injury);
+        }
     }
 
     /**
      * Migrated => Item As Wounds
      */
-    async injure({index, selected}) {
-        const oldInjury = this.injuries[index];
-        let injuryState= "untended";
-        if (oldInjury != null) {
-            // we are overwriting the old injury, otherwise we may end up creating loads of injuries for no reason.
-            // this is the only use case where we delete injury, as the presumption is the user is in error, and is fixing their mistakes.
-            injuryState = oldInjury.injuryState || injuryState;
-            await oldInjury.deleteItem();
+    async injure({index, id, selected}) {
+        const oldInjury = this.getInjury(id);
+
+        if(oldInjury != null) {
+            await oldInjury.deleteItem(false);
         }
-
-        const newInjury  = ItemDirectory.get(selected);
-        const injuryToCreate = newInjury.data.toObject(false);
-        injuryToCreate.data.injuryIndex = index || 0;
-        injuryToCreate.data.injuryState = injuryState;
-        return this.document.createEmbeddedDocuments("Item", injuryToCreate);
-    }
-
-    isInjured({index}) {
-        return this.injuries[index] != null;
-    }
-
-    isHealthy({index}) {
-        return this.injuries[index] == null;
-    }
-
-    isTended({index}) {
-        const injury = this.injuries[index];
-        return !!injury && !!injury.tended;
-    }
-
-    isUntended({index}) {
-        const injury = this.injuries[index];
-        return !!injury && !injury.tended;
-    }
-
-    /**
-     * UI function
-     * @param index
-     * @returns {null|T|number|T|*}
-     */
-    injuryDetail({index}) {
-        const injury = this.injuries[Number.parseInt(index)] || {};
-        return injury.detail
-    }
-
-    aggravate(index) {
-        const injury = this.injuries[index];
-        if (injury && injury.tended) {
-            this.writeToInjuries(false, index, 'tended');
+        if(selected.length > 0){
+            const injuryState = oldInjury != null ? oldInjury.injuryState : "untended";
+            const injurySelected = ItemDirectory.collection.get(selected);
+            const injuryToCreate = injurySelected.toObject(false);
+            // Fixes issues whereby compendiums have new IDs assigned.
+            injuryToCreate.data.metadata.sourceKey = selected;
+            injuryToCreate._id = undefined;
+            injuryToCreate.data.injuryIndex = index || 0;
+            injuryToCreate.data.injuryState = injuryState;
+            await this.document.createEmbeddedDocuments("Item", [injuryToCreate], {render:false, renderSheet:false});
         }
     }
 
+    displayInjury({id}){
+        this.getInjury(id).display();
+    }
 
     /**
      * UI Function
      * @param index
      */
-    cure({index}) {
-        const injury = this.injuries[index];
+    cure({id}) {
+        const injury = this.getInjury(id);
         if (injury) {
-            this.writeToInjuries(null, index);
+            injury.cure();
         }
     }
 
@@ -197,129 +174,71 @@ class InjurableBase extends PointsBase {
      * @param activate
      * @param inputPrimeData
      */
-    aggravateOrAlleviate({activate, value: index}) {
-        const injury = this.injuries[index];
+    aggravateOrAlleviate({activate, id}) {
+        const injury = this.getInjury(id);
         // if we have activated this wound,
-        if (activate) {
-            // and we have an injury already in this slot
-            if (injury) {
-                // and the wound is dormant lets aggravate it.
-                this.aggravate(index);
-            } else {
-                // or the wound is not there lets fill with injuries until we have achieved the recommended number of values.
-                // if there are no wounds above.
-                if (this.injuries.slice(index).filter(injury => !!injury).length === 0) {
-                    let count = index - 1;
-                    while (count >= 0 && this.injuries[count] == null) {
-                        this.writeToInjuries({tended: false, detail: null}, count)
-                        count -= 1;
-                    }
+        if (injury) {
+            if (activate) {
+                // I am simplyfing functionality to begin with.
+                if(injury.tended){
+                    injury.aggravate();
                 }
-                this.writeToInjuries({tended: false, detail: null}, index)
-            }
-            // if we are not activating a wound, and the wound is not tended
-        } else if (injury && !injury.tended) {
-            // tend the wound
-            this.writeToInjuries(true, index, 'tended')
-            // if there are no details on this wound, then lets heal it completely. its a mistake, lets be friendly in our UI
-            if ((!injury.detail) || injury.detail == '') {
-                this.writeToInjuries(null, index)
+            } else if (injury.untended) {
+                injury.tend();
             }
         }
-    }
-
-    get pointsPath() {
-        return this.statsPath.with('wounds');
     }
 
     /**
      * We can't use sort as we purposefully have holes in the array.
      * @protected
      */
-    get injuries(){
+    get injuries() {
         const transformed = new Array(this.max);
         transformed.fill(null);
-        const criteria = {itemCollection: this.document.items, itemBaseTypes:'injury', typed: true, sortItems: true};
+        const criteria = {itemCollection: this.document.items, itemBaseTypes: 'injury', typed: true, sortItems: true};
         const items = PrimeItemManager.getItems(criteria);
         const filtered = items.filter(item => item.source.injuryType === this.injuryType && ["tended", "untended"].includes(item.injuryState));
-        const mapped = filtered.map(item => new EmbeddedInjuryItem(this,item));
+        const mapped = filtered.map(item => new EmbeddedInjuryItem(this, item));
         let invalidIndexes = false;
 
         mapped.forEach(item => {
-            if(item.injuryIndex != null && transformed[item.injuryIndex] == null) {
+            if (item.injuryIndex != null && transformed[item.injuryIndex] == null) {
                 transformed[item.injuryIndex] = item;
             } else {
                 invalidIndexes = true;
             }
         });
-        if(invalidIndexes){
+        if (invalidIndexes) {
             console.warn('Something went awry and the indexes of the injuries messed up, doing best fit fix.')
             const max = this.max;
             mapped.forEach(item => {
-                if(item.injuryIndex == null || transformed[item.injuryIndex] != null) {
-                    for(let idx = 0; idx < max; idx++){
-                        if(transformed[idx] == null){
+                if (item.injuryIndex == null || transformed[item.injuryIndex] !== item) {
+                    for (let idx = 0; idx < max; idx++) {
+                        if (transformed[idx] == null) {
                             item.injuryIndex = idx;
                             transformed[idx] = item;
+                            break;
                         }
                     }
                 }
             });
         }
-        return transformed;
+        return transformed.map(item => item == null ? NON_INJURY : item);
     }
 
-    get injuryType(){
+    get injuryType() {
         return '';
     }
 
-    /**
-     * @protected
-     */
-    writeToInjuries(value, ...pathComponents) {
-        this._fixInjuriesData();
-        return this.write(this.statsPath.with('injuries',...pathComponents), value)
-    }
-
-    /**
-     * @protected
-     */
-    overwriteInjuries(injuries) {
-        this._fixInjuriesData();
-        return this.write(this.statsPath.with('injuries'), injuries)
-    }
-
-    /**
-     * Override
-     * @protected
-     * @abstract
-     */
-    get stats() {
-
-    }
-
-    /**
-     * @protected
-     */
-    writeToStats(value, ...pathComponents) {
-        return this.write(this.statsPath.with(...pathComponents), value);
-    };
-
-    get statsPath() { }
-
-    /**
-     * Override
-     * @protected
-     * @abstract
-     */
-    _fixInjuriesData() {}
 }
 
 class Wounds extends InjurableBase {
     constructor(parent) {
         super(parent);
     }
-    get injuryType(){
+
+    get injuryType() {
         return 'wound';
     }
 
@@ -327,42 +246,17 @@ class Wounds extends InjurableBase {
         return PrimeModifierManager.getModifiers("health.wounds.max", this.document);
     }
 
-
-    get stats() {
-        return this.gameSystem.health;
-    }
     /**
      * @protected
      */
     get points() {
-        return this.stats.wounds;
+        return this.gameSystem.health.wounds;
     }
 
-    get statsPath() {
-        return this.gameSystemPath.with('health');
+    get pointsPath() {
+        return this.statsPath.with('health').with('wounds');
     }
 
-    /**
-     * @protected
-     */
-    _fixInjuriesData() {
-        // TODO migration
-        // Fix for old data structure.
-
-        if(this.stats.injuries == null){
-
-            if (this.gameSystem.wounds != null) {
-                const arr = Object.values(this.gameSystem.wounds);
-                const length = arr.length;
-                const injuries = arr.map((injury, idx) => ({detail: injury, tended: idx >= length}));
-                this.writeToStats(injuries, 'injuries');
-                this.write(this.gameSystemPath.with('wounds'), null);
-            } else if(this.stats.wounds.injuries != null) {
-                this.writeToStats(this.stats.wounds.injuries, 'injuries');
-                this.writeToStats(null, 'wounds','injuries');
-            }
-        }
-    }
 }
 
 class Resilience extends PointsBase {
@@ -390,7 +284,8 @@ class Insanities extends InjurableBase {
     constructor(parent) {
         super(parent);
     }
-    get injuryType(){
+
+    get injuryType() {
         return 'insanity';
     }
 
@@ -401,40 +296,12 @@ class Insanities extends InjurableBase {
     /**
      * @protected
      */
-    get stats() {
-        return this.gameSystem.mind;
-    }
-
-    /**
-     * @protected
-     */
     get points() {
-        return this.stats.insanities;
+        return this.gameSystem.mind.insanities;
     }
 
-    get statsPath() {
-        return this.gameSystemPath.with('mind');
-    }
-
-    /**
-     * @protected
-     */
-    _fixInjuriesData() {
-        // TODO migration
-        // Fix for old data structure.
-        if(this.stats.injuries == null) {
-            if (this.gameSystem.insanities != null) {
-                const arr = Object.values(this.gameSystem.insanities);
-                const length = arr.length;
-                const injuries = arr.map((injury, idx) => ({detail: injury, tended: idx >= length}));
-
-                this.writeToStats(injuries, 'injuries');
-                this.write(this.gameSystemPath.with('insanities'), null);
-            } else if (this.stats.insanities.injuries != null) {
-                this.writeToStats(this.stats.insanities.injuries, 'injuries');
-                this.writeToStats(null, 'insanities', 'injuries');
-            }
-        }
+    get pointsPath() {
+        return this.statsPath.with('health').with('mind');
     }
 }
 

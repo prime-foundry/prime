@@ -5,9 +5,11 @@ function dyn_callback() {
     this.refresh();
 }
 
-function item_callback() {
-    console.debug(`item_callback reloading table: ${this.constructor.name}`);
-    this.itemRefresh();
+function item_callback(doc) {
+    if(!doc.parent) {
+        console.debug(`item_callback reloading table: ${this.constructor.name}`, doc);
+        this.itemRefresh();
+    }
 }
 export class TemplateTable {
     data;

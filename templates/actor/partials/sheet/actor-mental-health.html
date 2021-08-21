@@ -28,39 +28,47 @@
         <div class="blockTitle"
              data-dyn-click-at="actor.health.insanities.sort()"><span>Insanities</span></div>
 
-        {{#range 0 insanities.slots 1 true}}
+        {{#each insanities.injuries as |injury|}}
+            {{injury.metadata.sourceKey}}
         <div class="flexRow insanityRow">
-			<a class="showInjuryInfoIcon"><i class="fas fa-info-circle fa-xs"></i></a>
+            <a class="showInjuryInfoIcon"
+               data-dyn-click-at="actor.health.insanities.displayInjury()"
+               data-dyn-show="{{not injury.placeholder}}"
+               data-dyn-id="{{injury.id}}"><i class="fas fa-info-circle fa-xs"></i></a>
             <div class="couchIcon flexRow flexStart verticalCenter">
                 <a class="healInsanity" title="Heal this insanity"
-                   data-dyn-hide="actor.health.insanities.isHealthy()"
                    data-dyn-click-at="actor.health.insanities.cure()"
-                   data-dyn-index="{{this}}">
+                   data-dyn-show="{{not injury.placeholder}}"
+                   data-dyn-id="{{injury.id}}">
                     <i class="fas fa-couch"></i>
                 </a></div>
-            <select name="insanitySelect{{this}}" class="insanitySelect"
-                    data-dyn-change-at="actor.health.insanities.injure()"
-                    data-dyn-select="actor.health.insanities.injuryDetail()"
-                    data-dyn-disable="actor.health.insanities.isTended()"
-                    data-dyn-index="{{this}}">
-                <option value=""></option>
-				{{#each ../../static.actor.mentalConditions}}
-				<option value="{{@key}}" title="{{convertHTMLForTitle this.description}}">{{this.title}}</option>
-				{{/each}}
+            <select class="insanitySelect"
+                id="insanitySelect-{{@index}}-{{injury.id}}"
+                data-dyn-change-at="actor.health.insanities.injure()"
+                {{attr 'disabled' if=injury.tended}}
+                data-dyn-id="{{injury.id}}"
+                data-dyn-index="{{@index}}"
+                title="{{convertHTMLForTitle injury.descriptions.core}}">
+                {{#select injury.metadata.sourceKey}}
+                    <option value=""></option>
+                    {{#each ../../static.actor.mentalConditions}}
+                        <option value="{{@key}}"
+                                title="{{convertHTMLForTitle this.description}}">{{this.title}}</option>
+                    {{/each}}
+                {{/select}}
             </select>
             <div class="insanityCheckBoxWrapper flexRow flexCenter verticalCenter{{addInjuryClasses this ../insanities}}">
                 <input type="checkbox"
-                       id="insanityCheckbox-{{this}}"
-                       name="insanityCheckboxes"
+                       id="insanityCheckbox-{{@index}}-{{injury.id}}"
                        class="insanityCheckbox"
                        data-dyn-change-at="actor.health.insanities.aggravateOrAlleviate()"
-                       data-dyn-value="{{this}}"
-                       data-dyn-index="{{this}}"
-                       data-dyn-select="actor.health.insanities.isUntended()"/>
-                <label for="insanityCheckbox-{{this}}" class="flexRow flexCenter verticalCenter">{{this}}</label>
+                       data-dyn-id="{{injury.id}}"
+                    {{attr 'disabled' if=injury.placeholder}}
+                    {{attr 'checked' if=injury.untended}}/>
+                <label for="insanityCheckbox-{{@index}}-{{injury.id}}" class="flexRow flexCenter verticalCenter">{{increment @index}}</label>
             </div>
         </div>
-        {{/range}}
+        {{/each}}
     </div>
     {{/with}}
     <div class="flexRow flexStart block bottomBlockTitle bottomHalfBlock">

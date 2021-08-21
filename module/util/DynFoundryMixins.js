@@ -307,14 +307,18 @@ export const EmbeddedDocumentMixin = (EmbeddedDocumentType) =>
             return lastValue;
         }
 
-        async deleteItem() {
+        async deleteItem(render=true) {
             const owningDoc = this.owningComponent.document;
             const itemDoc = this.document;
             // asynchronous
-            return owningDoc.deleteEmbeddedDocuments('Item', [itemDoc.id]).then(() => {
-                const sheet = owningDoc.sheet;
-                sheet.render();
-            });
+            return owningDoc.deleteEmbeddedDocuments('Item', [itemDoc.id], {render, renderSheet:render});
+
+            // .then(() => {
+            //     if(render) {
+            //         const sheet = owningDoc.sheet;
+            //         sheet.render();
+            //     }
+            // });
         }
 
         get _sourceKey() {

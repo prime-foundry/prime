@@ -448,51 +448,6 @@ export class PrimeItemSheet extends DynApplicationMixin(ItemSheet)
 		}
 	}
 
-	async _updateObject(event, data)
-	{
-		this.checkMetaData(data);
-		var result = await super._updateObject(event, data);
-		//return result;
-	}
-
-	checkMetaData(data)
-	{
-		const baseData = super.getData();
-		if (!baseData.data.creator)
-		{
-			this.addMetaData(data);
-		}
-		else
-		{
-			this.updateMetaData(data);
-		}
-	}
-
-	addMetaData(data)
-	{
-		data["data.creator"] = game.users.get(game.userId).name;
-		data["data.creatorID"] = game.userId;
-
-		data["data.updater"] = game.users.get(game.userId).name;
-		data["data.updaterID"] = game.userId;
-
-		var dateString = this.getDateString();
-
-		data["data.created"] = dateString;
-		data["data.updated"] = dateString;
-
-		data["data.metadata.sourceKey"] = this.item.data._id;
-		//game.users.get(game.userId);
-	}
-
-	updateMetaData(data)
-	{
-		data["data.updater"] = game.users.get(game.userId).name;
-		data["data.updaterID"] = game.userId;
-
-		var dateString = this.getDateString();
-		data["data.updated"] = dateString;
-	}
 
 	/* -------------------------------------------- */
 
@@ -504,25 +459,6 @@ export class PrimeItemSheet extends DynApplicationMixin(ItemSheet)
 		const bodyHeight = position.height - 192;
 		sheetBody.css("height", bodyHeight);
 		return position;
-	}
-
-	getDateString()
-	{
-		//const timezone = new Date().getTimezoneOffset();
-		const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
-		const dateString = new Date().toLocaleDateString(
-			'en-gb',
-			{
-				hour: 'numeric',
-				minute: 'numeric',
-				second: 'numeric',
-				year: 'numeric',
-				month: 'long',
-				day: 'numeric',
-				timeZone: timezone
-			}
-		);
-		return dateString
 	}
 
 	/* -------------------------------------------- */

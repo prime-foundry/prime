@@ -1,5 +1,5 @@
 import JSONPathBuilder from "./util/JSONPathBuilder.js";
-import {DynError, isString} from "./util/support.js";
+import {DynError, isFunction, isString} from "./util/support.js";
 
 class DynHandlebars {
     static dynEditor(options) {
@@ -491,7 +491,6 @@ class DynHandlebars {
             data[values[i]] = values[i + 1];
         }
     }
-
     static either(...args) {
         let values = Array.from(args);
         const options = values.pop(); // makes values 1 shorter ( we want this )
@@ -502,6 +501,38 @@ class DynHandlebars {
         }
         return null;
     }
+
+    static attr(name, ...rest){
+        let values = Array.from(rest);
+        const options = values.pop();
+
+        const hash = options.hash;
+        const ifValue = hash.if;
+        const should = ifValue == null ? false : !!ifValue;
+        if(should) {
+            if(values.length === 0){
+                return ` ${name} `
+            }
+            else {
+                return ` ${name}="${values[0]}" `
+            }
+        }
+        return '';
+    }
+
+    static dynCssClass(...rest){
+        let values = Array.from(rest);
+        const options = values.pop();
+
+        const hash = options.hash;
+        const ifValue = hash.if;
+        const should = ifValue == null ? false : !!ifValue;
+        if(should) {
+            return ` ${values.join(' ')} `;
+        }
+        return '';
+    }
+
 }
 
 Handlebars.registerHelper({
@@ -527,5 +558,7 @@ Handlebars.registerHelper({
     keys: DynHandlebars.keys,
     values: DynHandlebars.values,
     aliasAs: DynHandlebars.aliasAs,
-    either: DynHandlebars.either
+    either: DynHandlebars.either,
+    attr: DynHandlebars.attr,
+    dynCssClass: DynHandlebars.dynCssClass
 });

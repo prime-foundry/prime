@@ -279,15 +279,19 @@ class ControllerSupport {
             const show = inputDyn.show;
             let hidden = false;
             if (hide != null) {
-                if (hide === true) {
+                if (hide === true || hide === 'true') {
                     hidden = element.hidden = true;
+                } else if (hide === false || hide === 'false') {
+                    hidden = element.hidden = false;
                 } else {
                     hidden = element.hidden = !!this.getModelValue(hide, inputDyn);
                 }
             }
             if (show != null) {
-                if (show === true) {
+                if (show === true || show === 'true') {
                     element.hidden = false;
+                } else if (show === false || show === 'false') {
+                    element.hidden = true;
                 } else {
                     hidden = element.hidden = !this.getModelValue(show, inputDyn);
                 }
