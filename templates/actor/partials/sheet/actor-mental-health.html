@@ -56,7 +56,8 @@
                     {{/each}}
                 {{/select}}
             </select>
-            <div class="insanityCheckBoxWrapper flexRow flexCenter verticalCenter{{addInjuryClasses this ../insanities}}">
+            <div class="insanityCheckBoxWrapper flexRow flexCenter verticalCenter {{dynCssClass 'activePoint'
+                                                                                               if=(and injury.untended (not injury.placeholder))}}">
                 <input type="checkbox"
                        id="insanityCheckbox-{{@index}}-{{injury.id}}"
                        class="insanityCheckbox"
