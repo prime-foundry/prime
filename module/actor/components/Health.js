@@ -103,7 +103,7 @@ class InjurableBase extends PointsBase {
      * Migrated => Item As Wounds
      */
     get value() {
-        return this.injuries.filter(injury => injury != null).length
+        return this.allInjuries.filter(item => ["tended", "untended"].includes(item.injuryState)).length
     }
 
     /**
@@ -139,7 +139,9 @@ class InjurableBase extends PointsBase {
         const oldInjury = this.getInjury(id);
 
         if(oldInjury != null) {
+            console.log("deleting at ", new Date());
             await oldInjury.deleteItem(false);
+            console.log("deleted at ", new Date());
         }
         if(selected.length > 0){
             const injuryState = oldInjury != null ? oldInjury.injuryState : "untended";
@@ -151,7 +153,9 @@ class InjurableBase extends PointsBase {
             injuryToCreate.data.audit = {};
             injuryToCreate.data.injuryIndex = index || 0;
             injuryToCreate.data.injuryState = injuryState;
+            console.log("creating at ", new Date());
             await this.document.createEmbeddedDocuments("Item", [injuryToCreate], {render:false, renderSheet:false});
+            console.log("created at ", new Date());
         }
     }
 
