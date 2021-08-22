@@ -161,12 +161,6 @@ class InjurableBase extends PointsBase {
     async injure({index, id, selected}) {
         const oldInjury = this.getInjury(id);
 
-        if(oldInjury != null) {
-            console.log("deleting at ", new Date());
-            const timeCreated = Date.now();
-            await oldInjury.deleteItem(false);
-            console.log("deletions took ",(Date.now() - timeCreated),'ms');
-        }
         if(selected.length > 0){
             const injuryState = oldInjury != null ? oldInjury.injuryState : "untended";
             const injurySelected = ItemDirectory.collection.get(selected);
@@ -181,6 +175,12 @@ class InjurableBase extends PointsBase {
             console.log("creating at ", new Date());
             await this.document.createEmbeddedDocuments("Item", [injuryToCreate], {render:false, renderSheet:false});
             console.log("creation took ",(Date.now() - timeCreated),'ms');
+        }
+        if(oldInjury != null) {
+            console.log("deleting at ", new Date());
+            const timeCreated = Date.now();
+            await oldInjury.deleteItem(false);
+            console.log("deletions took ",(Date.now() - timeCreated),'ms');
         }
     }
 

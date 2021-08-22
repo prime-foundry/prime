@@ -3,6 +3,7 @@ import {EmbeddedDocumentMixin} from "../../util/DynFoundryMixins.js";
 import {PrimeItemManager} from "../../item/PrimeItemManager.js";
 import PerkItem from "../../item/types/PerkItem.js";
 import {orderedSort} from "../../util/support.js";
+import {getter} from "../../util/dyn_helpers.js";
 
 class Perk extends EmbeddedDocumentMixin(PerkItem) {
     constructor(parent, item) {
@@ -13,25 +14,23 @@ class Perk extends EmbeddedDocumentMixin(PerkItem) {
 export default class Perks extends Component {
     constructor(parent) {
         super(parent);
-    }
 
-    get all() {
-        const searchCriteria = {itemCollection:this.document.items,itemBaseTypes:['perk'], sortItems:true};
-        let items = PrimeItemManager.getItems(searchCriteria);
-        const perks = items.map(item => new Perk(this, item));
-        return perks;
-    }
-
-    get ordered() {
-        const {...clonedInventoryOrder} = this.perkOrder;
-        const sort = (itemA, itemB) => orderedSort(itemA, itemB, clonedInventoryOrder);
-        return this.all.sort(sort);
-    }
-
-    get qualifying() {
-        const perks = this.all;
-        const qualifyingOnly = perks.filter(perk => perk.qualifies(this.document));
-        return qualifyingOnly;
+        getter(this, 'all', () => {
+            const searchCriteria = {itemCollection:this.document.items,itemBaseTypes:['perk'], sortItems:true};
+            let items = PrimeItemManager.getItems(searchCriteria);
+            const perks = items.map(item => new Perk(this, item));
+            return perks;
+        }, {cached:true});
+        getter(this, 'ordered', () => {
+            const {...clonedInventoryOrder} = this.perkOrder;
+            const sort = (itemA, itemB) => orderedSort(itemA, itemB, clonedInventoryOrder);
+            return this.all.sort(sort);
+        }, {cached:true});
+        getter(this, 'qualifying', () => {
+            const perks = this.all;
+            const qualifyingOnly = perks.filter(perk => perk.qualifies(this.document));
+            return qualifyingOnly;
+        }, {cached:true});
     }
 
     displayPerk({id}) {

@@ -2,6 +2,7 @@ import {PointsBase} from "./Points.js";
 import Component from "../../util/Component.js";
 import {PrimeModifierManager} from "../../item/PrimeModifierManager.js";
 import {minmax} from "../../util/support.js";
+import {getter} from "../../util/dyn_helpers.js";
 
 export default class Armour extends Component {
     constructor(parent) {
@@ -47,16 +48,16 @@ class ArmourPart extends Component {
         this._key = key;
         this._itemPath = `armour.${key}`;
         this._fullkey = `${this._itemPath}.max`;
-    }
 
-    get max() {
-        const armour = PrimeModifierManager.getModifiersByFilteredItems(this._itemPath, this.document,
-            {
-                itemBaseTypes: ["shield", "armour"],
-                filtersData: {equipped: true}
-            }) || 0;
-        const bonus = PrimeModifierManager.getModifiers(this._fullkey, this.document) || 0;
-        return armour + bonus;
+        getter(this, 'max', () => {
+            const armour = PrimeModifierManager.getModifiersByFilteredItems(this._itemPath, this.document,
+                {
+                    itemBaseTypes: ["shield", "armour"],
+                    filtersData: {equipped: true}
+                }) || 0;
+            const bonus = PrimeModifierManager.getModifiers(this._fullkey, this.document) || 0;
+            return armour + bonus;
+        }, {cached:true});
     }
 
     /**

@@ -1,4 +1,4 @@
-{{#if filteredItems.armour}}
+{{#if actor.inventory.armour}}
     <div class="{{partialClasses}} armour block">
         <div class="blockTitle">Armour</div>
         <div class="primeTableWrapper">
@@ -17,7 +17,7 @@
                 </thead>
                 <!-- <div>Title(Descriptions) | (Size) | (Type) | (DR) | Hands | Wounds | Keywords | Actions</div> -->
                 <tbody>
-                {{#each actor.inventory.ordered.armour as |item|}}
+                {{#each actor.inventory.armour as |item|}}
                     <tr>
                         <td title="{{convertHTMLForTitle item.descriptions.core}}">
                             <a class="itemTitle"

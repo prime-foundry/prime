@@ -3,6 +3,7 @@ import Component from "../../util/Component.js";
 import {EmbeddedDocumentMixin} from "../../util/DynFoundryMixins.js";
 import StatItem from "../../item/types/StatItem.js";
 import {PrimeItemManager} from "../../item/PrimeItemManager.js";
+import {getter} from "../../util/dyn_helpers.js";
 
 class Stat extends EmbeddedDocumentMixin(StatItem) {
     constructor(parent, item) {
@@ -15,6 +16,17 @@ class StatCollection extends Component {
     constructor(parent, itemType) {
         super(parent);
         this.itemType = itemType;
+        getter(this, 'all', () =>
+            Object.fromEntries(this.statTypes.map(statType => [statType, this.getStatsForType(statType)])), {cached:true});
+        getter(this, 'cost', () =>
+            this.allStats.reduce((accumulator, stat) => accumulator + stat.cost, 0)
+        , {cached:true});
+        getter(this, 'allStats', () => {
+            const searchCriteria = {itemCollection:this.document.items,itemBaseTypes:this.itemType, sortItems:true};
+            let items = PrimeItemManager.getItems(searchCriteria);
+            const stats = items.map(item => new Stat(this, item));
+            return stats;
+            }, {cached:true});
     }
 
     // at some point this needs to work out the correct values depending on the compendium.
@@ -27,15 +39,15 @@ class StatCollection extends Component {
     }
 
     get cost() {
-        return this.getAllStats().reduce((accumulator, stat) => accumulator + stat.cost, 0);
+        return this.allStats.reduce((accumulator, stat) => accumulator + stat.cost, 0);
     }
 
     getStatsForType(statType) {
-        return this.getAllStats().filter(stat => stat.statType === statType);
+        return this.allStats.filter(stat => stat.statType === statType);
     }
 
     getStatById(id){
-       return this.getAllStats().find((stat) => stat.id === id);
+       return this.allStats.find((stat) => stat.id === id);
     }
 
     displayStat({id}){
@@ -45,13 +57,6 @@ class StatCollection extends Component {
     setStatValue({value, key}){
         const stat = this.getStatById(key);
         stat.unadjustedValue = value;
-    }
-
-    getAllStats() {
-        const searchCriteria = {itemCollection:this.document.items,itemBaseTypes:this.itemType, sortItems:true};
-        let items = PrimeItemManager.getItems(searchCriteria);
-        const stats = items.map(item => new Stat(this, item));
-        return stats;
     }
 }
 
@@ -72,6 +77,18 @@ class Refinements extends StatCollection {
 export default class Stats extends Component {
     constructor(parent) {
         super(parent);
+        getter(this, 'sorted', () => {
+            const primes = this.primes.all;
+            const refinements = this.refinements.all;
+            return Object.entries(primes).map(([statType, stats]) =>
+                ({
+                    statType,
+                    primes: stats,
+                    refinements: refinements[statType],
+                    title: game.i18n.localize(`PRIME.stat_type_${statType}`),
+                })
+            );
+        }, {cached:true});
     }
 
     /**
@@ -86,18 +103,5 @@ export default class Stats extends Component {
      */
     get refinements() {
         return getComponentLazily(this, 'refinements', Refinements);
-    }
-
-    get sorted() {
-        const primes = this.primes.all;
-        const refinements = this.refinements.all;
-        return Object.entries(primes).map(([statType, stats]) =>
-            ({
-                statType,
-                primes: stats,
-                refinements: refinements[statType],
-                title: game.i18n.localize(`PRIME.stat_type_${statType}`),
-            })
-        );
     }
 }
