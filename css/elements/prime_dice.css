@@ -55,17 +55,20 @@
     line-height: 18px;
 }
 
-.primeDiceRollWrapper .statsContent .refinementsGroup button.refinementWrapper.selectedPrime, .primeDiceRollWrapper .statsContent .primesGroup button.primeWrapper.selectedPrime {
+.primeDiceRollWrapper .statsContent .refinementsGroup button.refinementWrapper.selectedPrime,
+.primeDiceRollWrapper .statsContent .primesGroup button.primeWrapper.selectedPrime {
     background-color: rgba(225, 247, 255, 0.8);
     box-shadow: 0 0 5px #00A8E1;
 }
 
-.primeDiceRollWrapper .statsContent .refinementsGroup button.refinementWrapper.selectedRefinement, .primeDiceRollWrapper .statsContent .primesGroup button.primeWrapper.selectedRefinement {
+.primeDiceRollWrapper .statsContent .refinementsGroup button.refinementWrapper.selectedRefinement,
+.primeDiceRollWrapper .statsContent .primesGroup button.primeWrapper.selectedRefinement {
     background-color: rgba(255, 225, 247, 0.8);
     box-shadow: 0 0 5px #E13212;
 }
 
-.primeDiceRollWrapper .statsContent .refinementsGroup button.refinementWrapper.selectedPrime.doubled, .primeDiceRollWrapper .statsContent .primesGroup button.primeWrapper.selectedPrime.doubled {
+.primeDiceRollWrapper .statsContent .refinementsGroup button.refinementWrapper.selectedPrime.doubled,
+.primeDiceRollWrapper .statsContent .primesGroup button.primeWrapper.selectedPrime.doubled {
     background: linear-gradient(to right, #b3e8fc, #ffa2c9);
     box-shadow: 0 0 5px #b8860b;
 }
@@ -95,6 +98,12 @@
     /* max-width: 50px;
     width: 50px; */
     border: 1px solid black;
+	cursor: pointer;
+	transition: 0.3s;
+}
+.diceMessage .prime-dice-actor .actorPortrait:hover {
+	opacity: 0.8;
+	border-color:rgba(255,100,0,1) !important;
 }
 
 .diceMessage .prime-dice-group {
@@ -362,6 +371,7 @@
     width:100%;
     display:flex;
 }
+
 .roll-footer .number-field {
     flex: 0 0 auto;
     padding-right:10px;
@@ -376,17 +386,18 @@
     text-align: center;
     background: url(../images/buttons.png) no-repeat;
 }
+
 .roll-footer .rollPrimeDice {
     flex: 1 1 auto;
 }
 
 .rollerTab.rollerPreparing i{
-    animation: roller-prepare-animation 8s infinite linear;
+    animation: roller-prepare-animation 12s infinite linear;
     text-shadow: 0px 0px 5px #ff6100; /* Dialling it down from foundries */
     font-size: 19px;
 }
 .rollerTab.rollerReady i{
-    animation: roller-ready-animation 5s infinite linear;
+    animation: roller-ready-animation 7s infinite linear;
     font-size: 22px;
     color: #ff6100;
 }
@@ -396,7 +407,7 @@
         text-shadow: 0px 0px 5px #ff6100; /* Dialling it down from foundries */
     }
     10%{
-        text-shadow: 0px 0px 5px yellow; /* Dialling it down from foundries */
+        text-shadow: 0px 0px 5px #ffff88; /* Dialling it down from foundries */
     }
     20%{
         text-shadow: 0px 0px 5px #ff6100; /* Dialling it down from foundries */
@@ -409,12 +420,13 @@
         transform: rotate(720deg)
     }
 }
+
 @keyframes roller-ready-animation {
     0%{
         color: #ff6100;
     }
     10%{
-        color: yellow;
+        color: #ffff88;
     }
     20%{
         color: #ff6100;
@@ -429,15 +441,9 @@
 }
 
 .selectedRollerPrime {
-    font-weight: bold;
-    font-size: larger;
-    color: #581818;
 }
 
 .selectedRollerRefinement {
-    font-weight: bold;
-    font-size: larger;
-    color: #581818;
 }
 
 .primeCard.itemCardAction.selectedRollerAction
@@ -448,7 +454,7 @@
 .primeCharacterSheet .rollerBar select,
 .primeCharacterSheet .rollerBar input {
     border-radius: 3px;
-    background-color: var(--textLight);
+    background-color: var(--white);
 }
 
 .primeCharacterSheet .rollerBar .rollerModifier input {
@@ -459,9 +465,10 @@
     font-size: 20px;
     justify-self: flex-end;
     text-align: end;
+	cursor: pointer;
 }
 .primeCharacterSheet .rollerClose i{
-     transition: transform 1s ease-in-out, color 0.3s ease-in-out;
+     transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
  }
 .primeCharacterSheet .rollerClose i:hover{
     transform: rotate(90deg);
