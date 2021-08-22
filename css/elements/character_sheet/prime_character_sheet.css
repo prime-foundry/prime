@@ -298,7 +298,7 @@ h1.entityName
 
 .primeCharacterSheet .sub-nav > *{
 	opacity: 0;
-	transition: opacity 1.3s ease-in-out;
+	transition: opacity 0.3s ease-in-out;
 	overflow: hidden;
 }
 
@@ -312,22 +312,26 @@ h1.entityName
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	margin-top: 0;
+	margin-top: -1px;
 	margin-bottom: 6px;
+    margin-left: 2px;
+    margin-right: 4px;
 	padding-left: 1em;
 	padding-right: 1em;
 
-	border-bottom-left-radius: 3px;
-	border-bottom-right-radius: 3px;
-	border-bottom: 1px solid var(--borderGrey);
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	border: 1px solid var(--borderGrey);
+	border-top-width: 0px;
 
-	color: var(--textLight);
-	background: var(--textDarkish);
-/*rgba(0,0,0,0.05);*/
+	color: var(--textDark);
+	background: var(--textLight);
 
-	transition: height 0.9s ease-in-out, margin-bottom 0.15s linear;
+	transition: height 0.2s ease-in-out, margin-bottom 0.15s linear;
 	height: 0px;
 	overflow: hidden;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
 }
 
 .primeCharacterSheet .sub-nav.active
@@ -362,6 +366,9 @@ h1.entityName
 	width: 36px;
 	max-width: 36px;
 	transition: width 1s linear .5s;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .perksOuterWrapper
@@ -389,6 +396,11 @@ h1.entityName
 {
 	width: 100%;
 	border-bottom: 1px solid var(--textDark);
+}
+
+.metaDataContent .actionPoints
+{
+	margin-left: 20px;
 }
 
 .metaValueContent.actionPointsWrapper
@@ -691,6 +703,62 @@ h1.entityName
 	text-shadow: 1px 1px 5px var(--primaryHighlightHalfAlpha);
 }
 
+
+.primeCharacterSheet .statsContent .selectedRollerPrime,
+.primeCharacterSheet .statsContent .selectedRollerRefinement
+{
+    color: #581818;
+}
+
+.primeCharacterSheet .statsContent .selectedIndicator
+{
+	position: absolute;
+	top: 100%;
+	left: 100%;
+	bottom: 0px;
+	right: 0px;
+	background: linear-gradient(169deg, rgba(255,100,0,0) 70%, rgba(255,0,0,0.15) 100%);
+	opacity: 0;
+	transition: ease-in-out 0.3s;
+}
+ 
+.primeCharacterSheet .statsContent .selectedIndicator:before,
+.primeCharacterSheet .statsContent .selectedIndicator:after
+{
+	content: "";
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	bottom: 0px;
+	right: 0px;
+	border-bottom-right-radius: 5px;
+	border-image-slice: 1;
+	border-image-width: 0px 0px 1px 0px;
+	border-image-outset: 0px 0px 0px 0px;
+	border-image-repeat: stretch stretch;
+	border-image-source: linear-gradient(90deg, rgba(255,100,0,0) 0%, rgba(255,100,0,0.6) 80%, rgba(255,100,0,0) 100% );
+	border-style: solid;
+}
+
+.primeCharacterSheet .statsContent .selectedIndicator:after
+{
+	border-image-width: 0px 1px 0px 0px;
+	border-image-source: linear-gradient(180deg, rgba(255,100,0,0) 40%, rgba(255,100,0,0.6) 60%, rgba(255,100,0,0) 100% );
+} 
+
+
+.primeCharacterSheet .statsContent .selectedRollerPrime .selectedIndicator,
+.primeCharacterSheet .statsContent .selectedRollerRefinement .selectedIndicator
+{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	bottom: 0px;
+	right: 0px;
+	opacity: 1;
+	z-index: 0;
+}
+
 .primeCharacterSheet .tabbedSection .tabContentWrapper .block.leftBlockTitle
 {
 	margin-left:0px;
@@ -767,6 +835,12 @@ h1.entityName
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+
+
+.primeCharacterSheet .statsContent .showStatInfoIcon
+{
+	margin-right: 5px;
 }
 
 .primeCharacterSheet .actorValue,
