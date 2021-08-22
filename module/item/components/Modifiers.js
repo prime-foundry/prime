@@ -1,24 +1,25 @@
 import Component from "../../util/Component.js";
 import PrimeItemTables from "../PrimeItemTables.js";
+import {getter} from "../../util/dyn_helpers.js";
 const IS_ACTION = (type) => ['action', 'extraAction'].includes(type);
 export class Modifiers extends Component {
 _modifiersPropertyName;
     constructor(parent, modifiersPropertyName = "modifiers") {
         super(parent);
         this._modifiersPropertyName = modifiersPropertyName;
-    }
-    get collection() {
-        return Array.from(this.modifiers || []).map((modifier, index) => {
+        getter(this, 'collection', () => {
+            return Array.from(this.modifiers || []).map((modifier, index) => {
 
-            const modifierCategory = (PrimeItemTables.modifiers[modifier.type] || {}).category;
-            if (modifierCategory === 'otherItem') {
-                if(IS_ACTION(modifier.type)) {
-                    return new AddedActionModifier(this, index, modifierCategory);
+                const modifierCategory = (PrimeItemTables.modifiers[modifier.type] || {}).category;
+                if (modifierCategory === 'otherItem') {
+                    if(IS_ACTION(modifier.type)) {
+                        return new AddedActionModifier(this, index, modifierCategory);
+                    }
+                    return new OtherItemModifier(this, index, modifierCategory);
                 }
-                return new OtherItemModifier(this, index, modifierCategory);
-            }
-            return new Modifier(this, index, modifierCategory);
-        });
+                return new Modifier(this, index, modifierCategory);
+            });
+        }, {cached:true});
     }
 
     getModifiersByCategory(modifierCategory) {

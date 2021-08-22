@@ -2,14 +2,18 @@ import Component from "../../util/Component.js";
 import {PrimeItemManager} from "../PrimeItemManager.js";
 import JSONPathBuilder from "../../util/JSONPathBuilder.js";
 import PrimeItemTables from "../PrimeItemTables.js";
+import {getter} from "../../util/dyn_helpers.js";
+import {AddedActionModifier, Modifier, OtherItemModifier} from "./Modifiers.js";
 
 export class Prerequisites extends Component {
-
-    get collection() {
-        return Array.from(this.gameSystem.prerequisites || []).map((prerequisite, index) => {
-            const PrerequisiteType = Prerequisites.prerequisiteClassForType(prerequisite.type);
-            return new PrerequisiteType(this, index);
-        });
+    constructor(parent) {
+        super(parent);
+        getter(this, 'collection', () => {
+            return Array.from(this.gameSystem.prerequisites || []).map((prerequisite, index) => {
+                const PrerequisiteType = Prerequisites.prerequisiteClassForType(prerequisite.type);
+                return new PrerequisiteType(this, index);
+            });
+        }, {cached:true});
     }
 
     pathToPrerequisites() {

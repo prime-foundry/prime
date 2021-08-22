@@ -19,6 +19,7 @@ function fixArrays(viewParts, editParts, viewObj, editObj) {
 export default class DataManager {
     document;
     embeddedDataManagers;
+    lastChangedTime;
 
     /**
      * @param {foundry.abstract.Document} (document)
@@ -26,6 +27,7 @@ export default class DataManager {
     constructor(document) {
         this.document = document;
         this.embeddedDataManagers = new Set();
+        this.lastChangedTime = Date.now();
         this.clear();
     }
 
@@ -54,6 +56,7 @@ export default class DataManager {
             fixArrays(viewParts, editParts, viewObj, editObj);
             editObj[editProperty] = value;
 
+            this.changeDetected();
             this.dirty = true;
         }
         return lastValue;
@@ -69,6 +72,10 @@ export default class DataManager {
         // we don't call clear, because we want to pass the object off,
         // this will help prevent infinite recurssion in the commit method.
         this.embeddedDataManagers = new Set();
+    }
+
+    changeDetected() {
+        this.lastChangedTime = Date.now();
     }
 
     /**

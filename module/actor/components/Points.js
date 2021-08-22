@@ -1,6 +1,7 @@
 import Component from "../../util/Component.js";
 import {PrimeModifierManager} from "../../item/PrimeModifierManager.js";
 import {minmax} from "../../util/support.js";
+import {getter, pathGetter, pathProperty} from "../../util/dyn_helpers.js";
 
 /**
  * @abstract
@@ -8,59 +9,16 @@ import {minmax} from "../../util/support.js";
 export class PointsBase extends Component {
     constructor(parent) {
         super(parent);
-    }
-
-    /**
-     * @returns {number}
-     */
-    get base() {
-        return this.points.base;
-    }
-
-    /**
-     * @returns {number}
-     */
-    get max() {
-        return Math.max(this.base + this.bonus, 1);
-    }
-
-    /**
-     * To be optionally overriden
-     * @return {number}
-     */
-    get bonus() {
-        return this.points.bonus || 0;
-    }
-
-    /**
-     * @returns {number}
-     */
-    get value() {
-        return minmax(0, this.points.value, this.max);
-    }
-
-    /**
-     * @param {number} value
-     */
-    set value(value) {
-        this.writeToPoints(minmax(0, value, this.max), 'value');
-    }
-
-    /**
-     * To be overriden
-     * @interface
-     * @return {{value: number, base: number}}
-     */
-    get points() {
-        return {value: 0, base: 0};
-    }
-
-    /**
-     * To be overriden
-     * @interface
-     */
-    writeToPoints(value, ...pathComponents) {
-        this.write(this.pointsPath.with(...pathComponents), value);
+        const pointsPath = this.pointsPath;
+        pathProperty(this, 'bonus', pointsPath, {onGet: (bonus) => bonus || 0});
+        pathProperty(this, 'value', pointsPath,
+            {
+                onGet: (value) => minmax(0, value, this.max),
+                onSet: (value) => minmax(0, value, this.max)
+            }
+        );
+        pathGetter(this, 'base', pointsPath);
+        getter(this, 'max', () => Math.max(this.base + this.bonus, 1), {cached: true});
     }
 
     get pointsPath() {
@@ -74,53 +32,11 @@ export class AwardableBase extends Component {
 
     constructor(parent) {
         super(parent);
-    }
-
-    get value() {
-        return this.initial + this.awarded - this.spent;
-    }
-
-    get initial() {
-        if (this.document.isCharacter()) {
-            return this.points.initial;
-        }
-        return 0;
-    }
-
-    get awarded() {
-        if (this.document.isCharacter()) {
-            return this.points.awarded;
-        }
-        return 0;
-    }
-
-    get spent() {
-        if (this.document.isCharacter()) {
-            return this.points.spent;
-        }
-        return 0;
-    }
-
-    award(value) {
-        if (this.document.isCharacter()) {
-            this.writeToPoints(this.points.awarded + value, 'awarded');
-        }
-    }
-
-    /**
-     * @interface
-     * @returns {{initial: number, awarded: number, spent: number}}
-     */
-    get points() {
-        return {initial: 0, awarded: 0, spent: 0};
-    }
-
-    /**
-     * To be overriden
-     * @interface
-     */
-    writeToPoints(value, ...pathComponents) {
-        this.write(this.pointsPath.with(...pathComponents), value);
+        const pointsPath = this.pointsPath;
+        getter(this, 'value', () => this.initial + this.awarded - this.spent, {cached:true});
+        pathGetter(this, 'initial', pointsPath, {cached:true});
+        pathProperty(this, 'awarded', pointsPath, {cached:true});
+        pathGetter(this, 'spent', pointsPath, {cached:true});
     }
 
     get pointsPath() {
@@ -131,27 +47,15 @@ export class XP extends AwardableBase {
 
     constructor(parent) {
         super(parent);
-    }
-
-    /**
-     * @interface
-     * @returns {{initial: number, awarded: number}}
-     */
-    get points() {
-        return this.gameSystem.xp;
+        getter(this, 'spent', () => {
+            const refinementCost = this.document.stats.refinements.cost;
+            const perkXPCost = PrimeModifierManager.getCostsForType(this.document.items, "xp");
+            return refinementCost + perkXPCost;
+        }, {cached:true});
     }
 
     get pointsPath() {
         return this.gameSystemPath.with('xp');
-    }
-
-    get spent() {
-        if (this.document.isCharacter()) {
-            const refinementCost = this.document.stats.refinements.cost;
-            const perkXPCost = PrimeModifierManager.getCostsForType(this.document.items, "xp");
-            return refinementCost + perkXPCost;
-        }
-        return 0;
     }
 }
 
@@ -159,64 +63,32 @@ export class Soul extends AwardableBase {
 
     constructor(parent) {
         super(parent);
-    }
-
-    /**
-     * @interface
-     * @returns {{initial: number, awarded: number}}
-     */
-    get points() {
-        return this.gameSystem.soul;
+        getter(this, 'spent', () => {
+            const primeCost = this.document.stats.primes.cost;
+            const perkSoulCost = PrimeModifierManager.getCostsForType(this.document.items, "soul");
+            return primeCost + perkSoulCost;
+        }, {cached:true});
+        const pointsPath = this.pointsPath;
+        pathProperty(this, 'burnt', pointsPath, {onGet:(value) => value || 0});
     }
 
     get pointsPath() {
         return this.gameSystemPath.with('soul');
     }
 
-    get value() {
-        return super.value - this.burnt;
-    }
-
-    get burnt() {
-        return this.document.isCharacter() ? this.points.burnt || 0 : 0
-    }
-
     burn() {
-        this.writeToPoints(this.burnt + 1, 'burnt');
+        this.burnt = 1 + this.burnt;
     }
 
-    get spent() {
-        if (this.document.isCharacter()) {
-            const primeCost = this.document.stats.primes.cost;
-            const perkSoulCost = PrimeModifierManager.getCostsForType(this.document.items, "soul");
-            return primeCost + perkSoulCost;
-        }
-        return 0;
-    }
 }
 
 export class ActionPoints extends PointsBase {
     constructor(parent) {
         super(parent);
-    }
 
-    get base() {
-        let base = super.base;
-        // fix for old sheets
-        if (base == null) {
-            base = 6;
-            this.writeToPoints(base, 'base');
-        }
-        return base;
-    }
-
-    get bonus() {
-        return PrimeModifierManager.getModifiers("actionPoints.max", this.document);
-    }
-
-
-    get points() {
-        return this.gameSystem.actionPoints;
+        const pointsPath = this.pointsPath;
+        getter(this, 'base', ()=>super.base, {onGet:(base) => base || 6});
+        getter(this, 'bonus', ()=> PrimeModifierManager.getModifiers("actionPoints.max", this.document), {cached:true});
     }
 
     get pointsPath() {

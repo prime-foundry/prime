@@ -5,6 +5,7 @@ import {PrimeModifierManager} from "../../item/PrimeModifierManager.js";
 import {PrimeItemManager} from "../../item/PrimeItemManager.js";
 import {EmbeddedDocumentMixin} from "../../util/DynFoundryMixins.js";
 import InjuryItem from "../../item/types/InjuryItem.js";
+import {getter} from "../../util/dyn_helpers.js";
 
 /**
  * @extends InventoryItem
@@ -32,7 +33,6 @@ export default class Health extends Component {
     constructor(parent) {
         super(parent);
     }
-
     /**
      * @return {Wounds}
      */
@@ -89,21 +89,44 @@ class InjurableBase extends PointsBase {
 
     constructor(parent) {
         super(parent);
-    }
+        getter(this, 'slots', () => Math.max(this.max, this.value), {cached:true});
+        getter(this, 'value', () => this.allInjuries.filter(item => ["tended", "untended"].includes(item.injuryState)).length, {cached:true});
+        getter(this, 'allInjuries', () => {
+            const criteria = {itemCollection: this.document.items, itemBaseTypes: 'injury', typed: true, sortItems: false};
+            const items = PrimeItemManager.getItems(criteria);
+            const mapped = items.filter(item => item.source.injuryType === this.injuryType).map(item => new EmbeddedInjuryItem(this, item));
+            return mapped;
+        }, {cached:true});
+        getter(this, 'injuries', () => { const transformed = new Array(this.max);
+            transformed.fill(null);
+            const items = this.allInjuries;
+            const filtered = items.filter(item => ["tended", "untended"].includes(item.injuryState));
+            let invalidIndexes = false;
 
-    /**
-     * If the injuries are tended, then the injuries count as not existing towards the total. However we need to accommodate it on the UI.
-     * @return {*}
-     */
-    get slots() {
-        return Math.max(this.max, this.value);
-    }
-
-    /**
-     * Migrated => Item As Wounds
-     */
-    get value() {
-        return this.allInjuries.filter(item => ["tended", "untended"].includes(item.injuryState)).length
+            filtered.forEach(item => {
+                if (item.injuryIndex != null && transformed[item.injuryIndex] == null) {
+                    transformed[item.injuryIndex] = item;
+                } else {
+                    invalidIndexes = true;
+                }
+            });
+            if (invalidIndexes) {
+                console.warn('Something went awry and the indexes of the injuries messed up, doing best fit fix.')
+                const max = this.max;
+                filtered.forEach(item => {
+                    if (item.injuryIndex == null || transformed[item.injuryIndex] !== item) {
+                        for (let idx = 0; idx < max; idx++) {
+                            if (transformed[idx] == null) {
+                                item.injuryIndex = idx;
+                                transformed[idx] = item;
+                                break;
+                            }
+                        }
+                    }
+                });
+            }
+            return transformed.map(item => item == null ? NON_INJURY : item);
+        }, {cached:true});
     }
 
     /**
@@ -140,8 +163,9 @@ class InjurableBase extends PointsBase {
 
         if(oldInjury != null) {
             console.log("deleting at ", new Date());
+            const timeCreated = Date.now();
             await oldInjury.deleteItem(false);
-            console.log("deleted at ", new Date());
+            console.log("deletions took ",(Date.now() - timeCreated),'ms');
         }
         if(selected.length > 0){
             const injuryState = oldInjury != null ? oldInjury.injuryState : "untended";
@@ -153,9 +177,10 @@ class InjurableBase extends PointsBase {
             injuryToCreate.data.audit = {};
             injuryToCreate.data.injuryIndex = index || 0;
             injuryToCreate.data.injuryState = injuryState;
+            const timeCreated = Date.now();
             console.log("creating at ", new Date());
             await this.document.createEmbeddedDocuments("Item", [injuryToCreate], {render:false, renderSheet:false});
-            console.log("created at ", new Date());
+            console.log("creation took ",(Date.now() - timeCreated),'ms');
         }
     }
 
@@ -199,47 +224,7 @@ class InjurableBase extends PointsBase {
         }
     }
 
-    get allInjuries() {
-        const criteria = {itemCollection: this.document.items, itemBaseTypes: 'injury', typed: true, sortItems: false};
-        const items = PrimeItemManager.getItems(criteria);
-        const mapped = items.filter(item => item.source.injuryType === this.injuryType).map(item => new EmbeddedInjuryItem(this, item));
-        return mapped;
-    }
-    /**
-     * We can't use sort as we purposefully have holes in the array.
-     * @protected
-     */
-    get injuries() {
-        const transformed = new Array(this.max);
-        transformed.fill(null);
-        const items = this.allInjuries;
-        const filtered = items.filter(item => ["tended", "untended"].includes(item.injuryState));
-        let invalidIndexes = false;
 
-        filtered.forEach(item => {
-            if (item.injuryIndex != null && transformed[item.injuryIndex] == null) {
-                transformed[item.injuryIndex] = item;
-            } else {
-                invalidIndexes = true;
-            }
-        });
-        if (invalidIndexes) {
-            console.warn('Something went awry and the indexes of the injuries messed up, doing best fit fix.')
-            const max = this.max;
-            filtered.forEach(item => {
-                if (item.injuryIndex == null || transformed[item.injuryIndex] !== item) {
-                    for (let idx = 0; idx < max; idx++) {
-                        if (transformed[idx] == null) {
-                            item.injuryIndex = idx;
-                            transformed[idx] = item;
-                            break;
-                        }
-                    }
-                }
-            });
-        }
-        return transformed.map(item => item == null ? NON_INJURY : item);
-    }
 
     get injuryType() {
         return '';
@@ -250,25 +235,16 @@ class InjurableBase extends PointsBase {
 class Wounds extends InjurableBase {
     constructor(parent) {
         super(parent);
+        getter(this, 'bonus', () => PrimeModifierManager.getModifiers("health.wounds.max", this.document), {cached:true});
+
     }
 
     get injuryType() {
         return 'wound';
     }
 
-    get bonus() {
-        return PrimeModifierManager.getModifiers("health.wounds.max", this.document);
-    }
-
-    /**
-     * @protected
-     */
-    get points() {
-        return this.gameSystem.health.wounds;
-    }
-
     get pointsPath() {
-        return this.statsPath.with('health').with('wounds');
+        return this.gameSystemPath.with('health', 'wounds');
     }
 
 }
@@ -276,18 +252,9 @@ class Wounds extends InjurableBase {
 class Resilience extends PointsBase {
     constructor(parent) {
         super(parent);
+        getter(this, 'bonus', () => PrimeModifierManager.getModifiers("health.resilience.max", this.document), {cached:true});
     }
 
-    get bonus() {
-        return PrimeModifierManager.getModifiers("health.resilience.max", this.document);
-    }
-
-    /**
-     * @protected
-     */
-    get points() {
-        return this.gameSystem.health.resilience;
-    }
 
     get pointsPath() {
         return this.gameSystemPath.with('health', 'resilience');
@@ -297,42 +264,22 @@ class Resilience extends PointsBase {
 class Insanities extends InjurableBase {
     constructor(parent) {
         super(parent);
+        getter(this, 'bonus', () => PrimeModifierManager.getModifiers("health.insanities.max", this.document), {cached:true});
     }
 
     get injuryType() {
         return 'insanity';
     }
 
-    get bonus() {
-        return PrimeModifierManager.getModifiers("health.insanities.max", this.document);
-    }
-
-    /**
-     * @protected
-     */
-    get points() {
-        return this.gameSystem.mind.insanities;
-    }
-
     get pointsPath() {
-        return this.statsPath.with('health').with('mind');
+        return this.gameSystemPath.with('mind','insanities');
     }
 }
 
 class Psyche extends PointsBase {
     constructor(parent) {
         super(parent);
-    }
-
-    get bonus() {
-        return PrimeModifierManager.getModifiers("health.psyche.max", this.document);
-    }
-
-    /**
-     * @protected
-     */
-    get points() {
-        return this.gameSystem.mind.psyche;
+        getter(this, 'bonus', () => PrimeModifierManager.getModifiers("health.psyche.max", this.document), {cached:true});
     }
 
 

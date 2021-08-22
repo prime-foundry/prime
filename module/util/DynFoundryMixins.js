@@ -97,6 +97,14 @@ class DynModel {
         }
     }
 
+    get lastChangedTime(){
+        return this.dataManager.lastChangedTime;
+    }
+
+    changeDetected() {
+        this.dataManager.changeDetected();
+    }
+
     /**
      * The base foundryData of any document, generally it follows a fixed structure, as defined by a schema.
      *
@@ -213,9 +221,24 @@ export const DynDocumentMixin = (FoundryDocumentType, modelName = 'doc', typePro
         }
 
         _onUpdate(...args) {
+            this.dyn.changeDetected();
             const result = super._onUpdate(...args);
             this.dyn.executeUpdateListeners(false);
             return result;
+        }
+
+        _onCreateEmbeddedDocuments(...args) {
+            this.dyn.changeDetected();
+            return super._onCreateEmbeddedDocuments(...args);
+        }
+        _onDeleteEmbeddedDocuments(...args) {
+            this.dyn.changeDetected();
+            return super._onDeleteEmbeddedDocuments(...args);
+        }
+
+        _onUpdateEmbeddedDocuments(...args) {
+            this.dyn.changeDetected();
+            return super._onUpdateEmbeddedDocuments(...args);
         }
     };
 

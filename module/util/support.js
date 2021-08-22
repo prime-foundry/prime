@@ -24,6 +24,17 @@ export function getComponentLazily(target, name, Type, config = {}) {
     return property.value;
 }
 
+export function getterForFunction(target, name, valueFunction) {
+    const fieldName = `__${name}`;
+    const property = Object.getOwnPropertyDescriptor(target, fieldName);
+    if (property == null) {
+        const value = new Type(target, config);
+        Object.defineProperty(target, fieldName, {value});
+        return value;
+    }
+    return property.value;
+}
+
 export function orderedSort(itemA, itemB, currentItemSortList) {
     const itemAPosition = currentItemSortList[itemA.id];
     const itemBPosition = currentItemSortList[itemB.id];

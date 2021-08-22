@@ -8,6 +8,7 @@ import ShieldItem from "../../item/types/ShieldItem.js";
 import RangedWeaponItem from "../../item/types/RangedWeaponItem.js";
 import {getComponentLazily, orderedSort} from "../../util/support.js";
 import {MaterialCosts} from "../../item/components/Costs.js";
+import {getter} from "../../util/dyn_helpers.js";
 
 const EQUIPPED_FILTER = item => item.equipped;
 const CARRIED_FILTER = item => !item.equipped;
@@ -61,108 +62,65 @@ class EmbeddedArmour extends EmbeddedDocumentMixin(ArmourItem) {
 
 export default class Inventory extends Component {
 
+    constructor(parent) {
+        super(parent);
+
+        getter(this, 'cost', () => {
+            const items = this.items;
+            const total = {}
+            for (const item of items) {
+                item.aggregateCosts(total);
+            }
+            return total;
+        }, {cached:true});
+
+        getter(this, 'weight', () => {
+            const items = this.items;
+            let total = 0
+            for (const item of items) {
+                total += item.metrics.weight || 0;
+            }
+            return total;
+        }, {cached:true});
+
+        getter(this, 'quantity', () => {
+            const items = this.items;
+            let total = 0
+            for (const item of items) {
+                total += item.metrics.quantity || 1;
+            }
+            return total;
+        }, {cached:true});
+
+        getter(this, 'items', () => this.general.concat(this.weapons, this.shields, this.armour), {cached:true});
+        getter(this, 'general', () => {
+            const items = this.getItemDocsByBaseTypes("item");
+            return items.map(item => new EmbeddedInventoryItem(this, item));
+        }, {cached:true});
+        getter(this, 'weapons', () => this.meleeWeapons.concat(this.rangedWeapons), {cached:true});
+        getter(this, 'meleeWeapons', () => {
+            const items = this.getItemDocsByBaseTypes("melee-weapon");
+            return items.map(item => new EmbeddedWeapon(this, item));
+        }, {cached:true});
+        getter(this, 'rangedWeapons', () => {
+            const items = this.getItemDocsByBaseTypes("ranged-weapon");
+            return items.map(item => new EmbeddedRangedWeapon(this, item));
+        }, {cached:true});
+        getter(this, 'shields', () => {
+            const items = this.getItemDocsByBaseTypes("shield");
+            return items.map(item => new EmbeddedShield(this, item));
+        }, {cached:true});
+        getter(this, 'armour', () => {
+            const items = this.getItemDocsByBaseTypes("armour");
+            return items.map(item => new EmbeddedArmour(this, item));
+        }, {cached:true});
+        getter(this, 'equipped', () => new FilteredInventory(this, EQUIPPED_FILTER), {cached:true});
+        getter(this, 'carried', () => new FilteredInventory(this, CARRIED_FILTER), {cached:true});
+        getter(this, 'ordered', () => new OrderedInventory(this), {cached:true});
+    }
+
     get wealth() {
         return getComponentLazily(this, 'wealth', MaterialCosts);
-    }
-
-    get cost() {
-        const items = this.items;
-        const total = {}
-        for (const item of items) {
-            item.aggregateCosts(total);
-        }
-        return total;
-    }
-
-    get weight() {
-        const items = this.items;
-        let total = 0
-        for (const item of items) {
-            total += item.metrics.weight || 0;
-        }
-        return total;
-    }
-
-    get quantity() {
-        const items = this.items;
-        let total = 0
-        for (const item of items) {
-            total += item.metrics.quantity || 1;
-        }
-        return total;
-    }
-
-    /**
-     * "item", "melee-weapon", "ranged-weapon", "shield", "armour"
-     * @returns {InventoryItem[]}
-     */
-    get items() {
-        return this.general.concat(this.weapons, this.shields, this.armour);
-    }
-
-    /**
-     * "item"
-     * @returns {InventoryItem[]}
-     */
-    get general() {
-        const items = this.getItemDocsByBaseTypes("item");
-        return items.map(item => new EmbeddedInventoryItem(this, item));
-    }
-
-    /**
-     * "melee-weapon", "ranged-weapon"
-     * @returns {WeaponItem[]}
-     */
-    get weapons() {
-        return this.meleeWeapons.concat(this.rangedWeapons);
-    }
-
-    /**
-     * "melee-weapon"
-     * @returns {WeaponItem[]}
-     */
-    get meleeWeapons() {
-        const items = this.getItemDocsByBaseTypes("melee-weapon");
-        return items.map(item => new EmbeddedWeapon(this, item));
-    }
-
-    /**
-     * "ranged-weapon"
-     * @returns {RangedWeaponItem[]}
-     */
-    get rangedWeapons() {
-        const items = this.getItemDocsByBaseTypes("ranged-weapon");
-        return items.map(item => new EmbeddedRangedWeapon(this, item));
-    }
-
-    /**
-     * "shield"
-     * @returns {ShieldItem[]}
-     */
-    get shields() {
-        const items = this.getItemDocsByBaseTypes("shield");
-        return items.map(item => new EmbeddedShield(this, item));
-    }
-
-    /**
-     * "armour"
-     * @returns {ArmourItem[]}
-     */
-    get armour() {
-        const items = this.getItemDocsByBaseTypes("armour");
-        return items.map(item => new EmbeddedArmour(this, item));
-    }
-
-    get equipped() {
-        return new FilteredInventory(this, EQUIPPED_FILTER);
-    }
-
-    get carried() {
-        return new FilteredInventory(this, CARRIED_FILTER);
-    }
-
-    get ordered() {
-        return new OrderedInventory(this);
     }
 
     deleteItem({id}) {
