@@ -590,6 +590,7 @@ h1.entityName
 	justify-content: flex-end;
 	align-items: center;
 	cursor: pointer;
+	padding-left: 1em;
 }
 
 .statsContent .primesGroup .primeWrapper label
@@ -603,7 +604,7 @@ h1.entityName
 .statsContent .primesGroup .primeWrapper input
 {
 	position: relative;
-	width:25px;
+	width: 40px;
 	height:25px;
 	text-align: center;
 }
@@ -750,7 +751,7 @@ h1.entityName
 .primeCharacterSheet .refinementsGroup .valueWrapper,
 .primeCharacterSheet .primesGroup.valueWrapper
 {
-	width:25px;
+	width:40px;
 	height:25px;
 }
 
@@ -761,7 +762,7 @@ h1.entityName
 {
 	position: absolute;
 	top:0px;
-	left: 0px;
+	left: 8px;
 	bottom: 0px;
 	right: 0px;
 	display: flex;
