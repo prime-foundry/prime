@@ -10,6 +10,7 @@
             <div class="primeWrapper {{customisableStatClass}} {{defaultItemClass}} {{#if (and @root.sheet.roller.open (equal id @root.sheet.roller.selectedPrimeId))}}selectedRollerPrime{{/if}}"
                  data-prime-id="{{id}}"
                  title="{{convertHTMLForTitle description 150}}&#xD;*DOUBLE CLICK TO EDIT VALUE*">
+				<span class="selectedIndicator"></span>
                 {{#unless metadata.default}}
                 <a class="deleteItemIcon" data-item-id={{id}} title="Delete prime"><i class="fas fa-trash"></i></a>
                 {{/unless}}
@@ -44,6 +45,7 @@
                  data-refinement-id="{{id}}"
                  data-dyn-class-if="customisableStat actor.stats.refinement"
                  data-dyn-class-if="defaultStat ">
+				<span class="selectedIndicator"></span>
                 {{#unless metadata.default}}
                 <a class="deleteItemIcon" data-item-id={{id}} title="Delete refinement"><i class="fas fa-trash"></i></a>
                 {{/unless}}
