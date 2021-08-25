@@ -60,11 +60,26 @@ export default class ActorDiceController extends Component {
         return this.refinementId;
     }
 
+    show({html}) {
+        this.open = true;
+        const view = html.view;
+        this.manageDiceBar(view);
+    }
+
     dismiss({html}) {
         const view = html.view;
         this.open = false;
         this.manageDiceBar(view);
     }
+
+    toggleOpen({html}) {
+        if(this.open) {
+            this.dismiss({html});
+        } else {
+            this.show({html});
+        }
+    }
+
     selectActionToRoll({id, html}) {
         const {view, element} = html;
         this.open = true;
@@ -130,6 +145,10 @@ export default class ActorDiceController extends Component {
         element.innerHTML = htmlToText(value);
     }
 
+    /**
+     * sets all the classes and styles to the appropriate values.
+     * @param view
+     */
     manageDiceBar(view) {
         const tabList = view.getElementsByClassName("rollerTab");
         const tab = tabList.item(0);

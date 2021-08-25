@@ -40,9 +40,9 @@
 
 	<nav class="sheet-tabs tabs" data-group="primary">
         <a class="item tableTitle icon rollerTab {{#if sheet.roller.ready}}rollerReady{{else}}{{#if sheet.roller.preparing}}rollerPreparing{{/if}}{{/if}}"
-           title="Click a prime and a refinement, and then click me"><i class="fas fa-dice-d20"
-                                                                        data-dyn-click-at="sheet.roller.roll()"
-                                                                        data-dyn-render-off ></i>
+           title="Click a prime and a refinement, and then click me"
+           data-dyn-click-at="sheet.roller.toggleOpen()"
+           data-dyn-render-off ><i class="fas fa-dice-d20"></i>
         </a>
 		<a class="item tableTitle" data-tab="statistics">Primes</a>
 		<a class="item tableTitle" data-tab="perks">Perks</a>
