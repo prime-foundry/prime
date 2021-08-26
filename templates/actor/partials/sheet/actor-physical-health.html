@@ -29,7 +29,7 @@
 
             {{#each wounds.injuries as |injury|}}
                 <div class="flexRow injuryRow">
-                    <div class="injuryCheckBoxWrapper flexRow flexCenter verticalCenter {{dynCssClass 'activePoint'
+                    <div class="injuryCheckBoxWrapper flexRow flexCenter verticalCenter {{cssClassIf 'activePoint'
                                                                                                       if=(and injury.untended (not injury.placeholder))}}">
                         <input type="checkbox"
                                id="injuryCheckbox-{{@index}}-{{injury.id}}"

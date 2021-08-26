@@ -520,7 +520,7 @@ class DynHandlebars {
         return '';
     }
 
-    static dynCssClass(...rest){
+    static cssClassIf(...rest){
         let values = Array.from(rest);
         const options = values.pop();
 
@@ -564,6 +564,6 @@ Handlebars.registerHelper({
     aliasAs: DynHandlebars.aliasAs,
     either: DynHandlebars.either,
     attr: DynHandlebars.attr,
-    dynCssClass: DynHandlebars.dynCssClass,
+    cssClassIf: DynHandlebars.cssClassIf,
     reverse: DynHandlebars.reverse
 });

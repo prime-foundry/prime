@@ -7,7 +7,7 @@
         {{/if}}
         {{#each primes}}
 <!--            {{!aliasAs 'cssClassId' (join "prime" @root.actor.id id separator='-')}}-->
-            <div class="primeWrapper {{customisableStatClass}} {{defaultItemClass}} {{#if (and @root.sheet.roller.open (equal id @root.sheet.roller.selectedPrimeId))}}selectedRollerPrime{{/if}}"
+            <div class="primeWrapper {{cssClassIf 'customisableStat' if=metadata.customisable}}{{cssClassIf 'defaultStat' if=metadata.default}}{{cssClassIf 'selectedRollerPrime' if=(and @root.sheet.roller.open (equal id @root.sheet.roller.selectedPrimeId))}}"
                  data-prime-id="{{id}}"
                  title="{{convertHTMLForTitle description 150}}&#xD;*DOUBLE CLICK TO EDIT VALUE*">
 				<span class="selectedIndicator"></span>
@@ -40,11 +40,9 @@
         {{/if}}
         {{#each refinements}}
 <!--            {{!aliasAs 'cssClassId' (join "refinement" @root.actor.id id separator='-')}}-->
-            <div class="refinementWrapper {{customisableStatClass}} {{defaultItemClass}} {{#if (and @root.sheet.roller.open (equal id @root.sheet.roller.selectedRefinementId))}}selectedRollerRefinement{{/if}}"
+            <div class="refinementWrapper {{cssClassIf 'customisableStat' if=metadata.customisable}}{{cssClassIf 'defaultStat' if=metadata.default}}{{cssClassIf 'selectedRollerRefinement' if=(and @root.sheet.roller.open (equal id @root.sheet.roller.selectedRefinementId))}}"
                  title="{{convertHTMLForTitle description 150}}&#xD;*DOUBLE CLICK TO EDIT VALUE*"
-                 data-refinement-id="{{id}}"
-                 data-dyn-class-if="customisableStat actor.stats.refinement"
-                 data-dyn-class-if="defaultStat ">
+                 data-refinement-id="{{id}}">
 				<span class="selectedIndicator"></span>
                 {{#unless metadata.default}}
                 <a class="deleteItemIcon" data-item-id={{id}} title="Delete refinement"><i class="fas fa-trash"></i></a>
