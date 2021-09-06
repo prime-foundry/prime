@@ -183,10 +183,43 @@
 	opacity: 1;
 }
 
+.primeCard.itemCardAction
+{
+	cursor: pointer;
+}
+
+.primeCard.itemCardAction .showActionInfoIcon
+{
+	position: absolute;
+	top: -20px;
+	left: 5px;
+	height: 20px;
+	width: 20px;
+	background-color: var(--actionBackgroundColor);
+	border: 1px solid var(--borderGrey);
+	opacity: 0;
+    border-top-left-radius: 11px;
+    border-top-right-radius: 11px;
+    border-bottom: 0;
+	transform: translateY(-5px);
+	transition: 0.3s;
+	opacity: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;	
+}
+
+.primeCard.itemCardAction:hover .showActionInfoIcon
+{
+	transform: translateY(0px);
+	opacity: 1;
+}
+
 .primeCard.itemCardAction .cardDetail
 {
     background-color: var(--actionBackgroundColor);
 }
+
 .primeCard.itemCardPerk .cardDetail
 {
     background-color: var(--perkBackgroundColor);
