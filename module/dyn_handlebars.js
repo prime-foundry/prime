@@ -533,6 +533,19 @@ class DynHandlebars {
         return '';
     }
 
+    static cssClassIfNot(...rest){
+        let values = Array.from(rest);
+        const options = values.pop();
+
+        const hash = options.hash;
+        const ifValue = hash.if;
+        const should = ifValue == null ? false : !!ifValue;
+        if(!should) {
+            return ` ${values.join(' ')} `;
+        }
+        return '';
+    }
+
     static reverse(arr, options){
         return arr.reverse();
     }
@@ -565,5 +578,6 @@ Handlebars.registerHelper({
     either: DynHandlebars.either,
     attr: DynHandlebars.attr,
     cssClassIf: DynHandlebars.cssClassIf,
+    cssClassIfNot: DynHandlebars.cssClassIfNot,
     reverse: DynHandlebars.reverse
 });

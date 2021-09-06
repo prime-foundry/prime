@@ -299,7 +299,6 @@ h1.entityName
 .primeCharacterSheet .sub-nav > *{
 	opacity: 0;
 	transition: opacity 0.3s ease-in-out;
-	overflow: hidden;
 }
 
 .primeCharacterSheet .sub-nav.active > *{

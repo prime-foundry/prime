@@ -7,7 +7,7 @@
         {{/if}}
         {{#each primes}}
 <!--            {{!aliasAs 'cssClassId' (join "prime" @root.actor.id id separator='-')}}-->
-            <div class="primeWrapper {{cssClassIf 'customisableStat' if=metadata.customisable}}{{cssClassIf 'defaultStat' if=metadata.default}}{{cssClassIf 'selectedRollerPrime' if=(and @root.sheet.roller.open (equal id @root.sheet.roller.selectedPrimeId))}}"
+            <div class="primeWrapper {{cssClassIf 'customisableStat' if=metadata.customisable}}{{cssClassIfNot 'expandedStat' if=metadata.default}}{{cssClassIf 'selectedRollerPrime' if=(and @root.sheet.roller.open (equal id @root.sheet.roller.selectedPrimeId))}}"
                  data-prime-id="{{id}}"
                  title="{{convertHTMLForTitle description 150}}&#xD;*DOUBLE CLICK TO EDIT VALUE*">
 				<span class="selectedIndicator"></span>
@@ -18,11 +18,13 @@
                    data-dyn-click-at="actor.stats.primes.displayStat()"
                    data-dyn-render-off
                    data-dyn-id="{{id}}"><i class="fas fa-info-circle fa-xs"></i></a>
-                <div id="roll-primes-{{id}}"
+                <label id="roll-primes-{{id}}"
                      data-dyn-click-at="sheet.roller.selectPrimeToRoll()"
                      data-dyn-render-off
-                     data-dyn-id="{{id}}">
-                    {{#if this.metadata.customisable}}{{this.name}}{{else}}{{this.source.name}}{{/if}}</div>
+                     data-dyn-id="{{id}}"
+					 for="primes-{{id}}">
+                    {{#if this.metadata.customisable}}{{this.name}}{{else}}{{this.source.name}}{{/if}}
+				</label>
                 <div class="valueWrapper">
                     <input type="number" id="primes-{{id}}" value="{{unadjustedValue}}"
                            data-dyn-type="Number"
@@ -40,7 +42,7 @@
         {{/if}}
         {{#each refinements}}
 <!--            {{!aliasAs 'cssClassId' (join "refinement" @root.actor.id id separator='-')}}-->
-            <div class="refinementWrapper {{cssClassIf 'customisableStat' if=metadata.customisable}}{{cssClassIf 'defaultStat' if=metadata.default}}{{cssClassIf 'selectedRollerRefinement' if=(and @root.sheet.roller.open (equal id @root.sheet.roller.selectedRefinementId))}}"
+            <div class="refinementWrapper {{cssClassIf 'customisableStat' if=metadata.customisable}}{{cssClassIfNot 'expandedStat' if=metadata.default}}{{cssClassIf 'selectedRollerRefinement' if=(and @root.sheet.roller.open (equal id @root.sheet.roller.selectedRefinementId))}}"
                  title="{{convertHTMLForTitle description 150}}&#xD;*DOUBLE CLICK TO EDIT VALUE*"
                  data-refinement-id="{{id}}">
 				<span class="selectedIndicator"></span>
@@ -53,11 +55,13 @@
                    data-dyn-id="{{id}}">
                     <i class="fas fa-info-circle fa-xs"></i>
                 </a>
-                <div id="roll-refinements-{{id}}"
+                <label id="roll-refinements-{{id}}"
                      data-dyn-click-at="sheet.roller.selectRefinementToRoll()"
                      data-dyn-render-off
-                     data-dyn-id="{{id}}">
-                    {{#if this.metadata.customisable}}{{this.name}}{{else}}{{this.source.name}}{{/if}}</div>
+                     data-dyn-id="{{id}}"
+					 for="refinements-{{id}}">
+                    {{#if this.metadata.customisable}}{{this.name}}{{else}}{{this.source.name}}{{/if}}
+				</label>
                 <div class="valueWrapper">
                     <input type="number" id="refinements-{{id}}" value="{{unadjustedValue}}"
                            data-dyn-type="Number"
