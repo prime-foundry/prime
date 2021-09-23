@@ -105,7 +105,6 @@
 	justify-content: space-evenly;
 	font-size: var(--font-size-medium);
 	transition: width 0.2s ease-in, padding 0.2s ease-in;
-	overflow: hidden;
 }
 
 .primeCharacterSheet .insanitiesBlock
@@ -218,6 +217,7 @@
 .primeCharacterSheet .insanitiesBlock .insanityRow select
 {
 	width: 65%;
+	cursor: pointer;
 }
 
 .primeCharacterSheet.narrowWidth .injuriesBlock .injuryRow select,
@@ -238,6 +238,58 @@
 
 {
 	font-size: 12px;
+}
+
+.primeCharacterSheet .injuriesBlock .injuryRow .showInjuryInfoIcon,
+.primeCharacterSheet .insanitiesBlock .insanityRow .showInjuryInfoIcon
+{
+	height: 20px;
+	width: 10px;
+	background-color: rgb(232, 232, 232);
+	border: 1px solid var(--borderGrey);
+	opacity: 0;
+	transition: 0.3s;
+}
+
+.primeCharacterSheet .injuriesBlock .injuryRow .showInjuryInfoIcon
+{
+    margin: 4px -15px 0px 10px;
+    border-bottom-right-radius: 11px;
+    border-top-right-radius: 11px;
+    border-left: 0;
+	transform: translateX(-5px);
+}
+
+.primeCharacterSheet .insanitiesBlock .insanityRow .showInjuryInfoIcon
+{
+    margin: 4px 10px 0px -15px;
+    border-bottom-left-radius: 11px;
+    border-top-left-radius: 11px;
+    border-right: 0;
+	transform: translateX(5px);
+}
+
+.primeCharacterSheet.narrowWidth .injuriesBlock .injuryRow .showInjuryInfoIcon,
+.primeCharacterSheet.narrowWidth .insanitiesBlock .insanityRow .showInjuryInfoIcon
+{
+	margin-top: -2px;
+}
+
+.primeCharacterSheet .injuriesBlock .injuryRow .showInjuryInfoIcon i
+{
+	margin-left: -55%;
+}
+
+.primeCharacterSheet .insanitiesBlock .insanityRow .showInjuryInfoIcon i
+{
+	margin-left: 45%;
+}
+
+.primeCharacterSheet .injuriesBlock .injuryRow:hover .showInjuryInfoIcon,
+.primeCharacterSheet .insanitiesBlock .insanityRow:hover .showInjuryInfoIcon
+{
+	transform: translateX(0px);
+	opacity: 1;
 }
 
 .primeCharacterSheet .healthAndArmourOuter .healthResilienceWrapper,

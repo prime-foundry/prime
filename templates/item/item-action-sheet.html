@@ -1,97 +1,118 @@
-<form class="{{cssClass}} perkItem flexColumn " autocomplete="off">
-	<div class="flexRow">
-		<div class="cell30 block noTitle imageWrapper flexRow flexCenter verticalCenter">
-			<img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
-		</div>
-		<div class="cell70 block flexColumn">
-			<div class="blockTitle">Basic information</div>
-			<h1 class="entityName">
-				<label for="name">Name:</label>
-				<input name="name" type="text" value="{{item.name}}" placeholder="Name" />
-			</h1>
-			<div class="cell100 flexRow verticalCenter flexBetween lastRow">
-				<label class="cell30" for="data.setting">{{localize "PRIME.core_setting"}}:</label>
-				<select name="data.setting" id="data.setting" class="itemRarity cell70">
-					{{#select data.setting}}
-					{{#each coreTables.settings}}
-					<option value="{{this.key}}">{{this.title}}</option>
-					{{/each}}
-					{{/select}}
-				</select>
-			</div>
-		</div>
-	</div>
+<form class="{{cssClass}} itemSheet actionItem flexColumn " autocomplete="off">
+    <div class="flexRow">
+        {{> itemImage}}
+        <div class="cell70 block flexColumn">
+            <div class="blockTitle">Basic information</div>
+            {{> itemName}}
 
-	<div class="flexRow flexBetween flexWrap block infoBlock costsBlock">
-		<div class="blockTitle">Action details</div>
+            {{> itemSetting partialClasses="lastRow"}}
+        </div>
+    </div>
 
-		<div class="cell30 flexRow flexBetween verticalCenter">
-			<label for="data.points" class="resource-label cell50 rightAlign">AP cost:</label>
-			<input type="text" id="data.points" name="data.points" class="cell50" value="{{data.points}}" data-dtype="Number" data-min="0" data-max="6"/>
-		</div>
+    <div class="flexRow flexBetween flexWrap block infoBlock costsBlock">
+        <div class="blockTitle">Action details</div>
 
-		<div class="cell50 flexRow flexBetween verticalCenter">
-			<label for="data.type" class="resource-label cell20 rightAlign">Type:</label>
-			<select id="data.type" name="data.type" class="cell80" data-effect-id="{{effectID}}" data-effect-flag-key="path">
-				{{#select data.type}}
-				{{#each actionTables.actionTypes}}
-				<option value="{{this.key}}">{{this.title}}</option>
-				{{/each}}
-				{{/select}}
-			</select>
-		</div>
+        <div class="cell30 flexRow flexBetween verticalCenter">
+            <label for="item.actionPoints" class="resource-label cell50 rightAlign">AP cost:</label>
+            <input type="number" id="item.actionPoints" class="cell50" value="{{item.actionPoints}}"
+                   data-dyn-type="Number"
+                   data-dyn-change-at="item.actionPoints"/>
+        </div>
 
-		<div class="cell20 flexRow flexBetween verticalCenter">
-			<label for="data.default" class="resource-label cell80 rightAlign" title="Action is available to all characters by default.">Default:</label>
-			<input type="checkbox" id="data.default" name="data.default" class="cell20" {{checked data.default}}/>
-		</div>
-	</div>
+        <div class="cell50 flexRow flexBetween verticalCenter">
+            <label for="item.actionType" class="resource-label cell20 rightAlign">Type:</label>
+            <select id="item.actionType" class="cell80"
+                    data-dyn-change-at="item.actionType"
+                    data-dyn-select="item.actionType">
+                {{#each static.items.actionTypes}}
+                    <option value="{{@key}}">{{this.title}}</option>
+                {{/each}}
+            </select>
+        </div>
 
-	<div class="flexRow flexBetween flexWrap block infoBlock actionEffectBlock">
-		<div class="blockTitle">Effects</div>
+        <div class="cell20 flexRow flexBetween verticalCenter">
+            <label for="default" class="resource-label cell80 rightAlign"
+                   title="Action is available to all characters by default.">Default:</label>
+            <input type="checkbox" id="default" class="cell20"
+                   data-dyn-change-at="item.metadata.default"
+                   data-dyn-select="item.metadata.default"/>
+        </div>
+    </div>
 
-		<div class="effectsWrapper">
-			{{#each effects as |effect key|}}
-			<div class="cell100 flexRow flexBetween flexWrap infoBlock actionEffectWrapper">
-				<div class="actionEffectIndex">{{effect.actualCount}}</div>
-				{{log effect}}
-				<div class="cell100 flexRow flexBetween verticalCenter">
-					<label for="data.effects.{{key}}.effectSubType" class="resource-label cell30 rightAlign">Type:</label>
-					<select id="data.effects.{{key}}.effectSubType" name="data.effects.{{key}}.effectSubType" class="cell70 effectFormElement" data-effect-id="{{effectID}}" data-effect-flag-key="effectSubType">
-						{{#select effect.effectSubType}}
-						{{#each ../actionTables.effectTypes}}
-						<option value="{{this.key}}">{{this.title}}</option>
-						{{/each}}
-						{{/select}}
-					</select>
-				</div>
+    <div class="flexRow flexBetween flexWrap block infoBlock actionEffectBlock">
+        <div class="blockTitle">Effects</div>
 
-				<div class="cell100 flexRow flexBetween verticalCenter">
-					<label for="data.effects.{{key}}.path" class="resource-label cell30 rightAlign">Target:</label>
-					<select id="data.effects.{{key}}.path" name="data.effects.{{key}}.path" class="cell70 effectFormElement" data-effect-id="{{effectID}}" data-effect-flag-key="path">
-						{{#select effect.path}}
-						{{#each effect.dynamicDataForEffectTarget}}
-						<option value="{{this.key}}">{{this.title}}</option>
-						{{/each}}
-						{{/select}}
-					</select>
-				</div>
+        <div class="effectsWrapper">
+            {{#each item.actionEffects as |actionEffect|}}
+                {{aliasAs 'Items' ../static.items}}
+                {{aliasAs 'ActionEffects' @Items.actionEffects}}
+                {{aliasAs 'ActionEffectsCategory' (traverse actionEffect.type 'category' from=@ActionEffects)}}
+                {{aliasAs 'ActionEffectsType' (traverse actionEffect.type 'subTypes' from=@ActionEffects)}}
+                {{aliasAs 'item' ../item}}
+                <div class="cell100 flexRow flexBetween flexWrap infoBlock actionEffectWrapper">
+                    <div class="actionEffectIndex">{{increment @index}}</div>
+                    <div class="cell100 flexRow flexBetween verticalCenter">
+                        <label for="item.actionEffects.collection.{{@index}}.type"
+                               class="resource-label cell30 rightAlign">Type:</label>
+                        <select id="item.actionEffects.collection.{{@index}}.type" class="cell70 effectFormElement"
+                                data-dyn-change-at="item.actionEffects.collection.{{@index}}.type"
+                                data-dyn-select="item.actionEffects.collection.{{@index}}.type"
+                                data-dyn-disable="item.isOwned">
+                            {{#each @Items.actionEffects}}
+                                <option value="{{@key}}">{{this.title}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
 
-				<div class="cell100 flexRow flexBetween verticalCenter lastRow">
-					<label for="data.effects.{{key}}.value" class="resource-label cell30 rightAlign">Value:</label>
-					<input type="text" id="data.effects.{{key}}.value" name="data.effects.{{key}}.value" class="cell70 effectFormElement" data-effect-id="{{effectID}}" data-effect-flag-key="value" value="{{effect.value}}" data-dtype="Number" data-min="-10" data-max="10"/>
-				</div>
+                    <div class="cell100 flexRow flexBetween verticalCenter">
+                        {{#if (not (equal @ActionEffectsCategory 'misc'))}}
+                            <label for="item.actionEffects.collection.{{@index}}.target"
+                                   class="resource-label cell30 rightAlign">Target:</label>
 
-				<a class="removeEffectIcon" data-effect-id="{{effectID}}"><i class="fas fa-trash"></i></a>
-			</div>
-			{{/each}}
-		</div>
-
-		<a class="addEffectIcon" data-effect-type="actionEffect"><i class="fas fa-plus"></i></a>
-	</div>
+                            <select id="item.actionEffects.collection.{{@index}}.target"
+                                    class="cell70 effectFormElement"
+                                    data-dyn-change-at="item.actionEffects.collection.{{@index}}.target"
+                                    data-dyn-select="item.actionEffects.collection.{{@index}}.target"
+                                    data-dyn-disable="item.isOwned">
+                                {{#each @ActionEffectsType}}
+                                    <option value="{{@key}}">{{this}}</option>
+                                {{/each}}
+                            </select>
+                        {{else}}
+                            <div class="cell30"></div>
+                            <div class="cell70">{{localize "PRIME.action_effect_write_in_descriptions"}}</div>
+                        {{/if}}
+                    </div>
 
 
-	{{> itemDescription }}
+                    {{#if (not (equal actionEffect.type 'misc'))}}
+                        <div class="cell100 flexRow flexBetween verticalCenter lastRow">
+                            <label for="item.actionEffects.collection.{{@index}}.value"
+                                   class="resource-label cell30 rightAlign">Value:</label>
+                            <input type="number" id="item.actionEffects.collection.{{@index}}.value"
+                                   class="cell70 effectFormElement"
+                                   value="{{#if (isInteger actionEffect.value)}}{{actionEffect.value}}{{/if}}"
+                                   data-dyn-change-at="item.actionEffects.collection.{{@index}}.value"
+                                   data-dyn-type="number"
+                                   data-dyn-disable="item.isOwned" }/>
+                        </div>
+                    {{/if}}
 
-	{{> itemMetadata }}
+                    <a class="removeEffectIcon"
+                       data-dyn-disable="item.isOwned"
+                       data-dyn-click-at="item.actionEffects.collection.{{@index}}.delete()"><i
+                            class="fas fa-trash"></i></a>
+                </div>
+            {{/each}}
+        </div>
+
+        <a class="addEffectIcon"
+           data-dyn-disable="item.isOwned"
+           data-dyn-click-at="item.actionEffects.add()"><i class="fas fa-plus"></i></a>
+    </div>
+
+
+    {{> itemDescription }}
+
+    {{> itemAudit }}
 </form>

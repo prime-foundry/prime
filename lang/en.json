@@ -4,7 +4,7 @@
 
 	"PRIME.controls_roll_title": "Roll",
 	"PRIME.controls_xp_title": "Award XP",
-	
+
 	"PRIME.prime_title_end": "Endurance",
 	"PRIME.prime_abbreviation_end": "end",
 	"PRIME.prime_description_end": "Endurance marks how tough you are, how long you can keep going and how long you're likely to keep you entrails from becoming your extrails.",
@@ -47,7 +47,7 @@
 	"PRIME.prime_abbreviation_por": "por",
 	"PRIME.prime_description_por": "Portent is your inner demon. God put them there. They're your friend. Probably.",
 
-		
+
 	"PRIME.refinment_title_animal" : "Animal",
 	"PRIME.refinment_description_animal" : "Animal - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
 
@@ -56,16 +56,16 @@
 
 	"PRIME.refinment_title_athletic" : "Athletic",
 	"PRIME.refinment_description_athletic" : "Athletic - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
-	
+
 	"PRIME.refinment_title_craft" : "Craft",
 	"PRIME.refinment_description_craft" : "Craft - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
-		
+
 	"PRIME.refinment_title_melee" : "Melee",
 	"PRIME.refinment_description_melee" : "Melee - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
-	
+
 	"PRIME.refinment_title_ranged" : "Ranged",
 	"PRIME.refinment_description_ranged" : "Ranged - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
-	
+
 	"PRIME.refinment_title_stealth" : "Stealth",
 	"PRIME.refinment_description_stealth" : "Stealth - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
 
@@ -83,22 +83,22 @@
 
 	"PRIME.refinment_title_bravery" : "Bravery",
 	"PRIME.refinment_description_bravery" : "Bravery - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
-	
+
 	"PRIME.refinment_title_deceive" : "Deceive",
 	"PRIME.refinment_description_deceive" : "Deceive - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
-	
+
 	"PRIME.refinment_title_influence" : "Influence",
 	"PRIME.refinment_description_influence" : "Influence - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
 
 	"PRIME.refinment_title_knowledge" : "Knowledge",
 	"PRIME.refinment_description_knowledge" : "Knowledge - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
-	
+
 	"PRIME.refinment_title_obscura" : "Obscura",
 	"PRIME.refinment_description_obscura" : "Obscura - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
-	
+
 	"PRIME.refinment_title_observe" : "Observe",
 	"PRIME.refinment_description_observe" : "Observe - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
-	
+
 	"PRIME.refinment_title_recover" : "Recover",
 	"PRIME.refinment_description_recover" : "Recover - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
 
@@ -111,24 +111,24 @@
 
 	"PRIME.refinment_title_fury" : "Fury",
 	"PRIME.refinment_description_fury" : "Fury - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
-	
+
 	"PRIME.refinment_title_manifest" : "Manifest",
 	"PRIME.refinment_description_manifest" : "Manifest - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
 
 	"PRIME.refinment_title_premonition" : "Premonition",
 	"PRIME.refinment_description_premonition" : "Premonition - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
-	
+
 	"PRIME.refinment_title_regeneration" : "Regeneration",
 	"PRIME.refinment_description_regeneration" : "Regeneration - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
 
 	"PRIME.refinment_title_tap" : "Tap",
 	"PRIME.refinment_description_tap" : "Tap",
-	
+
 	"PRIME.refinment_title_threads" : "Threads",
 	"PRIME.refinment_description_threads" : "Threads - Bacon ipsum dolor amet sirloin pork belly tenderloin, pig t-bone pork chop tongue short loin porchetta jowl chuck.",
 
-	
-	"PRIME.core_stat_type" : "Stat type",
+
+	"PRIME.core_stat_type" : "Physical",
 	"PRIME.stat_type_physical" : "Physical",
 	"PRIME.stat_type_mental" : "Mental",
 	"PRIME.stat_type_supernatural" : "Supernatural",
@@ -145,7 +145,9 @@
 	"ITEM.TypeAction" : "Action",
 	"ITEM.TypePrime" : "Prime",
 	"ITEM.TypeRefinement" : "Refinement",
-	
+	"ITEM.TypeInjury" : "Injury",
+	"ITEM.TypeAward" : "Award",
+
 	"PRIME.weapons_ranges" : "Weapon ranges",
 	"PRIME.weapons_ranges_point_blank" : "Point blank",
 	"PRIME.weapons_ranges_short" : "Short",
@@ -160,14 +162,14 @@
 	"PRIME.item_rarity_rare" : "Rare",
 	"PRIME.item_rarity_legendary" : "Legendary",
 	"PRIME.item_rarity_unique" : "Unique",
-	
+
 	"PRIME.weapon_sizes" : "Weapon size",
 	"PRIME.weapon_sizes_tiny" : "Tiny",
 	"PRIME.weapon_sizes_small" : "Small",
 	"PRIME.weapon_sizes_medium" : "Medium",
 	"PRIME.weapon_sizes_large" : "Large",
 	"PRIME.weapon_sizes_huge" : "Huge",
-	
+
 
 	"PRIME.weapon_keywords_title_accurate" : "Accurate",
 	"PRIME.weapon_keywords_description_accurate" : "Allows the 'Fast Aim' combo action to be performed with this weapon.",
@@ -217,10 +219,10 @@
 
 	"PRIME.weapon_action_title_bash" : "Bash",
 	"PRIME.weapon_action_description_bash" : "Target loses 2 Action Points if Resilience damage caused",
-	
+
 	"PRIME.weapon_action_title_cleave" : "Cleave",
 	"PRIME.weapon_action_description_cleave" : "This weapon can be swung for more damage (+1 DR)",
-	
+
 	"PRIME.weapon_action_title_hook" : "Hook",
 	"PRIME.weapon_action_description_hook" : "Needs description",
 
@@ -229,10 +231,10 @@
 
 	"PRIME.weapon_action_title_stab" : "Stab",
 	"PRIME.weapon_action_description_stab" : "Improve Armour Penetration (+2 AP)",
-	
 
-	"PRIME.weapon_action_title_surpress" : "Surpress",
-	"PRIME.weapon_action_description_surpress" : "Make attack role at area, volume vs ammo capacity. Anyone moving through the zone must resist attack roll.",
+
+	"PRIME.weapon_action_title_suppress" : "Suppress",
+	"PRIME.weapon_action_description_suppress" : "Make attack role at area, volume vs ammo capacity. Anyone moving through the zone must resist attack roll.",
 
 	"PRIME.weapon_action_title_lob" : "Lob",
 	"PRIME.weapon_action_description_lob" : "Fires in an arc over cover and stuff.",
@@ -244,7 +246,7 @@
 	"PRIME.weapon_melee_type_dagger" : "Dagger",
 	"PRIME.weapon_melee_type_axe" : "Axe",
 	"PRIME.weapon_melee_type_pole" : "Pole",
-	
+
 	"PRIME.weapon_ranged_type" : "Type",
 	"PRIME.weapon_ranged_type_bow" : "Bow",
 	"PRIME.weapon_ranged_type_mechanical" : "Mechanical",
@@ -303,7 +305,7 @@
 	"PRIME.perk_prerequisite_maximum_refinement": "Maximum Refinement",
 	"PRIME.perk_prerequisite_maximum_stat": "Maximum Other",
 	"PRIME.perk_prerequisite_other_perk_purchased": "Other perk",
-	
+
 	"PRIME.core_setting": "Setting",
 	"PRIME.core_settings_prime_possession": "Prime / Possession",
 	"PRIME.core_settings_aethernauts": "Aethernauts",
@@ -321,7 +323,7 @@
 	"PRIME.perk_actor_stat_bonus_max_psyche": "Mind - Psyche",
 	"PRIME.perk_actor_stat_bonus_max_stability": "Ward stability",
 	"PRIME.perk_actor_stat_bonus_max_ward_psyche": "Ward - Psyche",
-	
+
 
 	"PRIME.actor_wound_condition_title_bleeding" : "Bleeding",
 	"PRIME.actor_wound_condition_description_bleeding" : "Every time a Bane (natural 1) is rolled to perform an action lose 1 Resilience",
@@ -339,7 +341,7 @@
 	"PRIME.actor_wound_condition_description_staggered" : "Movement speed halved",
 
 	"PRIME.actor_wound_condition_title_stunned" : "Stunned",
-	"PRIME.actor_wound_condition_description_stunned" : "You no longer recieve the first Reaction for free each tic",
+	"PRIME.actor_wound_condition_description_stunned" : "You recieve one less Action Point per turn.",
 
 	"PRIME.actor_wound_condition_title_crushed" : "Crushed",
 	"PRIME.actor_wound_condition_description_crushed" : "Maximum Action Points reduced by 3",
@@ -350,13 +352,12 @@
 	"PRIME.actor_wound_condition_title_slowed" : "Slowed",
 	"PRIME.actor_wound_condition_description_slowed" : "You must act last in a combat phase",
 
-	
+
 	"PRIME.actor_mental_condition_title_mad" : "Mad",
 	"PRIME.actor_mental_condition_description_mad" : "Mad, mad mad I tell you!",
-	
+
 	"PRIME.actor_mental_condition_title_scared" : "Scared",
 	"PRIME.actor_mental_condition_description_scared" : "Boo!",
-
 
 	"PRIME.action_type_major_title": "Major",
 	"PRIME.action_type_major_description": "Only one major action per tick",
@@ -376,5 +377,59 @@
 	"PRIME.action_effect_type_ranged_block": "Block - Ranged",
 	"PRIME.action_effect_type_magic": "Magic",
 	"PRIME.action_effect_type_gain_points": "Points adjustment",
-	"PRIME.action_effect_type_misc": "Miscellaneous"
+	"PRIME.action_effect_type_misc": "Miscellaneous",
+
+	"PRIME.injury_type_wound": "Wound",
+	"PRIME.injury_type_insanity": "Insanity",
+
+	"PRIME.qualifier_key_EXISTS":  "There",
+	"PRIME.qualifier_key_MISSING": "Not there",
+	"PRIME.qualifier_key_GREATER":  "Greater than",
+	"PRIME.qualifier_key_TRUE": "True",
+	"PRIME.qualifier_key_FALSE":  "False",
+	"PRIME.qualifier_key_GREATER_OR_EQUALS": "Greater than or equal to",
+	"PRIME.qualifier_key_LESS":  "Less than",
+	"PRIME.qualifier_key_LESS_OR_EQUALS": "Less than or equal to",
+	"PRIME.qualifier_key_EQUALS":  "Equal to",
+	"PRIME.qualifier_key_NOT_EQUALS": "Not equal to",
+	"PRIME.qualifier_key_CONTAINS": "Containing",
+	"PRIME.qualifier_key_STARTS_WITH": "Starting with",
+	"PRIME.qualifier_key_ENDS_WITH": "Ending with",
+
+	"PRIME.perk_prerequisite_prime": "Prime",
+	"PRIME.perk_prerequisite_refinement": "Refinement",
+	"PRIME.perk_prerequisite_actor": "Character",
+	"PRIME.perk_prerequisite_perk": "Perk",
+
+	"PRIME.item_modifier_prime":  "Prime",
+	"PRIME.item_modifier_refinement":  "Refinement",
+	"PRIME.item_modifier_actor":  "Character",
+	"PRIME.item_modifier_action": "Action",
+	"PRIME.item_modifier_extra_action": "Extra Action",
+	"PRIME.item_modifier_perk": "Perk",
+	"PRIME.item_modifier_misc":  "Other",
+
+	"PRIME.cost_xp": "Experience points",
+	"PRIME.cost_soul":  "Soul points",
+	"PRIME.cost_personal": "Personal $",
+	"PRIME.cost_ship": "Ship $",
+
+	"PRIME.perk_actor_stat_actionPoints_value":  "Current Action Points",
+	"PRIME.perk_actor_stat_actionPoints_max": "Maximum Action Points",
+	"PRIME.perk_actor_stat_health_wounds_value":  "Current Wounds",
+	"PRIME.perk_actor_stat_health_wounds_max": "Maximum Wounds",
+	"PRIME.perk_actor_stat_health_resilience_value":  "Current Resilience",
+	"PRIME.perk_actor_stat_health_resilience_max": "Maximum Resilience",
+	"PRIME.perk_actor_stat_health_insanities_value":  "Current Insanities",
+	"PRIME.perk_actor_stat_health_insanities_max": "Maximum Insanities",
+	"PRIME.perk_actor_stat_health_psyche_value":  "Current Psyche",
+	"PRIME.perk_actor_stat_health_psyche_max": "Maximum Psyche",
+	"PRIME.perk_actor_stat_profile_npc":  "Non Player Character (NPC)",
+	"PRIME.perk_actor_stat_profile_race": "Race",
+	"PRIME.perk_actor_stat_profile_faction":  "Faction",
+	"PRIME.perk_actor_stat_profile_occupation": "Occupation",
+	"PRIME.perk_actor_stat_profile_celestial":  "Celestial",
+	"PRIME.perk_actor_stat_profile_rankOrTitle": "Rank or Title",
+
+	"PRIME.action_effect_write_in_descriptions":  "Please write in description"
 }

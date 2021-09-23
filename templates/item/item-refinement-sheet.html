@@ -1,42 +1,34 @@
-<form class="{{cssClass}} perkItem flexColumn " autocomplete="off">
+<form class="{{cssClass}} itemSheet refinementItem flexColumn " autocomplete="off">
 	<div class="flexRow">
-		<div class="cell30 block noTitle imageWrapper flexRow flexCenter verticalCenter">
-			<img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
-		</div>
+        {{> itemImage}}
 		<div class="cell70 block flexColumn">
 			<div class="blockTitle">Basic information</div>
-			<h1 class="entityName">
-				<label for="name">Name:</label>
-				<input name="name" type="text" value="{{item.name}}" placeholder="Name" />
-			</h1>
+            {{> itemName}}
+
+            {{> itemSetting partialClasses="lastRow"}}
+
 			<div class="cell100 flexRow verticalCenter flexBetween">
-				<label class="cell30" for="data.setting">{{localize "PRIME.core_setting"}}:</label>
-				<select name="data.setting" id="data.setting" class="primeSetting cell70">
-					{{#select data.setting}}
-					{{#each coreTables.settings}}
-					<option value="{{this.key}}">{{this.title}}</option>
-					{{/each}}
-					{{/select}}
-				</select>
-			</div>
-			<div class="cell100 flexRow verticalCenter flexBetween">
-				<label class="cell30" for="data.statType">{{localize "PRIME.core_stat_type"}}:</label>
-				<select name="data.statType" id="data.statType" class="primeSetting cell70">
-					{{#select data.statType}}
+				<label class="cell30" for="statType">{{localize "PRIME.core_stat_type"}}:</label>
+				<select id="statType" class="primeSetting cell70"
+						data-dyn-change-at="item.statType"
+						data-dyn-select="item.statType">
 					<option value="physical">{{localize "PRIME.stat_type_physical"}}</option>
 					<option value="mental">{{localize "PRIME.stat_type_mental"}}</option>
 					<option value="supernatural">{{localize "PRIME.stat_type_supernatural"}}</option>
-					{{/select}}
 				</select>
 			</div>
 			<div class="cell100 flexRow verticalCenter flexBetween">
 				<div class="cell50 flexRow verticalCenter lastRow">
-					<label for="data.default" class="resource-label cell80 rightAlign" title="Action is available to all characters by default.">Default:</label>
-					<input type="checkbox" id="data.default" name="data.default" class="cell20" {{checked data.default}}/>
+					<label for="default" class="resource-label cell80 rightAlign" title="Action is available to all characters by default.">Default:</label>
+					<input type="checkbox" id="default"  class="cell20"
+						   data-dyn-change-at="item.metadata.default"
+						   data-dyn-select="item.metadata.default"/>
 				</div>
 				<div class="cell50 flexRow verticalCenter lastRow">
-					<label for="data.customisable" class="resource-label cell80 rightAlign" title="Action can be edited when added to the character.">Customisable:</label>
-					<input type="checkbox" id="data.customisable" name="data.customisable" class="cell20" {{checked data.customisable}}/>
+					<label for="customisable" class="resource-label cell80 rightAlign" title="Action can be edited when added to the character.">Customisable:</label>
+					<input type="checkbox" id="customisable"class="cell20"
+						   data-dyn-change-at="item.metadata.customisable"
+						   data-dyn-select="item.metadata.customisable"/>
 				</div>
 			</div>
 		</div>
@@ -44,5 +36,5 @@
 	
 	{{> itemDescription }}
 
-	{{> itemMetadata }}
+	{{> itemAudit }}
 </form>

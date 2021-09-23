@@ -1,0 +1,58 @@
+<div class="{{partialClasses}} injuryItems block">
+    <div class="blockTitle">All Injuries</div>
+    <div class="primeTableWrapper">
+        <table class="injuryTable">
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Descriptions</th>
+                <th><i class="fas fa-trash"></i></th>
+            </tr>
+            </thead>
+            <!-- <div>Title(Descriptions) | (Size) | (Type) | (DR) | Hands | Wounds | Keywords | Actions</div> -->
+            <tbody>
+            <tr>
+                <th colspan="5">Wounds</th>
+            </tr>
+            {{#each (reverse actor.health.wounds.allInjuries) as |injury|}}
+                <tr class="inventoryItem" data-item-index="{{@index}}">
+                    <td title="{{convertHTMLForTitle injury.name}}"><a class="itemTitle"
+                                                                     data-dyn-click-at="actor.health.wounds.displayInjury()"
+                                                                     data-dyn-click-id="{{this.id}}">
+                        <i class="fas fa-external-link-alt fa-xs"></i><i
+                            class="fas fa-info-circle fa-xs"></i> {{cropToLength injury.name 55}}</a>
+                    </td>
+                    <td>{{injury.injuryState}}</td>
+                    <td>{{injury.audit.createdDate}}</td>
+                    <td title="{{convertHTMLForTitle item.descriptions.core}}">{{{cropToLength injury.descriptions.core 55}}}</td>
+                    <td class="center"><a class="deleteItemIcon"
+                                          data-dyn-click-at="actor.health.wounds.deleteInjury()"
+                                          data-dyn-click-id="{{this.id}}"><i class="fas fa-trash"></i></a></td>
+                </tr>
+            {{/each}}
+            <tr>
+                <th colspan="5">Insanities</th>
+            </tr>
+            {{#each (reverse actor.health.insanities.allInjuries) as |injury|}}
+
+                <tr class="inventoryItem" data-item-index="{{@index}}">
+                    <td title="{{convertHTMLForTitle injury.name}}"><a class="itemTitle"
+                                                                       data-dyn-click-at="actor.health.insanities.displayInjury()"
+                                                                       data-dyn-click-id="{{this.id}}">
+                        <i class="fas fa-external-link-alt fa-xs"></i><i
+                            class="fas fa-info-circle fa-xs"></i> {{cropToLength injury.name 55}}</a>
+                    </td>
+                    <td>{{injury.injuryState}}</td>
+                    <td>{{injury.audit.createdDate}}</td>
+                    <td title="{{convertHTMLForTitle item.descriptions.core}}">{{{cropToLength injury.descriptions.core 55}}}</td>
+                    <td class="center"><a class="deleteItemIcon"
+                                          data-dyn-click-at="actor.health.insanities.deleteInjury()"
+                                          data-dyn-click-id="{{this.id}}"><i class="fas fa-trash"></i></a></td>
+                </tr>
+            {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>

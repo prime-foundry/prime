@@ -1,4 +1,7 @@
 <div class="diceMessage">
+    {{#if this.action}}
+        <div class="prime-dice-action">{{this.action}}</div>
+    {{/if}}
 	<div class="prime-dice-actor"  >
 		<img class="actorPortrait" style="border-color: {{this.userColour}};" src="{{this.actorImg}}" />
 	</div>

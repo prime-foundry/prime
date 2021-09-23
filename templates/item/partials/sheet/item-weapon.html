@@ -1,0 +1,111 @@
+<div class="cell50 flexRow verticalCenter">
+    <label for="item.weapon.size" class="resource-label cell50">Size:</label>
+    <select id="item.weapon.size" class="weaponSize cell50"
+            data-dyn-change-at="item.weapon.size">
+        {{#select item.weapon.size}}
+            {{#each static.items.weapons.sizes}}
+                <option value="{{@key}}">{{this.title}}</option>
+            {{/each}}
+        {{/select}}
+    </select>
+</div>
+<div class="cell50 flexRow verticalCenter">
+    <label for="item.weapon.type" class="resource-label cell50">Type:</label>
+    <select id="item.weapon.type" class="cell50"
+            data-dyn-change-at="item.weapon.type">
+        {{#select item.weapon.type}}
+            {{#each @WeaponTypes}}
+                <option value="{{@key}}">{{this.title}}</option>
+            {{/each}}
+        {{/select}}
+    </select>
+</div>
+<div class="cell50 flexRow verticalCenter">
+    <label for="item.weapon.damageRating" class="resource-label cell50">Damage rating:</label>
+    <input type="number" id="item.weapon.damageRating" class="cell50" value="{{item.weapon.damageRating}}"
+           data-dyn-type="number"
+           data-dyn-change-at="item.weapon.damageRating"/>
+</div>
+<div class="cell50 flexRow verticalCenter">
+    <label for="item.weapon.requiredHands" class="resource-label cell50">Hands required:</label>
+    <select id="item.weapon.requiredHands" class="itemValueType cell50"
+            data-dyn-type="number"
+            data-dyn-change-at="item.weapon.requiredHands">
+        {{#select item.weapon.requiredHands}}
+            <option value="1">One</option>
+            <option value="2">Two</option>
+        {{/select}}
+    </select>
+</div>
+
+<div class="cell100 flexRow verticalCenter flexCenter checkboxGroupTitle {{checkboxGroupState checkboxGroupStates.wounds}}"
+     data-checkbox-group="wounds">
+    <div class="cell100">
+        Wound conditions:
+        {{#each (retain static.actor.woundConditions item.weapon.woundConditions) as |wound|}}
+            <span title="{{convertHTMLForTitle wound.description}}"
+                  class="hasTooltip">{{wound.title}}</span>{{#if (not @last)}}, {{/if}}
+        {{/each}}
+    </div>
+    <i class="fas fa-chevron-circle-up"></i>
+    <i class="fas fa-chevron-circle-down"></i>
+</div>
+<div class="cell100 flexRow verticalCenter flexBetween flexWrap checkboxGroupWrapper {{checkboxGroupState
+        checkboxGroupStates.wounds}}" data-checkbox-group="wounds">
+    {{#each static.actor.woundConditions as |wound|}}
+        <div class="flexRow verticalCenter cell33 flexBetween">
+            <label for="{{@key}}" class="resource-label hasTooltip"
+                   title="{{convertHTMLForTitle wound.description}}">{{wound.title}}:</label>
+            <input class="checkboxGroup" type="checkbox" id="{{@key}}" value="{{@key}}"
+                   data-dyn-change-at="item.weapon.toggleWoundCondition"
+                {{checked (includes ../item.weapon.woundConditions @key)}}/>
+        </div>
+    {{/each}}
+</div>
+<div class="cell100 flexRow verticalCenter flexCenter checkboxGroupTitle {{checkboxGroupState
+        checkboxGroupStates.keywords}}" data-checkbox-group="keywords">
+    <div class="cell100">Keywords:
+        {{#each (retain static.items.weapons.keywords item.weapon.keywords) as |keyword|}}
+            <span title="{{convertHTMLForTitle keyword.description}}"
+                  class="hasTooltip">{{keyword.title}}</span>{{#if (not @last)}}, {{/if}}
+        {{/each}}
+    </div>
+    <i class="fas fa-chevron-circle-up"></i>
+    <i class="fas fa-chevron-circle-down"></i>
+</div>
+<div class="cell100 flexRow verticalCenter flexBetween flexWrap checkboxGroupWrapper {{checkboxGroupState
+        checkboxGroupStates.keywords}}" data-checkbox-group="keywords">
+    {{#each static.items.weapons.keywords as |keyword|}}
+        <div class="flexRow verticalCenter cell33 flexBetween">
+            <label for="{{@key}}" class="resource-label hasTooltip"
+                   title="{{convertHTMLForTitle keyword.description}}">{{keyword.title}}:</label>
+            <input class="checkboxGroup" type="checkbox" id="{{@key}}" value="{{@key}}"
+                   data-dyn-change-at="item.weapon.toggleKeyword"
+                {{checked (includes ../item.weapon.keywords @key)}}/>
+        </div>
+    {{/each}}
+</div>
+
+<div class="cell100 flexRow verticalCenter flexCenter checkboxGroupTitle {{checkboxGroupState
+        checkboxGroupStates.actions}}" data-checkbox-group="actions">
+    <div class="cell100">Custom actions:
+        {{#each (retain @WeaponActions item.weapon.actions) as |action|}}
+            <span title="{{convertHTMLForTitle action.description}}"
+                  class="hasTooltip">{{action.title}}</span>{{#if (not @last)}}, {{/if}}
+        {{/each}}
+    </div>
+    <i class="fas fa-chevron-circle-up"></i>
+    <i class="fas fa-chevron-circle-down"></i>
+</div>
+<div class="cell100 lastRow flexRow verticalCenter flexBetween flexWrap checkboxGroupWrapper {{checkboxGroupState
+        checkboxGroupStates.actions}}" data-checkbox-group="actions">
+        {{#each @WeaponActions as |action|}}
+        <div class="flexRow verticalCenter cell33 flexBetween">
+            <label for="{{@key}}" class="resource-label hasTooltip"
+                   title="{{convertHTMLForTitle action.description}}">{{action.title}}:</label>
+            <input class="checkboxGroup" type="checkbox" id="{{@key}}" value="{{@key}}"
+                   data-dyn-change-at="item.weapon.toggleAction"
+                {{checked (includes ../item.weapon.actions @key)}}/>
+        </div>
+    {{/each}}
+</div>

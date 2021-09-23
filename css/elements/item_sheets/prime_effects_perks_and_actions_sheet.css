@@ -1,15 +1,16 @@
-.effectBlock .bonusesWrapper,
-.perkItem .perkPrerequisitesBlock .prerequisitesWrapper,
-.perkItem .actionEffectBlock .effectsWrapper
+.effectBlock .effectsWrapper,
+.itemSheet .prerequisitesBlock .prerequisitesWrapper,
+.itemSheet .actionEffectBlock .effectsWrapper
 {
-	max-height: 205px;
+	max-height: 265px;
 	padding-right:20px;
 	overflow: auto;
+	width: 100%;
 }
 
 .effectBlock .effectWrapper,
-.perkItem .perkPrerequisitesBlock .perkPrerequisiteWrapper,
-.perkItem .actionEffectBlock .actionEffectWrapper
+.itemSheet .prerequisitesBlock .prerequisiteWrapper,
+.itemSheet .actionEffectBlock .actionEffectWrapper
 {
 	position: relative;
 	border-bottom:1px solid grey;
@@ -18,16 +19,16 @@
 }
 
 .effectBlock .effectWrapper:last-child,
-.perkItem .perkPrerequisitesBlock .perkPrerequisiteWrapper:last-child,
-.perkItem .actionEffectBlock .actionEffectWrapper:last-child
+.itemSheet .prerequisitesBlock .prerequisiteWrapper:last-child,
+.itemSheet .actionEffectBlock .actionEffectWrapper:last-child
 {
 	border-bottom-width:0px;
 }
 
 
-.effectBlock .effectWrapper .bonusIndex,
-.perkItem .perkPrerequisitesBlock .perkPrerequisiteWrapper .prerequisiteIndex,
-.perkItem .actionEffectBlock .actionEffectWrapper .actionEffectIndex
+.effectBlock .effectWrapper .effectIndex,
+.itemSheet .prerequisitesBlock .prerequisiteWrapper .prerequisiteIndex,
+.itemSheet .actionEffectBlock .actionEffectWrapper .actionEffectIndex
 {
 	position: absolute;
 	left:10px;
@@ -38,8 +39,8 @@
 }
 
 .effectBlock .effectWrapper .removeEffectIcon,
-.perkItem .perkPrerequisitesBlock .perkPrerequisiteWrapper .removeEffectIcon,
-.perkItem .actionEffectBlock .actionEffectWrapper .removeEffectIcon
+.itemSheet .prerequisitesBlock .prerequisiteWrapper .removeEffectIcon,
+.itemSheet .actionEffectBlock .actionEffectWrapper .removeEffectIcon
 {
 	position: absolute;
 	top: calc(50% - 6px);
@@ -49,15 +50,15 @@
 }
 
 .effectBlock .effectWrapper .removeEffectIcon.elementDisabled,
-.perkItem .perkPrerequisitesBlock .perkPrerequisiteWrapper .removeEffectIcon.elementDisabled,
-.perkItem .actionEffectBlock .actionEffectWrapper .removeEffectIcon.elementDisabled
+.itemSheet .prerequisitesBlock .prerequisiteWrapper .removeEffectIcon.elementDisabled,
+.itemSheet .actionEffectBlock .actionEffectWrapper .removeEffectIcon.elementDisabled
 {
 	display: none;
 }
 
 .effectBlock .addEffectIcon,
-.perkItem .perkPrerequisitesBlock .addEffectIcon,
-.perkItem .actionEffectBlock .addEffectIcon
+.itemSheet .prerequisitesBlock .addEffectIcon,
+.itemSheet .actionEffectBlock .addEffectIcon
 {
 	display: block;
 	text-align: center;
@@ -65,8 +66,8 @@
 }
 
 .effectBlock .addEffectIcon.elementDisabled,
-.perkItem .perkPrerequisitesBlock .addEffectIcon.elementDisabled,
-.perkItem .actionEffectBlock .addEffectIcon.elementDisabled
+.itemSheet .prerequisitesBlock .addEffectIcon.elementDisabled,
+.itemSheet .actionEffectBlock .addEffectIcon.elementDisabled
 {
 	display: none;
 }

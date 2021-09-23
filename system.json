@@ -2,15 +2,15 @@
   "name": "prime",
   "title": "Prime system",
   "description": "The foundry VTT system of the Prime RPG as used in the Possession world.",
-  "version": "0.3.2",
-  "minimumCoreVersion": "0.6.5",
-  "compatibleCoreVersion": "0.7.9",
+  "version": "0.4.2",
+  "minimumCoreVersion": "0.8.6",
+  "compatibleCoreVersion": "0.8.9",
   "templateVersion": 2,
   "author": "Matt Henderson, Johnathan Castle, Jack Moxley & co",
   "esmodules": [
+    "module/dyn_handlebars.js",
     "module/prime_system_core.js",
     "module/prime_handlebars.js",
-    "module/prime_dice/prime_dice.js",
     "module/prime_controls/prime_controls_core.js"
   ],
   "styles": ["css/core_imports.css"],
@@ -28,6 +28,13 @@
       "label": "Statistics & Lies",
       "system": "prime",
       "path": "./packs/statistics-and-lies.db",
+      "entity": "Item"
+    },
+    {
+      "name": "injuries",
+      "label": "Injuries",
+      "system": "prime",
+      "path": "./packs/injuries.db",
       "entity": "Item"
     }
   ],

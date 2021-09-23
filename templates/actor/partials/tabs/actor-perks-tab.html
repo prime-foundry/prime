@@ -1,7 +1,7 @@
 <div class="{{partialClasses}} block noTitle perksOuterWrapper">
 	<div class="perksInnerWrapper flexRow flexWrap">
-	{{#each perks as |perk key|}}
-		{{> itemCardPerk perk itemIndex=key}}
+	{{#each actor.perks.ordered}}
+		{{> itemCardPerk}}
 	{{/each}}
 	</div>
 </div>

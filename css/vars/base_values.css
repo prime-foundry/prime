@@ -14,13 +14,16 @@
     --borderGreyAlphaOff: hsl(0, 0%, 50%, 0);
 
     --textDark: hsl(50, 14%, 9%);
+    --textDarkish: hsl(50, 14%, 15%);
     --textGrey: rgb(109, 109, 109);
 	--textLight: hsl(60, 35%, 91%);
 	
 	--titleBackground: hsl(51, 26%, 75%);
 
     --actionBackgroundColor: hsl(53, 100%, 97%);
+    --selectedActionBackgroundColor: hsl(53, 100%, 90%);
     --perkBackgroundColor: hsl(352, 100%, 97%);
+    --inactivePerkBackgroundColor: hsl(352, 10%, 80%);
     
     
     /********** Base font values **********/

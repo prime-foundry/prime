@@ -1,24 +1,26 @@
 // Import Modules
-import { PrimePCActor } from "./actor/actor.js";
-import { PrimePCActorSheet } from "./actor/actor-sheet.js";
-import { PrimeItem as PrimeItem } from "./item/item.js";
-import { PrimeItemSheet } from "./item/item-sheet.js";
+import { PrimeActor } from "./actor/PrimeActor.js";
+import { PrimeActorSheet } from "./actor/PrimeActorSheet.js";
+import { PrimeItem as PrimeItem } from "./item/PrimeItem.js";
+import { PrimeItemSheet } from "./item/PrimeItemSheet.js";
 
-import { PrimeSettingsManager } from "./prime_settings.js";
 import { PrimeHandlebarsPartials } from "./prime_handlebars.js";
-import { PrimeDataMigrationManager } from "./migrations/prime_data_migrations_manager.js";
+import { PrimeDataMigrationManager } from "./migrations/PrimeDataMigrationsManager.js";
+import {StaticModel} from "./util/DynFoundryMixins.js";
+import PrimeItemTables from "./item/PrimeItemTables.js";
+import PrimeActorTables from "./actor/PrimeActorTables.js";
+import PrimeTables from "./PrimeTables.js";
 
 Hooks.once('init', async function ()
 {
 
 	game.prime = {
-		PrimePCActor,
+		PrimeActor,
 		PrimeItem
 	};
 
-
 	/**
-	 * Set an initiative formula for the system
+	 * Set an initiative formula for the gameSystem
 	 * @type {String}
 	 */
 	CONFIG.Combat.initiative = {
@@ -27,42 +29,22 @@ Hooks.once('init', async function ()
 	};
 
 	// Define custom Entity classes
-	CONFIG.Actor.entityClass = PrimePCActor;
-	CONFIG.Item.entityClass = PrimeItem;
+	CONFIG.Actor.documentClass = PrimeActor;
+	CONFIG.Item.documentClass = PrimeItem;
 
 	// Register sheet application classes
 	Actors.unregisterSheet("core", ActorSheet);
-	Actors.registerSheet("prime", PrimePCActorSheet, { makeDefault: true });
+	Actors.registerSheet("prime", PrimeActorSheet, { makeDefault: true });
 	Items.unregisterSheet("core", ItemSheet);
 	Items.registerSheet("prime", PrimeItemSheet, { makeDefault: true });
 
-
-
-	// If you need to add Handlebars helpers, here are a few useful examples:
-	Handlebars.registerHelper('concat', function ()
-	{
-		var outStr = '';
-		for (var arg in arguments)
-		{
-			if (typeof arguments[arg] != 'object')
-			{
-				outStr += arguments[arg];
-			}
-		}
-		return outStr;
-	});
-
-	Handlebars.registerHelper('toLowerCase', function (str)
-	{
-		return str.toLowerCase();
-	});
+	StaticModel.registerStaticModel('items', PrimeItemTables)
+		.registerStaticModel('actor', PrimeActorTables)
+		.registerStaticModel('core', PrimeTables);
 });
 
 Hooks.once("ready", async function ()
 {
-
-	await PrimeSettingsManager.addSettings();
 	await PrimeHandlebarsPartials.loadPartials();
-	await PrimeDataMigrationManager.performIfMigrationRequired();
-
+	await PrimeDataMigrationManager.migrateIfNeeded();
 });

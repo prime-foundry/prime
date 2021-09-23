@@ -1,0 +1,35 @@
+<form class="{{cssClass}} itemSheet injuryItem flexColumn " autocomplete="off">
+	<div class="flexRow">
+        {{> itemImage}}
+
+		<div class="cell70 block flexColumn">
+			<div class="blockTitle">Basic information</div>
+            {{> itemName}}
+			<div class="flexRow infoBlock flexBetween">
+				<div class="cell100 flexRow verticalCenter flexBetween">
+					<label for="injuryType" class="itemRarity cell30">Type:&nbsp;</label>
+					<select
+						id="injuryType"
+						class="cell70"
+						data-dyn-change-at="item.injuryType"
+						data-dyn-select="item.injuryType">
+						<option value="wound">{{localize "PRIME.injury_type_wound"}}</option>
+						<option value="insanity">{{localize "PRIME.injury_type_insanity"}}</option>
+					</select>
+				</div>
+                {{> itemSetting partialClasses="lastRow"}}
+			</div>
+		</div>
+	</div>
+
+	{{> itemModifiers effectTitle="Untended Effect(s)" itemModifiersPath="item.untendedModifiers"}}
+
+	{{> itemModifiers effectTitle="Tended Effect(s)" itemModifiersPath="item.tendedModifiers" }}
+
+	{{> itemModifiers effectTitle="Permanent Effect(s)" itemModifiersPath="item.permanentModifiers" }}
+
+
+	{{> itemDescription }}
+
+	{{> itemAudit }}
+</form>

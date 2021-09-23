@@ -143,7 +143,7 @@ Ship sheet
 //- Remove volley
 //- Add Spray and Pray: might hit more targets, more people have to defend but attack at minus
 //- Add Concentrated fire: more damage vs. single target but uses more ammo.
-//- Surpress: make attack role at area, volumn vs ammo capacity. Anyone moving through the zone must resist attack roll.
+//- Suppress: make attack role at area, volumn vs ammo capacity. Anyone moving through the zone must resist attack roll.
 
 //Make dynamic action list in perks popup work.
 

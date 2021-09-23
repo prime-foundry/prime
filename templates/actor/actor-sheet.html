@@ -1,4 +1,6 @@
-<form class="{{cssClass}} {{isV2CharacterClass}} {{#if editable}}isEditable{{/if}} actorFormWrapper {{isFromTokenClass}}" autocomplete="off">
+<form id="appId_{{actor.id}}"
+	  class="{{cssClass}} {{isV2CharacterClass}} {{#if editable}}isEditable{{/if}} actorFormWrapper {{isFromTokenClass}}"
+	  autocomplete="off">
 
 	{{!-- Sheet Header --}}
 	<div class="metaDataContent flexColumn">
@@ -6,12 +8,9 @@
 			{{> actorBaseMetadata partialClasses='cell50'}}
 
 			<div class="flexColumn cell50 flexBetween">
-				<div class="titleWrapper flexColumn verticalCenter flexGrow">
+				<div class="flexColumn verticalCenter flexGrow">
 					<h2 class="systemTitle"><span class="bigCaps">P</span>OSSESSIO<span class="bigCaps">N</span></h2>
-					<h3 class="campaignTitle"><span class="bigCaps">A</span>ETHERNAUTS</h2>
-					<div class="sheetVersion">
-						{{data.sheetVersion}}
-					</div>
+					<h3 class="campaignTitle"><span class="bigCaps">A</span>ETHERNAUTS</h3>
 				</div>
 				{{> actorActionPoints partialClasses='cell100 bottomBlockTitle flexGrow'}}
 			</div>
@@ -25,10 +24,11 @@
 				</a>
 			</div>
 			<div class="isNPCWrapper flexRow verticalCenter flexEnd">
-				<label for="data.metadata.isNPC" class="resource-label rightAlign cell50 shrinkFontForNarrow" title="Tick to denote this is an NPC">NPC:</label>
-				<input type="checkbox" id="data.metadata.isNPC" name="data.metadata.isNPC" class="cell50" {{checked data.metadata.isNPC}}/>
+				<label for="actor.profile.npc" class="resource-label rightAlign cell50 shrinkFontForNarrow" title="Tick to denote this is an NPC">NPC:</label>
+				<input type="checkbox" id="actor.profile.npc"
+					   data-dyn-change-at="actor.profile.npc"
+					   class="cell50" {{checked actor.profile.npc}}/>
 			</div>
-			
 		</div>
 
 		<div class="metaDataContentInner flexRow flexBetween flexWrap">
@@ -39,13 +39,20 @@
 	</div>
 
 	<nav class="sheet-tabs tabs" data-group="primary">
+        <a class="item tableTitle icon rollerTab {{#if sheet.roller.ready}}rollerReady{{else}}{{#if sheet.roller.preparing}}rollerPreparing{{/if}}{{/if}}"
+           title="Click a prime and a refinement, and then click me"
+           data-dyn-click-at="sheet.roller.toggleOpen()"
+           data-dyn-render-off ><i class="fas fa-dice-d20"></i>
+        </a>
 		<a class="item tableTitle" data-tab="statistics">Primes</a>
 		<a class="item tableTitle" data-tab="perks">Perks</a>
 		<a class="item tableTitle" data-tab="combat">Combat</a>
 		<a class="item tableTitle" data-tab="inventory">Inventory</a>
-		<a class="item tableTitle" data-tab="description">Description</a>
+		<a class="item tableTitle" data-tab="description">Biography</a>
+        <a class="item tableTitle" data-tab="history">History</a>
 		<a class="item tableTitle" data-tab="notes">Notes</a>
 	</nav>
+    {{> actorDiceNav}}
 
 	<section class="sheet-body tabbedSection">
 
@@ -69,6 +76,9 @@
 			{{> actorTabDescription}}
 		</div>
 
+        <div class="tab history" data-group="primary" data-tab="history">
+            {{> actorTabHistory}}
+        </div>
 		<div class="tab notes" data-group="primary" data-tab="notes">
 			{{> actorTabNotes}}
 		</div>

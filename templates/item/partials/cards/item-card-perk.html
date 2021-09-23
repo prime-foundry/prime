@@ -1,26 +1,30 @@
-<div class="primeCard itemCard itemCardPerk {{partialClasses}}" data-item-index="{{itemIndex}}">
-    <div class="cardTitle"><a class="itemTitle stopDrag" data-item-id="{{this._id}}">{{this.name}}</a></div>
-    <div class="cardTopRightDetail">{{this.data.cost.amount}}</div>
-    
+<div class="primeCard itemCard itemCardPerk {{#if (not (call 'qualifies'))}}inactive{{/if}}" data-item-index="{{@index}}">
+    <div class="cardTitle"><a class="itemTitle stopDrag"
+                              data-dyn-click-at="actor.perks.displayPerk()"
+                              data-dyn-click-id="{{this.id}}">{{this.source.name}}</a></div>
+    <div class="cardTopRightDetail">{{this.source.cost.amount}}</div>
+
 	<div class="cardDetail stopDrag">
 		<div class="cardDescription">
-			{{#if this.data.description}}
-			<div>{{{this.data.description}}}</div>
+			{{#if this.source.descriptions.core}}
+			<div>{{{this.source.descriptions.core}}}</div>
 			{{/if}}
 
-			{{#if this.data.settingDescription}}
-			<div>{{{this.data.settingDescription}}}</div>
+			{{#if this.source.descriptions.setting}}
+			<div>{{{this.source.descriptions.setting}}}</div>
 			{{/if}}
 		</div>
 
-		<div class="cardBottomRightDetail removePerk"><a class="deleteItemIcon stopDrag" data-item-id={{this._id}}><i class="fas fa-trash stopDrag stopClose"></i></a></div>
+		<div class="cardBottomRightDetail removePerk"><a class="deleteItemIcon stopDrag"
+                                                         data-dyn-click-at="actor.perks.deletePerk()"
+                                                         data-dyn-click-id="{{this.id}}"><i class="fas fa-trash stopDrag stopClose"></i></a></div>
 
-		{{#ifCond this.data.cost.attributeType "==" "perkCostXP" }}
+		{{#if (equal this.source.cost.type "xp")}}
 		<div class="cardRightCenterDetail perkCost hasTooltip" title="Perk cost XP">XP</div>
-		{{/ifCond}}
+		{{/if}}
 
-		{{#ifCond this.data.cost.attributeType "==" "perkCostSoul" }}
+		{{#if (equal this.source.cost.type "soul")}}
 		<div class="cardRightCenterDetail perkCost hasTooltip" title="Perk cost Soul">S</div>
-		{{/ifCond}}
+		{{/if}}
 	</div>
 </div>

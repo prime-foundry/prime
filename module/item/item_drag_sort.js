@@ -535,7 +535,7 @@ export class ItemDragSort
 			// console.log("currTarget.percentageVolume: " + currTarget.percentageVolume + ", highestPercent:" + highestPercent);
 			if (currTarget.percentageVolume > highestPercent)
 			{
-				// console.log("Increase on previous, updating best match");
+				// console.log("Increase on object, updating best match");
 				bestMatch = currTarget;
 				highestPercent = currTarget.percentageVolume;
 			}

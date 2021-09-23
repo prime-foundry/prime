@@ -2,29 +2,33 @@
 	<div class="cell30 flexRow verticalCenter flexStart block">
 		<div class="blockTitle">Wealth</div>
 		<div class="cell60 flexRow verticalCenter flexEnd">
-			<label for="data.personalWealth" class="resource-label cell70 rightAlign" title="Personal Wealth">Personal: </label>
-			<input type="text" id="data.personalWealth" name="data.personalWealth" class="personalWealth cell30" value="{{data.personalWealth}}" data-dtype="Number"/>
+			<label for="data.personalWealth" class="resource-label cell70 rightAlign" title="Personal Wealth">Personal:&nbsp;</label>
+			<input type="text" id="actor.inventory.wealth.personal"  class="personalWealth cell30" value="{{actor.inventory.wealth.personal.amount}}"
+                   data-dyn-change-at="actor.inventory.wealth.personal"
+                   data-dyn-type="number"/>
 		</div>
 		
 		<div class="cell40 flexRow verticalCenter flexEnd">
-			<label for="data.shipWealth" class="resource-label cell70 rightAlign">Ship: </label>
-			<input type="text" id="data.shipWealth" name="data.shipWealth" class="shipWealth cell30" value="{{data.shipWealth}}" data-dtype="Number"/>
+			<label for="actor.inventory.wealth.ship" class="resource-label cell70 rightAlign">Ship:&nbsp;</label>
+			<input type="text" id="actor.inventory.wealth.ship" class="shipWealth cell30" value="{{actor.inventory.wealth.ship.amount}}"
+                   data-dyn-change-at="actor.inventory.wealth.ship"
+                   data-dyn-type="number"/>
 		</div>
 	</div>
 	<div class="cell30 flexRow verticalCenter flexEnd block">
 		<div class="blockTitle">Inventory</div>
 		<div class="cell40 flexRow flexStart verticalCenter">
 			<label class="resource-label">Weight: </label>
-			<span class="equipmentWeight">{{data.totalWeight}}</span>
+			<span class="equipmentWeight">{{actor.inventory.weight}}</span>
 		</div>
 		<div class="cell60 flexRow flexStart verticalCenter">
 			<label class="resource-label">Value: </label>
-			<span class="equipmentCost hasTooltip" title="Personal wealth total">{{data.equipmentCostPersonal}} </span>&nbsp;/ <span class="equipmentCost hasTooltip" title="Ship wealth total">{{data.equipmentCostShip}}</span>
+			<span class="equipmentCost hasTooltip" title="Personal wealth total">{{actor.inventory.cost.personal}}</span>&nbsp;/ <span class="equipmentCost hasTooltip" title="Ship wealth total">{{actor.inventory.cost.ship}}</span>
 		</div>
 	</div>
 </div>
 
-{{#if inventoryItems}}
+{{#if (greaterThan (count actor.inventory.items) 0)}}
 <div class="combatInventoryItems">
 	{{> itemListMeleeWeapons partialClasses=''}}
 

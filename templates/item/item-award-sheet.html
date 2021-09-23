@@ -1,0 +1,25 @@
+<form class="{{cssClass}} itemSheet genericItem flexColumn " autocomplete="off">
+	<div class="flexRow">
+        {{> itemImage}}
+		{{> itemBasic }}
+	</div>
+
+	<div class="block cell100 flexRow verticalCenter flex flexBetween">
+		<div class="cell30 flexRow flexCenter verticalCenter">
+			<label for="data.default" class="resource-label cell80 rightAlign" title="Action is available to all characters by default.">Default:</label>
+			<input type="checkbox" id="data.default" name="data.default" class="cell20" {{checked data.default}}/>
+		</div>
+		<div class="cell30 flexRow flexCenter verticalCenter">
+			<label for="data.reward.soul">Soul: </label>
+			<input type="text" id="data.reward.soul" name="data.reward.soul" value="{{data.reward.soul}}" data-dtype="Number" />
+		</div>
+		<div class="cell30 flexRow flexCenter verticalCenter">
+			<label for="data.reward.xp">XP: </label>
+			<input type="text" id="data.reward.xp" name="data.reward.xp" value="{{data.reward.xp}}" data-dtype="Number" />
+		</div>
+	</div>
+
+	{{> itemDescription }}
+
+	{{> itemMetadata }}
+</form>

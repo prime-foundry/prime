@@ -56,6 +56,10 @@
     background-color: var(--perkBackgroundColor);
 }
 
+.primeCard.itemCardPerk.inactive
+{
+	background-color: var(--inactivePerkBackgroundColor);
+}
 .primeCard .cardTitle
 {
     /* margin-bottom:5px;

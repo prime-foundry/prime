@@ -1,11 +1,18 @@
 <div class="{{partialClasses}} actionPoints block flexColumn">
+    {{#with actor}}
     <div class="blockTitle"><span>Action points</span></div>
     <div class="metaValueContent actionPointsWrapper flexGrow">
-        {{#for 0 data.actionPoints.max 1}}
-        <div class='actionPointWrapper{{addStateClasses this ../data.actionPoints}}'>
-            <input id="actionPoint{{this}}" value="{{this}}" class="actionPointCheckbox" type="checkbox" name="actionPoints" {{itemSelected this ../data.actionPoints.value}}/>
-            <label for="actionPoint{{this}}">{{this}}</label>
+        {{#range 0 actionPoints.max 1 false}}
+        <div class='actionPointWrapper {{addStateClasses this @root.actor.actionPoints}}'>
+            <input id="actionPoint-{{this}}" class="actionPointCheckbox" type="checkbox"
+                   data-dyn-change-at="actor.actionPoints, sheet.actionPointClicked()"
+                   data-dyn-type="counter"
+                   data-dyn-value="{{this}}"
+                   data-dyn-current="{{@root.actor.actionPoints.value}}"
+                   data-dyn-render-off/>
+            <label for="actionPoint-{{this}}">{{this}}</label>
         </div>
-        {{/for}}
+        {{/range}}
     </div>
+    {{/with}}
 </div>
