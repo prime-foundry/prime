@@ -115,8 +115,8 @@
 }
 
 .diceMessage .prime-dice-modifiers {
-    flex-basis: 33%;
-    max-width: 33%;
+    flex-basis: 25%;
+    max-width: 25%;
     padding: 0 0 0 0.25em;
     display: flex;
     flex-direction: column;
@@ -141,8 +141,8 @@
 
 .diceMessage .prime-dice-total {
     justify-self: right;
-    flex-basis: 12%;
-    min-width:12%;
+    flex-basis: 20%;
+    min-width: 12%;
     min-height: 20px;
     padding: 4px;
     background-color: rgba(255, 255, 255, 0.7);

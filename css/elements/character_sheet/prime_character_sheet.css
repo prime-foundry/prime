@@ -293,8 +293,14 @@ h1.entityName
 	background-color: var(--textDark);
 	border-color: var(--borderGrey);
 	height:34px;
+	padding: 0;
 }
-
+.primeCharacterSheet .sub-nav .item,
+.primeCharacterSheet .sheet-tabs.tabs .item
+{
+	padding: 7px 0;
+	flex-grow: 1;
+}
 
 .primeCharacterSheet .sub-nav > *{
 	opacity: 0;
@@ -343,7 +349,6 @@ h1.entityName
 .primeCharacterSheet .item.tableTitle
 {
 	transition: all .2s ease-in-out;
-
 	color: var(--textLight);
 	background-color: var(--textDark);
 }
