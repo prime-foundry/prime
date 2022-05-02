@@ -219,6 +219,11 @@ h1.entityName
 	display:block;
 }
 
+.titleWrapper
+{
+	position: relative;
+}
+
 .primeCharacterSheet .systemTitle,
 .primeCharacterSheet .campaignTitle
 {
@@ -277,6 +282,13 @@ h1.entityName
 .userIsNotGm .isNPCWrapper
 {
 	display: none;
+}
+
+.sheetVersion
+{
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
 }
 
 .primeCharacterSheet .metaDataContent .metaValues
@@ -907,6 +919,11 @@ h1.entityName
 .primeCharacterSheet .tabbedSection .inventoryTable
 {
 	
+}
+
+.primeCharacterSheet  .characterSheetV1 .statsContent .showStatInfoIcon
+{
+	display: none;
 }
 
 .primeCharacterSheet .tabbedSection .inventoryTable th,
