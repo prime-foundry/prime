@@ -50,7 +50,7 @@
   "primaryTokenAttribute": "health",
   "secondaryTokenAttribute": "power",
   "url": "https://github.com/johnc303/prime/",
-  "manifest": "https://raw.githubusercontent.com/johnc303/prime/master/system.json",
-  "download": "https://github.com/johnc303/prime/blob/master/prime.zip?raw=true",
+  "manifest": "https://raw.githubusercontent.com/johnc303/prime/development/system.json",
+  "download": "https://github.com/johnc303/prime/archive/refs/heads/development.zip?raw=true",
   "license": "LICENSE2.txt"
 }
