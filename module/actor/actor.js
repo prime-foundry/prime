@@ -497,7 +497,7 @@ export class PrimePCActor extends Actor
 		let actorItemsToCreate = []
 		let instancedItems = {};
 		let statItem = null;
-		if (ItemDirectory && ItemDirectory.collection)	// Sometimes not defined when interegated.
+		if (ItemDirectory && ItemDirectory.collection)	// Sometimes not defined when integrated.
 		{
 			ItemDirectory.collection.forEach((item, key, items) =>
 			{
