@@ -62,6 +62,8 @@ export class PrimeItemSheet extends ItemSheet {
 	data.descriptionHTML = this.item.system.description;
 	data.settingDescriptionHTML = this.item.system.settingDescription;
 
+	data.system = this.item.system;
+
     return data;
   }
 
