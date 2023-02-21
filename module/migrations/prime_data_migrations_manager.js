@@ -22,7 +22,7 @@ export class PrimeDataMigrationManager
 		}
 
 		const currentWorldVersion = game.settings.get("prime", "notAutoIncrementedBeforeICanCheckItWorldVersionNumber");
-		const systemVersion = game.system.data.version;
+		const systemVersion = game.system.version;
 
 		if (!currentWorldVersion)
 		{

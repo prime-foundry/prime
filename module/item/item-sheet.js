@@ -59,10 +59,10 @@ export class PrimeItemSheet extends ItemSheet {
       data.owningCharacterName = this.actor.name;
     }
 
-	data.descriptionHTML = this.item.system.description;
-	data.settingDescriptionHTML = this.item.system.settingDescription;
+    data.descriptionHTML = this.item.system.description;
+    data.settingDescriptionHTML = this.item.system.settingDescription;
 
-	data.system = this.item.system;
+    data.system = this.item.system;
 
     return data;
   }

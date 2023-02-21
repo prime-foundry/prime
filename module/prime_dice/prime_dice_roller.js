@@ -67,8 +67,8 @@ export class PRIME_DICE_ROLLER {
 	}
 
 	static onRenderChatMessage(message, html, data) {
-		if(message.data.speaker && message.data.speaker.actor){
-			const actorID = message.data.speaker.actor;
+		if(message.speaker && message.speaker.actor){
+			const actorID = message.speaker.actor;
 			html.find('.actorPortrait').click((() => {
 				const actors = CONFIG.Actor.collection.instance;
 				const actor = actors.get(actorID);
