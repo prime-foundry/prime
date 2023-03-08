@@ -10,7 +10,7 @@ export class PrimePCActor extends Actor
 	/**
 	 * Augment the basic actor data with additional dynamic data.
 	 */
-	prepareData()
+	async prepareData()
 	{
 		super.prepareData();
 
@@ -23,13 +23,13 @@ export class PrimePCActor extends Actor
 		if (actorData.type === 'character')
 		{
 			this._checkV2CharacterUpgrade();
-			this._prepareCharacterData(actorData);
+			await this._prepareCharacterData(actorData);
 		}
 	}
 
 	_checkV2CharacterUpgrade()
 	{
-		if (!this.isVersion2() && Object.keys(this.data.data.primes).length === 0)
+		if (!this.isVersion2() && Object.keys(this.system.primes).length === 0)
 		{
 			this.system.sheetVersion = "v2.0";
 		}
@@ -46,34 +46,34 @@ export class PrimePCActor extends Actor
 	/**
 	 * Prepare Character type specific data
 	 */
-	_prepareCharacterData(actorData)
+	async _prepareCharacterData(actorData)
 	{
-		const data = actorData.data;
+		const actorSystemData = actorData.system;
 
 		if (this.isVersion2())
 		{
-			this._prepareCharacterDataV2(data, actorData);
+			await this._prepareCharacterDataV2(actorSystemData, actorData);
 		}
 
-		const primeCost = this.getTotalCost(data.primes);
+		const primeCost = this.getTotalCost(actorSystemData.primes);
 		const perkSoulCost = this.getTotalPerkCost("perkCostSoul");
-		data.soul.spent = primeCost + perkSoulCost;
+		actorSystemData.soul.spent = primeCost + perkSoulCost;
 
-		const refinementCost = this.getTotalCost(data.refinements);
+		const refinementCost = this.getTotalCost(actorSystemData.refinements);
 		const perkXPCost = this.getTotalPerkCost("perkCostXP");
-		data.xp.spent = refinementCost + perkXPCost;
+		actorSystemData.xp.spent = refinementCost + perkXPCost;
 
 		this.updateOwnedItemValues();
 
 		// Loop through ability scores, and add their modifiers to our sheet output.
-		data.soul.value = (data.soul.initial + data.soul.awarded) - data.soul.spent;
-		data.xp.value = (data.xp.initial + data.xp.awarded) - data.xp.spent;
+		actorSystemData.soul.value = (actorSystemData.soul.initial + actorSystemData.soul.awarded) - actorSystemData.soul.spent;
+		actorSystemData.xp.value = (actorSystemData.xp.initial + actorSystemData.xp.awarded) - actorSystemData.xp.spent;
 	}
 
-	_prepareCharacterDataV2(data, actorData)
+	async _prepareCharacterDataV2(data, actorData)
 	{
-		const primesStatData = this._getStatsObjects(actorData.items, "prime");
-		const refinementsStatData = this._getStatsObjects(actorData.items, "refinement");
+		const primesStatData = await this._getStatsObjects(actorData.items, "prime");
+		const refinementsStatData = await this._getStatsObjects(actorData.items, "refinement");
 
 		if (data.primes)
 		{
@@ -462,7 +462,7 @@ export class PrimePCActor extends Actor
 		}
 	}
 
-	_getStatsObjects(items, statType)
+	async _getStatsObjects(items, statType)
 	{
 		let matchingStatItems = {};
 		let count = 0;
@@ -486,13 +486,13 @@ export class PrimePCActor extends Actor
 
 		if (Object.keys(matchingStatItems).length === 0 && !atLeastOneStatFound)
 		{
-			matchingStatItems = this._getStatObjectsFromWorld(statType);
+			matchingStatItems = await this._getStatObjectsFromWorld(statType);
 		}
 
 		return matchingStatItems;
 	}
 
-	_getStatObjectsFromWorld(statType)
+	async _getStatObjectsFromWorld(statType)
 	{
 		const currActor = this;
 
@@ -503,18 +503,18 @@ export class PrimePCActor extends Actor
 		{
 			ItemDirectory.collection.forEach((item, key, items) =>
 			{
-				if (item.type == statType && item.data.data.default)
+				if (item.type == statType && item.system.default)
 				{
-					item.data.data.sourceKey = item.data._id;
-					actorItemsToCreate.push(item.data);
-					statItem = this._getItemDataAsStat(item.data);
+					item.system.sourceKey = item.id;
+					actorItemsToCreate.push(item.system);
+					statItem = this._getItemDataAsStat(item.system);
 					instancedItems[statItem.itemID] = statItem;
 				}
 			});
 
 			if (actorItemsToCreate.length > 0)
 			{
-				this.createEmbeddedEntity("OwnedItem", actorItemsToCreate);
+				await this.createEmbeddedDocuments("OwnedItem", actorItemsToCreate);
 			}
 			else
 			{
@@ -542,14 +542,14 @@ export class PrimePCActor extends Actor
 	{
 		let sourceItem = null;
 		let itemTitle = itemData.name;
-		let itemDescription = itemData.data.description;
-		if (ItemDirectory.collection && !itemData.data.customisable)
+		let itemDescription = itemData.description;
+		if (ItemDirectory.collection && !itemData.customisable)
 		{
-			sourceItem = ItemDirectory.collection.get(itemData.data.sourceKey);
+			sourceItem = ItemDirectory.collection.get(itemData.sourceKey);
 			if (sourceItem)
 			{
-				itemTitle = sourceItem.data.name;
-				itemDescription = sourceItem.data.data.description;
+				itemTitle = sourceItem.name;
+				itemDescription = sourceItem.system.description;
 			}
 			else
 			{
@@ -559,16 +559,16 @@ export class PrimePCActor extends Actor
 
 		let statData =
 		{
-			"value": itemData.data.value,
-			"max": itemData.data.max,
-			"type" : itemData.data.statType,
+			"value": itemData.value,
+			"max": itemData.max,
+			"type" : itemData.statType,
 			"title": itemTitle,
-			"description": itemData.data.customisable ? "*EDITABLE STAT, CLICK INFO TO EDIT* \n" + itemDescription : itemDescription,
-			"sourceKey": itemData.data.sourceKey,
+			"description": itemData.customisable ? "*EDITABLE STAT, CLICK INFO TO EDIT* \n" + itemDescription : itemDescription,
+			"sourceKey": itemData.sourceKey,
 			"itemID": itemData._id,
 			"itemBasedStat" : true,
-			"customisableStatClass" : itemData.data.customisable ? "customisableStat" : "",
-			"defaultItemClass" : itemData.data.default ? "defaultStat" : "expandedStat",
+			"customisableStatClass" : itemData.customisable ? "customisableStat" : "",
+			"defaultItemClass" : itemData.default ? "defaultStat" : "expandedStat",
 		}
 
 		if (itemData.related)
