@@ -14,8 +14,10 @@ export class PrimePCActor extends Actor
 	{
 		super.prepareData();
 
-		const actorData = this.data;
-		const data = actorData.data;
+		// TODO: Refactor this away.
+		const actorData = this;
+		// TODO: Refactor this away.
+		const data = actorData;
 		const flags = actorData.flags;
 
 		if (actorData.type === 'character')
@@ -29,7 +31,7 @@ export class PrimePCActor extends Actor
 	{
 		if (!this.isVersion2() && Object.keys(this.data.data.primes).length === 0)
 		{
-			this.data.data.sheetVersion = "v2.0";
+			this.system.sheetVersion = "v2.0";
 		}
 	}
 
@@ -120,7 +122,7 @@ export class PrimePCActor extends Actor
 	 * @return {boolean}
 	 */
 	isVersion2(){
-		return !!this.data.data.sheetVersion && this.data.data.sheetVersion === "v2.0";
+		return !!this.system.sheetVersion && this.system.sheetVersion === "v2.0";
 	}
 
 	/**
