@@ -92,16 +92,16 @@ export class PrimePCActorSheet extends ActorSheet
 		}
 
 		//var a = data.actor.permission
-		data.currentOwners = this.entity.getCurrentOwners();
-		data.combinedResilience = this.entity.getCombinedResilience();
-		data.combinedPsyche = this.entity.getCombinedPsyche();
+		data.currentOwners = this.actor.getCurrentOwners();
+		data.combinedResilience = this.actor.getCombinedResilience();
+		data.combinedPsyche = this.actor.getCombinedPsyche();
 		
-		data.typeSorted = this.entity.getTypeSortedPrimesAndRefinements();
+		data.typeSorted = this.actor.getTypeSortedPrimesAndRefinements();
 		
 		data.itemTables = PrimeTables.cloneAndTranslateTables("items");
 		data.actorTables = PrimeTables.cloneAndTranslateTables("actor");
 
-		data.filteredItems = this.entity.getProcessedItems();
+		data.filteredItems = this.actor.getProcessedItems();
 
 		data.inventoryItems = this.getInventoryItems(data.filteredItems);
 

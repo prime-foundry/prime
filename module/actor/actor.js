@@ -37,7 +37,7 @@ export class PrimePCActor extends Actor
 
 	isNPC() {
 		try {
-			return this.data.data.metadata.isNPC;
+			return this.system.metadata.isNPC;
 		} catch (error) {
 			return true;
 		}
@@ -109,12 +109,12 @@ export class PrimePCActor extends Actor
 
 	getCombinedResilience()
 	{
-		return this.data.data.health.resilience.value + this.data.data.armour.resilience.value;
+		return this.system.health.resilience.value + this.system.armour.resilience.value;
 	}
 
 	getCombinedPsyche()
 	{
-		return this.data.data.mind.psyche.value + this.data.data.ward.psyche.value;
+		return this.system.mind.psyche.value + this.system.ward.psyche.value;
 	}
 
 	/**
@@ -158,7 +158,7 @@ export class PrimePCActor extends Actor
 					results[item.itemID] = item;
 				});
 		} else {
-			results = this.data.data.primes;
+			results = this.system.primes;
 		}
 		return results;
 	}
@@ -178,7 +178,7 @@ export class PrimePCActor extends Actor
 					results[item.itemID] = item;
 				});
 		} else {
-			results = this.data.data.refinements;
+			results = this.system.refinements;
 		}
 		return results;
 	}
@@ -238,9 +238,9 @@ export class PrimePCActor extends Actor
 	{
 		var sortedData = {};
 		var currEntry = null;
-		for (var key in this.data.data.primes)
+		for (var key in this.system.primes)
 		{
-			currEntry = this.data.data.primes[key];
+			currEntry = this.system.primes[key];
 			if (!sortedData[currEntry.type])
 			{
 				let localisedTitle = game.i18n.localize("PRIME.stat_type_" + currEntry.type);
@@ -253,9 +253,9 @@ export class PrimePCActor extends Actor
 			}
 			sortedData[currEntry.type].primes[key] = currEntry;
 		}
-		for (var key in this.data.data.refinements)
+		for (var key in this.system.refinements)
 		{
-			currEntry = this.data.data.refinements[key];
+			currEntry = this.system.refinements[key];
 			sortedData[currEntry.type].refinements[key] = currEntry;
 		}
 
@@ -299,7 +299,7 @@ export class PrimePCActor extends Actor
 		{
 			if (item.type == "action")
 			{
-				let actionType = item.data.data.type
+				let actionType = item.system.type
 				if (!typeSortedActions[actionType])
 				{
 					typeSortedActions[actionType] = [];
@@ -318,7 +318,7 @@ export class PrimePCActor extends Actor
 
 	isAllowedForCharacter(whatAction)
 	{
-		if (whatAction.data.data.default)
+		if (whatAction.system.default)
 		{
 			return true;
 		}
@@ -417,61 +417,62 @@ export class PrimePCActor extends Actor
 
 	updateWeightAndValue()
 	{
-		this.data.data.totalWeight = this.getTotalWeight();
-		this.data.data.equipmentCostPersonal = this.getTotalCostByType("personal");
-		this.data.data.equipmentCostShip = this.getTotalCostByType("ship");
+		this.system.totalWeight = this.getTotalWeight();
+		this.system.equipmentCostPersonal = this.getTotalCostByType("personal");
+		this.system.equipmentCostShip = this.getTotalCostByType("ship");
 	}
 
 	updateHealthAndMind()
 	{
-		this.data.data.health.wounds.max = this.data.data.health.wounds.base + this.getStatBonusesFromItems("health.wounds.max");
-		this.data.data.health.resilience.max = this.data.data.health.resilience.base + this.getStatBonusesFromItems("health.resilience.max");
-		this.data.data.mind.insanities.max = this.data.data.mind.insanities.base + this.getStatBonusesFromItems("mind.insanities.max");
-		this.data.data.mind.psyche.max = this.data.data.mind.psyche.base + this.getStatBonusesFromItems("mind.psyche.max");
+		this.system.health.wounds.max = this.system.health.wounds.base + this.getStatBonusesFromItems("health.wounds.max");
+		this.system.health.resilience.max = this.system.health.resilience.base + this.getStatBonusesFromItems("health.resilience.max");
+		this.system.mind.insanities.max = this.system.mind.insanities.base + this.getStatBonusesFromItems("mind.insanities.max");
+		this.system.mind.psyche.max = this.system.mind.psyche.base + this.getStatBonusesFromItems("mind.psyche.max");
 	}
 
 	updateArmourValues()
 	{
-		var currentArmour = this.getMostResilientArmour(this.data.items);
+		var currentArmour = this.getMostResilientArmour(this.items);
 
-		this.data.data.armour.protection.value = currentArmour.data.protection + this.getStatBonusesFromItems("armour.protection.value");
-		this.data.data.armour.protection.max = currentArmour.data.protection + this.getStatBonusesFromItems("armour.protection.max");
+		this.system.armour.protection.value = currentArmour.data.protection + this.getStatBonusesFromItems("armour.protection.value");
+		this.system.armour.protection.max = currentArmour.data.protection + this.getStatBonusesFromItems("armour.protection.max");
 
-		var initialMaxValue = this.data.data.armour.resilience.max
-		this.data.data.armour.resilience.max = currentArmour.data.armourResilience + this.getStatBonusesFromItems("armour.resilience.max");
+		var initialMaxValue = this.system.armour.resilience.max
+		this.system.armour.resilience.max = currentArmour.data.armourResilience + this.getStatBonusesFromItems("armour.resilience.max");
 
 		// If they were the same initially or the value is now higher than the max, adjust accordingly.
-		if (this.data.data.armour.resilience.value == initialMaxValue || this.data.data.armour.resilience.value > this.data.data.armour.resilience.max)
+		if (this.system.armour.resilience.value == initialMaxValue || this.system.armour.resilience.value > this.system.armour.resilience.max)
 		{
-			this.data.data.armour.resilience.value = currentArmour.data.armourResilience + this.getStatBonusesFromItems("armour.resilience.max");
+			this.system.armour.resilience.value = currentArmour.data.armourResilience + this.getStatBonusesFromItems("armour.resilience.max");
 		}
 	}
 
 	updateWardValues()
 	{
-		this.data.data.ward.stability.value = this.getStatBonusesFromItems("ward.stability.max");
-		this.data.data.ward.stability.max = this.getStatBonusesFromItems("ward.stability.max");
+		this.system.ward.stability.value = this.getStatBonusesFromItems("ward.stability.max");
+		this.system.ward.stability.max = this.getStatBonusesFromItems("ward.stability.max");
 
-		var initialMaxValue = this.data.data.ward.psyche.max
-		this.data.data.ward.psyche.max = this.getStatBonusesFromItems("ward.psyche.max");
+		var initialMaxValue = this.system.ward.psyche.max
+		this.system.ward.psyche.max = this.getStatBonusesFromItems("ward.psyche.max");
 
 		// If they were the same initially or the value is now higher than the max, adjust accordingly.
-		if (this.data.data.ward.psyche.value == initialMaxValue || this.data.data.ward.psyche.value > this.data.data.ward.psyche.max)
+		if (this.system.ward.psyche.value == initialMaxValue || this.system.ward.psyche.value > this.system.ward.psyche.max)
 		{
-			this.data.data.ward.psyche.value = this.getStatBonusesFromItems("ward.psyche.max");
+			this.system.ward.psyche.value = this.getStatBonusesFromItems("ward.psyche.max");
 		}
 	}
 
 	async _getStatsObjects(items, statType)
 	{
 		let matchingStatItems = {};
-		let count = 0;
+		// let count = 0;
 		let currItem = null;
 		let statItem = null;
 		let atLeastOneStatFound = false;	// If we've found one prime, then the other stats are on their way asyncronously.
-		while (count < items.length)
+		// while (count < items.length)
+		items.forEach((currItem)=> 
 		{
-			currItem = items[count];
+			// currItem = items[count];
 			if (currItem.type == statType)
 			{
 				statItem = this._getItemDataAsStat(currItem);
@@ -481,8 +482,7 @@ export class PrimePCActor extends Actor
 			{
 				atLeastOneStatFound = true;
 			}
-			count++;
-		}
+		});
 
 		if (Object.keys(matchingStatItems).length === 0 && !atLeastOneStatFound)
 		{
@@ -499,6 +499,7 @@ export class PrimePCActor extends Actor
 		let actorItemsToCreate = []
 		let instancedItems = {};
 		let statItem = null;
+		let createdItemDocuments = null;
 		if (ItemDirectory && ItemDirectory.collection)	// Sometimes not defined when integrated.
 		{
 			ItemDirectory.collection.forEach((item, key, items) =>
@@ -506,7 +507,7 @@ export class PrimePCActor extends Actor
 				if (item.type == statType && item.system.default)
 				{
 					item.system.sourceKey = item.id;
-					actorItemsToCreate.push(item.system);
+					actorItemsToCreate.push(item);
 					statItem = this._getItemDataAsStat(item.system);
 					instancedItems[statItem.itemID] = statItem;
 				}
@@ -514,7 +515,7 @@ export class PrimePCActor extends Actor
 
 			if (actorItemsToCreate.length > 0)
 			{
-				await this.createEmbeddedDocuments("OwnedItem", actorItemsToCreate);
+				createdItemDocuments = await this.createEmbeddedDocuments("Item", actorItemsToCreate);
 			}
 			else
 			{
@@ -545,7 +546,7 @@ export class PrimePCActor extends Actor
 		let itemDescription = itemData.description;
 		if (ItemDirectory.collection && !itemData.customisable)
 		{
-			sourceItem = ItemDirectory.collection.get(itemData.sourceKey);
+			sourceItem = ItemDirectory.collection.get(itemData.system.sourceKey);
 			if (sourceItem)
 			{
 				itemTitle = sourceItem.name;
@@ -565,7 +566,7 @@ export class PrimePCActor extends Actor
 			"title": itemTitle,
 			"description": itemData.customisable ? "*EDITABLE STAT, CLICK INFO TO EDIT* \n" + itemDescription : itemDescription,
 			"sourceKey": itemData.sourceKey,
-			"itemID": itemData._id,
+			"itemID": itemData.id,
 			"itemBasedStat" : true,
 			"customisableStatClass" : itemData.customisable ? "customisableStat" : "",
 			"defaultItemClass" : itemData.default ? "defaultStat" : "expandedStat",
@@ -604,7 +605,7 @@ export class PrimePCActor extends Actor
 		var totalWeight = 0;
 		this.items.forEach(function(currItem, key, map)
 		{
-			var weight = currItem.data.data.weight;
+			var weight = currItem.system.weight;
 			var parsedWeight = parseInt(weight);
 			if (weight &&  !isNaN(parsedWeight))
 			{
@@ -619,9 +620,9 @@ export class PrimePCActor extends Actor
 		var totalCost = 0;
 		this.items.forEach(function(currItem, key, map)
 		{
-			if (currItem.data.data.valueType == costType)
+			if (currItem.system.valueType == costType)
 			{
-				var cost = currItem.data.data.valueAmount;
+				var cost = currItem.system.valueAmount;
 				var parsedCost = parseInt(cost);
 				if (cost &&  !isNaN(parsedCost))
 				{
@@ -660,7 +661,7 @@ export class PrimePCActor extends Actor
 	{
 		var itemStateAdjustments = 0;
 		var count = 0;
-		while (count < whatItem.effects.length)
+		while (whatItem.effects && count < whatItem.effects.length)
 		{
 			let currEffect = whatItem.effects[count];
 			if (currEffect.flags.effectType == "bonus" && currEffect.flags.effectSubType == "actorStatBonus" && currEffect.flags.path == whatStatDataPath)

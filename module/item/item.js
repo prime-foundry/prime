@@ -31,9 +31,9 @@ export class PrimeItem extends Item
 		// }
 
 		// Get the Item's data
-		const itemData = this.data;
-		const actorData = this.actor ? this.actor.data : {};
-		const data = itemData.data;
+		// const itemSystemData = this.system;
+		// const actorData = this.actor ? this.actor.data : {};
+		// const data = itemSystemData.data;
 	}
 
 	// convertToCollection(objectToConvert)
@@ -52,7 +52,7 @@ export class PrimeItem extends Item
 
 	getProcessedClone()
 	{
-		let itemClone = $.extend(true, {}, this.data);
+		let itemClone = $.extend(true, {}, this);
 		this.processItem(itemClone);
 
 		return itemClone;
@@ -163,17 +163,17 @@ export class PrimeItem extends Item
 					else
 					{
 						let description = "";
-						if (currLookupItem.source.data.data.description)
+						if (currLookupItem.source.system.description)
 						{
-							description += currLookupItem.source.data.data.description;
+							description += currLookupItem.source.system.description;
 						}
-						if (currLookupItem.source.data.data.settingDescription)
+						if (currLookupItem.source.system.settingDescription)
 						{
-							description += currLookupItem.source.data.data.settingDescription;
+							description += currLookupItem.source.system.settingDescription;
 						}
 						var titleText = "<span title='" + description + "' class='hasTooltip'>" + currLookupItem.title + "</span>"
 					}
-					
+
 					titlesArray.push(titleText)
 				}
 				count++;
