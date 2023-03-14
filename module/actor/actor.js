@@ -87,7 +87,7 @@ export class PrimePCActor extends Actor
 
 	getCurrentOwners(whatPermissions)
 	{
-		var whatPermissions = this.data.permission;
+		var whatPermissions = this.permission;
 		let ownerNames = [];
 		let currUser;
 		for (var key in whatPermissions)
@@ -508,7 +508,7 @@ export class PrimePCActor extends Actor
 				{
 					item.system.sourceKey = item.id;
 					actorItemsToCreate.push(item);
-					statItem = this._getItemDataAsStat(item.system);
+					statItem = this._getItemDataAsStat(item);
 					instancedItems[statItem.itemID] = statItem;
 				}
 			});
@@ -516,6 +516,7 @@ export class PrimePCActor extends Actor
 			if (actorItemsToCreate.length > 0)
 			{
 				createdItemDocuments = await this.createEmbeddedDocuments("Item", actorItemsToCreate);
+				console.log("createdItemDocuments: ", createdItemDocuments);
 			}
 			else
 			{
@@ -546,7 +547,7 @@ export class PrimePCActor extends Actor
 		let itemDescription = itemData.description;
 		if (ItemDirectory.collection && !itemData.customisable)
 		{
-			sourceItem = ItemDirectory.collection.get(itemData.system.sourceKey);
+			sourceItem = ItemDirectory.collection.get(itemData.sourceKey);
 			if (sourceItem)
 			{
 				itemTitle = sourceItem.name;
