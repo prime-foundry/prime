@@ -79,7 +79,7 @@ export class PrimePCActorSheet extends ActorSheet
 	}
 
 	/** @override */
-	getData()
+	async getData()
 	{
 		const data = super.getData();
 		data.dtypes = ["String", "Number", "Boolean"];
@@ -91,7 +91,6 @@ export class PrimePCActorSheet extends ActorSheet
 			data.isFromTokenClass = "isCloneActor";
 		}
 
-		//var a = data.actor.permission
 		data.currentOwners = this.actor.getCurrentOwners();
 		data.combinedResilience = this.actor.getCombinedResilience();
 		data.combinedPsyche = this.actor.getCombinedPsyche();
@@ -120,6 +119,16 @@ export class PrimePCActorSheet extends ActorSheet
 		}
 
 		data.sortedActions = this.object.getSortedActions();
+
+		// HTML text
+		data.actorNotesHTML = await TextEditor.enrichHTML(data.data.system.notes, {
+			async: true,
+			relativeTo: this.actor
+		});
+		data.actorBiographyHTML = await TextEditor.enrichHTML(data.data.system.biography, {
+			async: true,
+			relativeTo: this.actor
+		});
 
 		return data;
 	}
@@ -348,7 +357,7 @@ export class PrimePCActorSheet extends ActorSheet
 		const select = $(event.delegateTarget);
 		const value = select.val();
 		const injuryIndex = select.data("injury-index");
-				
+
 		const data = super.getData();
 		data.data.wounds["wound" + (injuryIndex - 1)] = value;
 
@@ -359,7 +368,7 @@ export class PrimePCActorSheet extends ActorSheet
 	{
 		const anchor = $(event.delegateTarget);
 		const injuryIndex = anchor.data("injury-index");
-				
+
 		const data = super.getData();
 
 		var count = injuryIndex - 1;
@@ -417,18 +426,18 @@ export class PrimePCActorSheet extends ActorSheet
 		const select = $(event.delegateTarget);
 		const value = select.val();
 		const insanityIndex = select.data("insanity-index");
-				
+
 		const data = super.getData();
 		data.data.insanities["insanity" + (insanityIndex - 1)] = value;
 
 		var result = await this.actor.update(data.actor);
 	}
-	
+
 	async healInsanity(event)
 	{
 		const anchor = $(event.delegateTarget);
 		const insanityIndex = anchor.data("insanity-index");
-				
+
 		const data = super.getData();
 
 		var count = insanityIndex - 1;
@@ -731,7 +740,7 @@ export class PrimePCActorSheet extends ActorSheet
 			let updateData = {};
 			updateData.data = {}
 			updateData.data[itemType + "Order"] = itemOrder;
-			
+
 			this.object.update(updateData)
 
 			//this.bulkUpdatingOwnedItems = false;
@@ -760,9 +769,9 @@ export class PrimePCActorSheet extends ActorSheet
 		html.find(".fillAnimation").removeClass("fillAnimation");
 		html.find(".emptyAnimation").removeClass("emptyAnimation");
 
-		if (data.data.actionPoints.lastTotal != data.data.actionPoints.value)
+		if (data.data.system.actionPoints.lastTotal != data.data.system.actionPoints.value)
 		{
-			data.data.actionPoints.lastTotal = data.data.actionPoints.value;
+			data.data.system.actionPoints.lastTotal = data.data.system.actionPoints.value;
 			var result = await this.actor.update(data.actor, {render: false});
 		}
 	}
