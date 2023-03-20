@@ -60,7 +60,7 @@ export class PrimePCActorSheet extends ActorSheet
 
 		return mergeObject(superOptions, actorConfig);
 	}
-	
+
 	static addHooks()
 	{
 		Hooks.on("preUpdateActor", function(actorData, changeData, options, maybeUpdateID)
@@ -95,9 +95,9 @@ export class PrimePCActorSheet extends ActorSheet
 		data.currentOwners = this.actor.getCurrentOwners();
 		data.combinedResilience = this.actor.getCombinedResilience();
 		data.combinedPsyche = this.actor.getCombinedPsyche();
-		
+
 		data.typeSorted = this.actor.getTypeSortedPrimesAndRefinements();
-		
+
 		data.itemTables = PrimeTables.cloneAndTranslateTables("items");
 		data.actorTables = PrimeTables.cloneAndTranslateTables("actor");
 
@@ -119,7 +119,7 @@ export class PrimePCActorSheet extends ActorSheet
 			data.perks = [];
 		}
 
-		data.sortedActions = this.entity.getSortedActions();
+		data.sortedActions = this.object.getSortedActions();
 
 		return data;
 	}
@@ -181,7 +181,7 @@ export class PrimePCActorSheet extends ActorSheet
 			combinedItems = combinedItems.concat(filteredItems["item"]);
 		}
 
-		this.currentItemSortList = this.object.data.data.inventoryOrder || {};
+		this.currentItemSortList = this.object.system.inventoryOrder || {};
 		combinedItems = combinedItems.sort(this.sortByItemOrder.bind(this));
 
 		return combinedItems;
@@ -205,7 +205,7 @@ export class PrimePCActorSheet extends ActorSheet
 		{
 			return 1;
 		}
-		
+
 		return 0;
 	}
 
@@ -221,10 +221,10 @@ export class PrimePCActorSheet extends ActorSheet
 		if (isItemStat)
 		{
 			const statKey = statDOMObject.data("itemid");
-			
+
 			const statItem = this.object.items.get(statKey);
 
-			statItem.data.data.value = statDOMObject.val();			
+			statItem.data.data.value = statDOMObject.val();
 			this.entity.updateOwnedItem(statItem.data);
 		}
 	}
