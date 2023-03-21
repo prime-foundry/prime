@@ -3,10 +3,17 @@
   "title": "Prime system",
   "description": "The foundry VTT system of the Prime RPG as used in the Possession world.",
   "version": "0.3.1",
-  "minimumCoreVersion": "0.6.5",
-  "compatibleCoreVersion": "0.7.9",
+  "compatibility": {
+    "minimum": "0.10.291",
+    "verified": 10,
+    "maximum": 10
+  },
   "templateVersion": 2,
-  "author": "Matt Henderson, Johnathan Castle, Jack Moxley & co",
+  "authors": [
+    {"name": "Matt Henderson"},
+    {"name": "Johnathan Castle"},
+    {"name": "Jack Moxley"}
+  ],
   "esmodules": [
     "module/prime_system_core.js",
     "module/prime_handlebars.js",
@@ -21,14 +28,14 @@
       "label": "Weapon combo actions",
       "system": "prime",
       "path": "./packs/weapon-combo-actions.db",
-      "entity": "Item"
+      "type": "Item"
     },
     {
       "name": "statistics-and-lies",
       "label": "Statistics & Lies",
       "system": "prime",
       "path": "./packs/statistics-and-lies.db",
-      "entity": "Item"
+      "type": "Item"
     }
   ],
   "languages": [

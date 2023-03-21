@@ -33,7 +33,7 @@ export class PrimeDataMigrationManager
 			else
 			{
 				ui.notifications.info("Welcome to your new Prime world, we hope you have many happy adventures!");
-				game.settings.set("prime", "notAutoIncrementedBeforeICanCheckItWorldVersionNumber", game.system.data.version);
+				game.settings.set("prime", "notAutoIncrementedBeforeICanCheckItWorldVersionNumber", game.system.version);
 				return false;
 			}
 		}
