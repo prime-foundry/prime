@@ -87,7 +87,7 @@ export class PrimePCActor extends Actor
 
 	getCurrentOwners(whatPermissions)
 	{
-		var whatPermissions = this.data.permission;
+		var whatPermissions = this.permission;
 		let ownerNames = [];
 		let currUser;
 		for (var key in whatPermissions)
@@ -121,7 +121,8 @@ export class PrimePCActor extends Actor
 	 * Returns if this is a version 2 sheet or not. needed as part of migration.
 	 * @return {boolean}
 	 */
-	isVersion2(){
+	isVersion2()
+	{
 		return !!this.system.sheetVersion && this.system.sheetVersion === "v2.0";
 	}
 
@@ -136,11 +137,11 @@ export class PrimePCActor extends Actor
 	 * @private
 	 */
 	_getItems(typeFilter) {
-		if(typeFilter && typeFilter.length > 0){
+		if(typeFilter && typeFilter.length > 0) {
 			const typeFilterArr = Array.isArray(typeFilter) ? typeFilter : [typeFilter];
-			return this.data.items.filter((item) => typeFilterArr.includes(item.type))
+			return this.items.filter((item) => typeFilterArr.includes(item.type))
 		}
-		return this.data.items;
+		return this.items;
 	}
 
 	/**
@@ -150,7 +151,7 @@ export class PrimePCActor extends Actor
 	 */
 	getPrimes() {
 		let results;
-		if(this.isVersion2()){
+		if (this.isVersion2()) {
 			results = {}
 			this._getItems('prime')
 				.map(this._getItemDataAsStat)
@@ -221,7 +222,7 @@ export class PrimePCActor extends Actor
 		this._getItems(['prime' ,'refinement']).forEach((item) =>
 		{
 			let itemType = item.type
-			let statType = item.data.statType;
+			let statType = item.system.statType;
 			if (!sortedData[statType].title)
 			{
 				let localisedTitle = game.i18n.localize("PRIME.stat_type_" + statType);
@@ -466,7 +467,7 @@ export class PrimePCActor extends Actor
 	{
 		let matchingStatItems = {};
 		// let count = 0;
-		let currItem = null;
+		// let currItem = null;
 		let statItem = null;
 		let atLeastOneStatFound = false;	// If we've found one prime, then the other stats are on their way asyncronously.
 		// while (count < items.length)
@@ -484,8 +485,10 @@ export class PrimePCActor extends Actor
 			}
 		});
 
-		if (Object.keys(matchingStatItems).length === 0 && !atLeastOneStatFound)
+		if (Object.keys(matchingStatItems).length === 0 && !atLeastOneStatFound && !this.statRetrievalAttempted)
 		{
+			// This is a property to prevent large amounts of object being created to debug an issue with object scoping.
+			this.statRetrievalAttempted = true;
 			matchingStatItems = await this._getStatObjectsFromWorld(statType);
 		}
 
@@ -508,7 +511,7 @@ export class PrimePCActor extends Actor
 				{
 					item.system.sourceKey = item.id;
 					actorItemsToCreate.push(item);
-					statItem = this._getItemDataAsStat(item.system);
+					statItem = this._getItemDataAsStat(item);
 					instancedItems[statItem.itemID] = statItem;
 				}
 			});
@@ -516,6 +519,7 @@ export class PrimePCActor extends Actor
 			if (actorItemsToCreate.length > 0)
 			{
 				createdItemDocuments = await this.createEmbeddedDocuments("Item", actorItemsToCreate);
+				console.log("createdItemDocuments: ", createdItemDocuments);
 			}
 			else
 			{
@@ -544,7 +548,7 @@ export class PrimePCActor extends Actor
 		let sourceItem = null;
 		let itemTitle = itemData.name;
 		let itemDescription = itemData.description;
-		if (ItemDirectory.collection && !itemData.customisable)
+		if (ItemDirectory.collection && !itemData.system.customisable)
 		{
 			sourceItem = ItemDirectory.collection.get(itemData.system.sourceKey);
 			if (sourceItem)

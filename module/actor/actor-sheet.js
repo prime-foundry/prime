@@ -60,7 +60,7 @@ export class PrimePCActorSheet extends ActorSheet
 
 		return mergeObject(superOptions, actorConfig);
 	}
-	
+
 	static addHooks()
 	{
 		Hooks.on("preUpdateActor", function(actorData, changeData, options, maybeUpdateID)
@@ -79,7 +79,7 @@ export class PrimePCActorSheet extends ActorSheet
 	}
 
 	/** @override */
-	getData()
+	async getData()
 	{
 		const data = super.getData();
 		data.dtypes = ["String", "Number", "Boolean"];
@@ -91,13 +91,12 @@ export class PrimePCActorSheet extends ActorSheet
 			data.isFromTokenClass = "isCloneActor";
 		}
 
-		//var a = data.actor.permission
 		data.currentOwners = this.actor.getCurrentOwners();
 		data.combinedResilience = this.actor.getCombinedResilience();
 		data.combinedPsyche = this.actor.getCombinedPsyche();
-		
+
 		data.typeSorted = this.actor.getTypeSortedPrimesAndRefinements();
-		
+
 		data.itemTables = PrimeTables.cloneAndTranslateTables("items");
 		data.actorTables = PrimeTables.cloneAndTranslateTables("actor");
 
@@ -119,7 +118,17 @@ export class PrimePCActorSheet extends ActorSheet
 			data.perks = [];
 		}
 
-		data.sortedActions = this.entity.getSortedActions();
+		data.sortedActions = this.object.getSortedActions();
+
+		// HTML text
+		data.actorNotesHTML = await TextEditor.enrichHTML(data.data.system.notes, {
+			async: true,
+			relativeTo: this.actor
+		});
+		data.actorBiographyHTML = await TextEditor.enrichHTML(data.data.system.biography, {
+			async: true,
+			relativeTo: this.actor
+		});
 
 		return data;
 	}
@@ -181,7 +190,7 @@ export class PrimePCActorSheet extends ActorSheet
 			combinedItems = combinedItems.concat(filteredItems["item"]);
 		}
 
-		this.currentItemSortList = this.object.data.data.inventoryOrder || {};
+		this.currentItemSortList = this.object.system.inventoryOrder || {};
 		combinedItems = combinedItems.sort(this.sortByItemOrder.bind(this));
 
 		return combinedItems;
@@ -205,7 +214,7 @@ export class PrimePCActorSheet extends ActorSheet
 		{
 			return 1;
 		}
-		
+
 		return 0;
 	}
 
@@ -221,10 +230,10 @@ export class PrimePCActorSheet extends ActorSheet
 		if (isItemStat)
 		{
 			const statKey = statDOMObject.data("itemid");
-			
+
 			const statItem = this.object.items.get(statKey);
 
-			statItem.data.data.value = statDOMObject.val();			
+			statItem.data.data.value = statDOMObject.val();
 			this.entity.updateOwnedItem(statItem.data);
 		}
 	}
@@ -348,7 +357,7 @@ export class PrimePCActorSheet extends ActorSheet
 		const select = $(event.delegateTarget);
 		const value = select.val();
 		const injuryIndex = select.data("injury-index");
-				
+
 		const data = super.getData();
 		data.data.wounds["wound" + (injuryIndex - 1)] = value;
 
@@ -359,7 +368,7 @@ export class PrimePCActorSheet extends ActorSheet
 	{
 		const anchor = $(event.delegateTarget);
 		const injuryIndex = anchor.data("injury-index");
-				
+
 		const data = super.getData();
 
 		var count = injuryIndex - 1;
@@ -417,18 +426,18 @@ export class PrimePCActorSheet extends ActorSheet
 		const select = $(event.delegateTarget);
 		const value = select.val();
 		const insanityIndex = select.data("insanity-index");
-				
+
 		const data = super.getData();
 		data.data.insanities["insanity" + (insanityIndex - 1)] = value;
 
 		var result = await this.actor.update(data.actor);
 	}
-	
+
 	async healInsanity(event)
 	{
 		const anchor = $(event.delegateTarget);
 		const insanityIndex = anchor.data("insanity-index");
-				
+
 		const data = super.getData();
 
 		var count = insanityIndex - 1;
@@ -731,7 +740,7 @@ export class PrimePCActorSheet extends ActorSheet
 			let updateData = {};
 			updateData.data = {}
 			updateData.data[itemType + "Order"] = itemOrder;
-			
+
 			this.object.update(updateData)
 
 			//this.bulkUpdatingOwnedItems = false;
@@ -760,9 +769,9 @@ export class PrimePCActorSheet extends ActorSheet
 		html.find(".fillAnimation").removeClass("fillAnimation");
 		html.find(".emptyAnimation").removeClass("emptyAnimation");
 
-		if (data.data.actionPoints.lastTotal != data.data.actionPoints.value)
+		if (data.data.system.actionPoints.lastTotal != data.data.system.actionPoints.value)
 		{
-			data.data.actionPoints.lastTotal = data.data.actionPoints.value;
+			data.data.system.actionPoints.lastTotal = data.data.system.actionPoints.value;
 			var result = await this.actor.update(data.actor, {render: false});
 		}
 	}
