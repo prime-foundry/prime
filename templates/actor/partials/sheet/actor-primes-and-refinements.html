@@ -5,7 +5,7 @@
         <div class="blockTitle">Primes</div>
         {{/ifCond}}
         {{#each typeGroup.primes as |prime key|}}
-        <div class="primeWrapper {{prime.customisableStatClass}} {{prime.defaultItemClass}}" title="{{prime.itemID}} - {{convertHTMLForTitle prime.description 150}}&#xD;*DOUBLE CLICK TO EDIT VALUE*">
+        <div class="primeWrapper {{prime.customisableStatClass}} {{prime.defaultItemClass}}" title="{{convertHTMLForTitle prime.description 150}}&#xD;*DOUBLE CLICK TO EDIT VALUE*">
 			<a class="deleteItemIcon" data-item-id={{prime.itemID}} title="Delete prime"><i class="fas fa-trash"></i></a>
 			<a class="showStatInfoIcon" data-item-id={{prime.itemID}} data-sourceKey="{{prime.sourceKey}}"><i class="fas fa-info-circle fa-xs"></i></a>
             <label for="data.primes.{{key}}.value">{{prime.title}}</label>

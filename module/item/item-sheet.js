@@ -65,8 +65,6 @@ export class PrimeItemSheet extends ItemSheet {
     data.system = this.item.system;
 
     data.id = this.item.id;
-    data.dataAsString = JSON.stringify(data, null, "\t");
-    
 
     return data;
   }
