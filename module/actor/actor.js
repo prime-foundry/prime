@@ -51,7 +51,10 @@ export class PrimePCActor extends Actor
 	{
 		const actorSystemData = actorData.system;
 
-		if (this.isVersion2())
+		// If the actor lacks an ID, then it's in the process of being created
+		// but doesn't yet exist. We'll create it's items on the next pass, otherwise
+		// we'll end up duplicating the world items.
+		if (this.isVersion2() && this.id !== null)
 		{
 			await this._prepareCharacterDataV2(actorSystemData, actorData);
 		}
@@ -503,7 +506,6 @@ export class PrimePCActor extends Actor
 		let actorItemsToCreate = []
 		let instancedItems = {};
 		let statItem = null;
-		let createdItemDocuments = null;
 		if (ItemDirectory && ItemDirectory.collection)	// Sometimes not defined when integrated.
 		{
 			ItemDirectory.collection.forEach((item, key, items) =>
@@ -519,11 +521,11 @@ export class PrimePCActor extends Actor
 
 			if (actorItemsToCreate.length > 0)
 			{
-				createdItemDocuments = await this.createEmbeddedDocuments("Item", actorItemsToCreate);
-				console.error("Created STAT ItemDocuments: ", createdItemDocuments);
-				if (createdItemDocuments[0].parent.type !== "character") {
-					console.error("Ooops, I did a bad thing...", createdItemDocuments)
-				}
+				let createdItemDocuments = await this.createEmbeddedDocuments("Item", actorItemsToCreate).then(() => {
+					console.log("Created STAT ItemDocuments - promise callback: ", createdItemDocuments);
+					//this.update()
+				});
+				console.log("Created STAT ItemDocuments - main sequence: ", createdItemDocuments);
 			}
 			else
 			{
