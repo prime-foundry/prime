@@ -10,8 +10,9 @@ export class PrimePCActor extends Actor
 	/**
 	 * Augment the basic actor data with additional dynamic data.
 	 */
-	async prepareData()
+	prepareData()
 	{
+		console.log("Prepare data");
 		super.prepareData();
 
 		// TODO: Refactor this away.
@@ -23,7 +24,7 @@ export class PrimePCActor extends Actor
 		if (actorData.type === 'character')
 		{
 			this._checkV2CharacterUpgrade();
-			await this._prepareCharacterData(actorData);
+			this._prepareCharacterData(actorData);
 		}
 	}
 
@@ -50,7 +51,11 @@ export class PrimePCActor extends Actor
 	{
 		const actorSystemData = actorData.system;
 
-		if (this.isVersion2())
+		// If the actor lacks an ID, then it's in the process of being created
+		// but doesn't yet exist. We'll create it's items on the next pass, otherwise
+		// we'll end up "duplicating" the world items as they'll be created with a
+		// null ID.
+		if (this.isVersion2() && this.id !== null)
 		{
 			await this._prepareCharacterDataV2(actorSystemData, actorData);
 		}
@@ -189,10 +194,12 @@ export class PrimePCActor extends Actor
 		let results = {};
 		if (this.isVersion2())
 		{
+			console.log("getTypeSortedPrimesAndRefinements - Getting v2")
 			results = this.getTypeSortedPrimesAndRefinementsV2();
 		}
 		else
 		{
+			console.log("getTypeSortedPrimesAndRefinements - Getting v1")
 			results = this.getTypeSortedPrimesAndRefinementsV1();
 		}
 		return results;
@@ -466,14 +473,10 @@ export class PrimePCActor extends Actor
 	async _getStatsObjects(items, statType)
 	{
 		let matchingStatItems = {};
-		// let count = 0;
-		// let currItem = null;
 		let statItem = null;
 		let atLeastOneStatFound = false;	// If we've found one prime, then the other stats are on their way asyncronously.
-		// while (count < items.length)
 		items.forEach((currItem)=> 
 		{
-			// currItem = items[count];
 			if (currItem.type == statType)
 			{
 				statItem = this._getItemDataAsStat(currItem);
@@ -489,7 +492,9 @@ export class PrimePCActor extends Actor
 		{
 			// This is a property to prevent large amounts of object being created to debug an issue with object scoping.
 			this.statRetrievalAttempted = true;
+			console.log("About to request world stats");
 			matchingStatItems = await this._getStatObjectsFromWorld(statType);
+			console.log("World stats requested and cloned");
 		}
 
 		return matchingStatItems;
@@ -502,7 +507,6 @@ export class PrimePCActor extends Actor
 		let actorItemsToCreate = []
 		let instancedItems = {};
 		let statItem = null;
-		let createdItemDocuments = null;
 		if (ItemDirectory && ItemDirectory.collection)	// Sometimes not defined when integrated.
 		{
 			ItemDirectory.collection.forEach((item, key, items) =>
@@ -518,8 +522,8 @@ export class PrimePCActor extends Actor
 
 			if (actorItemsToCreate.length > 0)
 			{
-				createdItemDocuments = await this.createEmbeddedDocuments("Item", actorItemsToCreate);
-				console.log("createdItemDocuments: ", createdItemDocuments);
+				let createdItemDocuments = await this.createEmbeddedDocuments("Item", actorItemsToCreate)
+				console.log("Created stat ItemDocuments", createdItemDocuments);
 			}
 			else
 			{

@@ -64,6 +64,8 @@ export class PrimeItemSheet extends ItemSheet {
 
     data.system = this.item.system;
 
+    data.id = this.item.id;
+
     return data;
   }
 
