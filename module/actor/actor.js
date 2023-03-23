@@ -509,13 +509,16 @@ export class PrimePCActor extends Actor
 		let statItem = null;
 		if (ItemDirectory && ItemDirectory.collection)	// Sometimes not defined when integrated.
 		{
-			ItemDirectory.collection.forEach((item, key, items) =>
+			ItemDirectory.collection.forEach((item) =>
 			{
 				if (item.type == statType && item.system.default)
 				{
-					item.system.sourceKey = item.id;
-					actorItemsToCreate.push(item);
-					statItem = this._getItemDataAsStat(item);
+					// Deep clone it to prevent object point related weirdness
+					const itemClone = JSON.parse(JSON.stringify(item));
+					console.log(`Updating sourceKey. Old: '${itemClone.system.sourceKey}', New:'${itemClone._id}'`);
+					itemClone.system.sourceKey = itemClone._id;
+					actorItemsToCreate.push(itemClone);
+					statItem = this._getItemDataAsStat(itemClone);
 					instancedItems[statItem.itemID] = statItem;
 				}
 			});
@@ -555,6 +558,7 @@ export class PrimePCActor extends Actor
 		if (ItemDirectory.collection && !itemData.system.customisable)
 		{
 			sourceItem = ItemDirectory.collection.get(itemData.system.sourceKey);
+			// We want to display the source items description to allow for updates to propagate.
 			if (sourceItem)
 			{
 				itemTitle = sourceItem.name;
@@ -562,7 +566,7 @@ export class PrimePCActor extends Actor
 			}
 			else
 			{
-				console.error("Unable to find source stat item for: ", itemData);
+				console.error(`Unable to find source stat item for key '${itemData.system.sourceKey}', raw data: `, itemData);
 			}
 		}
 
@@ -573,7 +577,7 @@ export class PrimePCActor extends Actor
 			"type" : itemData.statType,
 			"title": itemTitle,
 			"description": itemData.customisable ? "*EDITABLE STAT, CLICK INFO TO EDIT* \n" + itemDescription : itemDescription,
-			"sourceKey": itemData.sourceKey,
+			"sourceKey": itemData.system.sourceKey,
 			"itemID": itemData.id,
 			"itemBasedStat" : true,
 			"customisableStatClass" : itemData.customisable ? "customisableStat" : "",
