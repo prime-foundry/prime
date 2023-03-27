@@ -480,18 +480,13 @@ export class PrimePCActor extends Actor
 			if (currItem.type == statType)
 			{
 				statItem = this._getItemDataAsStat(currItem);
-				matchingStatItems[statItem.itemID] = statItem
-			}
-			if (currItem.type == "prime" || currItem.type == "refinement")
-			{
+				matchingStatItems[statItem.itemID] = statItem;
 				atLeastOneStatFound = true;
 			}
 		});
 
-		if (Object.keys(matchingStatItems).length === 0 && !atLeastOneStatFound && !this.statRetrievalAttempted)
+		if (Object.keys(matchingStatItems).length === 0 && !atLeastOneStatFound)
 		{
-			// This is a property to prevent large amounts of object being created to debug an issue with object scoping.
-			this.statRetrievalAttempted = true;
 			console.log("About to request world stats");
 			matchingStatItems = await this._getStatObjectsFromWorld(statType);
 			console.log("World stats requested and cloned");
@@ -523,10 +518,18 @@ export class PrimePCActor extends Actor
 				}
 			});
 
+			if (!this.system.statCreationRequestFor) {
+				this.system.statCreationRequestFor = {};
+			}
+
 			if (actorItemsToCreate.length > 0)
 			{
-				let createdItemDocuments = await this.createEmbeddedDocuments("Item", actorItemsToCreate)
-				console.log("Created stat ItemDocuments", createdItemDocuments);
+				if (!this.system.statCreationRequestFor[statType])
+				{
+					this.system.statCreationRequestFor[statType] = true;
+					let createdItemDocuments = await this.createEmbeddedDocuments("Item", actorItemsToCreate)
+					console.log("Created stat ItemDocuments", createdItemDocuments);
+				}
 			}
 			else
 			{
