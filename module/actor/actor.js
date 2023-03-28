@@ -517,16 +517,11 @@ export class PrimePCActor extends Actor
 					instancedItems[statItem.itemID] = statItem;
 				}
 			});
-
-			if (!this.system.statCreationRequestFor) {
-				this.system.statCreationRequestFor = {};
-			}
-
 			if (actorItemsToCreate.length > 0)
 			{
-				if (!this.system.statCreationRequestFor[statType])
+				if (!this.system.sessionState.statCreationRequest[statType])
 				{
-					this.system.statCreationRequestFor[statType] = true;
+					this.system.sessionState.statCreationRequest[statType] = true;
 					let createdItemDocuments = await this.createEmbeddedDocuments("Item", actorItemsToCreate)
 					console.log("Created stat ItemDocuments", createdItemDocuments);
 				}
