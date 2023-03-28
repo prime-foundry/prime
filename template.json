@@ -62,6 +62,7 @@
 
 			"mental_template":
 			{
+
 				"mind":
 				{
 					"insanities":
@@ -114,6 +115,13 @@
 					"biography": ""
 				},
 				"notes": ""
+			},
+
+			"sessionState_template": {
+				"sessionState": {
+					"comment": "Use this for session state variables, don't expect it to be saved (though it might be if other processes cause it too, so don't put anything huge here if possible!)",
+					"statCreationRequest": {}
+				}
 			},
 
 			"primes_template":
@@ -438,6 +446,7 @@
 				"base_template",
 				"mental_template",
 				"metadata_template",
+				"sessionState_template",
 				"orderingTables"
 			],
 			"personalWealth": 0,
