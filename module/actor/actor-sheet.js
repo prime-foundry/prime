@@ -83,7 +83,6 @@ export class PrimePCActorSheet extends ActorSheet
 	{
 		const data = super.getData();
 		data.dtypes = ["String", "Number", "Boolean"];
-		console.log(data)
 
 		data.characterNameClass = this.getCharacterNameClass(data.actor.name);
 		data.isFromTokenClass = "";

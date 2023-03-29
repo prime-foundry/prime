@@ -128,7 +128,6 @@ export class PrimePCActor extends Actor
 	 */
 	isVersion2()
 	{
-		console.log(this.system)
 		return !!this.system.sheetVersion && this.system.sheetVersion === "v2.0";
 	}
 
