@@ -323,7 +323,7 @@ export class PrimePCActorSheet extends ActorSheet
 			sheetData.actor.system.actionPoints.value = 0;
 		}
 
-		var result = await this.actor.update({...sheetData.actor});
+		await this.actor.update({...sheetData.actor});
 	}
 
 	async updateInjuryTotal(event)
