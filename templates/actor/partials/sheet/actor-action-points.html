@@ -2,8 +2,8 @@
     <div class="blockTitle"><span>Action points</span></div>
     <div class="metaValueContent actionPointsWrapper flexGrow">
         {{#for 0 data.system.actionPoints.max 1}}
-        <div class='actionPointWrapper{{addStateClasses this ../data.system.actionPoints}}'>
-            <input id="actionPoint{{this}}" value="{{this}}" class="actionPointCheckbox" type="checkbox" name="actionPoints" {{itemSelected this ../data.system.actionPoints.value}}/>
+        <div class='actionPointWrapper{{addStateClasses this ../actor.system.actionPoints}}'>
+            <input id="actionPoint{{this}}" value="{{this}}" class="actionPointCheckbox" type="checkbox" name="actionPoints" {{itemSelected this ../actor.system.actionPoints.value}}/>
             <label for="actionPoint{{this}}">{{this}}</label>
         </div>
         {{/for}}

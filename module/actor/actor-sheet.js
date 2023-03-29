@@ -128,7 +128,7 @@ export class PrimePCActorSheet extends ActorSheet
 			async: true,
 			relativeTo: this.actor
 		});
-
+        console.log(data)
 		return data;
 	}
 

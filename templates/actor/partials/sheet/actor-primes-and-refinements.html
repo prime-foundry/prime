@@ -8,9 +8,9 @@
         <div class="primeWrapper {{prime.customisableStatClass}} {{prime.defaultItemClass}}" title="{{convertHTMLForTitle prime.description 150}}&#xD;*DOUBLE CLICK TO EDIT VALUE*">
 			<a class="deleteItemIcon" data-item-id={{prime.itemID}} title="Delete prime"><i class="fas fa-trash"></i></a>
 			<a class="showStatInfoIcon" data-item-id={{prime.itemID}} data-sourceKey="{{prime.sourceKey}}"><i class="fas fa-info-circle fa-xs"></i></a>
-            <label for="data.system.primes.{{key}}.value">{{prime.title}}</label>
+            <label for="actor.system.primes.{{key}}.value">{{prime.title}}</label>
             <div class="valueWrapper">
-                <input type="text" name="data.system.primes.{{key}}.value" value="{{prime.value}}"
+                <input type="text" name="actor.system.primes.{{key}}.value" value="{{prime.value}}"
 				data-itemStat="{{prime.itemBasedStat}}"
 				data-dtype="Number"
 				data-min="{{getStatMin key}}"
@@ -31,9 +31,9 @@
         <div class="refinementWrapper {{refinement.customisableStatClass}} {{refinement.defaultItemClass}}" title="{{convertHTMLForTitle refinement.description 150}}&#xD;*DOUBLE CLICK TO EDIT VALUE*">
 			<a class="deleteItemIcon" data-item-id={{refinement.itemID}} title="Delete refinement"><i class="fas fa-trash"></i></a>
 			<a class="showStatInfoIcon" data-item-id={{refinement.itemID}} data-sourceKey="{{refinement.sourceKey}}"><i class="fas fa-info-circle fa-xs"></i></a>
-            <label for="data.system.refinements.{{key}}.value">{{refinement.title}}</label>
+            <label for="actor.system.refinements.{{key}}.value">{{refinement.title}}</label>
             <div class="valueWrapper">
-                <input type="text" name="data.system.refinements.{{key}}.value" value="{{refinement.value}}"
+                <input type="text" name="actor.system.refinements.{{key}}.value" value="{{refinement.value}}"
 				 data-itemStat="{{refinement.itemBasedStat}}"
 				 data-dtype="Number"
 				 data-min="0"
