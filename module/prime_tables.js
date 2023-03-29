@@ -40,6 +40,7 @@ export class PrimeTables
 
 	static addTranslations(whatData)
 	{
+		console.log(whatData)
 		for (var key in whatData)
 		{
 			if (whatData[key].indexOf)

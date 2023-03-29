@@ -10,7 +10,7 @@
 					<h2 class="systemTitle"><span class="bigCaps">P</span>OSSESSIO<span class="bigCaps">N</span></h2>
 					<h3 class="campaignTitle"><span class="bigCaps">A</span>ETHERNAUTS</h2>
 					<div class="sheetVersion">
-						{{data.sheetVersion}}
+						{{data.system.sheetVersion}}
 					</div>
 				</div>
 				{{> actorActionPoints partialClasses='cell100 bottomBlockTitle flexGrow'}}
@@ -25,8 +25,8 @@
 				</a>
 			</div>
 			<div class="isNPCWrapper flexRow verticalCenter flexEnd">
-				<label for="data.metadata.isNPC" class="resource-label rightAlign cell50 shrinkFontForNarrow" title="Tick to denote this is an NPC">NPC:</label>
-				<input type="checkbox" id="data.metadata.isNPC" name="data.metadata.isNPC" class="cell50" {{checked data.metadata.isNPC}}/>
+				<label for="data.system.metadata.isNPC" class="resource-label rightAlign cell50 shrinkFontForNarrow" title="Tick to denote this is an NPC">NPC:</label>
+				<input type="checkbox" id="data.system.metadata.isNPC" name="data.system.metadata.isNPC" class="cell50" {{checked data.system.metadata.isNPC}}/>
 			</div>
 		</div>
 
