@@ -304,26 +304,26 @@ export class PrimePCActorSheet extends ActorSheet
 	{
 		const input = $(event.delegateTarget);
 		const value = input.val();
-		const data = super.getData();
+		const sheetData = super.getData();
 		const checked = input.prop("checked");
 		const inputParent = input.parent();
-		data.data.actionPoints.lastTotal = data.data.actionPoints.value;
+		sheetData.actor.system.actionPoints.lastTotal = sheetData.actor.system.actionPoints.value;
 
 		if (checked || (!checked && !inputParent.hasClass("currentPointTotal")))
 		{
-			data.data.actionPoints.value = parseInt(value);
+			sheetData.actor.system.actionPoints.value = parseInt(value);
 		}
 		else
 		{
-			data.data.actionPoints.value = parseInt(value) - 1;
+			sheetData.actor.system.actionPoints.value = parseInt(value) - 1;
 		}
 
-		if (data.data.actionPoints.value < 0)
+		if (sheetData.actor.system.actionPoints.value < 0)
 		{
-			data.data.actionPoints.value = 0;
+			sheetData.actor.system.actionPoints.value = 0;
 		}
 
-		var result = await this.actor.update(data.actor);
+		await this.actor.update({...sheetData.actor});
 	}
 
 	async updateInjuryTotal(event)

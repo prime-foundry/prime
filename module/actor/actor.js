@@ -552,7 +552,7 @@ export class PrimePCActor extends Actor
 	{
 		let sourceItem = null;
 		let itemTitle = itemData.name;
-		let itemDescription = itemData.description;
+		let itemDescription = itemData.system.description;
 		if (ItemDirectory.collection && !itemData.system.customisable)
 		{
 			sourceItem = ItemDirectory.collection.get(itemData.system.sourceKey);
@@ -570,18 +570,19 @@ export class PrimePCActor extends Actor
 
 		let statData =
 		{
-			"value": itemData.value,
-			"max": itemData.max,
-			"type" : itemData.statType,
+			"value": itemData.system.value,
+			"max": itemData.system.max,
+			"type" : itemData.system.statType,
 			"title": itemTitle,
-			"description": itemData.customisable ? "*EDITABLE STAT, CLICK INFO TO EDIT* \n" + itemDescription : itemDescription,
+			"description": itemData.system.customisable ? "*EDITABLE STAT, CLICK INFO TO EDIT* \n" + itemDescription : itemDescription,
 			"sourceKey": itemData.system.sourceKey,
 			"itemID": itemData.id,
 			"itemBasedStat" : true,
-			"customisableStatClass" : itemData.customisable ? "customisableStat" : "",
-			"defaultItemClass" : itemData.default ? "defaultStat" : "expandedStat",
+			"customisableStatClass" : itemData.system.customisable ? "customisableStat" : "",
+			"defaultItemClass" : itemData.system.default ? "defaultStat" : "expandedStat",
 		}
 
+		// TODO: Is this legacy? Can't see it on the new data shape.
 		if (itemData.related)
 		{
 			statData.related = itemData.related;
