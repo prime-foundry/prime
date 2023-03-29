@@ -2,16 +2,16 @@
     <div class="flexRow flexStart block topHalfBlock">
         <div class="blockTitle">Mind</div>
         <div class="cell25 flexColumn intellectBlock">
-            <label for="data.mind.psyche.value" class="shrinkFontForNarrow">Psyche</label>
+            <label for="data.system.mind.psyche.value" class="shrinkFontForNarrow">Psyche</label>
             <div class="metaValueContent flexRow flexEnd mindIntellectWrapper">
-                <input type="text" class="bigNumberInput" name="data.mind.psyche.value" value="{{data.mind.psyche.value}}" data-dtype="Number" data-min="0" data-max="{{data.mind.psyche.max}}" data-lastValue="{{data.mind.psyche.value}}"/>
-                <span class="mindMaxIntellect">Max: {{data.mind.psyche.max}}</span>
+                <input type="text" class="bigNumberInput" name="data.system.mind.psyche.value" value="{{data.system.mind.psyche.value}}" data-dtype="Number" data-min="0" data-max="{{data.system.mind.psyche.max}}" data-lastValue="{{data.system.mind.psyche.value}}"/>
+                <span class="mindMaxIntellect">Max: {{data.system.mind.psyche.max}}</span>
             </div>
         </div>
         <div class="cell25 flexColumn flexCenter">
             <label class="shrinkFontForNarrow">Insanities</label>
             <div class="metaValueContent flexRow flexCenter">
-                <div class="bigNumberText">{{data.mind.insanities.value}} / {{data.mind.insanities.max}}</div>
+                <div class="bigNumberText">{{data.system.mind.insanities.value}} / {{data.system.mind.insanities.max}}</div>
             </div>
         </div>
     </div>
@@ -23,17 +23,17 @@
     <div class="insanitiesBlock block rightBlockTitle flexColumn">
         <div class="blockTitle"><span>Insanities</span></div>
 
-        {{#for 1 data.mind.insanities.max 1}}
+        {{#for 1 data.system.mind.insanities.max 1}}
         <div class="flexRow insanityRow">
             <div class="couchIcon flexRow flexStart verticalCenter"><a class="healInsanity" title="Heal this insanity" data-insanity-index="{{this}}"><i class="fas fa-couch"></i></a></div>
-            <select name="insanitySelect{{this}}" class="insanitySelect" {{itemEnabled this ../data.mind.insanities.value}} data-insanity-index="{{this}}">
+            <select name="insanitySelect{{this}}" class="insanitySelect" {{itemEnabled this ../data.system.mind.insanities.value}} data-insanity-index="{{this}}">
                 <option value="null"></option>
 				{{#each ../actorTables.mentalConditions}}
 				<option value="{{this.key}}">{{this.title}}</option>
 				{{/each}}
             </select>
-            <div class="insanityCheckBoxWrapper flexRow flexCenter verticalCenter{{addStateClasses this ../data.mind.insanities}}">
-                <input type="checkbox" id="insanityCheckbox{{this}}" name="insanityCheckboxes" class="insanityCheckbox" value="{{this}}" {{itemSelected this ../data.mind.insanities.value}}/>
+            <div class="insanityCheckBoxWrapper flexRow flexCenter verticalCenter{{addStateClasses this ../data.system.mind.insanities}}">
+                <input type="checkbox" id="insanityCheckbox{{this}}" name="insanityCheckboxes" class="insanityCheckbox" value="{{this}}" {{itemSelected this ../data.system.mind.insanities.value}}/>
                 <label for="insanityCheckbox{{this}}" class="flexRow flexCenter verticalCenter">{{this}}</label>
             </div>
         </div>
@@ -43,15 +43,15 @@
         <div class="blockTitle">Wards</div>
         <div class="cell25 flexColumn intellectBlock">
             <div class="metaValueContent flexRow flexEnd mindArmourIntellectWrapper">
-                <input type="text" class="bigNumberInput" name="data.ward.psyche.value" value="{{data.ward.psyche.value}}" data-dtype="Number" data-min="0" data-max="{{data.ward.psyche.max}}" data-lastValue="{{data.ward.psyche.value}}"/>
-                <span class="mindArmourMaxIntellect">Max: {{data.ward.psyche.max}}</span>
+                <input type="text" class="bigNumberInput" name="data.system.ward.psyche.value" value="{{data.system.ward.psyche.value}}" data-dtype="Number" data-min="0" data-max="{{data.system.ward.psyche.max}}" data-lastValue="{{data.system.ward.psyche.value}}"/>
+                <span class="mindArmourMaxIntellect">Max: {{data.system.ward.psyche.max}}</span>
             </div>
             <div class="mindArmourIntellectLabel shrinkFontForNarrow">Psyche</div>
         </div>
         <div class="cell25 flexColumn flexCenter">
             <div class="metaValueContent flexRow flexCenter">
-                <!-- <input type="text" class="bigNumberInput" name="data.mindArmour.coverage.value" value="{{data.mindArmour.coverage.value}}" data-dtype="Number" data-min="0" data-max="{{data.mindArmour.coverage.max}}" data-lastValue="{{data.mindArmour.coverage.value}}"/> -->
-                <div class="bigNumberText">{{data.ward.stability.value}}</div>
+                <!-- <input type="text" class="bigNumberInput" name="data.system.mindArmour.coverage.value" value="{{data.system.mindArmour.coverage.value}}" data-dtype="Number" data-min="0" data-max="{{data.system.mindArmour.coverage.max}}" data-lastValue="{{data.system.mindArmour.coverage.value}}"/> -->
+                <div class="bigNumberText">{{data.system.ward.stability.value}}</div>
             </div>
             <div class="shrinkFontForNarrow">Stability</div>
         </div>
