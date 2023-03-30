@@ -124,7 +124,7 @@ export class PrimePCActorSheet extends ActorSheet
 			async: true,
 			relativeTo: this.actor
 		});
-		data.actorBiographyHTML = await TextEditor.enrichHTML(data.actor.system.biography, {
+		data.actorBiographyHTML = await TextEditor.enrichHTML(data.actor.system.metadata.biography, {
 			async: true,
 			relativeTo: this.actor
 		});
@@ -233,7 +233,7 @@ export class PrimePCActorSheet extends ActorSheet
 			const statItem = this.object.items.get(statKey);
 
 			statItem.data.data.value = statDOMObject.val();
-			this.entity.updateOwnedItem(statItem.data);
+			this.actor.updateEmbeddedDocuments("Item", statItem.data);
 		}
 	}
 
@@ -753,25 +753,25 @@ export class PrimePCActorSheet extends ActorSheet
 
 	async postActivateListeners(html)
 	{
-		const data = super.getData();
+		const sheetData = super.getData();
 
 		html.find(".injurySelect").each(function(index, element)
 		{
-			$(element).val(data.actor.system.wounds["wound" + index]);
+			$(element).val(sheetData.actor.system.wounds["wound" + index]);
 		});
 
 		html.find(".insanitySelect").each(function(index, element)
 		{
-			$(element).val(data.actor.system.insanities["insanity" + index]);
+			$(element).val(sheetData.actor.system.insanities["insanity" + index]);
 		});
 
 		html.find(".fillAnimation").removeClass("fillAnimation");
 		html.find(".emptyAnimation").removeClass("emptyAnimation");
 
-		if (data.actor.system.actionPoints.lastTotal != data.actor.system.actionPoints.value)
+		if (sheetData.actor.system.actionPoints.lastTotal != sheetData.actor.system.actionPoints.value)
 		{
-			data.actor.system.actionPoints.lastTotal = data.actor.system.actionPoints.value;
-			var result = await this.actor.update(data.actor, {render: false});
+			sheetData.actor.system.actionPoints.lastTotal = sheetData.actor.system.actionPoints.value;
+			var result = await this.actor.update(sheetData.actor, {render: false});
 		}
 	}
 }
