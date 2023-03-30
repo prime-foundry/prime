@@ -58,6 +58,8 @@ export class PrimePCActor extends Actor
 		if (this.isVersion2() && this.id !== null)
 		{
 			await this._prepareCharacterDataV2(actorSystemData, actorData);
+			// This forces a save for the upgrade set in "_checkV2CharacterUpgrade()" - we can't update in there as we're still being created.
+			this.update({...actorData});
 		}
 
 		const primeCost = this.getTotalCost(actorSystemData.primes);

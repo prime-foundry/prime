@@ -125,7 +125,7 @@ export class PrimePCActorSheet extends ActorSheet
 			async: true,
 			relativeTo: this.actor
 		});
-		data.actorBiographyHTML = await TextEditor.enrichHTML(data.data.system.biography, {
+		data.actorBiographyHTML = await TextEditor.enrichHTML(data.data.system.metadata.biography, {
 			async: true,
 			relativeTo: this.actor
 		});
@@ -754,25 +754,25 @@ export class PrimePCActorSheet extends ActorSheet
 
 	async postActivateListeners(html)
 	{
-		const data = super.getData();
+		const sheetData = super.getData();
 
 		html.find(".injurySelect").each(function(index, element)
 		{
-			$(element).val(data.data.wounds["wound" + index]);
+			$(element).val(sheetData.actor.system.wounds["wound" + index]);
 		});
 
 		html.find(".insanitySelect").each(function(index, element)
 		{
-			$(element).val(data.data.insanities["insanity" + index]);
+			$(element).val(sheetData.actor.system.insanities["insanity" + index]);
 		});
 
 		html.find(".fillAnimation").removeClass("fillAnimation");
 		html.find(".emptyAnimation").removeClass("emptyAnimation");
 
-		if (data.data.system.actionPoints.lastTotal != data.data.system.actionPoints.value)
+		if (sheetData.actor.system.actionPoints.lastTotal != sheetData.actor.system.actionPoints.value)
 		{
-			data.data.system.actionPoints.lastTotal = data.data.system.actionPoints.value;
-			var result = await this.actor.update(data.actor, {render: false});
+			sheetData.actor.system.actionPoints.lastTotal = sheetData.actor.system.actionPoints.value;
+			var result = await this.actor.update(sheetData.actor, {render: false});
 		}
 	}
 }
