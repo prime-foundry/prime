@@ -28,8 +28,8 @@ export class XP_POPUP extends Application {
 					id: actor.id,
 					name: actor.name,
 					img: actor.img,
-					totalXp: actor.data.data.xp.awarded + actor.data.data.xp.initial,
-					totalSoul: actor.data.data.soul.awarded + actor.data.data.soul.initial,
+					totalXp: actor.system.xp.awarded + actor.system.xp.initial,
+					totalSoul: actor.system.soul.awarded + actor.system.soul.initial,
 				};
 			});
 		const users = game.users.entities;
@@ -64,7 +64,7 @@ export class XP_POPUP extends Application {
 					const dataUpdate = {
 						data: {
 							xp: {
-								awarded: actor.data.data.xp.awarded + val
+								awarded: actor.system.xp.awarded + val
 							}
 						}
 					};
@@ -82,7 +82,7 @@ export class XP_POPUP extends Application {
 					const dataUpdate = {
 						data: {
 							soul: {
-								awarded: actor.data.data.soul.awarded + val
+								awarded: actor.system.soul.awarded + val
 							}
 						}
 					};

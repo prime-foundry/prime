@@ -4,14 +4,14 @@
         <div class="cell25 flexColumn flexCenter">
             <label class="shrinkFontForNarrow">Wounds</label>
             <div class="metaValueContent flexRow flexCenter">
-                <div class="bigNumberText">{{data.system.health.wounds.value}} / {{data.system.health.wounds.max}}</div>
+                <div class="bigNumberText">{{actor.system.health.wounds.value}} / {{actor.system.health.wounds.max}}</div>
             </div>
         </div>
         <div class="cell25 flexColumn resilienceBlock">
-            <label for="data.system.wounds.value" class="shrinkFontForNarrow">Resilience</label>
+            <label for="actor.system.wounds.value" class="shrinkFontForNarrow">Resilience</label>
             <div class="metaValueContent flexRow healthResilienceWrapper">
-                <input type="text" class="bigNumberInput" name="data.system.health.resilience.value" value="{{data.system.health.resilience.value}}" data-dtype="Number" data-min="0" data-max="{{data.system.health.resilience.max}}" data-lastValue="{{data.system.health.resilience.value}}"/>
-                <span class="healthMaxResilience">Max: {{data.system.health.resilience.max}}</span>
+                <input type="text" class="bigNumberInput" name="actor.system.health.resilience.value" value="{{actor.system.health.resilience.value}}" data-dtype="Number" data-min="0" data-max="{{actor.system.health.resilience.max}}" data-lastValue="{{actor.system.health.resilience.value}}"/>
+                <span class="healthMaxResilience">Max: {{actor.system.health.resilience.max}}</span>
             </div>
         </div>
     </div>
@@ -22,13 +22,13 @@
     <div class="injuriesBlock block leftBlockTitle flexColumn">
         <div class="blockTitle"><span>Wounds</span></div>
 
-        {{#for 1 data.system.health.wounds.max 1}}
+        {{#for 1 actor.system.health.wounds.max 1}}
         <div class="flexRow injuryRow">
-            <div class="injuryCheckBoxWrapper flexRow flexCenter verticalCenter{{addStateClasses this ../data.system.health.wounds}}">
-                <input type="checkbox" id="injuryCheckbox{{this}}" name="injuryCheckboxes" class="injuryCheckbox" value="{{this}}" {{itemSelected this ../data.system.health.wounds.value}}/>
+            <div class="injuryCheckBoxWrapper flexRow flexCenter verticalCenter{{addStateClasses this ../actor.system.health.wounds}}">
+                <input type="checkbox" id="injuryCheckbox{{this}}" name="injuryCheckboxes" class="injuryCheckbox" value="{{this}}" {{itemSelected this ../actor.system.health.wounds.value}}/>
                 <label for="injuryCheckbox{{this}}" class="flexRow flexCenter verticalCenter">{{this}}</label>
             </div>
-            <select name="injurySelect{{this}}" class="injurySelect" {{itemEnabled this ../data.system.health.wounds.value}} data-injury-index="{{this}}">
+            <select name="injurySelect{{this}}" class="injurySelect" {{itemEnabled this ../actor.system.health.wounds.value}} data-injury-index="{{this}}">
                 <option value="0"></option>
 				{{#each ../actorTables.woundConditions}}
 				<option value="{{this.key}}">{{this.title}}</option>
@@ -42,15 +42,15 @@
         <div class="blockTitle">Armour</div>
         <div class="cell25 flexColumn flexCenter">
             <div class="metaValueContent flexRow flexCenter">
-                <!-- <input type="text" class="bigNumberInput" name="data.system.armour.coverage.value" value="{{data.system.armour.coverage.value}}" data-dtype="Number" data-min="0" data-max="{{data.system.armour.coverage.max}}" data-lastValue="{{data.system.armour.coverage.value}}"/> -->
-                <div class="bigNumberText">{{data.system.armour.protection.value}}</div>
+                <!-- <input type="text" class="bigNumberInput" name="actor.system.armour.coverage.value" value="{{actor.system.armour.coverage.value}}" data-dtype="Number" data-min="0" data-max="{{actor.system.armour.coverage.max}}" data-lastValue="{{actor.system.armour.coverage.value}}"/> -->
+                <div class="bigNumberText">{{actor.system.armour.protection.value}}</div>
             </div>
             <div class="shrinkFontForNarrow">Protection</div>
         </div>
         <div class="cell25 flexColumn resilienceBlock">
             <div class="metaValueContent flexRow armourResilienceWrapper">
-                <input type="text" class="bigNumberInput" name="data.system.armour.resilience.value" value="{{data.system.armour.resilience.value}}" data-dtype="Number" data-min="0" data-max="{{data.system.armour.resilience.max}}" data-lastValue="{{data.system.armour.resilience.value}}"/>
-                <span class="armourMaxResilience">Max: {{data.system.armour.resilience.max}}</span>
+                <input type="text" class="bigNumberInput" name="actor.system.armour.resilience.value" value="{{actor.system.armour.resilience.value}}" data-dtype="Number" data-min="0" data-max="{{actor.system.armour.resilience.max}}" data-lastValue="{{actor.system.armour.resilience.value}}"/>
+                <span class="armourMaxResilience">Max: {{actor.system.armour.resilience.max}}</span>
             </div>
             <div class="shrinkFontForNarrow">Resilience</div>
         </div>
