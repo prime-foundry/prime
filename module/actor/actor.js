@@ -12,7 +12,7 @@ export class PrimePCActor extends Actor
 	 */
 	prepareData()
 	{
-		console.log("Prepare data");
+		// console.log("Prepare data");
 		super.prepareData();
 
 		// TODO: Refactor this away.
@@ -196,12 +196,12 @@ export class PrimePCActor extends Actor
 		let results = {};
 		if (this.isVersion2())
 		{
-			console.log("getTypeSortedPrimesAndRefinements - Getting v2")
+			// console.log("getTypeSortedPrimesAndRefinements - Getting v2")
 			results = this.getTypeSortedPrimesAndRefinementsV2();
 		}
 		else
 		{
-			console.log("getTypeSortedPrimesAndRefinements - Getting v1")
+			// console.log("getTypeSortedPrimesAndRefinements - Getting v1")
 			results = this.getTypeSortedPrimesAndRefinementsV1();
 		}
 		return results;

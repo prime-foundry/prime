@@ -65,11 +65,11 @@ export class PrimePCActorSheet extends ActorSheet
 	{
 		Hooks.on("preUpdateActor", function(actorData, changeData, options, maybeUpdateID)
 		{
-			if (changeData.data && changeData.data.actionPoints && changeData.data.actionPoints.lastTotal && !changeData.data.actionPoints.value && changeData.data.actionPoints.value !== 0)
+			if (changeData.system && changeData.system.actionPoints && changeData.system.actionPoints.lastTotal && !changeData.system.actionPoints.value && changeData.system.actionPoints.value !== 0)
 			{
 				return false;
 			}
-			if (changeData.actionPoints && Array.isArray(changeData.actionPoints) && !changeData.data && !changeData.name && !changeData.img && (changeData.token && !changeData.token.img))
+			if (changeData.actionPoints && Array.isArray(changeData.actionPoints) && !changeData.system && !changeData.name && !changeData.img && (changeData.token && !changeData.token.img))
 			{
 				return false;
 			}
@@ -128,7 +128,7 @@ export class PrimePCActorSheet extends ActorSheet
 			async: true,
 			relativeTo: this.actor
 		});
-        console.log(data)
+        // console.log(data)
 		return data;
 	}
 
@@ -771,7 +771,7 @@ export class PrimePCActorSheet extends ActorSheet
 		if (sheetData.actor.system.actionPoints.lastTotal != sheetData.actor.system.actionPoints.value)
 		{
 			sheetData.actor.system.actionPoints.lastTotal = sheetData.actor.system.actionPoints.value;
-			var result = await this.actor.update(sheetData.actor, {render: false});
+			var result = await this.actor.update({...sheetData.actor}, {render: false});
 		}
 	}
 }
