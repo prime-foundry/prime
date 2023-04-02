@@ -304,25 +304,26 @@ export class PrimePCActorSheet extends ActorSheet
 		const input = $(event.delegateTarget);
 		const value = input.val();
 		const sheetData = super.getData();
+		const actorClone = JSON.parse(JSON.stringify(sheetData.actor));
 		const checked = input.prop("checked");
 		const inputParent = input.parent();
-		sheetData.actor.system.actionPoints.lastTotal = sheetData.actor.system.actionPoints.value;
+		actorClone.system.actionPoints.lastTotal = actorClone.system.actionPoints.value;
 
 		if (checked || (!checked && !inputParent.hasClass("currentPointTotal")))
 		{
-			sheetData.actor.system.actionPoints.value = parseInt(value);
+			actorClone.system.actionPoints.value = parseInt(value);
 		}
 		else
 		{
-			sheetData.actor.system.actionPoints.value = parseInt(value) - 1;
+			actorClone.system.actionPoints.value = parseInt(value) - 1;
 		}
 
-		if (sheetData.actor.system.actionPoints.value < 0)
+		if (actorClone.system.actionPoints.value < 0)
 		{
-			sheetData.actor.system.actionPoints.value = 0;
+			actorClone.system.actionPoints.value = 0;
 		}
 
-		await this.actor.update({...sheetData.actor});
+		await this.actor.update(actorClone);
 	}
 
 	async updateInjuryTotal(event)
@@ -330,26 +331,26 @@ export class PrimePCActorSheet extends ActorSheet
 		const input = $(event.delegateTarget);
 		const value = input.val();
 		const sheetData = super.getData();
+		const actorClone = JSON.parse(JSON.stringify(sheetData.actor));
 		const checked = input.prop("checked");
 		const inputParent = input.parent();
-		sheetData.actor.system.health.wounds.lastTotal = sheetData.actor.system.health.wounds.value;
+		actorClone.system.health.wounds.lastTotal = actorClone.system.health.wounds.value;
 
 		if (checked || (!checked && !inputParent.hasClass("currentPointTotal")))
 		{
-			sheetData.actor.system.health.wounds.value = parseInt(value);
+			actorClone.system.health.wounds.value = parseInt(value);
 		}
 		else
 		{
-			sheetData.actor.system.health.wounds.value = parseInt(value) - 1;
+			actorClone.system.health.wounds.value = parseInt(value) - 1;
 		}
 
-		if (sheetData.actor.system.health.wounds.value < 0)
+		if (actorClone.system.health.wounds.value < 0)
 		{
-			sheetData.actor.system.health.wounds.value = 0;
+			actorClone.system.health.wounds.value = 0;
 		}
 
-		await this.actor.update({...sheetData.actor});
-		this.render(true);
+		await this.actor.update(actorClone);
 	}
 
 	async updateInjuryDetail(event)
@@ -359,9 +360,10 @@ export class PrimePCActorSheet extends ActorSheet
 		const injuryIndex = select.data("injury-index");
 
 		const sheetData = super.getData();
-		sheetData.actor.system.wounds["wound" + (injuryIndex - 1)] = value;
+		const actorClone = JSON.parse(JSON.stringify(sheetData.actor));
+		actorClone.system.wounds["wound" + (injuryIndex - 1)] = value;
 
-		await this.actor.update({...sheetData.actor});
+		await this.actor.update(actorClone);
 		this.render(true);
 	}
 
@@ -371,29 +373,30 @@ export class PrimePCActorSheet extends ActorSheet
 		const injuryIndex = anchor.data("injury-index");
 
 		const sheetData = super.getData();
+		const actorClone = JSON.parse(JSON.stringify(sheetData.actor));
 
 		var count = injuryIndex - 1;
-		while (count <= sheetData.actor.system.health.wounds.max)
+		while (count <= actorClone.system.health.wounds.max)
 		{
-			var _nextInjury = sheetData.actor.system.wounds["wound" + (count + 1)]
+			var _nextInjury = actorClone.system.wounds["wound" + (count + 1)]
 			if (_nextInjury)
 			{
-				sheetData.actor.system.wounds["wound" + count] = _nextInjury;
+				actorClone.system.wounds["wound" + count] = _nextInjury;
 			}
 			else
 			{
-				sheetData.actor.system.wounds["wound" + count] = 0;
+				actorClone.system.wounds["wound" + count] = 0;
 			}
 			count++;
 		}
 
-		if (injuryIndex <= sheetData.actor.system.health.wounds.value)
+		if (injuryIndex <= actorClone.system.health.wounds.value)
 		{
-			sheetData.actor.system.health.wounds.lastTotal = sheetData.actor.system.health.wounds.value;
-			sheetData.actor.system.health.wounds.value--;
+			actorClone.system.health.wounds.lastTotal = actorClone.system.health.wounds.value;
+			actorClone.system.health.wounds.value--;
 		}
 
-		await this.actor.update({...sheetData.actor});
+		await this.actor.update({...actorClone});
 		this.render(true);
 	}
 
@@ -402,25 +405,26 @@ export class PrimePCActorSheet extends ActorSheet
 		const input = $(event.delegateTarget);
 		const value = input.val();
 		const sheetData = super.getData();
+		const actorClone = JSON.parse(JSON.stringify(sheetData.actor));
 		const checked = input.prop("checked");
 		const inputParent = input.parent();
-		sheetData.actor.system.mind.insanities.lastTotal = sheetData.actor.system.mind.insanities.value;
+		actorClone.system.mind.insanities.lastTotal = actorClone.system.mind.insanities.value;
 
 		if (checked || (!checked && !inputParent.hasClass("currentPointTotal")))
 		{
-			sheetData.actor.system.mind.insanities.value = parseInt(value);
+			actorClone.system.mind.insanities.value = parseInt(value);
 		}
 		else
 		{
-			sheetData.actor.system.mind.insanities.value = parseInt(value) - 1;
+			actorClone.system.mind.insanities.value = parseInt(value) - 1;
 		}
 
-		if (sheetData.actor.system.mind.insanities.value < 0)
+		if (actorClone.system.mind.insanities.value < 0)
 		{
-			sheetData.actor.system.mind.insanities.value = 0;
+			actorClone.system.mind.insanities.value = 0;
 		}
 
-		await this.actor.update({...sheetData.actor});
+		await this.actor.update(actorClone);
 		this.render(true);
 	}
 
@@ -431,9 +435,10 @@ export class PrimePCActorSheet extends ActorSheet
 		const insanityIndex = select.data("insanity-index");
 
 		const sheetData = super.getData();
-		sheetData.actor.system.insanities["insanity" + (insanityIndex - 1)] = value;
+		const actorClone = JSON.parse(JSON.stringify(sheetData.actor));
+		actorClone.system.insanities["insanity" + (insanityIndex - 1)] = value;
 
-		await this.actor.update({...sheetData.actor});
+		await this.actor.update(actorClone);
 		this.render(true);
 	}
 
@@ -443,29 +448,30 @@ export class PrimePCActorSheet extends ActorSheet
 		const insanityIndex = anchor.data("insanity-index");
 
 		const sheetData = super.getData();
+		const actorClone = JSON.parse(JSON.stringify(sheetData.actor));
 
 		var count = insanityIndex - 1;
-		while (count <= sheetData.actor.system.mind.insanities.max)
+		while (count <= actorClone.system.mind.insanities.max)
 		{
-			var nextInsanity = sheetData.actor.system.insanities["insanity" + (count + 1)]
+			var nextInsanity = actorClone.system.insanities["insanity" + (count + 1)]
 			if (nextInsanity)
 			{
-				sheetData.actor.system.insanities["insanity" + count] = nextInsanity;
+				actorClone.system.insanities["insanity" + count] = nextInsanity;
 			}
 			else
 			{
-				sheetData.actor.system.insanities["insanity" + count] = 0;
+				actorClone.system.insanities["insanity" + count] = 0;
 			}
 			count++;
 		}
 
-		if (insanityIndex <= sheetData.actor.system.mind.insanities.value)
+		if (insanityIndex <= actorClone.system.mind.insanities.value)
 		{
-			sheetData.actor.system.mind.insanities.lastTotal = sheetData.actor.system.mind.insanities.value;
-			sheetData.actor.system.mind.insanities.value--;
+			actorClone.system.mind.insanities.lastTotal = actorClone.system.mind.insanities.value;
+			actorClone.system.mind.insanities.value--;
 		}
 
-		await this.actor.update({...sheetData.actor});
+		await this.actor.update(actorClone);
 		this.render(true);
 	}
 
@@ -772,8 +778,9 @@ export class PrimePCActorSheet extends ActorSheet
 
 		if (sheetData.actor.system.actionPoints.lastTotal != sheetData.actor.system.actionPoints.value)
 		{
-			sheetData.actor.system.actionPoints.lastTotal = sheetData.actor.system.actionPoints.value;
-			await this.actor.update({...sheetData.actor}, {render: false});
+			const actorClone = JSON.parse(JSON.stringify(sheetData.actor));
+			actorClone.system.actionPoints.lastTotal = actorClone.system.actionPoints.value;
+			await this.actor.update(actorClone, {render: false});
 		}
 	}
 }
