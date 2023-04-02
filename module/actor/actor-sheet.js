@@ -232,8 +232,8 @@ export class PrimePCActorSheet extends ActorSheet
 
 			const statItem = this.object.items.get(statKey);
 
-			statItem.data.data.value = statDOMObject.val();
-			this.actor.updateEmbeddedDocuments("Item", statItem.data);
+			statItem.system.value = statDOMObject.val();
+			this.actor.updateEmbeddedDocuments("Item", [{...statItem, _id: statItem.id}]);
 		}
 	}
 
