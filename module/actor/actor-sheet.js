@@ -78,11 +78,16 @@ export class PrimePCActorSheet extends ActorSheet
 		});
 	}
 
+	deepCloneData(whatData)
+	{
+		return JSON.parse(JSON.stringify(whatData));
+	}
+
 	/** @override */
 	async getData()
 	{
 		const sheetData = super.getData();
-		sheetData.dtypes = ["String", "Number", "Boolean"];
+		//sheetData.dtypes = ["String", "Number", "Boolean"];
 
 		sheetData.characterNameClass = this.getCharacterNameClass(sheetData.actor.name);
 		sheetData.isFromTokenClass = "";
@@ -128,7 +133,12 @@ export class PrimePCActorSheet extends ActorSheet
 			async: true,
 			relativeTo: this.actor
 		});
-        // console.log(data)
+
+		const source = this.actor.toObject();
+		sheetData.actor = this.actor;
+		sheetData.source = source.system;
+		sheetData.system = this.actor.system;
+
 		return sheetData;
 	}
 
