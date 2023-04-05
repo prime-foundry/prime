@@ -79,7 +79,7 @@
 						"max": 4
 					}
 				},
-				
+
 				"ward":
 				{
 					"stability":
@@ -368,7 +368,7 @@
 						"title": "PRIME.refinment_title_willpower",
 						"description": "PRIME.refinment_description_willpower"
 					},
-					
+
 					"conduit" :
 					{
 						"value": 0,
@@ -454,7 +454,7 @@
 			"sheetVersion": "v1.0",
 			"primes" : {},
 			"refinements" : {},
-			"wounds": 
+			"wounds":
 			{
 				"wound0": "null",
 				"wound1": "null",
@@ -464,7 +464,7 @@
 				"wound5": "null",
 				"wound6": "null"
 			},
-			"insanities": 
+			"insanities":
 			{
 				"insanity0": "null",
 				"insanity1": "null",
