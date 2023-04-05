@@ -5,15 +5,15 @@
 		</div>
 		{{> itemBasic }}
 	</div>
-	
+
 	<div class="flexRow flexWrap block infoBlock">
 		<div class="blockTitle">Weapon details</div>
-		
+
 		<div class="cell50 flexRow verticalCenter">
-			<label for="data.weaponSize" class="resource-label cell50">Size:</label>
-			<!--<input type="text" name="data.weight" value="{{data.weight}}" data-dtype="Number" />-->
-			<select name="data.weaponSize" class="weaponSize cell50">
-				{{#select data.weaponSize}}
+			<label for="system.weaponSize" class="resource-label cell50">Size:</label>
+			<!--<input type="text" name="system.weight" value="{{system.weight}}" data-dtype="Number" />-->
+			<select name="system.weaponSize" class="weaponSize cell50">
+				{{#select system.weaponSize}}
 				{{#each itemTables.weapons.sizes}}
 				<option value="{{this.key}}">{{this.title}}</option>
 				{{/each}}
@@ -21,10 +21,10 @@
 			</select>
 		</div>
 		<div class="cell50 flexRow verticalCenter">
-			<label for="data.weaponType" class="resource-label cell50">Type:</label>
-			<!--<input type="text" name="data.weight" value="{{data.weight}}" data-dtype="Number" />-->
-			<select id="data.weaponType" name="data.weaponType" class="cell50">
-				{{#select data.weaponType}}
+			<label for="system.weaponType" class="resource-label cell50">Type:</label>
+			<!--<input type="text" name="system.weight" value="{{system.weight}}" data-dtype="Number" />-->
+			<select id="system.weaponType" name="system.weaponType" class="cell50">
+				{{#select system.weaponType}}
 				{{#each itemTables.weapons.meleeTypes}}
 				<option value="{{this.key}}">{{this.title}}</option>
 				{{/each}}
@@ -32,13 +32,13 @@
 			</select>
 		</div>
 		<div class="cell50 flexRow verticalCenter">
-			<label for="data.damageRating" class="resource-label cell50">Damage rating:</label>
-			<input type="text" id="data.damageRating" name="data.damageRating" class="cell50" value="{{data.damageRating}}" data-dtype="Number" data-min="-5" data-max="5"/>
+			<label for="system.damageRating" class="resource-label cell50">Damage rating:</label>
+			<input type="text" id="system.damageRating" name="system.damageRating" class="cell50" value="{{system.damageRating}}" data-dtype="Number" data-min="-5" data-max="5"/>
 		</div>
 		<div class="cell50 flexRow verticalCenter">
-			<label for="data.requiredHands" class="resource-label cell50">Hands required:</label>
-			<select id="data.requiredHands" name="data.requiredHands" class="itemValueType cell50">
-				{{#select data.requiredHands}}
+			<label for="system.requiredHands" class="resource-label cell50">Hands required:</label>
+			<select id="system.requiredHands" name="system.requiredHands" class="itemValueType cell50">
+				{{#select system.requiredHands}}
 				<option value="1">One</option>
 				<option value="2">Two</option>
 				{{/select}}
@@ -47,7 +47,7 @@
 
 		<div class="cell100 flexRow verticalCenter flexCenter checkboxGroupTitle {{checkboxGroupState checkboxGroupStates.wounds}}" data-checkbox-group="wounds">
 			<div class="cell100">
-				Wound conditions: 
+				Wound conditions:
 				{{#each checkboxGroups.wounds.selectedItems as |wound key|}}
 				<span title="{{convertHTMLForTitle wound.description}}" class="hasTooltip">{{wound.title}}</span>{{#isNotLastItem key ../checkboxGroups.wounds.selectedItems.length}}, {{/isNotLastItem}}
 				{{/each}}
@@ -59,7 +59,7 @@
 			{{#each checkboxGroups.wounds.optionsData as |wound key|}}
 			<div class="flexRow verticalCenter cell33 flexBetween">
 				<label for="{{wound.key}}" class="resource-label hasTooltip" title="{{convertHTMLForTitle wound.description}}">{{wound.title}}:</label>
-				<input class="checkboxGroup" data-effect-id="{{wound.effectID}}" data-group-type="checkbox-wound-conditions" type="checkbox" id="{{wound.key}}" name="data.woundConditions" value="{{wound.key}}" {{checked wound.checked}}/>
+				<input class="checkboxGroup" data-effect-id="{{wound.effectID}}" data-group-type="checkbox-wound-conditions" type="checkbox" id="{{wound.key}}" name="system.woundConditions" value="{{wound.key}}" {{checked wound.checked}}/>
 			</div>
 			{{/each}}
 		</div>
@@ -77,7 +77,7 @@
 			{{#each checkboxGroups.keywords.optionsData as |keyword key|}}
 			<div class="flexRow verticalCenter cell33 flexBetween">
 				<label for="{{keyword.key}}" class="resource-label hasTooltip" title="{{convertHTMLForTitle keyword.description}}">{{keyword.title}}:</label>
-				<input class="checkboxGroup" data-effect-id="{{keyword.effectID}}" data-group-type="checkbox-keywords" type="checkbox" id="{{keyword.key}}" name="data.keywords" value="{{keyword.key}}" {{checked keyword.checked}}/>
+				<input class="checkboxGroup" data-effect-id="{{keyword.effectID}}" data-group-type="checkbox-keywords" type="checkbox" id="{{keyword.key}}" name="system.keywords" value="{{keyword.key}}" {{checked keyword.checked}}/>
 			</div>
 			{{/each}}
 		</div>
@@ -95,7 +95,7 @@
 			{{#each checkboxGroups.actions.optionsData as |action key|}}
 			<div class="flexRow verticalCenter cell33 flexBetween">
 				<label for="{{action.key}}" class="resource-label hasTooltip" title="{{convertHTMLForTitle action.description}}">{{action.title}}:</label>
-				<input class="checkboxGroup" data-effect-id="{{action.effectID}}" data-group-type="checkbox-actions" type="checkbox" id="{{action.key}}" name="data.customActions" value="{{action.key}}" {{checked action.checked}}/>
+				<input class="checkboxGroup" data-effect-id="{{action.effectID}}" data-group-type="checkbox-actions" type="checkbox" id="{{action.key}}" name="system.customActions" value="{{action.key}}" {{checked action.checked}}/>
 			</div>
 			{{/each}}
 		</div>

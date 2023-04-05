@@ -6,14 +6,14 @@
 
 		{{> itemBasic }}
 	</div>
-	
+
 	<div class="flexRow flexWrap block infoBlock flexBetween">
 		<div class="blockTitle">Armour details</div>
-		
+
 		<div class="cell100 flexRow verticalCenter flexBetween">
-			<label for="data.armourType" class="resource-label cell30">Type:</label>
-			<select name="data.armourType" class="itemValueType cell70">
-				{{#select data.armourType}}
+			<label for="system.armourType" class="resource-label cell30">Type:</label>
+			<select name="system.armourType" class="itemValueType cell70">
+				{{#select system.armourType}}
 				{{#each itemTables.armour.types}}
 				<option value="{{this.key}}">{{this.title}}</option>
 				{{/each}}
@@ -22,13 +22,13 @@
 		</div>
 
 		<div class="cell50 flexRow verticalCenter flexBetween">
-			<label for="data.protection" class="resource-label cell40">Protection:</label>
-			<input class="cell60" type="text" id="data.protection" name="data.protection" value="{{data.protection}}" data-dtype="Number" data-min="0" data-max="5"/>
+			<label for="system.protection" class="resource-label cell40">Protection:</label>
+			<input class="cell60" type="text" id="system.protection" name="system.protection" value="{{system.protection}}" data-dtype="Number" data-min="0" data-max="5"/>
 		</div>
 
 		<div class="cell50 flexRow verticalCenter flexBetween">
-			<label for="data.armourResilience" class="resource-label cell70">Armour resilience:</label>
-			<input type="text" id="data.armourResilience" name="data.armourResilience" class="cell30" value="{{data.armourResilience}}" data-dtype="Number" data-min="0" data-max="5"/>
+			<label for="system.armourResilience" class="resource-label cell70">Armour resilience:</label>
+			<input type="text" id="system.armourResilience" name="system.armourResilience" class="cell30" value="{{system.armourResilience}}" data-dtype="Number" data-min="0" data-max="5"/>
 		</div>
 
 		<div class="cell100 flexRow verticalCenter flexCenter checkboxGroupTitle {{checkboxGroupState checkboxGroupStates.keywords}}" data-checkbox-group="keywords">
@@ -44,7 +44,7 @@
 			{{#each checkboxGroups.keywords.optionsData as |keyword key|}}
 			<div class="flexRow verticalCenter cell33 flexBetween">
 				<label for="{{keyword.key}}" class="resource-label hasTooltip" title="{{convertHTMLForTitle keyword.description}}">{{keyword.title}}:</label>
-				<input class="checkboxGroup" data-effect-id="{{keyword.effectID}}" data-group-type="checkbox-keywords" type="checkbox" id="{{keyword.key}}" name="data.keywords.{{key}}" value="{{keyword.key}}" {{checked keyword.checked}}/>
+				<input class="checkboxGroup" data-effect-id="{{keyword.effectID}}" data-group-type="checkbox-keywords" type="checkbox" id="{{keyword.key}}" name="system.keywords.{{key}}" value="{{keyword.key}}" {{checked keyword.checked}}/>
 			</div>
 			{{/each}}
 		</div>
@@ -62,7 +62,7 @@
 			{{#each checkboxGroups.untrainedPenalty.optionsData as |untrainedPenalty key|}}
 			<div class="flexRow verticalCenter cell33 flexBetween">
 				<label for="{{untrainedPenalty.key}}" class="resource-label hasTooltip" title="{{convertHTMLForTitle untrainedPenalty.description}}">{{untrainedPenalty.title}}:</label>
-				<input class="checkboxGroup" data-effect-id="{{untrainedPenalty.effectID}}" data-group-type="checkbox-untrained" type="checkbox" id="{{untrainedPenalty.key}}" name="data.untrainedPenalty" value="{{untrainedPenalty.key}}" {{checked untrainedPenalty.checked}}/>
+				<input class="checkboxGroup" data-effect-id="{{untrainedPenalty.effectID}}" data-group-type="checkbox-untrained" type="checkbox" id="{{untrainedPenalty.key}}" name="system.untrainedPenalty" value="{{untrainedPenalty.key}}" {{checked untrainedPenalty.checked}}/>
 			</div>
 			{{/each}}
 		</div>
@@ -71,7 +71,7 @@
 	{{> itemValue }}
 
 	{{> itemEffects }}
-		
+
 	{{> itemDescription }}
 
 	{{> itemMetadata }}
