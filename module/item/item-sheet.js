@@ -42,31 +42,36 @@ export class PrimeItemSheet extends ItemSheet {
 
   /** @override */
   getData() {
-    let data = super.getData();
-    data.itemTables = PrimeTables.cloneAndTranslateTables("items");
-    data.coreTables = PrimeTables.cloneAndTranslateTables("core");
-    data.perkTables = PrimeTables.cloneAndTranslateTables("perks");
-    data.actionTables = PrimeTables.cloneAndTranslateTables("actions");
-    data.actorTables = PrimeTables.cloneAndTranslateTables("actor");
+    let sheetData = super.getData();
+    sheetData.itemTables = PrimeTables.cloneAndTranslateTables("items");
+    sheetData.coreTables = PrimeTables.cloneAndTranslateTables("core");
+    sheetData.perkTables = PrimeTables.cloneAndTranslateTables("perks");
+    sheetData.actionTables = PrimeTables.cloneAndTranslateTables("actions");
+    sheetData.actorTables = PrimeTables.cloneAndTranslateTables("actor");
 
-    this.addItemTypeData(data);
-    data.checkboxGroupStates = this.checkboxGroupStates;
+    this.addItemTypeData(sheetData);
+    sheetData.checkboxGroupStates = this.checkboxGroupStates;
 
-    data.isOwned = this.item.isOwned;
-    data.owningCharacterName = null;
+    sheetData.isOwned = this.item.isOwned;
+    sheetData.owningCharacterName = null;
 
     if (this.actor) {
-      data.owningCharacterName = this.actor.name;
+      sheetData.owningCharacterName = this.actor.name;
     }
 
-    data.descriptionHTML = this.item.system.description;
-    data.settingDescriptionHTML = this.item.system.settingDescription;
+    sheetData.descriptionHTML = this.item.system.description;
+    sheetData.settingDescriptionHTML = this.item.system.settingDescription;
 
-    data.system = this.item.system;
+    sheetData.id = this.item.id;
 
-    data.id = this.item.id;
+    sheetData.actor = this.item;
+    sheetData.actor = this.actor;
+    sheetData.system = this.item.system;
 
-    return data;
+    const source = this.item.toObject();
+    sheetData.source = source.system;
+
+    return sheetData;
   }
 
   addItemTypeData(data) {
