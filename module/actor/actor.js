@@ -318,6 +318,7 @@ export class PrimePCActor extends Actor
 				var isAllowedForCharacter = this.isAllowedForCharacter(item)
 				if (isAllowedForCharacter)
 				{
+					item.itemID = item._id;
 					typeSortedActions[actionType].push(item);
 				}
 			}
