@@ -318,6 +318,7 @@ export class PrimePCActor extends Actor
 				var isAllowedForCharacter = this.isAllowedForCharacter(item)
 				if (isAllowedForCharacter)
 				{
+					item.itemID = item._id;
 					typeSortedActions[actionType].push(item);
 				}
 			}
@@ -356,7 +357,7 @@ export class PrimePCActor extends Actor
 	checkPerkActionUnlock(whatPerk, whatAction)
 	{
 		var count = 0
-		while (count < whatPerk.effects.length)
+		while (whatPerk.effects && count < whatPerk.effects.length)
 		{
 			let currPerkEffect = whatPerk.effects[count];
 
@@ -381,9 +382,9 @@ export class PrimePCActor extends Actor
 			while (count < ownedPerkClones.length)
 			{
 				var currPerk = ownedPerkClones[count];
-				if (currPerk.data.cost.attributeType == perkCostType)
+				if (currPerk.system.cost.attributeType == perkCostType)
 				{
-					totalCost += currPerk.data.cost.amount;
+					totalCost += currPerk.system.cost.amount;
 				}
 				count++;
 			}

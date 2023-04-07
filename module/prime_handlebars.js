@@ -10,7 +10,7 @@ var primeHandlebarsPartialsPaths =
 	"actorPrimesAndRefinements": "systems/prime/templates/actor/partials/sheet/actor-primes-and-refinements.html",
 	"actorSoulPoints": "systems/prime/templates/actor/partials/sheet/actor-soul-points.html",
 	"actorActionsList": "systems/prime/templates/actor/partials/sheet/actor-actions-list.html",
-	
+
 	"actorTabDescription": "systems/prime/templates/actor/partials/tabs/actor-description-tab.html",
 	"actorTabCombat": "systems/prime/templates/actor/partials/tabs/actor-combat-tab.html",
 	"actorTabInventory": "systems/prime/templates/actor/partials/tabs/actor-inventory-tab.html",
@@ -231,4 +231,9 @@ Handlebars.registerHelper('cropToLength', function(value, cropLength)
 		return value.substring(0, cropLength) + '...';
 	}
 	return value;
+});
+
+// Usage: {{log this}}
+Handlebars.registerHelper("log", function(messageData) {
+	console.log(`HB log: ${messageData}`, messageData);
 });

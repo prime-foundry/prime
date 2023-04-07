@@ -9,11 +9,11 @@
 				<label for="name">Name:</label>
 				<input name="name" type="text" value="{{item.name}}" placeholder="Name" />
 			</h1>
-			
+
 			<div class="cell100 flexRow verticalCenter flexBetween lastRow">
-				<label class="cell30" for="data.setting">{{localize "PRIME.core_setting"}}:</label>
-				<select name="data.setting" id="data.setting" class="itemRarity cell70">
-					{{#select data.setting}}
+				<label class="cell30" for="system.setting">{{localize "PRIME.core_setting"}}:</label>
+				<select name="system.setting" id="system.setting" class="itemRarity cell70">
+					{{#select system.setting}}
 					{{#each coreTables.settings}}
 					<option value="{{this.key}}">{{this.title}}</option>
 					{{/each}}
@@ -35,14 +35,14 @@
 		<div class="blockTitle">Cost</div>
 
 		<div class="cell40 flexRow flexBetween verticalCenter">
-			<label for="data.cost.amount" class="resource-label cell50 rightAlign">Amount:</label>
-			<input type="text" id="data.cost.amount" name="data.cost.amount" class="cell50" value="{{data.cost.amount}}" data-dtype="Number" data-min="0" data-max="100"/>
+			<label for="system.cost.amount" class="resource-label cell50 rightAlign">Amount:</label>
+			<input type="text" id="system.cost.amount" name="system.cost.amount" class="cell50" value="{{system.cost.amount}}" data-dtype="Number" data-min="0" data-max="100"/>
 		</div>
 
 		<div class="cell60 flexRow flexBetween verticalCenter">
-			<label for="data.cost.attributeType" class="resource-label cell20 rightAlign">Type:</label>
-			<select id="data.cost.attributeType" name="data.cost.attributeType" class="cell80" data-effect-id="{{effectID}}" data-effect-flag-key="path">
-				{{#select data.cost.attributeType}}
+			<label for="system.cost.attributeType" class="resource-label cell20 rightAlign">Type:</label>
+			<select id="system.cost.attributeType" name="system.cost.attributeType" class="cell80" data-effect-id="{{effectID}}" data-effect-flag-key="path">
+				{{#select system.cost.attributeType}}
 				{{#each perkTables.costs}}
 				<option value="{{this.key}}">{{this.title}}</option>
 				{{/each}}

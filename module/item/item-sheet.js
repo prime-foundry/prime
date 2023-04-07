@@ -42,31 +42,34 @@ export class PrimeItemSheet extends ItemSheet {
 
   /** @override */
   getData() {
-    let data = super.getData();
-    data.itemTables = PrimeTables.cloneAndTranslateTables("items");
-    data.coreTables = PrimeTables.cloneAndTranslateTables("core");
-    data.perkTables = PrimeTables.cloneAndTranslateTables("perks");
-    data.actionTables = PrimeTables.cloneAndTranslateTables("actions");
-    data.actorTables = PrimeTables.cloneAndTranslateTables("actor");
+    let sheetData = super.getData();
+    sheetData.itemTables = PrimeTables.cloneAndTranslateTables("items");
+    sheetData.coreTables = PrimeTables.cloneAndTranslateTables("core");
+    sheetData.perkTables = PrimeTables.cloneAndTranslateTables("perks");
+    sheetData.actionTables = PrimeTables.cloneAndTranslateTables("actions");
+    sheetData.actorTables = PrimeTables.cloneAndTranslateTables("actor");
 
-    this.addItemTypeData(data);
-    data.checkboxGroupStates = this.checkboxGroupStates;
+    this.addItemTypeData(sheetData);
+    sheetData.checkboxGroupStates = this.checkboxGroupStates;
 
-    data.isOwned = this.item.isOwned;
-    data.owningCharacterName = null;
+    sheetData.isOwned = this.item.isOwned;
+    sheetData.owningCharacterName = null;
 
     if (this.actor) {
-      data.owningCharacterName = this.actor.name;
+      sheetData.owningCharacterName = this.actor.name;
     }
 
-    data.descriptionHTML = this.item.system.description;
-    data.settingDescriptionHTML = this.item.system.settingDescription;
+    sheetData.descriptionHTML = this.item.system.description;
+    sheetData.settingDescriptionHTML = this.item.system.settingDescription;
 
-    data.system = this.item.system;
+    sheetData.id = this.item.id;
+    sheetData.actor = this.actor;
+    sheetData.system = this.item.system;
 
-    data.id = this.item.id;
+    const source = this.item.toObject();
+    sheetData.source = source.system;
 
-    return data;
+    return sheetData;
   }
 
   addItemTypeData(data) {
@@ -475,8 +478,7 @@ export class PrimeItemSheet extends ItemSheet {
 
   async _updateObject(event, data) {
     this.checkMetaData(data);
-    var result = await super._updateObject(event, data);
-    //return result;
+    await super._updateObject(event, data);
   }
 
   checkMetaData(data) {
@@ -580,12 +582,12 @@ export class PrimeItemSheet extends ItemSheet {
       updateData.flags[checkboxKey] = checked;
 
       var effectToUpdate = await this.item.effects.get(effectID);
-      var result = await effectToUpdate.update(updateData);
+      await effectToUpdate.update(updateData);
     } else {
       var effectData = this.getBlankEffectByType(checkboxType);
       effectData.flags[checkboxKey] = checked;
 
-      var result = await ActiveEffect.create(effectData, this.item).create();
+      await ActiveEffect.create(effectData, this.item);
     }
   }
 
@@ -653,7 +655,12 @@ export class PrimeItemSheet extends ItemSheet {
 
     var effectData = this.getBlankEffectByType(effectType);
 
-    var result = await ActiveEffect.create(effectData, this.item).create();
+    //var result = await ActiveEffect.create(effectData, this.item);
+    var result = ActiveEffect.create({
+      ...effectData,
+      origin: this.item.id
+    }, {parent: this.item});
+
     console.log("Created? Result: ", result);
   }
 
