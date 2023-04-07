@@ -1,5 +1,5 @@
 <div class="primeCard itemCard itemCardPerk {{partialClasses}}" data-item-index="{{itemIndex}}">
-    <div class="cardTitle"><a class="itemTitle stopDrag" data-item-id="{{this._id}}">{{this.name}}</a></div>
+    <div class="cardTitle"><a class="itemTitle stopDrag" data-item-id="{{this.itemID}}">{{this.name}}</a></div>
     <div class="cardTopRightDetail">{{this.data.cost.amount}}</div>
 
 	<div class="cardDetail stopDrag">
@@ -13,7 +13,7 @@
 			{{/if}}
 		</div>
 
-		<div class="cardBottomRightDetail removePerk"><a class="deleteItemIcon stopDrag" data-item-id={{this._id}}><i class="fas fa-trash stopDrag stopClose"></i></a></div>
+		<div class="cardBottomRightDetail removePerk"><a class="deleteItemIcon stopDrag" data-item-id={{this.itemID}}><i class="fas fa-trash stopDrag stopClose"></i></a></div>
 
 		{{#ifCond this.data.cost.attributeType "==" "perkCostXP" }}
 		<div class="cardRightCenterDetail perkCost hasTooltip" title="Perk cost XP">XP</div>

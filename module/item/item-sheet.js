@@ -478,8 +478,7 @@ export class PrimeItemSheet extends ItemSheet {
 
   async _updateObject(event, data) {
     this.checkMetaData(data);
-    var result = await super._updateObject(event, data);
-    //return result;
+    await super._updateObject(event, data);
   }
 
   checkMetaData(data) {
@@ -583,12 +582,12 @@ export class PrimeItemSheet extends ItemSheet {
       updateData.flags[checkboxKey] = checked;
 
       var effectToUpdate = await this.item.effects.get(effectID);
-      var result = await effectToUpdate.update(updateData);
+      await effectToUpdate.update(updateData);
     } else {
       var effectData = this.getBlankEffectByType(checkboxType);
       effectData.flags[checkboxKey] = checked;
 
-      var result = await ActiveEffect.create(effectData, this.item).create();
+      await ActiveEffect.create(effectData, this.item);
     }
   }
 
@@ -656,7 +655,12 @@ export class PrimeItemSheet extends ItemSheet {
 
     var effectData = this.getBlankEffectByType(effectType);
 
-    var result = await ActiveEffect.create(effectData, this.item).create();
+    //var result = await ActiveEffect.create(effectData, this.item);
+    var result = ActiveEffect.create({
+      ...effectData,
+      origin: this.item.id
+    }, {parent: this.item});
+
     console.log("Created? Result: ", result);
   }
 

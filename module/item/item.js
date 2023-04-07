@@ -55,6 +55,8 @@ export class PrimeItem extends Item
 		let itemClone = $.extend(true, {}, this);
 		this.processItem(itemClone);
 
+		itemClone.itemID = this.id;
+
 		return itemClone;
 	}
 
