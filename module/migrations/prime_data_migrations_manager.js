@@ -50,7 +50,7 @@ export class PrimeDataMigrationManager
 	static performMigration()
 	{
 		const currentWorldVersion = game.settings.get("prime", "notAutoIncrementedBeforeICanCheckItWorldVersionNumber");
-		const systemVersion = game.system.data.version;
+		const systemVersion = game.system.version;
 
 		switch (currentWorldVersion)
 		{
@@ -67,7 +67,7 @@ export class PrimeDataMigrationManager
 			case "0.1.14":
 			case "0.1.15":
 			case "0.1.16":
-			case "0.1.17":			
+			case "0.1.17":
 			case "0.1.19":
 			case "0.2.1":
 			case "0.2.2":
