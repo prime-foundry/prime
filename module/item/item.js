@@ -6,49 +6,13 @@ import { PrimeTables } from "../prime_tables.js";
  */
 export class PrimeItem extends Item
 {
-
-	// static get config()
-	// {
-	// 	var baseItemConfig = super.config;
-	// 	baseItemConfig.embeddedEntities =
-	// 	{
-	// 		"ActiveEffect": "effects",
-	// 		"PerkBonus": "bonuses",
-	// 	}
-	// 	return baseItemConfig;
-	// }
-
 	/**
 	 * Augment the basic Item data model with additional dynamic data.
 	 */
 	prepareData()
 	{
 		super.prepareData();
-
-		// if (!(this.data.data.bonuses instanceof Collection))
-		// {
-		// 	this.data.data.bonuses = this.convertToCollection(this.data.data.bonuses);
-		// }
-
-		// Get the Item's data
-		// const itemSystemData = this.system;
-		// const actorData = this.actor ? this.actor.data : {};
-		// const data = itemSystemData.data;
 	}
-
-	// convertToCollection(objectToConvert)
-	// {
-	// 	var collectionConstructionArray = [];
-
-	// 	for (var key in objectToConvert)
-	// 	{
-	// 		let currElement = objectToConvert[key];
-
-	// 		collectionConstructionArray.push([key, currElement]);
-	// 	}
-	// 	var collection = new Collection(collectionConstructionArray);
-	// 	return collection;
-	// }
 
 	getProcessedClone()
 	{
@@ -93,24 +57,19 @@ export class PrimeItem extends Item
 	processWeapon(weaponData, catergory)
 	{
 		// Needs to come first as we switch the type to it's title value later.
-		weaponData.data.attackIcon = this.getAttackIconHTML(catergory, weaponData.data.weaponType);
+		weaponData.system.attackIcon = this.getAttackIconHTML(catergory, weaponData.system.weaponType);
 
-		weaponData.data.weaponSize = PrimeTables.getTitleFromTableByKey(weaponData.data.weaponSize, "items.weapons.sizes");
-		weaponData.data.weaponType = PrimeTables.getTitleFromTableByKey(weaponData.data.weaponType, "items.weapons." + catergory + "Types");
+		weaponData.system.weaponSize = PrimeTables.getTitleFromTableByKey(weaponData.system.weaponSize, "items.weapons.sizes");
+		weaponData.system.weaponType = PrimeTables.getTitleFromTableByKey(weaponData.system.weaponType, "items.weapons." + catergory + "Types");
 
-		weaponData.data.rarity = PrimeTables.getTitleFromTableByKey(weaponData.data.rarity, "items.rarity");
-
-		//weaponData.data.woundConditions = PrimeTables.getTitlesFromTableByCheckboxGroupArray(weaponData.data.woundConditions, "actor.woundConditions");
-		//weaponData.data.keywords = PrimeTables.getTitlesFromTableByCheckboxGroupArray(weaponData.data.keywords, "items.weapons.keywords");
-		//weaponData.data.customActions = PrimeTables.getTitlesFromTableByCheckboxGroupArray(weaponData.data.customActions, "items.weapons." + catergory + "WeaponActions");
-		
-		weaponData.data.woundConditions = this.getSelectItemTitlesFromEffectData("checkbox-wound-conditions", "actor.woundConditions");
-		weaponData.data.keywords = this.getSelectItemTitlesFromEffectData("checkbox-keywords", "items.weapons.keywords");
-		weaponData.data.customActions = this.getSelectItemTitlesFromEffectData("checkbox-actions", "items.weapons." + catergory + "WeaponActions");
+		weaponData.system.rarity = PrimeTables.getTitleFromTableByKey(weaponData.system.rarity, "items.rarity");
+		weaponData.system.woundConditions = this.getSelectItemTitlesFromEffectData("checkbox-wound-conditions", "actor.woundConditions");
+		weaponData.system.keywords = this.getSelectItemTitlesFromEffectData("checkbox-keywords", "items.weapons.keywords");
+		weaponData.system.customActions = this.getSelectItemTitlesFromEffectData("checkbox-actions", "items.weapons." + catergory + "WeaponActions");
 
 		if (catergory == "ranged")
 		{
-			weaponData.data.ammo.type = PrimeTables.getTitleFromTableByKey(weaponData.data.ammo.type, "items.weapons.ammoTypes");
+			weaponData.system.ammo.type = PrimeTables.getTitleFromTableByKey(weaponData.system.ammo.type, "items.weapons.ammoTypes");
 		}
 
 		return weaponData
@@ -118,11 +77,8 @@ export class PrimeItem extends Item
 
 	processArmour(armourData)
 	{
-		//armourData.data.keywords = PrimeTables.getTitlesFromTableByCheckboxGroupArray(armourData.data.keywords, "items.armour.keywords");
-		//armourData.data.untrainedPenalty = PrimeTables.getTitlesFromTableByCheckboxGroupArray(armourData.data.untrainedPenalty, "items.armour.untrainedPenalities");
-		
-		armourData.data.keywords = this.getSelectItemTitlesFromEffectData("checkbox-keywords", "items.armour.keywords");
-		armourData.data.untrainedPenalty = this.getSelectItemTitlesFromEffectData("checkbox-untrained", "items.armour.untrainedPenalities");
+		armourData.system.keywords = this.getSelectItemTitlesFromEffectData("checkbox-keywords", "items.armour.keywords");
+		armourData.system.untrainedPenalty = this.getSelectItemTitlesFromEffectData("checkbox-untrained", "items.armour.untrainedPenalities");
 
 		return armourData;
 	}
@@ -135,7 +91,7 @@ export class PrimeItem extends Item
 
 		if (effect)	// If no effect, none have been set.
 		{
-		
+
 			switch (effectType)
 			{
 				case "checkbox-actions":
@@ -156,7 +112,7 @@ export class PrimeItem extends Item
 			while (count < lookupTable.length)
 			{
 				let currLookupItem = lookupTable[count];
-				if (effect.data.flags[currLookupItem.key])
+				if (effect.flags[currLookupItem.key])
 				{
 					if (currLookupItem.description)
 					{
@@ -194,7 +150,7 @@ export class PrimeItem extends Item
 		var targetEffect = null
 		this.effects.forEach((effect, key, effects) =>
 		{
-			if (effect.data.flags.effectType == effectType)
+			if (effect.flags.effectType == effectType)
 			{
 				targetEffect = effect;
 			}
