@@ -628,14 +628,14 @@ export class PrimePCActorSheet extends ActorSheet
 		const armourID = titleLink.data("armour-id");
 		const armour = this.object.items.get(armourID);
 
-		var isWorn = armour.data.data.isWorn;
+		var isWorn = armour.system.isWorn;
 		if (isWorn)
 		{
-			armour.data.data.isWorn = false;
+			armour.system.isWorn = false;
 		}
 		else
 		{
-			armour.data.data.isWorn = true;
+			armour.system.isWorn = true;
 		}
 
 		//await armour.update(armour.data);

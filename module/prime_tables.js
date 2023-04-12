@@ -143,7 +143,7 @@ export class PrimeTables
 			while (count < actions.length)
 			{
 				var currAction = actions[count];
-				if (((omitDefaultActions && !currAction.source.data.data.default) || !omitDefaultActions) && (!allowedActionTypesArray || allowedActionTypesArray.indexOf(currAction.source.data.data.type) > -1))
+				if (((omitDefaultActions && !currAction.source.system.default) || !omitDefaultActions) && (!allowedActionTypesArray || allowedActionTypesArray.indexOf(currAction.source.system.type) > -1))
 				{
 					returnActions.push(currAction);
 				}
@@ -163,9 +163,9 @@ export class PrimeTables
 			{
 				if (item.type == typeFilter || typeFilter == "*")
 				{
-					if (item.data.data.sourceKey)
+					if (item.system.sourceKey)
 					{
-						matchingItems.push({key: item.data.data.sourceKey, title: item.name, source: item});
+						matchingItems.push({key: item.system.sourceKey, title: item.name, source: item});
 					}
 					else
 					{
@@ -173,7 +173,7 @@ export class PrimeTables
 					}
 				}
 			});
-		}		
+		}
 
 		return matchingItems;
 	}
