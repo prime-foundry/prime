@@ -36,8 +36,6 @@ Hooks.once('init', async function ()
 	Items.unregisterSheet("core", ItemSheet);
 	Items.registerSheet("prime", PrimeItemSheet, { makeDefault: true });
 
-
-
 	// If you need to add Handlebars helpers, here are a few useful examples:
 	Handlebars.registerHelper('concat', function ()
 	{
@@ -58,11 +56,10 @@ Hooks.once('init', async function ()
 	});
 });
 
-Hooks.once("ready", async function ()
+Hooks.once("ready", async () =>
 {
-
 	await PrimeSettingsManager.addSettings();
 	await PrimeHandlebarsPartials.loadPartials();
 	await PrimeDataMigrationManager.performIfMigrationRequired();
-
+	await PrimeDataMigrationManager.checkForActorMigration();
 });

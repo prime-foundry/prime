@@ -114,7 +114,8 @@
 					"age": "",
 					"biography": ""
 				},
-				"notes": ""
+				"notes": "",
+				"cloneSourceID" : null
 			},
 
 			"sessionState_template": {
