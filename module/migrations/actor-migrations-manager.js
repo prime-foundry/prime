@@ -1,4 +1,4 @@
-
+import { PrimeTables } from "../prime_tables.js";
 export class ActorMigrationsManager {
 
     static async assessMigrationRequirements()
@@ -6,24 +6,34 @@ export class ActorMigrationsManager {
         const unclonedV1Characters = this.getUnclonedV1Characters();
         if (unclonedV1Characters.length === 0)
         {
-            this.removeV2Clones();
+            ui.notifications.info("Culling the clones");
+            await this.removeV2Clones();
         }
         else
         {
+            ui.notifications.info("Creating V2 character clones");
             const newV2Clones = this.cloneAndUpgradeToV2(unclonedV1Characters);
-            const newV2Characters = await this.createNewCharacters(newV2Clones);
+            this.createNewCharacters(newV2Clones);
         }
 
     }
 
-    static removeV2Clones()
+    static async removeV2Clones()
     {
-        game.actors.filter((actor) =>
+        const actorDeletionPromises = [];
+
+        game.actors.forEach(async (actor) =>
         {
             if (actor.system.sheetVersion === "v2.0" && actor.system.cloneSourceID) {
-                actor.delete();
+                const deletionPromise = actor.delete();
+                actorDeletionPromises.push(deletionPromise);
             }
         });
+
+        Promise.all(actorDeletionPromises).then((newActors) => {
+            ui.notifications.info("Culling complete?");
+        });
+
     }
 
     static getUnclonedV1Characters()
@@ -56,6 +66,7 @@ export class ActorMigrationsManager {
     {
         const actorClones = actorsToClone.map((actor) =>
         {
+            // toObject() is required otherwise Foundry tries to be smart about the clone :-/
             const newCloneData = actor.clone().toObject();
             this.upgradeToV2(newCloneData, actor.id);
             return newCloneData;
@@ -71,18 +82,17 @@ export class ActorMigrationsManager {
         actor.system.sheetVersion = "v2.0";
     }
 
-
     static async createNewCharacters(actorsToCreate)
     {
-        const newActors = [];
-        await actorsToCreate.forEach(async (actor) =>
+        const newActorCreationPromises = [];
+        const createPromise = actorsToCreate.forEach(async (actor) =>
         {
-            const newClone = await Actor.create(actor);
-            newActors.push(newClone);
+            const newClonePromise = Actor.create(actor);
+            newActorCreationPromises.push(newClonePromise);
         });
 
-        console.log(newActors);
-        return newActors;
+        Promise.all(newActorCreationPromises).then((newActors) => {
+            ui.notifications.info("Cloning (mostly) complete.");
+        });
     }
-
 }
