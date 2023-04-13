@@ -44,6 +44,11 @@ export class PrimePCActor extends Actor
 		}
 	}
 
+	_onUpdate(data, options, userId)
+	{
+		//console.log(`Actor update: ${this.name}`,data, options, userId)
+	}
+
 	/**
 	 * Prepare Character type specific data
 	 */
@@ -79,17 +84,25 @@ export class PrimePCActor extends Actor
 
 	async _prepareCharacterDataV2(data, actorData)
 	{
-		const primesStatData = await this._getStatsObjects(actorData.items, "prime");
-		const refinementsStatData = await this._getStatsObjects(actorData.items, "refinement");
+		const primesStatPromise = this._getStatsObjects(actorData.items, "prime");
+		const refinementsStatPromise = this._getStatsObjects(actorData.items, "refinement");
 
-		if (data.primes)
-		{
-			data.primes = primesStatData;
-		}
-		if (data.refinements)
-		{
-			data.refinements = refinementsStatData;
-		}
+        Promise.all([primesStatPromise, refinementsStatPromise]).then(([primesStatData, refinementsStatData]) => {
+			console.log("Primes and refinements created, about to add to actor. Remaining primes / refinements: ", data.primes, data.refinements);
+
+			if (data.primes)
+			{
+				data.primes = primesStatData;
+			}
+			if (data.refinements)
+			{
+				data.refinements = refinementsStatData;
+			}
+			// TODO: Is this required?
+			this.update(actorData.toObject());
+        });
+
+
 	}
 
 	getCurrentOwners(whatPermissions)
@@ -489,17 +502,28 @@ export class PrimePCActor extends Actor
 
 		if (Object.keys(matchingStatItems).length === 0 && !atLeastOneStatFound)
 		{
-			console.log("About to request world stats");
-			matchingStatItems = await this._getStatObjectsFromWorld(statType);
-			console.log("World stats requested and cloned");
+			//console.log("About to request world stats");
+			matchingStatItems = this._getStatObjectsFromWorld(statType);
+			return matchingStatItems;
+			//console.log("World stats requested and cloned");
 		}
 
-		return matchingStatItems;
+		return Promise.resolve(matchingStatItems);
 	}
 
 	async _getStatObjectsFromWorld(statType)
 	{
 		const currActor = this;
+		let v1LocalisationTable = null;
+
+		if (statType === "prime")
+		{
+			v1LocalisationTable = PrimeTables.getPrimeKeysAndTitles();
+		}
+		else if (statType === "refinement")
+		{
+			v1LocalisationTable = PrimeTables.getRefinementKeysAndTitles();
+		}
 
 		let actorItemsToCreate = []
 		let instancedItems = {};
@@ -512,10 +536,11 @@ export class PrimePCActor extends Actor
 				{
 					// Deep clone it to prevent object point related weirdness
 					const itemClone = JSON.parse(JSON.stringify(item));
-					console.log(`Updating sourceKey. Old: '${itemClone.system.sourceKey}', New:'${itemClone._id}'`);
+					//console.log(`Updating sourceKey. Old: '${itemClone.system.sourceKey}', New:'${itemClone._id}'`);
 					itemClone.system.sourceKey = itemClone._id;
 					actorItemsToCreate.push(itemClone);
 					statItem = this._getItemDataAsStat(itemClone);
+					this._injectV1ValueIfFound(itemClone, v1LocalisationTable, statType)
 					instancedItems[statItem.itemID] = statItem;
 				}
 			});
@@ -523,9 +548,10 @@ export class PrimePCActor extends Actor
 			{
 				if (!this.system.sessionState.statCreationRequest[statType])
 				{
+					console.log(`Requesting stat: '${statType}' for '${this.name}', this.system.sessionState.statCreationRequest: `, this.system.sessionState.statCreationRequest);
 					this.system.sessionState.statCreationRequest[statType] = true;
-					let createdItemDocuments = await this.createEmbeddedDocuments("Item", actorItemsToCreate)
-					console.log("Created stat ItemDocuments", createdItemDocuments);
+					let createdItemPromise = this.createEmbeddedDocuments("Item", actorItemsToCreate)
+					return createdItemPromise;
 				}
 			}
 			else
@@ -537,7 +563,21 @@ export class PrimePCActor extends Actor
 		{
 			console.warn("getStatObjectsFromWorld() was called to soon. The world (and the items) weren't ready yet.")
 		}
-		return instancedItems;
+		return Promise.resolve(false);
+	}
+
+	async _injectV1ValueIfFound(itemClone, v1LocalisationTable, statType)
+	{
+		const localisationEntry = v1LocalisationTable.find((localisationEntry) =>
+		{
+			return localisationEntry.title.toLowerCase() == itemClone.name.toLowerCase();
+		});
+
+		if (localisationEntry && this.system[`${statType}s`][localisationEntry.key])
+		{
+			itemClone.value = this.system[`${statType}s`][localisationEntry.key].value;
+			delete this.system[`${statType}s`][localisationEntry.key];
+		}
 	}
 
 	// "athletic" :
@@ -578,7 +618,7 @@ export class PrimePCActor extends Actor
 			"title": itemTitle,
 			"description": itemData.system.customisable ? "*EDITABLE STAT, CLICK INFO TO EDIT* \n" + itemDescription : itemDescription,
 			"sourceKey": itemData.system.sourceKey,
-			"itemID": itemData.id,
+			"itemID": itemData._id,
 			"itemBasedStat" : true,
 			"customisableStatClass" : itemData.system.customisable ? "customisableStat" : "",
 			"defaultItemClass" : itemData.system.default ? "defaultStat" : "expandedStat",
