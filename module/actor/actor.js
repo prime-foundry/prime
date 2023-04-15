@@ -90,6 +90,8 @@ export class PrimePCActor extends Actor
         Promise.all([primesStatPromise, refinementsStatPromise]).then(([primesStatData, refinementsStatData]) => {
 			console.log("Primes and refinements created, about to add to actor. Remaining primes / refinements: ", data.primes, data.refinements);
 
+			// Trigger checking for any missing stats here? Probably not, no custom ones possible with v1.
+
 			if (data.primes)
 			{
 				data.primes = primesStatData;
@@ -490,7 +492,7 @@ export class PrimePCActor extends Actor
 		let matchingStatItems = {};
 		let statItem = null;
 		let atLeastOneStatFound = false;	// If we've found one prime, then the other stats are on their way asyncronously.
-		items.forEach((currItem)=> 
+		items.forEach((currItem)=>
 		{
 			if (currItem.type == statType)
 			{
@@ -503,7 +505,7 @@ export class PrimePCActor extends Actor
 		if (Object.keys(matchingStatItems).length === 0 && !atLeastOneStatFound)
 		{
 			//console.log("About to request world stats");
-			matchingStatItems = this._getStatObjectsFromWorld(statType);
+			matchingStatItems = await this._getStatObjectsFromWorld(statType);
 			return matchingStatItems;
 			//console.log("World stats requested and cloned");
 		}
@@ -538,9 +540,10 @@ export class PrimePCActor extends Actor
 					const itemClone = JSON.parse(JSON.stringify(item));
 					//console.log(`Updating sourceKey. Old: '${itemClone.system.sourceKey}', New:'${itemClone._id}'`);
 					itemClone.system.sourceKey = itemClone._id;
+					delete itemClone._id;
 					actorItemsToCreate.push(itemClone);
 					statItem = this._getItemDataAsStat(itemClone);
-					this._injectV1ValueIfFound(itemClone, v1LocalisationTable, statType)
+					this._injectV1ValueIfFound(itemClone, v1LocalisationTable, statType);
 					instancedItems[statItem.itemID] = statItem;
 				}
 			});
@@ -550,8 +553,8 @@ export class PrimePCActor extends Actor
 				{
 					console.log(`Requesting stat: '${statType}' for '${this.name}', this.system.sessionState.statCreationRequest: `, this.system.sessionState.statCreationRequest);
 					this.system.sessionState.statCreationRequest[statType] = true;
-					let createdItemPromise = this.createEmbeddedDocuments("Item", actorItemsToCreate)
-					return createdItemPromise;
+					const createdItemPromiseReturn = await this.createEmbeddedDocuments("Item", actorItemsToCreate)
+					return createdItemPromiseReturn;
 				}
 			}
 			else
@@ -575,7 +578,7 @@ export class PrimePCActor extends Actor
 
 		if (localisationEntry && this.system[`${statType}s`][localisationEntry.key])
 		{
-			itemClone.value = this.system[`${statType}s`][localisationEntry.key].value;
+			itemClone.system.value = this.system[`${statType}s`][localisationEntry.key].value;
 			delete this.system[`${statType}s`][localisationEntry.key];
 		}
 	}
