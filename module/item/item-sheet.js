@@ -167,7 +167,7 @@ export class PrimeItemSheet extends ItemSheet {
 
       if (currOption.checked) {
         let selectedItemData = { title: currOption.title };
-        var currActionData = currOption.source.data.data;
+        var currActionData = currOption.source.system;
         if (currActionData.description || currActionData.settingDescription) {
           let combinedDescription =
             (currActionData.description || "") +
@@ -191,7 +191,7 @@ export class PrimeItemSheet extends ItemSheet {
     var effectData = [];
     var matchingEffectsCount = 0;
     this.item.effects.forEach((effect, key, effects) => {
-      if (effect.data.flags.effectType == targetEffectType) {
+      if (effect.flags.effectType == targetEffectType) {
         matchingEffectsCount++;
         var effectDataForRender = this.getRenderableDataFromEffect(
           effect,
@@ -249,15 +249,15 @@ export class PrimeItemSheet extends ItemSheet {
 
   getRenderableBonusDataFromEffect(whatEffect, matchingEffectsCount) {
     var dynamicDataForBonusTarget = this.getDynamicDataForBonusTarget(
-      whatEffect.data.flags.effectSubType
+      whatEffect.flags.effectSubType
     );
 
     var renderableEffectData = {
       effectID: whatEffect.id,
-      effectSubType: whatEffect.data.flags.effectSubType,
+      effectSubType: whatEffect.flags.effectSubType,
       dynamicDataForEffectTarget: dynamicDataForBonusTarget,
-      path: whatEffect.data.flags.path,
-      value: whatEffect.data.flags.value,
+      path: whatEffect.flags.path,
+      value: whatEffect.flags.value,
       actualCount: matchingEffectsCount,
     };
 
@@ -309,15 +309,15 @@ export class PrimeItemSheet extends ItemSheet {
   getRenderablePrerequiristeDataFromEffect(whatEffect, matchingEffectsCount) {
     var dynamicDataForPrerequisiteTarget =
       this.getDynamicDataForPrerequisiteTarget(
-        whatEffect.data.flags.effectSubType
+        whatEffect.flags.effectSubType
       );
 
     var renderableEffectData = {
       effectID: whatEffect.id,
-      effectSubType: whatEffect.data.flags.effectSubType,
+      effectSubType: whatEffect.flags.effectSubType,
       dynamicDataForEffectTarget: dynamicDataForPrerequisiteTarget,
-      path: whatEffect.data.flags.path,
-      value: whatEffect.data.flags.value,
+      path: whatEffect.flags.path,
+      value: whatEffect.flags.value,
       actualCount: matchingEffectsCount,
     };
 
@@ -369,15 +369,15 @@ export class PrimeItemSheet extends ItemSheet {
 
   getRenderableActionDataFromEffect(whatEffect, matchingEffectsCount) {
     var dynamicDataForActionTarget = this.getDynamicDataForActionTarget(
-      whatEffect.data.flags.effectSubType
+      whatEffect.flags.effectSubType
     );
 
     var renderableEffectData = {
       effectID: whatEffect.id,
-      effectSubType: whatEffect.data.flags.effectSubType,
+      effectSubType: whatEffect.flags.effectSubType,
       dynamicDataForEffectTarget: dynamicDataForActionTarget,
-      path: whatEffect.data.flags.path,
-      value: whatEffect.data.flags.value,
+      path: whatEffect.flags.path,
+      value: whatEffect.flags.value,
       actualCount: matchingEffectsCount,
     };
 
@@ -387,7 +387,7 @@ export class PrimeItemSheet extends ItemSheet {
   getRenderableCheckboxGroupDataFromEffect(whatEffect) {
     var returnData = {
       id: whatEffect.id,
-      flags: whatEffect.data.flags,
+      flags: whatEffect.flags,
     };
 
     return returnData;
@@ -470,8 +470,8 @@ export class PrimeItemSheet extends ItemSheet {
   }
 
   addRangeCatergoryTitles(data) {
-    for (let key in data.data.ranges) {
-      data.data.ranges[key].title =
+    for (let key in data.data.system.ranges) {
+      data.data.system.ranges[key].title =
         data.itemTables.weapons.rangeCatergories[key];
     }
   }
