@@ -117,7 +117,7 @@ export class PrimePCActor extends Actor
 
 	getCurrentOwners(whatPermissions)
 	{
-		var whatPermissions = this.permission;
+		var whatPermissions = this.ownership;
 		let ownerNames = [];
 		let currUser;
 		for (var key in whatPermissions)
