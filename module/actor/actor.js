@@ -605,17 +605,25 @@ export class PrimePCActor extends Actor
 			return;
 		}
 
-		// console.log(`${this.id} - _addNonMappedStatReportToNotes(statType: '${statType}')`);
-
 		const unmappedStats = [];
+		let pointsRefunded = 0;
 		for (const [key, stat] of Object.entries(this.system[`${statType}s`]))
 		{
-			unmappedStats.push(`${stat.title}: ${stat.value}`);
+			if (stat.value > 0)
+			{
+				PrimeTables.addTranslations(stat);
+				unmappedStats.push(`${stat.title}: ${stat.value}`);
+				pointsRefunded += PrimePCActor.primeCost(parseInt(stat.value));
+			}
 		}
 
 		if (unmappedStats.length > 0)
 		{
-			const statReport = `<p>The following '${statType}' stat's where not mapped across as no equivalent could be found: <ul><li>${unmappedStats.join("</li><li>")}</li></ul></p>`;
+			const statReport = `<h1>Unmapped stats</h1>
+			<p>The following '${statType}' stat's where not mapped across as no equivalent could be found:
+			<ul><li>${unmappedStats.join("</li><li>")}</li></ul>
+			Points refunded: ${pointsRefunded}
+			</p>`;
 			this.system.notes += statReport;
 		}
 	}
