@@ -30,25 +30,25 @@
             <tbody>
                 {{#each filteredItems.ranged-weapon as |weapon index|}}
                 <tr>
-                    <td class="center"><div class="attackIconWrapper"><a class="attackWithWeapon" data-armour-id={{weapon._id}}>{{{weapon.data.attackIcon}}}</a></div></td>
-                    <td title="{{convertHTMLForTitle weapon.data.description}}"><a class="itemTitle" data-item-id="{{weapon._id}}"><i class="fas fa-info-circle fa-xs"></i> {{weapon.name}}</a></td>
-                    <td class="center">{{weapon.data.weaponSize}}</td>
-                    <td class="center">{{weapon.data.weaponType}}</td>
-                    <td class="center">{{weapon.data.damageRating}}</td>
-                    <td class="center">{{weapon.data.requiredHands}}</td>
+                    <td class="center"><div class="attackIconWrapper"><a class="attackWithWeapon" data-armour-id={{weapon.itemID}}>{{{weapon.system.attackIcon}}}</a></div></td>
+                    <td title="{{convertHTMLForTitle weapon.system.description}}"><a class="itemTitle" data-item-id="{{weapon.itemID}}"><i class="fas fa-info-circle fa-xs"></i> {{weapon.name}}</a></td>
+                    <td class="center">{{weapon.system.weaponSize}}</td>
+                    <td class="center">{{weapon.system.weaponType}}</td>
+                    <td class="center">{{weapon.system.damageRating}}</td>
+                    <td class="center">{{weapon.system.requiredHands}}</td>
 
-                    <td>{{{weapon.data.woundConditions}}}</td>
-                    <td>{{{weapon.data.keywords}}}</td>
-                    <td>{{{weapon.data.customActions}}}</td>
+                    <td>{{{weapon.system.woundConditions}}}</td>
+                    <td>{{{weapon.system.keywords}}}</td>
+                    <td>{{{weapon.system.customActions}}}</td>
 
-                    <td class="center">{{{weapon.data.ranges.pointBlank.value}}}</td>
-                    <td class="center">{{{weapon.data.ranges.short.value}}}</td>
-                    <td class="center">{{{weapon.data.ranges.medium.value}}}</td>
-                    <td class="center">{{{weapon.data.ranges.long.value}}}</td>
-                    <td class="center">{{{weapon.data.ranges.extreme.value}}}</td>
+                    <td class="center">{{{weapon.system.ranges.pointBlank.value}}}</td>
+                    <td class="center">{{{weapon.system.ranges.short.value}}}</td>
+                    <td class="center">{{{weapon.system.ranges.medium.value}}}</td>
+                    <td class="center">{{{weapon.system.ranges.long.value}}}</td>
+                    <td class="center">{{{weapon.system.ranges.extreme.value}}}</td>
 
-                    <td class="center">{{{weapon.data.ammo.type}}}</td>
-                    <td class="center">{{{weapon.data.ammo.capacity}}}</td>
+                    <td class="center">{{{weapon.system.ammo.type}}}</td>
+                    <td class="center">{{{weapon.system.ammo.capacity}}}</td>
                 </tr>
                 {{/each}}
             </tbody>

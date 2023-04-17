@@ -5,7 +5,7 @@ export class PrimeTables
 	{
 		var tableClone = this.cloneTables(whatPath);
 		this.addTranslations(tableClone);
-		
+
 		return tableClone;
 	}
 

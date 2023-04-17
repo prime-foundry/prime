@@ -72,63 +72,62 @@ export class PrimeItemSheet extends ItemSheet {
     return sheetData;
   }
 
-  addItemTypeData(data) {
-    data.bonuses = this.getEffectsRenderableData("bonus");
-    switch (data.item.type) {
+  addItemTypeData(sheetData) {
+    sheetData.bonuses = this.getEffectsRenderableData("bonus");
+    switch (sheetData.item.type) {
       case "item":
       case "prime":
       case "refinement":
         break;
       case "melee-weapon":
       case "shield":
-        data.checkboxGroups = this.compileWeaponCheckboxGroups(data, "melee");
+        sheetData.checkboxGroups = this.compileWeaponCheckboxGroups(sheetData, "melee");
         break;
       case "ranged-weapon":
-        data.checkboxGroups = this.compileWeaponCheckboxGroups(data, "ranged");
-        this.addRangeCatergoryTitles(data);
+        sheetData.checkboxGroups = this.compileWeaponCheckboxGroups(sheetData, "ranged");
+        this.addRangeCatergoryTitles(sheetData);
         break;
       case "armour":
-        data.checkboxGroups = this.compileArmourCheckboxGroups(data);
+        sheetData.checkboxGroups = this.compileArmourCheckboxGroups(sheetData);
         break;
       case "perk":
-        data.prerequisites = this.getEffectsRenderableData("prerequisite");
+        sheetData.prerequisites = this.getEffectsRenderableData("prerequisite");
         break;
       case "action":
-        data.effects = this.getEffectsRenderableData("actionEffect");
+        sheetData.effects = this.getEffectsRenderableData("actionEffect");
         break;
       default:
         console.warn(
           "Unknown item type of '" +
-            data.item.type +
+            sheetData.item.type +
             "' found in addItemTypeData()."
         );
         break;
     }
   }
 
-  compileWeaponCheckboxGroups(data, subTypeKey) {
+  compileWeaponCheckboxGroups(sheetData, subTypeKey) {
     let woundList = this.cloneAndAddSelectedState(
-      data.actorTables.woundConditions,
+      sheetData.actorTables.woundConditions,
       "wound-conditions"
     );
     let keywordsList = this.cloneAndAddSelectedState(
-      data.itemTables.weapons.keywords,
+      sheetData.itemTables.weapons.keywords,
       "keywords"
     );
-    //let actionsList = this.cloneAndAddSelectedState(data.itemTables.weapons[subTypeKey + 'WeaponActions'], "actions");
 
     let actionsList = this.getWeaponComboActionData();
 
     return { wounds: woundList, keywords: keywordsList, actions: actionsList };
   }
 
-  compileArmourCheckboxGroups(data) {
+  compileArmourCheckboxGroups(sheetData) {
     let keywordsList = this.cloneAndAddSelectedState(
-      data.itemTables.armour.keywords,
+      sheetData.itemTables.armour.keywords,
       "keywords"
     );
     let untrainedPenaltyList = this.cloneAndAddSelectedState(
-      data.itemTables.armour.untrainedPenalities,
+      sheetData.itemTables.armour.untrainedPenalities,
       "untrained"
     );
 
@@ -167,7 +166,7 @@ export class PrimeItemSheet extends ItemSheet {
 
       if (currOption.checked) {
         let selectedItemData = { title: currOption.title };
-        var currActionData = currOption.source.data.data;
+        var currActionData = currOption.source.system;
         if (currActionData.description || currActionData.settingDescription) {
           let combinedDescription =
             (currActionData.description || "") +
@@ -191,7 +190,7 @@ export class PrimeItemSheet extends ItemSheet {
     var effectData = [];
     var matchingEffectsCount = 0;
     this.item.effects.forEach((effect, key, effects) => {
-      if (effect.data.flags.effectType == targetEffectType) {
+      if (effect.flags.effectType == targetEffectType) {
         matchingEffectsCount++;
         var effectDataForRender = this.getRenderableDataFromEffect(
           effect,
@@ -249,15 +248,15 @@ export class PrimeItemSheet extends ItemSheet {
 
   getRenderableBonusDataFromEffect(whatEffect, matchingEffectsCount) {
     var dynamicDataForBonusTarget = this.getDynamicDataForBonusTarget(
-      whatEffect.data.flags.effectSubType
+      whatEffect.flags.effectSubType
     );
 
     var renderableEffectData = {
       effectID: whatEffect.id,
-      effectSubType: whatEffect.data.flags.effectSubType,
+      effectSubType: whatEffect.flags.effectSubType,
       dynamicDataForEffectTarget: dynamicDataForBonusTarget,
-      path: whatEffect.data.flags.path,
-      value: whatEffect.data.flags.value,
+      path: whatEffect.flags.path,
+      value: whatEffect.flags.value,
       actualCount: matchingEffectsCount,
     };
 
@@ -309,15 +308,15 @@ export class PrimeItemSheet extends ItemSheet {
   getRenderablePrerequiristeDataFromEffect(whatEffect, matchingEffectsCount) {
     var dynamicDataForPrerequisiteTarget =
       this.getDynamicDataForPrerequisiteTarget(
-        whatEffect.data.flags.effectSubType
+        whatEffect.flags.effectSubType
       );
 
     var renderableEffectData = {
       effectID: whatEffect.id,
-      effectSubType: whatEffect.data.flags.effectSubType,
+      effectSubType: whatEffect.flags.effectSubType,
       dynamicDataForEffectTarget: dynamicDataForPrerequisiteTarget,
-      path: whatEffect.data.flags.path,
-      value: whatEffect.data.flags.value,
+      path: whatEffect.flags.path,
+      value: whatEffect.flags.value,
       actualCount: matchingEffectsCount,
     };
 
@@ -369,15 +368,15 @@ export class PrimeItemSheet extends ItemSheet {
 
   getRenderableActionDataFromEffect(whatEffect, matchingEffectsCount) {
     var dynamicDataForActionTarget = this.getDynamicDataForActionTarget(
-      whatEffect.data.flags.effectSubType
+      whatEffect.flags.effectSubType
     );
 
     var renderableEffectData = {
       effectID: whatEffect.id,
-      effectSubType: whatEffect.data.flags.effectSubType,
+      effectSubType: whatEffect.flags.effectSubType,
       dynamicDataForEffectTarget: dynamicDataForActionTarget,
-      path: whatEffect.data.flags.path,
-      value: whatEffect.data.flags.value,
+      path: whatEffect.flags.path,
+      value: whatEffect.flags.value,
       actualCount: matchingEffectsCount,
     };
 
@@ -387,7 +386,7 @@ export class PrimeItemSheet extends ItemSheet {
   getRenderableCheckboxGroupDataFromEffect(whatEffect) {
     var returnData = {
       id: whatEffect.id,
-      flags: whatEffect.data.flags,
+      flags: whatEffect.flags,
     };
 
     return returnData;
@@ -469,10 +468,12 @@ export class PrimeItemSheet extends ItemSheet {
     return checkboxGroupObject;
   }
 
-  addRangeCatergoryTitles(data) {
-    for (let key in data.data.ranges) {
-      data.data.ranges[key].title =
-        data.itemTables.weapons.rangeCatergories[key];
+  addRangeCatergoryTitles(sheetData) {
+    // Annoyingly, these need to stay as .data references for the moment - the `let sheetData = super.getData();`
+    // call returns them that way :-/
+    for (let key in sheetData.data.system.ranges) {
+      sheetData.data.system.ranges[key].title =
+        sheetData.itemTables.weapons.rangeCatergories[key];
     }
   }
 
@@ -481,37 +482,37 @@ export class PrimeItemSheet extends ItemSheet {
     await super._updateObject(event, data);
   }
 
-  checkMetaData(data) {
+  checkMetaData(sheetData) {
     const baseData = super.getData();
-    if (!baseData.data.creator) {
-      this.addMetaData(data);
+    if (!baseData.data.system.creator) {
+      this.addMetaData(sheetData);
     } else {
-      this.updateMetaData(data);
+      this.updateMetaData(sheetData);
     }
   }
 
-  addMetaData(data) {
-    data["data.creator"] = game.users.get(game.userId).name;
-    data["data.creatorID"] = game.userId;
+  addMetaData(sheetData) {
+    sheetData["system.creator"] = game.users.get(game.userId).name;
+    sheetData["system.creatorID"] = game.userId;
 
-    data["data.updater"] = game.users.get(game.userId).name;
-    data["data.updaterID"] = game.userId;
+    sheetData["system.updater"] = game.users.get(game.userId).name;
+    sheetData["system.updaterID"] = game.userId;
 
     var dateString = this.getDateString();
 
-    data["data.created"] = dateString;
-    data["data.updated"] = dateString;
+    sheetData["system.created"] = dateString;
+    sheetData["system.updated"] = dateString;
 
-    data["data.sourceKey"] = this.item._id;
+    sheetData["system.sourceKey"] = this.item._id;
     //game.users.get(game.userId);
   }
 
-  updateMetaData(data) {
-    data["data.updater"] = game.users.get(game.userId).name;
-    data["data.updaterID"] = game.userId;
+  updateMetaData(sheetData) {
+    sheetData["system.updater"] = game.users.get(game.userId).name;
+    sheetData["system.updaterID"] = game.userId;
 
     var dateString = this.getDateString();
-    data["data.updated"] = dateString;
+    sheetData["system.updated"] = dateString;
   }
 
   /* -------------------------------------------- */

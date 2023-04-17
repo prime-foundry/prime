@@ -1,10 +1,15 @@
 import { PrimeMigration_0_1_7_to_0_1_10 } from "./PrimeMigration_0_1_7_to_0_1_10.js";
 import { PrimeMigration_0_1_10_to_0_3_1 } from "./PrimeMigration_0_1_10_to_0_3_1.js";
 import { PrimeMigration_0_3_1_to_0_4_0 } from "./PrimeMigration_0_3_1_to_0_4_0.js";
+import { ActorMigrationsManager } from "./actor-migrations-manager.js";
+
+const migrateActors = async () => {
+	await ActorMigrationsManager.assessMigrationRequirements();
+}
 
 export class PrimeDataMigrationManager
 {
-	static initialVersionOfImplmentation = "0.1.10";
+	static initialVersionOfImplementation = "0.1.10";
 
 	static async performIfMigrationRequired()
 	{
@@ -14,6 +19,14 @@ export class PrimeDataMigrationManager
 			this.performMigration();
 		}
 	}
+
+	static checkForActorMigration() {
+		// Breaks us out of the execution thread so we can start a new one
+		// that's async (TODO: double check this doesn't interfere with the
+		// base upgrade)
+		window.setTimeout(migrateActors, 0);
+	}
+
 
 	static checkSystemVsWorldVersions()
 	{
@@ -27,9 +40,9 @@ export class PrimeDataMigrationManager
 
 		if (!currentWorldVersion)
 		{
-			if (systemVersion == this.initialVersionOfImplmentation)
+			if (systemVersion == this.initialVersionOfImplementation)
 			{
-				ui.notifications.info("Initial implmentation, migration should be happening regardless.");
+				ui.notifications.info("Initial implementation, migration should be happening regardless.");
 			}
 			else
 			{
@@ -55,7 +68,7 @@ export class PrimeDataMigrationManager
 
 		switch (currentWorldVersion)
 		{
-			case "": // This should only happen if the world is pre-implmentation of this API
+			case "": // This should only happen if the world is pre-implementation of this API
 			case "0.1.7":
 			case "0.1.8":
 			case "0.1.9":
