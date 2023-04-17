@@ -44,9 +44,14 @@ export class PrimePCActor extends Actor
 		}
 	}
 
+	_onCreate(data, options, userId)
+	{
+		console.log(`${this.id} - _onCreate(data, options, userId): ${this.name}`, data, options, userId);
+	}
+
 	_onUpdate(data, options, userId)
 	{
-		//console.log(`Actor update: ${this.name}`,data, options, userId)
+		// console.log(`${this.id} - _onUpdate(data, options, userId): ${this.name}`, data, options, userId);
 	}
 
 	/**
@@ -54,6 +59,7 @@ export class PrimePCActor extends Actor
 	 */
 	async _prepareCharacterData(actorData)
 	{
+		// console.log(`${this.id} - _prepareCharacterData()`);
 		const actorSystemData = actorData.system;
 
 		// If the actor lacks an ID, then it's in the process of being created
@@ -64,7 +70,8 @@ export class PrimePCActor extends Actor
 		{
 			await this._prepareCharacterDataV2(actorSystemData, actorData);
 			// This forces a save for the upgrade set in "_checkV2CharacterUpgrade()" - we can't update in there as we're still being created.
-			this.update({...actorData});
+			// console.log(`${this.id} - _prepareCharacterData()`);
+			await this.update({...actorData});
 		}
 
 		const primeCost = this.getTotalCost(actorSystemData.primes);
@@ -84,11 +91,12 @@ export class PrimePCActor extends Actor
 
 	async _prepareCharacterDataV2(data, actorData)
 	{
+		// console.log(`${this.id} - _prepareCharacterDataV2()`);
 		const primesStatPromise = this._getStatsObjects(actorData.items, "prime");
 		const refinementsStatPromise = this._getStatsObjects(actorData.items, "refinement");
 
         Promise.all([primesStatPromise, refinementsStatPromise]).then(([primesStatData, refinementsStatData]) => {
-			console.log("Primes and refinements created, about to add to actor. Remaining primes / refinements: ", data.primes, data.refinements);
+			// console.log("Primes and refinements created, about to add to actor. Remaining primes / refinements: ", data.primes, data.refinements);
 
 			// Trigger checking for any missing stats here? Probably not, no custom ones possible with v1.
 
@@ -489,6 +497,7 @@ export class PrimePCActor extends Actor
 
 	async _getStatsObjects(items, statType)
 	{
+		// console.log(`${this.id} - _getStatsObjects()`);
 		let matchingStatItems = {};
 		let statItem = null;
 		let atLeastOneStatFound = false;	// If we've found one prime, then the other stats are on their way asyncronously.
@@ -515,6 +524,7 @@ export class PrimePCActor extends Actor
 
 	async _getStatObjectsFromWorld(statType)
 	{
+		// console.log(`${this.id} - _getStatObjectsFromWorld()`);
 		const currActor = this;
 		let v1LocalisationTable = null;
 
@@ -547,13 +557,18 @@ export class PrimePCActor extends Actor
 					instancedItems[statItem.itemID] = statItem;
 				}
 			});
+
 			if (actorItemsToCreate.length > 0)
 			{
 				if (!this.system.sessionState.statCreationRequest[statType])
 				{
-					console.log(`Requesting stat: '${statType}' for '${this.name}', this.system.sessionState.statCreationRequest: `, this.system.sessionState.statCreationRequest);
+					this._addNonMappedStatReportToNotes(statType);
+
+					// console.log(`${this.id} - _getStatObjectsFromWorld() - Requesting stat: '${statType}'`);
+					// console.log(`Requesting stat: '${statType}' for '${this.name}', this.system.sessionState.statCreationRequest: `);
 					this.system.sessionState.statCreationRequest[statType] = true;
-					const createdItemPromiseReturn = await this.createEmbeddedDocuments("Item", actorItemsToCreate)
+					const createdItemPromiseReturn = await this.createEmbeddedDocuments("Item", actorItemsToCreate);
+					// console.log(`${this.id} - _getStatObjectsFromWorld() - Request for '${statType}' complete. `);
 					return createdItemPromiseReturn;
 				}
 			}
@@ -580,6 +595,28 @@ export class PrimePCActor extends Actor
 		{
 			itemClone.system.value = this.system[`${statType}s`][localisationEntry.key].value;
 			delete this.system[`${statType}s`][localisationEntry.key];
+		}
+	}
+
+	_addNonMappedStatReportToNotes(statType)
+	{
+		if (!this.system[`${statType}s`])
+		{
+			return;
+		}
+
+		// console.log(`${this.id} - _addNonMappedStatReportToNotes(statType: '${statType}')`);
+
+		const unmappedStats = [];
+		for (const [key, stat] of Object.entries(this.system[`${statType}s`]))
+		{
+			unmappedStats.push(`${stat.title}: ${stat.value}`);
+		}
+
+		if (unmappedStats.length > 0)
+		{
+			const statReport = `<p>The following '${statType}' stat's where not mapped across as no equivalent could be found: <ul><li>${unmappedStats.join("</li><li>")}</li></ul></p>`;
+			this.system.notes += statReport;
 		}
 	}
 
