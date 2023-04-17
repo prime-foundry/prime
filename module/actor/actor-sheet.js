@@ -333,7 +333,8 @@ export class PrimePCActorSheet extends ActorSheet
 			actorClone.system.actionPoints.value = 0;
 		}
 
-		await this.actor.update(actorClone);
+		await this.actor.update({...actorClone});
+		this.render(true);
 	}
 
 	async updateInjuryTotal(event)
@@ -360,7 +361,8 @@ export class PrimePCActorSheet extends ActorSheet
 			actorClone.system.health.wounds.value = 0;
 		}
 
-		await this.actor.update(actorClone);
+		await this.actor.update({...actorClone});
+		this.render(true);
 	}
 
 	async updateInjuryDetail(event)
@@ -373,7 +375,7 @@ export class PrimePCActorSheet extends ActorSheet
 		const actorClone = JSON.parse(JSON.stringify(sheetData.actor));
 		actorClone.system.wounds["wound" + (injuryIndex - 1)] = value;
 
-		await this.actor.update(actorClone);
+		await this.actor.update({...actorClone});
 		this.render(true);
 	}
 
@@ -434,7 +436,7 @@ export class PrimePCActorSheet extends ActorSheet
 			actorClone.system.mind.insanities.value = 0;
 		}
 
-		await this.actor.update(actorClone);
+		await this.actor.update({...actorClone});
 		this.render(true);
 	}
 
@@ -448,7 +450,7 @@ export class PrimePCActorSheet extends ActorSheet
 		const actorClone = JSON.parse(JSON.stringify(sheetData.actor));
 		actorClone.system.insanities["insanity" + (insanityIndex - 1)] = value;
 
-		await this.actor.update(actorClone);
+		await this.actor.update({...actorClone});
 		this.render(true);
 	}
 
@@ -481,7 +483,7 @@ export class PrimePCActorSheet extends ActorSheet
 			actorClone.system.mind.insanities.value--;
 		}
 
-		await this.actor.update(actorClone);
+		await this.actor.update({...actorClone});
 		this.render(true);
 	}
 
@@ -722,7 +724,7 @@ export class PrimePCActorSheet extends ActorSheet
 			var itemsToSort = processedItems[itemType];
 		}
 		var itemOrder = {};
-		
+
 		if (itemsToSort)
 		{
 			// If we're going to be shrinking the array before the
@@ -758,7 +760,7 @@ export class PrimePCActorSheet extends ActorSheet
 			updateData.data = {}
 			updateData.data[itemType + "Order"] = itemOrder;
 
-			this.object.update(updateData)
+			this.object.update({...updateData});
 
 			//this.bulkUpdatingOwnedItems = false;
 			//this.render();
@@ -790,7 +792,7 @@ export class PrimePCActorSheet extends ActorSheet
 		{
 			const actorClone = JSON.parse(JSON.stringify(sheetData.actor));
 			actorClone.system.actionPoints.lastTotal = actorClone.system.actionPoints.value;
-			await this.actor.update(actorClone, {render: false});
+			await this.actor.update({...actorClone});
 		}
 	}
 }
