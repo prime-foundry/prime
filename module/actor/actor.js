@@ -30,7 +30,7 @@ export class PrimePCActor extends Actor
 
 	_checkV2CharacterUpgrade()
 	{
-		if (!this.isVersion2() && Object.keys(this.system.primes).length === 0)
+		if (!this.isVersion2() && Object.keys(this.system.primes).length === 0 && Object.keys(this.system.refinements).length === 0)
 		{
 			this.system.sheetVersion = "v2.0";
 		}
@@ -44,9 +44,23 @@ export class PrimePCActor extends Actor
 		}
 	}
 
-	_onCreate(data, options, userId)
+	_onCreate(actorData, options, userId)
 	{
-		console.log(`${this.id} - _onCreate(data, options, userId): ${this.name}`, data, options, userId);
+		console.log(`${this.id} - _onCreate(data, options, userId): ${this.name}`, actorData, options, userId);
+		this.postCreationTasks()
+
+	}
+
+	postCreationTasks()
+	{
+		const actorSystemData = this.system;
+		const primesStatPromise = this._getStatObjectsFromWorld("prime");
+		const refinementsStatPromise = this._getStatObjectsFromWorld("refinement");
+		Promise.all([primesStatPromise, refinementsStatPromise]).then(async ([primesStatData, refinementsStatData]) =>
+		{
+			this._setPrimeAndRefinementStats(actorSystemData, primesStatData, refinementsStatData);
+			await this.update({...this.toObject()});
+		});
 	}
 
 	_onUpdate(data, options, userId)
@@ -57,21 +71,14 @@ export class PrimePCActor extends Actor
 	/**
 	 * Prepare Character type specific data
 	 */
-	async _prepareCharacterData(actorData)
+	_prepareCharacterData(actorData)
 	{
 		// console.log(`${this.id} - _prepareCharacterData()`);
 		const actorSystemData = actorData.system;
 
-		// If the actor lacks an ID, then it's in the process of being created
-		// but doesn't yet exist. We'll create it's items on the next pass, otherwise
-		// we'll end up "duplicating" the world items as they'll be created with a
-		// null ID.
-		if (this.isVersion2() && this.id !== null)
+		if (this.isVersion2())
 		{
-			await this._prepareCharacterDataV2(actorSystemData, actorData);
-			// This forces a save for the upgrade set in "_checkV2CharacterUpgrade()" - we can't update in there as we're still being created.
-			// console.log(`${this.id} - _prepareCharacterData()`);
-			await this.update({...actorData});
+			this._prepareCharacterDataV2(actorSystemData, actorData)
 		}
 
 		const primeCost = this.getTotalCost(actorSystemData.primes);
@@ -89,30 +96,24 @@ export class PrimePCActor extends Actor
 		actorSystemData.xp.value = (actorSystemData.xp.initial + actorSystemData.xp.awarded) - actorSystemData.xp.spent;
 	}
 
-	async _prepareCharacterDataV2(data, actorData)
+	_prepareCharacterDataV2(actorSystemData, actorData)
 	{
 		// console.log(`${this.id} - _prepareCharacterDataV2()`);
-		const primesStatPromise = this._getStatsObjects(actorData.items, "prime");
-		const refinementsStatPromise = this._getStatsObjects(actorData.items, "refinement");
+		const primesStats = this._getStatsObjects(actorData.items, "prime");
+		const refinementsStats = this._getStatsObjects(actorData.items, "refinement");
+		this._setPrimeAndRefinementStats(actorSystemData, primesStats, refinementsStats);
+	}
 
-        Promise.all([primesStatPromise, refinementsStatPromise]).then(([primesStatData, refinementsStatData]) => {
-			// console.log("Primes and refinements created, about to add to actor. Remaining primes / refinements: ", data.primes, data.refinements);
-
-			// Trigger checking for any missing stats here? Probably not, no custom ones possible with v1.
-
-			if (data.primes)
-			{
-				data.primes = primesStatData;
-			}
-			if (data.refinements)
-			{
-				data.refinements = refinementsStatData;
-			}
-			// TODO: Is this required?
-			this.update(actorData.toObject());
-        });
-
-
+	_setPrimeAndRefinementStats(actorSystemData, primesStatData, refinementsStatData)
+	{
+		if (actorSystemData.primes && primesStatData)
+		{
+			actorSystemData.primes = primesStatData;
+		}
+		if (actorSystemData.refinements && refinementsStatData)
+		{
+			actorSystemData.refinements = refinementsStatData;
+		}
 	}
 
 	getCurrentOwners(whatPermissions)
@@ -495,7 +496,7 @@ export class PrimePCActor extends Actor
 		}
 	}
 
-	async _getStatsObjects(items, statType)
+	_getStatsObjects(items, statType)
 	{
 		// console.log(`${this.id} - _getStatsObjects()`);
 		let matchingStatItems = {};
@@ -513,13 +514,10 @@ export class PrimePCActor extends Actor
 
 		if (Object.keys(matchingStatItems).length === 0 && !atLeastOneStatFound)
 		{
-			//console.log("About to request world stats");
-			matchingStatItems = await this._getStatObjectsFromWorld(statType);
-			return matchingStatItems;
-			//console.log("World stats requested and cloned");
+			return false;
 		}
 
-		return Promise.resolve(matchingStatItems);
+		return matchingStatItems;
 	}
 
 	async _getStatObjectsFromWorld(statType)
