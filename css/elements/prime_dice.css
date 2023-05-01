@@ -91,17 +91,24 @@
     border: 1px solid black;
 }
 
+.diceMessage .prime-dice-group-inner-wrapper {
+    flex:1;
+    display: flex;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
 .diceMessage .prime-dice-group {
-    flex-basis: 35%;
-    max-width:35%;
+    flex-basis: 60%;
     display: flex;
     padding: 0 0.25em 0 0;
     justify-self: left;
+    flex-wrap: wrap;
 }
 
 .diceMessage .prime-dice-modifiers {
-    flex-basis: 33%;
-    max-width: 33%;
+    flex-basis: 40%;
+    max-width: 40%;
     padding: 0 0 0 0.25em;
     display: flex;
     flex-direction: column;
@@ -158,6 +165,7 @@
     text-align: center;
     font-weight: 600;
     font-size: 24px;
+    word-break: normal;
 }
 
 .prime-dice-group .prime-die-wrapper {
