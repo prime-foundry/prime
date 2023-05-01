@@ -350,7 +350,7 @@ export class PRIME_DICE_POPUP extends Application {
 
 
     selectActor(newActor) {
-        if (newActor.owner && this.currentActor != newActor) {
+        if (newActor.ownership && this.currentActor.id != newActor.id) {
             this.currentActor = newActor;
             this.sortedStats = this.currentActor.getTypeSortedPrimesAndRefinements();
             this.selectedPrimeValue = 0;
