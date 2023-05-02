@@ -3,6 +3,7 @@
         "browser": true,
         "es6": true
     },
+    "ignorePatterns": ["**/pseudo_code/*.js"],
     "extends": "eslint:recommended",
     "parserOptions": {
         "ecmaVersion": 2018,
