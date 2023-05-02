@@ -122,7 +122,7 @@ export class PrimePCActor extends Actor
 		let currUser;
 		for (var key in whatPermissions)
 		{
-			currUser = game.users.get(key)
+			currUser = game.users.get(key);
 			if (key != "default" && whatPermissions[key] == 3 && !currUser.isGM)
 			{
 				ownerNames.push(currUser.name);
@@ -169,7 +169,7 @@ export class PrimePCActor extends Actor
 	_getItems(typeFilter) {
 		if(typeFilter && typeFilter.length > 0) {
 			const typeFilterArr = Array.isArray(typeFilter) ? typeFilter : [typeFilter];
-			return this.items.filter((item) => typeFilterArr.includes(item.type))
+			return this.items.filter((item) => typeFilterArr.includes(item.type));
 		}
 		return this.items;
 	}
@@ -182,7 +182,7 @@ export class PrimePCActor extends Actor
 	getPrimes() {
 		let results;
 		if (this.isVersion2()) {
-			results = {}
+			results = {};
 			this._getItems('prime')
 				.map(this._getItemDataAsStat)
 				.forEach(item => {
@@ -253,7 +253,7 @@ export class PrimePCActor extends Actor
 		};
 		this._getItems(['prime' ,'refinement']).forEach((item) =>
 		{
-			let itemType = item.type
+			let itemType = item.type;
 			let statType = item.system.statType;
 			if (!sortedData[statType].title)
 			{
@@ -282,7 +282,7 @@ export class PrimePCActor extends Actor
 					primes: {},
 					refinements: {},
 					title: localisedTitle
-				}
+				};
 			}
 			sortedData[currEntry.type].primes[key] = currEntry;
 		}
@@ -307,7 +307,7 @@ export class PrimePCActor extends Actor
 
 	filterAndCloneItemsByType()
 	{
-		var itemClonesByTypes = {}
+		var itemClonesByTypes = {};
 
 		this.items.forEach(function(currItem, key, map)
 		{
@@ -332,13 +332,13 @@ export class PrimePCActor extends Actor
 		{
 			if (item.type == "action")
 			{
-				let actionType = item.system.type
+				let actionType = item.system.type;
 				if (!typeSortedActions[actionType])
 				{
 					typeSortedActions[actionType] = [];
 				}
 
-				var isAllowedForCharacter = this.isAllowedForCharacter(item)
+				var isAllowedForCharacter = this.isAllowedForCharacter(item);
 				if (isAllowedForCharacter)
 				{
 					item.itemID = item._id;
@@ -379,7 +379,7 @@ export class PrimePCActor extends Actor
 
 	checkPerkActionUnlock(whatPerk, whatAction)
 	{
-		var count = 0
+		var count = 0;
 		while (whatPerk.effects && count < whatPerk.effects.length)
 		{
 			let currPerkEffect = whatPerk.effects[count];
@@ -485,7 +485,7 @@ export class PrimePCActor extends Actor
 		this.system.ward.stability.value = this.getStatBonusesFromItems("ward.stability.max");
 		this.system.ward.stability.max = this.getStatBonusesFromItems("ward.stability.max");
 
-		var initialMaxValue = this.system.ward.psyche.max
+		var initialMaxValue = this.system.ward.psyche.max;
 		this.system.ward.psyche.max = this.getStatBonusesFromItems("ward.psyche.max");
 
 		// If they were the same initially or the value is now higher than the max, adjust accordingly.
@@ -537,7 +537,7 @@ export class PrimePCActor extends Actor
 			v1LocalisationTable = PrimeTables.getRefinementKeysAndTitles();
 		}
 
-		let actorItemsToCreate = []
+		let actorItemsToCreate = [];
 		let instancedItems = {};
 		let statItem = null;
 		if (ItemDirectory && ItemDirectory.collection)	// Sometimes not defined when integrated.
@@ -579,7 +579,7 @@ export class PrimePCActor extends Actor
 		}
 		else
 		{
-			console.warn("getStatObjectsFromWorld() was called to soon. The world (and the items) weren't ready yet.")
+			console.warn("getStatObjectsFromWorld() was called to soon. The world (and the items) weren't ready yet.");
 		}
 		return Promise.resolve(false);
 	}
@@ -670,7 +670,7 @@ export class PrimePCActor extends Actor
 			"itemBasedStat" : true,
 			"customisableStatClass" : itemData.system.customisable ? "customisableStat" : "",
 			"defaultItemClass" : itemData.system.default ? "defaultStat" : "expandedStat",
-		}
+		};
 
 		// TODO: Is this legacy? Can't see it on the new data shape.
 		if (itemData.related)
@@ -741,7 +741,7 @@ export class PrimePCActor extends Actor
 
 		for (var itemType in ownedItemClones)
 		{
-			var currItemClones = ownedItemClones[itemType]
+			var currItemClones = ownedItemClones[itemType];
 			if (ownedItemClones && currItemClones)
 			{
 				var count = 0;
@@ -780,7 +780,7 @@ export class PrimePCActor extends Actor
 			count++;
 		}
 
-		return itemStateAdjustments
+		return itemStateAdjustments;
 	}
 
 	static primeCost(num)

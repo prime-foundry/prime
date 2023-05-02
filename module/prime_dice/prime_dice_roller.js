@@ -63,7 +63,7 @@ export class PRIME_DICE_ROLLER {
 	async createContent(diceResult) {
 		const handlebarsTemplate = await getTemplate("systems/prime/templates/dice/prime_result.html");
 		const messageContent = handlebarsTemplate(diceResult);
-		return messageContent
+		return messageContent;
 	}
 
 	static onRenderChatMessage(message, html, data) {
@@ -83,13 +83,13 @@ Handlebars.registerHelper('primeDiceClass', function (value) {
 		return "misfortunePrimeRoll lowPrimeRoll";
 	}
 	if (value === 20) {
-		return "fortunePrimeRoll highPrimeRoll"
+		return "fortunePrimeRoll highPrimeRoll";
 	}
 	if (value < 9) {
 		return "lowPrimeRoll";
 	}
 	if (value > 12) {
-		return "highPrimeRoll"
+		return "highPrimeRoll";
 	}
 	return "";
 });

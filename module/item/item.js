@@ -72,7 +72,7 @@ export class PrimeItem extends Item
 			weaponData.system.ammo.type = PrimeTables.getTitleFromTableByKey(weaponData.system.ammo.type, "items.weapons.ammoTypes");
 		}
 
-		return weaponData
+		return weaponData;
 	}
 
 	processArmour(armourData)
@@ -116,7 +116,7 @@ export class PrimeItem extends Item
 				{
 					if (currLookupItem.description)
 					{
-						var titleText = "<span title='" + currLookupItem.description + "' class='hasTooltip'>" + currLookupItem.title + "</span>"
+						var titleText = "<span title='" + currLookupItem.description + "' class='hasTooltip'>" + currLookupItem.title + "</span>";
 					}
 					else
 					{
@@ -129,10 +129,10 @@ export class PrimeItem extends Item
 						{
 							description += currLookupItem.source.system.settingDescription;
 						}
-						var titleText = "<span title='" + description + "' class='hasTooltip'>" + currLookupItem.title + "</span>"
+						var titleText = "<span title='" + description + "' class='hasTooltip'>" + currLookupItem.title + "</span>";
 					}
 
-					titlesArray.push(titleText)
+					titlesArray.push(titleText);
 				}
 				count++;
 			}
@@ -147,7 +147,7 @@ export class PrimeItem extends Item
 
 	getEffectData(effectType)
 	{
-		var targetEffect = null
+		var targetEffect = null;
 		this.effects.forEach((effect, key, effects) =>
 		{
 			if (effect.flags.effectType == effectType)

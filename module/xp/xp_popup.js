@@ -1,7 +1,7 @@
 
 export class XP_POPUP extends Application {
 	constructor(...args) {
-		super(...args)
+		super(...args);
 		game.users.apps.push(this);
 	}
 
@@ -34,7 +34,7 @@ export class XP_POPUP extends Application {
 			});
 		const users = game.users.entities;
 
-		actors
+		actors;
 		return {
 			actors,
 			users

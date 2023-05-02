@@ -34,7 +34,7 @@ var primeHandlebarsPartialsPaths =
 
 	"itemCardAction": "systems/prime/templates/item/partials/cards/item-card-action.html",
 	"itemCardPerk": "systems/prime/templates/item/partials/cards/item-card-perk.html"
-}
+};
 
 export class PrimeHandlebarsPartials
 {
@@ -94,7 +94,7 @@ Handlebars.registerHelper('checkboxGroupState', function (v1)
 	{
 		return "expanded";
 	}
-	return "collapsed"
+	return "collapsed";
 });
 
 Handlebars.registerHelper('for', function(from, to, incr, block) {
@@ -182,7 +182,7 @@ Handlebars.registerHelper('addStateClasses', function (pointIndex, basePointData
 {
 	const current = basePointData.value;
 	const lastTotal = basePointData.lastTotal;
-	var classes = []
+	var classes = [];
 
 	if (pointIndex <= current)
 	{
@@ -223,7 +223,7 @@ Handlebars.registerHelper('cropToLength', function(value, cropLength)
 {
 	if (!cropLength)
 	{
-		cropLength = 10
+		cropLength = 10;
 	}
 
 	if (value.length > cropLength)

@@ -13,17 +13,17 @@ export class PrimeTables
 	{
 		var pathSplit = path.split(".");
 		var count = 0;
-		var currTable = game.system.template.Tables
+		var currTable = game.system.template.Tables;
 		while (count < pathSplit.length)
 		{
 			var currPathSplit = pathSplit[count];
 			if (currTable[currPathSplit])
 			{
-				currTable = currTable[currPathSplit]
+				currTable = currTable[currPathSplit];
 			}
 			else
 			{
-				console.error("ERROR: Unable to find the table reference. path: '" + path + "', failed portion: '" + currPathSplit + "'. Base table data: ", game.system.template.Tables)
+				console.error("ERROR: Unable to find the table reference. path: '" + path + "', failed portion: '" + currPathSplit + "'. Base table data: ", game.system.template.Tables);
 			}
 			count++;
 		}
@@ -138,7 +138,7 @@ export class PrimeTables
 		var actions = this.getItemKeysAndTitlesByType("action");
 		if (omitDefaultActions || allowedActionTypesArray)
 		{
-			var returnActions = []
+			var returnActions = [];
 			var count = 0;
 			while (count < actions.length)
 			{
@@ -156,7 +156,7 @@ export class PrimeTables
 
 	static getItemKeysAndTitlesByType(typeFilter)
 	{
-		var matchingItems = []
+		var matchingItems = [];
 		if (ItemDirectory && ItemDirectory.collection)	// Sometimes not defined when interegated.
 		{
 			ItemDirectory.collection.forEach((item, key, items) =>

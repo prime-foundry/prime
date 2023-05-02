@@ -7,7 +7,7 @@ export class PrimeMigration_0_3_1_to_0_4_0
 
 		if (success)
 		{
-			const message = "Migration to version 0.4.0 successful, goats were herded."
+			const message = "Migration to version 0.4.0 successful, goats were herded.";
 			ui.notifications.info(message);
 			console.log(message);
 			game.settings.set("prime", "notAutoIncrementedBeforeICanCheckItWorldVersionNumber", game.system.version);
