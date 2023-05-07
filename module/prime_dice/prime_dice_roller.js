@@ -1,9 +1,9 @@
 export class PRIME_DICE_ROLLER {
 
 	async rollPrimeDice(diceParams) {
-		
-		const currentRoll = new Roll('1dp');
-		currentRoll.evaluate();
+
+		const currentRoll = await new Roll('1dp');
+		await currentRoll.evaluate({async: true});
 		const diceResult = this.getDiceResult(currentRoll, diceParams);
 		const messageContent = await this.createContent(diceResult);
 		const alias =  `${diceResult.user}: ${diceResult.actor}`;
@@ -18,7 +18,7 @@ export class PRIME_DICE_ROLLER {
 		};
 		data.roll = currentRoll;
 		let options = {rollMode: diceParams.rollMode};
-		CONFIG.ChatMessage.entityClass.create(data, options);
+		CONFIG.ChatMessage.documentClass.create(data, options);
 	}
 
 	getDiceResult(roll, diceParams) {
@@ -27,7 +27,7 @@ export class PRIME_DICE_ROLLER {
 			actor: diceParams.actor.name,
 			user: diceParams.user.name,
 			actorImg: diceParams.actor.img,
-			userColour: chroma(diceParams.user.data.color).darken(3).hex(),
+			userColour: chroma(diceParams.user.color).darken(3).hex(),
 			diceRolls:  roll.dice[0].results,
 			totalDice: roll.total,
 			total: diceParams.total + roll.total,
