@@ -59,7 +59,7 @@ export class PrimePCActor extends Actor
 		Promise.all([primesStatPromise, refinementsStatPromise]).then(async ([primesStatData, refinementsStatData]) =>
 		{
 			this._setPrimeAndRefinementStats(actorSystemData, primesStatData, refinementsStatData);
-			await this.update({...this.toObject()});
+			await this.update({system: actorSystemData});
 		});
 	}
 
