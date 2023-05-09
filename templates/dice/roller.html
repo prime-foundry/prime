@@ -5,7 +5,7 @@
 			{{#ifCond actors.length ">" 1}}
 			<select id="primeDiceRollerActorSelect">
 				{{#each actors}}
-				<option value="{{this.id}}">{{this.system.name}}</option>
+				<option value="{{this.id}}">{{this.name}}</option>
 				{{/each}}
 			</select>
 			{{else}}

@@ -2,26 +2,28 @@
 	<div class="prime-dice-actor"  >
 		<img class="actorPortrait" style="border-color: {{this.userColour}};" src="{{this.actorImg}}" />
 	</div>
-	<div class="prime-dice-group">
-		{{#each diceRolls}}
-		<div class="prime-die-wrapper {{primeDiceClass this.result}}">
-			<div class="prime-die">
-				<i class="fas fa-dice-d20"></i>
-				<span class="primeDieModifierOuter">
-					<span class="primeDieModifierInner">{{this.primeModifier}}</span>
-				</span>
+	<div class="prime-dice-group-inner-wrapper">
+		<div class="prime-dice-group">
+			{{#each diceRolls}}
+			<div class="prime-die-wrapper {{primeDiceClass this.result}}">
+				<div class="prime-die">
+					<i class="fas fa-dice-d20"></i>
+					<span class="primeDieModifierOuter">
+						<span class="primeDieModifierInner">{{this.primeModifier}}</span>
+					</span>
+				</div>
+				<div class="primeResultRaw">({{this.result}})</div>
 			</div>
-			<div class="primeResultRaw">({{this.result}})</div>
+			{{/each}}
 		</div>
-		{{/each}}
-	</div>
-	<div class="prime-dice-modifiers">
-		{{#each modifiers}}
-		<div class="prime-dice-modifier">
-			<span class="name">{{this.name}}</span>
-			<span class="value">({{this.value}})</span>
+		<div class="prime-dice-modifiers">
+			{{#each modifiers}}
+			<div class="prime-dice-modifier">
+				<span class="name">{{this.name}}</span>
+				<span class="value">({{this.value}})</span>
+			</div>
+			{{/each}}
 		</div>
-		{{/each}}
 	</div>
 	<div class="prime-dice-total {{primeDiceModifierClass total}}">
 		<span class="value">{{total}}</span>

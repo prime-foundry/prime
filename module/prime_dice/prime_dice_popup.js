@@ -11,7 +11,7 @@ export class PRIME_DICE_POPUP extends Application {
     selectedRefinementValue = 0;
     doublePrime = false;
     autoroll = false;
-    autoclose = true;
+    autoclose = false;
     controlTokenHookId = Hooks.on("controlToken", this.selectTokenFn());
 
     constructor(...args) {
@@ -49,7 +49,7 @@ export class PRIME_DICE_POPUP extends Application {
     async getData() {
         // Return data to the template
         const actors = Array.from(game.actors.values())
-            .filter(actor => actor.owner)
+            // .filter(actor => actor.ownership.default !== 0)
             .sort(function (actor1, actor2) {
                 if (actor1.isNPC() ^ actor2.isNPC()) {
                     if (actor1.isNPC()) {
@@ -350,7 +350,7 @@ export class PRIME_DICE_POPUP extends Application {
 
 
     selectActor(newActor) {
-        if (newActor.owner && this.currentActor != newActor) {
+        if (newActor.ownership && this.currentActor.id != newActor.id) {
             this.currentActor = newActor;
             this.sortedStats = this.currentActor.getTypeSortedPrimesAndRefinements();
             this.selectedPrimeValue = 0;
