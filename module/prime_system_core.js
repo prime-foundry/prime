@@ -8,7 +8,7 @@ import { PrimeSettingsManager } from "./prime_settings.js";
 import { PrimeHandlebarsPartials } from "./prime_handlebars.js";
 import { PrimeDataMigrationManager } from "./migrations/prime_data_migrations_manager.js";
 
-Hooks.once('init', async function ()
+Hooks.once("init", async function ()
 {
 
     game.prime = {
@@ -37,12 +37,12 @@ Hooks.once('init', async function ()
     Items.registerSheet("prime", PrimeItemSheet, { makeDefault: true });
 
     // If you need to add Handlebars helpers, here are a few useful examples:
-    Handlebars.registerHelper('concat', function ()
+    Handlebars.registerHelper("concat", function ()
     {
-        var outStr = '';
+        var outStr = "";
         for (var arg in arguments)
         {
-            if (typeof arguments[arg] != 'object')
+            if (typeof arguments[arg] != "object")
             {
                 outStr += arguments[arg];
             }
@@ -50,7 +50,7 @@ Hooks.once('init', async function ()
         return outStr;
     });
 
-    Handlebars.registerHelper('toLowerCase', function (str)
+    Handlebars.registerHelper("toLowerCase", function (str)
     {
         return str.toLowerCase();
     });

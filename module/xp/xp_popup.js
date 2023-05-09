@@ -53,7 +53,7 @@ export class XP_POPUP extends Application {
     }
 
     doAward(event) {
-        this.element.find('.xpInput')
+        this.element.find(".xpInput")
             .each(function (index) {
                 const input = $(this);
                 const data = input.data();
@@ -71,7 +71,7 @@ export class XP_POPUP extends Application {
                     (async () => await actor.update(dataUpdate))();
                 }
             });
-        this.element.find('.soulInput')
+        this.element.find(".soulInput")
             .each(function (index) {
                 const input = $(this);
                 const data = input.data();

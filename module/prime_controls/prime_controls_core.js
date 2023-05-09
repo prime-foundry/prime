@@ -27,7 +27,7 @@ Hooks.on("getSceneControlButtons", (controls) => {
 
 Hooks.on("renderSceneControls", () => {
 
-    let primeRoll = $('li[data-tool="prime-roll"].control-tool');
+    let primeRoll = $("li[data-tool=\"prime-roll\"].control-tool");
     primeRoll.addClass("prime-control prime-control-roll");
     let rollOffset = primeRoll.offset();
     let rollWidth = primeRoll.width();
@@ -39,7 +39,7 @@ Hooks.on("renderSceneControls", () => {
     });
 
     
-    let awardXP = $('li[data-tool="prime-xp"].control-tool');
+    let awardXP = $("li[data-tool=\"prime-xp\"].control-tool");
     awardXP.addClass("prime-control prime-control-xp");
     
     let xpOffset = awardXP.offset();

@@ -52,7 +52,7 @@ export class PrimeTables
                 var translation = game.i18n.localize(whatData[key]);
                 whatData[key] = translation;
             }
-            if (typeof whatData[key] === 'object' && whatData[key] !== null)
+            if (typeof whatData[key] === "object" && whatData[key] !== null)
             {
                 this.addTranslations(whatData[key]);
             }

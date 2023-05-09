@@ -44,5 +44,5 @@ export default class PrimeDie extends DiceTerm {
     }
 }
 /** @override */
-PrimeDie.DENOMINATION = 'p';
-CONFIG.Dice.terms['p'] = PrimeDie;
+PrimeDie.DENOMINATION = "p";
+CONFIG.Dice.terms["p"] = PrimeDie;

@@ -171,7 +171,7 @@ export class PrimeItem extends Item
             break;
         default:
             console.warn("Unknown weapon type of '" + primaryType + "' found in getAttackIconHTML().");
-            var attackIcon = '<i class="game-icon game-icon-fist icon-md"></i>';
+            var attackIcon = "<i class=\"game-icon game-icon-fist icon-md\"></i>";
             break;
         }
         return attackIcon;
@@ -182,23 +182,23 @@ export class PrimeItem extends Item
         switch (weaponType)
         {
         case "blunt":
-            var attackIcon = '<i class="game-icon game-icon-flanged-mace icon-md"></i>';
+            var attackIcon = "<i class=\"game-icon game-icon-flanged-mace icon-md\"></i>";
             break;
         case "sword":
-            var attackIcon = '<i class="game-icon game-icon-bloody-sword icon-md"></i>';
+            var attackIcon = "<i class=\"game-icon game-icon-bloody-sword icon-md\"></i>";
             break;
         case "dagger":
-            var attackIcon = '<i class="game-icon game-icon-curvy-knife icon-md"></i>';
+            var attackIcon = "<i class=\"game-icon game-icon-curvy-knife icon-md\"></i>";
             break;
         case "axe":
-            var attackIcon = '<i class="game-icon game-icon-sharp-axe icon-md"></i>';
+            var attackIcon = "<i class=\"game-icon game-icon-sharp-axe icon-md\"></i>";
             break;
         case "pole":
-            var attackIcon = '<i class="game-icon game-icon-trident icon-md"></i>';
+            var attackIcon = "<i class=\"game-icon game-icon-trident icon-md\"></i>";
             break;
         default:
             console.warn("Unknown weapon type of '" + weaponType + "' found in getAttackIconHTML().");
-            var attackIcon = '<i class="game-icon game-icon-fist icon-md"></i>';
+            var attackIcon = "<i class=\"game-icon game-icon-fist icon-md\"></i>";
             break;
         }
         return attackIcon;
@@ -209,20 +209,20 @@ export class PrimeItem extends Item
         switch (weaponType)
         {
         case "bow":
-            var attackIcon = '<i class="game-icon game-icon-pocket-bow icon-md"></i>';
+            var attackIcon = "<i class=\"game-icon game-icon-pocket-bow icon-md\"></i>";
             break;
         case "mechanical":
-            var attackIcon = '<i class="game-icon game-icon-crossbow icon-md"></i>';
+            var attackIcon = "<i class=\"game-icon game-icon-crossbow icon-md\"></i>";
             break;
         case "thrown":
-            var attackIcon = '<i class="game-icon game-icon-thrown-spear icon-md"></i>';
+            var attackIcon = "<i class=\"game-icon game-icon-thrown-spear icon-md\"></i>";
             break;
         case "blowpipe":
-            var attackIcon = '<i class="game-icon game-icon-straight-pipe icon-md"></i>';
+            var attackIcon = "<i class=\"game-icon game-icon-straight-pipe icon-md\"></i>";
             break;
         default:
             console.warn("Unknown weapon type of '" + weaponType + "' found in getAttackIconHTML().");
-            var attackIcon = '<i class="game-icon game-icon-fist icon-md"></i>';
+            var attackIcon = "<i class=\"game-icon game-icon-fist icon-md\"></i>";
             break;
         }
         return attackIcon;

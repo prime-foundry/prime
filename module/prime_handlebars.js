@@ -49,20 +49,20 @@ export class PrimeHandlebarsPartials
     }
 }
 
-Handlebars.registerHelper('convertHTMLForTitle', function (html, maxChars)
+Handlebars.registerHelper("convertHTMLForTitle", function (html, maxChars)
 {
     if (html)
     {
-        html = html.replace(/\&nbsp;/ig, '');
-        html = html.replace(/<style([\s\S]*?)<\/style>/gi, '');
-        html = html.replace(/<script([\s\S]*?)<\/script>/gi, '');
-        html = html.replace(/<\/div>/ig, '\n');
-        html = html.replace(/<\/li>/ig, '\n');
-        html = html.replace(/<li>/ig, '  *  ');
-        html = html.replace(/<\/ul>/ig, '\n');
-        html = html.replace(/<\/p>/ig, '\n');
+        html = html.replace(/\&nbsp;/ig, "");
+        html = html.replace(/<style([\s\S]*?)<\/style>/gi, "");
+        html = html.replace(/<script([\s\S]*?)<\/script>/gi, "");
+        html = html.replace(/<\/div>/ig, "\n");
+        html = html.replace(/<\/li>/ig, "\n");
+        html = html.replace(/<li>/ig, "  *  ");
+        html = html.replace(/<\/ul>/ig, "\n");
+        html = html.replace(/<\/p>/ig, "\n");
         html = html.replace(/<br\s*[\/]?>/gi, "\n");
-        html = html.replace(/(<([^>]+)>)/ig, '');
+        html = html.replace(/(<([^>]+)>)/ig, "");
 
         if (maxChars && html.length > maxChars)
         {
@@ -73,7 +73,7 @@ Handlebars.registerHelper('convertHTMLForTitle', function (html, maxChars)
 });
 
 
-Handlebars.registerHelper('getStatMin', function (whatStat, options)
+Handlebars.registerHelper("getStatMin", function (whatStat, options)
 {
     var statMinTable = PrimeTables.cloneTables("actor.actorStatMinimums");
     if (statMinTable[whatStat] || statMinTable[whatStat] === 0)
@@ -83,12 +83,12 @@ Handlebars.registerHelper('getStatMin', function (whatStat, options)
     return 1;
 });
 
-Handlebars.registerHelper('isNotLastItem', function (v1, v2, options)
+Handlebars.registerHelper("isNotLastItem", function (v1, v2, options)
 {
     return (v1 < (v2 - 1)) ? options.fn(this) : options.inverse(this);
 });
 
-Handlebars.registerHelper('checkboxGroupState', function (v1)
+Handlebars.registerHelper("checkboxGroupState", function (v1)
 {
     if (v1)
     {
@@ -97,42 +97,42 @@ Handlebars.registerHelper('checkboxGroupState', function (v1)
     return "collapsed";
 });
 
-Handlebars.registerHelper('for', function(from, to, incr, block) {
-    var accum = '';
+Handlebars.registerHelper("for", function(from, to, incr, block) {
+    var accum = "";
     for(var i = from; i <= to; i += incr)
         accum += block.fn(i);
     return accum;
 });
 
-Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
+Handlebars.registerHelper("ifCond", function (v1, operator, v2, options) {
 
     switch (operator) {
-    case '==':
+    case "==":
         return (v1 == v2) ? options.fn(this) : options.inverse(this);
-    case '===':
+    case "===":
         return (v1 === v2) ? options.fn(this) : options.inverse(this);
-    case '!=':
+    case "!=":
         return (v1 != v2) ? options.fn(this) : options.inverse(this);
-    case '!==':
+    case "!==":
         return (v1 !== v2) ? options.fn(this) : options.inverse(this);
-    case '<':
+    case "<":
         return (v1 < v2) ? options.fn(this) : options.inverse(this);
-    case '<=':
+    case "<=":
         return (v1 <= v2) ? options.fn(this) : options.inverse(this);
-    case '>':
+    case ">":
         return (v1 > v2) ? options.fn(this) : options.inverse(this);
-    case '>=':
+    case ">=":
         return (v1 >= v2) ? options.fn(this) : options.inverse(this);
-    case '&&':
+    case "&&":
         return (v1 && v2) ? options.fn(this) : options.inverse(this);
-    case '||':
+    case "||":
         return (v1 || v2) ? options.fn(this) : options.inverse(this);
     default:
         return options.inverse(this);
     }
 });
 
-Handlebars.registerHelper('itemSelected', function (pointIndex, currentPoints)
+Handlebars.registerHelper("itemSelected", function (pointIndex, currentPoints)
 {
     if (pointIndex <= currentPoints)
     {
@@ -141,7 +141,7 @@ Handlebars.registerHelper('itemSelected', function (pointIndex, currentPoints)
     return "";
 });
 
-Handlebars.registerHelper('itemEnabled', function (pointIndex, currentPoints)
+Handlebars.registerHelper("itemEnabled", function (pointIndex, currentPoints)
 {
     if (pointIndex <= currentPoints)
     {
@@ -150,7 +150,7 @@ Handlebars.registerHelper('itemEnabled', function (pointIndex, currentPoints)
     return "disabled";
 });
 
-Handlebars.registerHelper('disabledIf', function (value)
+Handlebars.registerHelper("disabledIf", function (value)
 {
     if (value)
     {
@@ -158,7 +158,7 @@ Handlebars.registerHelper('disabledIf', function (value)
     }
     return "";
 });
-Handlebars.registerHelper('disabledClassIf', function (value)
+Handlebars.registerHelper("disabledClassIf", function (value)
 {
     if (value)
     {
@@ -169,7 +169,7 @@ Handlebars.registerHelper('disabledClassIf', function (value)
 
 
 
-Handlebars.registerHelper('itemChecked', function (checkedState)
+Handlebars.registerHelper("itemChecked", function (checkedState)
 {
     if (checkedState)
     {
@@ -178,7 +178,7 @@ Handlebars.registerHelper('itemChecked', function (checkedState)
     return "";
 });
 
-Handlebars.registerHelper('addStateClasses', function (pointIndex, basePointData)
+Handlebars.registerHelper("addStateClasses", function (pointIndex, basePointData)
 {
     const current = basePointData.value;
     const lastTotal = basePointData.lastTotal;
@@ -219,7 +219,7 @@ Handlebars.registerHelper("humanIndex", function(value, options)
     return parseInt(value) + 1;
 });
 
-Handlebars.registerHelper('cropToLength', function(value, cropLength)
+Handlebars.registerHelper("cropToLength", function(value, cropLength)
 {
     if (!cropLength)
     {
@@ -228,7 +228,7 @@ Handlebars.registerHelper('cropToLength', function(value, cropLength)
 
     if (value.length > cropLength)
     {
-        return value.substring(0, cropLength) + '...';
+        return value.substring(0, cropLength) + "...";
     }
     return value;
 });
