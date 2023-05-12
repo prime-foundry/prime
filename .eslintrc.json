@@ -4,7 +4,9 @@
         "es6": true
     },
     "ignorePatterns": ["pseudo_code/*.js", "lib/*.js"],
-    "extends": "eslint:recommended",
+    "extends": [
+        "eslint:recommended"
+    ],
     "parserOptions": {
         "ecmaVersion": 2018,
         "sourceType": "module"
@@ -25,6 +27,11 @@
         "semi": [
             "error",
             "always"
-        ]
+        ],
+        "brace-style": [
+            "error",
+            "allman"
+        ],
+        "max-len": [1, 120]
     }
 }
