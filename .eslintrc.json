@@ -3,6 +3,27 @@
         "browser": true,
         "es6": true
     },
+    "globals": {
+        "$": "readonly",
+        "Application": "readonly",
+        "ui": "readonly",
+        "mergeObject": "readonly",
+        "TextEditor": "readonly",
+        "Hooks": "readonly",
+        "CONFIG": "readonly",
+        "game": "readonly",
+        "Actor": "readonly",
+        "Actors": "readonly",
+        "ActorSheet": "readonly",
+        "Items": "readonly",
+        "ItemSheet": "readonly",
+        "ItemDirectory": "readonly",
+        "ChatMessage": "readonly",
+        "DiceTerm": "readonly",
+        "Roll": "readonly",
+        "Handlebars": "readonly",
+        "getTemplate": "readonly"
+    },
     "ignorePatterns": ["pseudo_code/*.js", "lib/*.js"],
     "extends": [
         "eslint:recommended"
@@ -32,6 +53,6 @@
             "error",
             "allman"
         ],
-        "max-len": [1, 120]
+        "max-len": [1, 150]
     }
 }
