@@ -1,7 +1,7 @@
-export class PRIME_DICE_ROLLER 
+export class PRIME_DICE_ROLLER
 {
 
-    async rollPrimeDice(diceParams) 
+    async rollPrimeDice(diceParams)
     {
 
         const currentRoll = await new Roll("1dp");
@@ -11,19 +11,19 @@ export class PRIME_DICE_ROLLER
         const alias =  `${diceResult.user}: ${diceResult.actor}`;
         const speaker = ChatMessage.getSpeaker({ actor : diceParams.actor, alias });
         let data =
-		{
-		    speaker,
-		    user: game.user._id,
-		    type: CONST.CHAT_MESSAGE_TYPES.ROLL,
-		    sound: CONFIG.sounds.dice,
-		    content: messageContent,
-		};
+        {
+            speaker,
+            user: game.user._id,
+            type: CONST.CHAT_MESSAGE_TYPES.ROLL,
+            sound: CONFIG.sounds.dice,
+            content: messageContent,
+        };
         data.roll = currentRoll;
         let options = {rollMode: diceParams.rollMode};
         CONFIG.ChatMessage.documentClass.create(data, options);
     }
 
-    getDiceResult(roll, diceParams) 
+    getDiceResult(roll, diceParams)
     {
         return {
             actorID: diceParams.actor.id,
@@ -38,27 +38,27 @@ export class PRIME_DICE_ROLLER
             modifiers: this.getDiceModifiers(diceParams)
         };
     }
-    getDiceModifiers(diceParams) 
+    getDiceModifiers(diceParams)
     {
         let modifiers = [];
 
-        if (diceParams.prime) 
+        if (diceParams.prime)
         {
             const prime = diceParams.actor.getPrimes()[diceParams.prime.key];
             const localizedPrime = game.i18n.localize(prime.title);
             modifiers.push({name:localizedPrime, value:diceParams.prime.value});
-            if (diceParams.prime.doubled) 
+            if (diceParams.prime.doubled)
             {
                 modifiers.push({name:localizedPrime, value:diceParams.prime.value});
             }
-            else if (diceParams.refinement) 
+            else if (diceParams.refinement)
             {
                 const refinement = diceParams.actor.getRefinements()[diceParams.refinement.key];
                 const localizedRefinement = game.i18n.localize(refinement.title);
                 modifiers.push({name:localizedRefinement, value:diceParams.refinement.value});
             }
         }
-        else if (diceParams.refinement) 
+        else if (diceParams.refinement)
         {
             const refinement = diceParams.actor.getRefinements()[diceParams.refinement.key];
             const localizedRefinement = game.i18n.localize(refinement.title);
@@ -71,19 +71,19 @@ export class PRIME_DICE_ROLLER
         return modifiers;
     }
 
-    async createContent(diceResult) 
+    async createContent(diceResult)
     {
         const handlebarsTemplate = await getTemplate("systems/prime/templates/dice/prime_result.html");
         const messageContent = handlebarsTemplate(diceResult);
         return messageContent;
     }
 
-    static onRenderChatMessage(message, html, data) 
+    static onRenderChatMessage(message, html, data)
     {
         if(message.speaker && message.speaker.actor)
         {
             const actorID = message.speaker.actor;
-            html.find(".actorPortrait").click((() => 
+            html.find(".actorPortrait").click((() =>
             {
                 const actors = CONFIG.Actor.collection.instance;
                 const actor = actors.get(actorID);
@@ -93,40 +93,40 @@ export class PRIME_DICE_ROLLER
     }
 }
 
-Handlebars.registerHelper("primeDiceClass", function (value) 
+Handlebars.registerHelper("primeDiceClass", function (value)
 {
-    if (value === 1) 
+    if (value === 1)
     {
         return "misfortunePrimeRoll lowPrimeRoll";
     }
-    if (value === 20) 
+    if (value === 20)
     {
         return "fortunePrimeRoll highPrimeRoll";
     }
-    if (value < 9) 
+    if (value < 9)
     {
         return "lowPrimeRoll";
     }
-    if (value > 12) 
+    if (value > 12)
     {
         return "highPrimeRoll";
     }
     return "";
 });
 
-Handlebars.registerHelper("primeDiceModifierClass", function (value) 
+Handlebars.registerHelper("primeDiceModifierClass", function (value)
 {
-    if (value > 0) 
+    if (value > 0)
     {
         return "highPrimeModifierResult";
     }
-    if (value < 0) 
+    if (value < 0)
     {
         return "lowPrimeModifierResult";
     }
     return "";
 });
-Handlebars.registerHelper("loadActorSheet", function (value) 
+Handlebars.registerHelper("loadActorSheet", function (value)
 {
     return `function() {CONFIG.Actor.get('${value}').sheet.render(true);}`;
 });

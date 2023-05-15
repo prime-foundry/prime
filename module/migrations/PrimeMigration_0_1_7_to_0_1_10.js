@@ -41,12 +41,12 @@ export class PrimeMigration_0_1_7_to_0_1_10
         if (!whatAction.data.data.sourceKey)
         {
             let updateData =
-			{
-			    data:
-				{
-				    sourceKey: whatAction._id
-				}
-			};
+            {
+                data:
+                {
+                    sourceKey: whatAction._id
+                }
+            };
             await whatAction.update(updateData, {enforceTypes: false});
         }
         return true;

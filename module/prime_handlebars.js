@@ -53,7 +53,7 @@ Handlebars.registerHelper("convertHTMLForTitle", function (html, maxChars)
 {
     if (html)
     {
-        html = html.replace(/\&nbsp;/ig, "");
+        html = html.replace(/&nbsp;/ig, "");
         html = html.replace(/<style([\s\S]*?)<\/style>/gi, "");
         html = html.replace(/<script([\s\S]*?)<\/script>/gi, "");
         html = html.replace(/<\/div>/ig, "\n");
@@ -61,7 +61,7 @@ Handlebars.registerHelper("convertHTMLForTitle", function (html, maxChars)
         html = html.replace(/<li>/ig, "  *  ");
         html = html.replace(/<\/ul>/ig, "\n");
         html = html.replace(/<\/p>/ig, "\n");
-        html = html.replace(/<br\s*[\/]?>/gi, "\n");
+        html = html.replace(/<br\s*[/]?>/gi, "\n");
         html = html.replace(/(<([^>]+)>)/ig, "");
 
         if (maxChars && html.length > maxChars)

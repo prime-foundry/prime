@@ -8,8 +8,8 @@ export class PrimePCActor extends Actor
 {
 
     /**
-	 * Augment the basic actor data with additional dynamic data.
-	 */
+     * Augment the basic actor data with additional dynamic data.
+     */
     prepareData()
     {
         // console.log("Prepare data");
@@ -17,9 +17,6 @@ export class PrimePCActor extends Actor
 
         // TODO: Refactor this away.
         const actorData = this;
-        // TODO: Refactor this away.
-        const data = actorData;
-        const flags = actorData.flags;
 
         if (actorData.type === "character")
         {
@@ -36,10 +33,14 @@ export class PrimePCActor extends Actor
         }
     }
 
-    isNPC() {
-        try {
+    isNPC()
+    {
+        try
+        {
             return this.system.metadata.isNPC;
-        } catch (error) {
+        }
+        catch (error)
+        {
             return true;
         }
     }
@@ -69,8 +70,8 @@ export class PrimePCActor extends Actor
     }
 
     /**
-	 * Prepare Character type specific data
-	 */
+     * Prepare Character type specific data
+     */
     _prepareCharacterData(actorData)
     {
         // console.log(`${this.id} - _prepareCharacterData()`);
@@ -116,7 +117,7 @@ export class PrimePCActor extends Actor
         }
     }
 
-    getCurrentOwners(whatPermissions)
+    getCurrentOwners()
     {
         var whatPermissions = this.ownership;
         let ownerNames = [];
@@ -149,26 +150,28 @@ export class PrimePCActor extends Actor
     }
 
     /**
-	 * Returns if this is a version 2 sheet or not. needed as part of migration.
-	 * @return {boolean}
-	 */
+     * Returns if this is a version 2 sheet or not. needed as part of migration.
+     * @return {boolean}
+     */
     isVersion2()
     {
         return !!this.system.sheetVersion && this.system.sheetVersion === "v2.0";
     }
 
     /**
-	 * Fetches all the items off the actor.
-	 * If a type filter is provided (string or an array of strings), then the items are filtered by the provided types,
-	 * if the string or array is empty, it will return all items.
-	 * if you provide any non string or array, that it will return all the items.
-	 *
-	 * @param {string, Array.<string>} (typeFilter) a single type filter, or an array of type filters.
-	 * @return {*} a list of items.
-	 * @private
-	 */
-    _getItems(typeFilter) {
-        if(typeFilter && typeFilter.length > 0) {
+     * Fetches all the items off the actor.
+     * If a type filter is provided (string or an array of strings), then the items are filtered by the provided types,
+     * if the string or array is empty, it will return all items.
+     * if you provide any non string or array, that it will return all the items.
+     *
+     * @param {string, Array.<string>} (typeFilter) a single type filter, or an array of type filters.
+     * @return {*} a list of items.
+     * @private
+     */
+    _getItems(typeFilter) 
+    {
+        if(typeFilter && typeFilter.length > 0) 
+        {
             const typeFilterArr = Array.isArray(typeFilter) ? typeFilter : [typeFilter];
             return this.items.filter((item) => typeFilterArr.includes(item.type));
         }
@@ -176,40 +179,50 @@ export class PrimePCActor extends Actor
     }
 
     /**
-	 * Returns all the primes for this actor
-	 * @return {{}} an object where the property names are equal to the itemIDs.
-	 * TODO: this is a legacy structure and I hate it, use a Map maybe?)
-	 */
-    getPrimes() {
+     * Returns all the primes for this actor
+     * @return {{}} an object where the property names are equal to the itemIDs.
+     * TODO: this is a legacy structure and I hate it, use a Map maybe?)
+     */
+    getPrimes() 
+    {
         let results;
-        if (this.isVersion2()) {
+        if (this.isVersion2()) 
+        {
             results = {};
             this._getItems("prime")
                 .map(this._getItemDataAsStat)
-                .forEach(item => {
+                .forEach(item => 
+                {
                     results[item.itemID] = item;
                 });
-        } else {
+        }
+        else 
+        {
             results = this.system.primes;
         }
         return results;
     }
 
     /**
-	 * Returns all the refinements for this actor
-	 * @return {{}} an object where the property names are equal to the itemIDs.
-	 * TODO: this is a legacy structure and I hate it, use a Map maybe?)
-	 */
-    getRefinements() {
+     * Returns all the refinements for this actor
+     * @return {{}} an object where the property names are equal to the itemIDs.
+     * TODO: this is a legacy structure and I hate it, use a Map maybe?)
+     */
+    getRefinements() 
+    {
         let results;
-        if(this.isVersion2()){
+        if(this.isVersion2())
+        {
             results = {};
             this._getItems("refinement")
                 .map(this._getItemDataAsStat)
-                .forEach(item => {
+                .forEach(item => 
+                {
                     results[item.itemID] = item;
                 });
-        } else {
+        }
+        else 
+        {
             results = this.system.refinements;
         }
         return results;
@@ -235,23 +248,23 @@ export class PrimePCActor extends Actor
     {
         //HACKY: Workaround to force the order.
         let sortedData =
-		{
-		    "physical": {
-		        primes: {},
-		        refinements: {},
-		        title: null
-		    },
-		    "mental": {
-		        primes: {},
-		        refinements: {},
-		        title: null
-		    },
-		    "supernatural": {
-		        primes: {},
-		        refinements: {},
-		        title: null
-		    },
-		};
+        {
+            "physical": {
+                primes: {},
+                refinements: {},
+                title: null
+            },
+            "mental": {
+                primes: {},
+                refinements: {},
+                title: null
+            },
+            "supernatural": {
+                primes: {},
+                refinements: {},
+                title: null
+            },
+        };
         this._getItems(["prime" ,"refinement"]).forEach((item) =>
         {
             let itemType = item.type;
@@ -272,22 +285,22 @@ export class PrimePCActor extends Actor
     {
         var sortedData = {};
         var currEntry = null;
-        for (var key in this.system.primes)
+        for (const key in this.system.primes)
         {
             currEntry = this.system.primes[key];
             if (!sortedData[currEntry.type])
             {
                 let localisedTitle = game.i18n.localize("PRIME.stat_type_" + currEntry.type);
                 sortedData[currEntry.type] =
-				{
-				    primes: {},
-				    refinements: {},
-				    title: localisedTitle
-				};
+                {
+                    primes: {},
+                    refinements: {},
+                    title: localisedTitle
+                };
             }
             sortedData[currEntry.type].primes[key] = currEntry;
         }
-        for (var key in this.system.refinements)
+        for (const key in this.system.refinements)
         {
             currEntry = this.system.refinements[key];
             sortedData[currEntry.type].refinements[key] = currEntry;
@@ -310,7 +323,7 @@ export class PrimePCActor extends Actor
     {
         var itemClonesByTypes = {};
 
-        this.items.forEach(function(currItem, key, map)
+        this.items.forEach(function(currItem)
         {
             if (!itemClonesByTypes[currItem.type])
             {
@@ -329,7 +342,7 @@ export class PrimePCActor extends Actor
     {
         var typeSortedActions = {};
 
-        ItemDirectory.collection.forEach((item, key, items) =>
+        ItemDirectory.collection.forEach((item) =>
         {
             if (item.type == "action")
             {
@@ -427,6 +440,7 @@ export class PrimePCActor extends Actor
             return totalCost;
         }
 
+        // eslint-disable-next-line no-unused-vars
         for (let [key, item] of Object.entries(whatItems))
         {
             // Calculate the modifier using d20 rules.
@@ -522,8 +536,6 @@ export class PrimePCActor extends Actor
 
     async _getStatObjectsFromWorld(statType)
     {
-        // console.log(`${this.id} - _getStatObjectsFromWorld()`);
-        const currActor = this;
         let v1LocalisationTable = null;
 
         if (statType === "prime")
@@ -546,7 +558,6 @@ export class PrimePCActor extends Actor
                 {
                     // Deep clone it to prevent object point related weirdness
                     const itemClone = JSON.parse(JSON.stringify(item));
-                    //console.log(`Updating sourceKey. Old: '${itemClone.system.sourceKey}', New:'${itemClone._id}'`);
                     itemClone.system.sourceKey = itemClone._id;
                     delete itemClone._id;
                     actorItemsToCreate.push(itemClone);
@@ -605,6 +616,7 @@ export class PrimePCActor extends Actor
 
         const unmappedStats = [];
         let pointsRefunded = 0;
+        // eslint-disable-next-line no-unused-vars
         for (const [key, stat] of Object.entries(this.system[`${statType}s`]))
         {
             if (stat.value > 0)
@@ -618,10 +630,10 @@ export class PrimePCActor extends Actor
         if (unmappedStats.length > 0)
         {
             const statReport = `<h1>Unmapped stats</h1>
-			<p>The following '${statType}' stat's where not mapped across as no equivalent could be found:
-			<ul><li>${unmappedStats.join("</li><li>")}</li></ul>
-			Points refunded: ${pointsRefunded}
-			</p>`;
+            <p>The following '${statType}' stat's where not mapped across as no equivalent could be found:
+            <ul><li>${unmappedStats.join("</li><li>")}</li></ul>
+            Points refunded: ${pointsRefunded}
+            </p>`;
             this.system.notes += statReport;
         }
     }
@@ -657,18 +669,18 @@ export class PrimePCActor extends Actor
         }
 
         let statData =
-		{
-		    "value": itemData.system.value,
-		    "max": itemData.system.max,
-		    "type" : itemData.system.statType,
-		    "title": itemTitle,
-		    "description": itemData.system.customisable ? "*EDITABLE STAT, CLICK INFO TO EDIT* \n" + itemDescription : itemDescription,
-		    "sourceKey": itemData.system.sourceKey,
-		    "itemID": itemData._id,
-		    "itemBasedStat" : true,
-		    "customisableStatClass" : itemData.system.customisable ? "customisableStat" : "",
-		    "defaultItemClass" : itemData.system.default ? "defaultStat" : "expandedStat",
-		};
+        {
+            "value": itemData.system.value,
+            "max": itemData.system.max,
+            "type" : itemData.system.statType,
+            "title": itemTitle,
+            "description": itemData.system.customisable ? "*EDITABLE STAT, CLICK INFO TO EDIT* \n" + itemDescription : itemDescription,
+            "sourceKey": itemData.system.sourceKey,
+            "itemID": itemData._id,
+            "itemBasedStat" : true,
+            "customisableStatClass" : itemData.system.customisable ? "customisableStat" : "",
+            "defaultItemClass" : itemData.system.default ? "defaultStat" : "expandedStat",
+        };
 
         // TODO: Is this legacy? Can't see it on the new data shape.
         if (itemData.related)
@@ -682,9 +694,9 @@ export class PrimePCActor extends Actor
     getMostResilientArmour(items)
     {
         var bestArmour =
-		{
-		    data: {armourResilience: 0, protection: 0}
-		};
+        {
+            data: {armourResilience: 0, protection: 0}
+        };
         var currItem = null;
         var count = 0;
         while (count < items.length)

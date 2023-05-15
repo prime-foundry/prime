@@ -92,15 +92,16 @@ export class PrimeItem extends Item
         if (effect)	// If no effect, none have been set.
         {
 
+            let lookupTable = null;
             switch (effectType)
             {
             case "checkbox-actions":
-                var lookupTable = PrimeTables.getActionKeysAndTitles(false, ["weaponCombo"]);
+                lookupTable = PrimeTables.getActionKeysAndTitles(false, ["weaponCombo"]);
                 break;
             case "checkbox-keywords":
             case "checkbox-wound-conditions":
             case "checkbox-untrained":
-                var lookupTable = PrimeTables.cloneAndTranslateTables(tableDataPath);
+                lookupTable = PrimeTables.cloneAndTranslateTables(tableDataPath);
                 break;
             default:
                 console.error("ERROR: unknown effect type of '" + effectType + "' passed to getSelectItemTitlesFromEffectData(). Unable to find matching effect: ", this.effects);
@@ -114,11 +115,9 @@ export class PrimeItem extends Item
                 let currLookupItem = lookupTable[count];
                 if (effect.flags[currLookupItem.key])
                 {
-                    if (currLookupItem.description)
-                    {
-                        var titleText = "<span title='" + currLookupItem.description + "' class='hasTooltip'>" + currLookupItem.title + "</span>";
-                    }
-                    else
+                    let titleText = "<span title='" + currLookupItem.description + "' class='hasTooltip'>" + currLookupItem.title + "</span>";
+
+                    if (!currLookupItem.description)
                     {
                         let description = "";
                         if (currLookupItem.source.system.description)
@@ -129,7 +128,7 @@ export class PrimeItem extends Item
                         {
                             description += currLookupItem.source.system.settingDescription;
                         }
-                        var titleText = "<span title='" + description + "' class='hasTooltip'>" + currLookupItem.title + "</span>";
+                        titleText = "<span title='" + description + "' class='hasTooltip'>" + currLookupItem.title + "</span>";
                     }
 
                     titlesArray.push(titleText);
@@ -161,17 +160,18 @@ export class PrimeItem extends Item
 
     getAttackIconHTML(primaryType, subType)
     {
+        let attackIcon = null;
         switch (primaryType)
         {
         case "melee":
-            var attackIcon = this.getMeleeAttackIcon(subType);
+            attackIcon = this.getMeleeAttackIcon(subType);
             break;
         case "ranged":
-            var attackIcon = this.getRangedAttackIcon(subType);
+            attackIcon = this.getRangedAttackIcon(subType);
             break;
         default:
             console.warn("Unknown weapon type of '" + primaryType + "' found in getAttackIconHTML().");
-            var attackIcon = "<i class=\"game-icon game-icon-fist icon-md\"></i>";
+            attackIcon = "<i class=\"game-icon game-icon-fist icon-md\"></i>";
             break;
         }
         return attackIcon;
@@ -179,26 +179,27 @@ export class PrimeItem extends Item
 
     getMeleeAttackIcon(weaponType)
     {
+        let attackIcon = null;
         switch (weaponType)
         {
         case "blunt":
-            var attackIcon = "<i class=\"game-icon game-icon-flanged-mace icon-md\"></i>";
+            attackIcon = "<i class=\"game-icon game-icon-flanged-mace icon-md\"></i>";
             break;
         case "sword":
-            var attackIcon = "<i class=\"game-icon game-icon-bloody-sword icon-md\"></i>";
+            attackIcon = "<i class=\"game-icon game-icon-bloody-sword icon-md\"></i>";
             break;
         case "dagger":
-            var attackIcon = "<i class=\"game-icon game-icon-curvy-knife icon-md\"></i>";
+            attackIcon = "<i class=\"game-icon game-icon-curvy-knife icon-md\"></i>";
             break;
         case "axe":
-            var attackIcon = "<i class=\"game-icon game-icon-sharp-axe icon-md\"></i>";
+            attackIcon = "<i class=\"game-icon game-icon-sharp-axe icon-md\"></i>";
             break;
         case "pole":
-            var attackIcon = "<i class=\"game-icon game-icon-trident icon-md\"></i>";
+            attackIcon = "<i class=\"game-icon game-icon-trident icon-md\"></i>";
             break;
         default:
             console.warn("Unknown weapon type of '" + weaponType + "' found in getAttackIconHTML().");
-            var attackIcon = "<i class=\"game-icon game-icon-fist icon-md\"></i>";
+            attackIcon = "<i class=\"game-icon game-icon-fist icon-md\"></i>";
             break;
         }
         return attackIcon;
@@ -206,23 +207,24 @@ export class PrimeItem extends Item
 
     getRangedAttackIcon(weaponType)
     {
+        let attackIcon = null;
         switch (weaponType)
         {
         case "bow":
-            var attackIcon = "<i class=\"game-icon game-icon-pocket-bow icon-md\"></i>";
+            attackIcon = "<i class=\"game-icon game-icon-pocket-bow icon-md\"></i>";
             break;
         case "mechanical":
-            var attackIcon = "<i class=\"game-icon game-icon-crossbow icon-md\"></i>";
+            attackIcon = "<i class=\"game-icon game-icon-crossbow icon-md\"></i>";
             break;
         case "thrown":
-            var attackIcon = "<i class=\"game-icon game-icon-thrown-spear icon-md\"></i>";
+            attackIcon = "<i class=\"game-icon game-icon-thrown-spear icon-md\"></i>";
             break;
         case "blowpipe":
-            var attackIcon = "<i class=\"game-icon game-icon-straight-pipe icon-md\"></i>";
+            attackIcon = "<i class=\"game-icon game-icon-straight-pipe icon-md\"></i>";
             break;
         default:
             console.warn("Unknown weapon type of '" + weaponType + "' found in getAttackIconHTML().");
-            var attackIcon = "<i class=\"game-icon game-icon-fist icon-md\"></i>";
+            attackIcon = "<i class=\"game-icon game-icon-fist icon-md\"></i>";
             break;
         }
         return attackIcon;
