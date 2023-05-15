@@ -1,4 +1,5 @@
-export class PrimeSettingsManager {
+export class PrimeSettingsManager 
+{
     static addSettings()
     {
         game.settings.register("prime", "notAutoIncrementedBeforeICanCheckItWorldVersionNumber", {

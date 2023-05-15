@@ -1,0 +1,114 @@
+{
+  "rules": {
+    "arrow-body-style": "off",
+    "prefer-arrow-callback": "off",
+    "arrow-parens": ["error", "always"],
+    "babel/semi": 2,
+    "babel/camelcase": 1,
+    "brace-style": "error",
+    "comma-dangle": [2, "always-multiline"],
+    "comma-spacing": [
+      "error",
+      {
+        "after": true,
+        "before": false
+      }
+    ],
+    "curly": 2,
+    "eol-last": "error",
+    "indent": [
+      2,
+      2,
+      {
+        "SwitchCase": 1
+      }
+    ],
+    "key-spacing": [
+      "error",
+      {
+        "afterColon": true,
+        "beforeColon": false
+      }
+    ],
+    "keyword-spacing": [
+      "error",
+      {
+        "after": true,
+        "before": true
+      }
+    ],
+    "max-len": [1, 120],
+    "newline-after-var": ["error", "always"],
+    "newline-before-return": "error",
+    "no-alert": 2,
+    "no-array-constructor": "error",
+    "no-console": 0,
+    "no-const-assign": "error",
+    "no-duplicate-imports": "error",
+    "no-multi-spaces": "error",
+    "no-trailing-spaces": [
+      "error",
+      {
+        "skipBlankLines": false
+      }
+    ],
+    "no-undef": "error",
+    "no-unused-vars": "error",
+    "no-useless-escape": "error",
+    "no-var": "error",
+    "object-curly-spacing": [
+      "error",
+      "always",
+      {
+        "arraysInObjects": true,
+        "objectsInObjects": true
+      }
+    ],
+    "object-shorthand": "error",
+    "prefer-const": [
+      "error",
+      {
+        "destructuring": "all"
+      }
+    ],
+    "quote-props": ["error", "as-needed"],
+    "quotes": [2, "single", { "allowTemplateLiterals": true}],
+    "radix": 2,
+    "react/jsx-closing-bracket-location": ["error", "tag-aligned"],
+    "react/jsx-curly-spacing": [
+      "error",
+      {
+        "children": true,
+        "when": "never"
+      }
+    ],
+    "react/jsx-equals-spacing": [2, "never"],
+    "react/jsx-first-prop-new-line": ["error", "multiline"],
+    "react/jsx-indent": [2, 2],
+    "react/jsx-no-duplicate-props": ["error"],
+    "react/jsx-no-undef": ["error"],
+    "react/jsx-pascal-case": ["error"],
+    "react/jsx-space-before-closing": ["error", "always"],
+    "react/jsx-tag-spacing": [
+      "error",
+      {
+        "afterOpening": "never",
+        "beforeSelfClosing": "always",
+        "closingSlash": "never"
+      }
+    ],
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error",
+    "react/jsx-wrap-multilines": ["error"],
+    "react/no-direct-mutation-state": ["error"],
+    "react/no-multi-comp": [0],
+    "react/no-unused-prop-types": ["error"],
+    "react/no-unused-state": ["error"],
+    "react/self-closing-comp": ["error"],
+    "react/sort-comp": [0],
+    "semi": ["error", "always"],
+    "space-before-blocks": "error",
+    "space-infix-ops": "error",
+    "spaced-comment": ["error", "always"]
+  }
+}

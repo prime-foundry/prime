@@ -97,16 +97,19 @@ Handlebars.registerHelper("checkboxGroupState", function (v1)
     return "collapsed";
 });
 
-Handlebars.registerHelper("for", function(from, to, incr, block) {
+Handlebars.registerHelper("for", function(from, to, incr, block) 
+{
     var accum = "";
     for(var i = from; i <= to; i += incr)
         accum += block.fn(i);
     return accum;
 });
 
-Handlebars.registerHelper("ifCond", function (v1, operator, v2, options) {
+Handlebars.registerHelper("ifCond", function (v1, operator, v2, options) 
+{
 
-    switch (operator) {
+    switch (operator) 
+    {
     case "==":
         return (v1 == v2) ? options.fn(this) : options.inverse(this);
     case "===":
@@ -234,6 +237,7 @@ Handlebars.registerHelper("cropToLength", function(value, cropLength)
 });
 
 // Usage: {{log this}}
-Handlebars.registerHelper("log", function(messageData) {
+Handlebars.registerHelper("log", function(messageData) 
+{
     console.log(`HB log: ${messageData}`, messageData);
 });

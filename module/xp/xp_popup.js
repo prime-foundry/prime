@@ -1,11 +1,14 @@
 
-export class XP_POPUP extends Application {
-    constructor(...args) {
+export class XP_POPUP extends Application 
+{
+    constructor(...args) 
+    {
         super(...args);
         game.users.apps.push(this);
     }
 
-    static get defaultOptions() {
+    static get defaultOptions() 
+    {
         const options = super.defaultOptions;
         options.title = game.i18n.localize("PRIME.xp.title");
         options.id = "xp";
@@ -19,11 +22,13 @@ export class XP_POPUP extends Application {
         return options;
     }
 
-    async getData() {
+    async getData() 
+    {
         // Return data to the template
         const actors = Array.from(game.actors.values())
             .filter(actor => actor.owner)
-            .map(actor => {
+            .map(actor => 
+            {
                 return {
                     id: actor.id,
                     name: actor.name,
@@ -43,7 +48,8 @@ export class XP_POPUP extends Application {
 
 
 
-    render(force, context = {}) {
+    render(force, context = {}) 
+    {
         // Only re-render if needed
         const { action, data } = context;
         if (action && !["create", "update", "delete"].includes(action)) return;
@@ -52,13 +58,16 @@ export class XP_POPUP extends Application {
         return super.render(force, context);
     }
 
-    doAward(event) {
+    doAward(event) 
+    {
         this.element.find(".xpInput")
-            .each(function (index) {
+            .each(function (index) 
+            {
                 const input = $(this);
                 const data = input.data();
                 const val = parseInt(input.val());
-                if (val > 0) {
+                if (val > 0) 
+                {
                     const actor = game.actors.get(data.id);
 
                     const dataUpdate = {
@@ -72,11 +81,13 @@ export class XP_POPUP extends Application {
                 }
             });
         this.element.find(".soulInput")
-            .each(function (index) {
+            .each(function (index) 
+            {
                 const input = $(this);
                 const data = input.data();
                 const val = parseInt(input.val());
-                if (val > 0) {
+                if (val > 0) 
+                {
                     const actor = game.actors.get(data.id);
 
                     const dataUpdate = {
@@ -94,7 +105,8 @@ export class XP_POPUP extends Application {
     }
 
 
-    activateListeners(html) {
+    activateListeners(html) 
+    {
         super.activateListeners(html);
         this.element.find(".awardXP").click((event) => this.doAward(event));
 

@@ -1,0 +1,65 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true,
+    "amd": true,
+    "node": true
+  },
+  "globals": {
+    "$": true,
+    "OffAmazonPayments": true,
+    "Promise": true,
+    "PubSub": true,
+    "TweenLite": true,
+    "amazon": true,
+    "analytics": true,
+    "console": true,
+    "describe": true,
+    "expect": true,
+    "it": true,
+    "jest": true,
+    "mom": true,
+    "vex": true,
+    "ga": true,
+    "ProductsInBasketJSArray": true,
+    "fillCountryDropdown": true,
+    "analytics_config": true,
+    "countryCode": true,
+    "userAborted": true,
+    "getAnalyticsTracker":true,
+    "beforeEach": true,
+    "beforeAll": true,
+    "spyOn": true,
+    "zaius": true,
+    "paypal": true,
+    "pageObject": true,
+    "grecaptcha": true
+  },
+  "extends": [
+    "eslint:recommended",
+    ".eslintrc.base.json",
+    "prettier"
+  ],
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true,
+      "jsx": true
+    },
+    "ecmaVersion": 2017,
+    "sourceType": "module"
+  },
+  "plugins": ["react", "babel", "prettier", "react-hooks"],
+  "rules": {
+    "prettier/prettier": "error",
+    "max-len": [1, 120],
+    "babel/camelcase": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
+  },
+  "settings" : {
+    "react": {
+      "version": "detect"
+    }
+  }
+}
