@@ -1,0 +1,26 @@
+{
+  "name": "prime",
+  "version": "1.0.0",
+  "description": "This system is a boilerplate system that you can use as a starting point for building your own custom systems. It's similar to Simple World-building, but has examples of creating attributes in code rather than dynamically through the UI.",
+  "main": "temp.js",
+  "directories": {
+    "example": "examples",
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johnc303/prime.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/johnc303/prime/issues"
+  },
+  "homepage": "https://github.com/johnc303/prime#readme",
+  "devDependencies": {
+    "eslint": "^8.40.0"
+  }
+}

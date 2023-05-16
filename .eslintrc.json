@@ -1,0 +1,64 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true
+    },
+    "globals": {
+        "$": "readonly",
+        "Application": "readonly",
+        "CONST": "readonly",
+        "ui": "readonly",
+        "chroma": "readonly",
+        "mergeObject": "readonly",
+        "isNewerVersion": "readonly",
+        "TextEditor": "readonly",
+        "Hooks": "readonly",
+        "CONFIG": "readonly",
+        "ActiveEffect": "readonly",
+        "game": "readonly",
+        "Actor": "readonly",
+        "Actors": "readonly",
+        "ActorSheet": "readonly",
+        "Item": "readonly",
+        "Items": "readonly",
+        "ItemSheet": "readonly",
+        "ItemDirectory": "readonly",
+        "ChatMessage": "readonly",
+        "DiceTerm": "readonly",
+        "Roll": "readonly",
+        "Handlebars": "readonly",
+        "getTemplate": "readonly"
+    },
+    "ignorePatterns": ["pseudo_code/*.js", "lib/*.js"],
+    "extends": [
+        "eslint:recommended"
+    ],
+    "parserOptions": {
+        "ecmaVersion": 2018,
+        "sourceType": "module"
+    },
+    "rules": {
+        "indent": [
+            "error",
+            4
+        ],
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "quotes": [
+            "error",
+            "double"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ],
+        "brace-style": [
+            "error",
+            "allman"
+        ],
+        "max-len": [1, 150],
+        "no-unused-vars": ["error", { "vars": "all", "args": "none", "ignoreRestSiblings": false }]
+    }
+}

@@ -1,7 +1,8 @@
 import { PRIME_DICE } from "../prime_dice/prime_dice.js";
 import { AWARD_XP } from "../xp/award_xp.js";
 
-Hooks.on("getSceneControlButtons", (controls) => {
+Hooks.on("getSceneControlButtons", (controls) => 
+{
 
     const isGM = game.user.isGM;
     const basicControls = controls[0];
@@ -25,28 +26,31 @@ Hooks.on("getSceneControlButtons", (controls) => {
 // }
 
 
-Hooks.on("renderSceneControls", () => {
+Hooks.on("renderSceneControls", () => 
+{
 
-    let primeRoll = $('li[data-tool="prime-roll"].control-tool');
+    let primeRoll = $("li[data-tool=\"prime-roll\"].control-tool");
     primeRoll.addClass("prime-control prime-control-roll");
     let rollOffset = primeRoll.offset();
     let rollWidth = primeRoll.width();
     // let height = primeRoll.height();
 
-    $(primeRoll).click(instance => {
+    $(primeRoll).click(instance => 
+    {
 
         PRIME_DICE.openPrimeDice("primeControl", rollOffset.left+rollWidth+12, rollOffset.top);
     });
 
     
-    let awardXP = $('li[data-tool="prime-xp"].control-tool');
+    let awardXP = $("li[data-tool=\"prime-xp\"].control-tool");
     awardXP.addClass("prime-control prime-control-xp");
     
     let xpOffset = awardXP.offset();
     let xpWidth = awardXP.width();
 
     
-    $(awardXP).click(instance => {
+    $(awardXP).click(instance => 
+    {
         AWARD_XP.openAwardXP("primeControl", xpOffset.left+xpWidth+12, xpOffset.top);
     });
 

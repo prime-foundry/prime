@@ -1,5 +1,5 @@
-import { PrimeTables } from "../prime_tables.js";
-export class ActorMigrationsManager {
+export class ActorMigrationsManager 
+{
 
     static async assessMigrationRequirements()
     {
@@ -24,13 +24,15 @@ export class ActorMigrationsManager {
 
         game.actors.forEach(async (actor) =>
         {
-            if (actor.system.sheetVersion === "v2.0" && actor.system.cloneSourceID) {
+            if (actor.system.sheetVersion === "v2.0" && actor.system.cloneSourceID)
+            {
                 const deletionPromise = actor.delete();
                 actorDeletionPromises.push(deletionPromise);
             }
         });
 
-        Promise.all(actorDeletionPromises).then((newActors) => {
+        Promise.all(actorDeletionPromises).then(() =>
+        {
             ui.notifications.info("Culling complete?");
         });
 
@@ -41,10 +43,12 @@ export class ActorMigrationsManager {
         const v2ActorCloneSourceIDs = [];
         const v1Actors = game.actors.filter((actor) =>
         {
-            if (actor.system.sheetVersion === "v1.0") {
+            if (actor.system.sheetVersion === "v1.0")
+            {
                 return true;
             }
-            if (actor.system.sheetVersion === "v2.0" && actor.system.cloneSourceID) {
+            if (actor.system.sheetVersion === "v2.0" && actor.system.cloneSourceID)
+            {
                 v2ActorCloneSourceIDs.push(actor.system.cloneSourceID);
             }
             return false;
@@ -85,13 +89,14 @@ export class ActorMigrationsManager {
     static async createNewCharacters(actorsToCreate)
     {
         const newActorCreationPromises = [];
-        const createPromise = actorsToCreate.forEach(async (actor) =>
+        actorsToCreate.forEach(async (actor) =>
         {
             const newClonePromise = Actor.create(actor);
             newActorCreationPromises.push(newClonePromise);
         });
 
-        Promise.all(newActorCreationPromises).then((newActors) => {
+        Promise.all(newActorCreationPromises).then((/*newActors*/) => 
+        {
             ui.notifications.info("Cloning (mostly) complete.");
         });
     }
