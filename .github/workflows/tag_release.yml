@@ -9,12 +9,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Bump version and push tag
-      uses: anothrNick/github-tag-action@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        DEFAULT_BUMP: none
-        DRY_RUN: true
-        INITIAL_VERSION: '0.4.0'
+      - uses: actions/checkout@v3
+      - name: Bump version and push tag
+        uses: anothrNick/github-tag-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: none
+          DRY_RUN: true
+          INITIAL_VERSION: '0.4.0'
 # The above will create a tag with zipped release if a tag is in the MR 
 # https://github.com/marketplace/actions/github-tag-bump#bumping
