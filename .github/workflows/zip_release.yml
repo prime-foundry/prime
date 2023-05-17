@@ -1,26 +1,25 @@
----
-    name: "zip-release"
-    
-    on:
-      push:
-        tags:
-          - "0.*"
-    
-    jobs:
-      zip-release:
-        name: "Zip and Push Release"
-        runs-on: "ubuntu-latest"
-    
-        steps:
-          - uses: actions/checkout@v3
-          - name: Archive Release
-            uses: thedoctor0/zip-release@0.7.1
-            with:
-                type: 'zip'
-                filename: 'release.zip'
-                exclusions: '*.git* /*node_modules/* .gitignore .github *.zip'
-          - uses: "marvinpinto/action-automatic-releases@latest"
-            with:
-              repo_token: "${{ secrets.GITHUB_TOKEN }}"
-              prerelease: false
-              files: release.zip
+name: "zip-release"
+
+on:
+  push:
+    tags:
+      - "0.*"
+
+jobs:
+  zip_release:
+    name: "Zip and Push Release"
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Archive Release
+        uses: thedoctor0/zip-release@0.7.1
+        with:
+            type: 'zip'
+            filename: 'release.zip'
+            exclusions: '*.git* /*node_modules/* .gitignore .github *.zip'
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          prerelease: false
+          files: release.zip
