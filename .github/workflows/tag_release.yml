@@ -1,4 +1,4 @@
-name: Deploy
+name: tag_release
 on:
   pull_request:
     types:
@@ -9,19 +9,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Create Release Folder
-      run: rsync -arv --exclude='.git/' --exclude='.github/' --exclude='.gitignore' . ./release
-    - name: Switch to Release Folder
-      run: |
-        cd release
-        ls -la
-    - name: Bump version and push tag
-      uses: anothrNick/github-tag-action@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.HOBBSY_PAT }}
-        DEFAULT_BUMP: none
-        DRY_RUN: true
-        INITIAL_VERSION: 0.4.0
+      - uses: actions/checkout@v3
+      - name: Bump version and push tag
+        uses: anothrNick/github-tag-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.HOBBSY_PAT }}
+          DEFAULT_BUMP: none
+          DRY_RUN: false
+          INITIAL_VERSION: '0.4.0'
+          RELEASE_BRANCHES: foundry-v10
+          DEFAULT_BRANCH: foundry-v10
 # The above will create a tag with zipped release if a tag is in the MR 
 # https://github.com/marketplace/actions/github-tag-bump#bumping
