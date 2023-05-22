@@ -2,7 +2,7 @@
   "name": "prime",
   "title": "Prime system",
   "description": "The foundry VTT system of the Prime RPG as used in the Possession world.",
-  "version": "0.4.1",
+  "version": "0.4.4",
   "compatibility": {
     "minimum": "0.10.291",
     "verified": 10,
@@ -52,6 +52,6 @@
   "secondaryTokenAttribute": "power",
   "url": "https://github.com/johnc303/prime/",
   "manifest": "https://raw.githubusercontent.com/johnc303/prime/foundry-v10/system.json",
-  "download": "https://github.com/johnc303/prime/blob/foundry-v10/prime.zip?raw=true",
+  "download": "https://github.com/prime-foundry/prime/releases/download/0.4.4/release.zip",
   "license": "LICENSE2.txt"
 }
