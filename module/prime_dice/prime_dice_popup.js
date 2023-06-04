@@ -2,8 +2,6 @@ import {PRIME_DICE_ROLLER} from "./prime_dice_roller.js";
 
 export class PRIME_DICE_POPUP extends Application
 {
-
-
     constructor(data)
     {
         super(data);
