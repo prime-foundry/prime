@@ -5,9 +5,11 @@ import { PrimeTables } from "../prime_tables.js";
  */
 export class PrimeItemSheet extends ItemSheet
 {
-    constructor()
+    // eslint-disable-next-line constructor-super
+    constructor(data)
     {
-        super();
+        super(data);
+        // eslint-disable-next-line no-this-before-super
         this.checkboxGroupStates = {};
 
     }

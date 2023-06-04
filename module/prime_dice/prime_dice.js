@@ -2,13 +2,9 @@ import { PRIME_DICE_POPUP } from "./prime_dice_popup.js";
 
 export class PRIME_DICE
 {
-    constructor()
-    {
-        this.dicePopup = null;
-    }
-
     static async init()
     {
+        this.dicePopup = null;
     }
 
     static ready()
