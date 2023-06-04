@@ -558,7 +558,7 @@ export class PrimePCActorSheet extends ActorSheet
     {
         const deleteLink = $(event.delegateTarget);
         const itemID = deleteLink.data("item-id");
-        this.actor.deleteOwnedItem(itemID);
+        this.actor.deleteEmbeddedDocuments("Item", [itemID]);
     }
 
     openStatItem(event)
