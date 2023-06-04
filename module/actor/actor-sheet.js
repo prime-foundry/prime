@@ -1,4 +1,4 @@
-/* eslint-disable no-this-before-super */
+
 import { PrimeTables } from "../prime_tables.js";
 import { ItemCardUI } from "../item/item_card_ui.js";
 import { ItemDragSort } from "../item/item_drag_sort.js";
@@ -6,7 +6,6 @@ import { ItemDragSort } from "../item/item_drag_sort.js";
 
 export class PrimePCActorSheet extends ActorSheet
 {
-    // eslint-disable-next-line constructor-super
     constructor(data)
     {
         super(data);
