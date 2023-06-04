@@ -7,7 +7,7 @@ import { PrimeItemSheet } from "./item/item-sheet.js";
 import { PrimeSettingsManager } from "./prime_settings.js";
 import { PrimeHandlebarsPartials } from "./prime_handlebars.js";
 import { PrimeDataMigrationManager } from "./migrations/prime_data_migrations_manager.js";
-import { ActorMigrationsManager } from "./actor-migrations-manager.js";
+import { ActorMigrationsManager } from "./migrations/actor-migrations-manager.js";
 
 Hooks.once("init", async function ()
 {
@@ -63,9 +63,20 @@ Hooks.once("ready", async () =>
     bindActorMigrationScripts();
 });
 
-const bindActorMigrationScripts = () =>
+const  bindActorMigrationScripts  = () =>
 {
-    window.createV2Clones = ActorMigrationsManager.createV2Clones;
-    window.removeV2Clones = ActorMigrationsManager.removeV2Clones;
-    window.removeV1Clones = ActorMigrationsManager.removeV1Clones;
+    window.createV2Clones = async () =>
+    {
+        await ActorMigrationsManager.createV2Clones();
+    };
+    window.removeV2Clones = async () =>
+    {
+        await ActorMigrationsManager.removeV2Clones();
+    };
+    window.removeV1Clones = async () =>
+    {
+        await ActorMigrationsManager.removeV1Clones();
+    };
+
+    console.log("Actor migration methods bound: createV2Clones(), removeV2Clones() and removeV1Clones()");
 };

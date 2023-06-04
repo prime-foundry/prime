@@ -1,28 +1,11 @@
 export class ActorMigrationsManager
 {
-
-    // static async assessMigrationRequirements()
-    // {
-    //     if (unclonedV1Characters.length === 0)
-    //     {
-    //         ui.notifications.info("Culling the clones");
-    //         await this.removeV2Clones();
-    //     }
-    //     else
-    //     {
-    //         ui.notifications.info("Creating V2 character clones");
-    //         const newV2Clones = this.cloneAndUpgradeToV2(unclonedV1Characters);
-    //         this.createNewCharacters(newV2Clones);
-    //     }
-    // }
-
-
     static async createV2Clones()
     {
         ui.notifications.info("Creating V2 character clones");
-        const unclonedV1Characters = this.getUnclonedV1Characters();
-        const newV2Clones = this.cloneAndUpgradeToV2(unclonedV1Characters);
-        this.createNewCharacters(newV2Clones);
+        const unclonedV1Characters = ActorMigrationsManager.getUnclonedV1Characters();
+        const newV2Clones = ActorMigrationsManager.cloneAndUpgradeToV2(unclonedV1Characters);
+        ActorMigrationsManager.createNewCharacters(newV2Clones);
     }
 
     static async removeV2Clones()
@@ -30,7 +13,7 @@ export class ActorMigrationsManager
         if (window.confirm("Are you 100% sure you want to remove all existing v2 cloned characters? This action cannot be easily undone."))
         {
             ui.notifications.info("Culling the clones");
-            await this.removeCharacters("v2.0", true);
+            await ActorMigrationsManager.removeCharacters("v2.0", true);
         }
     }
 
@@ -39,7 +22,7 @@ export class ActorMigrationsManager
         if (window.confirm("Are you 100% sure you want to remove all existing v1 characters? This action cannot be easily undone."))
         {
             ui.notifications.info("Culling old v1 characters.");
-            await this.removeCharacters("v1.0", false);
+            await ActorMigrationsManager.removeCharacters("v1.0", false);
         }
     }
 
