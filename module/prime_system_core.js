@@ -63,7 +63,7 @@ Hooks.once("ready", async () =>
     bindActorMigrationScripts();
 });
 
-const bindActorMigrationScripts = () => 
+const bindActorMigrationScripts = () =>
 {
     window.createV2Clones = ActorMigrationsManager.createV2Clones;
     window.removeV2Clones = ActorMigrationsManager.removeV2Clones;
