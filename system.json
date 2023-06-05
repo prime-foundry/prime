@@ -12,8 +12,8 @@
   "authors": [
     {"name": "Matt Henderson"},
     {"name": "Johnathan Castle"},
-    {"name": "Jack Moxley"},
-    {"name": "Mike Hobbsy"}
+    {"name": "Mike Hobbsy"},
+    {"name": "Jack Moxley"}
   ],
   "esmodules": [
     "module/prime_system_core.js",
