@@ -8,6 +8,14 @@ export class ActorMigrationsManager
         ActorMigrationsManager.createNewCharacters(newV2Clones);
     }
 
+    static async migrateV2ToNewStats()
+    {
+        ui.notifications.info("Migrating to new stat items");
+        const unmappedStatV2Characters = ActorMigrationsManager.getUnmappedStatV2Characters();
+        console.log(unmappedStatV2Characters);
+        await ActorMigrationsManager.migrateSkills(unmappedStatV2Characters);
+    }
+
     static async removeV2Clones()
     {
         if (window.confirm("Are you 100% sure you want to remove all existing v2 cloned characters? This action cannot be easily undone."))
@@ -17,13 +25,36 @@ export class ActorMigrationsManager
         }
     }
 
-    static async removeV1Characters()
+    static async removeV1LegacyCharacters()
     {
         if (window.confirm("Are you 100% sure you want to remove all existing v1 characters? This action cannot be easily undone."))
         {
             ui.notifications.info("Culling old v1 characters.");
             await ActorMigrationsManager.removeCharacters("v1.0", false);
         }
+    }
+
+    static async removeDuplicateStats()
+    {
+        game.actors.forEach(async (actor) =>
+        {
+            await actor.deDuplicateStats();
+        });
+    }
+
+    static async removeTracesOfV2CloningProgramme()
+    {
+        ui.notifications.info("Scrubbing evidence of cloning process.");
+        game.actors.forEach(async (actor) =>
+        {
+            if (actor.system.cloneSourceID)
+            {
+                const name = actor.name.replace(" V2", "");
+                delete actor.system.cloneSourceID;
+                await actor.update({system: actor.system, name});
+            }
+        });
+        ui.notifications.info("Scrubbing complete?");
     }
 
     static async removeCharacters(actorVersion, removeClones)
@@ -74,6 +105,28 @@ export class ActorMigrationsManager
         return unclonedV1Actors;
     }
 
+    static getUnmappedStatV2Characters()
+    {
+        const brokenV2Actors = game.actors.filter((actor) =>
+        {
+            if (actor.system.sheetVersion === "v2.0" && !actor.system.cloneSourceID)
+            {
+                try
+                {
+                    actor.getRefinements();
+                }
+                catch (err)
+                {
+                    console.log(err);
+                    return true;
+                }
+            }
+            return false;
+        });
+
+        return brokenV2Actors;
+    }
+
     static cloneAndUpgradeToV2(actorsToClone)
     {
         const actorClones = actorsToClone.map((actor) =>
@@ -85,6 +138,14 @@ export class ActorMigrationsManager
         });
 
         return actorClones;
+    }
+
+    static async migrateSkills(actorsToMigrate)
+    {
+        await actorsToMigrate.forEach(async function(actor)
+        {
+            await actor.migrateToNewStats();
+        });
     }
 
     static upgradeToV2(actor, sourceID)

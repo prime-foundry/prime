@@ -208,7 +208,7 @@ export class PrimePCActor extends Actor
      * @return {{}} an object where the property names are equal to the itemIDs.
      * TODO: this is a legacy structure and I hate it, use a Map maybe?)
      */
-    getRefinements() 
+    getRefinements()
     {
         let results;
         if(this.isVersion2())
@@ -216,12 +216,12 @@ export class PrimePCActor extends Actor
             results = {};
             this._getItems("refinement")
                 .map(this._getItemDataAsStat)
-                .forEach(item => 
+                .forEach(item =>
                 {
                     results[item.itemID] = item;
                 });
         }
-        else 
+        else
         {
             results = this.system.refinements;
         }
@@ -311,6 +311,110 @@ export class PrimePCActor extends Actor
         PrimeTables.addTranslations(sortedDataClone);
 
         return sortedDataClone;
+    }
+
+    async deDuplicateStats()
+    {
+        const statsToKeepHash = {};
+        const statIDsToDelete = [];
+        this._getItems(["prime" ,"refinement"]).forEach((item) =>
+        {
+            const statName = item.name;
+            if (!statsToKeepHash[statName])
+            {
+                statsToKeepHash[statName] = item;
+            }
+            else
+            {
+                // If it's higher, keep that one and delete the previous entry in statsToKeepHash
+                if (item.system.value > statsToKeepHash[statName].system.value)
+                {
+                    statIDsToDelete.push(statsToKeepHash[statName]._id);
+                    statsToKeepHash[statName] = item;
+                }
+                else    // Otherwise delete it.
+                {
+                    statIDsToDelete.push(item._id);
+                }
+            }
+        });
+
+        await this.deleteEmbeddedDocuments("Item", statIDsToDelete);
+    }
+
+    async migrateToNewStats()
+    {
+        let { unmappedPrimes, unmappedRefinements } = this._getMissingWorldStats(true);
+        const unmappedPrimeItems = this.getStatItemsToCreate("prime", false, unmappedPrimes, false);
+        const unmappedRefinementItems = this.getStatItemsToCreate("refinement", false, unmappedRefinements, false);
+
+        console.log(unmappedPrimeItems, unmappedRefinementItems);
+        await this.createEmbeddedDocuments("Item", [...unmappedPrimeItems, ...unmappedRefinementItems]);
+
+        const statsStillMissingWorldStats = this._getMissingWorldStats();
+        this._reportStillMissingWorldStats(statsStillMissingWorldStats["unmappedPrimes"], "Primes");
+        this._reportStillMissingWorldStats(statsStillMissingWorldStats["unmappedRefinements"], "Refinements");
+
+        // eslint-disable-next-line max-len
+        const itemIDsToDelete = [...statsStillMissingWorldStats["unmappedPrimes"], ...statsStillMissingWorldStats["unmappedRefinements"]].map((item) => item._id);
+
+        await this.deleteEmbeddedDocuments("Item", itemIDsToDelete);
+        await this.update({system: this.system});
+    }
+
+    _getMissingWorldStats(returnTitlesOnly)
+    {
+        const unmappedPrimes = [];
+        const unmappedRefinements = [];
+        this._getItems(["prime" ,"refinement"]).forEach((item) =>
+        {
+            const itemAsStatData = this._getItemDataAsStat(item);
+            if (!itemAsStatData.sourceItem)
+            {
+                if (item.type === "Prime")
+                {
+                    unmappedPrimes.push(returnTitlesOnly ? item.name : item);
+                }
+                else
+                {
+                    unmappedRefinements.push(returnTitlesOnly ? item.name : item);
+                }
+            }
+        });
+
+        return {unmappedPrimes, unmappedRefinements};
+    }
+
+    _reportStillMissingWorldStats(statsStillMissingWorldStats, statTitle)
+    {
+
+        //pointsRefunded += PrimePCActor.primeCost(parseInt(stat.value));
+        // const {unmappedStats, pointsRefunded} = this._getUnmappedStats(statType, true);
+
+        if (statsStillMissingWorldStats.length > 0)
+        {
+            const {unmappedStatsTitles, pointsToBeRefunded} = this._generateMissingStatTitlesAndTotalPoints(statsStillMissingWorldStats);
+
+            const statReport = `<h1>Unmapped stats</h1>
+            <p>The following '${statTitle}' stat's where not mapped across as no equivalent could be found:
+            <ul><li>${unmappedStatsTitles.join("</li><li>")}</li></ul>
+            Points refunded: ${pointsToBeRefunded}
+            </p>`;
+            this.system.notes += statReport;
+        }
+    }
+
+    _generateMissingStatTitlesAndTotalPoints(statsStillMissingWorldStats)
+    {
+        const unmappedStatsTitles = [];
+        let pointsToBeRefunded = 0;
+        statsStillMissingWorldStats.forEach((statItem)=>
+        {
+            unmappedStatsTitles.push(`${statItem.name}: ${statItem.system.value}`);
+            pointsToBeRefunded += PrimePCActor.primeCost(parseInt(statItem.system.value));
+        });
+
+        return {unmappedStatsTitles, pointsToBeRefunded};
     }
 
     getProcessedItems()
@@ -541,14 +645,14 @@ export class PrimePCActor extends Actor
         // let statItem = null;
         if (ItemDirectory && ItemDirectory.collection)	// Sometimes not defined when integrated.
         {
-            actorItemsToCreate = this.getStatItemsToCreate(statType, true, false);
+            actorItemsToCreate = this.getStatItemsToCreate(statType, true, false, true);
 
             if (actorItemsToCreate.length > 0)
             {
                 if (!this.system.sessionState.statCreationRequest[statType])
                 {
                     const {unmappedStats} = this._getUnmappedStats(statType, false);
-                    const additionalNonDefaultStatItems = this.getStatItemsToCreate(statType, false, unmappedStats);
+                    const additionalNonDefaultStatItems = this.getStatItemsToCreate(statType, false, unmappedStats, true);
                     actorItemsToCreate = [...actorItemsToCreate, ...additionalNonDefaultStatItems];
                     this._addNonMappedStatReportToNotes(statType);
 
@@ -572,19 +676,21 @@ export class PrimePCActor extends Actor
         return Promise.resolve(false);
     }
 
-    getStatItemsToCreate(statType, defaultOnly, matchTitlesArray)
+    getStatItemsToCreate(statType, defaultOnly, matchTitlesArray, injectV1ValueIfFound)
     {
         const actorItemsToCreate = [];
 
         let v1LocalisationTable = null;
-
-        if (statType === "prime")
+        if (injectV1ValueIfFound)
         {
-            v1LocalisationTable = PrimeTables.getPrimeKeysAndTitles();
-        }
-        else if (statType === "refinement")
-        {
-            v1LocalisationTable = PrimeTables.getRefinementKeysAndTitles();
+            if (statType === "prime")
+            {
+                v1LocalisationTable = PrimeTables.getPrimeKeysAndTitles();
+            }
+            else if (statType === "refinement")
+            {
+                v1LocalisationTable = PrimeTables.getRefinementKeysAndTitles();
+            }
         }
 
         ItemDirectory.collection.forEach((item) =>
@@ -600,7 +706,11 @@ export class PrimePCActor extends Actor
                         itemClone.system.sourceKey = itemClone._id;
                         delete itemClone._id;
                         actorItemsToCreate.push(itemClone);
-                        this._injectV1ValueIfFound(itemClone, v1LocalisationTable, statType);
+
+                        if (injectV1ValueIfFound)
+                        {
+                            this._injectV1ValueIfFound(itemClone, v1LocalisationTable, statType);
+                        }
                     }
                 }
             }
@@ -693,7 +803,7 @@ export class PrimePCActor extends Actor
             }
             else
             {
-                console.error(`Unable to find source stat item for key '${itemData.system.sourceKey}', raw data: `, itemData);
+                console.error(`${this.name} - Unable to find source stat item for key '${itemData.system.sourceKey}', raw data: `, itemData);
             }
         }
 
@@ -709,6 +819,7 @@ export class PrimePCActor extends Actor
             "itemBasedStat" : true,
             "customisableStatClass" : itemData.system.customisable ? "customisableStat" : "",
             "defaultItemClass" : itemData.system.default ? "defaultStat" : "expandedStat",
+            sourceItem,
         };
 
         // TODO: Is this legacy? Can't see it on the new data shape.
