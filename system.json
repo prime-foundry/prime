@@ -36,7 +36,7 @@
       "name": "statistics-and-lies",
       "label": "Statistics & Lies",
       "system": "prime",
-      "path": "./packs/statistics-and-lies.db",
+      "path": "./packs/statistics-and-lies-v2.db",
       "type": "Item"
     }
   ],
