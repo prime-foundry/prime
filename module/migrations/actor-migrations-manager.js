@@ -42,6 +42,21 @@ export class ActorMigrationsManager
         });
     }
 
+    static async removeTracesOfV2CloningProgramme()
+    {
+        ui.notifications.info("Scrubbing evidence of cloning process.");
+        game.actors.forEach(async (actor) =>
+        {
+            if (actor.system.cloneSourceID)
+            {
+                const name = actor.name.replace(" V2", "");
+                delete actor.system.cloneSourceID;
+                await actor.update({system: actor.system, name});
+            }
+        });
+        ui.notifications.info("Scrubbing complete?");
+    }
+
     static async removeCharacters(actorVersion, removeClones)
     {
         const actorDeletionPromises = [];

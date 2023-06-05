@@ -85,11 +85,16 @@ const  bindActorMigrationScripts  = () =>
     {
         await ActorMigrationsManager.removeDuplicateStats();
     };
+    window.removeTracesOfV2CloningProgramme = async () =>
+    {
+        await ActorMigrationsManager.removeTracesOfV2CloningProgramme();
+    };
 
     console.log(`Actor migration methods bound:
     - createV2Clones()
     - migrateV2ToNewStats()
     - removeDuplicateStats()
     - removeV2Clones()
+    - removeTracesOfV2CloningProgramme()
     - removeV1LegacyCharacters()`);
 };
