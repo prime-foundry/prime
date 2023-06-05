@@ -69,14 +69,27 @@ const  bindActorMigrationScripts  = () =>
     {
         await ActorMigrationsManager.createV2Clones();
     };
+    window.migrateV2ToNewStats = async () =>
+    {
+        await ActorMigrationsManager.migrateV2ToNewStats();
+    };
     window.removeV2Clones = async () =>
     {
         await ActorMigrationsManager.removeV2Clones();
     };
-    window.removeV1Clones = async () =>
+    window.removeV1LegacyCharacters = async () =>
     {
-        await ActorMigrationsManager.removeV1Clones();
+        await ActorMigrationsManager.removeV1LegacyCharacters();
+    };
+    window.removeDuplicateStats = async () =>
+    {
+        await ActorMigrationsManager.removeDuplicateStats();
     };
 
-    console.log("Actor migration methods bound: createV2Clones(), removeV2Clones() and removeV1Clones()");
+    console.log(`Actor migration methods bound:
+    - createV2Clones()
+    - migrateV2ToNewStats()
+    - removeDuplicateStats()
+    - removeV2Clones()
+    - removeV1LegacyCharacters()`);
 };
