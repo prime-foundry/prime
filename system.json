@@ -19,6 +19,7 @@
     "module/prime_system_core.js",
     "module/prime_handlebars.js",
     "module/prime_dice/prime_dice.js",
+    "module/prime_dice/PrimeDie.js",
     "module/prime_controls/prime_controls_core.js"
   ],
   "styles": ["css/core_imports.css"],
@@ -35,7 +36,7 @@
       "name": "statistics-and-lies",
       "label": "Statistics & Lies",
       "system": "prime",
-      "path": "./packs/statistics-and-lies.db",
+      "path": "./packs/statistics-and-lies-v2.db",
       "type": "Item"
     }
   ],

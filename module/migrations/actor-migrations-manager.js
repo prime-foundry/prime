@@ -1,30 +1,38 @@
-export class ActorMigrationsManager 
+export class ActorMigrationsManager
 {
-
-    static async assessMigrationRequirements()
+    static async createV2Clones()
     {
-        const unclonedV1Characters = this.getUnclonedV1Characters();
-        if (unclonedV1Characters.length === 0)
-        {
-            ui.notifications.info("Culling the clones");
-            await this.removeV2Clones();
-        }
-        else
-        {
-            ui.notifications.info("Creating V2 character clones");
-            const newV2Clones = this.cloneAndUpgradeToV2(unclonedV1Characters);
-            this.createNewCharacters(newV2Clones);
-        }
-
+        ui.notifications.info("Creating V2 character clones");
+        const unclonedV1Characters = ActorMigrationsManager.getUnclonedV1Characters();
+        const newV2Clones = ActorMigrationsManager.cloneAndUpgradeToV2(unclonedV1Characters);
+        ActorMigrationsManager.createNewCharacters(newV2Clones);
     }
 
     static async removeV2Clones()
+    {
+        if (window.confirm("Are you 100% sure you want to remove all existing v2 cloned characters? This action cannot be easily undone."))
+        {
+            ui.notifications.info("Culling the clones");
+            await ActorMigrationsManager.removeCharacters("v2.0", true);
+        }
+    }
+
+    static async removeV1Characters()
+    {
+        if (window.confirm("Are you 100% sure you want to remove all existing v1 characters? This action cannot be easily undone."))
+        {
+            ui.notifications.info("Culling old v1 characters.");
+            await ActorMigrationsManager.removeCharacters("v1.0", false);
+        }
+    }
+
+    static async removeCharacters(actorVersion, removeClones)
     {
         const actorDeletionPromises = [];
 
         game.actors.forEach(async (actor) =>
         {
-            if (actor.system.sheetVersion === "v2.0" && actor.system.cloneSourceID)
+            if (actor.system.sheetVersion === actorVersion && ((removeClones && actor.system.cloneSourceID) || !removeClones))
             {
                 const deletionPromise = actor.delete();
                 actorDeletionPromises.push(deletionPromise);
@@ -101,3 +109,4 @@ export class ActorMigrationsManager
         });
     }
 }
+

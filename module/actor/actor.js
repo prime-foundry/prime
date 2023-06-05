@@ -55,8 +55,8 @@ export class PrimePCActor extends Actor
     postCreationTasks()
     {
         const actorSystemData = this.system;
-        const primesStatPromise = this._getStatObjectsFromWorld("prime");
-        const refinementsStatPromise = this._getStatObjectsFromWorld("refinement");
+        const primesStatPromise = this._getStatObjectsFromWorld("prime", true);
+        const refinementsStatPromise = this._getStatObjectsFromWorld("refinement", true);
         Promise.all([primesStatPromise, refinementsStatPromise]).then(async ([primesStatData, refinementsStatData]) =>
         {
             this._setPrimeAndRefinementStats(actorSystemData, primesStatData, refinementsStatData);
@@ -536,41 +536,20 @@ export class PrimePCActor extends Actor
 
     async _getStatObjectsFromWorld(statType)
     {
-        let v1LocalisationTable = null;
-
-        if (statType === "prime")
-        {
-            v1LocalisationTable = PrimeTables.getPrimeKeysAndTitles();
-        }
-        else if (statType === "refinement")
-        {
-            v1LocalisationTable = PrimeTables.getRefinementKeysAndTitles();
-        }
-
         let actorItemsToCreate = [];
-        let instancedItems = {};
-        let statItem = null;
+        // let instancedItems = {};
+        // let statItem = null;
         if (ItemDirectory && ItemDirectory.collection)	// Sometimes not defined when integrated.
         {
-            ItemDirectory.collection.forEach((item) =>
-            {
-                if (item.type == statType && item.system.default)
-                {
-                    // Deep clone it to prevent object point related weirdness
-                    const itemClone = JSON.parse(JSON.stringify(item));
-                    itemClone.system.sourceKey = itemClone._id;
-                    delete itemClone._id;
-                    actorItemsToCreate.push(itemClone);
-                    statItem = this._getItemDataAsStat(itemClone);
-                    this._injectV1ValueIfFound(itemClone, v1LocalisationTable, statType);
-                    instancedItems[statItem.itemID] = statItem;
-                }
-            });
+            actorItemsToCreate = this.getStatItemsToCreate(statType, true, false);
 
             if (actorItemsToCreate.length > 0)
             {
                 if (!this.system.sessionState.statCreationRequest[statType])
                 {
+                    const {unmappedStats} = this._getUnmappedStats(statType, false);
+                    const additionalNonDefaultStatItems = this.getStatItemsToCreate(statType, false, unmappedStats);
+                    actorItemsToCreate = [...actorItemsToCreate, ...additionalNonDefaultStatItems];
                     this._addNonMappedStatReportToNotes(statType);
 
                     // console.log(`${this.id} - _getStatObjectsFromWorld() - Requesting stat: '${statType}'`);
@@ -591,6 +570,43 @@ export class PrimePCActor extends Actor
             console.warn("getStatObjectsFromWorld() was called to soon. The world (and the items) weren't ready yet.");
         }
         return Promise.resolve(false);
+    }
+
+    getStatItemsToCreate(statType, defaultOnly, matchTitlesArray)
+    {
+        const actorItemsToCreate = [];
+
+        let v1LocalisationTable = null;
+
+        if (statType === "prime")
+        {
+            v1LocalisationTable = PrimeTables.getPrimeKeysAndTitles();
+        }
+        else if (statType === "refinement")
+        {
+            v1LocalisationTable = PrimeTables.getRefinementKeysAndTitles();
+        }
+
+        ItemDirectory.collection.forEach((item) =>
+        {
+            if (item.type == statType)
+            {
+                if ((defaultOnly && item.system.default) || !defaultOnly)
+                {
+                    if ((matchTitlesArray && matchTitlesArray.includes(item.name)) || !matchTitlesArray)
+                    {
+                        // Deep clone it to prevent object pointer related weirdness
+                        const itemClone = JSON.parse(JSON.stringify(item));
+                        itemClone.system.sourceKey = itemClone._id;
+                        delete itemClone._id;
+                        actorItemsToCreate.push(itemClone);
+                        this._injectV1ValueIfFound(itemClone, v1LocalisationTable, statType);
+                    }
+                }
+            }
+        });
+
+        return actorItemsToCreate;
     }
 
     async _injectV1ValueIfFound(itemClone, v1LocalisationTable, statType)
@@ -614,18 +630,7 @@ export class PrimePCActor extends Actor
             return;
         }
 
-        const unmappedStats = [];
-        let pointsRefunded = 0;
-        // eslint-disable-next-line no-unused-vars
-        for (const [key, stat] of Object.entries(this.system[`${statType}s`]))
-        {
-            if (stat.value > 0)
-            {
-                PrimeTables.addTranslations(stat);
-                unmappedStats.push(`${stat.title}: ${stat.value}`);
-                pointsRefunded += PrimePCActor.primeCost(parseInt(stat.value));
-            }
-        }
+        const {unmappedStats, pointsRefunded} = this._getUnmappedStats(statType, true);
 
         if (unmappedStats.length > 0)
         {
@@ -636,6 +641,30 @@ export class PrimePCActor extends Actor
             </p>`;
             this.system.notes += statReport;
         }
+    }
+
+    _getUnmappedStats(statType, appendTotal)
+    {
+        const unmappedStats = [];
+        let pointsRefunded = 0;
+        // eslint-disable-next-line no-unused-vars
+        for (const [key, stat] of Object.entries(this.system[`${statType}s`]))
+        {
+            if (stat.value > 0)
+            {
+                PrimeTables.addTranslations(stat);
+                if (appendTotal)
+                {
+                    unmappedStats.push(`${stat.title}: ${stat.value}`);
+                }
+                else
+                {
+                    unmappedStats.push(stat.title);
+                }
+                pointsRefunded += PrimePCActor.primeCost(parseInt(stat.value));
+            }
+        }
+        return {unmappedStats, pointsRefunded};
     }
 
     // "athletic" :

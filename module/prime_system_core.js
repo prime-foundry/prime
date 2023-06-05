@@ -7,15 +7,14 @@ import { PrimeItemSheet } from "./item/item-sheet.js";
 import { PrimeSettingsManager } from "./prime_settings.js";
 import { PrimeHandlebarsPartials } from "./prime_handlebars.js";
 import { PrimeDataMigrationManager } from "./migrations/prime_data_migrations_manager.js";
+import { ActorMigrationsManager } from "./migrations/actor-migrations-manager.js";
 
 Hooks.once("init", async function ()
 {
-
     game.prime = {
         PrimePCActor,
         PrimeItem
     };
-
 
     /**
 	 * Set an initiative formula for the system
@@ -61,5 +60,23 @@ Hooks.once("ready", async () =>
     await PrimeSettingsManager.addSettings();
     await PrimeHandlebarsPartials.loadPartials();
     await PrimeDataMigrationManager.performIfMigrationRequired();
-    await PrimeDataMigrationManager.checkForActorMigration();
+    bindActorMigrationScripts();
 });
+
+const  bindActorMigrationScripts  = () =>
+{
+    window.createV2Clones = async () =>
+    {
+        await ActorMigrationsManager.createV2Clones();
+    };
+    window.removeV2Clones = async () =>
+    {
+        await ActorMigrationsManager.removeV2Clones();
+    };
+    window.removeV1Clones = async () =>
+    {
+        await ActorMigrationsManager.removeV1Clones();
+    };
+
+    console.log("Actor migration methods bound: createV2Clones(), removeV2Clones() and removeV1Clones()");
+};

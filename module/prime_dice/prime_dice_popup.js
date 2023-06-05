@@ -2,11 +2,9 @@ import {PRIME_DICE_ROLLER} from "./prime_dice_roller.js";
 
 export class PRIME_DICE_POPUP extends Application
 {
-
-
-    constructor(...args)
+    constructor(data)
     {
-        super(...args);
+        super(data);
         game.users.apps.push(this);
         this.diceRoller = new PRIME_DICE_ROLLER();
         this.currentActor = null;

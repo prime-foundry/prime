@@ -1,12 +1,6 @@
 import { PrimeMigration_0_1_7_to_0_1_10 } from "./PrimeMigration_0_1_7_to_0_1_10.js";
 import { PrimeMigration_0_1_10_to_0_3_1 } from "./PrimeMigration_0_1_10_to_0_3_1.js";
 import { PrimeMigration_0_3_1_to_0_4_0 } from "./PrimeMigration_0_3_1_to_0_4_0.js";
-import { ActorMigrationsManager } from "./actor-migrations-manager.js";
-
-const migrateActors = async () =>
-{
-    await ActorMigrationsManager.assessMigrationRequirements();
-};
 
 export class PrimeDataMigrationManager
 {
@@ -23,15 +17,6 @@ export class PrimeDataMigrationManager
             this.performMigration();
         }
     }
-
-    static checkForActorMigration()
-    {
-        // Breaks us out of the execution thread so we can start a new one
-        // that's async (TODO: double check this doesn't interfere with the
-        // base upgrade)
-        window.setTimeout(migrateActors, 0);
-    }
-
 
     static checkSystemVsWorldVersions()
     {
@@ -103,8 +88,8 @@ export class PrimeDataMigrationManager
 
     static migrationError(currentWorldVersion, systemVersion)
     {
-        const errorMessage = "ERROR: Attempting to migrate from world version '" + currentWorldVersion + "' to system version '" + systemVersion + "' but unable to find matching migration.";
-        ui.notifications.error(errorMessage);
-        console.error(errorMessage);
+        const errorMessage = "WARNING: Attempting to migrate from world version '" + currentWorldVersion + "' to system version '" + systemVersion + "' but unable to find matching migration.";
+        ui.notifications.warn(errorMessage);
+        console.warn(errorMessage);
     }
 }

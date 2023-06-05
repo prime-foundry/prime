@@ -1,3 +1,4 @@
+
 import { PrimeTables } from "../prime_tables.js";
 import { ItemCardUI } from "../item/item_card_ui.js";
 import { ItemDragSort } from "../item/item_drag_sort.js";
@@ -5,9 +6,9 @@ import { ItemDragSort } from "../item/item_drag_sort.js";
 
 export class PrimePCActorSheet extends ActorSheet
 {
-    constructor()
+    constructor(data)
     {
-        super();
+        super(data);
         this.resizeOccurring = false;
         this.actorSheetMeasureTimer = false;
         this.updateWidthClassInterval = 50;
@@ -557,7 +558,7 @@ export class PrimePCActorSheet extends ActorSheet
     {
         const deleteLink = $(event.delegateTarget);
         const itemID = deleteLink.data("item-id");
-        this.actor.deleteOwnedItem(itemID);
+        this.actor.deleteEmbeddedDocuments("Item", [itemID]);
     }
 
     openStatItem(event)

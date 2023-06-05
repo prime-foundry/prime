@@ -3,7 +3,6 @@ export class PRIME_DICE_ROLLER
 
     async rollPrimeDice(diceParams)
     {
-
         const currentRoll = await new Roll("1dp");
         await currentRoll.evaluate({async: true});
         const diceResult = this.getDiceResult(currentRoll, diceParams);
