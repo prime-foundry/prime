@@ -51,12 +51,13 @@ export class PrimeMigration_0_7_0_and_0_8_0_to_0_8_1
 
     static _updateArmour(armour)
     {
+        delete armour.system.protection;
         return armour;
     }
 
-    static _updateWeapon(armour)
+    static _updateWeapon(weapon)
     {
-        return armour;
+        return weapon;
     }
 }
 
