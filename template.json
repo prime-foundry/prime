@@ -868,9 +868,19 @@
 						"description": "PRIME.weapon_keywords_description_accurate"
 					},
 					{
+						"key": "agonizing",
+						"title": "PRIME.weapon_keywords_title_agonizing",
+						"description": "PRIME.weapon_keywords_description_agonizing"
+					},
+					{
 						"key": "armour_damaging",
 						"title": "PRIME.weapon_keywords_title_armour_damaging",
 						"description": "PRIME.weapon_keywords_description_armour_damaging"
+					},
+					{
+						"key": "bludgeoning",
+						"title": "PRIME.weapon_keywords_title_bludgeoning",
+						"description": "PRIME.weapon_keywords_description_bludgeoning"
 					},
 					{
 						"key": "cumbersome",
@@ -893,9 +903,19 @@
 						"description": "PRIME.weapon_keywords_description_heavy"
 					},
 					{
+						"key": "jam_prone",
+						"title": "PRIME.weapon_keywords_title_jam_prone",
+						"description": "PRIME.weapon_keywords_description_jam_prone"
+					},
+					{
 						"key": "minimum_range",
 						"title": "PRIME.weapon_keywords_title_minimum_range",
 						"description": "PRIME.weapon_keywords_description_minimum_range"
+					},
+					{
+						"key": "non_armour_damaging",
+						"title": "PRIME.weapon_keywords_title_non_armour_damaging",
+						"description": "PRIME.weapon_keywords_description_non_armour_damaging"
 					},
 					{
 						"key": "penetrating",
@@ -918,9 +938,9 @@
 						"description": "PRIME.weapon_keywords_description_ranked"
 					},
 					{
-						"key": "shield_breaker",
-						"title": "PRIME.weapon_keywords_title_shield_breaker",
-						"description": "PRIME.weapon_keywords_description_shield_breaker"
+						"key": "slashing",
+						"title": "PRIME.weapon_keywords_title_slashing",
+						"description": "PRIME.weapon_keywords_title_slashing"
 					},
 					{
 						"key": "versatile",
@@ -1312,7 +1332,7 @@
 					"title": "PRIME.action_effect_type_misc"
 				}
 			],
-			
+
 			"miscBonusLookup":
 			[
 				{
