@@ -1,11 +1,8 @@
 export class ItemCardUI
 {
-    constructor()
-    {
-        this.currCard = null;
-        this.intentDuration = 333;
-        this.timerInterval = 20;
-    }
+    static currCard = null;
+    static intentDuration = 300;
+    static timerInterval = 50;
 
     static bindEvents(whatContainer)
     {

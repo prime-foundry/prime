@@ -1,36 +1,33 @@
 export class ItemDragSort
 {
-    constructor()
-    {
-        this.currSourceItem = null;
-        this.currDragItem = null;
-        this.currDragContainer = null;
-        this.currInsertMarker = null;
+    static currSourceItem = null;
+    static currDragItem = null;
+    static currDragContainer = null;
+    static currInsertMarker = null;
 
-        this.debugOverlay = null;
+    static debugOverlay = null;
 
-        this.dragClass = "dragContainer";
-        this.dragBoundsMargin = 5;
+    static dragClass = "dragContainer";
+    static dragBoundsMargin = 5;
 
-        this.bestTargetsData = null;
+    static bestTargetsData = null;
 
-        this.minCoordsMatrix = {rows: {}, cols:{}};
+    static minCoordsMatrix = {rows: {}, cols:{}};
 
-        this.dragItemTopOffset = null;
-        this.dragItemLeftOffset = null;
+    static dragItemTopOffset = null;
+    static dragItemLeftOffset = null;
 
-        this.globalEventsBound = false;
-        this.canDrag = false;
+    static globalEventsBound = false;
+    static canDrag = false;
 
-        // Show the overlap div's, match types by border and match direction by border.
-        this.showDebugOverlays = false;
+    // Show the overlap div's, match types by border and match direction by border.
+    static showDebugOverlays = false;
 
-        // Keep the match classes attached after mouse up.
-        this.persistMatchClasses = true;
+    // Keep the match classes attached after mouse up.
+    static persistMatchClasses = true;
 
-        // Whether or not to remove the overlap markers (only applies if debug overlays are on)
-        this.persistOverlapMarkers = true;
-    }
+    // Whether or not to remove the overlap markers (only applies if debug overlays are on)
+    static persistOverlapMarkers = true;
 
     static bindEvents(whatContainer, whatDraggableClass, allowHorizontalMatches, allowVerticalMatches, displaceTargets, matchHandler, whatItemType)
     {
