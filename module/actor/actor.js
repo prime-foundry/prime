@@ -656,11 +656,9 @@ export class PrimePCActor extends Actor
                     actorItemsToCreate = [...actorItemsToCreate, ...additionalNonDefaultStatItems];
                     this._addNonMappedStatReportToNotes(statType);
 
-                    // console.log(`${this.id} - _getStatObjectsFromWorld() - Requesting stat: '${statType}'`);
-                    // console.log(`Requesting stat: '${statType}' for '${this.name}', this.system.sessionState.statCreationRequest: `);
                     this.system.sessionState.statCreationRequest[statType] = true;
                     const createdItemPromiseReturn = await this.createEmbeddedDocuments("Item", actorItemsToCreate);
-                    // console.log(`${this.id} - _getStatObjectsFromWorld() - Request for '${statType}' complete. `);
+
                     return createdItemPromiseReturn;
                 }
             }
