@@ -10,7 +10,7 @@
 	<div class="flexRow flexWrap block infoBlock flexBetween">
 		<div class="blockTitle">Armour details</div>
 
-		<div class="cell100 flexRow verticalCenter flexBetween">
+		<div class="cell50 flexRow verticalCenter flexBetween">
 			<label for="system.armourType" class="resource-label cell30">Type:</label>
 			<select name="system.armourType" class="itemValueType cell70">
 				{{#select system.armourType}}
@@ -19,11 +19,6 @@
 				{{/each}}
 				{{/select}}
 			</select>
-		</div>
-
-		<div class="cell50 flexRow verticalCenter flexBetween">
-			<label for="system.protection" class="resource-label cell40">Protection:</label>
-			<input class="cell60" type="text" id="system.protection" name="system.protection" value="{{system.protection}}" data-dtype="Number" data-min="0" data-max="5"/>
 		</div>
 
 		<div class="cell50 flexRow verticalCenter flexBetween">

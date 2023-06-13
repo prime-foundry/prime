@@ -325,12 +325,10 @@
 
 	"PRIME.perk_actor_stat_bonus_max_wounds": "Maximum wounds",
 	"PRIME.perk_actor_stat_bonus_max_resilience": "Health - Resilience",
-	"PRIME.perk_actor_stat_bonus_max_protection": "Armour protection",
 	"PRIME.perk_actor_stat_bonus_max_armour_resilience": "Armour - Resilience",
 
 	"PRIME.perk_actor_stat_bonus_max_insanities": "Maximum insantities",
 	"PRIME.perk_actor_stat_bonus_max_psyche": "Mind - Psyche",
-	"PRIME.perk_actor_stat_bonus_max_stability": "Ward stability",
 	"PRIME.perk_actor_stat_bonus_max_ward_psyche": "Ward - Psyche",
 
 	"PRIME.actor_wound_condition_title_bleeding" : "Bleeding",

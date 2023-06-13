@@ -645,7 +645,7 @@ export class PrimePCActorSheet extends ActorSheet
         }
 
         //await armour.update(armour.data);
-        this.entity.updateOwnedItem(armour.data);
+        this.object.updateOwnedItem(armour.data);
 
         //this.entity.updateWornItemValues();
     }

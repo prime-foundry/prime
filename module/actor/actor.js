@@ -585,10 +585,6 @@ export class PrimePCActor extends Actor
     {
         var currentArmour = this.getMostResilientArmour(this.items);
 
-        // TO FIX: For some reason, these two do need to be data for the moment.
-        this.system.armour.protection.value = currentArmour.data.protection + this.getStatBonusesFromItems("armour.protection.value");
-        this.system.armour.protection.max = currentArmour.data.protection + this.getStatBonusesFromItems("armour.protection.max");
-
         var initialMaxValue = this.system.armour.resilience.max;
         this.system.armour.resilience.max = currentArmour.data.armourResilience + this.getStatBonusesFromItems("armour.resilience.max");
 
@@ -833,7 +829,7 @@ export class PrimePCActor extends Actor
     {
         var bestArmour =
         {
-            data: {armourResilience: 0, protection: 0}
+            data: {armourResilience: 0}
         };
         var currItem = null;
         var count = 0;

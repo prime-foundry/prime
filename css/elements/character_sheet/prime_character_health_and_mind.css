@@ -1,6 +1,6 @@
 
 .primeCharacterSheet .healthAndArmourOuter,
-.primeCharacterSheet .mindAndProtectionsOuter
+.primeCharacterSheet .mindAndArmourOuter
 {
 	position: relative;
 }
@@ -12,9 +12,8 @@
 	right: 5%;
 }
 
-
-.primeCharacterSheet .mindAndProtectionsOuter .topHalfBlock.block .blockTitle,
-.primeCharacterSheet .mindAndProtectionsOuter .bottomHalfBlock.block .blockTitle
+.primeCharacterSheet .mindAndArmourOuter .topHalfBlock.block .blockTitle,
+.primeCharacterSheet .mindAndArmourOuter .bottomHalfBlock.block .blockTitle
 {
 	left: 5%;
 	right: 55%;
@@ -147,6 +146,7 @@
 {
 	color: var(--darkBloodRed);
 }
+
 .primeCharacterSheet .insanitiesBlock .insanityCheckBoxWrapper.activePoint label
 {
 	color: var(--mindBlue);
@@ -208,11 +208,11 @@
 	margin: 0;
 	float: left;
 }
+
 .primeCharacterSheet .insanitiesBlock .insanityRow input
 {
 	float: right;
 }
-
 
 .primeCharacterSheet .injuriesBlock .injuryRow select,
 .primeCharacterSheet .insanitiesBlock .insanityRow select
@@ -235,23 +235,22 @@
 
 .primeCharacterSheet.narrowWidth .injuriesBlock .injuryRow .medkitIcon,
 .primeCharacterSheet.narrowWidth .insanitiesBlock .insanityRow .couchIcon
-
 {
 	font-size: 12px;
 }
 
 .primeCharacterSheet .healthAndArmourOuter .healthResilienceWrapper,
 .primeCharacterSheet .healthAndArmourOuter .armourResilienceWrapper,
-.primeCharacterSheet .mindAndProtectionsOuter .mindIntellectWrapper,
-.primeCharacterSheet .mindAndProtectionsOuter .mindArmourIntellectWrapper
+.primeCharacterSheet .mindAndArmourOuter .mindIntellectWrapper,
+.primeCharacterSheet .mindAndArmourOuter .mindArmourIntellectWrapper
 {
 	position: relative;
 }
 
 .primeCharacterSheet .healthAndArmourOuter .healthMaxResilience,
 .primeCharacterSheet .healthAndArmourOuter .armourMaxResilience,
-.primeCharacterSheet .mindAndProtectionsOuter .mindMaxIntellect,
-.primeCharacterSheet .mindAndProtectionsOuter .mindArmourMaxIntellect
+.primeCharacterSheet .mindAndArmourOuter .mindMaxIntellect,
+.primeCharacterSheet .mindAndArmourOuter .mindArmourMaxIntellect
 {
 	position: absolute;
     bottom: 0px;
@@ -260,15 +259,15 @@
     z-index: 50;
 }
 
-.primeCharacterSheet .mindAndProtectionsOuter .mindMaxIntellect,
-.primeCharacterSheet .mindAndProtectionsOuter .mindArmourMaxIntellect
+.primeCharacterSheet .mindAndArmourOuter .mindMaxIntellect,
+.primeCharacterSheet .mindAndArmourOuter .mindArmourMaxIntellect
 {
     left: auto;
     right: 15%;
 }
 
 .primeCharacterSheet .healthAndArmourOuter .healthMaxResilience,
-.primeCharacterSheet .mindAndProtectionsOuter .mindMaxIntellect
+.primeCharacterSheet .mindAndArmourOuter .mindMaxIntellect
 {
 	top: 0px;
 	bottom: auto;

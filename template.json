@@ -32,11 +32,6 @@
 				},
 				"armour":
 				{
-					"protection":
-					{
-						"value":0,
-						"max":0
-					},
 					"resilience":
 					{
 						"value":0,
@@ -82,11 +77,6 @@
 
 				"ward":
 				{
-					"stability":
-					{
-						"value":0,
-						"max":0
-					},
 					"psyche":
 					{
 						"value":0,
@@ -529,7 +519,7 @@
 				"updated": ""
 			},
 
-			"weapon": 
+			"weapon":
 			{
 				"weaponSize": "",
 				"weaponType": "",
@@ -540,27 +530,27 @@
 				"customActions": []
 			},
 
-			"ranged": 
+			"ranged":
 			{
 				"ranges":
 				{
-					"pointBlank": 
+					"pointBlank":
 					{
 						"value": 0
 					},
-					"short": 
+					"short":
 					{
 						"value": 0
 					},
-					"medium": 
+					"medium":
 					{
 						"value": 0
 					},
-					"long": 
+					"long":
 					{
 						"value": 0
 					},
-					"extreme": 
+					"extreme":
 					{
 						"value": 0
 					}
@@ -571,11 +561,10 @@
 					"capacity": ""
 				}
 			},
-			
+
 			"armour":
 			{
 				"armourType": "",
-				"protection": 0,
 				"armourResilience": 1,
 				"keywords": [],
 				"untrainedPenalty": [],
@@ -715,14 +704,9 @@
 					"title": "PRIME.perk_actor_stat_bonus_max_resilience"
 				},
 				{
-					"key": "armour.protection.max",
-					"title": "PRIME.perk_actor_stat_bonus_max_protection"
-				},
-				{
 					"key": "armour.resilience.max",
 					"title": "PRIME.perk_actor_stat_bonus_max_armour_resilience"
 				},
-
 				{
 					"key": "mind.insanities.max",
 					"title": "PRIME.perk_actor_stat_bonus_max_insanities"
@@ -730,10 +714,6 @@
 				{
 					"key": "mind.psyche.max",
 					"title": "PRIME.perk_actor_stat_bonus_max_psyche"
-				},
-				{
-					"key": "ward.stability.max",
-					"title": "PRIME.perk_actor_stat_bonus_max_stability"
 				},
 				{
 					"key": "ward.psyche.max",
