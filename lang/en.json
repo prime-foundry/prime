@@ -326,6 +326,7 @@
 	"PRIME.perk_actor_stat_bonus_max_wounds": "Maximum wounds",
 	"PRIME.perk_actor_stat_bonus_max_resilience": "Health - Resilience",
 	"PRIME.perk_actor_stat_bonus_max_armour_resilience": "Armour - Resilience",
+	"PRIME.perk_actor_stat_bonus_max_armour_wounds": "Armour - Wounds",
 
 	"PRIME.perk_actor_stat_bonus_max_insanities": "Maximum insantities",
 	"PRIME.perk_actor_stat_bonus_max_psyche": "Mind - Psyche",

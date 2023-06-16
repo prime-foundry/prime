@@ -4,7 +4,7 @@
 		<label for="name">Name:</label>
 		<input name="name" type="text" value="{{item.name}}" placeholder="Name" />
 	</h1>
-	
+
 	<div class="flexRow infoBlock flexBetween">
 		<div class="cell50 flexRow verticalCenter flexBetween">
 			<label class="cell60" for="system.quantity" >Quantity:</label>
@@ -42,7 +42,7 @@
 		{{#if isOwned}}
 		<i class="fas fa-user hasTooltip" title="Item is owned by character: '{{owningCharacterName}}'"></i>
 		{{else}}
-		<i class="fas fa-users hasTooltip" title="Main item template - Item is no owned."></i>
+		<i class="fas fa-users hasTooltip" title="Main item template - Item is not owned."></i>
 		{{/if}}
 	</div>
 </div>

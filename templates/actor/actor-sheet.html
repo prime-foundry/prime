@@ -2,7 +2,7 @@
 
 	{{!-- Sheet Header --}}
 	<div class="metaDataContent flexColumn">
-		<div class="metaDataContentInner flexRow">
+		<div class="metaDataContentInner flexRow flexBetween">
 			{{> actorBaseMetadata partialClasses='cell50'}}
 
 			<div class="flexColumn cell50 flexBetween">
@@ -13,7 +13,7 @@
 						{{system.sheetVersion}}
 					</div>
 				</div>
-				{{> actorActionPoints partialClasses='cell100 bottomBlockTitle flexGrow'}}
+				{{> actorActionPoints partialClasses='bottomBlockTitle flexGrow'}}
 			</div>
 
 			<div class="toggleEditableWrapper">
@@ -30,7 +30,7 @@
 			</div>
 		</div>
 
-		<div class="metaDataContentInner flexRow flexBetween flexWrap">
+		<div class="metaDataContentInner healthAndArmourOuterWrapper flexRow flexBetween">
 			{{> actorPhysicalHealth partialClasses='cell50'}}
 
 			{{> actorMentalHealth partialClasses='cell50'}}

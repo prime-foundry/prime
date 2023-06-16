@@ -46,6 +46,7 @@ export class PrimeDataMigrationManager
         const needsMigration = isNewerVersion(systemVersion, currentWorldVersion);
         if (needsMigration)
         {
+            // eslint-disable-next-line max-len
             ui.notifications.info("World migration required, please be patient and do not close your game or shut down your server. World version: '" + currentWorldVersion + "', System version: '" + systemVersion + "'");
             return true;
         }
@@ -93,6 +94,7 @@ export class PrimeDataMigrationManager
 
     static migrationError(currentWorldVersion, systemVersion)
     {
+        // eslint-disable-next-line max-len
         const errorMessage = "WARNING: Attempting to migrate from world version '" + currentWorldVersion + "' to system version '" + systemVersion + "' but unable to find matching migration.";
         ui.notifications.warn(errorMessage);
         console.warn(errorMessage);

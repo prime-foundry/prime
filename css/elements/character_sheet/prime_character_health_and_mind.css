@@ -1,3 +1,8 @@
+.primeCharacterSheet .healthAndArmourOuterWrapper
+{
+	padding-right: 1%;
+}
+
 
 .primeCharacterSheet .healthAndArmourOuter,
 .primeCharacterSheet .mindAndArmourOuter
@@ -36,9 +41,7 @@
 
 .primeCharacterSheet .resilienceBlock input.bigNumberInput
 {
-	width: 75%;
-    text-align: left;
-    padding-left: 18%;
+    text-align: center;
 }
 
 .primeCharacterSheet .resilienceBlock .healthResilienceWrapper input.bigNumberInput,
@@ -241,6 +244,7 @@
 
 .primeCharacterSheet .healthAndArmourOuter .healthResilienceWrapper,
 .primeCharacterSheet .healthAndArmourOuter .armourResilienceWrapper,
+.primeCharacterSheet .healthAndArmourOuter .armourWoundsWrapper,
 .primeCharacterSheet .mindAndArmourOuter .mindIntellectWrapper,
 .primeCharacterSheet .mindAndArmourOuter .mindArmourIntellectWrapper
 {
@@ -249,13 +253,16 @@
 
 .primeCharacterSheet .healthAndArmourOuter .healthMaxResilience,
 .primeCharacterSheet .healthAndArmourOuter .armourMaxResilience,
+.primeCharacterSheet .healthAndArmourOuter .armourMaxWounds,
 .primeCharacterSheet .mindAndArmourOuter .mindMaxIntellect,
 .primeCharacterSheet .mindAndArmourOuter .mindArmourMaxIntellect
 {
 	position: absolute;
     bottom: 0px;
-    left: 15%;
+    left: 0;
+    right: 0;
     font-size: 10px;
+	text-align: center;
     z-index: 50;
 }
 

@@ -36,6 +36,11 @@
 					{
 						"value":0,
 						"max":0
+					},
+					"wounds":
+					{
+						"value":0,
+						"max":0
 					}
 				},
 
@@ -57,7 +62,6 @@
 
 			"mental_template":
 			{
-
 				"mind":
 				{
 					"insanities":
@@ -566,6 +570,7 @@
 			{
 				"armourType": "",
 				"armourResilience": 1,
+				"armourWounds": 0,
 				"keywords": [],
 				"untrainedPenalty": [],
 				"isWorn": false
@@ -702,6 +707,10 @@
 				{
 					"key": "health.resilience.max",
 					"title": "PRIME.perk_actor_stat_bonus_max_resilience"
+				},
+				{
+					"key": "armour.wounds.max",
+					"title": "PRIME.perk_actor_stat_bonus_max_armour_wounds"
 				},
 				{
 					"key": "armour.resilience.max",
@@ -1098,11 +1107,6 @@
 				"keywords":
 				[
 					{
-						"key": "ablative",
-						"title": "PRIME.armour_keyword_title_ablative",
-						"description": "PRIME.armour_keyword_description_ablative"
-					},
-					{
 						"key": "camouflaging",
 						"title": "PRIME.armour_keyword_title_camouflaging",
 						"description": "PRIME.armour_keyword_description_camouflaging"
@@ -1154,7 +1158,7 @@
 				]
 			}
 		},
-		
+
 		"perks":
 		{
 			"bonusTypes":
