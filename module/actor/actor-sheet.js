@@ -645,7 +645,7 @@ export class PrimePCActorSheet extends ActorSheet
         }
 
         //await armour.update(armour.data);
-        this.entity.updateOwnedItem(armour.data);
+        this.object.updateOwnedItem(armour.data);
 
         //this.entity.updateWornItemValues();
     }
@@ -717,7 +717,7 @@ export class PrimePCActorSheet extends ActorSheet
     {
         //console.log("I would insert item '" + itemIndex + "' after item '" + insertAfterIndex + "'");
         //a = b;
-        var processedItems = this.entity.getProcessedItems();
+        var processedItems = this.object.getProcessedItems();
 
         let itemsToSort = processedItems[itemType];
         if (itemType == "inventory")
