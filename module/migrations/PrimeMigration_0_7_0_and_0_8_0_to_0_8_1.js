@@ -52,13 +52,15 @@ export class PrimeMigration_0_7_0_and_0_8_0_to_0_8_1
     static _updateArmour(armour)
     {
         delete armour.system.protection;
+        // No other adjustments required? Keyword data is checked against existing data, so any legacy keywords will never find a match
+        // so probably not worth the effort of digging inside the effects data?
         return armour;
     }
 
     static _updateWeapon(weapon)
     {
+        // No adjustments required? Keyword data is checked against existing data, so any legacy keywords will never find a match
+        // so probably not worth the effort of digging inside the effects data?
         return weapon;
     }
 }
-
-window.PrimeMigration_0_7_0_and_0_8_0_to_0_8_1 = PrimeMigration_0_7_0_and_0_8_0_to_0_8_1;
