@@ -160,26 +160,31 @@
 	"PRIME.item_rarity_rare" : "Rare",
 	"PRIME.item_rarity_legendary" : "Legendary",
 	"PRIME.item_rarity_unique" : "Unique",
-	
+
 	"PRIME.weapon_sizes" : "Weapon size",
 	"PRIME.weapon_sizes_tiny" : "Tiny",
 	"PRIME.weapon_sizes_small" : "Small",
 	"PRIME.weapon_sizes_medium" : "Medium",
 	"PRIME.weapon_sizes_large" : "Large",
 	"PRIME.weapon_sizes_huge" : "Huge",
-	
 
 	"PRIME.weapon_keywords_title_accurate" : "Accurate",
 	"PRIME.weapon_keywords_description_accurate" : "Allows the 'Fast Aim' combo action to be performed with this weapon.",
 
-	"PRIME.weapon_keywords_title_armour_damaging" : "Armour damaging",
-	"PRIME.weapon_keywords_description_armour_damaging" : "Weapon will cause damage to armour on a successful attack. Causes 1 point of Armour Resilience damage on a hit where armour defended the attack",
+	"PRIME.weapon_keywords_title_agonizing" : "Agonizing",
+	"PRIME.weapon_keywords_description_agonizing" : "The weapon is painful and can cause AP loss. Target must resist the pain, each 5 points of failure causes 1 AP loss. Base difficulty is 8 + the damage step + weapon weapon damage",
+
+	"PRIME.weapon_keywords_title_armour_damaging" : "Armour bane",
+	"PRIME.weapon_keywords_description_armour_damaging" : "Weapon will cause damage to armour on a successful attack. Causes 1 additional point of Armour Resilience or Wound damage on a hit where armour defended the attack",
+
+	"PRIME.weapon_keywords_title_bludgeoning" : "Bludgeoning",
+	"PRIME.weapon_keywords_description_bludgeoning" : "On a critical step (normally a Step 5), this weapon causes an additional wound vs armour",
 
 	"PRIME.weapon_keywords_title_cumbersome" : "Cumbersome",
 	"PRIME.weapon_keywords_description_cumbersome" : "Attacks with this weapon cost +1 AP",
 
 	"PRIME.weapon_keywords_title_devastating" : "Devastating",
-	"PRIME.weapon_keywords_description_devastating" : "Counts as two wounds towards Wound Limit, often linked to another wound type, e.g. Devastating Bleeding",
+	"PRIME.weapon_keywords_description_devastating" : "Reduces the step required to generate a critical step by two, typically making a step 3 a critical.",
 
 	"PRIME.weapon_keywords_title_flexible" : "Flexible",
 	"PRIME.weapon_keywords_description_flexible" : "This weapon is hard to Parry or Block (-2) and is hard to use to Parry (-2)",
@@ -187,23 +192,32 @@
 	"PRIME.weapon_keywords_title_heavy" : "Heavy",
 	"PRIME.weapon_keywords_description_heavy" : "Must have Strength Prime of 4 or higher OR relevant perk.",
 
+	"PRIME.weapon_keywords_title_jam_prone" : "Jam Prone",
+	"PRIME.weapon_keywords_description_jam_prone" : "On a Bane this weapon has jammed",
+
 	"PRIME.weapon_keywords_title_minimum_range" : "Minimum range",
 	"PRIME.weapon_keywords_description_minimum_range" : "Weapon can only be used at more distant targets (not target next to you)",
 
+	"PRIME.weapon_keywords_title_non_armour_damaging" : "Non-Armour Damaging",
+	"PRIME.weapon_keywords_description_non_armour_damaging" : "Weapon cannot cause armour resilience loss - may still cause wounds",
+
 	"PRIME.weapon_keywords_title_penetrating" : "Penetrating",
-	"PRIME.weapon_keywords_description_penetrating" : "Reduces armour protection by one per rank",
+	"PRIME.weapon_keywords_description_penetrating" : "Ignore armour on step 5 for wounds",
 
 	"PRIME.weapon_keywords_title_pistol" : "Pistol",
 	"PRIME.weapon_keywords_description_pistol" : "Allows the weapon to be fired without penalties whilst in melee range the enemy.",
 
 	"PRIME.weapon_keywords_title_pole" : "Pole",
-	"PRIME.weapon_keywords_description_pole" : "Gains +2 to Set to Recieve Reaction",
+	"PRIME.weapon_keywords_description_pole" : "Gains +2 to Set to Receive Reaction",
+
+	"PRIME.weapon_keywords_title_punishing" : "Punishing",
+	"PRIME.weapon_keywords_description_punishing" : "Reduces the step required to generate a critical step by one, typically making a step 4 a critical.",
 
 	"PRIME.weapon_keywords_title_ranked" : "Ranked",
 	"PRIME.weapon_keywords_description_ranked" : "Weapon can be used for ranked fighting",
 
-	"PRIME.weapon_keywords_title_shield_breaker" : "Shield breaker",
-	"PRIME.weapon_keywords_description_shield_breaker" : "Weapon causes additional damage to shields.",
+	"PRIME.weapon_keywords_title_slashing" : "Slashing",
+	"PRIME.weapon_keywords_description_slashing" : "On a critical step (normally a Step 5), this weapon causes an additional wound vs flesh",
 
 	"PRIME.weapon_keywords_title_versatile" : "Versatile",
 	"PRIME.weapon_keywords_description_versatile" : "Choose Strength or Manoeuvre as Prime",
@@ -217,10 +231,10 @@
 
 	"PRIME.weapon_action_title_bash" : "Bash",
 	"PRIME.weapon_action_description_bash" : "Target loses 2 Action Points if Resilience damage caused",
-	
+
 	"PRIME.weapon_action_title_cleave" : "Cleave",
 	"PRIME.weapon_action_description_cleave" : "This weapon can be swung for more damage (+1 DR)",
-	
+
 	"PRIME.weapon_action_title_hook" : "Hook",
 	"PRIME.weapon_action_description_hook" : "Needs description",
 
@@ -229,7 +243,6 @@
 
 	"PRIME.weapon_action_title_stab" : "Stab",
 	"PRIME.weapon_action_description_stab" : "Improve Armour Penetration (+2 AP)",
-	
 
 	"PRIME.weapon_action_title_surpress" : "Surpress",
 	"PRIME.weapon_action_description_surpress" : "Make attack role at area, volume vs ammo capacity. Anyone moving through the zone must resist attack roll.",
@@ -244,7 +257,7 @@
 	"PRIME.weapon_melee_type_dagger" : "Dagger",
 	"PRIME.weapon_melee_type_axe" : "Axe",
 	"PRIME.weapon_melee_type_pole" : "Pole",
-	
+
 	"PRIME.weapon_ranged_type" : "Type",
 	"PRIME.weapon_ranged_type_bow" : "Bow",
 	"PRIME.weapon_ranged_type_mechanical" : "Mechanical",
@@ -263,8 +276,6 @@
 	"PRIME.armour_type_plate" : "Plate",
 	"PRIME.armour_type_other" : "Other",
 
-	"PRIME.armour_keyword_title_ablative": "Ablative",
-	"PRIME.armour_keyword_description_ablative": "If the armour's resilience is used to defend against damage, it is always reduced. This is the case for even a normal attack, unless the weapon is explicetly incapable of armour damage.",
 	"PRIME.armour_keyword_title_cumbersome": "Cumbersome",
 	"PRIME.armour_keyword_description_cumbersome": "Increases the cost of any actions involving moving across the battlefield by +1 AP.",
 	"PRIME.armour_keyword_title_restrictive": "Restrictive",
@@ -272,7 +283,7 @@
 	"PRIME.armour_keyword_title_camouflaging": "Camouflaging",
 	"PRIME.armour_keyword_description_camouflaging": "In the appropriate setting, this armour grants a +1 to attempts to hide from sight.",
 	"PRIME.armour_keyword_title_silent": "Silent",
-	"PRIME.armour_keyword_description_silent": "The armour is unusally silent and adds +1 to attempts to move silently.",
+	"PRIME.armour_keyword_description_silent": "The armour is unusually silent and adds +1 to attempts to move silently.",
 	"PRIME.armour_keyword_title_sense_depriving": "Sense Depriving",
 	"PRIME.armour_keyword_description_sense_depriving": "Adds +2 to the difficulty of any actions involving the Perception Prime.",
 
@@ -303,7 +314,7 @@
 	"PRIME.perk_prerequisite_maximum_refinement": "Maximum Refinement",
 	"PRIME.perk_prerequisite_maximum_stat": "Maximum Other",
 	"PRIME.perk_prerequisite_other_perk_purchased": "Other perk",
-	
+
 	"PRIME.core_setting": "Setting",
 	"PRIME.core_settings_prime_possession": "Prime / Possession",
 	"PRIME.core_settings_aethernauts": "Aethernauts",
@@ -314,14 +325,12 @@
 
 	"PRIME.perk_actor_stat_bonus_max_wounds": "Maximum wounds",
 	"PRIME.perk_actor_stat_bonus_max_resilience": "Health - Resilience",
-	"PRIME.perk_actor_stat_bonus_max_protection": "Armour protection",
 	"PRIME.perk_actor_stat_bonus_max_armour_resilience": "Armour - Resilience",
+	"PRIME.perk_actor_stat_bonus_max_armour_wounds": "Armour - Wounds",
 
 	"PRIME.perk_actor_stat_bonus_max_insanities": "Maximum insantities",
 	"PRIME.perk_actor_stat_bonus_max_psyche": "Mind - Psyche",
-	"PRIME.perk_actor_stat_bonus_max_stability": "Ward stability",
 	"PRIME.perk_actor_stat_bonus_max_ward_psyche": "Ward - Psyche",
-	
 
 	"PRIME.actor_wound_condition_title_bleeding" : "Bleeding",
 	"PRIME.actor_wound_condition_description_bleeding" : "Every time a Bane (natural 1) is rolled to perform an action lose 1 Resilience",

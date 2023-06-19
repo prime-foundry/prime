@@ -32,7 +32,7 @@
 				},
 				"armour":
 				{
-					"protection":
+					"wounds":
 					{
 						"value":0,
 						"max":0
@@ -62,7 +62,6 @@
 
 			"mental_template":
 			{
-
 				"mind":
 				{
 					"insanities":
@@ -82,10 +81,10 @@
 
 				"ward":
 				{
-					"stability":
+					"insanities":
 					{
-						"value":0,
-						"max":0
+						"value": 0,
+						"max": 0
 					},
 					"psyche":
 					{
@@ -529,7 +528,7 @@
 				"updated": ""
 			},
 
-			"weapon": 
+			"weapon":
 			{
 				"weaponSize": "",
 				"weaponType": "",
@@ -540,27 +539,27 @@
 				"customActions": []
 			},
 
-			"ranged": 
+			"ranged":
 			{
 				"ranges":
 				{
-					"pointBlank": 
+					"pointBlank":
 					{
 						"value": 0
 					},
-					"short": 
+					"short":
 					{
 						"value": 0
 					},
-					"medium": 
+					"medium":
 					{
 						"value": 0
 					},
-					"long": 
+					"long":
 					{
 						"value": 0
 					},
-					"extreme": 
+					"extreme":
 					{
 						"value": 0
 					}
@@ -571,12 +570,12 @@
 					"capacity": ""
 				}
 			},
-			
+
 			"armour":
 			{
 				"armourType": "",
-				"protection": 0,
 				"armourResilience": 1,
+				"armourWounds": 0,
 				"keywords": [],
 				"untrainedPenalty": [],
 				"isWorn": false
@@ -715,14 +714,13 @@
 					"title": "PRIME.perk_actor_stat_bonus_max_resilience"
 				},
 				{
-					"key": "armour.protection.max",
-					"title": "PRIME.perk_actor_stat_bonus_max_protection"
+					"key": "armour.wounds.max",
+					"title": "PRIME.perk_actor_stat_bonus_max_armour_wounds"
 				},
 				{
 					"key": "armour.resilience.max",
 					"title": "PRIME.perk_actor_stat_bonus_max_armour_resilience"
 				},
-
 				{
 					"key": "mind.insanities.max",
 					"title": "PRIME.perk_actor_stat_bonus_max_insanities"
@@ -730,10 +728,6 @@
 				{
 					"key": "mind.psyche.max",
 					"title": "PRIME.perk_actor_stat_bonus_max_psyche"
-				},
-				{
-					"key": "ward.stability.max",
-					"title": "PRIME.perk_actor_stat_bonus_max_stability"
 				},
 				{
 					"key": "ward.psyche.max",
@@ -868,9 +862,19 @@
 						"description": "PRIME.weapon_keywords_description_accurate"
 					},
 					{
+						"key": "agonizing",
+						"title": "PRIME.weapon_keywords_title_agonizing",
+						"description": "PRIME.weapon_keywords_description_agonizing"
+					},
+					{
 						"key": "armour_damaging",
 						"title": "PRIME.weapon_keywords_title_armour_damaging",
 						"description": "PRIME.weapon_keywords_description_armour_damaging"
+					},
+					{
+						"key": "bludgeoning",
+						"title": "PRIME.weapon_keywords_title_bludgeoning",
+						"description": "PRIME.weapon_keywords_description_bludgeoning"
 					},
 					{
 						"key": "cumbersome",
@@ -893,9 +897,19 @@
 						"description": "PRIME.weapon_keywords_description_heavy"
 					},
 					{
+						"key": "jam_prone",
+						"title": "PRIME.weapon_keywords_title_jam_prone",
+						"description": "PRIME.weapon_keywords_description_jam_prone"
+					},
+					{
 						"key": "minimum_range",
 						"title": "PRIME.weapon_keywords_title_minimum_range",
 						"description": "PRIME.weapon_keywords_description_minimum_range"
+					},
+					{
+						"key": "non_armour_damaging",
+						"title": "PRIME.weapon_keywords_title_non_armour_damaging",
+						"description": "PRIME.weapon_keywords_description_non_armour_damaging"
 					},
 					{
 						"key": "penetrating",
@@ -918,9 +932,9 @@
 						"description": "PRIME.weapon_keywords_description_ranked"
 					},
 					{
-						"key": "shield_breaker",
-						"title": "PRIME.weapon_keywords_title_shield_breaker",
-						"description": "PRIME.weapon_keywords_description_shield_breaker"
+						"key": "slashing",
+						"title": "PRIME.weapon_keywords_title_slashing",
+						"description": "PRIME.weapon_keywords_title_slashing"
 					},
 					{
 						"key": "versatile",
@@ -1098,11 +1112,6 @@
 				"keywords":
 				[
 					{
-						"key": "ablative",
-						"title": "PRIME.armour_keyword_title_ablative",
-						"description": "PRIME.armour_keyword_description_ablative"
-					},
-					{
 						"key": "camouflaging",
 						"title": "PRIME.armour_keyword_title_camouflaging",
 						"description": "PRIME.armour_keyword_description_camouflaging"
@@ -1154,7 +1163,7 @@
 				]
 			}
 		},
-		
+
 		"perks":
 		{
 			"bonusTypes":
@@ -1312,7 +1321,7 @@
 					"title": "PRIME.action_effect_type_misc"
 				}
 			],
-			
+
 			"miscBonusLookup":
 			[
 				{

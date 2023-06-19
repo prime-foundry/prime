@@ -585,10 +585,6 @@ export class PrimePCActor extends Actor
     {
         var currentArmour = this.getMostResilientArmour(this.items);
 
-        // TO FIX: For some reason, these two do need to be data for the moment.
-        this.system.armour.protection.value = currentArmour.data.protection + this.getStatBonusesFromItems("armour.protection.value");
-        this.system.armour.protection.max = currentArmour.data.protection + this.getStatBonusesFromItems("armour.protection.max");
-
         var initialMaxValue = this.system.armour.resilience.max;
         this.system.armour.resilience.max = currentArmour.data.armourResilience + this.getStatBonusesFromItems("armour.resilience.max");
 
@@ -656,11 +652,9 @@ export class PrimePCActor extends Actor
                     actorItemsToCreate = [...actorItemsToCreate, ...additionalNonDefaultStatItems];
                     this._addNonMappedStatReportToNotes(statType);
 
-                    // console.log(`${this.id} - _getStatObjectsFromWorld() - Requesting stat: '${statType}'`);
-                    // console.log(`Requesting stat: '${statType}' for '${this.name}', this.system.sessionState.statCreationRequest: `);
                     this.system.sessionState.statCreationRequest[statType] = true;
                     const createdItemPromiseReturn = await this.createEmbeddedDocuments("Item", actorItemsToCreate);
-                    // console.log(`${this.id} - _getStatObjectsFromWorld() - Request for '${statType}' complete. `);
+
                     return createdItemPromiseReturn;
                 }
             }
@@ -835,7 +829,7 @@ export class PrimePCActor extends Actor
     {
         var bestArmour =
         {
-            data: {armourResilience: 0, protection: 0}
+            data: {armourResilience: 0}
         };
         var currItem = null;
         var count = 0;

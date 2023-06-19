@@ -1,6 +1,7 @@
 import { PrimeMigration_0_1_7_to_0_1_10 } from "./PrimeMigration_0_1_7_to_0_1_10.js";
 import { PrimeMigration_0_1_10_to_0_3_1 } from "./PrimeMigration_0_1_10_to_0_3_1.js";
 import { PrimeMigration_0_3_1_to_0_4_0 } from "./PrimeMigration_0_3_1_to_0_4_0.js";
+import { PrimeMigration_0_7_0_and_0_8_0_to_0_8_1 } from "./PrimeMigration_0_7_0_and_0_8_0_to_0_8_1.js";
 
 export class PrimeDataMigrationManager
 {
@@ -45,6 +46,7 @@ export class PrimeDataMigrationManager
         const needsMigration = isNewerVersion(systemVersion, currentWorldVersion);
         if (needsMigration)
         {
+            // eslint-disable-next-line max-len
             ui.notifications.info("World migration required, please be patient and do not close your game or shut down your server. World version: '" + currentWorldVersion + "', System version: '" + systemVersion + "'");
             return true;
         }
@@ -80,6 +82,10 @@ export class PrimeDataMigrationManager
         case "0.3.1":
             PrimeMigration_0_3_1_to_0_4_0.update();
             break;
+        case "0.7.0":
+        case "0.8.0":
+            PrimeMigration_0_7_0_and_0_8_0_to_0_8_1.update();
+            break;
         default:
             this.migrationError(currentWorldVersion, systemVersion);
             break;
@@ -88,6 +94,7 @@ export class PrimeDataMigrationManager
 
     static migrationError(currentWorldVersion, systemVersion)
     {
+        // eslint-disable-next-line max-len
         const errorMessage = "WARNING: Attempting to migrate from world version '" + currentWorldVersion + "' to system version '" + systemVersion + "' but unable to find matching migration.";
         ui.notifications.warn(errorMessage);
         console.warn(errorMessage);

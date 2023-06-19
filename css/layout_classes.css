@@ -161,7 +161,8 @@ input.cell100,
 	border-radius: 5px;
 	padding: 11px 5px 5px 5px;
 	margin: 11px 5px 5px 5px;
-	border:1px solid var(--borderGrey);
+	border:1px solid
+	var(--borderGrey);
 	background: rgba(0,0,0,0.05);
 }
 
@@ -204,6 +205,11 @@ input.cell100,
 	display:flex;
 	justify-content: center;
 	align-items: center;
+}
+
+.highBlockTitle
+{
+	z-index: 1;
 }
 
 .block.bottomBlockTitle .blockTitle
@@ -257,6 +263,16 @@ input.cell100,
 	border-radius: 0px 0px 5px 5px;
 	border-top-width: 0px;
 	margin-top: 0px;
+}
+
+.block.verticalMiddleBlock
+{
+	border-radius: 0px;
+	border-top-width: 0px;
+	border-bottom-width: 0px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding: 0 5px;
 }
 
 .primeTableWrapper
