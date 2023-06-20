@@ -434,9 +434,9 @@ export class PrimePCActor extends Actor
                 itemClonesByTypes[currItem.type] = [];
             }
 
-            let processedCloneItem = currItem.getProcessedClone(currItem);
-
+            let processedCloneItem = currItem.getProcessedClone();
             itemClonesByTypes[currItem.type].push(processedCloneItem);
+
         });
 
         return itemClonesByTypes;
@@ -880,24 +880,13 @@ export class PrimePCActor extends Actor
 
     getStatBonusesFromItems(whatStatDataPath)
     {
-        var ownedItemClones = this.getProcessedItems();
-        var totalAdjustments = 0;
+        let totalAdjustments = 0;
 
-        for (var itemType in ownedItemClones)
+        this.items.forEach((currItem) =>
         {
-            var currItemClones = ownedItemClones[itemType];
-            if (ownedItemClones && currItemClones)
-            {
-                var count = 0;
-                while (count < currItemClones.length)
-                {
-                    var currItem = currItemClones[count];
-                    var adjustment = this.getItemAdjustment(currItem, whatStatDataPath);
-                    totalAdjustments += adjustment;
-                    count++;
-                }
-            }
-        }
+            var adjustment = this.getItemAdjustment(currItem, whatStatDataPath);
+            totalAdjustments += adjustment;
+        });
 
         return totalAdjustments;
     }
@@ -905,11 +894,13 @@ export class PrimePCActor extends Actor
     getItemAdjustment(whatItem, whatStatDataPath)
     {
         var itemStateAdjustments = 0;
-        var count = 0;
-        while (whatItem.effects && count < whatItem.effects.length)
+
+        whatItem.effects.forEach((currEffect) =>
         {
-            let currEffect = whatItem.effects[count];
-            if (currEffect.flags.effectType == "bonus" && currEffect.flags.effectSubType == "actorStatBonus" && currEffect.flags.path == whatStatDataPath)
+            if (currEffect.flags.effectType == "bonus" &&
+                currEffect.flags.effectSubType == "actorStatBonus" &&
+                currEffect.flags.path == whatStatDataPath
+            )
             {
                 var parseValue = parseInt(currEffect.flags.value);
                 if (!isNaN(parseValue))
@@ -921,8 +912,7 @@ export class PrimePCActor extends Actor
                     console.error("ERROR: Found a stat adjustment value I couldn't turn into a bonus. Item / Effect", whatItem, currEffect);
                 }
             }
-            count++;
-        }
+        });
 
         return itemStateAdjustments;
     }
