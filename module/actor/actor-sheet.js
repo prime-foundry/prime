@@ -23,10 +23,7 @@ export class PrimePCActorSheet extends ActorSheet
 
     async _render(force=false, options={})
     {
-        //if (!this.bulkUpdatingOwnedItems)
-        //{
         return await super._render(force, options);
-        //}
     }
 
     /** @override */
@@ -69,11 +66,25 @@ export class PrimePCActorSheet extends ActorSheet
         // eslint-disable-next-line no-unused-vars
         Hooks.on("preUpdateActor", function(actorData, changeData, options, maybeUpdateID)
         {
-            if (changeData.system && changeData.system.actionPoints && changeData.system.actionPoints.lastTotal && !changeData.system.actionPoints.value && changeData.system.actionPoints.value !== 0)
+            if (
+                changeData.system &&
+                changeData.system.actionPoints &&
+                changeData.system.actionPoints.lastTotal &&
+                !changeData.system.actionPoints.value &&
+                changeData.system.actionPoints.value !== 0
+            )
             {
                 return false;
             }
-            if (changeData.actionPoints && Array.isArray(changeData.actionPoints) && !changeData.system && !changeData.name && !changeData.img && (changeData.token && !changeData.token.img))
+
+            if (
+                changeData.actionPoints &&
+                Array.isArray(changeData.actionPoints) &&
+                !changeData.system &&
+                !changeData.name &&
+                !changeData.img &&
+                (changeData.token && !changeData.token.img)
+            )
             {
                 return false;
             }
@@ -91,7 +102,6 @@ export class PrimePCActorSheet extends ActorSheet
     async getData()
     {
         const sheetData = super.getData();
-        //sheetData.dtypes = ["String", "Number", "Boolean"];
 
         sheetData.characterNameClass = this.getCharacterNameClass(sheetData.actor.name);
         sheetData.isFromTokenClass = "";
@@ -211,8 +221,8 @@ export class PrimePCActorSheet extends ActorSheet
 
     sortByItemOrder(itemA, itemB)
     {
-        var itemAPosition = this.currentItemSortList[itemA._id];
-        var itemBPosition = this.currentItemSortList[itemB._id];
+        var itemAPosition = this.currentItemSortList[itemA.itemID];
+        var itemBPosition = this.currentItemSortList[itemB.itemID];
 
         if ((!itemAPosition && itemAPosition !== 0) || itemAPosition == -1)	// Sorting data is missing or not generated yet - leave with initial order
         {
@@ -715,8 +725,6 @@ export class PrimePCActorSheet extends ActorSheet
 
     updateSortOrder(itemIndex, insertAfterIndex, itemType)
     {
-        //console.log("I would insert item '" + itemIndex + "' after item '" + insertAfterIndex + "'");
-        //a = b;
         var processedItems = this.object.getProcessedItems();
 
         let itemsToSort = processedItems[itemType];
@@ -744,28 +752,24 @@ export class PrimePCActorSheet extends ActorSheet
             let itemToReInsert = itemsToSort.splice(itemIndex, 1)[0];
             itemsToSort.splice(insertAfterIndex, 0, itemToReInsert);
 
-            //this.bulkUpdatingOwnedItems = true;
             var count = 0;
             while (count < itemsToSort.length)
             {
                 let itemData = itemsToSort[count];
-
-                //let itemClass = this.object.items.get(itemData._id);
-                //itemClass.data.data.position = count;
-                itemOrder[itemData._id] = count;
-                //await this.entity.updateOwnedItem(itemClass.data);
-                console.log("Count: " + count);
+                itemOrder[itemData.itemID] = count;
                 count++;
             }
 
-            let updateData = {};
-            updateData.data = {};
-            updateData.data[itemType + "Order"] = itemOrder;
+            let updateData =
+            {
+                system: {}
+            };
+            updateData.system[itemType + "Order"] = itemOrder;
 
-            this.object.update({...updateData});
-
-            //this.bulkUpdatingOwnedItems = false;
-            //this.render();
+            this.object.update(updateData).then(()=>
+            {
+                this.render();
+            });
         }
         else
         {
