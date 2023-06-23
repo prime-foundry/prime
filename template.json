@@ -622,7 +622,7 @@
 			"templates": ["base", "metadata"],
 
 			"isCollapsed": false,
-			
+
 			"bonuses":[],
 
 			"cost":
@@ -870,6 +870,11 @@
 						"key": "armour_damaging",
 						"title": "PRIME.weapon_keywords_title_armour_damaging",
 						"description": "PRIME.weapon_keywords_description_armour_damaging"
+					},
+					{
+						"key": "awkward",
+						"title": "PRIME.weapon_keywords_title_awkward",
+						"description": "PRIME.weapon_keywords_description_awkward"
 					},
 					{
 						"key": "bludgeoning",
