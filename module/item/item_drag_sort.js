@@ -90,7 +90,6 @@ export class ItemDragSort
         {
             return;
         }
-        //console.log("itemMouseDown()");
         this.currSourceItem = $(event.delegateTarget);
 
         this.minCoordsMatrix = {rows: {}, cols:{}};
@@ -110,9 +109,8 @@ export class ItemDragSort
         this.updateDragItemCoords(event, true);
     }
 
-    static async itemMouseUp(event)
+    static itemMouseUp(event)
     {
-        //console.log("itemMouseUp()");
         if (this.currDragItem)
         {
             let triggerUpdate = false;
@@ -161,14 +159,12 @@ export class ItemDragSort
             this.dragItemTopOffset = null;
             this.dragItemLeftOffset = null;
 
-            //console.log("this.minCoordsMatrix: ", this.minCoordsMatrix);
-
             this.minCoordsMatrix = {rows: {}, cols:{}};
 
             if (triggerUpdate)
             {
                 this.canDrag = false;
-                await this.triggerMatchHandler(matchHandler, itemIndex, insertAfterIndex, itemType);
+                this.triggerMatchHandler(matchHandler, itemIndex, insertAfterIndex, itemType);
                 this.canDrag = true;
             }
         }
