@@ -177,6 +177,9 @@
 	"PRIME.weapon_keywords_title_armour_damaging" : "Armour bane",
 	"PRIME.weapon_keywords_description_armour_damaging" : "Weapon will cause damage to armour on a successful attack. Causes 1 additional point of Armour Resilience or Wound damage on a hit where armour defended the attack",
 
+	"PRIME.weapon_keywords_title_awkward" : "Awkward",
+	"PRIME.weapon_keywords_description_awkward" : "The weapon can be hard to weld. Upon rolling a bane, regardless of any other effects, the wielder immediately loses one action point. Unless they have spare AP, a considered strike becomes normal, normal strikes become rushed and rushed strike automatically fails.",
+
 	"PRIME.weapon_keywords_title_bludgeoning" : "Bludgeoning",
 	"PRIME.weapon_keywords_description_bludgeoning" : "On a critical step (normally a Step 5), this weapon causes an additional wound vs armour",
 
