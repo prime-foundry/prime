@@ -1,12 +1,12 @@
-export class PrimeMigration_0_7_0_and_0_8_0_to_0_9_0
+export class PrimeMigration_0_7_0_and_0_8_0_to_0_9_1
 {
     static async update()
     {
-        ui.notifications.info("Migrating world to version 0.9.0.");
+        ui.notifications.info("Migrating world to version 0.9.1.");
         this._updateItems().then(()=>
         {
             {
-                const message = "Migration to version 0.9.0 successful, goats were herded.";
+                const message = "Migration to version 0.9.1 successful, goats were herded.";
                 ui.notifications.info(message);
                 console.log(message);
                 game.settings.set("prime", "notAutoIncrementedBeforeICanCheckItWorldVersionNumber", game.system.version);
@@ -14,7 +14,7 @@ export class PrimeMigration_0_7_0_and_0_8_0_to_0_9_0
         }).catch(()=>
         {
             {
-                const error = "Migration to version 0.9.0 failed, goats were not herded. See console for more details (maybe).";
+                const error = "Migration to version 0.9.1 failed, goats were not herded. See console for more details (maybe).";
                 ui.notifications.error(error);
                 console.error(error);
             }
@@ -24,8 +24,8 @@ export class PrimeMigration_0_7_0_and_0_8_0_to_0_9_0
     static async _updateItems()
     {
         const updatePromise = await game.items.updateAll(
-            PrimeMigration_0_7_0_and_0_8_0_to_0_9_0._performItemUpdate,
-            PrimeMigration_0_7_0_and_0_8_0_to_0_9_0._shouldUpdate
+            PrimeMigration_0_7_0_and_0_8_0_to_0_9_1._performItemUpdate,
+            PrimeMigration_0_7_0_and_0_8_0_to_0_9_1._shouldUpdate
         );
         return updatePromise;
     }
@@ -40,11 +40,11 @@ export class PrimeMigration_0_7_0_and_0_8_0_to_0_9_0
         let updatedItem = { ...item };
         if (updatedItem.type == "armour")
         {
-            updatedItem = PrimeMigration_0_7_0_and_0_8_0_to_0_9_0._updateArmour(updatedItem);
+            updatedItem = PrimeMigration_0_7_0_and_0_8_0_to_0_9_1._updateArmour(updatedItem);
         }
         if (updatedItem.type == "melee-weapon" || updatedItem.type == "ranged-weapon" || updatedItem.type == "shield")
         {
-            updatedItem = PrimeMigration_0_7_0_and_0_8_0_to_0_9_0._updateWeapon(updatedItem);
+            updatedItem = PrimeMigration_0_7_0_and_0_8_0_to_0_9_1._updateWeapon(updatedItem);
         }
         return updatedItem;
     }
