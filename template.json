@@ -939,7 +939,7 @@
 					{
 						"key": "slashing",
 						"title": "PRIME.weapon_keywords_title_slashing",
-						"description": "PRIME.weapon_keywords_title_slashing"
+						"description": "PRIME.weapon_keywords_description_slashing"
 					},
 					{
 						"key": "versatile",
