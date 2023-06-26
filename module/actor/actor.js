@@ -178,6 +178,16 @@ export class PrimePCActor extends Actor
         return this.items;
     }
 
+    getItemByName(whatName)
+    {
+        const matchingItem = this.items.filter((item) => 
+        {
+            return item.name === whatName;
+        }
+        );
+        return matchingItem[0];
+    }
+
     /**
      * Returns all the primes for this actor
      * @return {{}} an object where the property names are equal to the itemIDs.

@@ -24,10 +24,27 @@
 					<i class="fas fa-lock fa-lg"></i>
 				</a>
 			</div>
-			<div class="isNPCWrapper flexRow verticalCenter flexEnd">
-				<label for="system.metadata.isNPC" class="resource-label rightAlign cell50 shrinkFontForNarrow" title="Tick to denote this is an NPC">NPC:</label>
-				<input type="checkbox" id="system.metadata.isNPC" name="system.metadata.isNPC" class="cell50" {{checked system.metadata.isNPC}}/>
+			<div class="isNPCWrapper flexColumn verticalCenter flexEnd">
+				<div class="flexRow verticalCenter flexEnd">
+					<label for="system.metadata.isTemplate" class="resource-label rightAlign cell50 templateIconWrapper" title="Tick to denote this is an template character"><i class="game-icon game-icon-ghost-ally icon-md"></i></label>
+					<input type="checkbox" id="system.metadata.isTemplate" name="system.metadata.isTemplate" class="cell50" {{checked system.metadata.isTemplate}}/>
+				</div>
+				<div class="flexRow verticalCenter flexEnd">
+					<label for="system.metadata.isNPC" class="resource-label rightAlign cell50 shrinkFontForNarrow" title="Tick to denote this is an NPC">NPC:</label>
+					<input type="checkbox" id="system.metadata.isNPC" name="system.metadata.isNPC" class="cell50" {{checked system.metadata.isNPC}}/>
+				</div>
 			</div>
+		</div>
+
+		<div class="applyTemplatesWrapper flexRow verticalCenter">
+			<select name="applyTemplateSelect" class="applyTemplateSelect">
+				<option value="0"></option>
+				{{#each templateActors}}
+				<option value="{{this.id}}">{{this.name}}</option>
+				{{/each}}
+			</select>
+			<button class="applyTemplateButton" data-actorid="{{actor.id}}">Apply</button>
+			<button class="showTemplateActorButton"><i class="game-icon game-icon-magnifying-glass icon-md"></i></button>
 		</div>
 
 		<div class="metaDataContentInner healthAndArmourOuterWrapper flexRow flexBetween">

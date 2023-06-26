@@ -2,6 +2,7 @@
 import { PrimeTables } from "../prime_tables.js";
 import { ItemCardUI } from "../item/item_card_ui.js";
 import { ItemDragSort } from "../item/item_drag_sort.js";
+import { PrimePCActorTemplates } from "./actor-templates.js";
 
 
 export class PrimePCActorSheet extends ActorSheet
@@ -152,6 +153,8 @@ export class PrimePCActorSheet extends ActorSheet
         sheetData.actor = this.actor;
         sheetData.source = source.system;
         sheetData.system = this.actor.system;
+
+        sheetData.templateActors = PrimePCActorTemplates.getListOfTemplateActors();
 
         return sheetData;
     }
@@ -713,6 +716,9 @@ export class PrimePCActorSheet extends ActorSheet
 
         const actionWrapper = html.find(".actionsHolder");
         ItemCardUI.bindEvents(actionWrapper);
+
+        const templateActorWrapper = html.find(".applyTemplatesWrapper");
+        PrimePCActorTemplates.bindEvents(templateActorWrapper);
 
         const inventoryWrapper = html.find(".generalItems");
         if (inventoryWrapper.length > 0)
