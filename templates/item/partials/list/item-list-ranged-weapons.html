@@ -16,14 +16,18 @@
                     <th rowspan="2">Actions</th>
                     <th colspan="5" class="center">Ranges</th>
                     <th rowspan="2" class="center">Ammo</th>
+                    <th colspan="3" class="center">ROF</th>
                     <th rowspan="2" class="center">Capacity</th>
                 </tr>
                 <tr>
-                    <th class="hasTooltip center" title="Point blank">PB</th>
-                    <th class="hasTooltip center" title="Short">S</th>
-                    <th class="hasTooltip center" title="Medium">M</th>
-                    <th class="hasTooltip center" title="Long">L</th>
+                    <th class="hasTooltip center" title="Point blank">PB&nbsp</th>
+                    <th class="hasTooltip center" title="Short">S&nbsp</th>
+                    <th class="hasTooltip center" title="Medium">M&nbsp</th>
+                    <th class="hasTooltip center" title="Long">L&nbsp</th>
                     <th class="hasTooltip center" title="Extreme">E</th>
+                    <th class="hasTooltip center" title="Single">S&nbsp</th>
+                    <th class="hasTooltip center" title="Burst">B&nbsp</th>
+                    <th class="hasTooltip center" title="Long burst">LB</th>
                 </tr>
             </thead>
         <!-- <div>Title(Description) | (Size) | (Type) | (DR) | Hands | Wounds | Keywords | Actions</div> -->
@@ -48,6 +52,9 @@
                     <td class="center">{{{weapon.system.ranges.extreme.value}}}</td>
 
                     <td class="center">{{{weapon.system.ammo.type}}}</td>
+                    <td class="center">{{{weapon.system.ROF.single}}}</td>
+                    <td class="center">{{{weapon.system.ROF.burst}}}</td>
+                    <td class="center">{{{weapon.system.ROF.longBurst}}}</td>
                     <td class="center">{{{weapon.system.ammo.capacity}}}</td>
                 </tr>
                 {{/each}}

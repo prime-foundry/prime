@@ -229,8 +229,7 @@
 	"PRIME.weapon_keywords_description_weak" : "If an attack fails by 5 or more steps, the weapon is damaged and can only be used to parry until repaired",
 
 	"PRIME.weapon_keywords_title_well_balanced" : "Well balanced",
-	"PRIME.weapon_keywords_description_well_balanced" : "Allows the 'Fast Feint' combo action to be performed with this weapon.",
-
+	"PRIME.weapon_keywords_description_well_balanced" : "This weapon is extremely well balanced and grants a +1 bonus to parrying.",
 
 	"PRIME.weapon_action_title_bash" : "Bash",
 	"PRIME.weapon_action_description_bash" : "Target loses 2 Action Points if Resilience damage caused",
