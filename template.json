@@ -738,6 +738,10 @@
 				{
 					"key": "ward.psyche.max",
 					"title": "PRIME.perk_actor_stat_bonus_max_ward_psyche"
+				},
+				{
+					"key": "ward.insanities.max",
+					"title": "PRIME.perk_actor_stat_bonus_max_ward_insanities"
 				}
 			],
 

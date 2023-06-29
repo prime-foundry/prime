@@ -583,36 +583,37 @@ export class PrimePCActor extends Actor
 
     updateArmourValues()
     {
-        var currentArmour = this.getMostResilientArmour(this.items);
-
-        var initialMaxValue = this.system.armour.resilience.max;
-        this.system.armour.resilience.max = currentArmour.data.armourResilience + this.getStatBonusesFromItems("armour.resilience.max");
-
-        // If they were the same initially or the value is now higher than the max, adjust accordingly.
-        if (this.system.armour.resilience.value == initialMaxValue || this.system.armour.resilience.value > this.system.armour.resilience.max)
-        {
-            this.system.armour.resilience.value = currentArmour.data.armourResilience + this.getStatBonusesFromItems("armour.resilience.max");
-        }
+        this.updateDerivedArmourTypeValues({ itemArmourStatType: "armourResilience", armourType: "armour", actorStatType: "resilience" });
+        this.updateDerivedArmourTypeValues({ itemArmourStatType: "armourWounds", armourType: "armour", actorStatType: "wounds" });
     }
 
     updateWardValues()
     {
-        this.system.ward.stability.value = this.getStatBonusesFromItems("ward.stability.max");
-        this.system.ward.stability.max = this.getStatBonusesFromItems("ward.stability.max");
+        // No armour currently exists with the properties of "armourPsyche" or "armourInsanities".
+        // As such getBestArmourByStat() will return zero, and the only thing that will be taken into
+        // account will be item's with buff's for psyche or insanities
+        this.updateDerivedArmourTypeValues({ itemArmourStatType: "armourPsyche", armourType: "ward", actorStatType: "psyche" });
+        this.updateDerivedArmourTypeValues({ itemArmourStatType: "armourInsanities", armourType: "ward", actorStatType: "insanities" });
+    }
 
-        var initialMaxValue = this.system.ward.psyche.max;
-        this.system.ward.psyche.max = this.getStatBonusesFromItems("ward.psyche.max");
+    // "armourResilience | armourWounds", "armour | ward", "resilience | wounds | psyche | insanities"
+    updateDerivedArmourTypeValues({ itemArmourStatType, armourType, actorStatType })
+    {
+        var bestArmour = this.getBestArmourByStat(this.items, itemArmourStatType);
+
+        var initialMaxValue = this.system[armourType][actorStatType].max;
+        this.system[armourType][actorStatType].max = bestArmour.system[itemArmourStatType] + this.getStatBonusesFromItems(`${armourType}.${actorStatType}.max`);
 
         // If they were the same initially or the value is now higher than the max, adjust accordingly.
-        if (this.system.ward.psyche.value == initialMaxValue || this.system.ward.psyche.value > this.system.ward.psyche.max)
+        if (this.system[armourType][actorStatType].value == initialMaxValue ||
+            this.system[armourType][actorStatType].value > this.system[armourType][actorStatType].max)
         {
-            this.system.ward.psyche.value = this.getStatBonusesFromItems("ward.psyche.max");
+            this.system[armourType][actorStatType].value = bestArmour.system[itemArmourStatType] + this.getStatBonusesFromItems(`${armourType}.${actorStatType}.max`);
         }
     }
 
     _getStatsObjects(items, statType)
     {
-        // console.log(`${this.id} - _getStatsObjects()`);
         let matchingStatItems = {};
         let statItem = null;
         let atLeastOneStatFound = false;	// If we've found one prime, then the other stats are on their way asyncronously.
@@ -825,23 +826,25 @@ export class PrimePCActor extends Actor
         return statData;
     }
 
-    getMostResilientArmour(items)
+    getBestArmourByStat(items, statType)
     {
-        var bestArmour =
-        {
-            data: {armourResilience: 0}
+        let bestArmour = {
+            system : {}
         };
-        var currItem = null;
-        var count = 0;
-        while (count < items.length)
+
+        bestArmour.system[statType] = 0;
+
+        items.forEach((currItem)=>
         {
-            currItem = items[count];
-            if (currItem.type == "armour" && currItem.data.isWorn && currItem.data.armourResilience > bestArmour.data.armourResilience)
+            if (currItem.type == "armour" &&
+                currItem.system.isWorn &&
+                currItem.system[statType] &&
+                currItem.system[statType] > bestArmour.system[statType])
             {
                 bestArmour = currItem;
             }
-            count++;
-        }
+
+        });
         return bestArmour;
     }
 

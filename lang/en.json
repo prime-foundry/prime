@@ -330,9 +330,10 @@
 	"PRIME.perk_actor_stat_bonus_max_armour_resilience": "Armour - Resilience",
 	"PRIME.perk_actor_stat_bonus_max_armour_wounds": "Armour - Wounds",
 
-	"PRIME.perk_actor_stat_bonus_max_insanities": "Maximum insantities",
+	"PRIME.perk_actor_stat_bonus_max_insanities": "Maximum insanities",
 	"PRIME.perk_actor_stat_bonus_max_psyche": "Mind - Psyche",
 	"PRIME.perk_actor_stat_bonus_max_ward_psyche": "Ward - Psyche",
+	"PRIME.perk_actor_stat_bonus_max_ward_insanities": "Ward - insanities",
 
 	"PRIME.actor_wound_condition_title_bleeding" : "Bleeding",
 	"PRIME.actor_wound_condition_description_bleeding" : "Every time a Bane (natural 1) is rolled to perform an action lose 1 Resilience",
