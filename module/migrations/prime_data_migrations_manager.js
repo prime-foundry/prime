@@ -1,7 +1,7 @@
 import { PrimeMigration_0_1_7_to_0_1_10 } from "./PrimeMigration_0_1_7_to_0_1_10.js";
 import { PrimeMigration_0_1_10_to_0_3_1 } from "./PrimeMigration_0_1_10_to_0_3_1.js";
 import { PrimeMigration_0_3_1_to_0_4_0 } from "./PrimeMigration_0_3_1_to_0_4_0.js";
-import { PrimeMigration_0_7_0_and_0_8_0_to_0_9_1 } from "./PrimeMigration_0_7_0_and_0_8_0_to_0_9_1.js";
+import { PrimeMigration_0_7_0_and_0_8_0_to_0_10_1 } from "./PrimeMigration_0_7_0_and_0_8_0_to_0_10_1.js";
 
 export class PrimeDataMigrationManager
 {
@@ -85,7 +85,9 @@ export class PrimeDataMigrationManager
         case "0.7.0":
         case "0.8.0":
         case "0.9.0":
-            PrimeMigration_0_7_0_and_0_8_0_to_0_9_1.update();
+        case "0.9.1":
+        case "0.10.0":
+            PrimeMigration_0_7_0_and_0_8_0_to_0_10_1.update();
             break;
         default:
             this.migrationError(currentWorldVersion, systemVersion);

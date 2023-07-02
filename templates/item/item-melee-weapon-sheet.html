@@ -52,9 +52,12 @@
 				<span title="{{convertHTMLForTitle wound.description}}" class="hasTooltip">{{wound.title}}</span>{{#isNotLastItem key ../checkboxGroups.wounds.selectedItems.length}}, {{/isNotLastItem}}
 				{{/each}}
 			</div>
+			{{#unless isOwned}}
 			<i class="fas fa-chevron-circle-up"></i>
 			<i class="fas fa-chevron-circle-down"></i>
+			{{/unless}}
 		</div>
+		{{#unless isOwned}}
 		<div class="cell100 flexRow verticalCenter flexBetween flexWrap checkboxGroupWrapper {{checkboxGroupState checkboxGroupStates.wounds}}" data-checkbox-group="wounds">
 			{{#each checkboxGroups.wounds.optionsData as |wound key|}}
 			<div class="flexRow verticalCenter cell33 flexBetween">
@@ -63,6 +66,7 @@
 			</div>
 			{{/each}}
 		</div>
+		{{/unless}}
 
 		<div class="cell100 flexRow verticalCenter flexCenter checkboxGroupTitle {{checkboxGroupState checkboxGroupStates.keywords}}" data-checkbox-group="keywords">
 			<div class="cell100">Keywords:
@@ -70,9 +74,12 @@
 				<span title="{{convertHTMLForTitle keyword.description}}" class="hasTooltip">{{keyword.title}}</span>{{#isNotLastItem key ../checkboxGroups.keywords.selectedItems.length}}, {{/isNotLastItem}}
 				{{/each}}
 			</div>
+			{{#unless isOwned}}
 			<i class="fas fa-chevron-circle-up"></i>
 			<i class="fas fa-chevron-circle-down"></i>
+			{{/unless}}
 		</div>
+		{{#unless isOwned}}
 		<div class="cell100 flexRow verticalCenter flexBetween flexWrap checkboxGroupWrapper {{checkboxGroupState checkboxGroupStates.keywords}}" data-checkbox-group="keywords">
 			{{#each checkboxGroups.keywords.optionsData as |keyword key|}}
 			<div class="flexRow verticalCenter cell33 flexBetween">
@@ -81,6 +88,7 @@
 			</div>
 			{{/each}}
 		</div>
+		{{/unless}}
 
 		<div class="cell100 flexRow verticalCenter flexCenter checkboxGroupTitle {{checkboxGroupState checkboxGroupStates.actions}}" data-checkbox-group="actions">
 			<div class="cell100">Custom actions:
@@ -88,9 +96,12 @@
 				<span title="{{convertHTMLForTitle action.description}}" class="hasTooltip">{{action.title}}</span>{{#isNotLastItem key ../checkboxGroups.actions.selectedItems.length}}, {{/isNotLastItem}}
 				{{/each}}
 			</div>
+			{{#unless isOwned}}
 			<i class="fas fa-chevron-circle-up"></i>
 			<i class="fas fa-chevron-circle-down"></i>
+			{{/unless}}
 		</div>
+		{{#unless isOwned}}
 		<div class="cell100 lastRow flexRow verticalCenter flexBetween flexWrap checkboxGroupWrapper {{checkboxGroupState checkboxGroupStates.actions}}" data-checkbox-group="actions">
 			{{#each checkboxGroups.actions.optionsData as |action key|}}
 			<div class="flexRow verticalCenter cell33 flexBetween">
@@ -99,6 +110,7 @@
 			</div>
 			{{/each}}
 		</div>
+		{{/unless}}
 	</div>
 
 	{{> itemValue }}

@@ -82,6 +82,8 @@ export class PrimeItemSheet extends ItemSheet
         const source = this.item.toObject();
         sheetData.source = source.system;
 
+        sheetData.cssClass = this.item.isOwned ? "ownedItem" : "globalItem";
+
         return sheetData;
     }
 
@@ -187,18 +189,21 @@ export class PrimeItemSheet extends ItemSheet
                 currOption.effectID = "";
             }
 
+            let combinedDescription = false;
+
+            var currActionData = currOption.source.system;
+            if (currActionData.description || currActionData.settingDescription)
+            {
+                combinedDescription =
+                    (currActionData.description || "") +
+                    (currActionData.settingDescription || "");
+                currOption.description = combinedDescription;
+            }
+
             if (currOption.checked)
             {
                 let selectedItemData = { title: currOption.title };
-                var currActionData = currOption.source.system;
-                if (currActionData.description || currActionData.settingDescription)
-                {
-                    let combinedDescription =
-                        (currActionData.description || "") +
-                        (currActionData.settingDescription || "");
-                    currOption.description = combinedDescription;
-                    selectedItemData.description = combinedDescription;
-                }
+                selectedItemData.description = combinedDescription;
                 checkboxGroupObject.selectedItems.push(selectedItemData);
             }
             count++;

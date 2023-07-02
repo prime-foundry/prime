@@ -8,6 +8,7 @@
                     <th>Title</th>
                     <th class="center">Type</th>
                     <th class="center">Resilience</th>
+                    <th class="center">Wounds</th>
                     <th>Keywords</th>
                     <th>Untrained</th>
                     <th class="center hasTooltip" title="Is worn?"><i class="game-icon game-icon-clothes icon-md"></i></th>
@@ -20,6 +21,7 @@
                     <td title="{{convertHTMLForTitle armour.system.description}}"><a class="itemTitle" data-item-id="{{armour.itemID}}"><i class="fas fa-info-circle fa-xs"></i> {{armour.name}}</a></td>
                     <td class="center">{{armour.system.armourType}}</td>
                     <td class="center">{{armour.system.armourResilience}}</td>
+                    <td class="center">{{armour.system.armourWounds}}</td>
                     <td>{{{armour.system.keywords}}}</td>
                     <td>{{{armour.system.untrainedPenalty}}}</td>
                     <td class="center"><input type="checkbox" class="armourWornCheckbox" data-armour-id="{{armour.itemID}}" {{itemChecked armour.system.isWorn}}></td>

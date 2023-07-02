@@ -229,8 +229,7 @@
 	"PRIME.weapon_keywords_description_weak" : "If an attack fails by 5 or more steps, the weapon is damaged and can only be used to parry until repaired",
 
 	"PRIME.weapon_keywords_title_well_balanced" : "Well balanced",
-	"PRIME.weapon_keywords_description_well_balanced" : "Allows the 'Fast Feint' combo action to be performed with this weapon.",
-
+	"PRIME.weapon_keywords_description_well_balanced" : "This weapon is extremely well balanced and grants a +1 bonus to parrying.",
 
 	"PRIME.weapon_action_title_bash" : "Bash",
 	"PRIME.weapon_action_description_bash" : "Target loses 2 Action Points if Resilience damage caused",
@@ -331,9 +330,10 @@
 	"PRIME.perk_actor_stat_bonus_max_armour_resilience": "Armour - Resilience",
 	"PRIME.perk_actor_stat_bonus_max_armour_wounds": "Armour - Wounds",
 
-	"PRIME.perk_actor_stat_bonus_max_insanities": "Maximum insantities",
+	"PRIME.perk_actor_stat_bonus_max_insanities": "Maximum insanities",
 	"PRIME.perk_actor_stat_bonus_max_psyche": "Mind - Psyche",
 	"PRIME.perk_actor_stat_bonus_max_ward_psyche": "Ward - Psyche",
+	"PRIME.perk_actor_stat_bonus_max_ward_insanities": "Ward - insanities",
 
 	"PRIME.actor_wound_condition_title_bleeding" : "Bleeding",
 	"PRIME.actor_wound_condition_description_bleeding" : "Every time a Bane (natural 1) is rolled to perform an action lose 1 Resilience",

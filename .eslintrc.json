@@ -54,7 +54,7 @@
             "error",
             "allman"
         ],
-        "max-len": [1, 150],
+        "max-len": [1, 180],
         "no-unused-vars": ["error", { "vars": "all", "args": "none", "ignoreRestSiblings": false }]
     }
 }

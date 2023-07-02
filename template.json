@@ -569,6 +569,12 @@
 				{
 					"type": "",
 					"capacity": ""
+				},
+				"ROF":
+				{
+					"single": "1",
+					"burst": "-",
+					"longBurst": "-"
 				}
 			},
 
@@ -733,6 +739,10 @@
 				{
 					"key": "ward.psyche.max",
 					"title": "PRIME.perk_actor_stat_bonus_max_ward_psyche"
+				},
+				{
+					"key": "ward.insanities.max",
+					"title": "PRIME.perk_actor_stat_bonus_max_ward_insanities"
 				}
 			],
 
@@ -940,7 +950,7 @@
 					{
 						"key": "slashing",
 						"title": "PRIME.weapon_keywords_title_slashing",
-						"description": "PRIME.weapon_keywords_title_slashing"
+						"description": "PRIME.weapon_keywords_description_slashing"
 					},
 					{
 						"key": "versatile",
