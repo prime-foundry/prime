@@ -1,4 +1,5 @@
 import { PrimeTables } from "../prime_tables.js";
+import { prepForTitleAttribute } from "../utils/strings.js";
 
 /**
  * Extend the basic Item with some very simple modifications.
@@ -115,7 +116,7 @@ export class PrimeItem extends Item
                 let currLookupItem = lookupTable[count];
                 if (effect.flags[currLookupItem.key])
                 {
-                    let titleText = "<span title='" + currLookupItem.description + "' class='hasTooltip'>" + currLookupItem.title + "</span>";
+                    let titleText = "<span title='" + prepForTitleAttribute(currLookupItem.description) + "' class='hasTooltip'>" + currLookupItem.title + "</span>";
 
                     if (!currLookupItem.description)
                     {
@@ -128,7 +129,7 @@ export class PrimeItem extends Item
                         {
                             description += currLookupItem.source.system.settingDescription;
                         }
-                        titleText = "<span title='" + description + "' class='hasTooltip'>" + currLookupItem.title + "</span>";
+                        titleText = "<span title='" + prepForTitleAttribute(description) + "' class='hasTooltip'>" + currLookupItem.title + "</span>";
                     }
 
                     titlesArray.push(titleText);
