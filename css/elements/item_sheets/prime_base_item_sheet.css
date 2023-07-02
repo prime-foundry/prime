@@ -40,12 +40,12 @@
 	margin-bottom: 0px;
 }
 
-.checkboxGroupTitle:hover
+.globalItem .checkboxGroupTitle:hover
 {
 	cursor: pointer;
 }
 
-.checkboxGroupTitle:hover div
+.globalItem .checkboxGroupTitle:hover div
 {
 	text-decoration: underline;
 }

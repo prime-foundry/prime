@@ -82,6 +82,8 @@ export class PrimeItemSheet extends ItemSheet
         const source = this.item.toObject();
         sheetData.source = source.system;
 
+        sheetData.cssClass = this.item.isOwned ? "ownedItem" : "globalItem";
+
         return sheetData;
     }
 
