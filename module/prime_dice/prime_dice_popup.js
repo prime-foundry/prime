@@ -55,7 +55,7 @@ export class PRIME_DICE_POPUP extends Application
     {
         // Return data to the template
         const actors = Array.from(game.actors.values())
-            // .filter(actor => actor.ownership.default !== 0)
+            .filter(actor => actor.ownership.default !== 0)
             .sort(function (actor1, actor2)
             {
                 if (actor1.isNPC() ^ actor2.isNPC())
