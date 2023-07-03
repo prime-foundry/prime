@@ -2,7 +2,6 @@
 export class PrimePCActorTemplates
 {
     static selectedTemplateActorID = null;
-    static lastEvent = null;
 
     static bindEvents(whatContainer)
     {
