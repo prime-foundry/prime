@@ -15,7 +15,7 @@ export class PrimePCActorTemplates
         const templateActors = [];
         Array.from(game.actors.values()).forEach((actor) =>
         {
-            if (actor.system.metadata.isTemplate)
+            if (actor.system.metadata.isTemplate && (game.user.isGM || !actor.system.metadata.isNPC))
             {
                 templateActors.push({name: actor.name, id: actor.id});
             }
