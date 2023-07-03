@@ -278,9 +278,47 @@ h1.entityName
 	width:100px;
 }
 
+.isNPCWrapper .templateIconWrapper
+{
+	padding-top: 3px;
+}
+
 .userIsNotGm .isNPCWrapper
 {
 	display: none;
+}
+
+.primeCharacterSheet .applyTemplatesWrapper
+{
+	display: none;
+}
+
+.primeCharacterSheet.sheetEditable .applyTemplatesWrapper
+{
+	display: flex;
+}
+
+.applyTemplatesWrapper .applyTemplateSelect
+{
+	flex: 1;
+	margin-right: 5px;
+	height: 32px;
+}
+
+.applyTemplatesWrapper button
+{
+	width:auto;
+}
+
+.applyTemplatesWrapper button i.game-icon
+{
+	display: flex;
+}
+
+.applyTemplatesWrapper button i.game-icon::before
+{
+	font-size: 25px;
+	margin: 0;
 }
 
 .sheetVersion

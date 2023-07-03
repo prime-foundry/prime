@@ -99,6 +99,7 @@
 				"metadata":
 				{
 					"isNPC": false,
+					"isTemplate": false,
 					"race": "",
 					"faction": "",
 					"occupation": "",

@@ -1,5 +1,15 @@
 <form class="{{cssClass}} {{isV2CharacterClass}} {{#if editable}}isEditable{{/if}} actorFormWrapper {{isFromTokenClass}}" autocomplete="off">
-
+	<!--
+		This stops the browser finding the first random button and clicking it when
+		someone uses the enter key to submit a form field value aka update a stat. In
+		this instance it was previously triggering the "applyTemplateButton" and trying
+		to copy a template over. This was in no way maddening that a seemingly random
+		button click was being generated and totally didn't lose me several hours of my
+		life. Seriously though, why the hell does Foundry even insist on a form as an
+		outer wrapper? I suppose we should be grateful it doesn't require a marquee tag
+		to show latest news...
+	 -->
+	<input type="submit" hidden />
 	{{!-- Sheet Header --}}
 	<div class="metaDataContent flexColumn">
 		<div class="metaDataContentInner flexRow flexBetween">
@@ -24,11 +34,30 @@
 					<i class="fas fa-lock fa-lg"></i>
 				</a>
 			</div>
-			<div class="isNPCWrapper flexRow verticalCenter flexEnd">
-				<label for="system.metadata.isNPC" class="resource-label rightAlign cell50 shrinkFontForNarrow" title="Tick to denote this is an NPC">NPC:</label>
-				<input type="checkbox" id="system.metadata.isNPC" name="system.metadata.isNPC" class="cell50" {{checked system.metadata.isNPC}}/>
+			<div class="isNPCWrapper flexColumn verticalCenter flexEnd">
+				<div class="flexRow verticalCenter flexEnd">
+					<label for="system.metadata.isTemplate" class="resource-label rightAlign cell50 templateIconWrapper" title="Tick to denote this is an template character"><i class="game-icon game-icon-ghost-ally icon-md"></i></label>
+					<input type="checkbox" id="system.metadata.isTemplate" name="system.metadata.isTemplate" class="cell50" {{checked system.metadata.isTemplate}}/>
+				</div>
+				<div class="flexRow verticalCenter flexEnd">
+					<label for="system.metadata.isNPC" class="resource-label rightAlign cell50 shrinkFontForNarrow" title="Tick to denote this is an NPC">NPC:</label>
+					<input type="checkbox" id="system.metadata.isNPC" name="system.metadata.isNPC" class="cell50" {{checked system.metadata.isNPC}}/>
+				</div>
 			</div>
 		</div>
+
+		{{#ifCond system.sheetVersion "==" "v2.0" }}
+		<div class="applyTemplatesWrapper flexRow verticalCenter">
+			<select name="applyTemplateSelect" class="applyTemplateSelect">
+				<option value="0"></option>
+				{{#each templateActors}}
+				<option value="{{this.id}}">{{this.name}}</option>
+				{{/each}}
+			</select>
+			<button class="applyTemplateButton" data-actorid="{{actor.id}}">Apply</button>
+			<button class="showTemplateActorButton"><i class="game-icon game-icon-magnifying-glass icon-md"></i></button>
+		</div>
+		{{/ifCond}}
 
 		<div class="metaDataContentInner healthAndArmourOuterWrapper flexRow flexBetween">
 			{{> actorPhysicalHealth partialClasses='cell50'}}
