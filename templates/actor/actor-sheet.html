@@ -46,6 +46,7 @@
 			</div>
 		</div>
 
+		{{#ifCond system.sheetVersion "==" "v2.0" }}
 		<div class="applyTemplatesWrapper flexRow verticalCenter">
 			<select name="applyTemplateSelect" class="applyTemplateSelect">
 				<option value="0"></option>
@@ -56,6 +57,7 @@
 			<button class="applyTemplateButton" data-actorid="{{actor.id}}">Apply</button>
 			<button class="showTemplateActorButton"><i class="game-icon game-icon-magnifying-glass icon-md"></i></button>
 		</div>
+		{{/ifCond}}
 
 		<div class="metaDataContentInner healthAndArmourOuterWrapper flexRow flexBetween">
 			{{> actorPhysicalHealth partialClasses='cell50'}}
