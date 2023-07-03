@@ -1,5 +1,15 @@
 <form class="{{cssClass}} {{isV2CharacterClass}} {{#if editable}}isEditable{{/if}} actorFormWrapper {{isFromTokenClass}}" autocomplete="off">
-
+	<!--
+		This stops the browser finding the first random button and clicking it when
+		someone uses the enter key to submit a form field value aka update a stat. In
+		this instance it was previously triggering the "applyTemplateButton" and trying
+		to copy a template over. This was in no way maddening that a seemingly random
+		button click was being generated and totally didn't lose me several hours of my
+		life. Seriously though, why the hell does Foundry even insist on a form as an
+		outer wrapper? I suppose we should be grateful it doesn't require a marquee tag
+		to show latest news...
+	 -->
+	<input type="submit" hidden />
 	{{!-- Sheet Header --}}
 	<div class="metaDataContent flexColumn">
 		<div class="metaDataContentInner flexRow flexBetween">

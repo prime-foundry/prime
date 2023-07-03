@@ -1,4 +1,3 @@
-
 import { PrimeTables } from "../prime_tables.js";
 import { ItemCardUI } from "../item/item_card_ui.js";
 import { ItemDragSort } from "../item/item_drag_sort.js";
@@ -15,8 +14,6 @@ export class PrimePCActorSheet extends ActorSheet
         this.updateWidthClassInterval = 50;
 
         this.hooksAdded = false;
-
-        //this.bulkUpdatingOwnedItems = false;
 
         this.currentItemSortList = null;
 

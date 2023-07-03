@@ -2,6 +2,7 @@
 export class PrimePCActorTemplates
 {
     static selectedTemplateActorID = null;
+    static lastEvent = null;
 
     static bindEvents(whatContainer)
     {
@@ -46,7 +47,18 @@ export class PrimePCActorTemplates
             const templateActor = actors.get(this.selectedTemplateActorID);
             const targetActor = actors.get(event.currentTarget.dataset.actorid);
 
-            const itemsToCopy = this.getTemplateActorItemsToCopy(templateActor, targetActor);
+            const { itemsToCopy, itemCopyMessage }= this.getTemplateActorItemsToCopy(templateActor, targetActor);
+            const { statItemUpdates, statUpdateMessage } = this.getStatItemUpdates(templateActor, targetActor);
+
+            const applyTemplateConfirmation = confirm(`The following changes will be made to the target template '${targetActor.name}'\n ${itemCopyMessage} ${statUpdateMessage}`);
+
+            if (applyTemplateConfirmation)
+            {
+                targetActor.updateEmbeddedDocuments("Item", statItemUpdates).then(() =>
+                {
+                    targetActor.createEmbeddedDocuments("Item", itemsToCopy);
+                });
+            }
         }
         else
         {
@@ -56,16 +68,55 @@ export class PrimePCActorTemplates
 
     static getTemplateActorItemsToCopy(templateActor, targetActor)
     {
+        const itemsToCopyTitles = [];
         const itemsToCopy = [];
+        let itemCopyMessage = "No items were found to be copied, or they already existed on the target actor.\n";
         templateActor.items.forEach((item) =>
         {
             const targetHasItem = !!targetActor.getItemByName(item.name);
             if (!targetHasItem)
             {
-                itemsToCopy.push(item);
+                itemsToCopyTitles.push(item.name);
+                itemsToCopy.push(item.toObject());
             }
         });
 
-        return itemsToCopy;
+        if (itemsToCopyTitles.length > 0)
+        {
+            itemCopyMessage = `The following items will be copied over: \n${itemsToCopyTitles.join(", ")}\n`;
+        }
+
+        return { itemsToCopy, itemCopyMessage };
+    }
+
+    static getStatItemUpdates(templateActor, targetActor)
+    {
+        const statItemUpdateTitles = [];
+        const statItemUpdates = [];
+        let statUpdateMessage = "No stats were found to be updated, or they were already found to be higher on the target actor.\n";
+        templateActor.items.forEach((templateActorStatItem) =>
+        {
+            if (templateActorStatItem.type === "prime" || templateActorStatItem.type === "refinement")
+            {
+                const targetActorStat = targetActor.getItemByName(templateActorStatItem.name);
+                // If it has the stat, and the value is lower, update it (otherwise it'll just be copied
+                // across with the correct value).
+                if (targetActorStat && targetActorStat.system.value < templateActorStatItem.system.value)
+                {
+                    statItemUpdateTitles.push(`${targetActorStat.name} (${targetActorStat.system.value} > ${templateActorStatItem.system.value})`);
+
+                    const statUpdate = targetActorStat.toObject();
+                    statUpdate.system.value = templateActorStatItem.system.value;
+                    statItemUpdates.push( {...statUpdate} );
+                }
+            }
+        });
+
+        if (statItemUpdateTitles.length > 0)
+        {
+            statUpdateMessage = `The following stats will be copied over: \n${statItemUpdateTitles.join(", ")}\n`;
+        }
+
+        return { statItemUpdates, statUpdateMessage };
     }
 }
