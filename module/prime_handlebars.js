@@ -1,4 +1,5 @@
 import { PrimeTables } from "./prime_tables.js";
+import { prepForTitleAttribute } from "./utils/strings.js";
 
 var primeHandlebarsPartialsPaths =
 {
@@ -68,6 +69,7 @@ Handlebars.registerHelper("convertHTMLForTitle", function (html, maxChars)
         {
             html = html.slice(0,150) + "...";
         }
+        html = prepForTitleAttribute(html);
     }
     return html;
 });
@@ -108,7 +110,7 @@ Handlebars.registerHelper("for", function(from, to, incr, block)
 Handlebars.registerHelper("ifCond", function (v1, operator, v2, options) 
 {
 
-    switch (operator) 
+    switch (operator)
     {
     case "==":
         return (v1 == v2) ? options.fn(this) : options.inverse(this);
@@ -237,7 +239,7 @@ Handlebars.registerHelper("cropToLength", function(value, cropLength)
 });
 
 // Usage: {{log this}}
-Handlebars.registerHelper("log", function(messageData) 
+Handlebars.registerHelper("log", function(messageData)
 {
     console.log(`HB log: ${messageData}`, messageData);
 });

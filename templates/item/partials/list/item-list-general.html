@@ -1,5 +1,3 @@
-
-
 <div class="{{partialClasses}} generalItems block">
     <div class="blockTitle">All items</div>
     <div class="primeTableWrapper">
@@ -16,7 +14,7 @@
                 {{#each inventoryItems as |item index|}}
                 <tr class="draggableItem inventoryItem" data-item-index="{{index}}">
                     <td title="{{convertHTMLForTitle item.name}}"><a class="itemTitle stopDrag" data-item-id="{{item.itemID}}"><i class="fas fa-external-link-alt fa-xs"></i><i class="fas fa-info-circle fa-xs"></i> {{cropToLength item.name 55}}</a></td>
-                    <td title="{{convertHTMLForTitle item.system.description}}">{{{cropToLength item.system.description 55}}}</td>
+                    <td title="{{convertHTMLForTitle item.system.description}}">{{{convertHTMLForTitle item.system.description 55}}}</td>
                     <td class="center"><a class="deleteItemIcon stopDrag" data-item-id={{item.itemID}}><i class="fas fa-trash stopDrag"></i></a></td>
                 </tr>
                 {{/each}}
