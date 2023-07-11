@@ -91,6 +91,7 @@ export class PrimeDataMigrationManager
             break;
         case "0.10.1":
         case "0.11.0":
+        case "0.12.0":
             break;
         default:
             this.migrationError(currentWorldVersion, systemVersion);
