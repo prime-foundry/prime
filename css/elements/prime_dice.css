@@ -106,8 +106,7 @@
 }
 
 .diceMessage .prime-dice-modifiers {
-    flex-basis: 40%;
-    max-width: 40%;
+    flex-basis: 41%;
     padding: 0 0 0 0.25em;
     display: flex;
     flex-direction: column;

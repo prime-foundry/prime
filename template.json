@@ -1138,6 +1138,11 @@
 						"description": "PRIME.armour_keyword_description_cumbersome"
 					},
 					{
+						"key": "hardened",
+						"title": "PRIME.armour_keyword_description_hardened",
+						"description": "PRIME.armour_keyword_description_hardened"
+					},
+					{
 						"key": "restrictive",
 						"title": "PRIME.armour_keyword_title_restrictive",
 						"description": "PRIME.armour_keyword_description_restrictive"

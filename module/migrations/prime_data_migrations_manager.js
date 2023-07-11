@@ -90,6 +90,7 @@ export class PrimeDataMigrationManager
             PrimeMigration_0_7_0_and_0_8_0_to_0_10_1.update();
             break;
         case "0.10.1":
+        case "0.11.0":
             break;
         default:
             this.migrationError(currentWorldVersion, systemVersion);
