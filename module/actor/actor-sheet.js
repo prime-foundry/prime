@@ -35,11 +35,7 @@ export class PrimePCActorSheet extends ActorSheet
             this.hooksAdded = true;
         }
 
-        let isGMClass = "userIsNotGm";
-        if (game.user.isGM)
-        {
-            isGMClass = "userIsGM";
-        }
+        let isGMClass = game.user.isGM ? "userIsGM" : "userIsNotGm";
 
         var actorConfig =
         {
@@ -162,7 +158,7 @@ export class PrimePCActorSheet extends ActorSheet
         const canvasContext = canvas.getContext("2d");
         canvasContext.font = "34px Signika";
 
-        const nameText = canvasContext.measureText(whatName); 
+        const nameText = canvasContext.measureText(whatName);
         const nameWidth = nameText.width;
 
         // 215 is width of name field on default open.

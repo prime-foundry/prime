@@ -49,7 +49,19 @@
 					"initial": 100,
 					"value": 0,
 					"awarded": 0,
-					"spent": 0
+					"spent": 0,
+					"max":
+					{
+						"base": 5,
+						"current" : 5,
+						"absolute": 12,
+						"overMax": false
+					},
+					"flares":
+					{
+						"current": 0,
+						"max": 0
+					}
 				},
 				"xp":
 				{
@@ -743,6 +755,10 @@
 				{
 					"key": "ward.insanities.max",
 					"title": "PRIME.perk_actor_stat_bonus_max_ward_insanities"
+				},
+				{
+					"key": "soul.max.current",
+					"title": "PRIME.perk_actor_stat_bonus_max_soul"
 				}
 			],
 
