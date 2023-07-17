@@ -16,7 +16,6 @@ export class PrimePCActorSheet extends ActorSheet
         this.hooksAdded = false;
 
         this.currentItemSortList = null;
-
     }
 
     async _render(force=false, options={})
@@ -40,7 +39,7 @@ export class PrimePCActorSheet extends ActorSheet
         var actorConfig =
         {
             classes: ["primeSheet", "primeCharacterSheet", "sheet", "actor", isGMClass],
-            template: "systems/prime/templates/actor/actor-sheet.html",
+            template: "systems/prime/templates/actor/actor-sheet.hbs",
             width: 775,
             height: 765,
             tabs: [

@@ -561,11 +561,11 @@ export class PrimePCActor extends Actor
         const perkSoulCost = this.getTotalPerkCost("perkCostSoul");
         actorSystemData.soul.spent = primeCost + perkSoulCost;
 
-        const soulPointBonusToMax = this.getStatBonusesFromItems("soul.max.current");
-        actorSystemData.soul.max.current = actorSystemData.soul.max.base + soulPointBonusToMax;
-        if (actorSystemData.soul.max.current > actorSystemData.soul.max.absolute)
+        const soulPointBonusToMax = this.getStatBonusesFromItems("soul.max.value");
+        actorSystemData.soul.max.value = actorSystemData.soul.max.base + soulPointBonusToMax;
+        if (actorSystemData.soul.max.value > actorSystemData.soul.max.absolute)
         {
-            actorSystemData.soul.max.current = actorSystemData.soul.max.absolute;
+            actorSystemData.soul.max.value = actorSystemData.soul.max.absolute;
         }
 
         const refinementCost = this.getTotalCost(actorSystemData.refinements);
@@ -575,19 +575,18 @@ export class PrimePCActor extends Actor
         actorSystemData.soul.value = (actorSystemData.soul.initial + actorSystemData.soul.awarded) - actorSystemData.soul.spent;
         actorSystemData.xp.value = (actorSystemData.xp.initial + actorSystemData.xp.awarded) - actorSystemData.xp.spent;
 
-        actorSystemData.soul.max.overMax = (actorSystemData.soul.value > actorSystemData.soul.max.current);
+        actorSystemData.soul.max.overMax = (actorSystemData.soul.value > actorSystemData.soul.max.value);
 
         actorSystemData.soul.flares.max = actorSystemData.soul.value;
-        if (actorSystemData.soul.flares.current > actorSystemData.soul.flares.max)
+        if (actorSystemData.soul.flares.max > actorSystemData.soul.max.absolute)
         {
-            actorSystemData.soul.flares.current = actorSystemData.soul.flares.max;
+            actorSystemData.soul.flares.max = actorSystemData.soul.max.absolute;
         }
     }
 
     updateOwnedItemValues()
     {
         this.updateWeightAndValue();
-
         this.updateHealthAndMind();
         this.updateArmourValues();
         this.updateWardValues();

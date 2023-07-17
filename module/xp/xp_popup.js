@@ -12,7 +12,7 @@ export class XP_POPUP extends Application
         const options = super.defaultOptions;
         options.title = game.i18n.localize("PRIME.xp.title");
         options.id = "xp";
-        options.template = "systems/prime/templates/xp/xp_popup.html";
+        options.template = "systems/prime/templates/xp/xp_popup.hbs";
         options.closeOnSubmit = true;
         options.popOut = true;
         options.width = 600;

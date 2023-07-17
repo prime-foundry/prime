@@ -53,13 +53,13 @@
 					"max":
 					{
 						"base": 5,
-						"current" : 5,
+						"value" : 5,
 						"absolute": 12,
 						"overMax": false
 					},
 					"flares":
 					{
-						"current": 0,
+						"value": 0,
 						"max": 0
 					}
 				},
@@ -757,7 +757,7 @@
 					"title": "PRIME.perk_actor_stat_bonus_max_ward_insanities"
 				},
 				{
-					"key": "soul.max.current",
+					"key": "soul.max.value",
 					"title": "PRIME.perk_actor_stat_bonus_max_soul"
 				}
 			],

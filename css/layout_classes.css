@@ -207,6 +207,12 @@ input.cell100,
 	align-items: center;
 }
 
+.block .blockTitle.wideBlockTitle
+{
+	left: 15%;
+	right: 15%;
+}
+
 .highBlockTitle
 {
 	z-index: 1;
