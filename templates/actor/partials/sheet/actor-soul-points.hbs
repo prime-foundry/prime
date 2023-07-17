@@ -1,0 +1,21 @@
+<div class="{{partialClasses}} block bottomBlockTitle flexRow flexCenter verticalCenter">
+    <div class="blockTitle">Soul & Flare</div>
+    <div class="cell60 metaValueContent flarePointsWrapper flarePointsWrapper{{system.soul.flares.max}}">
+        {{#for 0 system.soul.flares.max 1}}
+        <div class='flarePointWrapper{{addStateClasses this ../system.soul.flares}} flarePointWrapper{{this}}' style="{{generateFlareTransformCSS this ../system.soul.flares.max}}">
+            <input id="flarePoint{{this}}" value="{{this}}" class="flarePointCheckbox" type="checkbox" name="flarePoints" {{itemSelected this ../system.soul.flares.current}}/>
+            <label for="flarePoint{{this}}">{{this}}</label>
+        </div>
+        {{/for}}
+    </div>
+    <div class="cell40 soulPointTotals metaValueContent hasTooltip">
+        <span title="Initial: {{system.soul.initial}}, Awarded: {{system.soul.awarded}}, Spent: {{system.soul.spent}}" {{#if system.soul.max.overMax}}class="soulOverMax"{{/if}}>
+            {{system.soul.value}}
+        </span>
+        /
+        <span>{{system.soul.max.current}}</span>
+    </div>
+    <div class="burnSoulpoint">
+        <i class="game-icon game-icon-fire-silhouette icon-md"></i>
+    </div>
+</div>
