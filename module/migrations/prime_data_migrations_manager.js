@@ -92,11 +92,21 @@ export class PrimeDataMigrationManager
         case "0.10.1":
         case "0.11.0":
         case "0.12.0":
+        case "0.12.2":
+        case "0.13.0":
+            this.migrateVersionNumberOnly();
             break;
         default:
             this.migrationError(currentWorldVersion, systemVersion);
             break;
         }
+    }
+
+    static migrateVersionNumberOnly()
+    {
+        game.settings.set("prime", "notAutoIncrementedBeforeICanCheckItWorldVersionNumber", game.system.version);
+        const message = `Migration to version ${game.system.version} successful, goats were herded.`;
+        ui.notifications.info(message);
     }
 
     static migrationError(currentWorldVersion, systemVersion)
