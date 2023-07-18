@@ -102,6 +102,7 @@ export class PrimeDataMigrationManager
         }
     }
 
+    // Use this for updates that don't require data migration.
     static migrateVersionNumberOnly()
     {
         game.settings.set("prime", "notAutoIncrementedBeforeICanCheckItWorldVersionNumber", game.system.version);
