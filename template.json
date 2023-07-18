@@ -60,7 +60,8 @@
 					"flares":
 					{
 						"value": 0,
-						"max": 0
+						"max": 0,
+						"lastTotal": 0
 					}
 				},
 				"xp":

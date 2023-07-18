@@ -346,6 +346,34 @@ export class PrimePCActorSheet extends ActorSheet
         this.render(true);
     }
 
+    async updateFlarePoints(event)
+    {
+        const input = $(event.delegateTarget);
+        const value = input.val();
+        const sheetData = super.getData();
+        const actorClone = JSON.parse(JSON.stringify(sheetData.actor));
+        const checked = input.prop("checked");
+        const inputParent = input.parent();
+        actorClone.system.soul.flares.lastTotal = actorClone.system.soul.flares.value;
+
+        if (checked || (!checked && !inputParent.hasClass("currentPointTotal")))
+        {
+            actorClone.system.soul.flares.value = parseInt(value);
+        }
+        else
+        {
+            actorClone.system.soul.flares.value = parseInt(value) - 1;
+        }
+
+        if (actorClone.system.soul.flares.value < 0)
+        {
+            actorClone.system.soul.flares.value = 0;
+        }
+
+        await this.actor.update({...actorClone});
+        this.render(true);
+    }
+
     async updateInjuryTotal(event)
     {
         const input = $(event.delegateTarget);
@@ -665,7 +693,7 @@ export class PrimePCActorSheet extends ActorSheet
         html.find(".toggleCharacterEditing").click(this.toggleSheetEditMode.bind(this));
         html.find(".toggleCharacterLocked").click(this.toggleSheetEditMode.bind(this));
 
-        html.find(".soulAndXP").click(this.burnSoulPoint.bind(this));
+        html.find(".burnSoulpoint").click(this.burnSoulPoint.bind(this));
 
         html.find(".primeWrapper, .refinementWrapper").dblclick(this.toggleValueEditMode.bind(this));
         html.find(".primeWrapper, .refinementWrapper").click(this.checkPreventClose.bind(this));
@@ -676,6 +704,7 @@ export class PrimePCActorSheet extends ActorSheet
         html.click(this.clearValueEditMode.bind(this));
 
         html.find(".actionPointCheckbox").change(this.updateActionPoints.bind(this));
+        html.find(".flarePointCheckbox").change(this.updateFlarePoints.bind(this));
 
         //html.find(".injuryRow").click(this.checkEnableInjury.bind(this));
 
