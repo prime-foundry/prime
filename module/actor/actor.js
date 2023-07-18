@@ -558,8 +558,8 @@ export class PrimePCActor extends Actor
     updateSoulAndXP(actorSystemData)
     {
         const primeCost = this.getTotalCost(actorSystemData.primes);
-        const perkSoulCost = this.getTotalPerkCost("perkCostSoul");
-        actorSystemData.soul.spent = primeCost + perkSoulCost;
+        const perkCostSoul = this.getTotalPerkCost("perkCostSoul");
+        actorSystemData.soul.spent = primeCost + perkCostSoul;
 
         const soulPointBonusToMax = this.getStatBonusesFromItems("soul.max.value");
         actorSystemData.soul.max.value = actorSystemData.soul.max.base + soulPointBonusToMax;
@@ -569,8 +569,8 @@ export class PrimePCActor extends Actor
         }
 
         const refinementCost = this.getTotalCost(actorSystemData.refinements);
-        const perkXPCost = this.getTotalPerkCost("perkCostXP");
-        actorSystemData.xp.spent = refinementCost + perkXPCost;
+        const perkCostXP = this.getTotalPerkCost("perkCostXP");
+        actorSystemData.xp.spent = refinementCost + perkCostXP;
 
         actorSystemData.soul.value = (actorSystemData.soul.initial + actorSystemData.soul.awarded) - actorSystemData.soul.spent;
         actorSystemData.xp.value = (actorSystemData.xp.initial + actorSystemData.xp.awarded) - actorSystemData.xp.spent;

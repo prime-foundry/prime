@@ -649,10 +649,7 @@ export class PrimePCActorSheet extends ActorSheet
             armour.system.isWorn = true;
         }
 
-        //await armour.update(armour.data);
         this.object.updateOwnedItem(armour.data);
-
-        //this.entity.updateWornItemValues();
     }
 
     /** @override */
