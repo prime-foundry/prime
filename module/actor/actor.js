@@ -74,7 +74,6 @@ export class PrimePCActor extends Actor
      */
     _prepareCharacterData(actorData)
     {
-        // console.log(`${this.id} - _prepareCharacterData()`);
         const actorSystemData = actorData.system;
 
         if (this.isVersion2())
@@ -82,19 +81,8 @@ export class PrimePCActor extends Actor
             this._prepareCharacterDataV2(actorSystemData, actorData);
         }
 
-        const primeCost = this.getTotalCost(actorSystemData.primes);
-        const perkSoulCost = this.getTotalPerkCost("perkCostSoul");
-        actorSystemData.soul.spent = primeCost + perkSoulCost;
-
-        const refinementCost = this.getTotalCost(actorSystemData.refinements);
-        const perkXPCost = this.getTotalPerkCost("perkCostXP");
-        actorSystemData.xp.spent = refinementCost + perkXPCost;
-
+        this.updateSoulAndXP(actorSystemData);
         this.updateOwnedItemValues();
-
-        // Loop through ability scores, and add their modifiers to our sheet output.
-        actorSystemData.soul.value = (actorSystemData.soul.initial + actorSystemData.soul.awarded) - actorSystemData.soul.spent;
-        actorSystemData.xp.value = (actorSystemData.xp.initial + actorSystemData.xp.awarded) - actorSystemData.xp.spent;
     }
 
     _prepareCharacterDataV2(actorSystemData, actorData)
@@ -567,10 +555,38 @@ export class PrimePCActor extends Actor
         return totalCost;
     }
 
+    updateSoulAndXP(actorSystemData)
+    {
+        const primeCost = this.getTotalCost(actorSystemData.primes);
+        const perkCostSoul = this.getTotalPerkCost("perkCostSoul");
+        actorSystemData.soul.spent = primeCost + perkCostSoul;
+
+        const soulPointBonusToMax = this.getStatBonusesFromItems("soul.max.value");
+        actorSystemData.soul.max.value = actorSystemData.soul.max.base + soulPointBonusToMax;
+        if (actorSystemData.soul.max.value > actorSystemData.soul.max.absolute)
+        {
+            actorSystemData.soul.max.value = actorSystemData.soul.max.absolute;
+        }
+
+        const refinementCost = this.getTotalCost(actorSystemData.refinements);
+        const perkCostXP = this.getTotalPerkCost("perkCostXP");
+        actorSystemData.xp.spent = refinementCost + perkCostXP;
+
+        actorSystemData.soul.value = (actorSystemData.soul.initial + actorSystemData.soul.awarded) - actorSystemData.soul.spent;
+        actorSystemData.xp.value = (actorSystemData.xp.initial + actorSystemData.xp.awarded) - actorSystemData.xp.spent;
+
+        actorSystemData.soul.max.overMax = (actorSystemData.soul.value > actorSystemData.soul.max.value);
+
+        actorSystemData.soul.flares.max = actorSystemData.soul.value;
+        if (actorSystemData.soul.flares.max > actorSystemData.soul.max.absolute)
+        {
+            actorSystemData.soul.flares.max = actorSystemData.soul.max.absolute;
+        }
+    }
+
     updateOwnedItemValues()
     {
         this.updateWeightAndValue();
-
         this.updateHealthAndMind();
         this.updateArmourValues();
         this.updateWardValues();

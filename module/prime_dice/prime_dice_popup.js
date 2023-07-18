@@ -24,7 +24,7 @@ export class PRIME_DICE_POPUP extends Application
         const options = super.defaultOptions;
         options.title = game.i18n.localize("PRIME.diceRoller.title");
         options.id = "primeDiceRoller";
-        options.template = "systems/prime/templates/dice/roller.html";
+        options.template = "systems/prime/templates/dice/roller.hbs";
         options.closeOnSubmit = true;
         options.popOut = true;
         options.width = 600;

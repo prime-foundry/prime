@@ -72,7 +72,7 @@ export class PRIME_DICE_ROLLER
 
     async createContent(diceResult)
     {
-        const handlebarsTemplate = await getTemplate("systems/prime/templates/dice/prime_result.html");
+        const handlebarsTemplate = await getTemplate("systems/prime/templates/dice/prime_result.hbs");
         const messageContent = handlebarsTemplate(diceResult);
         return messageContent;
     }
