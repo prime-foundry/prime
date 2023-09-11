@@ -661,7 +661,7 @@ export class PrimeItemSheet extends ItemSheet
             var effectData = this.getBlankEffectByType(checkboxType);
             effectData.flags[checkboxKey] = checked;
 
-            await ActiveEffect.create(effectData, this.item);
+            await ActiveEffect.implementation.create({...effectData, origin: this.item.uuid}, {parent: this.item});
         }
     }
 

@@ -677,7 +677,7 @@ export class PrimePCActorSheet extends ActorSheet
             armour.system.isWorn = true;
         }
 
-        this.object.updateOwnedItem(armour.data);
+        this.object.updateEmbeddedDocuments("Item", [{...armour, _id: armour.id}]);
     }
 
     /** @override */
