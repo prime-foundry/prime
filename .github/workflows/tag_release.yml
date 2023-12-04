@@ -4,7 +4,7 @@ on:
     types:
       - closed
     branches:
-      - foundry-v10
+      - main
 jobs:
   build:
     runs-on: ubuntu-latest
