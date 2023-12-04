@@ -1,3 +1,5 @@
-2023/09/04-17:00:23.433 422c Recovering log #5
-2023/09/04-17:00:23.435 422c Delete type=0 #5
-2023/09/04-17:00:23.435 422c Delete type=3 #2
+2023/12/04-19:59:39.265 1af0 Log #11: 0 ops saved to Table #12 OK
+2023/12/04-19:59:39.266 1af0 Archiving C:\Users\castl\AppData\Local\FoundryVTT\Data\systems\prime\packs\statistics-and-lies-v2/000011.log: OK
+2023/12/04-19:59:39.267 1af0 Table #7: 77 entries OK
+2023/12/04-19:59:39.268 1af0 Archiving C:\Users\castl\AppData\Local\FoundryVTT\Data\systems\prime\packs\statistics-and-lies-v2/MANIFEST-000010: OK
+2023/12/04-19:59:39.271 1af0 **** Repaired leveldb C:\Users\castl\AppData\Local\FoundryVTT\Data\systems\prime\packs\statistics-and-lies-v2; recovered 1 files; 25029 bytes. Some data may have been lost. ****
